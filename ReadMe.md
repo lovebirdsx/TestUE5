@@ -1,6 +1,6 @@
 # TestUE5
 
-个人用于测试UE的工程
+个人用于测试UE5的工程
 
 ## 目录结构
 
@@ -11,4 +11,12 @@
 ### Content
 
 - Test
-  - LivecodingForEditor 测试Live coding相关代码
+  - LivecodingForEditor 测试Live coding
+  - Hlod 测试HLOD
+  - WorldPartition 测试World Partition
+
+## 相关文件解释
+
+- bat文件：确保UnrealEditor.exe在Path下
+  - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD，
+  - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD，注意确保UnrealEditor.exe在Path下

@@ -18,5 +18,5 @@
 ## 相关文件解释
 
 - bat文件：确保UnrealEditor.exe在Path下
-  - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD，
-  - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD，注意确保UnrealEditor.exe在Path下
+  - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD
+  - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD

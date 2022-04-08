@@ -1,8 +1,10 @@
 .idea
 .vs
+.vscode
 Binaries
 DerivedDataCache
 Intermediate
 Saved
 *.sln
 Plugins/Developer/RiderLink
+node_modules

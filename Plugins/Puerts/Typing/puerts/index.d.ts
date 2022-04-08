@@ -66,4 +66,4 @@ declare module "puerts" {
     function $async<T>(x: T) : AsyncObject<T>;*/
 }
 
-declare function require(name: string): any;
+// declare function require(name: string): any;

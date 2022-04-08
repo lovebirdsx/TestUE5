@@ -1505,6 +1505,32 @@ declare module "react-umg" {
         nativePtr: UE.SynthKnob;
     }
 
+    interface MouseEventParams {
+        Pos?: Vector2D;
+    }
+
+    interface MyBorderProps extends BorderProps {
+        OnMouseButtonDown?: (EventParams: MouseEventParams) => void;
+        OnMouseButtonUp?: (EventParams: MouseEventParams) => void;
+        OnMouseMove?: (EventParams: MouseEventParams) => void;
+    }
+
+    class MyBorder extends React.Component<MyBorderProps> {
+        nativePtr: UE.MyBorder;
+    }
+
+    interface UMGRootProps extends UserWidgetProps {
+        OnUMGKeyDown?: (Key: string) => void;
+        OnUMGKeyUp?: (Key: string) => void;
+        OnUMGTick?: (DeltaTime: number) => void;
+        OnUMGFocusGet?: () => void;
+        OnUMGFocusLost?: () => void;
+    }
+
+    class UMGRoot extends React.Component<UMGRootProps> {
+        nativePtr: UE.UMGRoot;
+    }
+
     interface PointerToUberGraphFrame {
     }
 
@@ -1526,6 +1552,14 @@ declare module "react-umg" {
 
     class WBP_Main_C extends React.Component<WBP_Main_CProps> {
         nativePtr: UE.Game.Blueprints.Hud.WBP_Main.WBP_Main_C;
+    }
+
+    interface TestKuroEditorCommon_CProps extends EditorUtilityWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+    }
+
+    class TestKuroEditorCommon_C extends React.Component<TestKuroEditorCommon_CProps> {
+        nativePtr: UE.Game.Test.KuroEditorCommon.TestKuroEditorCommon.TestKuroEditorCommon_C;
     }
 
     interface EUW_TestLiveCoding_CProps extends EditorUtilityWidgetProps {

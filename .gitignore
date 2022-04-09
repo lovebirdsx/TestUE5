@@ -8,3 +8,4 @@ Saved
 *.sln
 Plugins/Developer/RiderLink
 node_modules
+ts_file_versions_info.json

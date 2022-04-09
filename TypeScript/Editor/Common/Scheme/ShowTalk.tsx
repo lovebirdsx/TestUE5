@@ -13,7 +13,7 @@ import {
 import { EFlowListAction, flowListContext, FlowListOp } from '../../FlowEditor/Operations/FlowList';
 import { TalkerListOp } from '../../TalkerEditor/TalkerList';
 import { String } from '../Component/Basic';
-import { EditorBox, List } from '../Component/CommonComponent';
+import { DEFAULT_TEXT_COLOR, EditorBox, List } from '../Component/CommonComponent';
 import { Obj } from '../Component/Obj';
 import {
     createArrayScheme,
@@ -142,7 +142,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
                                 Color={
                                     hasTalk(value, props.Value as string)
                                         ? '#FF0000 red'
-                                        : '#000000 black'
+                                        : DEFAULT_TEXT_COLOR
                                 }
                             />
                         );

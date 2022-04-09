@@ -4,6 +4,7 @@ import { LinearColor } from 'react-umg';
 
 export type TColor =
     | '#000000 black'
+    | '#0A0A0A very dark'
     | '#00BFFF deep sky blue'
     | '#0000CD medium blue'
     | '#00CED1 dark turquoise'
@@ -58,6 +59,7 @@ export type TColor =
     | '#060606 ue back'
     | '#191970 midnight blue'
     | '#383838 dark'
+    | '#575757 hover'
     | '#696969 dim gray'
     | '#708090 slate gray'
     | '#778899 light slate gray'

@@ -2,10 +2,17 @@
 import * as React from 'react';
 import {
     Button,
+    ButtonStyle,
     CheckBox,
     ComboBoxString,
+    ComboBoxStyle,
     EditableTextBox,
+    Margin,
     SizeBox,
+    SlateBrush,
+    SlateBrushOutlineSettings,
+    SlateColor,
+    TableRowStyle,
     TextBlock,
     VerticalBoxSlot,
 } from 'react-umg';
@@ -14,6 +21,8 @@ import {
     ECheckBoxState,
     EHorizontalAlignment,
     ESelectInfo,
+    ESlateBrushImageType,
+    ESlateBrushTileType,
     ESlateColorStylingMode,
 } from 'ue';
 
@@ -27,7 +36,54 @@ const DEFAULT_FONT_SIZE = 10;
 export const DEFAULT_TEXT_COLOR: TColor = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_COLOR: TColor = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_WIDTH = 80;
+
+// export const DEFAULT_LIST_BACK_COLOR: TColor = '#101010 very dark';
+export const DEFAULT_LIST_BACK_COLOR: TColor = '#0A0A0A very dark';
 export const DEFAULT_BACK_COLOR: TColor = '#383838 dark';
+export const DEFAULT_HOVER_COLOR: TColor = '#575757 hover';
+export const DEFAULT_OUTLINE_COLOR: TColor = '#000000 black';
+
+function createSlateColor(color: TColor): SlateColor {
+    return {
+        SpecifiedColor: formatColor(color),
+        ColorUseRule: ESlateColorStylingMode.UseColor_Specified,
+    };
+}
+
+const defaultPadding: Margin = {
+    Left: 2.0,
+    Top: 2.0,
+    Right: 2.0,
+    Bottom: 2.0,
+};
+
+const defaultTintBackColor = createSlateColor(DEFAULT_BACK_COLOR);
+const defaultTintHoverColor = createSlateColor(DEFAULT_HOVER_COLOR);
+const defaultTintTextColor = createSlateColor(DEFAULT_TEXT_COLOR);
+const defaultOutLineColor = createSlateColor(DEFAULT_OUTLINE_COLOR);
+
+const defaultOutlineSetting: SlateBrushOutlineSettings = {
+    Width: 1,
+    Color: defaultOutLineColor,
+};
+
+const defalutNormalBrush: SlateBrush = {
+    TintColor: defaultTintBackColor,
+    OutlineSettings: defaultOutlineSetting,
+};
+
+const defalutHoverBrush: SlateBrush = {
+    TintColor: defaultTintHoverColor,
+    OutlineSettings: defaultOutlineSetting,
+};
+
+const defaultButtonStyle: ButtonStyle = {
+    Normal: defalutNormalBrush,
+    Hovered: defalutHoverBrush,
+    NormalPadding: defaultPadding,
+    PressedPadding: defaultPadding,
+};
+
 const defalutSlot: VerticalBoxSlot = {
     Padding: { Left: 2, Right: 2, Top: 2, Bottom: 2 },
 };
@@ -113,6 +169,7 @@ export function Btn(props: {
         <Button
             OnClicked={props.OnClick}
             BackgroundColor={backColor}
+            WidgetStyle={defaultButtonStyle}
             bIsEnabled={!props.Disabled}
             Slot={props.Slot || buttonSlot}
             ToolTipText={props.Tip}
@@ -152,6 +209,7 @@ export function EditorBox(props: {
     Slot?: unknown;
     Tip?: string;
 }): JSX.Element {
+    const textColor = createSlateColor(props.Color || DEFAULT_EDIT_TEXT_COLOR);
     return (
         <SizeBox
             bOverride_WidthOverride={true}
@@ -161,19 +219,12 @@ export function EditorBox(props: {
                 Text={props.Text}
                 WidgetStyle={{
                     Font: { Size: props.Size || DEFAULT_FONT_SIZE },
-                    BackgroundImageNormal: {
-                        TintColor: {
-                            SpecifiedColor: formatColor(DEFAULT_BACK_COLOR),
-                        },
-                    },
-                    ForegroundColor: {
-                        SpecifiedColor: formatColor(props.Color || DEFAULT_EDIT_TEXT_COLOR),
-                        ColorUseRule: ESlateColorStylingMode.UseColor_Specified,
-                    },
-                    FocusedForegroundColor: {
-                        SpecifiedColor: formatColor(props.Color || DEFAULT_EDIT_TEXT_COLOR),
-                        ColorUseRule: ESlateColorStylingMode.UseColor_Specified,
-                    },
+                    BackgroundImageNormal: defalutNormalBrush,
+                    ForegroundColor: textColor,
+                    BackgroundColor: defaultTintBackColor,
+                    FocusedForegroundColor: textColor,
+                    BackgroundImageFocused: defalutHoverBrush,
+                    BackgroundImageHovered: defalutHoverBrush,
                     Padding: { Top: 0, Bottom: 0 },
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     VScrollBarPadding: { Top: 0, Bottom: 0 },
@@ -238,12 +289,52 @@ export interface IListProps {
     Tip?: string;
 }
 
+const defaultListTintBackColor: SlateColor = {
+    SpecifiedColor: formatColor(DEFAULT_LIST_BACK_COLOR),
+    ColorUseRule: ESlateColorStylingMode.UseColor_Specified,
+};
+
+const defalutListNormalBrush: SlateBrush = {
+    TintColor: defaultListTintBackColor,
+    OutlineSettings: defaultOutlineSetting,
+};
+
+const defaultListButtonStyle: ButtonStyle = {
+    Normal: defalutListNormalBrush,
+    Hovered: defalutHoverBrush,
+    NormalPadding: defaultPadding,
+    PressedPadding: defaultPadding,
+};
+
+const downArrowImage: SlateBrush = {
+    TintColor: defaultTintTextColor,
+    ImageSize: { X: 9, Y: 9 },
+    ImageType: ESlateBrushImageType.NoImage,
+    Tiling: ESlateBrushTileType.NoTile,
+};
+
+const defaultListStyle: ComboBoxStyle = {
+    ComboButtonStyle: {
+        ButtonStyle: defaultListButtonStyle,
+        DownArrowImage: downArrowImage,
+    },
+};
+
+const defalutListRowStyle: TableRowStyle = {
+    InactiveBrush: defalutNormalBrush,
+    ActiveBrush: defalutNormalBrush,
+    TextColor: defaultTintTextColor,
+};
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function List(props: IListProps): JSX.Element {
     const arrayItems = toUeArray(props.Items, BuiltinString);
     return (
         <SizeBox bOverride_WidthOverride={!!props.Width} WidthOverride={props.Width}>
             <ComboBoxString
+                WidgetStyle={defaultListStyle}
+                ForegroundColor={defaultTintTextColor}
+                ItemStyle={defalutListRowStyle}
                 Slot={props.Slot || defaultListSlot}
                 ToolTipText={props.Tip}
                 DefaultOptions={arrayItems}

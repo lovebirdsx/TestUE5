@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.List = exports.Fold = exports.Check = exports.EditorBox = exports.Btn = exports.H3 = exports.H2 = exports.H1 = exports.SlotText = exports.Text = exports.HEADING_COLOR = exports.DEFAULT_BACK_COLOR = exports.DEFAULT_TEXT_COLOR = exports.TAB_OFFSET = void 0;
+exports.List = exports.Fold = exports.Check = exports.EditorBox = exports.Btn = exports.H3 = exports.H2 = exports.H1 = exports.SlotText = exports.Text = exports.HEADING_COLOR = exports.DEFAULT_OUTLINE_COLOR = exports.DEFAULT_HOVER_COLOR = exports.DEFAULT_BACK_COLOR = exports.DEFAULT_LIST_BACK_COLOR = exports.DEFAULT_TEXT_COLOR = exports.TAB_OFFSET = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
@@ -13,7 +13,45 @@ const DEFAULT_FONT_SIZE = 10;
 exports.DEFAULT_TEXT_COLOR = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_COLOR = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_WIDTH = 80;
+// export const DEFAULT_LIST_BACK_COLOR: TColor = '#101010 very dark';
+exports.DEFAULT_LIST_BACK_COLOR = '#0A0A0A very dark';
 exports.DEFAULT_BACK_COLOR = '#383838 dark';
+exports.DEFAULT_HOVER_COLOR = '#575757 hover';
+exports.DEFAULT_OUTLINE_COLOR = '#000000 black';
+function createSlateColor(color) {
+    return {
+        SpecifiedColor: (0, Color_1.formatColor)(color),
+        ColorUseRule: ue_1.ESlateColorStylingMode.UseColor_Specified,
+    };
+}
+const defaultPadding = {
+    Left: 2.0,
+    Top: 2.0,
+    Right: 2.0,
+    Bottom: 2.0,
+};
+const defaultTintBackColor = createSlateColor(exports.DEFAULT_BACK_COLOR);
+const defaultTintHoverColor = createSlateColor(exports.DEFAULT_HOVER_COLOR);
+const defaultTintTextColor = createSlateColor(exports.DEFAULT_TEXT_COLOR);
+const defaultOutLineColor = createSlateColor(exports.DEFAULT_OUTLINE_COLOR);
+const defaultOutlineSetting = {
+    Width: 1,
+    Color: defaultOutLineColor,
+};
+const defalutNormalBrush = {
+    TintColor: defaultTintBackColor,
+    OutlineSettings: defaultOutlineSetting,
+};
+const defalutHoverBrush = {
+    TintColor: defaultTintHoverColor,
+    OutlineSettings: defaultOutlineSetting,
+};
+const defaultButtonStyle = {
+    Normal: defalutNormalBrush,
+    Hovered: defalutHoverBrush,
+    NormalPadding: defaultPadding,
+    PressedPadding: defaultPadding,
+};
 const defalutSlot = {
     Padding: { Left: 2, Right: 2, Top: 2, Bottom: 2 },
 };
@@ -67,7 +105,7 @@ exports.H3 = H3;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function Btn(props) {
     const backColor = (0, Color_1.formatColor)(props.BackColor || exports.DEFAULT_BACK_COLOR);
-    const buttonElement = (React.createElement(react_umg_1.Button, { OnClicked: props.OnClick, BackgroundColor: backColor, bIsEnabled: !props.Disabled, Slot: props.Slot || buttonSlot, ToolTipText: props.Tip },
+    const buttonElement = (React.createElement(react_umg_1.Button, { OnClicked: props.OnClick, BackgroundColor: backColor, WidgetStyle: defaultButtonStyle, bIsEnabled: !props.Disabled, Slot: props.Slot || buttonSlot, ToolTipText: props.Tip },
         React.createElement(Text, { Text: props.Text, Size: props.TextSize, Color: props.Color, Disabled: props.Disabled, Slot: buttonTextSlot })));
     if (props.Width) {
         return (React.createElement(react_umg_1.SizeBox, { bOverride_WidthOverride: true, WidthOverride: props.Width || DEFAULT_EDIT_TEXT_WIDTH }, buttonElement));
@@ -78,22 +116,16 @@ exports.Btn = Btn;
 // 设定EditableTextBox的颜色无效,是unreal本身存在bug: https://issues.unrealengine.com/issue/UE-37829
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function EditorBox(props) {
+    const textColor = createSlateColor(props.Color || DEFAULT_EDIT_TEXT_COLOR);
     return (React.createElement(react_umg_1.SizeBox, { bOverride_WidthOverride: true, WidthOverride: props.Width || DEFAULT_EDIT_TEXT_WIDTH },
         React.createElement(react_umg_1.EditableTextBox, { Text: props.Text, WidgetStyle: {
                 Font: { Size: props.Size || DEFAULT_FONT_SIZE },
-                BackgroundImageNormal: {
-                    TintColor: {
-                        SpecifiedColor: (0, Color_1.formatColor)(exports.DEFAULT_BACK_COLOR),
-                    },
-                },
-                ForegroundColor: {
-                    SpecifiedColor: (0, Color_1.formatColor)(props.Color || DEFAULT_EDIT_TEXT_COLOR),
-                    ColorUseRule: ue_1.ESlateColorStylingMode.UseColor_Specified,
-                },
-                FocusedForegroundColor: {
-                    SpecifiedColor: (0, Color_1.formatColor)(props.Color || DEFAULT_EDIT_TEXT_COLOR),
-                    ColorUseRule: ue_1.ESlateColorStylingMode.UseColor_Specified,
-                },
+                BackgroundImageNormal: defalutNormalBrush,
+                ForegroundColor: textColor,
+                BackgroundColor: defaultTintBackColor,
+                FocusedForegroundColor: textColor,
+                BackgroundImageFocused: defalutHoverBrush,
+                BackgroundImageHovered: defalutHoverBrush,
                 Padding: { Top: 0, Bottom: 0 },
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 VScrollBarPadding: { Top: 0, Bottom: 0 },
@@ -122,11 +154,42 @@ function Fold(props) {
         } }));
 }
 exports.Fold = Fold;
+const defaultListTintBackColor = {
+    SpecifiedColor: (0, Color_1.formatColor)(exports.DEFAULT_LIST_BACK_COLOR),
+    ColorUseRule: ue_1.ESlateColorStylingMode.UseColor_Specified,
+};
+const defalutListNormalBrush = {
+    TintColor: defaultListTintBackColor,
+    OutlineSettings: defaultOutlineSetting,
+};
+const defaultListButtonStyle = {
+    Normal: defalutListNormalBrush,
+    Hovered: defalutHoverBrush,
+    NormalPadding: defaultPadding,
+    PressedPadding: defaultPadding,
+};
+const downArrowImage = {
+    TintColor: defaultTintTextColor,
+    ImageSize: { X: 9, Y: 9 },
+    ImageType: ue_1.ESlateBrushImageType.NoImage,
+    Tiling: ue_1.ESlateBrushTileType.NoTile,
+};
+const defaultListStyle = {
+    ComboButtonStyle: {
+        ButtonStyle: defaultListButtonStyle,
+        DownArrowImage: downArrowImage,
+    },
+};
+const defalutListRowStyle = {
+    InactiveBrush: defalutNormalBrush,
+    ActiveBrush: defalutNormalBrush,
+    TextColor: defaultTintTextColor,
+};
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function List(props) {
     const arrayItems = (0, Common_1.toUeArray)(props.Items, ue_1.BuiltinString);
     return (React.createElement(react_umg_1.SizeBox, { bOverride_WidthOverride: !!props.Width, WidthOverride: props.Width },
-        React.createElement(react_umg_1.ComboBoxString, { Slot: props.Slot || defaultListSlot, ToolTipText: props.Tip, DefaultOptions: arrayItems, SelectedOption: props.Selected, Font: { Size: DEFAULT_LIST_FONT_SIZE }, ContentPadding: { Top: -1, Bottom: -1 }, HasDownArrow: !props.HideArrow, OnSelectionChanged: (item, si) => {
+        React.createElement(react_umg_1.ComboBoxString, { WidgetStyle: defaultListStyle, ForegroundColor: defaultTintTextColor, ItemStyle: defalutListRowStyle, Slot: props.Slot || defaultListSlot, ToolTipText: props.Tip, DefaultOptions: arrayItems, SelectedOption: props.Selected, Font: { Size: DEFAULT_LIST_FONT_SIZE }, ContentPadding: { Top: -1, Bottom: -1 }, HasDownArrow: !props.HideArrow, OnSelectionChanged: (item, si) => {
                 if (item !== props.Selected && item) {
                     props.OnSelectChanged(item);
                 }

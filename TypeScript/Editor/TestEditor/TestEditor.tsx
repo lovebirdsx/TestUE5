@@ -63,7 +63,16 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
     private RenderTest(): JSX.Element {
         const row = 4;
         const testElements = this.state.Tests.map((test, id) => {
-            const slot: GridSlot = { Row: Math.floor(id / row), Column: id % row };
+            const slot: GridSlot = {
+                Row: Math.floor(id / row),
+                Column: id % row,
+                Padding: {
+                    Left: 1,
+                    Right: 1,
+                    Top: 1,
+                    Bottom: 1,
+                },
+            };
             return (
                 <Btn
                     Slot={slot}

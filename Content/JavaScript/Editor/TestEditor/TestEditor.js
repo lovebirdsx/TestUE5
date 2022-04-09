@@ -41,7 +41,16 @@ class TestEditor extends React.Component {
     RenderTest() {
         const row = 4;
         const testElements = this.state.Tests.map((test, id) => {
-            const slot = { Row: Math.floor(id / row), Column: id % row };
+            const slot = {
+                Row: Math.floor(id / row),
+                Column: id % row,
+                Padding: {
+                    Left: 1,
+                    Right: 1,
+                    Top: 1,
+                    Bottom: 1,
+                },
+            };
             return (React.createElement(CommonComponent_1.Btn, { Slot: slot, key: test.Name, Text: test.Name, OnClick: () => {
                     test.Fun();
                 } }));

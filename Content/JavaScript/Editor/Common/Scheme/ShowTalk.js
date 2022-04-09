@@ -94,7 +94,7 @@ const talkItemFileds = {
             return (React.createElement(exports.showTalkContext.Consumer, null, (value) => {
                 return (React.createElement(Basic_1.String, { ...props, Color: hasTalk(value, props.Value)
                         ? '#FF0000 red'
-                        : '#000000 black' }));
+                        : CommonComponent_1.DEFAULT_TEXT_COLOR }));
             }));
         },
         Meta: {

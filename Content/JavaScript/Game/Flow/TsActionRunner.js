@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ue_1 = require("ue");
 const Log_1 = require("../../Editor/Common/Log");
 class TsActionRunner extends ue_1.ActorComponent {
+    Constructor() {
+        const owner = this.GetOwner();
+        Log_1.log(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
+    }
     //@no-blueprint
     Execute(actions) {
         if (this.IsRunning) {

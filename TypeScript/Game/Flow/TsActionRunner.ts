@@ -1,11 +1,18 @@
 import { ActorComponent } from 'ue';
 
-import { error } from '../../Editor/Common/Log';
+import { error, log } from '../../Editor/Common/Log';
 import { IActionInfo } from './Action';
 
 class TsActionRunner extends ActorComponent {
     //@no-blueprint
     private IsRunning: boolean;
+
+    public Constructor(): void {
+        const owner = this.GetOwner();
+        log(
+            `ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`,
+        );
+    }
 
     //@no-blueprint
     public Execute(actions: IActionInfo[]): void {

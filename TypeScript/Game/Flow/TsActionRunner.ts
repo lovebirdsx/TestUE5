@@ -1,11 +1,11 @@
-import { ActorComponent } from 'ue';
+import { ActorComponent, no_blueprint } from 'ue';
 
 import { error, log } from '../../Editor/Common/Log';
 import { IActionInfo } from './Action';
 
 class TsActionRunner extends ActorComponent {
-    //@no-blueprint
-    private IsRunning: boolean;
+    @no_blueprint()
+    public IsRunning: boolean;
 
     public Constructor(): void {
         const owner = this.GetOwner();
@@ -14,7 +14,12 @@ class TsActionRunner extends ActorComponent {
         );
     }
 
-    //@no-blueprint
+    @no_blueprint()
+    public ExecuteJson(json: string): void {
+        // todo
+    }
+
+    @no_blueprint()
     public Execute(actions: IActionInfo[]): void {
         if (this.IsRunning) {
             error(`${this.GetOwner().GetName()} can not run actions again`);
@@ -28,7 +33,7 @@ class TsActionRunner extends ActorComponent {
         this.IsRunning = false;
     }
 
-    //@no-blueprint
+    @no_blueprint()
     private ExecuteOne(action: IActionInfo): void {
         if (action.Async) {
             this.ExecuteAsync(action);
@@ -37,12 +42,12 @@ class TsActionRunner extends ActorComponent {
         }
     }
 
-    //@no-blueprint
+    @no_blueprint()
     private ExecuteAsync(action: IActionInfo): void {
         throw new Error('Method not implemented.');
     }
 
-    //@no-blueprint
+    @no_blueprint()
     private ExecuteSync(action: IActionInfo): void {
         throw new Error('Method not implemented.');
     }

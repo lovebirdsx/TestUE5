@@ -10,12 +10,20 @@ static FKuroEditorCommonModule* Instance;
 
 void FKuroEditorCommonModule::StartupModule()
 {
-	Instance = this;	
+	EditorEvent = NewObject<UEditorEvent>();
+	EditorEvent->Initialize();
+
+	// 避免被自动GC掉
+	// 参考：https://unrealcommunity.wiki/revisions/6175e2e765f766208636d16f
+	EditorEvent->AddToRoot();
+	Instance = this;
 }
 
 void FKuroEditorCommonModule::ShutdownModule()
 {
 	StopAllJsEnv();
+	EditorEvent->Deinitialize();
+	EditorEvent->RemoveFromRoot();
 	Instance = nullptr;	
 }
 

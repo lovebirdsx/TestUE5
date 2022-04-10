@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EditorEvent.h"
 #include "Components/PanelWidget.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GenericPlatform/GenericPlatformMisc.h"
@@ -56,6 +57,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static bool GetIfWaitJSDebug();
 
-	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static TArray<FAssetData> LoadAssetDataFromPath(const FString& Path, TSubclassOf<UObject> ObjectClass);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static UEditorEvent* GetEditorEvent();
 };

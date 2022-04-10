@@ -1554,6 +1554,61 @@ declare module "react-umg" {
         nativePtr: UE.Game.Blueprints.Hud.WBP_Main.WBP_Main_C;
     }
 
+    interface CsvEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class CsvEditor_C extends React.Component<CsvEditor_CProps> {
+        nativePtr: UE.Game.Editor.CsvEditor.CsvEditor_C;
+    }
+
+    interface EntityEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class EntityEditor_C extends React.Component<EntityEditor_CProps> {
+        nativePtr: UE.Game.Editor.EntityEditor.EntityEditor_C;
+    }
+
+    interface FlowEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class FlowEditor_C extends React.Component<FlowEditor_CProps> {
+        nativePtr: UE.Game.Editor.FlowEditor.FlowEditor_C;
+    }
+
+    interface TalkerEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class TalkerEditor_C extends React.Component<TalkerEditor_CProps> {
+        nativePtr: UE.Game.Editor.TalkerEditor.TalkerEditor_C;
+    }
+
+    interface TestEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class TestEditor_C extends React.Component<TestEditor_CProps> {
+        nativePtr: UE.Game.Editor.TestEditor.TestEditor_C;
+    }
+
+    interface UMGTest_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class UMGTest_C extends React.Component<UMGTest_CProps> {
+        nativePtr: UE.Game.Editor.UMGTest.UMGTest_C;
+    }
+
+    interface EditorMap_CProps extends EditorUtilityWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+        TestEditorTab?: string;
+        TalkerEditorTab?: string;
+        FlowEditorTab?: string;
+        CsvEditorTab?: string;
+        EntityEditorTab?: string;
+    }
+
+    class EditorMap_C extends React.Component<EditorMap_CProps> {
+        nativePtr: UE.Game.Editor.EditorMap.EditorMap_C;
+    }
+
     interface TestKuroEditorCommon_CProps extends EditorUtilityWidgetProps {
         UberGraphFrame?: PointerToUberGraphFrame;
     }

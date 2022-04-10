@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EditorEvent.h"
 #include "JsEnv.h"
 #include "ReactUMGStarter.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(KuroEditorCommon, Log, All);
-
 class FKuroEditorCommonModule : public IModuleInterface
 {
 public:
@@ -16,7 +16,7 @@ public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
-	static FKuroEditorCommonModule* GetInstance();
+	static FKuroEditorCommonModule* GetInstance();	
 
 	TSharedPtr<puerts::FJsEnv> RunJsEnv(const FString& ModuleName, UReactUMGStarter* ReactUMGStarter);
 	void StopJsEnv(TSharedPtr<puerts::FJsEnv> JsEnv);
@@ -25,8 +25,11 @@ public:
 	
 	bool GetIfWaitJSDebug();
 
+	UEditorEvent* GetEditorEvent() { return EditorEvent; };
+
 private:
 	void StopAllJsEnv();	
 	TArray<TSharedPtr<puerts::FJsEnv>> JsEnvs;
-	bool bWaitJSDebug; 
+	bool bWaitJSDebug = false;
+	UEditorEvent *EditorEvent = nullptr;
 };

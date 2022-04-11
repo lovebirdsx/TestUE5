@@ -28,3 +28,15 @@ export function assertNe<T>(exp: T, result: T, msg: string): void {
         );
     }
 }
+
+export function assertTrue(value: boolean, msg: string): void {
+    if (!value) {
+        throw new Error(`assert failed: \n${msg}\n: value is not true`);
+    }
+}
+
+export function assertFlase(value: boolean, msg: string): void {
+    if (value) {
+        throw new Error(`assert failed: \n${msg}\n: value is not false`);
+    }
+}

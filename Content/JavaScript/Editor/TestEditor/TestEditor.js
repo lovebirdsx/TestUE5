@@ -1,7 +1,6 @@
 "use strict";
 /* eslint-disable spellcheck/spell-checker */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runTestEditor = exports.TestEditor = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
@@ -13,6 +12,7 @@ const TestTalkListTool_1 = require("../../Editor/UnitTest/TestTalkListTool");
 const TestTextListCsv_1 = require("../../Editor/UnitTest/TestTextListCsv");
 const react_umg_2 = require("../../react-umg/react-umg");
 const Log_1 = require("../Common/Log");
+const TestClass_1 = require("../UnitTest/Game/TestClass");
 const TestCsvParser_1 = require("../UnitTest/TestCsvParser");
 const FileDialog_1 = require("./FileDialog");
 const TestAssetSelector_1 = require("./TestAssetSelector");
@@ -25,6 +25,7 @@ const allTests = [
     { Name: 'testContainer', Fun: TestContainer_1.default },
     { Name: 'testImmer', Fun: TestImmer_1.default },
     { Name: 'testFile', Fun: TestFile_1.default },
+    { Name: 'testClass', Fun: TestClass_1.default },
     { Name: 'testCsvParser', Fun: TestCsvParser_1.default },
     { Name: 'testTalkListTool', Fun: TestTalkListTool_1.default },
     { Name: 'testTextListCSV', Fun: TestTextListCsv_1.default },
@@ -60,10 +61,10 @@ class TestEditor extends React.Component {
     RenderReadWriteCsv() {
         return (React.createElement(react_umg_1.HorizontalBox, null,
             React.createElement(CommonComponent_1.Btn, { Text: "write EditorTest/textList.csv", OnClick: () => {
-                    (0, TestTextListCsv_1.writeTextListCsv)('EditorTest/textList.csv');
+                    TestTextListCsv_1.writeTextListCsv('EditorTest/textList.csv');
                 } }),
             React.createElement(CommonComponent_1.Btn, { Text: "read EditorTest/textList2.csv", OnClick: () => {
-                    (0, TestTextListCsv_1.readTextListCsv)('EditorTest/textList2.csv');
+                    TestTextListCsv_1.readTextListCsv('EditorTest/textList2.csv');
                 } })));
     }
     RenderTests() {
@@ -98,7 +99,7 @@ exports.TestEditor = TestEditor;
 function testAll() {
     allTests.forEach((test) => {
         if (!test.ManualRun) {
-            (0, Log_1.log)(`${test.Name} ==================`);
+            Log_1.log(`${test.Name} ==================`);
             test.Fun();
         }
     });

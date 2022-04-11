@@ -22,6 +22,7 @@ import testTextListCsv, {
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
 import { log } from '../Common/Log';
+import testClass from '../UnitTest/Game/TestClass';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import { testOpenFileDialog, testSaveFileDialog } from './FileDialog';
 import { TestAssetSelector } from './TestAssetSelector';
@@ -45,6 +46,7 @@ const allTests: ITest[] = [
     { Name: 'testContainer', Fun: testContainer },
     { Name: 'testImmer', Fun: testImmer },
     { Name: 'testFile', Fun: testFile },
+    { Name: 'testClass', Fun: testClass },
     { Name: 'testCsvParser', Fun: testCsvParser },
     { Name: 'testTalkListTool', Fun: testTalkListTool },
     { Name: 'testTextListCSV', Fun: testTextListCsv },

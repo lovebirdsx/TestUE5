@@ -1,29 +1,38 @@
+/* eslint-disable @typescript-eslint/prefer-function-type */
 import * as UE from 'ue';
 
 import { error, warn } from '../Editor/Common/Log';
 import TsEntity from '../Game/Entity/TsEntity';
 import TsTrigger from '../Game/Entity/TsTrigger';
 
-type TClassType = new () => UE.Object;
+export interface IUeClassType<T extends UE.Object> extends Function {
+    new (...args: unknown[]): T;
+}
 
-const classMap: Map<TClassType, UE.Object> = new Map();
+export type TUeClassType = IUeClassType<UE.Object>;
 
-export function getClassObj(classType: TClassType): UE.Class {
+const classMap: Map<TUeClassType, UE.Class> = new Map();
+
+export function getClassObj(classType: TUeClassType): UE.Class {
     return classMap.get(classType);
 }
 
-export function isChildOfClass(childObj: UE.Object, parentClassType: TClassType): boolean {
+export function isChildOfClass(childObj: UE.Object, parentClassType: TUeClassType): boolean {
     const childClass = childObj.GetClass();
     const parentClass = getClassObj(parentClassType);
     if (!parentClass) {
-        warn(`can not find class type, childObj [${childObj.GetName()}-${childClass.GetName()}]`);
+        warn(
+            `can not find class type [${
+                parentClassType.name
+            }], childObj [${childObj.GetName()}-${childClass.GetName()}]`,
+        );
         return false;
     }
 
     return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }
 
-export function isChildOf(childClassType: TClassType, parentClassType: TClassType): boolean {
+export function isChildOf(childClassType: TUeClassType, parentClassType: TUeClassType): boolean {
     const childClass = getClassObj(childClassType);
     const parentClass = getClassObj(parentClassType);
     if (!childClass || !parentClass) {
@@ -32,16 +41,16 @@ export function isChildOf(childClassType: TClassType, parentClassType: TClassTyp
     return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }
 
-export function isType(obj: UE.Object, classType: TClassType): boolean {
+export function isType(obj: UE.Object, classType: TUeClassType): boolean {
     const classObj1 = obj.GetClass();
     const classObj2 = getClassObj(classType);
     return classObj1 === classObj2;
 }
 
-function regBlueprintType(path: string, classType: TClassType): void {
+function regBlueprintType(path: string, classType: TUeClassType): void {
     const classObj = UE.Class.Load(path);
     if (!classObj) {
-        error(`Load class obj for [${path}] failed`);
+        error(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
 

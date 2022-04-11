@@ -4,7 +4,7 @@ exports.CustomSeqCsvLoader = void 0;
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
 const CsvLoader_1 = require("../CsvLoader");
-const Sequence_1 = require("../Scheme/Sequence");
+const Sequence_1 = require("../Scheme/Action/Sequence");
 const Type_1 = require("../Scheme/Type");
 const customSeqCsvFields = [
     {

@@ -3,16 +3,16 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { IChangeRandomState, IChangeState, IFinishState } from '../../../Game/Flow/Action';
-import { List } from '../../Common/Component/CommonComponent';
+import { IChangeRandomState, IChangeState, IFinishState } from '../../../../Game/Flow/Action';
+import { flowContext } from '../../../FlowEditor/Component/Flow';
+import { List } from '../../Component/CommonComponent';
 import {
     createArrayScheme,
     createIntScheme,
     createObjectScheme,
     createStringScheme,
     IAnyProps,
-} from '../../Common/Scheme/Type';
-import { flowContext } from '../../FlowEditor/Component/Flow';
+} from '../Type';
 
 export const finishStateScheme = createObjectScheme<IFinishState>(
     {

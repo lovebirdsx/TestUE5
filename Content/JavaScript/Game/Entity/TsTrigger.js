@@ -12,22 +12,23 @@ const TsActionRunner_1 = require("../Flow/TsActionRunner");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsEntity_1 = require("./TsEntity");
 class TsTrigger extends TsEntity_1.default {
-    constructor() {
-        super(...arguments);
-        this.TriggerTimes = 0;
-    }
+    // @cpp: int
+    MaxTriggerTimes;
+    TriggerActions;
+    TriggerTimes = 0;
+    ActionRunner;
     ReceiveBeginPlay() {
         super.ReceiveBeginPlay();
         this.TriggerTimes = 0;
         this.ActionRunner = this.GetComponentByTsClass(TsActionRunner_1.default);
         if (!this.ActionRunner) {
-            Log_1.error('TSTriggerEntity need set actionRunner');
+            (0, Log_1.error)('TSTriggerEntity need set actionRunner');
         }
     }
     DoTrigger() {
         this.TriggerTimes++;
         this.ActionRunner.ExecuteJson(this.TriggerActions);
-        Log_1.log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
+        (0, Log_1.log)(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
     ReceiveActorBeginOverlap(other) {
         if (this.TriggerTimes >= this.MaxTriggerTimes) {
@@ -43,19 +44,19 @@ class TsTrigger extends TsEntity_1.default {
     }
 }
 __decorate([
-    ue_1.edit_on_instance()
+    (0, ue_1.edit_on_instance)()
 ], TsTrigger.prototype, "MaxTriggerTimes", void 0);
 __decorate([
-    ue_1.edit_on_instance()
+    (0, ue_1.edit_on_instance)()
 ], TsTrigger.prototype, "TriggerActions", void 0);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsTrigger.prototype, "TriggerTimes", void 0);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsTrigger.prototype, "ActionRunner", void 0);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsTrigger.prototype, "DoTrigger", null);
 exports.default = TsTrigger;
 //# sourceMappingURL=TsTrigger.js.map

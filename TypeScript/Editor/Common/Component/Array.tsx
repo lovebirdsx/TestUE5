@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../Log';
-import { IAnyProps, TArrayType } from '../Scheme';
+import { IAnyProps, TArrayType } from '../Scheme/Action';
 import { Any } from './Any';
 import { Btn, Fold, TAB_OFFSET } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';

@@ -8,7 +8,7 @@ import { IActionInfo } from '../../../Game/Flow/Action';
 import { Any } from '../../Common/Component/Any';
 import { TAB_OFFSET } from '../../Common/Component/CommonComponent';
 import { ContextBtn } from '../../Common/Component/ContextBtn';
-import { IAbstractType, scheme } from '../../Common/Scheme';
+import { IAbstractType, scheme } from '../../Common/Scheme/Action';
 
 export interface ActionProps {
     action: IActionInfo;

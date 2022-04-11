@@ -14,8 +14,8 @@ class TsTestWait extends ue_1.Actor {
     //@no-blueprint
     async ATest() {
         for (let i = 0; i < 10; i++) {
-            await Async_1.delay(1000);
-            Log_1.log(`TsTestWait wait count ${i}`);
+            await (0, Async_1.delay)(1000);
+            (0, Log_1.log)(`TsTestWait wait count ${i}`);
         }
     }
 }

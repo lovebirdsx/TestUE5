@@ -1,12 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IActionInfo, TActionType } from '../../../Game/Flow/Action';
-import { error, log } from '../Log';
-import { jumpTalkScheme } from './JumpTalk';
-import { logScheme, showMssageScheme, waitScheme } from './Misc';
-import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
-import { playSequenceDataScheme } from './Sequence';
-import { showOptionScheme, showTalkScheme } from './ShowTalk';
-import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
+import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
+import { error, log } from '../../Log';
 import {
     fixFileds,
     IAbstractType,
@@ -15,9 +9,15 @@ import {
     TFixResult,
     TObjectFilter,
     TObjectType,
-} from './Type';
+} from '../Type';
+import { jumpTalkScheme } from './JumpTalk';
+import { logScheme, showMssageScheme, waitScheme } from './Misc';
+import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
+import { playSequenceDataScheme } from './Sequence';
+import { showOptionScheme, showTalkScheme } from './ShowTalk';
+import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
 
-export * from './Type';
+export * from '../Type';
 
 const actionSchemeMap: { [key in TActionType]: TObjectType<unknown> } = {
     ChangeState: changeStateScheme as TObjectType<unknown>,

@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -11,15 +15,15 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scheme = void 0;
-const Log_1 = require("../Log");
+const Log_1 = require("../../Log");
+const Type_1 = require("../Type");
 const JumpTalk_1 = require("./JumpTalk");
 const Misc_1 = require("./Misc");
 const PlotNode_1 = require("./PlotNode");
 const Sequence_1 = require("./Sequence");
 const ShowTalk_1 = require("./ShowTalk");
 const State_1 = require("./State");
-const Type_1 = require("./Type");
-__exportStar(require("./Type"), exports);
+__exportStar(require("../Type"), exports);
 const actionSchemeMap = {
     ChangeState: State_1.changeStateScheme,
     ChangeRandomState: State_1.changeRandomStateScheme,

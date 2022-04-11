@@ -5,9 +5,9 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import { IActionInfo, TActionType } from '../../../Game/Flow/Action';
-import { Check, List, Text } from './CommonComponent';
-import { IAnyProps, scheme, TDynamicObjectType } from '../Scheme';
+import { IAnyProps, scheme, TDynamicObjectType } from '../Scheme/Action';
 import { Any } from './Any';
+import { Check, List, Text } from './CommonComponent';
 
 export class Dynamic extends React.Component<IAnyProps> {
     private readonly Select = (type: string): void => {

@@ -4,7 +4,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { IAbstractType, IAnyProps, scheme, TArrayType, TObjectType } from '../Scheme';
+import { IAbstractType, IAnyProps, scheme, TArrayType, TObjectType } from '../Scheme/Action';
 import { Any } from './Any';
 import { Btn, Fold, SlotText, TAB_OFFSET, Text } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';

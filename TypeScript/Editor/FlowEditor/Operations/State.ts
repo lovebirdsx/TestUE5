@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Flow/Action';
-import { scheme } from '../../Common/Scheme';
+import { scheme } from '../../Common/Scheme/Action';
 
 export class StateOp {
     public static Fix(state: IStateInfo, versionFrom: number, versionTo: number): void {

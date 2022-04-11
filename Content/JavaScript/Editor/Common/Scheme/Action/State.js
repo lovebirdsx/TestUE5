@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changeRandomStateScheme = exports.changeStateScheme = exports.finishStateScheme = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../../Common/Component/CommonComponent");
-const Type_1 = require("../../Common/Scheme/Type");
-const Flow_1 = require("../../FlowEditor/Component/Flow");
+const Flow_1 = require("../../../FlowEditor/Component/Flow");
+const CommonComponent_1 = require("../../Component/CommonComponent");
+const Type_1 = require("../Type");
 exports.finishStateScheme = (0, Type_1.createObjectScheme)({
     Result: (0, Type_1.createStringScheme)({
         CreateDefault: () => '结果',

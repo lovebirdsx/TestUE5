@@ -9,16 +9,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ue_1 = require("ue");
 const Log_1 = require("../../Editor/Common/Log");
 class TsActionRunner extends ue_1.ActorComponent {
+    IsRunning;
     Constructor() {
         const owner = this.GetOwner();
-        Log_1.log(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
+        (0, Log_1.log)(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
     }
     ExecuteJson(json) {
         // todo
     }
     Execute(actions) {
         if (this.IsRunning) {
-            Log_1.error(`${this.GetOwner().GetName()} can not run actions again`);
+            (0, Log_1.error)(`${this.GetOwner().GetName()} can not run actions again`);
             return;
         }
         this.IsRunning = true;
@@ -43,22 +44,22 @@ class TsActionRunner extends ue_1.ActorComponent {
     }
 }
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "IsRunning", void 0);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "ExecuteJson", null);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "Execute", null);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "ExecuteOne", null);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "ExecuteAsync", null);
 __decorate([
-    ue_1.no_blueprint()
+    (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "ExecuteSync", null);
 exports.default = TsActionRunner;
 //# sourceMappingURL=TsActionRunner.js.map

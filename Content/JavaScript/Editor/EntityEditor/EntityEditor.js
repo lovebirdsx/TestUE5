@@ -6,6 +6,7 @@ const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const TsEntity_1 = require("../../Game/Entity/TsEntity");
+const TsTrigger_1 = require("../../Game/Entity/TsTrigger");
 const CommonComponent_1 = require("../Common/Component/CommonComponent");
 class EntityEditor extends React.Component {
     constructor(props) {
@@ -40,10 +41,21 @@ class EntityEditor extends React.Component {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
     }
+    RenderForTrigger(trigger) {
+        return (React.createElement(react_umg_1.VerticalBox, null,
+            React.createElement(CommonComponent_1.Text, { Text: `Entity = ${trigger.GetName()}` }),
+            React.createElement(react_umg_1.HorizontalBox, null,
+                React.createElement(CommonComponent_1.Text, { Text: `MaxTriggerTimes` }),
+                React.createElement(CommonComponent_1.EditorBox, { Text: `${trigger.MaxTriggerTimes}`, OnChange: function (text) { } })),
+            React.createElement(CommonComponent_1.Text, { Text: `TriggerActions = ${trigger.TriggerActions}` })));
+    }
     RenderEntity() {
         const entity = this.state.Entity;
         if (!entity) {
             return React.createElement(CommonComponent_1.Text, { Text: 'select entity to modify' });
+        }
+        if (Class_1.isType(entity, TsTrigger_1.default)) {
+            return this.RenderForTrigger(entity);
         }
         return React.createElement(CommonComponent_1.Text, { Text: `Entity = ${entity.GetName()}` });
     }

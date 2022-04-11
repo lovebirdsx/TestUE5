@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getClassObj = void 0;
+/* eslint-disable @typescript-eslint/prefer-function-type */
 const UE = require("ue");
 const Log_1 = require("../Editor/Common/Log");
 const TsEntity_1 = require("../Game/Entity/TsEntity");
@@ -13,7 +15,7 @@ function isChildOfClass(childObj, parentClassType) {
     const childClass = childObj.GetClass();
     const parentClass = getClassObj(parentClassType);
     if (!parentClass) {
-        Log_1.warn(`can not find class type, childObj [${childObj.GetName()}-${childClass.GetName()}]`);
+        (0, Log_1.warn)(`can not find class type [${parentClassType.name}], childObj [${childObj.GetName()}-${childClass.GetName()}]`);
         return false;
     }
     return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
@@ -37,7 +39,7 @@ exports.isType = isType;
 function regBlueprintType(path, classType) {
     const classObj = UE.Class.Load(path);
     if (!classObj) {
-        Log_1.error(`Load class obj for [${path}] failed`);
+        (0, Log_1.error)(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
     classMap.set(classType, classObj);

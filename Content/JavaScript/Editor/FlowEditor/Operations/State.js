@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StateOp = void 0;
-const Scheme_1 = require("../../Common/Scheme");
+const Action_1 = require("../../Common/Scheme/Action");
 class StateOp {
     static Fix(state, versionFrom, versionTo) {
         state.Actions.forEach((action) => {
@@ -9,7 +9,7 @@ class StateOp {
         });
     }
     static FixAction(action, versionFrom, versionTo) {
-        Scheme_1.scheme.FixAction(action);
+        Action_1.scheme.FixAction(action);
     }
     static ForeachActions(state, actionCb) {
         state.Actions.forEach((action) => {

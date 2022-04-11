@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const ue_1 = require("ue");
 class TsPlayer extends ue_1.TestUE5Character {
+    Movement;
+    InitSpeed;
     Constructor() {
         this.Movement = this.GetMovementComponent();
         this.InitSpeed = this.Movement.MaxWalkSpeed;

@@ -5,7 +5,7 @@ import { HorizontalBox } from 'react-umg';
 import { AssetSelector } from './AssetSelector';
 import { TColor } from './Color';
 import { Check, EditorBox, List } from './CommonComponent';
-import { IAnyProps, TAssetType, TEnumType } from '../Scheme';
+import { IAnyProps, TAssetType, TEnumType } from '../Scheme/Action';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function Bool(props: IAnyProps): JSX.Element {

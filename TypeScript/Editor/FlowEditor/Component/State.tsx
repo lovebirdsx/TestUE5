@@ -13,7 +13,7 @@ import {
 import { ContextBtn } from '../../../Editor/Common/Component/ContextBtn';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
 import { log } from '../../Common/Log';
-import { scheme } from '../../Common/Scheme';
+import { scheme } from '../../Common/Scheme/Action';
 import { FlowOp } from '../Operations/Flow';
 import { Action } from './Action';
 import { flowContext } from './Flow';

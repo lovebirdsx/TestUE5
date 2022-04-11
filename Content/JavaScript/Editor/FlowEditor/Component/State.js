@@ -8,9 +8,9 @@ const react_umg_1 = require("react-umg");
 const CommonComponent_1 = require("../../../Editor/Common/Component/CommonComponent");
 const ContextBtn_1 = require("../../../Editor/Common/Component/ContextBtn");
 const Log_1 = require("../../Common/Log");
-const Scheme_1 = require("../../Common/Scheme");
+const Action_1 = require("../../Common/Scheme/Action");
 const Flow_1 = require("../Operations/Flow");
-const Action_1 = require("./Action");
+const Action_2 = require("./Action");
 const Flow_2 = require("./Flow");
 const ADD_ACTION_TIP = [
     '增加动作',
@@ -40,7 +40,7 @@ class State extends React.Component {
         });
     };
     SpwanNewActionAfter(state, id) {
-        return Scheme_1.scheme.SpawnDefaultAction('normal');
+        return Action_1.scheme.SpawnDefaultAction('normal');
     }
     AddAction = () => {
         this.Modify((from, to) => {
@@ -119,7 +119,7 @@ class State extends React.Component {
     render() {
         const { State: state } = this.props;
         const actions = state.Actions.map((e, id) => {
-            return (React.createElement(Action_1.Action, { key: id, action: e, onModify: (action) => {
+            return (React.createElement(Action_2.Action, { key: id, action: e, onModify: (action) => {
                     this.OnActionModify(id, action);
                 }, onContextCommand: (cmd) => {
                     this.OnContextCommand(id, cmd);

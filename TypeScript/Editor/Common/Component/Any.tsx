@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { IAnyProps } from '../Scheme';
+import { IAnyProps } from '../Scheme/Action';
 import { Array } from './Array';
 import { Asset, Bool, Enum, Float, Int, String } from './Basic';
 import { Text } from './CommonComponent';

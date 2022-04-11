@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.jumpTalkScheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
-const CommonComponent_1 = require("../Component/CommonComponent");
+const CommonComponent_1 = require("../../Component/CommonComponent");
+const Type_1 = require("../Type");
 const ShowTalk_1 = require("./ShowTalk");
-const Type_1 = require("./Type");
 exports.jumpTalkScheme = (0, Type_1.createObjectScheme)({
     TalkId: (0, Type_1.createIntScheme)({
         Meta: {

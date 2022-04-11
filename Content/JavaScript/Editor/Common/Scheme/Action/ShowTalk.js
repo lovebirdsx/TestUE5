@@ -4,12 +4,12 @@ exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exp
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const FlowList_1 = require("../../FlowEditor/Operations/FlowList");
-const TalkerList_1 = require("../../TalkerEditor/TalkerList");
-const Basic_1 = require("../Component/Basic");
-const CommonComponent_1 = require("../Component/CommonComponent");
-const Obj_1 = require("../Component/Obj");
-const Type_1 = require("./Type");
+const FlowList_1 = require("../../../FlowEditor/Operations/FlowList");
+const TalkerList_1 = require("../../../TalkerEditor/TalkerList");
+const Basic_1 = require("../../Component/Basic");
+const CommonComponent_1 = require("../../Component/CommonComponent");
+const Obj_1 = require("../../Component/Obj");
+const Type_1 = require("../Type");
 exports.showTalkContext = React.createContext(undefined);
 const talkActionInfoScheme = (0, Type_1.createDynamicType)('talk', {
     Meta: {

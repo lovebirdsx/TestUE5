@@ -67,6 +67,11 @@ export type TObjectType<T> = IAbstractType<T> & {
     Scheduled?: boolean;
 };
 
+export type TClassFields<T> = Partial<TObjectFields<T>>;
+type TClassType<T> = IAbstractType<T> & {
+    Fields: TClassFields<T>;
+};
+
 export type TDynamicObjectType = IAbstractType<IActionInfo> & {
     Filter: TObjectFilter;
 };
@@ -226,6 +231,23 @@ export function createObjectScheme<T>(
         Fix: type.Fix || ((value, container): TFixResult => fixFileds(value, fields)),
         Render: type.Render,
         Scheduled: type.Scheduled,
+    };
+}
+
+export function createObjectSchemeForUeClass<T>(
+    fields: TClassFields<T>,
+    type?: Omit<Partial<TClassType<T>>, 'fields' | 'renderType'>,
+): TObjectType<unknown> {
+    type = type || {};
+    return {
+        RrenderType: 'object',
+        Fields: fields,
+        Meta: type.Meta || {},
+        CreateDefault: type.CreateDefault || ((): T => null),
+        Filters: [],
+        Fix: type.Fix || ((value, container): TFixResult => 'canNotFixed'),
+        Render: type.Render,
+        Scheduled: false,
     };
 }
 

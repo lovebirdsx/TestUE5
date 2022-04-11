@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CsvLoader, ICsvFieldEx, TCsvRowBase } from '../CsvLoader';
-import { cameraBindModeScheme, seqDataScheme } from '../Scheme/Sequence';
+import { cameraBindModeScheme, seqDataScheme } from '../Scheme/Action/Sequence';
 import { IAbstractType, intScheme, stringScheme } from '../Scheme/Type';
 
 export interface CustomSeqRow extends TCsvRowBase {

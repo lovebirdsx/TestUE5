@@ -9,12 +9,16 @@ import {
     IShowTalk,
     ITalkItem,
     ITalkOption,
-} from '../../../Game/Flow/Action';
-import { EFlowListAction, flowListContext, FlowListOp } from '../../FlowEditor/Operations/FlowList';
-import { TalkerListOp } from '../../TalkerEditor/TalkerList';
-import { String } from '../Component/Basic';
-import { DEFAULT_TEXT_COLOR, EditorBox, List } from '../Component/CommonComponent';
-import { Obj } from '../Component/Obj';
+} from '../../../../Game/Flow/Action';
+import {
+    EFlowListAction,
+    flowListContext,
+    FlowListOp,
+} from '../../../FlowEditor/Operations/FlowList';
+import { TalkerListOp } from '../../../TalkerEditor/TalkerList';
+import { String } from '../../Component/Basic';
+import { DEFAULT_TEXT_COLOR, EditorBox, List } from '../../Component/CommonComponent';
+import { Obj } from '../../Component/Obj';
 import {
     createArrayScheme,
     createDefaultObject,
@@ -29,7 +33,7 @@ import {
     TFixResult,
     TObjectFields,
     TPrimitiveType,
-} from './Type';
+} from '../Type';
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
 

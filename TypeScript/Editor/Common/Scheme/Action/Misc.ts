@@ -1,12 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ILog, IShowMessage, IWait, logLeveConfig, TLogLevel } from '../../../Game/Flow/Action';
+import { ILog, IShowMessage, IWait, logLeveConfig, TLogLevel } from '../../../../Game/Flow/Action';
 import {
     createEnumType,
     createFloatScheme,
     createObjectScheme,
     createStringScheme,
     IAbstractType,
-} from './Type';
+} from '../Type';
 
 export const logScheme = createObjectScheme<ILog>(
     {

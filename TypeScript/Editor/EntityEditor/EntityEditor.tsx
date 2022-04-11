@@ -1,11 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
-import { VerticalBox } from 'react-umg';
+import { HorizontalBox, VerticalBox } from 'react-umg';
 import { EditorLevelLibrary, EditorOperations } from 'ue';
 
-import { isChildOfClass } from '../../Common/Class';
+import { isChildOfClass, isType } from '../../Common/Class';
 import TsEntity from '../../Game/Entity/TsEntity';
-import { Text } from '../Common/Component/CommonComponent';
+import TsTrigger from '../../Game/Entity/TsTrigger';
+import { EditorBox, Text } from '../Common/Component/CommonComponent';
 
 interface IEntityEditorState {
     Name: string;
@@ -52,10 +53,30 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
     }
 
+    private RenderForTrigger(trigger: TsTrigger): JSX.Element {
+        return (
+            <VerticalBox>
+                <Text Text={`Entity = ${trigger.GetName()}`} />
+                <HorizontalBox>
+                    <Text Text={`MaxTriggerTimes`} />
+                    <EditorBox
+                        Text={`${trigger.MaxTriggerTimes}`}
+                        OnChange={function (text: string): void {}}
+                    />
+                </HorizontalBox>
+                <Text Text={`TriggerActions = ${trigger.TriggerActions}`} />
+            </VerticalBox>
+        );
+    }
+
     private RenderEntity(): JSX.Element {
         const entity = this.state.Entity;
         if (!entity) {
             return <Text Text={'select entity to modify'} />;
+        }
+
+        if (isType(entity, TsTrigger)) {
+            return this.RenderForTrigger(entity as TsTrigger);
         }
 
         return <Text Text={`Entity = ${entity.GetName()}`} />;

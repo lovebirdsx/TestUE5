@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cameraBindModeScheme = exports.playSequenceDataScheme = exports.seqDataScheme = void 0;
-const Action_1 = require("../../../Game/Flow/Action");
-const Type_1 = require("./Type");
+const Action_1 = require("../../../../Game/Flow/Action");
+const Type_1 = require("../Type");
 const DEFAULT_SEQUENCEDATA_PATH = '/Game/Aki/Sequence/Task_Seq/Area_ZD/MainTask/Main_ZD_0001/Base/Main_ZD_0001_001.Main_ZD_0001_001';
 exports.seqDataScheme = (0, Type_1.createAssetScheme)({
     CreateDefault: (container) => DEFAULT_SEQUENCEDATA_PATH,

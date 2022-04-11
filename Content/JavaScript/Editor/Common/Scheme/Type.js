@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectScheme = exports.createDefaultObject = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.normalActionScheme = exports.createDynamicType = void 0;
+exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.createObjectScheme = exports.createDefaultObject = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.normalActionScheme = exports.createDynamicType = void 0;
 const Log_1 = require("../Log");
 function createDynamicType(filter, type) {
     return {
@@ -141,6 +141,20 @@ function createObjectScheme(fields, type) {
     };
 }
 exports.createObjectScheme = createObjectScheme;
+function createObjectSchemeForUeClass(fields, type) {
+    type = type || {};
+    return {
+        RrenderType: 'object',
+        Fields: fields,
+        Meta: type.Meta || {},
+        CreateDefault: type.CreateDefault || (() => null),
+        Filters: [],
+        Fix: type.Fix || ((value, container) => 'canNotFixed'),
+        Render: type.Render,
+        Scheduled: false,
+    };
+}
+exports.createObjectSchemeForUeClass = createObjectSchemeForUeClass;
 // ============================================================================
 function createIntScheme(type) {
     type = type || {};

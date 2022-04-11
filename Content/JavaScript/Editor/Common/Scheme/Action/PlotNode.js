@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setPlotModeScheme = exports.setCameraModeScheme = exports.setFlowBoolOptionScheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
-const Action_1 = require("../../../Game/Flow/Action");
-const Type_1 = require("./Type");
+const Action_1 = require("../../../../Game/Flow/Action");
+const Type_1 = require("../Type");
 exports.setFlowBoolOptionScheme = (0, Type_1.createObjectScheme)({
     Option: (0, Type_1.createEnumType)(Action_1.flowBoolOptionConfig, {
         Meta: {

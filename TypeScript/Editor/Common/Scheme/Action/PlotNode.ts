@@ -6,8 +6,8 @@ import {
     ISetFlowBoolOption,
     ISetPlotMode,
     plotModeConfig,
-} from '../../../Game/Flow/Action';
-import { booleanHideNameScheme, createEnumType, createObjectScheme } from './Type';
+} from '../../../../Game/Flow/Action';
+import { booleanHideNameScheme, createEnumType, createObjectScheme } from '../Type';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {

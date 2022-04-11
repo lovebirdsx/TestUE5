@@ -14,7 +14,7 @@ export interface IFlowListProps {
     OnModify: (flowList: IFlowListInfo) => void;
 }
 
-function foldAll(obj: unknown, value: boolean): void {
+function foldAll(obj: unknown, value: boolean, force: boolean): void {
     if (typeof obj !== 'object') {
         return;
     }
@@ -24,15 +24,16 @@ function foldAll(obj: unknown, value: boolean): void {
     for (const key in obj) {
         if (key.startsWith('_') && key.toLowerCase().endsWith('folded')) {
             recObj[key] = value;
+        } else if (force) {
+            recObj._folded = value;
         }
 
         const field = recObj[key];
         if (typeof field === 'object') {
-            foldAll(field, value);
+            foldAll(field, value, false);
         }
     }
 }
-
 const FLOW_TIP = [
     '增加剧情',
     '  剧情',
@@ -127,7 +128,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
     private readonly FoldAll = (value: boolean): void => {
         this.Modify((from, draft) => {
             draft.Flows.forEach((flow) => {
-                foldAll(flow, value);
+                foldAll(flow, value, true);
             });
         });
     };

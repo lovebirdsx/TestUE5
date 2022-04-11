@@ -160,7 +160,12 @@ export class Flow extends React.Component<IFlowProps> {
                         Text={'●'}
                         Color={this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'}
                     />
-                    <EditorBox Text={flow.Name} OnChange={this.ChangeName} Tip="剧情名字" />
+                    <EditorBox
+                        Text={flow.Name}
+                        OnChange={this.ChangeName}
+                        Tip="剧情名字"
+                        Width={100}
+                    />
                     <ContextBtn
                         Commands={['insert', 'remove', 'moveDown', 'moveUp']}
                         OnCommand={this.props.OnContextCommand}

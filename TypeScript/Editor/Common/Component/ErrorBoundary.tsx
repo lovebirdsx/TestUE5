@@ -41,8 +41,8 @@ export class ErrorBoundary extends React.Component<unknown, IErrorBoundaryState>
                         TextSize={12}
                     />
                     <H1 Text="Something went wrong."></H1>
-                    <H2 Text={this.state.Error ? JSON.stringify(this.state.Error) : ''}></H2>
-                    <H2 Text={this.state.ErrorInfo.componentStack}></H2>
+                    <H2 Text={this.state.Error ? this.state.Error.message : ''}></H2>
+                    <H2 Text={this.state.Error ? this.state.Error.stack : ''}></H2>
                 </VerticalBox>
             );
         }

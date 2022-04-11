@@ -28,8 +28,8 @@ class ErrorBoundary extends React.Component {
             return (React.createElement(react_umg_1.VerticalBox, null,
                 React.createElement(CommonComponent_1.Btn, { Text: 'Clear', OnClick: this.Clear, Color: "#FF8C00 dark orange", TextSize: 12 }),
                 React.createElement(CommonComponent_1.H1, { Text: "Something went wrong." }),
-                React.createElement(CommonComponent_1.H2, { Text: this.state.Error ? JSON.stringify(this.state.Error) : '' }),
-                React.createElement(CommonComponent_1.H2, { Text: this.state.ErrorInfo.componentStack })));
+                React.createElement(CommonComponent_1.H2, { Text: this.state.Error ? this.state.Error.message : '' }),
+                React.createElement(CommonComponent_1.H2, { Text: this.state.Error ? this.state.Error.stack : '' })));
         }
         return this.props.children;
     }

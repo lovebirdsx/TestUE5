@@ -117,7 +117,7 @@ exports.Btn = Btn;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function EditorBox(props) {
     const textColor = createSlateColor(props.Color || DEFAULT_EDIT_TEXT_COLOR);
-    return (React.createElement(react_umg_1.SizeBox, { bOverride_WidthOverride: true, WidthOverride: props.Width || DEFAULT_EDIT_TEXT_WIDTH },
+    return (React.createElement(react_umg_1.SizeBox, { bOverride_MinDesiredWidth: true, MinDesiredWidth: props.Width || DEFAULT_EDIT_TEXT_WIDTH },
         React.createElement(react_umg_1.EditableTextBox, { Text: props.Text, WidgetStyle: {
                 Font: { Size: props.Size || DEFAULT_FONT_SIZE },
                 BackgroundImageNormal: defalutNormalBrush,

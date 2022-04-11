@@ -9,7 +9,7 @@ const CommonComponent_1 = require("../../../Editor/Common/Component/CommonCompon
 const Log_1 = require("../../Common/Log");
 const FlowList_1 = require("../Operations/FlowList");
 const Flow_1 = require("./Flow");
-function foldAll(obj, value) {
+function foldAll(obj, value, force) {
     if (typeof obj !== 'object') {
         return;
     }
@@ -18,9 +18,12 @@ function foldAll(obj, value) {
         if (key.startsWith('_') && key.toLowerCase().endsWith('folded')) {
             recObj[key] = value;
         }
+        else if (force) {
+            recObj._folded = value;
+        }
         const field = recObj[key];
         if (typeof field === 'object') {
-            foldAll(field, value);
+            foldAll(field, value, false);
         }
     }
 }
@@ -109,7 +112,7 @@ class FlowList extends React.Component {
     FoldAll = (value) => {
         this.Modify((from, draft) => {
             draft.Flows.forEach((flow) => {
-                foldAll(flow, value);
+                foldAll(flow, value, true);
             });
         });
     };

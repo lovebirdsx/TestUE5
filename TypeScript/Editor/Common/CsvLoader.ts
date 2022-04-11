@@ -83,15 +83,15 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
         const validate = csvFieldValidValues[fieldName];
         if (tockens[0] !== validate.CnName) {
             throw new Error(
-                `CSV file first colume invalid, expect[${validate.CnName}] actual:[${tockens[0]}]`,
+                `CSV file [${this.Name}] first colume invalid, expect[${validate.CnName}] actual:[${tockens[0]}]`,
             );
         }
 
         if (tockens.length !== this.FiledTypes.length + 1) {
             throw new Error(
-                `CSV file header tocken count invalid, field[${validate.CnName}], expect[${
-                    this.FiledTypes.length + 1
-                }], actual[${tockens.length}]`,
+                `CSV file [${this.Name}] header tocken count invalid, field[${
+                    validate.CnName
+                }], expect[${this.FiledTypes.length + 1}], actual[${tockens.length}]`,
             );
         }
 
@@ -100,7 +100,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
                 const toc = tockens[i];
                 if (!validate.Range.includes(toc)) {
                     throw new Error(
-                        `CSV file head field invalid, [${
+                        `CSV file [${this.Name}] head field invalid, [${
                             validate.CnName
                         }], expect of [${validate.Range.join(',')}], actual[${toc}]`,
                     );
@@ -122,7 +122,9 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
     private ReadHeader(reader: LineReader): void {
         for (const key in csvFieldValidValues) {
             if (reader.isEnd) {
-                throw new Error(`CSV header row count [${reader.totalLine}] not enough`);
+                throw new Error(
+                    `CSV [${this.Name}] header row count [${reader.totalLine}] not enough`,
+                );
             }
             const tockens = reader.readNext();
             this.CheckHeadline(tockens, key as TCsvFieldKey);
@@ -133,9 +135,9 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
         const tockens = reader.readNext();
         if (tockens.length !== this.FiledTypes.length + 1) {
             throw new Error(
-                `CSV row count invalid, row[${reader.currentLineNumber}], expect count[${
-                    this.FiledTypes.length + 1
-                }], actual[${tockens.length}]`,
+                `CSV [${this.Name}] row count invalid, row[${
+                    reader.currentLineNumber
+                }], expect count[${this.FiledTypes.length + 1}], actual[${tockens.length}]`,
             );
         }
         const row = {} as TCsvRowBase;

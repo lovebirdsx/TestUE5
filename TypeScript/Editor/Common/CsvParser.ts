@@ -30,6 +30,11 @@ export function parseCsv(text: string): string[][] {
         }
         p = l;
     }
+
+    const lastRow = ret[ret.length - 1];
+    if (lastRow.length === 1 && lastRow[0] === '') {
+        ret.splice(ret.length - 1, 1);
+    }
     return ret;
 }
 

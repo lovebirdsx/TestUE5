@@ -126,7 +126,7 @@ class Flow extends React.Component {
             React.createElement(react_umg_1.HorizontalBox, null,
                 React.createElement(CommonComponent_1.Fold, { IsFold: flow._folded, IsFull: flow.States.length > 0, OnChanged: this.ChangeFold }),
                 React.createElement(CommonComponent_1.Text, { Text: '●', Color: this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white' }),
-                React.createElement(CommonComponent_1.EditorBox, { Text: flow.Name, OnChange: this.ChangeName, Tip: "\u5267\u60C5\u540D\u5B57" }),
+                React.createElement(CommonComponent_1.EditorBox, { Text: flow.Name, OnChange: this.ChangeName, Tip: "\u5267\u60C5\u540D\u5B57", Width: 100 }),
                 React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveDown', 'moveUp'], OnCommand: this.props.OnContextCommand, Tip: "\u9488\u5BF9\u5F53\u524D\u5267\u60C5\u9879\u64CD\u4F5C" }),
                 React.createElement(CommonComponent_1.Btn, { Text: '✚状态', OnClick: this.AddState, Tip: ADD_STATE_TIP })),
             React.createElement(react_umg_1.VerticalBox, { RenderTransform: { Translation: { X: CommonComponent_1.TAB_OFFSET } } },

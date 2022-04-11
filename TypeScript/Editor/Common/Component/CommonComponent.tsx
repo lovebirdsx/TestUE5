@@ -212,8 +212,8 @@ export function EditorBox(props: {
     const textColor = createSlateColor(props.Color || DEFAULT_EDIT_TEXT_COLOR);
     return (
         <SizeBox
-            bOverride_WidthOverride={true}
-            WidthOverride={props.Width || DEFAULT_EDIT_TEXT_WIDTH}
+            bOverride_MinDesiredWidth={true}
+            MinDesiredWidth={props.Width || DEFAULT_EDIT_TEXT_WIDTH}
         >
             <EditableTextBox
                 Text={props.Text}

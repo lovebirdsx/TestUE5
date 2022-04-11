@@ -162,7 +162,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
     WhoId: talkerScheme,
     TextId: createTextIdScheme('说点什么吧', {
         HideName: true,
-        Width: 350,
+        Width: 500,
         Tip: '对话内容',
     }),
     Actions: createArrayScheme({

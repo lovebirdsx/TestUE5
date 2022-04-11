@@ -105,7 +105,7 @@ const talkItemFileds = {
     WhoId: exports.talkerScheme,
     TextId: createTextIdScheme('说点什么吧', {
         HideName: true,
-        Width: 350,
+        Width: 500,
         Tip: '对话内容',
     }),
     Actions: (0, Type_1.createArrayScheme)({

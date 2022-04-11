@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EntityEditor = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
@@ -11,11 +12,6 @@ const CommonComponent_1 = require("../Common/Component/CommonComponent");
 class EntityEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.OnSelectionChanged = () => {
-            this.setState({
-                Entity: this.GetCurrentSelectEntity(),
-            });
-        };
         this.state = {
             Name: 'Hello Entity Editor',
             Entity: this.GetCurrentSelectEntity(),
@@ -27,11 +23,16 @@ class EntityEditor extends React.Component {
             return null;
         }
         const actor = actors.Get(0);
-        if (Class_1.isChildOfClass(actor, TsEntity_1.default)) {
+        if ((0, Class_1.isChildOfClass)(actor, TsEntity_1.default)) {
             return actor;
         }
         return null;
     }
+    OnSelectionChanged = () => {
+        this.setState({
+            Entity: this.GetCurrentSelectEntity(),
+        });
+    };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     UNSAFE_componentWillMount() {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
@@ -54,7 +55,7 @@ class EntityEditor extends React.Component {
         if (!entity) {
             return React.createElement(CommonComponent_1.Text, { Text: 'select entity to modify' });
         }
-        if (Class_1.isType(entity, TsTrigger_1.default)) {
+        if ((0, Class_1.isType)(entity, TsTrigger_1.default)) {
             return this.RenderForTrigger(entity);
         }
         return React.createElement(CommonComponent_1.Text, { Text: `Entity = ${entity.GetName()}` });

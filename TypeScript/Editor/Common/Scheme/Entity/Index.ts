@@ -22,6 +22,10 @@ class EntitySchemes {
         this.RegScheme(TsTrigger, triggerScheme);
     }
 
+    public GetSchemeByUeObj<T extends TUeClassType>(obj: UE.Object): TObjectType<Partial<T>> {
+        return this.GetSchemeByUeClass(obj.GetClass());
+    }
+
     public GetSchemeByUeClass<T extends TUeClassType>(classObj: UE.Class): TObjectType<Partial<T>> {
         const result = this.SchemeMap.get(classObj);
         if (!result) {

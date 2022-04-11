@@ -1,24 +1,65 @@
 /* eslint-disable spellcheck/spell-checker */
+import produce from 'immer';
 import * as React from 'react';
-import { HorizontalBox, VerticalBox } from 'react-umg';
-import { EditorLevelLibrary, EditorOperations } from 'ue';
+import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
+import { EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue';
 
-import { isChildOfClass, isType } from '../../Common/Class';
+import { isChildOfClass } from '../../Common/Class';
 import TsEntity from '../../Game/Entity/TsEntity';
-import TsTrigger from '../../Game/Entity/TsTrigger';
-import { EditorBox, Text } from '../Common/Component/CommonComponent';
+import { formatColor } from '../Common/Component/Color';
+import { Btn, Text } from '../Common/Component/CommonComponent';
+import { getCommandKeyDesc } from '../Common/KeyCommands';
+import { entityScheme } from '../Common/Scheme/Entity/Index';
+import { ConfigFile } from '../FlowEditor/ConfigFile';
+import { EntityView } from './EntityView';
+
+interface IEntityState {
+    Entity: TsEntity;
+    PureData: Record<string, unknown>;
+}
 
 interface IEntityEditorState {
     Name: string;
     Entity: TsEntity;
+    Histories: IEntityState[];
+    StepId: number;
+}
+
+function canUndo(state: IEntityEditorState): boolean {
+    return state.StepId > 0 && state.Histories.length > 0;
+}
+
+function canRedo(state: IEntityEditorState): boolean {
+    return state.StepId < state.Histories.length - 1;
 }
 
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
+    private LastApplyEntityState: IEntityState;
+
     public constructor(props: unknown) {
         super(props);
+        const initEntityState = this.GenEntityStateBySelect();
         this.state = {
             Name: 'Hello Entity Editor',
             Entity: this.GetCurrentSelectEntity(),
+            Histories: [initEntityState],
+            StepId: 0,
+        };
+        this.LastApplyEntityState = initEntityState;
+    }
+
+    private GenEntityStateBySelect(): IEntityState {
+        const entity = this.GetCurrentSelectEntity();
+        if (entity) {
+            return {
+                Entity: entity,
+                PureData: entityScheme.GenData(entity),
+            };
+        }
+
+        return {
+            Entity: undefined,
+            PureData: undefined,
         };
     }
 
@@ -37,9 +78,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private readonly OnSelectionChanged = (): void => {
-        this.setState({
-            Entity: this.GetCurrentSelectEntity(),
-        });
+        const entityState = this.GenEntityStateBySelect();
+        this.RecordEntityState(entityState);
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -53,41 +93,122 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
     }
 
-    private RenderForTrigger(trigger: TsTrigger): JSX.Element {
-        return (
-            <VerticalBox>
-                <Text Text={`Entity = ${trigger.GetName()}`} />
-                <HorizontalBox>
-                    <Text Text={`MaxTriggerTimes`} />
-                    <EditorBox
-                        Text={`${trigger.MaxTriggerTimes}`}
-                        OnChange={function (text: string): void {}}
-                    />
-                </HorizontalBox>
-                <Text Text={`TriggerActions = ${trigger.TriggerActions}`} />
-            </VerticalBox>
-        );
+    private get EntityState(): IEntityState {
+        return this.state.Histories[this.state.StepId];
+    }
+
+    private RecordEntityState(entityState: IEntityState): void {
+        const newEditorState = produce(this.state, (draft) => {
+            if (draft.StepId < draft.Histories.length - 1) {
+                draft.Histories.splice(draft.StepId + 1);
+            }
+
+            draft.Histories.push(entityState);
+            draft.StepId++;
+
+            if (draft.Histories.length > ConfigFile.MaxHistory) {
+                draft.Histories.shift();
+                draft.StepId--;
+            }
+        });
+        this.setState(newEditorState);
+    }
+
+    private readonly OnEntityModify = (data: Record<string, unknown>): void => {
+        const es = this.EntityState;
+        this.RecordEntityState({
+            Entity: es.Entity,
+            PureData: data,
+        });
+    };
+
+    private ApplyEntityChange(): void {
+        const es = this.EntityState;
+        if (!es.Entity || es === this.LastApplyEntityState) {
+            return;
+        }
+
+        entityScheme.ApplyData(es.PureData, es.Entity);
+        this.LastApplyEntityState = es;
     }
 
     private RenderEntity(): JSX.Element {
-        const entity = this.state.Entity;
-        if (!entity) {
+        const es = this.EntityState;
+        if (!es.Entity) {
             return <Text Text={'select entity to modify'} />;
         }
 
-        if (isType(entity, TsTrigger)) {
-            return this.RenderForTrigger(entity as TsTrigger);
+        return (
+            <EntityView Entity={es.Entity} PureData={es.PureData} OnModify={this.OnEntityModify} />
+        );
+    }
+
+    private SetStep(newStepId: number): void {
+        this.setState((state) => {
+            return {
+                StepId: newStepId,
+            };
+        });
+    }
+
+    private readonly Undo = (): void => {
+        if (!canUndo(this.state)) {
+            return;
         }
 
-        return <Text Text={`Entity = ${entity.GetName()}`} />;
+        this.SetStep(this.state.StepId - 1);
+    };
+
+    private readonly Redo = (): void => {
+        if (!canRedo(this.state)) {
+            return;
+        }
+
+        this.SetStep(this.state.StepId + 1);
+    };
+
+    private readonly GetUndoStateStr = (): string => {
+        const { state } = this;
+        return `${state.StepId + 1} / ${state.Histories.length}`;
+    };
+
+    private RenderToolbar(): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Btn
+                    Text={'↻'}
+                    OnClick={this.Undo}
+                    Disabled={!canUndo(this.state)}
+                    Tip={`撤销 ${getCommandKeyDesc('Undo')}`}
+                />
+                <Text
+                    Text={this.GetUndoStateStr()}
+                    Tip={`回退记录,最大支持${ConfigFile.MaxHistory}个`}
+                />
+                <Btn
+                    Text={'↺'}
+                    OnClick={this.Redo}
+                    Disabled={!canRedo(this.state)}
+                    Tip={`重做 ${getCommandKeyDesc('Redo')}`}
+                />
+            </HorizontalBox>
+        );
     }
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
+        this.ApplyEntityChange();
+
+        const scrollBoxSlot: VerticalBoxSlot = {
+            Size: { SizeRule: ESlateSizeRule.Fill },
+        };
+
         return (
             <VerticalBox>
-                <Text Text={this.state.Name} />
-                {this.RenderEntity()}
+                <Border BrushColor={formatColor('#060606 ue back')}>
+                    <VerticalBox>{this.RenderToolbar()}</VerticalBox>
+                </Border>
+                <ScrollBox Slot={scrollBoxSlot}>{this.RenderEntity()}</ScrollBox>
             </VerticalBox>
         );
     }

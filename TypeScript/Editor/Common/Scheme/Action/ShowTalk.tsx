@@ -169,6 +169,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         Element: talkActionInfoScheme,
         Meta: {
             NewLine: true,
+            HideName: true,
             ArraySimplify: true,
             Optional: true,
             Tip: '动作列表',
@@ -178,6 +179,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         Element: talkOptionScheme,
         Meta: {
             NewLine: true,
+            HideName: true,
             ArraySimplify: true,
             Optional: true,
             Tip: '选项列表',
@@ -277,6 +279,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
             Element: talkItemScheme,
             Meta: {
                 NewLine: true,
+                HideName: true,
                 ArraySimplify: true,
                 Tip: '对话列表',
             },

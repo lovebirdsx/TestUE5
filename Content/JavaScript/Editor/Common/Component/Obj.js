@@ -145,7 +145,9 @@ class Obj extends React.Component {
             const fieldValue = objValue[fieldKey];
             const fieldTypeData = objectType.Fields[fieldKey];
             if (fieldValue !== undefined) {
-                newLine.push(React.createElement(react_umg_1.VerticalBox, { key: id }, this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)));
+                newLine.push(React.createElement(react_umg_1.HorizontalBox, { key: id },
+                    !fieldTypeData.Meta.HideName && (React.createElement(CommonComponent_1.Text, { Text: `${fieldKey}:`, Tip: fieldTypeData.Meta.Tip || fieldKey })),
+                    this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)));
             }
         });
         const isFold = objValue[FOLD_KEY];

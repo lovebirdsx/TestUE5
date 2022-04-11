@@ -112,6 +112,7 @@ const talkItemFileds = {
         Element: talkActionInfoScheme,
         Meta: {
             NewLine: true,
+            HideName: true,
             ArraySimplify: true,
             Optional: true,
             Tip: '动作列表',
@@ -121,6 +122,7 @@ const talkItemFileds = {
         Element: exports.talkOptionScheme,
         Meta: {
             NewLine: true,
+            HideName: true,
             ArraySimplify: true,
             Optional: true,
             Tip: '选项列表',
@@ -212,6 +214,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
         Element: exports.talkItemScheme,
         Meta: {
             NewLine: true,
+            HideName: true,
             ArraySimplify: true,
             Tip: '对话列表',
         },

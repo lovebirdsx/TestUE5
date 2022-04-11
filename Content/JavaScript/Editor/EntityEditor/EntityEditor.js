@@ -2,19 +2,48 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityEditor = void 0;
 /* eslint-disable spellcheck/spell-checker */
+const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const TsEntity_1 = require("../../Game/Entity/TsEntity");
-const TsTrigger_1 = require("../../Game/Entity/TsTrigger");
+const Color_1 = require("../Common/Component/Color");
 const CommonComponent_1 = require("../Common/Component/CommonComponent");
+const KeyCommands_1 = require("../Common/KeyCommands");
+const Index_1 = require("../Common/Scheme/Entity/Index");
+const ConfigFile_1 = require("../FlowEditor/ConfigFile");
+const EntityView_1 = require("./EntityView");
+function canUndo(state) {
+    return state.StepId > 0 && state.Histories.length > 0;
+}
+function canRedo(state) {
+    return state.StepId < state.Histories.length - 1;
+}
 class EntityEditor extends React.Component {
+    LastApplyEntityState;
     constructor(props) {
         super(props);
+        const initEntityState = this.GenEntityStateBySelect();
         this.state = {
             Name: 'Hello Entity Editor',
             Entity: this.GetCurrentSelectEntity(),
+            Histories: [initEntityState],
+            StepId: 0,
+        };
+        this.LastApplyEntityState = initEntityState;
+    }
+    GenEntityStateBySelect() {
+        const entity = this.GetCurrentSelectEntity();
+        if (entity) {
+            return {
+                Entity: entity,
+                PureData: Index_1.entityScheme.GenData(entity),
+            };
+        }
+        return {
+            Entity: undefined,
+            PureData: undefined,
         };
     }
     GetCurrentSelectEntity() {
@@ -29,9 +58,8 @@ class EntityEditor extends React.Component {
         return null;
     }
     OnSelectionChanged = () => {
-        this.setState({
-            Entity: this.GetCurrentSelectEntity(),
-        });
+        const entityState = this.GenEntityStateBySelect();
+        this.RecordEntityState(entityState);
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     UNSAFE_componentWillMount() {
@@ -42,29 +70,84 @@ class EntityEditor extends React.Component {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
     }
-    RenderForTrigger(trigger) {
-        return (React.createElement(react_umg_1.VerticalBox, null,
-            React.createElement(CommonComponent_1.Text, { Text: `Entity = ${trigger.GetName()}` }),
-            React.createElement(react_umg_1.HorizontalBox, null,
-                React.createElement(CommonComponent_1.Text, { Text: `MaxTriggerTimes` }),
-                React.createElement(CommonComponent_1.EditorBox, { Text: `${trigger.MaxTriggerTimes}`, OnChange: function (text) { } })),
-            React.createElement(CommonComponent_1.Text, { Text: `TriggerActions = ${trigger.TriggerActions}` })));
+    get EntityState() {
+        return this.state.Histories[this.state.StepId];
+    }
+    RecordEntityState(entityState) {
+        const newEditorState = (0, immer_1.default)(this.state, (draft) => {
+            if (draft.StepId < draft.Histories.length - 1) {
+                draft.Histories.splice(draft.StepId + 1);
+            }
+            draft.Histories.push(entityState);
+            draft.StepId++;
+            if (draft.Histories.length > ConfigFile_1.ConfigFile.MaxHistory) {
+                draft.Histories.shift();
+                draft.StepId--;
+            }
+        });
+        this.setState(newEditorState);
+    }
+    OnEntityModify = (data) => {
+        const es = this.EntityState;
+        this.RecordEntityState({
+            Entity: es.Entity,
+            PureData: data,
+        });
+    };
+    ApplyEntityChange() {
+        const es = this.EntityState;
+        if (!es.Entity || es === this.LastApplyEntityState) {
+            return;
+        }
+        Index_1.entityScheme.ApplyData(es.PureData, es.Entity);
+        this.LastApplyEntityState = es;
     }
     RenderEntity() {
-        const entity = this.state.Entity;
-        if (!entity) {
+        const es = this.EntityState;
+        if (!es.Entity) {
             return React.createElement(CommonComponent_1.Text, { Text: 'select entity to modify' });
         }
-        if ((0, Class_1.isType)(entity, TsTrigger_1.default)) {
-            return this.RenderForTrigger(entity);
+        return (React.createElement(EntityView_1.EntityView, { Entity: es.Entity, PureData: es.PureData, OnModify: this.OnEntityModify }));
+    }
+    SetStep(newStepId) {
+        this.setState((state) => {
+            return {
+                StepId: newStepId,
+            };
+        });
+    }
+    Undo = () => {
+        if (!canUndo(this.state)) {
+            return;
         }
-        return React.createElement(CommonComponent_1.Text, { Text: `Entity = ${entity.GetName()}` });
+        this.SetStep(this.state.StepId - 1);
+    };
+    Redo = () => {
+        if (!canRedo(this.state)) {
+            return;
+        }
+        this.SetStep(this.state.StepId + 1);
+    };
+    GetUndoStateStr = () => {
+        const { state } = this;
+        return `${state.StepId + 1} / ${state.Histories.length}`;
+    };
+    RenderToolbar() {
+        return (React.createElement(react_umg_1.HorizontalBox, null,
+            React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
+            React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
+            React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` })));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
+        this.ApplyEntityChange();
+        const scrollBoxSlot = {
+            Size: { SizeRule: ue_1.ESlateSizeRule.Fill },
+        };
         return (React.createElement(react_umg_1.VerticalBox, null,
-            React.createElement(CommonComponent_1.Text, { Text: this.state.Name }),
-            this.RenderEntity()));
+            React.createElement(react_umg_1.Border, { BrushColor: (0, Color_1.formatColor)('#060606 ue back') },
+                React.createElement(react_umg_1.VerticalBox, null, this.RenderToolbar())),
+            React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot }, this.RenderEntity())));
     }
 }
 exports.EntityEditor = EntityEditor;

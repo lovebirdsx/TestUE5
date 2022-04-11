@@ -210,9 +210,12 @@ export class Obj extends React.Component<IAnyProps> {
             ] as IAbstractType<unknown>;
             if (fieldValue !== undefined) {
                 newLine.push(
-                    <VerticalBox key={id}>
+                    <HorizontalBox key={id}>
+                        {!fieldTypeData.Meta.HideName && (
+                            <Text Text={`${fieldKey}:`} Tip={fieldTypeData.Meta.Tip || fieldKey} />
+                        )}
                         {this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)}
-                    </VerticalBox>,
+                    </HorizontalBox>,
                 );
             }
         });

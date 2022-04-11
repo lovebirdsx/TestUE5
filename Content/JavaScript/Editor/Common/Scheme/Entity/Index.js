@@ -17,6 +17,9 @@ class EntitySchemes {
     RegAllSchemes() {
         this.RegScheme(TsTrigger_1.default, Trigger_1.triggerScheme);
     }
+    GetSchemeByUeObj(obj) {
+        return this.GetSchemeByUeClass(obj.GetClass());
+    }
     GetSchemeByUeClass(classObj) {
         const result = this.SchemeMap.get(classObj);
         if (!result) {

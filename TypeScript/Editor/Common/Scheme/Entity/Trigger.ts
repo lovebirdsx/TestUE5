@@ -1,7 +1,15 @@
 import TsTrigger from '../../../../Game/Entity/TsTrigger';
-import { createObjectSchemeForUeClass, intScheme, stringScheme } from '../Action';
+import { createIntScheme, createObjectSchemeForUeClass, createStringScheme } from '../Action';
 
 export const triggerScheme = createObjectSchemeForUeClass<TsTrigger>({
-    MaxTriggerTimes: intScheme,
-    TriggerActions: stringScheme,
+    MaxTriggerTimes: createIntScheme({
+        Meta: {
+            NewLine: true,
+        },
+    }),
+    TriggerActions: createStringScheme({
+        Meta: {
+            NewLine: true,
+        },
+    }),
 });

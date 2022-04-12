@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 import * as React from 'react';
@@ -7,7 +8,7 @@ import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue'
 import { isChildOfClass } from '../../Common/Class';
 import TsEntity from '../../Game/Entity/TsEntity';
 import { formatColor } from '../Common/Component/Color';
-import { Btn, Text } from '../Common/Component/CommonComponent';
+import { Btn, SlotText, Text } from '../Common/Component/CommonComponent';
 import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditor from '../Common/LevelEditor';
@@ -27,6 +28,7 @@ interface IEntityEditorState {
     Entity: TsEntity;
     Histories: IEntityState[];
     StepId: number;
+    IsEditorPlaying: boolean;
 }
 
 function canUndo(state: IEntityEditorState): boolean {
@@ -40,6 +42,8 @@ function canRedo(state: IEntityEditorState): boolean {
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private LastApplyEntityState: IEntityState;
 
+    private DetectEditorPlayingHander: NodeJS.Timer;
+
     public constructor(props: unknown) {
         super(props);
         const initEntityState = this.GenEntityStateBySelect();
@@ -48,6 +52,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             Entity: this.GetCurrentSelectEntity(),
             Histories: [initEntityState],
             StepId: 0,
+            IsEditorPlaying: LevelEditor.IsPlaying,
         };
         this.LastApplyEntityState = initEntityState;
     }
@@ -97,6 +102,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly OnSelectionChanged = (): void => {
+        if (LevelEditor.IsPlaying) {
+            return;
+        }
+
         const entity = this.GetCurrentSelectEntity();
         if (entity === null || entity === this.EntityState.Entity) {
             return;
@@ -112,15 +121,28 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         entity.OnDestroyed.Add(this.OnEntityDestory);
     };
 
+    private readonly DetectEditorPlaying = (): void => {
+        const isEditorPlaying = LevelEditor.IsPlaying;
+        if (isEditorPlaying !== this.state.IsEditorPlaying) {
+            this.setState({
+                IsEditorPlaying: isEditorPlaying,
+            });
+        }
+    };
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public UNSAFE_componentWillMount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Add(this.OnSelectionChanged);
+
+        this.DetectEditorPlayingHander = setInterval(this.DetectEditorPlaying, 500);
     }
 
     public ComponentWillUnmount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
+
+        clearInterval(this.DetectEditorPlayingHander);
     }
 
     private get EntityState(): IEntityState {
@@ -160,6 +182,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private ApplyEntityChange(): void {
+        if (this.state.IsEditorPlaying) {
+            return;
+        }
+
         const es = this.EntityState;
         LevelEditor.SelectActor(es.Entity);
 
@@ -172,9 +198,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private RenderEntity(): JSX.Element {
+        if (this.state.IsEditorPlaying) {
+            return <SlotText Text={'Editor is playing'} />;
+        }
+
         const es = this.EntityState;
         if (!es.Entity) {
-            return <Text Text={'select entity to modify'} />;
+            return <SlotText Text={'select entity to modify'} />;
         }
 
         return (
@@ -210,6 +240,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         log(JSON.stringify(this.state.Histories, null, 2));
     };
 
+    private readonly Test = (): void => {
+        log(`is playing = ${LevelEditor.IsPlaying}`);
+    };
+
     private readonly GetUndoStateStr = (): string => {
         const { state } = this;
         return `${state.StepId + 1} / ${state.Histories.length}`;
@@ -235,6 +269,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     Tip={`重做 ${getCommandKeyDesc('Redo')}`}
                 />
                 <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
+                <Btn Text={'Test'} OnClick={this.Test} Tip={`输出状态`} />
             </HorizontalBox>
         );
     }

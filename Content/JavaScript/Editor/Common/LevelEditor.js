@@ -14,6 +14,9 @@ class LevelEditor {
     static FocusSelected() {
         ue_1.EditorOperations.ExecuteLevelEditorCommand('CAMERA ALIGN');
     }
+    static get IsPlaying() {
+        return ue_1.EditorOperations.GetEditorEngine().PlayWorld !== undefined;
+    }
 }
 exports.default = LevelEditor;
 //# sourceMappingURL=LevelEditor.js.map

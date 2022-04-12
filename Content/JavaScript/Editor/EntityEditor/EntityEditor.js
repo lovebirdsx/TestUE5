@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityEditor = void 0;
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const React = require("react");
@@ -25,6 +26,7 @@ function canRedo(state) {
 }
 class EntityEditor extends React.Component {
     LastApplyEntityState;
+    DetectEditorPlayingHander;
     constructor(props) {
         super(props);
         const initEntityState = this.GenEntityStateBySelect();
@@ -33,6 +35,7 @@ class EntityEditor extends React.Component {
             Entity: this.GetCurrentSelectEntity(),
             Histories: [initEntityState],
             StepId: 0,
+            IsEditorPlaying: LevelEditor_1.default.IsPlaying,
         };
         this.LastApplyEntityState = initEntityState;
     }
@@ -74,6 +77,9 @@ class EntityEditor extends React.Component {
         entity.OnDestroyed.Remove(this.OnEntityDestory);
     };
     OnSelectionChanged = () => {
+        if (LevelEditor_1.default.IsPlaying) {
+            return;
+        }
         const entity = this.GetCurrentSelectEntity();
         if (entity === null || entity === this.EntityState.Entity) {
             return;
@@ -86,14 +92,24 @@ class EntityEditor extends React.Component {
         entity.OnDestroyed.Remove(this.OnEntityDestory);
         entity.OnDestroyed.Add(this.OnEntityDestory);
     };
+    DetectEditorPlaying = () => {
+        const isEditorPlaying = LevelEditor_1.default.IsPlaying;
+        if (isEditorPlaying !== this.state.IsEditorPlaying) {
+            this.setState({
+                IsEditorPlaying: isEditorPlaying,
+            });
+        }
+    };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     UNSAFE_componentWillMount() {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Add(this.OnSelectionChanged);
+        this.DetectEditorPlayingHander = setInterval(this.DetectEditorPlaying, 500);
     }
     ComponentWillUnmount() {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
+        clearInterval(this.DetectEditorPlayingHander);
     }
     get EntityState() {
         return this.state.Histories[this.state.StepId];
@@ -128,6 +144,9 @@ class EntityEditor extends React.Component {
         this.RecordEntityState(newState, type);
     };
     ApplyEntityChange() {
+        if (this.state.IsEditorPlaying) {
+            return;
+        }
         const es = this.EntityState;
         LevelEditor_1.default.SelectActor(es.Entity);
         if (es === this.LastApplyEntityState || !es.Entity) {
@@ -137,9 +156,12 @@ class EntityEditor extends React.Component {
         this.LastApplyEntityState = es;
     }
     RenderEntity() {
+        if (this.state.IsEditorPlaying) {
+            return React.createElement(CommonComponent_1.SlotText, { Text: 'Editor is playing' });
+        }
         const es = this.EntityState;
         if (!es.Entity) {
-            return React.createElement(CommonComponent_1.Text, { Text: 'select entity to modify' });
+            return React.createElement(CommonComponent_1.SlotText, { Text: 'select entity to modify' });
         }
         return (React.createElement(EntityView_1.EntityView, { Entity: es.Entity, PureData: es.PureData, OnModify: this.OnEntityModify }));
     }
@@ -165,6 +187,9 @@ class EntityEditor extends React.Component {
     Info = () => {
         (0, Log_1.log)(JSON.stringify(this.state.Histories, null, 2));
     };
+    Test = () => {
+        (0, Log_1.log)(`is playing = ${LevelEditor_1.default.IsPlaying}`);
+    };
     GetUndoStateStr = () => {
         const { state } = this;
         return `${state.StepId + 1} / ${state.Histories.length}`;
@@ -174,7 +199,8 @@ class EntityEditor extends React.Component {
             React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
             React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
             React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` }),
-            React.createElement(CommonComponent_1.Btn, { Text: 'State', OnClick: this.Info, Tip: `输出状态` })));
+            React.createElement(CommonComponent_1.Btn, { Text: 'State', OnClick: this.Info, Tip: `输出状态` }),
+            React.createElement(CommonComponent_1.Btn, { Text: 'Test', OnClick: this.Test, Tip: `输出状态` })));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

@@ -14,6 +14,10 @@ class LevelEditor {
     public static FocusSelected(): void {
         EditorOperations.ExecuteLevelEditorCommand('CAMERA ALIGN');
     }
+
+    public static get IsPlaying(): boolean {
+        return EditorOperations.GetEditorEngine().PlayWorld !== undefined;
+    }
 }
 
 export default LevelEditor;

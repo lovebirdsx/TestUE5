@@ -80,3 +80,8 @@ void UEditorOperations::ExecuteLevelEditorCommand(const FString Command)
 {
 	FLevelEditorActionCallbacks::ExecuteExecCommand(Command);
 }
+
+UEditorEngine* UEditorOperations::GetEditorEngine()
+{
+	return GEditor;
+}

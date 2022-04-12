@@ -10,6 +10,7 @@ import { formatColor } from '../Common/Component/Color';
 import { Btn, Text } from '../Common/Component/CommonComponent';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import { entityScheme } from '../Common/Scheme/Entity/Index';
+import { TModifyType } from '../Common/Scheme/Type';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
 
@@ -78,8 +79,16 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private readonly OnSelectionChanged = (): void => {
-        const entityState = this.GenEntityStateBySelect();
-        this.RecordEntityState(entityState);
+        const entity = this.GetCurrentSelectEntity();
+        if (entity === null || entity === this.EntityState.Entity) {
+            return;
+        }
+
+        const entityState: IEntityState = {
+            Entity: entity,
+            PureData: entityScheme.GenData(entity),
+        };
+        this.RecordEntityState(entityState, 'normal');
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -97,29 +106,36 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return this.state.Histories[this.state.StepId];
     }
 
-    private RecordEntityState(entityState: IEntityState): void {
-        const newEditorState = produce(this.state, (draft) => {
-            if (draft.StepId < draft.Histories.length - 1) {
-                draft.Histories.splice(draft.StepId + 1);
-            }
+    private RecordEntityState(entityState: IEntityState, type: TModifyType): void {
+        this.setState((state) => {
+            const newState = produce(this.state, (draft) => {
+                if (type === 'normal') {
+                    if (draft.StepId < draft.Histories.length - 1) {
+                        draft.Histories.splice(draft.StepId + 1);
+                    }
 
-            draft.Histories.push(entityState);
-            draft.StepId++;
+                    draft.Histories.push(entityState);
+                    draft.StepId++;
 
-            if (draft.Histories.length > ConfigFile.MaxHistory) {
-                draft.Histories.shift();
-                draft.StepId--;
-            }
+                    if (draft.Histories.length > ConfigFile.MaxHistory) {
+                        draft.Histories.shift();
+                        draft.StepId--;
+                    }
+                } else if (type === 'fold') {
+                    draft.Histories[state.StepId] = entityState;
+                }
+            });
+            return newState;
         });
-        this.setState(newEditorState);
     }
 
-    private readonly OnEntityModify = (data: Record<string, unknown>): void => {
+    private readonly OnEntityModify = (data: Record<string, unknown>, type: TModifyType): void => {
         const es = this.EntityState;
-        this.RecordEntityState({
+        const newState: IEntityState = {
             Entity: es.Entity,
             PureData: data,
-        });
+        };
+        this.RecordEntityState(newState, type);
     };
 
     private ApplyEntityChange(): void {

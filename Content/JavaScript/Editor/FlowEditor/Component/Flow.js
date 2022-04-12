@@ -24,36 +24,36 @@ const ADD_STATE_TIP = [
     '    状态执行结束后,控制权将交回给外部',
 ].join('\n');
 class Flow extends React.Component {
-    Modify(cb) {
+    Modify(cb, type) {
         const { Flow: flow } = this.props;
         const newFlow = (0, immer_1.produce)(flow, (draft) => {
             cb(flow, draft);
         });
         if (flow !== newFlow) {
-            this.props.OnModify(newFlow);
+            this.props.OnModify(newFlow, type);
         }
     }
     ChangeFold = () => {
         this.Modify((from, to) => {
             to._folded = !from._folded;
-        });
+        }, 'fold');
     };
     ChangeName = (name) => {
         this.Modify((from, to) => {
             to.Name = name;
-        });
+        }, 'normal');
     };
     AddState = () => {
         this.Modify((from, to) => {
             to.StateGenId = from.StateGenId + 1;
             to._folded = false;
             to.States.push(Flow_1.FlowOp.CreateState(from));
-        });
+        }, 'normal');
     };
     InsertState = (id) => {
         this.Modify((from, to) => {
             to.States.splice(id + 1, 0, Flow_1.FlowOp.CreateState(from));
-        });
+        }, 'normal');
     };
     MoveState = (id, isUp) => {
         this.Modify((from, to) => {
@@ -78,17 +78,17 @@ class Flow extends React.Component {
                     (0, Log_1.log)(`can not move state ${fromStates[id].Name} down`);
                 }
             }
-        });
+        }, 'normal');
     };
     RemoveState = (id) => {
         this.Modify((from, to) => {
             to.States.splice(id, 1);
-        });
+        }, 'normal');
     };
-    ModifyState = (id, state) => {
+    ModifyState = (id, state, type) => {
         this.Modify((from, to) => {
             to.States[id] = state;
-        });
+        }, type);
     };
     OnContextCommand(id, cmd) {
         switch (cmd) {
@@ -115,8 +115,8 @@ class Flow extends React.Component {
         if (!flow._folded) {
             const { States: states } = flow;
             nodes = states.map((state, id) => {
-                return (React.createElement(State_1.State, { key: id, IsDuplicate: states.find((e) => e !== state && e.Name === state.Name) !== undefined, State: state, OnModify: (newConfig) => {
-                        this.ModifyState(id, newConfig);
+                return (React.createElement(State_1.State, { key: id, IsDuplicate: states.find((e) => e !== state && e.Name === state.Name) !== undefined, State: state, OnModify: (newConfig, type) => {
+                        this.ModifyState(id, newConfig, type);
                     }, OnContextCommand: (cmd) => {
                         this.OnContextCommand(id, cmd);
                     } }));

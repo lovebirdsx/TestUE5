@@ -30,3 +30,8 @@
   - 进入`Plugins/Puerts`，执行`node enable_puerts_module.js`
     - 执行可能会失败，譬如项目中已经包含了`tsconfig.json`,那么去掉enable_puerts_module.js中对应的拷贝tsconfig.json的步骤
   - 注意，必须打开Puerts的watch功能（默认是打开的）
+
+## VsCode
+
+- 安装 Run on Save插件，注意作者为 `pucelle`
+- 在保存ts之后，可以执行对应的指令

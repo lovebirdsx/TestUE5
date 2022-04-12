@@ -5,6 +5,7 @@ import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 
 import { Csv, ICsv, ICsvFieldEx, TCsvRowBase, TCsvValueType } from '../CsvLoader';
 import { error, log } from '../Log';
+import { TModifyType } from '../Scheme/Type';
 import { Any } from './Any';
 import { Btn, SlotText, Text } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
@@ -125,7 +126,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
                     <Any
                         Value={row[field.Name]}
                         Type={field.TypeData}
-                        OnModify={(value: unknown): void => {
+                        OnModify={(value: unknown, type: TModifyType): void => {
                             this.ModifyValue(rowId, field.Name, value as TCsvValueType);
                         }}
                     />

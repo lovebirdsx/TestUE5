@@ -75,16 +75,16 @@ class FlowEditor extends React.Component {
     UNSAFE_componentWillMount() {
         this.RegKeyCommands();
         this.StartAutoSave();
-        // 由于子Component中会访问 FlowListContext, 所以不能在 componentDidMout中调用
+        // 由于子Component中会访问 FlowListContext, 所以不能在componentDidMout中调用
         // 没有在componentWillMount中调用,是因为会报警告
         // 参考 https://github.com/facebook/react/issues/5737
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         FlowList_1.flowListContext.Set(() => this.FlowList, (flowList, type) => {
             if (type === FlowList_1.EFlowListAction.ModifyText) {
-                this.ModifyFlowList(flowList);
+                this.ModifyFlowList(flowList, 'normal');
             }
             else if (type === FlowList_1.EFlowListAction.GenText) {
-                this.ModifyFlowList(flowList, true);
+                this.ModifyFlowList(flowList, 'normal', true);
             }
         });
     }
@@ -224,13 +224,17 @@ class FlowEditor extends React.Component {
             (0, Common_1.msgbox)(`导入失败:${e}`);
             return;
         }
-        this.ModifyFlowList(listInfo);
+        this.ModifyFlowList(listInfo, 'normal');
         (0, Log_1.log)(`Import flowlist from ${path} succeed`);
     };
-    ModifyFlowList = (newConfig, noRecord) => {
-        if (noRecord) {
+    ModifyFlowList = (newConfig, type, noRecord) => {
+        if (noRecord || type === 'fold') {
             this.setState((state) => (0, immer_1.default)(state, (draft) => {
                 draft.Histories[draft.StepId] = newConfig;
+                // 修正已经保存的点，避免不必要的状态
+                if (state.Saved === state.Histories[state.StepId]) {
+                    draft.Saved = newConfig;
+                }
             }));
         }
         else {

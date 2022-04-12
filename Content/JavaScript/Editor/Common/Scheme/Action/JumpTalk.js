@@ -20,7 +20,7 @@ exports.jumpTalkScheme = (0, Type_1.createObjectScheme)({
                 const items = showTalk.TalkItems;
                 const slected = items[props.Value].Name;
                 return (React.createElement(CommonComponent_1.List, { Items: items.map((e) => e.Name), Selected: slected, OnSelectChanged: (itemName) => {
-                        props.OnModify(items.findIndex((it) => it.Name === itemName));
+                        props.OnModify(items.findIndex((it) => it.Name === itemName), 'normal');
                     } }));
             }));
         },

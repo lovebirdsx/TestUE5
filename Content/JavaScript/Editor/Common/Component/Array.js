@@ -10,22 +10,22 @@ const Any_1 = require("./Any");
 const CommonComponent_1 = require("./CommonComponent");
 const ContextBtn_1 = require("./ContextBtn");
 class Array extends React.Component {
-    ModifyByCb(cb) {
+    ModifyByCb(cb, type = 'normal') {
         const from = this.props.Value;
         const newValue = (0, immer_1.default)(from, (draft) => {
             cb(from, draft);
         });
-        this.props.OnModify(newValue);
+        this.props.OnModify(newValue, type);
     }
     SpawnElementAfter(array, id) {
         const arrayType = this.props.Type;
         const result = arrayType.Element.CreateDefault(array);
         return result;
     }
-    Modify(id, e) {
+    Modify(id, e, type) {
         this.ModifyByCb((from, to) => {
             to[id] = e;
-        });
+        }, type);
     }
     Add = () => {
         this.ModifyByCb((from, to) => {
@@ -100,8 +100,8 @@ class Array extends React.Component {
         const arrayType = type;
         const arrayValue = value;
         return arrayValue.map((e, id) => {
-            return (React.createElement(Any_1.Any, { key: id, PrefixElement: this.CreatePrefixElement(id), Value: e, Type: arrayType.Element, OnModify: (e0) => {
-                    this.Modify(id, e0);
+            return (React.createElement(Any_1.Any, { key: id, PrefixElement: this.CreatePrefixElement(id), Value: e, Type: arrayType.Element, OnModify: (e0, type) => {
+                    this.Modify(id, e0, type);
                 } }));
         });
     }

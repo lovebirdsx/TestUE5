@@ -6,12 +6,13 @@ import { HorizontalBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { Btn } from '../../../Editor/Common/Component/CommonComponent';
 import { IFlowInfo, IFlowListInfo } from '../../../Game/Flow/Action';
 import { log } from '../../Common/Log';
+import { TModifyType } from '../../Common/Scheme/Type';
 import { FlowListOp } from '../Operations/FlowList';
 import { Flow } from './Flow';
 
 export interface IFlowListProps {
     FlowList: IFlowListInfo;
-    OnModify: (flowList: IFlowListInfo) => void;
+    OnModify: (flowList: IFlowListInfo, type: TModifyType) => void;
 }
 
 function foldAll(obj: unknown, value: boolean, force: boolean): void {
@@ -45,13 +46,13 @@ const FLOW_TIP = [
 ].join('\n');
 
 export class FlowList extends React.Component<IFlowListProps, unknown> {
-    private Modify(cb: (from: IFlowListInfo, to: IFlowListInfo) => void): void {
+    private Modify(cb: (from: IFlowListInfo, to: IFlowListInfo) => void, type: TModifyType): void {
         const { FlowList: flowList } = this.props;
         const newflowList = produce(flowList, (draft) => {
             cb(flowList, draft);
         });
         if (flowList !== newflowList) {
-            this.props.OnModify(newflowList);
+            this.props.OnModify(newflowList, type);
         }
     }
 
@@ -60,20 +61,20 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
             const flow = FlowListOp.CreateFlow(from);
             to.Flows.push(flow);
             to.FlowGenId = this.props.FlowList.FlowGenId + 1;
-        });
+        }, 'normal');
     };
 
     private readonly InsertFlow = (id: number): void => {
         this.Modify((from, to) => {
             const newFlow = FlowListOp.CreateFlow(this.props.FlowList);
             to.Flows.splice(id + 1, 0, newFlow);
-        });
+        }, 'normal');
     };
 
     private readonly RemoveFlow = (id: number): void => {
         this.Modify((from, to) => {
             to.Flows.splice(id, 1);
-        });
+        }, 'normal');
     };
 
     private readonly OnContextCommand = (id: number, cmd: string): void => {
@@ -116,13 +117,13 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                 to.Flows[id] = flows[id + 1];
                 to.Flows[id + 1] = flows[id];
             }
-        });
+        }, 'normal');
     };
 
-    private readonly ModifiedFlow = (id: number, flow: IFlowInfo): void => {
+    private readonly ModifiedFlow = (id: number, flow: IFlowInfo, type: TModifyType): void => {
         this.Modify((from, draft) => {
             draft.Flows[id] = flow;
-        });
+        }, type);
     };
 
     private readonly FoldAll = (value: boolean): void => {
@@ -130,7 +131,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
             draft.Flows.forEach((flow) => {
                 foldAll(flow, value, true);
             });
-        });
+        }, 'fold');
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -144,8 +145,8 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                     IsDuplicate={
                         flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined
                     }
-                    OnModify={(newFlow): void => {
-                        this.ModifiedFlow(id, newFlow);
+                    OnModify={(newFlow, type): void => {
+                        this.ModifiedFlow(id, newFlow, type);
                     }}
                     OnContextCommand={(cmd): void => {
                         this.OnContextCommand(id, cmd);

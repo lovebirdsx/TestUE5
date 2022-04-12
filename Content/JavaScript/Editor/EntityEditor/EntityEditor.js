@@ -58,8 +58,15 @@ class EntityEditor extends React.Component {
         return null;
     }
     OnSelectionChanged = () => {
-        const entityState = this.GenEntityStateBySelect();
-        this.RecordEntityState(entityState);
+        const entity = this.GetCurrentSelectEntity();
+        if (entity === null || entity === this.EntityState.Entity) {
+            return;
+        }
+        const entityState = {
+            Entity: entity,
+            PureData: Index_1.entityScheme.GenData(entity),
+        };
+        this.RecordEntityState(entityState, 'normal');
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     UNSAFE_componentWillMount() {
@@ -73,26 +80,34 @@ class EntityEditor extends React.Component {
     get EntityState() {
         return this.state.Histories[this.state.StepId];
     }
-    RecordEntityState(entityState) {
-        const newEditorState = (0, immer_1.default)(this.state, (draft) => {
-            if (draft.StepId < draft.Histories.length - 1) {
-                draft.Histories.splice(draft.StepId + 1);
-            }
-            draft.Histories.push(entityState);
-            draft.StepId++;
-            if (draft.Histories.length > ConfigFile_1.ConfigFile.MaxHistory) {
-                draft.Histories.shift();
-                draft.StepId--;
-            }
+    RecordEntityState(entityState, type) {
+        this.setState((state) => {
+            const newState = (0, immer_1.default)(this.state, (draft) => {
+                if (type === 'normal') {
+                    if (draft.StepId < draft.Histories.length - 1) {
+                        draft.Histories.splice(draft.StepId + 1);
+                    }
+                    draft.Histories.push(entityState);
+                    draft.StepId++;
+                    if (draft.Histories.length > ConfigFile_1.ConfigFile.MaxHistory) {
+                        draft.Histories.shift();
+                        draft.StepId--;
+                    }
+                }
+                else if (type === 'fold') {
+                    draft.Histories[state.StepId] = entityState;
+                }
+            });
+            return newState;
         });
-        this.setState(newEditorState);
     }
-    OnEntityModify = (data) => {
+    OnEntityModify = (data, type) => {
         const es = this.EntityState;
-        this.RecordEntityState({
+        const newState = {
             Entity: es.Entity,
             PureData: data,
-        });
+        };
+        this.RecordEntityState(newState, type);
     };
     ApplyEntityChange() {
         const es = this.EntityState;

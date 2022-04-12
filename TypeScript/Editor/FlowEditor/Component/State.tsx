@@ -13,7 +13,7 @@ import {
 import { ContextBtn } from '../../../Editor/Common/Component/ContextBtn';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
 import { log } from '../../Common/Log';
-import { scheme } from '../../Common/Scheme/Action';
+import { scheme, TModifyType } from '../../Common/Scheme/Action';
 import { FlowOp } from '../Operations/Flow';
 import { Action } from './Action';
 import { flowContext } from './Flow';
@@ -22,7 +22,7 @@ export interface IStateProps {
     State: IStateInfo;
     IsDuplicate: boolean;
     OnContextCommand: (cmd: string) => void;
-    OnModify: (state: IStateInfo) => void;
+    OnModify: (state: IStateInfo, type: TModifyType) => void;
 }
 
 const ADD_ACTION_TIP = [
@@ -41,18 +41,18 @@ const ADD_ACTION_TIP = [
 ].join('\n');
 
 export class State extends React.Component<IStateProps> {
-    private Modify(cb: (from: IStateInfo, to: IStateInfo) => void): void {
+    private Modify(cb: (from: IStateInfo, to: IStateInfo) => void, type: TModifyType): void {
         const { State: state } = this.props;
         const newState = produce(state, (draft) => {
             cb(state, draft);
         });
-        this.props.OnModify(newState);
+        this.props.OnModify(newState, type);
     }
 
     private readonly ChangeFold = (): void => {
         this.Modify((from, to) => {
             to._folded = !from._folded;
-        });
+        }, 'fold');
     };
 
     private SpwanNewActionAfter(state: IStateInfo, id: number): IActionInfo {
@@ -63,20 +63,20 @@ export class State extends React.Component<IStateProps> {
         this.Modify((from, to) => {
             to.Actions.push(this.SpwanNewActionAfter(from, from.Actions.length - 1));
             to._folded = false;
-        });
+        }, 'normal');
     };
 
     private readonly InsertAction = (id: number): void => {
         this.Modify((from, to) => {
             const action = this.SpwanNewActionAfter(from, id);
             to.Actions.splice(id + 1, 0, action);
-        });
+        }, 'normal');
     };
 
     private readonly RemoveAction = (id: number): void => {
         this.Modify((from, to) => {
             to.Actions.splice(id, 1);
-        });
+        }, 'normal');
     };
 
     private readonly MoveAction = (id: number, isUp: boolean): void => {
@@ -97,19 +97,23 @@ export class State extends React.Component<IStateProps> {
                     log(`Can not move action ${from.Actions[id].Name} down`);
                 }
             }
-        });
+        }, 'normal');
     };
 
     private readonly ChangeName = (name: string): void => {
         this.Modify((from, to) => {
             to.Name = name;
-        });
+        }, 'normal');
     };
 
-    private readonly OnActionModify = (id: number, action: IActionInfo): void => {
+    private readonly OnActionModify = (
+        id: number,
+        action: IActionInfo,
+        type: TModifyType,
+    ): void => {
         this.Modify((from, to) => {
             to.Actions[id] = action;
-        });
+        }, type);
     };
 
     private OnContextCommand(id: number, cmd: string): void {
@@ -148,11 +152,11 @@ export class State extends React.Component<IStateProps> {
             return (
                 <Action
                     key={id}
-                    action={e}
-                    onModify={(action): void => {
-                        this.OnActionModify(id, action);
+                    Action={e}
+                    OnModify={(action, type): void => {
+                        this.OnActionModify(id, action, type);
                     }}
-                    onContextCommand={(cmd): void => {
+                    OnContextCommand={(cmd): void => {
                         this.OnContextCommand(id, cmd);
                     }}
                 />

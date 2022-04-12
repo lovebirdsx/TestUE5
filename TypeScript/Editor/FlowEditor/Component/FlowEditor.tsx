@@ -17,6 +17,7 @@ import { ErrorBoundary } from '../../../Editor/Common/Component/ErrorBoundary';
 import { getCommandKeyDesc, KeyCommands } from '../../../Editor/Common/KeyCommands';
 import { IFlowListInfo } from '../../../Game/Flow/Action';
 import { log } from '../../Common/Log';
+import { TModifyType } from '../../Common/Scheme/Type';
 import { openDirOfFile } from '../../Common/Util';
 import { ConfigFile } from '../ConfigFile';
 import { EFlowListAction, flowListContext, FlowListOp } from '../Operations/FlowList';
@@ -104,7 +105,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         this.RegKeyCommands();
         this.StartAutoSave();
 
-        // 由于子Component中会访问 FlowListContext, 所以不能在 componentDidMout中调用
+        // 由于子Component中会访问 FlowListContext, 所以不能在componentDidMout中调用
         // 没有在componentWillMount中调用,是因为会报警告
         // 参考 https://github.com/facebook/react/issues/5737
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -112,9 +113,9 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             () => this.FlowList,
             (flowList, type) => {
                 if (type === EFlowListAction.ModifyText) {
-                    this.ModifyFlowList(flowList);
+                    this.ModifyFlowList(flowList, 'normal');
                 } else if (type === EFlowListAction.GenText) {
-                    this.ModifyFlowList(flowList, true);
+                    this.ModifyFlowList(flowList, 'normal', true);
                 }
             },
         );
@@ -292,15 +293,24 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             return;
         }
 
-        this.ModifyFlowList(listInfo);
+        this.ModifyFlowList(listInfo, 'normal');
         log(`Import flowlist from ${path} succeed`);
     };
 
-    private readonly ModifyFlowList = (newConfig: IFlowListInfo, noRecord?: boolean): void => {
-        if (noRecord) {
+    private readonly ModifyFlowList = (
+        newConfig: IFlowListInfo,
+        type: TModifyType,
+        noRecord?: boolean,
+    ): void => {
+        if (noRecord || type === 'fold') {
             this.setState((state) =>
                 produce(state, (draft) => {
                     draft.Histories[draft.StepId] = newConfig;
+
+                    // 修正已经保存的点，避免不必要的状态
+                    if (state.Saved === state.Histories[state.StepId]) {
+                        draft.Saved = newConfig;
+                    }
                 }),
             );
         } else {

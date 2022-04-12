@@ -1,0 +1,13 @@
+{
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "runOnSave.statusMessageTimeout": 3000,
+    "runOnSave.commands": [
+        {
+            "match": ".*\\.ts", // 没有以'ts$'结尾是为了同时匹配ts和tsx
+            "command": "node ./Tools/send_editor_command.js 1000 RestartEntityEditor",
+            "runIn": "backend",
+            "runningStatusMessage": "RestartEditor...",
+            "finishStatusMessage": "RestartEditor OK :)",
+        }
+    ]
+}

@@ -83,7 +83,7 @@ class CsvView extends React.Component {
                     React.createElement(CommonComponent_1.SlotText, { Text: row[field.Name].toString() })));
             }
             return (React.createElement(react_umg_1.SizeBox, { Slot: slot, key: `${rowId}-${index}` },
-                React.createElement(Any_1.Any, { Value: row[field.Name], Type: field.TypeData, OnModify: (value) => {
+                React.createElement(Any_1.Any, { Value: row[field.Name], Type: field.TypeData, OnModify: (value, type) => {
                         this.ModifyValue(rowId, field.Name, value);
                     } })));
         });

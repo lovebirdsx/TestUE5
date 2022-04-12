@@ -38,7 +38,7 @@ const stateIdScheme = (0, Type_1.createIntScheme)({
                 props.PrefixElement,
                 React.createElement(CommonComponent_1.List, { Items: stateNames, Selected: selectedState ? selectedState.Name : '', Tip: "\u76EE\u6807\u72B6\u6001", OnSelectChanged: (selectedStateName) => {
                         const state = value.States.find((e) => e.Name === selectedStateName);
-                        props.OnModify(state ? state.Id : DEFAULT_STATE_ID);
+                        props.OnModify(state ? state.Id : DEFAULT_STATE_ID, 'normal');
                     } })));
         }));
     },

@@ -4,18 +4,21 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../Log';
-import { IAnyProps, TArrayType } from '../Scheme/Action';
+import { IAnyProps, TArrayType, TModifyType } from '../Scheme/Action';
 import { Any } from './Any';
 import { Btn, Fold, TAB_OFFSET } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
 
 export class Array extends React.Component<IAnyProps> {
-    public ModifyByCb(cb: (from: unknown[], to: unknown[]) => void): void {
+    public ModifyByCb(
+        cb: (from: unknown[], to: unknown[]) => void,
+        type: TModifyType = 'normal',
+    ): void {
         const from = this.props.Value as unknown[];
         const newValue = produce(from, (draft) => {
             cb(from, draft);
         });
-        this.props.OnModify(newValue);
+        this.props.OnModify(newValue, type);
     }
 
     private SpawnElementAfter(array: unknown[], id: number): unknown {
@@ -24,10 +27,10 @@ export class Array extends React.Component<IAnyProps> {
         return result;
     }
 
-    private Modify(id: number, e: unknown): void {
+    private Modify(id: number, e: unknown, type: TModifyType): void {
         this.ModifyByCb((from, to) => {
             to[id] = e;
-        });
+        }, type);
     }
 
     private readonly Add = (): void => {
@@ -121,8 +124,8 @@ export class Array extends React.Component<IAnyProps> {
                     PrefixElement={this.CreatePrefixElement(id)}
                     Value={e}
                     Type={arrayType.Element}
-                    OnModify={(e0): void => {
-                        this.Modify(id, e0);
+                    OnModify={(e0, type): void => {
+                        this.Modify(id, e0, type);
                     }}
                 />
             );

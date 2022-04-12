@@ -59,7 +59,7 @@ const stateIdScheme = createIntScheme({
                                     const state = value.States.find(
                                         (e) => e.Name === selectedStateName,
                                     );
-                                    props.OnModify(state ? state.Id : DEFAULT_STATE_ID);
+                                    props.OnModify(state ? state.Id : DEFAULT_STATE_ID, 'normal');
                                 }}
                             />
                         </HorizontalBox>

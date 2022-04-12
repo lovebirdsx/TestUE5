@@ -11,22 +11,22 @@ const CommonComponent_1 = require("./CommonComponent");
 class Dynamic extends React.Component {
     Select = (type) => {
         const action = Action_1.scheme.SpawnAction(type);
-        this.props.OnModify(action);
+        this.props.OnModify(action, 'normal');
     };
     ChangeAsync = (async) => {
         const action = this.props.Value;
         const newAction = (0, immer_1.default)(action, (draft) => {
             draft.Async = async;
         });
-        this.props.OnModify(newAction);
+        this.props.OnModify(newAction, 'normal');
     };
-    Modify = (obj) => {
+    Modify = (obj, type) => {
         const { Value: value } = this.props;
         const action = value;
         const newValue = (0, immer_1.default)(action, (draft) => {
             draft.Params = obj;
         });
-        this.props.OnModify(newValue);
+        this.props.OnModify(newValue, type);
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

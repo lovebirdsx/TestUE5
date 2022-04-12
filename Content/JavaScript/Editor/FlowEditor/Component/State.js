@@ -27,17 +27,17 @@ const ADD_ACTION_TIP = [
     '      [jumpTalk]动作只能在[showTalk]中执行',
 ].join('\n');
 class State extends React.Component {
-    Modify(cb) {
+    Modify(cb, type) {
         const { State: state } = this.props;
         const newState = (0, immer_1.default)(state, (draft) => {
             cb(state, draft);
         });
-        this.props.OnModify(newState);
+        this.props.OnModify(newState, type);
     }
     ChangeFold = () => {
         this.Modify((from, to) => {
             to._folded = !from._folded;
-        });
+        }, 'fold');
     };
     SpwanNewActionAfter(state, id) {
         return Action_1.scheme.SpawnDefaultAction('normal');
@@ -46,18 +46,18 @@ class State extends React.Component {
         this.Modify((from, to) => {
             to.Actions.push(this.SpwanNewActionAfter(from, from.Actions.length - 1));
             to._folded = false;
-        });
+        }, 'normal');
     };
     InsertAction = (id) => {
         this.Modify((from, to) => {
             const action = this.SpwanNewActionAfter(from, id);
             to.Actions.splice(id + 1, 0, action);
-        });
+        }, 'normal');
     };
     RemoveAction = (id) => {
         this.Modify((from, to) => {
             to.Actions.splice(id, 1);
-        });
+        }, 'normal');
     };
     MoveAction = (id, isUp) => {
         this.Modify((from, to) => {
@@ -80,17 +80,17 @@ class State extends React.Component {
                     (0, Log_1.log)(`Can not move action ${from.Actions[id].Name} down`);
                 }
             }
-        });
+        }, 'normal');
     };
     ChangeName = (name) => {
         this.Modify((from, to) => {
             to.Name = name;
-        });
+        }, 'normal');
     };
-    OnActionModify = (id, action) => {
+    OnActionModify = (id, action, type) => {
         this.Modify((from, to) => {
             to.Actions[id] = action;
-        });
+        }, type);
     };
     OnContextCommand(id, cmd) {
         switch (cmd) {
@@ -119,9 +119,9 @@ class State extends React.Component {
     render() {
         const { State: state } = this.props;
         const actions = state.Actions.map((e, id) => {
-            return (React.createElement(Action_2.Action, { key: id, action: e, onModify: (action) => {
-                    this.OnActionModify(id, action);
-                }, onContextCommand: (cmd) => {
+            return (React.createElement(Action_2.Action, { key: id, Action: e, OnModify: (action, type) => {
+                    this.OnActionModify(id, action, type);
+                }, OnContextCommand: (cmd) => {
                     this.OnContextCommand(id, cmd);
                 } }));
         });

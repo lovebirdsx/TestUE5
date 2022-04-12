@@ -1,2 +1,2 @@
 cd ..
-tsc-watch --onSuccess "node ./Tools/send_editor_command.js RestartFlowEditor"
+tsc-watch --onSuccess "node ./Tools/send_editor_command.js 0 RestartFlowEditor"

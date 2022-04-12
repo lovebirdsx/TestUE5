@@ -8,6 +8,7 @@ import { IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
 import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from '../../Common/Component/CommonComponent';
 import { ContextBtn } from '../../Common/Component/ContextBtn';
 import { log } from '../../Common/Log';
+import { TModifyType } from '../../Common/Scheme/Type';
 import { FlowOp } from '../Operations/Flow';
 import { State } from './State';
 
@@ -15,7 +16,7 @@ export interface IFlowProps {
     Flow: IFlowInfo;
     IsDuplicate?: boolean;
     OnContextCommand: (cmd: string) => void;
-    OnModify: (flow: IFlowInfo) => void;
+    OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
 
 export const flowContext = React.createContext<IFlowInfo>(undefined);
@@ -34,26 +35,26 @@ const ADD_STATE_TIP = [
 ].join('\n');
 
 export class Flow extends React.Component<IFlowProps> {
-    private Modify(cb: (from: IFlowInfo, to: IFlowInfo) => void): void {
+    private Modify(cb: (from: IFlowInfo, to: IFlowInfo) => void, type: TModifyType): void {
         const { Flow: flow } = this.props;
         const newFlow = produce(flow, (draft) => {
             cb(flow, draft);
         });
         if (flow !== newFlow) {
-            this.props.OnModify(newFlow);
+            this.props.OnModify(newFlow, type);
         }
     }
 
     private readonly ChangeFold = (): void => {
         this.Modify((from, to) => {
             to._folded = !from._folded;
-        });
+        }, 'fold');
     };
 
     private readonly ChangeName = (name: string): void => {
         this.Modify((from, to) => {
             to.Name = name;
-        });
+        }, 'normal');
     };
 
     private readonly AddState = (): void => {
@@ -61,13 +62,13 @@ export class Flow extends React.Component<IFlowProps> {
             to.StateGenId = from.StateGenId + 1;
             to._folded = false;
             to.States.push(FlowOp.CreateState(from));
-        });
+        }, 'normal');
     };
 
     private readonly InsertState = (id: number): void => {
         this.Modify((from, to) => {
             to.States.splice(id + 1, 0, FlowOp.CreateState(from));
-        });
+        }, 'normal');
     };
 
     private readonly MoveState = (id: number, isUp: boolean): void => {
@@ -90,19 +91,19 @@ export class Flow extends React.Component<IFlowProps> {
                     log(`can not move state ${fromStates[id].Name} down`);
                 }
             }
-        });
+        }, 'normal');
     };
 
     private readonly RemoveState = (id: number): void => {
         this.Modify((from, to) => {
             to.States.splice(id, 1);
-        });
+        }, 'normal');
     };
 
-    private readonly ModifyState = (id: number, state: IStateInfo): void => {
+    private readonly ModifyState = (id: number, state: IStateInfo, type: TModifyType): void => {
         this.Modify((from, to) => {
             to.States[id] = state;
-        });
+        }, type);
     };
 
     private OnContextCommand(id: number, cmd: string): void {
@@ -138,8 +139,8 @@ export class Flow extends React.Component<IFlowProps> {
                             states.find((e) => e !== state && e.Name === state.Name) !== undefined
                         }
                         State={state}
-                        OnModify={(newConfig): void => {
-                            this.ModifyState(id, newConfig);
+                        OnModify={(newConfig, type): void => {
+                            this.ModifyState(id, newConfig, type);
                         }}
                         OnContextCommand={(cmd): void => {
                             this.OnContextCommand(id, cmd);

@@ -4,7 +4,14 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { IAbstractType, IAnyProps, scheme, TArrayType, TObjectType } from '../Scheme/Action';
+import {
+    IAbstractType,
+    IAnyProps,
+    scheme,
+    TArrayType,
+    TModifyType,
+    TObjectType,
+} from '../Scheme/Action';
 import { Any } from './Any';
 import { Btn, Fold, SlotText, TAB_OFFSET, Text } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
@@ -16,7 +23,12 @@ function getFoldFieldName(key: string): string {
 const FOLD_KEY = '_folded';
 
 export class Obj extends React.Component<IAnyProps> {
-    private ModifyKv(key: string, value: unknown, needUpdateFolded?: boolean): void {
+    private ModifyKv(
+        key: string,
+        value: unknown,
+        type: TModifyType,
+        needUpdateFolded?: boolean,
+    ): void {
         const newObj = produce(this.props.Value as Record<string, unknown>, (draft) => {
             if (value === undefined) {
                 delete draft[key];
@@ -27,7 +39,7 @@ export class Obj extends React.Component<IAnyProps> {
                 draft[FOLD_KEY] = false;
             }
         });
-        this.props.OnModify(newObj);
+        this.props.OnModify(newObj, type);
     }
 
     private readonly OnFoldChange = (isFolded: boolean): void => {
@@ -35,11 +47,11 @@ export class Obj extends React.Component<IAnyProps> {
         const newValue = produce(value as Record<string, unknown>, (draft) => {
             draft[FOLD_KEY] = isFolded;
         });
-        this.props.OnModify(newValue);
+        this.props.OnModify(newValue, 'fold');
     };
 
     private OnArrayFieldFoldChange(key: string, isFolded: boolean): void {
-        this.ModifyKv(getFoldFieldName(key), isFolded);
+        this.ModifyKv(getFoldFieldName(key), isFolded, 'fold');
     }
 
     private AddArrayItem(
@@ -51,20 +63,20 @@ export class Obj extends React.Component<IAnyProps> {
         const newArrayValue = produce(arrayValue, (draft) => {
             draft.push(newArrayItem);
         });
-        this.ModifyKv(arrayKey, newArrayValue);
+        this.ModifyKv(arrayKey, newArrayValue, 'normal');
     }
 
     private readonly OnToggleFiledOptional = (key: string): void => {
         const { Value: value, Type: type } = this.props;
         const fieldValue = (value as Record<string, unknown>)[key];
         if (fieldValue) {
-            this.ModifyKv(key, undefined, true);
+            this.ModifyKv(key, undefined, 'normal', true);
         } else {
             const objectTypeData = type as TObjectType<object>;
             const fieldTypeData = (objectTypeData.Fields as Record<string, unknown>)[
                 key
             ] as IAbstractType<unknown>;
-            this.ModifyKv(key, fieldTypeData.CreateDefault(value), true);
+            this.ModifyKv(key, fieldTypeData.CreateDefault(value), 'normal', true);
         }
     };
 
@@ -89,8 +101,8 @@ export class Obj extends React.Component<IAnyProps> {
                     OnFoldChange={(folded): void => {
                         this.OnArrayFieldFoldChange(fieldKey, folded);
                     }}
-                    OnModify={(v): void => {
-                        this.ModifyKv(fieldKey, v);
+                    OnModify={(v, type): void => {
+                        this.ModifyKv(fieldKey, v, type);
                     }}
                 />
             );
@@ -100,8 +112,8 @@ export class Obj extends React.Component<IAnyProps> {
             <Any
                 Value={fieldValue}
                 Type={fieldTypeData}
-                OnModify={(obj: unknown): void => {
-                    this.ModifyKv(fieldKey, obj);
+                OnModify={(obj: unknown, type: TModifyType): void => {
+                    this.ModifyKv(fieldKey, obj, type);
                 }}
             />
         );

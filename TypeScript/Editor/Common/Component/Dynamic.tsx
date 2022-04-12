@@ -5,14 +5,14 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import { IActionInfo, TActionType } from '../../../Game/Flow/Action';
-import { IAnyProps, scheme, TDynamicObjectType } from '../Scheme/Action';
+import { IAnyProps, scheme, TDynamicObjectType, TModifyType } from '../Scheme/Action';
 import { Any } from './Any';
 import { Check, List, Text } from './CommonComponent';
 
 export class Dynamic extends React.Component<IAnyProps> {
     private readonly Select = (type: string): void => {
         const action = scheme.SpawnAction(type as TActionType);
-        this.props.OnModify(action);
+        this.props.OnModify(action, 'normal');
     };
 
     private readonly ChangeAsync = (async: boolean): void => {
@@ -20,16 +20,16 @@ export class Dynamic extends React.Component<IAnyProps> {
         const newAction = produce(action, (draft) => {
             draft.Async = async;
         });
-        this.props.OnModify(newAction);
+        this.props.OnModify(newAction, 'normal');
     };
 
-    private readonly Modify = (obj: unknown): void => {
+    private readonly Modify = (obj: unknown, type: TModifyType): void => {
         const { Value: value } = this.props;
         const action = value as IActionInfo;
         const newValue = produce(action, (draft) => {
             draft.Params = obj;
         });
-        this.props.OnModify(newValue);
+        this.props.OnModify(newValue, type);
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention

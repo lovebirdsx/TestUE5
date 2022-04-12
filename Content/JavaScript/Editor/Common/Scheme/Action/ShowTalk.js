@@ -79,7 +79,7 @@ exports.talkerScheme = (0, Type_1.createIntScheme)({
         const selectedTalker = talkers.find((e) => e.Id === props.Value);
         return (React.createElement(CommonComponent_1.List, { Items: names, Selected: selectedTalker ? selectedTalker.Name : '', Tip: props.Type.Meta.Tip, OnSelectChanged: (name) => {
                 const who = talkers.find((e) => e.Name === name);
-                props.OnModify(who.Id);
+                props.OnModify(who.Id, 'normal');
             } }));
     },
 });

@@ -29,6 +29,7 @@ export const jumpTalkScheme = createObjectScheme<IJumpTalk>(
                                     OnSelectChanged={(itemName: string): void => {
                                         props.OnModify(
                                             items.findIndex((it) => it.Name === itemName),
+                                            'normal',
                                         );
                                     }}
                                 />

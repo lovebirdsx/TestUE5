@@ -15,7 +15,7 @@ function getFoldFieldName(key) {
 }
 const FOLD_KEY = '_folded';
 class Obj extends React.Component {
-    ModifyKv(key, value, needUpdateFolded) {
+    ModifyKv(key, value, type, needUpdateFolded) {
         const newObj = (0, immer_1.default)(this.props.Value, (draft) => {
             if (value === undefined) {
                 delete draft[key];
@@ -27,35 +27,35 @@ class Obj extends React.Component {
                 draft[FOLD_KEY] = false;
             }
         });
-        this.props.OnModify(newObj);
+        this.props.OnModify(newObj, type);
     }
     OnFoldChange = (isFolded) => {
         const { Value: value } = this.props;
         const newValue = (0, immer_1.default)(value, (draft) => {
             draft[FOLD_KEY] = isFolded;
         });
-        this.props.OnModify(newValue);
+        this.props.OnModify(newValue, 'fold');
     };
     OnArrayFieldFoldChange(key, isFolded) {
-        this.ModifyKv(getFoldFieldName(key), isFolded);
+        this.ModifyKv(getFoldFieldName(key), isFolded, 'fold');
     }
     AddArrayItem(arrayKey, arrayValue, arrayTypeData) {
         const newArrayItem = arrayTypeData.Element.CreateDefault(arrayValue);
         const newArrayValue = (0, immer_1.default)(arrayValue, (draft) => {
             draft.push(newArrayItem);
         });
-        this.ModifyKv(arrayKey, newArrayValue);
+        this.ModifyKv(arrayKey, newArrayValue, 'normal');
     }
     OnToggleFiledOptional = (key) => {
         const { Value: value, Type: type } = this.props;
         const fieldValue = value[key];
         if (fieldValue) {
-            this.ModifyKv(key, undefined, true);
+            this.ModifyKv(key, undefined, 'normal', true);
         }
         else {
             const objectTypeData = type;
             const fieldTypeData = objectTypeData.Fields[key];
-            this.ModifyKv(key, fieldTypeData.CreateDefault(value), true);
+            this.ModifyKv(key, fieldTypeData.CreateDefault(value), 'normal', true);
         }
     };
     RenderFieldValue(fieldKey, fieldValue, fieldTypeData) {
@@ -67,12 +67,12 @@ class Obj extends React.Component {
                 : false;
             return (React.createElement(Any_1.Any, { PrefixElement: React.createElement(CommonComponent_1.SlotText, { Text: fieldKey }), Value: fieldValue, Type: fieldTypeData, IsFolded: isFolded, OnFoldChange: (folded) => {
                     this.OnArrayFieldFoldChange(fieldKey, folded);
-                }, OnModify: (v) => {
-                    this.ModifyKv(fieldKey, v);
+                }, OnModify: (v, type) => {
+                    this.ModifyKv(fieldKey, v, type);
                 } }));
         }
-        return (React.createElement(Any_1.Any, { Value: fieldValue, Type: fieldTypeData, OnModify: (obj) => {
-                this.ModifyKv(fieldKey, obj);
+        return (React.createElement(Any_1.Any, { Value: fieldValue, Type: fieldTypeData, OnModify: (obj, type) => {
+                this.ModifyKv(fieldKey, obj, type);
             } }));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention

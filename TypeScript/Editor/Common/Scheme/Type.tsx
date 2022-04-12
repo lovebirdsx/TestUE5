@@ -24,10 +24,12 @@ export interface IMeta {
     Tip?: string; // 提示文字
 }
 
+export type TModifyType = 'fold' | 'normal';
+
 export interface IAnyProps {
     Value: unknown;
     Type: IAbstractType<unknown>;
-    OnModify: (obj: unknown) => void;
+    OnModify: (obj: unknown, type: TModifyType) => void;
     PrefixElement?: JSX.Element;
     IsFolded?: boolean;
     OnFoldChange?: (folded: boolean) => void;

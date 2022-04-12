@@ -37,13 +37,13 @@ const FLOW_TIP = [
     '    输出: 结果参数(通过[finishState]动作来指定)',
 ].join('\n');
 class FlowList extends React.Component {
-    Modify(cb) {
+    Modify(cb, type) {
         const { FlowList: flowList } = this.props;
         const newflowList = (0, immer_1.default)(flowList, (draft) => {
             cb(flowList, draft);
         });
         if (flowList !== newflowList) {
-            this.props.OnModify(newflowList);
+            this.props.OnModify(newflowList, type);
         }
     }
     AddFlow = () => {
@@ -51,18 +51,18 @@ class FlowList extends React.Component {
             const flow = FlowList_1.FlowListOp.CreateFlow(from);
             to.Flows.push(flow);
             to.FlowGenId = this.props.FlowList.FlowGenId + 1;
-        });
+        }, 'normal');
     };
     InsertFlow = (id) => {
         this.Modify((from, to) => {
             const newFlow = FlowList_1.FlowListOp.CreateFlow(this.props.FlowList);
             to.Flows.splice(id + 1, 0, newFlow);
-        });
+        }, 'normal');
     };
     RemoveFlow = (id) => {
         this.Modify((from, to) => {
             to.Flows.splice(id, 1);
-        });
+        }, 'normal');
     };
     OnContextCommand = (id, cmd) => {
         switch (cmd) {
@@ -102,26 +102,26 @@ class FlowList extends React.Component {
                 to.Flows[id] = flows[id + 1];
                 to.Flows[id + 1] = flows[id];
             }
-        });
+        }, 'normal');
     };
-    ModifiedFlow = (id, flow) => {
+    ModifiedFlow = (id, flow, type) => {
         this.Modify((from, draft) => {
             draft.Flows[id] = flow;
-        });
+        }, type);
     };
     FoldAll = (value) => {
         this.Modify((from, draft) => {
             draft.Flows.forEach((flow) => {
                 foldAll(flow, value, true);
             });
-        });
+        }, 'fold');
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
         const { Flows: flows } = this.props.FlowList;
         const nodes = flows.map((flow, id) => {
-            return (React.createElement(Flow_1.Flow, { key: id, Flow: flow, IsDuplicate: flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined, OnModify: (newFlow) => {
-                    this.ModifiedFlow(id, newFlow);
+            return (React.createElement(Flow_1.Flow, { key: id, Flow: flow, IsDuplicate: flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined, OnModify: (newFlow, type) => {
+                    this.ModifiedFlow(id, newFlow, type);
                 }, OnContextCommand: (cmd) => {
                     this.OnContextCommand(id, cmd);
                 } }));

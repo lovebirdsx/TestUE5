@@ -4,11 +4,12 @@ import TsEntity from '../../Game/Entity/TsEntity';
 import { SlotText } from '../Common/Component/CommonComponent';
 import { Obj } from '../Common/Component/Obj';
 import { entityScheme } from '../Common/Scheme/Entity/Index';
+import { TModifyType } from '../Common/Scheme/Type';
 
 export interface IEntityViewProps {
     Entity: TsEntity;
     PureData: Record<string, unknown>;
-    OnModify: (data: Record<string, unknown>) => void;
+    OnModify: (data: Record<string, unknown>, type: TModifyType) => void;
 }
 
 export class EntityView extends React.Component<IEntityViewProps> {

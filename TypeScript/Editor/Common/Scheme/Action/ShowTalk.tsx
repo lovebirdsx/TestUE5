@@ -122,7 +122,7 @@ export const talkerScheme = createIntScheme({
                 Tip={props.Type.Meta.Tip}
                 OnSelectChanged={(name: string): void => {
                     const who = talkers.find((e) => e.Name === name);
-                    props.OnModify(who.Id);
+                    props.OnModify(who.Id, 'normal');
                 }}
             />
         );

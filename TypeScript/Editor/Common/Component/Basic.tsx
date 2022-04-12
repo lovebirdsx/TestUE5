@@ -2,17 +2,23 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { IAnyProps, TAssetType, TEnumType } from '../Scheme/Action';
 import { AssetSelector } from './AssetSelector';
 import { TColor } from './Color';
 import { Check, EditorBox, List } from './CommonComponent';
-import { IAnyProps, TAssetType, TEnumType } from '../Scheme/Action';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function Bool(props: IAnyProps): JSX.Element {
     return (
         <HorizontalBox>
             {props.PrefixElement}
-            <Check UnChecked={!props.Value} OnChecked={props.OnModify} Tip={props.Type.Meta.Tip} />
+            <Check
+                UnChecked={!props.Value}
+                OnChecked={(value): void => {
+                    props.OnModify(value, 'normal');
+                }}
+                Tip={props.Type.Meta.Tip}
+            />
         </HorizontalBox>
     );
 }
@@ -27,7 +33,7 @@ export function Int(props: IAnyProps): JSX.Element {
                 Tip={props.Type.Meta.Tip}
                 Text={(props.Value as number).toString()}
                 OnChange={(text): void => {
-                    props.OnModify(parseInt(text, 10));
+                    props.OnModify(parseInt(text, 10), 'normal');
                 }}
             />
         </HorizontalBox>
@@ -44,7 +50,7 @@ export function Float(props: IAnyProps): JSX.Element {
                 Text={(props.Value as number).toString()}
                 Tip={props.Type.Meta.Tip}
                 OnChange={(text): void => {
-                    props.OnModify(parseFloat(text));
+                    props.OnModify(parseFloat(text), 'normal');
                 }}
             />
         </HorizontalBox>
@@ -60,7 +66,7 @@ export function String(props: IAnyProps & { Color?: TColor }): JSX.Element {
                 Width={props.Type.Meta.Width}
                 Text={props.Value as string}
                 OnChange={(text): void => {
-                    props.OnModify(text);
+                    props.OnModify(text, 'normal');
                 }}
                 Tip={props.Type.Meta.Tip}
                 Color={props.Color}
@@ -79,7 +85,9 @@ export function Enum(props: IAnyProps): JSX.Element {
                 Items={enumType.Names}
                 Selected={props.Value as string}
                 Tip={enumType.Config[props.Value as string]}
-                OnSelectChanged={props.OnModify}
+                OnSelectChanged={(item): void => {
+                    props.OnModify(item, 'normal');
+                }}
             />
         </HorizontalBox>
     );
@@ -95,7 +103,7 @@ export function Asset(props: IAnyProps): JSX.Element {
                 ClassType={assetType.ClassPath}
                 SelectedObjectPath={props.Value as string}
                 OnObjectPathChanged={(path: string): void => {
-                    props.OnModify(path);
+                    props.OnModify(path, 'normal');
                 }}
             />
         </HorizontalBox>

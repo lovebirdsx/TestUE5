@@ -14,7 +14,7 @@ const TsEntity_1 = require("./TsEntity");
 class TsTrigger extends TsEntity_1.default {
     // @cpp: int
     MaxTriggerTimes;
-    TriggerActions;
+    TriggerActionsJson;
     TriggerTimes = 0;
     ActionRunner;
     ReceiveBeginPlay() {
@@ -27,7 +27,7 @@ class TsTrigger extends TsEntity_1.default {
     }
     DoTrigger() {
         this.TriggerTimes++;
-        this.ActionRunner.ExecuteJson(this.TriggerActions);
+        this.ActionRunner.ExecuteJson(this.TriggerActionsJson);
         (0, Log_1.log)(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
     ReceiveActorBeginOverlap(other) {
@@ -48,7 +48,7 @@ __decorate([
 ], TsTrigger.prototype, "MaxTriggerTimes", void 0);
 __decorate([
     (0, ue_1.edit_on_instance)()
-], TsTrigger.prototype, "TriggerActions", void 0);
+], TsTrigger.prototype, "TriggerActionsJson", void 0);
 __decorate([
     (0, ue_1.no_blueprint)()
 ], TsTrigger.prototype, "TriggerTimes", void 0);

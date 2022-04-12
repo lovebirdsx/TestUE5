@@ -10,18 +10,18 @@ export default function testEntityScheme(): void {
     test('gen pure data', () => {
         const trigger = NewObject(getClassObj(TsTrigger)) as TsTrigger;
         trigger.MaxTriggerTimes = 10;
-        trigger.TriggerActions = 'Hello';
+        trigger.TriggerActionsJson = 'Hello';
 
         const pureData = entityScheme.GenData(trigger);
         assertEq(pureData.MaxTriggerTimes, trigger.MaxTriggerTimes, 'MaxTriggerTimes must equal');
-        assertEq(pureData.TriggerActions, trigger.TriggerActions, 'TriggerActions must equal');
+        assertEq(pureData.TriggerActionsJson, trigger.TriggerActionsJson, 'TriggerActions must equal');
         assertEq(pureData.ActorHasTag, undefined, 'ActorHasTag must undefined');
     });
 
     test('write pure data', () => {
         const trigger = NewObject(getClassObj(TsTrigger)) as TsTrigger;
         trigger.MaxTriggerTimes = 10;
-        trigger.TriggerActions = 'Hello';
+        trigger.TriggerActionsJson = 'Hello';
 
         const pureData = entityScheme.GenData(trigger);
         pureData.MaxTriggerTimes = 11;

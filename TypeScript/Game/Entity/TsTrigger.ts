@@ -11,7 +11,7 @@ class TsTrigger extends TsEntity {
     public MaxTriggerTimes: number;
 
     @edit_on_instance()
-    public TriggerActions: string;
+    public TriggerActionsJson: string;
 
     @no_blueprint()
     private TriggerTimes = 0;
@@ -32,7 +32,7 @@ class TsTrigger extends TsEntity {
     @no_blueprint()
     private DoTrigger(): void {
         this.TriggerTimes++;
-        this.ActionRunner.ExecuteJson(this.TriggerActions);
+        this.ActionRunner.ExecuteJson(this.TriggerActionsJson);
         log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
 

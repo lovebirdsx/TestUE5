@@ -8,6 +8,7 @@ import { isChildOfClass } from '../../Common/Class';
 import TsEntity from '../../Game/Entity/TsEntity';
 import { formatColor } from '../Common/Component/Color';
 import { Btn, Text } from '../Common/Component/CommonComponent';
+import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditor from '../Common/LevelEditor';
 import { entityScheme } from '../Common/Scheme/Entity/Index';
@@ -223,12 +224,16 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         };
 
         return (
-            <VerticalBox>
-                <Border BrushColor={formatColor('#060606 ue back')}>
-                    <VerticalBox>{this.RenderToolbar()}</VerticalBox>
-                </Border>
-                <ScrollBox Slot={scrollBoxSlot}>{this.RenderEntity()}</ScrollBox>
-            </VerticalBox>
+            <ErrorBoundary>
+                <VerticalBox>
+                    <Border BrushColor={formatColor('#060606 ue back')}>
+                        <VerticalBox>{this.RenderToolbar()}</VerticalBox>
+                    </Border>
+                    <ErrorBoundary>
+                        <ScrollBox Slot={scrollBoxSlot}>{this.RenderEntity()}</ScrollBox>
+                    </ErrorBoundary>
+                </VerticalBox>
+            </ErrorBoundary>
         );
     }
 }

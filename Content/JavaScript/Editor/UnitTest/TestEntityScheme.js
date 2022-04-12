@@ -10,16 +10,16 @@ function testEntityScheme() {
     (0, Test_1.test)('gen pure data', () => {
         const trigger = (0, ue_1.NewObject)((0, Class_1.getClassObj)(TsTrigger_1.default));
         trigger.MaxTriggerTimes = 10;
-        trigger.TriggerActions = 'Hello';
+        trigger.TriggerActionsJson = 'Hello';
         const pureData = Index_1.entityScheme.GenData(trigger);
         (0, Test_1.assertEq)(pureData.MaxTriggerTimes, trigger.MaxTriggerTimes, 'MaxTriggerTimes must equal');
-        (0, Test_1.assertEq)(pureData.TriggerActions, trigger.TriggerActions, 'TriggerActions must equal');
+        (0, Test_1.assertEq)(pureData.TriggerActionsJson, trigger.TriggerActionsJson, 'TriggerActions must equal');
         (0, Test_1.assertEq)(pureData.ActorHasTag, undefined, 'ActorHasTag must undefined');
     });
     (0, Test_1.test)('write pure data', () => {
         const trigger = (0, ue_1.NewObject)((0, Class_1.getClassObj)(TsTrigger_1.default));
         trigger.MaxTriggerTimes = 10;
-        trigger.TriggerActions = 'Hello';
+        trigger.TriggerActionsJson = 'Hello';
         const pureData = Index_1.entityScheme.GenData(trigger);
         pureData.MaxTriggerTimes = 11;
         Index_1.entityScheme.ApplyData(pureData, trigger);

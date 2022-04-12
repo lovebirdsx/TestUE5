@@ -10,6 +10,7 @@ const Class_1 = require("../../Common/Class");
 const TsEntity_1 = require("../../Game/Entity/TsEntity");
 const Color_1 = require("../Common/Component/Color");
 const CommonComponent_1 = require("../Common/Component/CommonComponent");
+const ErrorBoundary_1 = require("../Common/Component/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
 const LevelEditor_1 = require("../Common/LevelEditor");
 const Index_1 = require("../Common/Scheme/Entity/Index");
@@ -161,10 +162,12 @@ class EntityEditor extends React.Component {
         const scrollBoxSlot = {
             Size: { SizeRule: ue_1.ESlateSizeRule.Fill },
         };
-        return (React.createElement(react_umg_1.VerticalBox, null,
-            React.createElement(react_umg_1.Border, { BrushColor: (0, Color_1.formatColor)('#060606 ue back') },
-                React.createElement(react_umg_1.VerticalBox, null, this.RenderToolbar())),
-            React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot }, this.RenderEntity())));
+        return (React.createElement(ErrorBoundary_1.ErrorBoundary, null,
+            React.createElement(react_umg_1.VerticalBox, null,
+                React.createElement(react_umg_1.Border, { BrushColor: (0, Color_1.formatColor)('#060606 ue back') },
+                    React.createElement(react_umg_1.VerticalBox, null, this.RenderToolbar())),
+                React.createElement(ErrorBoundary_1.ErrorBoundary, null,
+                    React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot }, this.RenderEntity())))));
     }
 }
 exports.EntityEditor = EntityEditor;

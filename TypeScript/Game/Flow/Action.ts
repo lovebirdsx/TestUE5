@@ -22,6 +22,22 @@ export interface IActionInfo {
     Params: unknown;
 }
 
+export interface IActions {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    _folded?: boolean;
+    Actions: IActionInfo[];
+}
+
+export function parseActionsJson(json: string): IActions {
+    if (!json) {
+        return {
+            Actions: [],
+        };
+    }
+
+    return JSON.parse(json) as IActions;
+}
+
 export interface IStateInfo {
     Id: number;
     Name: string;

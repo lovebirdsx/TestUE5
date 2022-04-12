@@ -13,6 +13,7 @@ const CommonComponent_1 = require("../Common/Component/CommonComponent");
 const ErrorBoundary_1 = require("../Common/Component/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
 const LevelEditor_1 = require("../Common/LevelEditor");
+const Log_1 = require("../Common/Log");
 const Index_1 = require("../Common/Scheme/Entity/Index");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
@@ -59,6 +60,19 @@ class EntityEditor extends React.Component {
         }
         return null;
     }
+    OnEntityDestory = (entity) => {
+        this.setState((state) => {
+            return (0, immer_1.default)(state, (draft) => {
+                state.Histories.forEach((entityState, id) => {
+                    if (entityState.Entity === entity) {
+                        draft.Histories[id].Entity = null;
+                        draft.Histories[id].PureData = null;
+                    }
+                });
+            });
+        });
+        entity.OnDestroyed.Remove(this.OnEntityDestory);
+    };
     OnSelectionChanged = () => {
         const entity = this.GetCurrentSelectEntity();
         if (entity === null || entity === this.EntityState.Entity) {
@@ -69,6 +83,8 @@ class EntityEditor extends React.Component {
             PureData: Index_1.entityScheme.GenData(entity),
         };
         this.RecordEntityState(entityState, 'normal');
+        entity.OnDestroyed.Remove(this.OnEntityDestory);
+        entity.OnDestroyed.Add(this.OnEntityDestory);
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     UNSAFE_componentWillMount() {
@@ -146,6 +162,9 @@ class EntityEditor extends React.Component {
         }
         this.SetStep(this.state.StepId + 1);
     };
+    Info = () => {
+        (0, Log_1.log)(JSON.stringify(this.state.Histories, null, 2));
+    };
     GetUndoStateStr = () => {
         const { state } = this;
         return `${state.StepId + 1} / ${state.Histories.length}`;
@@ -154,7 +173,8 @@ class EntityEditor extends React.Component {
         return (React.createElement(react_umg_1.HorizontalBox, null,
             React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
             React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
-            React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` })));
+            React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` }),
+            React.createElement(CommonComponent_1.Btn, { Text: 'State', OnClick: this.Info, Tip: `输出状态` })));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

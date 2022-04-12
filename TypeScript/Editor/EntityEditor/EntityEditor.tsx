@@ -2,7 +2,7 @@
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import { EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue';
+import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue';
 
 import { isChildOfClass } from '../../Common/Class';
 import TsEntity from '../../Game/Entity/TsEntity';
@@ -11,6 +11,7 @@ import { Btn, Text } from '../Common/Component/CommonComponent';
 import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditor from '../Common/LevelEditor';
+import { log } from '../Common/Log';
 import { entityScheme } from '../Common/Scheme/Entity/Index';
 import { TModifyType } from '../Common/Scheme/Type';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
@@ -80,6 +81,21 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return null;
     }
 
+    private readonly OnEntityDestory = (entity: Actor): void => {
+        this.setState((state) => {
+            return produce(state, (draft) => {
+                state.Histories.forEach((entityState, id) => {
+                    if (entityState.Entity === entity) {
+                        draft.Histories[id].Entity = null;
+                        draft.Histories[id].PureData = null;
+                    }
+                });
+            });
+        });
+
+        entity.OnDestroyed.Remove(this.OnEntityDestory);
+    };
+
     private readonly OnSelectionChanged = (): void => {
         const entity = this.GetCurrentSelectEntity();
         if (entity === null || entity === this.EntityState.Entity) {
@@ -91,6 +107,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             PureData: entityScheme.GenData(entity),
         };
         this.RecordEntityState(entityState, 'normal');
+
+        entity.OnDestroyed.Remove(this.OnEntityDestory);
+        entity.OnDestroyed.Add(this.OnEntityDestory);
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -187,6 +206,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         this.SetStep(this.state.StepId + 1);
     };
 
+    private readonly Info = (): void => {
+        log(JSON.stringify(this.state.Histories, null, 2));
+    };
+
     private readonly GetUndoStateStr = (): string => {
         const { state } = this;
         return `${state.StepId + 1} / ${state.Histories.length}`;
@@ -211,6 +234,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     Disabled={!canRedo(this.state)}
                     Tip={`重做 ${getCommandKeyDesc('Redo')}`}
                 />
+                <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
             </HorizontalBox>
         );
     }

@@ -11,6 +11,7 @@ const TsEntity_1 = require("../../Game/Entity/TsEntity");
 const Color_1 = require("../Common/Component/Color");
 const CommonComponent_1 = require("../Common/Component/CommonComponent");
 const KeyCommands_1 = require("../Common/KeyCommands");
+const LevelEditor_1 = require("../Common/LevelEditor");
 const Index_1 = require("../Common/Scheme/Entity/Index");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
@@ -111,7 +112,8 @@ class EntityEditor extends React.Component {
     };
     ApplyEntityChange() {
         const es = this.EntityState;
-        if (!es.Entity || es === this.LastApplyEntityState) {
+        LevelEditor_1.default.SelectActor(es.Entity);
+        if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }
         Index_1.entityScheme.ApplyData(es.PureData, es.Entity);

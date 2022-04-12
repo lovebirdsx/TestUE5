@@ -2,6 +2,7 @@
 
 #include "KuroEditorCommon.h"
 #include "DesktopPlatformModule.h"
+#include "LevelEditorActions.h"
 #include "OutputLogModule.h"
 #include "Engine/ObjectLibrary.h"
 
@@ -73,4 +74,9 @@ UEditorEvent* UEditorOperations::GetEditorEvent()
 {
 	const auto Result = FKuroEditorCommonModule::GetInstance()->GetEditorEvent();
 	return Result;
+}
+
+void UEditorOperations::ExecuteLevelEditorCommand(const FString Command)
+{
+	FLevelEditorActionCallbacks::ExecuteExecCommand(Command);
 }

@@ -62,4 +62,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static UEditorEvent* GetEditorEvent();
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static void ExecuteLevelEditorCommand(FString Command);
 };

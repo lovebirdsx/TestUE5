@@ -9,6 +9,7 @@ import TsEntity from '../../Game/Entity/TsEntity';
 import { formatColor } from '../Common/Component/Color';
 import { Btn, Text } from '../Common/Component/CommonComponent';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
+import LevelEditor from '../Common/LevelEditor';
 import { entityScheme } from '../Common/Scheme/Entity/Index';
 import { TModifyType } from '../Common/Scheme/Type';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
@@ -140,7 +141,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private ApplyEntityChange(): void {
         const es = this.EntityState;
-        if (!es.Entity || es === this.LastApplyEntityState) {
+        LevelEditor.SelectActor(es.Entity);
+
+        if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }
 

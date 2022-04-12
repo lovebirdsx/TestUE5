@@ -15,6 +15,14 @@ export interface ICsvViewProps {
     OnModify: (csv: ICsv) => void;
 }
 
+export interface ICsvCellContext {
+    RowId: number;
+    ColId: number;
+    Csv: ICsv;
+}
+
+export const csvCellContext = React.createContext<ICsvCellContext>(undefined);
+
 export class CsvView extends React.Component<ICsvViewProps> {
     private OnContextCommand(rowId: number, cmd: string): void {
         switch (cmd) {
@@ -77,7 +85,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
 
             return (
                 <HorizontalBox key={field.Name} Slot={slot}>
-                    <SlotText Text={field.CnName} />
+                    <SlotText Text={` ${field.CnName} `} />
                 </HorizontalBox>
             );
         });
@@ -93,6 +101,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
     }
 
     private RenderRow(fieldTypes: ICsvFieldEx[], row: TCsvRowBase, rowId: number): JSX.Element[] {
+        const csv = this.props.Csv;
         const result = fieldTypes.map((field, index) => {
             const slot: GridSlot = { Row: rowId + 1, Column: index };
             if (!field.TypeData) {
@@ -123,13 +132,15 @@ export class CsvView extends React.Component<ICsvViewProps> {
 
             return (
                 <SizeBox Slot={slot} key={`${rowId}-${index}`}>
-                    <Any
-                        Value={row[field.Name]}
-                        Type={field.TypeData}
-                        OnModify={(value: unknown, type: TModifyType): void => {
-                            this.ModifyValue(rowId, field.Name, value as TCsvValueType);
-                        }}
-                    />
+                    <csvCellContext.Provider value={{ RowId: rowId, ColId: index, Csv: csv }}>
+                        <Any
+                            Value={row[field.Name]}
+                            Type={field.TypeData}
+                            OnModify={(value: unknown, type: TModifyType): void => {
+                                this.ModifyValue(rowId, field.Name, value as TCsvValueType);
+                            }}
+                        />
+                    </csvCellContext.Provider>
                 </SizeBox>
             );
         });

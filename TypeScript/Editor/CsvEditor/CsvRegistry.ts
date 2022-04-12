@@ -2,6 +2,7 @@
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { CustomSeqCsvLoader } from '../Common/CsvConfig/CustomSeqCsv';
+import { GlobalConfigCsvLoader } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerCsvLoader } from '../Common/CsvConfig/TalkerCsv';
 import { CsvLoader, ICsv, TCsvRowBase } from '../Common/CsvLoader';
 import { error, log, warn } from '../Common/Log';
@@ -15,6 +16,11 @@ interface ICsvFileConfig {
 const CSV_FILE_BASE_DIR = 'Data/Tables';
 
 const configs: ICsvFileConfig[] = [
+    {
+        Name: '全局配置',
+        Path: 'q.全局配置.csv',
+        CsvLoaderClass: GlobalConfigCsvLoader,
+    },
     {
         Name: '对话人',
         Path: 'd.对话人.csv',

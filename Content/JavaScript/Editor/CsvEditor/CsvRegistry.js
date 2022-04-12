@@ -4,10 +4,16 @@ exports.csvRegistry = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
 const CustomSeqCsv_1 = require("../Common/CsvConfig/CustomSeqCsv");
+const GlobalConfigCsv_1 = require("../Common/CsvConfig/GlobalConfigCsv");
 const TalkerCsv_1 = require("../Common/CsvConfig/TalkerCsv");
 const Log_1 = require("../Common/Log");
 const CSV_FILE_BASE_DIR = 'Data/Tables';
 const configs = [
+    {
+        Name: '全局配置',
+        Path: 'q.全局配置.csv',
+        CsvLoaderClass: GlobalConfigCsv_1.GlobalConfigCsvLoader,
+    },
     {
         Name: '对话人',
         Path: 'd.对话人.csv',

@@ -78,6 +78,7 @@ export interface ITalkItem {
     Name: string;
     WhoId: number;
     TextId: number;
+    WaitTime?: number;
     Actions?: IActionInfo[];
     Options?: ITalkOption[];
 }
@@ -166,3 +167,13 @@ export const cameraBindModeConfig = {
 };
 
 export type TCameraBindMode = keyof typeof cameraBindModeConfig;
+
+// CSV中单元格值类型
+export const csvCellTypeConfig = {
+    Int: '整形',
+    String: '字符串',
+    Float: '浮点型',
+    Boolean: '布尔型',
+};
+
+export type TCsvCellType = keyof typeof csvCellTypeConfig;

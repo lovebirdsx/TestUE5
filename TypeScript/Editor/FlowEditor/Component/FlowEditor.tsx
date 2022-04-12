@@ -347,6 +347,11 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     private RenderDevelopElements(): JSX.Element {
         return (
             <HorizontalBox>
+                <Btn
+                    Text={'导出对话...'}
+                    OnClick={this.Export}
+                    Tip={'导出对话列表到CSV文件中,具体请参考【流程编辑器】使用说明'}
+                />
                 <Btn Text={'History'} OnClick={this.LogHistory} />
                 <Btn Text={'Flow info'} OnClick={this.LogFlowInfo} />
                 <Btn
@@ -427,11 +432,6 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                                 Text={'导入对话...'}
                                 OnClick={this.Import}
                                 Tip={'从CSV中导入对话配置,具体请参考【流程编辑器】使用说明'}
-                            />
-                            <Btn
-                                Text={'导出对话...'}
-                                OnClick={this.Export}
-                                Tip={'导出对话列表到CSV文件中,具体请参考【流程编辑器】使用说明'}
                             />
                         </HorizontalBox>
                         {this.state.IsDevelop && this.RenderDevelopElements()}

@@ -23,6 +23,7 @@ import {
     createArrayScheme,
     createDefaultObject,
     createDynamicType,
+    createFloatScheme,
     createIntScheme,
     createObjectScheme,
     createStringScheme,
@@ -164,6 +165,13 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         HideName: true,
         Width: 500,
         Tip: '对话内容',
+    }),
+    WaitTime: createFloatScheme({
+        Meta: {
+            Optional: true,
+            Width: 40,
+            Tip: '等待多久之后可以跳过，默认值在【全局配置】表中定义',
+        },
     }),
     Actions: createArrayScheme({
         Element: talkActionInfoScheme,

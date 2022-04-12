@@ -31,9 +31,9 @@ export function Int(props: IAnyProps): JSX.Element {
             <EditorBox
                 Width={props.Type.Meta.Width}
                 Tip={props.Type.Meta.Tip}
-                Text={(props.Value as number).toString()}
+                Text={Math.floor(props.Value as number).toString()}
                 OnChange={(text): void => {
-                    props.OnModify(parseInt(text, 10), 'normal');
+                    props.OnModify(Math.floor(parseInt(text, 10)), 'normal');
                 }}
             />
         </HorizontalBox>

@@ -7,6 +7,7 @@ type TElementRenderType =
     | 'array'
     | 'asset'
     | 'boolean'
+    | 'custom'
     | 'dynamic'
     | 'enum'
     | 'float'

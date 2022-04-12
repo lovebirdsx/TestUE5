@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CsvView = void 0;
+exports.CsvView = exports.csvCellContext = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const React = require("react");
@@ -10,6 +10,7 @@ const Log_1 = require("../Log");
 const Any_1 = require("./Any");
 const CommonComponent_1 = require("./CommonComponent");
 const ContextBtn_1 = require("./ContextBtn");
+exports.csvCellContext = React.createContext(undefined);
 class CsvView extends React.Component {
     OnContextCommand(rowId, cmd) {
         switch (cmd) {
@@ -58,7 +59,7 @@ class CsvView extends React.Component {
                     React.createElement(CommonComponent_1.SlotText, { Text: field.CnName })));
             }
             return (React.createElement(react_umg_1.HorizontalBox, { key: field.Name, Slot: slot },
-                React.createElement(CommonComponent_1.SlotText, { Text: field.CnName })));
+                React.createElement(CommonComponent_1.SlotText, { Text: ` ${field.CnName} ` })));
         });
         return result;
     }
@@ -69,6 +70,7 @@ class CsvView extends React.Component {
         this.props.OnModify(newCsv);
     }
     RenderRow(fieldTypes, row, rowId) {
+        const csv = this.props.Csv;
         const result = fieldTypes.map((field, index) => {
             const slot = { Row: rowId + 1, Column: index };
             if (!field.TypeData) {
@@ -83,9 +85,10 @@ class CsvView extends React.Component {
                     React.createElement(CommonComponent_1.SlotText, { Text: row[field.Name].toString() })));
             }
             return (React.createElement(react_umg_1.SizeBox, { Slot: slot, key: `${rowId}-${index}` },
-                React.createElement(Any_1.Any, { Value: row[field.Name], Type: field.TypeData, OnModify: (value, type) => {
-                        this.ModifyValue(rowId, field.Name, value);
-                    } })));
+                React.createElement(exports.csvCellContext.Provider, { value: { RowId: rowId, ColId: index, Csv: csv } },
+                    React.createElement(Any_1.Any, { Value: row[field.Name], Type: field.TypeData, OnModify: (value, type) => {
+                            this.ModifyValue(rowId, field.Name, value);
+                        } }))));
         });
         return result;
     }

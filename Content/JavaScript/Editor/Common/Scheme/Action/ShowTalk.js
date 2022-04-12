@@ -108,6 +108,13 @@ const talkItemFileds = {
         Width: 500,
         Tip: '对话内容',
     }),
+    WaitTime: (0, Type_1.createFloatScheme)({
+        Meta: {
+            Optional: true,
+            Width: 40,
+            Tip: '等待多久之后可以跳过，默认值在【全局配置】表中定义',
+        },
+    }),
     Actions: (0, Type_1.createArrayScheme)({
         Element: talkActionInfoScheme,
         Meta: {

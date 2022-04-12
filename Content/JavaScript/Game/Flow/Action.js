@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig = exports.flowBoolOptionConfig = exports.logLeveConfig = exports.FLOW_LIST_VERSION = void 0;
+exports.csvCellTypeConfig = exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig = exports.flowBoolOptionConfig = exports.logLeveConfig = exports.FLOW_LIST_VERSION = void 0;
 /* eslint-disable spellcheck/spell-checker */
 exports.FLOW_LIST_VERSION = 8;
 exports.logLeveConfig = {
@@ -33,5 +33,12 @@ exports.cameraBindModeConfig = {
     Two: '2角色',
     Three: '3角色',
     None: '无',
+};
+// CSV中单元格值类型
+exports.csvCellTypeConfig = {
+    Int: '整形',
+    String: '字符串',
+    Float: '浮点型',
+    Boolean: '布尔型',
 };
 //# sourceMappingURL=Action.js.map

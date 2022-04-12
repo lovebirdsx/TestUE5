@@ -263,6 +263,7 @@ class FlowEditor extends React.Component {
     };
     RenderDevelopElements() {
         return (React.createElement(react_umg_1.HorizontalBox, null,
+            React.createElement(CommonComponent_1.Btn, { Text: '导出对话...', OnClick: this.Export, Tip: '导出对话列表到CSV文件中,具体请参考【流程编辑器】使用说明' }),
             React.createElement(CommonComponent_1.Btn, { Text: 'History', OnClick: this.LogHistory }),
             React.createElement(CommonComponent_1.Btn, { Text: 'Flow info', OnClick: this.LogFlowInfo }),
             React.createElement(CommonComponent_1.Btn, { Text: 'Clear Console', OnClick: this.ClearConsole, Tip: `清空控制台 ${(0, KeyCommands_1.getCommandKeyDesc)('ClearConsole')}` }),
@@ -289,8 +290,7 @@ class FlowEditor extends React.Component {
                         React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
                         React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
                         React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` }),
-                        React.createElement(CommonComponent_1.Btn, { Text: '导入对话...', OnClick: this.Import, Tip: '从CSV中导入对话配置,具体请参考【流程编辑器】使用说明' }),
-                        React.createElement(CommonComponent_1.Btn, { Text: '导出对话...', OnClick: this.Export, Tip: '导出对话列表到CSV文件中,具体请参考【流程编辑器】使用说明' })),
+                        React.createElement(CommonComponent_1.Btn, { Text: '导入对话...', OnClick: this.Import, Tip: '从CSV中导入对话配置,具体请参考【流程编辑器】使用说明' })),
                     this.state.IsDevelop && this.RenderDevelopElements())),
             React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
                 React.createElement(ErrorBoundary_1.ErrorBoundary, null,

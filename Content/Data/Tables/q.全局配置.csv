@@ -1,0 +1,11 @@
+﻿客户端/服务端 使用,C,C,C,C,C
+字段名,Id,Name,Desc,Type,Value
+字段数据类型,Int,String,String,String,String
+该字段是否用于条件筛选,1,1,1,0,0
+是否导出多语言,0,0,0,0,1
+条件检查,notEmpty && unique,notEmpty && unique,,notEmpty,
+默认值,,,,,
+#,Id,变量名,说明,变量类型,值
+,1,Talk.JumpWaitTime,默认跳过对话的等待时长,Float,0.5
+,2,Talk.CharPerMin,字幕每分钟显示多少个,Int,100
+,3,BooleanValue,Bool值测试,Boolean,true

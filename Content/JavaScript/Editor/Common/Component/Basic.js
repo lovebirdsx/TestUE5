@@ -19,8 +19,8 @@ exports.Bool = Bool;
 function Int(props) {
     return (React.createElement(react_umg_1.HorizontalBox, null,
         props.PrefixElement,
-        React.createElement(CommonComponent_1.EditorBox, { Width: props.Type.Meta.Width, Tip: props.Type.Meta.Tip, Text: props.Value.toString(), OnChange: (text) => {
-                props.OnModify(parseInt(text, 10), 'normal');
+        React.createElement(CommonComponent_1.EditorBox, { Width: props.Type.Meta.Width, Tip: props.Type.Meta.Tip, Text: Math.floor(props.Value).toString(), OnChange: (text) => {
+                props.OnModify(Math.floor(parseInt(text, 10)), 'normal');
             } })));
 }
 exports.Int = Int;

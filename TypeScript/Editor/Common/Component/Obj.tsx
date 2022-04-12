@@ -69,7 +69,7 @@ export class Obj extends React.Component<IAnyProps> {
     private readonly OnToggleFiledOptional = (key: string): void => {
         const { Value: value, Type: type } = this.props;
         const fieldValue = (value as Record<string, unknown>)[key];
-        if (fieldValue) {
+        if (fieldValue !== undefined) {
             this.ModifyKv(key, undefined, 'normal', true);
         } else {
             const objectTypeData = type as TObjectType<object>;

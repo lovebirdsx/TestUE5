@@ -25,7 +25,7 @@ export class Action extends React.Component<IActionProps> {
                 <Any
                     Value={action as unknown}
                     Type={scheme.GetNormalActionScheme() as IAbstractType<unknown>}
-                    OnModify={props.OnModify}
+                    OnModify={props.OnModify as (obj: unknown, type: TModifyType) => void}
                     PrefixElement={
                         <ContextBtn
                             Commands={['insert', 'remove', 'moveUp', 'moveDown']}

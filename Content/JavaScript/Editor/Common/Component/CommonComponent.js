@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.List = exports.Fold = exports.Check = exports.EditorBox = exports.Btn = exports.H3 = exports.H2 = exports.H1 = exports.SlotText = exports.Text = exports.HEADING_COLOR = exports.DEFAULT_OUTLINE_COLOR = exports.DEFAULT_HOVER_COLOR = exports.DEFAULT_BACK_COLOR = exports.DEFAULT_LIST_BACK_COLOR = exports.DEFAULT_TEXT_COLOR = exports.TAB_OFFSET = void 0;
+exports.List = exports.Fold = exports.Check = exports.EditorBox = exports.Btn = exports.H3 = exports.H2 = exports.H1 = exports.SlotText = exports.Text = exports.HEADING_COLOR = exports.DEFAULT_OUTLINE_COLOR = exports.DEFAULT_HOVER_COLOR = exports.DEFAULT_BACK_COLOR = exports.DEFAULT_LIST_BACK_COLOR = exports.DEFAULT_EDIT_TEXT_COLOR = exports.DEFAULT_TEXT_COLOR = exports.TAB_OFFSET = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
@@ -11,7 +11,7 @@ const Color_1 = require("./Color");
 exports.TAB_OFFSET = 20;
 const DEFAULT_FONT_SIZE = 10;
 exports.DEFAULT_TEXT_COLOR = '#FFFFFF white';
-const DEFAULT_EDIT_TEXT_COLOR = '#FFFFFF white';
+exports.DEFAULT_EDIT_TEXT_COLOR = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_WIDTH = 80;
 // export const DEFAULT_LIST_BACK_COLOR: TColor = '#101010 very dark';
 exports.DEFAULT_LIST_BACK_COLOR = '#0A0A0A very dark';
@@ -116,7 +116,7 @@ exports.Btn = Btn;
 // 设定EditableTextBox的颜色无效,是unreal本身存在bug: https://issues.unrealengine.com/issue/UE-37829
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function EditorBox(props) {
-    const textColor = createSlateColor(props.Color || DEFAULT_EDIT_TEXT_COLOR);
+    const textColor = createSlateColor(props.Color || exports.DEFAULT_EDIT_TEXT_COLOR);
     return (React.createElement(react_umg_1.SizeBox, { bOverride_MinDesiredWidth: true, MinDesiredWidth: props.Width || DEFAULT_EDIT_TEXT_WIDTH },
         React.createElement(react_umg_1.EditableTextBox, { Text: props.Text, WidgetStyle: {
                 Font: { Size: props.Size || DEFAULT_FONT_SIZE },

@@ -25,13 +25,13 @@ export const csvCellTypeScheme = createEnumType(csvCellTypeConfig, {
 function getCsvCellSchemeByType(type: TCsvCellType): IAbstractType<unknown> {
     switch (type) {
         case 'Int':
-            return intScheme;
+            return intScheme as IAbstractType<unknown>;
         case 'Float':
-            return floatScheme;
+            return floatScheme as IAbstractType<unknown>;
         case 'String':
-            return stringScheme;
+            return stringScheme as IAbstractType<unknown>;
         case 'Boolean':
-            return booleanScheme;
+            return booleanScheme as IAbstractType<unknown>;
         default:
             error(`not supported TCsvCellType ${type}`);
             return stringScheme;

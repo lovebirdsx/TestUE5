@@ -94,7 +94,7 @@ const talkItemFileds = {
             return (React.createElement(exports.showTalkContext.Consumer, null, (value) => {
                 return (React.createElement(Basic_1.String, { ...props, Color: hasTalk(value, props.Value)
                         ? '#FF0000 red'
-                        : CommonComponent_1.DEFAULT_TEXT_COLOR }));
+                        : CommonComponent_1.DEFAULT_EDIT_TEXT_COLOR }));
             }));
         },
         Meta: {
@@ -109,6 +109,7 @@ const talkItemFileds = {
         Tip: '对话内容',
     }),
     WaitTime: (0, Type_1.createFloatScheme)({
+        CreateDefault: (container) => 1,
         Meta: {
             Optional: true,
             Width: 40,

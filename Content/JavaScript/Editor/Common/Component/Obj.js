@@ -49,7 +49,7 @@ class Obj extends React.Component {
     OnToggleFiledOptional = (key) => {
         const { Value: value, Type: type } = this.props;
         const fieldValue = value[key];
-        if (fieldValue) {
+        if (fieldValue !== undefined) {
             this.ModifyKv(key, undefined, 'normal', true);
         }
         else {

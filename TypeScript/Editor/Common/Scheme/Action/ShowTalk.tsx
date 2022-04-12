@@ -17,7 +17,7 @@ import {
 } from '../../../FlowEditor/Operations/FlowList';
 import { TalkerListOp } from '../../../TalkerEditor/TalkerList';
 import { String } from '../../Component/Basic';
-import { DEFAULT_TEXT_COLOR, EditorBox, List } from '../../Component/CommonComponent';
+import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../Component/CommonComponent';
 import { Obj } from '../../Component/Obj';
 import {
     createArrayScheme,
@@ -147,7 +147,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
                                 Color={
                                     hasTalk(value, props.Value as string)
                                         ? '#FF0000 red'
-                                        : DEFAULT_TEXT_COLOR
+                                        : DEFAULT_EDIT_TEXT_COLOR
                                 }
                             />
                         );
@@ -167,6 +167,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         Tip: '对话内容',
     }),
     WaitTime: createFloatScheme({
+        CreateDefault: (container: unknown) => 1,
         Meta: {
             Optional: true,
             Width: 40,

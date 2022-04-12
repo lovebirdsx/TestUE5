@@ -34,7 +34,7 @@ FKuroEditorCommonModule* FKuroEditorCommonModule::GetInstance()
 
 TSharedPtr<puerts::FJsEnv> FKuroEditorCommonModule::RunJsEnv(const FString& ModuleName, UReactUMGStarter* ReactUMGStarter)
 {
-	auto JsEnv = MakeShared<puerts::FJsEnv>(std::make_unique<puerts::DefaultJSModuleLoader>(TEXT("Aki/JavaScript")), std::make_shared<puerts::FDefaultLogger>(), 8080);
+	auto JsEnv = MakeShared<puerts::FJsEnv>(std::make_unique<puerts::DefaultJSModuleLoader>(TEXT("Aki/JavaScript")), std::make_shared<puerts::FDefaultLogger>(), 8888);
 	if (bWaitJSDebug)
 	{
 		JsEnv->WaitDebugger();		

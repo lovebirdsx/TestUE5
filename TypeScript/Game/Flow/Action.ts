@@ -22,20 +22,20 @@ export interface IActionInfo {
     Params: unknown;
 }
 
-export interface IActions {
+export interface ITriggerActions {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _folded?: boolean;
     Actions: IActionInfo[];
 }
 
-export function parseActionsJson(json: string): IActions {
+export function parseTriggerActionsJson(json: string): ITriggerActions {
     if (!json) {
         return {
             Actions: [],
         };
     }
 
-    return JSON.parse(json) as IActions;
+    return JSON.parse(json) as ITriggerActions;
 }
 
 export interface IStateInfo {

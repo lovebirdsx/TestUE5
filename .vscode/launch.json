@@ -5,8 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Attach",
+            "name": "Attach Game",
             "port": 8080,
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Attach Editor",
+            "port": 8888,
             "request": "attach",
             "skipFiles": [
                 "<node_internals>/**"

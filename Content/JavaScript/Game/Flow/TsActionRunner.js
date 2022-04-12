@@ -6,46 +6,80 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-void */
+/* eslint-disable @typescript-eslint/prefer-for-of */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 const ue_1 = require("ue");
+const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Editor/Common/Log");
+const Action_1 = require("./Action");
 class TsActionRunner extends ue_1.ActorComponent {
     IsRunning;
+    ActionMap;
     Constructor() {
         const owner = this.GetOwner();
+        this.ActionMap = new Map();
+        this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
+        this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         (0, Log_1.log)(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
     }
     ExecuteJson(json) {
-        // todo
+        const triggerActions = (0, Action_1.parseTriggerActionsJson)(json);
+        void this.Execute(triggerActions.Actions);
     }
-    Execute(actions) {
+    async Execute(actions) {
         if (this.IsRunning) {
             (0, Log_1.error)(`${this.GetOwner().GetName()} can not run actions again`);
             return;
         }
         this.IsRunning = true;
-        actions.forEach((action, id) => {
-            this.ExecuteOne(action);
-        });
+        for (let i = 0; i < actions.length; i++) {
+            const action = actions[i];
+            await this.ExecuteOne(action);
+        }
         this.IsRunning = false;
     }
-    ExecuteOne(action) {
+    async ExecuteOne(action) {
+        const actionFun = this.ActionMap.get(action.Name);
+        if (!actionFun) {
+            (0, Log_1.error)(`No action for action type [${action.Name}]`);
+            return;
+        }
         if (action.Async) {
-            this.ExecuteAsync(action);
+            actionFun(action);
         }
         else {
-            this.ExecuteSync(action);
+            await actionFun(action);
         }
     }
-    ExecuteAsync(action) {
-        throw new Error('Method not implemented.');
+    ExecuteLog(action) {
+        const logAction = action.Params;
+        switch (logAction.Level) {
+            case 'Info':
+                (0, Log_1.log)(logAction.Content);
+                break;
+            case 'Warn':
+                (0, Log_1.warn)(logAction.Content);
+                break;
+            case 'Error':
+                (0, Log_1.error)(logAction.Content);
+                break;
+            default:
+                break;
+        }
     }
-    ExecuteSync(action) {
-        throw new Error('Method not implemented.');
+    async ExecuteWait(action) {
+        const waitAction = action.Params;
+        return (0, Async_1.delay)(waitAction.Time * 1000);
     }
 }
 __decorate([
     (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "IsRunning", void 0);
+__decorate([
+    (0, ue_1.no_blueprint)()
+], TsActionRunner.prototype, "ActionMap", void 0);
 __decorate([
     (0, ue_1.no_blueprint)()
 ], TsActionRunner.prototype, "ExecuteJson", null);
@@ -57,9 +91,9 @@ __decorate([
 ], TsActionRunner.prototype, "ExecuteOne", null);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ExecuteAsync", null);
+], TsActionRunner.prototype, "ExecuteLog", null);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ExecuteSync", null);
+], TsActionRunner.prototype, "ExecuteWait", null);
 exports.default = TsActionRunner;
 //# sourceMappingURL=TsActionRunner.js.map

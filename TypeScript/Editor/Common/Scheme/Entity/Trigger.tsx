@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import TsTrigger from '../../../../Game/Entity/TsTrigger';
-import { IActions, parseActionsJson } from '../../../../Game/Flow/Action';
+import { ITriggerActions, parseTriggerActionsJson } from '../../../../Game/Flow/Action';
 import { Btn, Text } from '../../Component/CommonComponent';
 import { Obj } from '../../Component/Obj';
 import { log } from '../../Log';
@@ -17,7 +17,7 @@ import {
     TModifyType,
 } from '../Action';
 
-export const actionsScheme = createObjectScheme<IActions>({
+export const actionsScheme = createObjectScheme<ITriggerActions>({
     Actions: createArrayScheme({
         Element: normalActionScheme,
         Meta: {
@@ -28,7 +28,7 @@ export const actionsScheme = createObjectScheme<IActions>({
 });
 
 function renderActionJson(name: string, props: IAnyProps): JSX.Element {
-    const actions = parseActionsJson(props.Value as string);
+    const actions = parseTriggerActionsJson(props.Value as string);
     const prefixElement = (
         <HorizontalBox>
             <Text Text={name} />

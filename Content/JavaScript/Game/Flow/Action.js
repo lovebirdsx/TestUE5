@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.csvCellTypeConfig = exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig = exports.flowBoolOptionConfig = exports.logLeveConfig = exports.parseActionsJson = exports.FLOW_LIST_VERSION = void 0;
+exports.csvCellTypeConfig = exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig = exports.flowBoolOptionConfig = exports.logLeveConfig = exports.parseTriggerActionsJson = exports.FLOW_LIST_VERSION = void 0;
 /* eslint-disable spellcheck/spell-checker */
 exports.FLOW_LIST_VERSION = 8;
-function parseActionsJson(json) {
+function parseTriggerActionsJson(json) {
     if (!json) {
         return {
             Actions: [],
@@ -11,7 +11,7 @@ function parseActionsJson(json) {
     }
     return JSON.parse(json);
 }
-exports.parseActionsJson = parseActionsJson;
+exports.parseTriggerActionsJson = parseTriggerActionsJson;
 exports.logLeveConfig = {
     Info: '提示',
     Warn: '警告',

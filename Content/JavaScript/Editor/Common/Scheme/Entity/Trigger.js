@@ -18,7 +18,7 @@ exports.actionsScheme = (0, Action_2.createObjectScheme)({
     }),
 });
 function renderActionJson(name, props) {
-    const actions = (0, Action_1.parseActionsJson)(props.Value);
+    const actions = (0, Action_1.parseTriggerActionsJson)(props.Value);
     const prefixElement = (React.createElement(react_umg_1.HorizontalBox, null,
         React.createElement(CommonComponent_1.Text, { Text: name }),
         React.createElement(CommonComponent_1.Btn, { Text: 'R', OnClick: () => {

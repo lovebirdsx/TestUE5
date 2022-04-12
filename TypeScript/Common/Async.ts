@@ -1,4 +1,4 @@
-export async function delay(ms: number): Promise<unknown> {
+export async function delay(ms: number): Promise<void> {
     return new Promise(function (resolve) {
         setTimeout(resolve, ms);
     });

@@ -1,7 +1,7 @@
 import { Actor, edit_on_instance, no_blueprint } from 'ue';
 
-import { error, log } from '../../Editor/Common/Log';
-import TsActionRunner from '../Flow/TsActionRunnerComponent';
+import { log } from '../../Editor/Common/Log';
+import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
@@ -17,16 +17,13 @@ class TsTrigger extends TsEntity {
     private TriggerTimes = 0;
 
     @no_blueprint()
-    private ActionRunner: TsActionRunner;
+    private ActionRunner: TsActionRunnerComponent;
 
     public ReceiveBeginPlay(): void {
         super.ReceiveBeginPlay();
 
         this.TriggerTimes = 0;
-        this.ActionRunner = this.GetComponentByTsClass(TsActionRunner);
-        if (!this.ActionRunner) {
-            error('TSTriggerEntity need set actionRunner');
-        }
+        this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent);
     }
 
     @no_blueprint()

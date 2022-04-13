@@ -5,10 +5,9 @@ exports.Flow = exports.flowContext = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../../Common/Component/CommonComponent");
-const ContextBtn_1 = require("../../Common/Component/ContextBtn");
-const Log_1 = require("../../Common/Log");
-const Flow_1 = require("../Operations/Flow");
+const Flow_1 = require("../../FlowEditor/Operations/Flow");
+const Log_1 = require("../Log");
+const CommonComponent_1 = require("./CommonComponent");
 const State_1 = require("./State");
 exports.flowContext = React.createContext(undefined);
 const ADD_STATE_TIP = [
@@ -127,7 +126,7 @@ class Flow extends React.Component {
                 React.createElement(CommonComponent_1.Fold, { IsFold: flow._folded, IsFull: flow.States.length > 0, OnChanged: this.ChangeFold }),
                 React.createElement(CommonComponent_1.Text, { Text: '●', Color: this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white' }),
                 React.createElement(CommonComponent_1.EditorBox, { Text: flow.Name, OnChange: this.ChangeName, Tip: "\u5267\u60C5\u540D\u5B57", Width: 100 }),
-                React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveDown', 'moveUp'], OnCommand: this.props.OnContextCommand, Tip: "\u9488\u5BF9\u5F53\u524D\u5267\u60C5\u9879\u64CD\u4F5C" }),
+                this.props.PrefixElement,
                 React.createElement(CommonComponent_1.Btn, { Text: '✚状态', OnClick: this.AddState, Tip: ADD_STATE_TIP })),
             React.createElement(react_umg_1.VerticalBox, { RenderTransform: { Translation: { X: CommonComponent_1.TAB_OFFSET } } },
                 React.createElement(exports.flowContext.Provider, { value: flow }, nodes))));

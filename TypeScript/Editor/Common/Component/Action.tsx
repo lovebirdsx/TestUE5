@@ -4,10 +4,10 @@ import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
 import { IActionInfo } from '../../../Game/Flow/Action';
-import { Any } from '../../Common/Component/Any';
-import { TAB_OFFSET } from '../../Common/Component/CommonComponent';
-import { ContextBtn } from '../../Common/Component/ContextBtn';
-import { IAbstractType, scheme, TModifyType } from '../../Common/Scheme/Action';
+import { IAbstractType, scheme, TModifyType } from '../Scheme/Action';
+import { Any } from './Any';
+import { TAB_OFFSET } from './CommonComponent';
+import { ContextBtn } from './ContextBtn';
 
 export interface IActionProps {
     Action: IActionInfo;

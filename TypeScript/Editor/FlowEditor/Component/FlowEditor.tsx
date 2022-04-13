@@ -22,7 +22,7 @@ import { openDirOfFile } from '../../Common/Util';
 import { ConfigFile } from '../ConfigFile';
 import { EFlowListAction, flowListContext, FlowListOp } from '../Operations/FlowList';
 import { TalkListTool } from '../TalkListTool';
-import { FlowList } from './FlowList';
+import { FlowList } from '../../Common/Component/FlowList';
 
 interface IFlowEditorState {
     Histories: IFlowListInfo[];

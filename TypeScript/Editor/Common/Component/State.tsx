@@ -3,19 +3,13 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import {
-    Btn,
-    EditorBox,
-    Fold,
-    SlotText,
-    Text,
-} from '../../../Editor/Common/Component/CommonComponent';
-import { ContextBtn } from '../../../Editor/Common/Component/ContextBtn';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { log } from '../../Common/Log';
-import { scheme, TModifyType } from '../../Common/Scheme/Action';
-import { FlowOp } from '../Operations/Flow';
+import { FlowOp } from '../../FlowEditor/Operations/Flow';
+import { log } from '../Log';
+import { scheme, TModifyType } from '../Scheme/Action';
 import { Action } from './Action';
+import { Btn, EditorBox, Fold, SlotText, Text } from './CommonComponent';
+import { ContextBtn } from './ContextBtn';
 import { flowContext } from './Flow';
 
 export interface IStateProps {

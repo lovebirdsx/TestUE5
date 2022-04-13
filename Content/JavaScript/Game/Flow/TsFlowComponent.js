@@ -10,11 +10,15 @@ const ue_1 = require("ue");
 const Log_1 = require("../../Editor/Common/Log");
 const TsActionRunnerComponent_1 = require("./TsActionRunnerComponent");
 class TsFlowComponent extends ue_1.ActorComponent {
+    Flow;
     ReceiveBeginPlay() {
         const entity = this.GetOwner();
         const actionRunner = entity.GetComponentByTsClass(TsActionRunnerComponent_1.default);
         actionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
         actionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
+    }
+    Bind(flow) {
+        this.Flow = flow;
     }
     ExecuteChangeState(action) {
         const changeStateAction = action.Params;
@@ -24,12 +28,22 @@ class TsFlowComponent extends ue_1.ActorComponent {
         this.FinishState(action.Params);
     }
     ChangeState(id) {
+        if (!this.Flow) {
+            (0, Log_1.error)(`${this.GetOwner().GetName()}.${this.GetName()} has not flow`);
+            return;
+        }
         (0, Log_1.log)(`${this.GetName()} state change to [${id}]`);
     }
     FinishState(action) {
         (0, Log_1.log)(`${this.GetName()} finish state: [${action.Result}] [${action.Arg1}] [${action.Arg2}]`);
     }
 }
+__decorate([
+    (0, ue_1.no_blueprint)()
+], TsFlowComponent.prototype, "Flow", void 0);
+__decorate([
+    (0, ue_1.no_blueprint)()
+], TsFlowComponent.prototype, "Bind", null);
 __decorate([
     (0, ue_1.no_blueprint)()
 ], TsFlowComponent.prototype, "ExecuteChangeState", null);

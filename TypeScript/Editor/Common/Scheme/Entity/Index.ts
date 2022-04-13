@@ -1,9 +1,11 @@
 import * as UE from 'ue';
 
 import { getClassObj, TUeClassType } from '../../../../Common/Class';
+import TsNpc from '../../../../Game/Entity/TsNpc';
 import TsTrigger from '../../../../Game/Entity/TsTrigger';
 import { error } from '../../Log';
 import { TObjectType } from '../Type';
+import { npcScheme } from './Npc';
 import { triggerScheme } from './Trigger';
 
 class EntitySchemes {
@@ -14,12 +16,17 @@ class EntitySchemes {
     }
 
     private RegScheme(classType: TUeClassType, scheme: TObjectType<unknown>): void {
+        if (!scheme) {
+            error(`Reg null scheme for class [${classType.name}]`);
+            return;
+        }
         const classObj = getClassObj(classType);
         this.SchemeMap.set(classObj, scheme);
     }
 
     private RegAllSchemes(): void {
         this.RegScheme(TsTrigger, triggerScheme);
+        this.RegScheme(TsNpc, npcScheme);
     }
 
     public GetSchemeByUeObj<T extends TUeClassType>(obj: UE.Object): TObjectType<Partial<T>> {

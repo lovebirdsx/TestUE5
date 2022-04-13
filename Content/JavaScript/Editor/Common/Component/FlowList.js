@@ -5,9 +5,10 @@ exports.FlowList = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../../../Editor/Common/Component/CommonComponent");
-const Log_1 = require("../../Common/Log");
-const FlowList_1 = require("../Operations/FlowList");
+const FlowList_1 = require("../../FlowEditor/Operations/FlowList");
+const Log_1 = require("../Log");
+const CommonComponent_1 = require("./CommonComponent");
+const ContextBtn_1 = require("./ContextBtn");
 const Flow_1 = require("./Flow");
 function foldAll(obj, value, force) {
     if (typeof obj !== 'object') {
@@ -122,9 +123,9 @@ class FlowList extends React.Component {
         const nodes = flows.map((flow, id) => {
             return (React.createElement(Flow_1.Flow, { key: id, Flow: flow, IsDuplicate: flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined, OnModify: (newFlow, type) => {
                     this.ModifiedFlow(id, newFlow, type);
-                }, OnContextCommand: (cmd) => {
-                    this.OnContextCommand(id, cmd);
-                } }));
+                }, PrefixElement: React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveDown', 'moveUp'], OnCommand: (cmd) => {
+                        this.OnContextCommand(id, cmd);
+                    }, Tip: "\u9488\u5BF9\u5F53\u524D\u5267\u60C5\u9879\u64CD\u4F5C" }) }));
         });
         const rootSlot = {
             Padding: { Left: 10, Bottom: 10 },

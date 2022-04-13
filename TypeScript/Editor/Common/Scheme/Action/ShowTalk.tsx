@@ -21,6 +21,7 @@ import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../Component/Common
 import { Obj } from '../../Component/Obj';
 import {
     createArrayScheme,
+    createBooleanScheme,
     createDefaultObject,
     createDynamicType,
     createFloatScheme,
@@ -301,6 +302,12 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
                     }
                 });
                 return fixCount > 0 ? 'fixed' : 'nothing';
+            },
+        }),
+        ResetCamera: createBooleanScheme({
+            Meta: {
+                Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
+                Optional: true,
             },
         }),
     },

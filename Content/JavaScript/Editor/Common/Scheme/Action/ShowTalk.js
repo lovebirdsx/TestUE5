@@ -237,6 +237,12 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
             return fixCount > 0 ? 'fixed' : 'nothing';
         },
     }),
+    ResetCamera: (0, Type_1.createBooleanScheme)({
+        Meta: {
+            Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
+            Optional: true,
+        },
+    }),
 }, {
     Filters: ['normal'],
     Scheduled: true,

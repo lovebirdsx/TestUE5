@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Action = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Any_1 = require("../../Common/Component/Any");
-const CommonComponent_1 = require("../../Common/Component/CommonComponent");
-const ContextBtn_1 = require("../../Common/Component/ContextBtn");
-const Action_1 = require("../../Common/Scheme/Action");
+const Action_1 = require("../Scheme/Action");
+const Any_1 = require("./Any");
+const CommonComponent_1 = require("./CommonComponent");
+const ContextBtn_1 = require("./ContextBtn");
 class Action extends React.Component {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

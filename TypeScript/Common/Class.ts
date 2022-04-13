@@ -3,6 +3,7 @@ import * as UE from 'ue';
 
 import { error, warn } from '../Editor/Common/Log';
 import TsEntity from '../Game/Entity/TsEntity';
+import TsNpc from '../Game/Entity/TsNpc';
 import TsTrigger from '../Game/Entity/TsTrigger';
 
 export interface IUeClassType<T extends UE.Object> extends Function {
@@ -60,6 +61,7 @@ function regBlueprintType(path: string, classType: TUeClassType): void {
 function regAllTypes(): void {
     regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsEntity.TsEntity_C', TsEntity);
     regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsTrigger.TsTrigger_C', TsTrigger);
+    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsNpc.TsNpc_C', TsNpc);
 }
 
 regAllTypes();

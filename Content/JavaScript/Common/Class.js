@@ -5,6 +5,7 @@ exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getClassOb
 const UE = require("ue");
 const Log_1 = require("../Editor/Common/Log");
 const TsEntity_1 = require("../Game/Entity/TsEntity");
+const TsNpc_1 = require("../Game/Entity/TsNpc");
 const TsTrigger_1 = require("../Game/Entity/TsTrigger");
 const classMap = new Map();
 function getClassObj(classType) {
@@ -47,6 +48,7 @@ function regBlueprintType(path, classType) {
 function regAllTypes() {
     regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsEntity.TsEntity_C', TsEntity_1.default);
     regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsTrigger.TsTrigger_C', TsTrigger_1.default);
+    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsNpc.TsNpc_C', TsNpc_1.default);
 }
 regAllTypes();
 //# sourceMappingURL=Class.js.map

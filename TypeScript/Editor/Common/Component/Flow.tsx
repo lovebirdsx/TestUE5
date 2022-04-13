@@ -5,17 +5,16 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from '../../Common/Component/CommonComponent';
-import { ContextBtn } from '../../Common/Component/ContextBtn';
-import { log } from '../../Common/Log';
-import { TModifyType } from '../../Common/Scheme/Type';
-import { FlowOp } from '../Operations/Flow';
+import { FlowOp } from '../../FlowEditor/Operations/Flow';
+import { log } from '../Log';
+import { TModifyType } from '../Scheme/Type';
+import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from './CommonComponent';
 import { State } from './State';
 
 export interface IFlowProps {
     Flow: IFlowInfo;
     IsDuplicate?: boolean;
-    OnContextCommand: (cmd: string) => void;
+    PrefixElement?: JSX.Element;
     OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
 
@@ -167,11 +166,7 @@ export class Flow extends React.Component<IFlowProps> {
                         Tip="剧情名字"
                         Width={100}
                     />
-                    <ContextBtn
-                        Commands={['insert', 'remove', 'moveDown', 'moveUp']}
-                        OnCommand={this.props.OnContextCommand}
-                        Tip="针对当前剧情项操作"
-                    />
+                    {this.props.PrefixElement}
                     <Btn Text={'✚状态'} OnClick={this.AddState} Tip={ADD_STATE_TIP} />
                 </HorizontalBox>
                 <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>

@@ -1,16 +1,24 @@
 import { ActorComponent, no_blueprint } from 'ue';
 
-import { log } from '../../Editor/Common/Log';
+import { error, log } from '../../Editor/Common/Log';
 import TsEntity from '../Entity/TsEntity';
-import { IActionInfo, IChangeState, IFinishState } from './Action';
+import { IActionInfo, IChangeState, IFinishState, IFlowInfo } from './Action';
 import TsActionRunnerComponent from './TsActionRunnerComponent';
 
 class TsFlowComponent extends ActorComponent {
+    @no_blueprint()
+    private Flow: IFlowInfo;
+
     public ReceiveBeginPlay(): void {
         const entity = this.GetOwner() as TsEntity;
         const actionRunner = entity.GetComponentByTsClass(TsActionRunnerComponent);
         actionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
         actionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
+    }
+
+    @no_blueprint()
+    public Bind(flow: IFlowInfo): void {
+        this.Flow = flow;
     }
 
     @no_blueprint()
@@ -26,6 +34,10 @@ class TsFlowComponent extends ActorComponent {
 
     @no_blueprint()
     private ChangeState(id: number): void {
+        if (!this.Flow) {
+            error(`${this.GetOwner().GetName()}.${this.GetName()} has not flow`);
+            return;
+        }
         log(`${this.GetName()} state change to [${id}]`);
     }
 

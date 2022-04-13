@@ -5,12 +5,12 @@ exports.State = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../../../Editor/Common/Component/CommonComponent");
-const ContextBtn_1 = require("../../../Editor/Common/Component/ContextBtn");
-const Log_1 = require("../../Common/Log");
-const Action_1 = require("../../Common/Scheme/Action");
-const Flow_1 = require("../Operations/Flow");
+const Flow_1 = require("../../FlowEditor/Operations/Flow");
+const Log_1 = require("../Log");
+const Action_1 = require("../Scheme/Action");
 const Action_2 = require("./Action");
+const CommonComponent_1 = require("./CommonComponent");
+const ContextBtn_1 = require("./ContextBtn");
 const Flow_2 = require("./Flow");
 const ADD_ACTION_TIP = [
     '增加动作',

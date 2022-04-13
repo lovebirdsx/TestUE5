@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.entityScheme = void 0;
 const Class_1 = require("../../../../Common/Class");
+const TsNpc_1 = require("../../../../Game/Entity/TsNpc");
 const TsTrigger_1 = require("../../../../Game/Entity/TsTrigger");
 const Log_1 = require("../../Log");
+const Npc_1 = require("./Npc");
 const Trigger_1 = require("./Trigger");
 class EntitySchemes {
     SchemeMap = new Map();
@@ -11,11 +13,16 @@ class EntitySchemes {
         this.RegAllSchemes();
     }
     RegScheme(classType, scheme) {
+        if (!scheme) {
+            (0, Log_1.error)(`Reg null scheme for class [${classType.name}]`);
+            return;
+        }
         const classObj = (0, Class_1.getClassObj)(classType);
         this.SchemeMap.set(classObj, scheme);
     }
     RegAllSchemes() {
         this.RegScheme(TsTrigger_1.default, Trigger_1.triggerScheme);
+        this.RegScheme(TsNpc_1.default, Npc_1.npcScheme);
     }
     GetSchemeByUeObj(obj) {
         return this.GetSchemeByUeClass(obj.GetClass());

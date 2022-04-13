@@ -21,9 +21,6 @@ class TsTrigger extends TsEntity_1.default {
         super.ReceiveBeginPlay();
         this.TriggerTimes = 0;
         this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent_1.default);
-        if (!this.ActionRunner) {
-            (0, Log_1.error)('TSTriggerEntity need set actionRunner');
-        }
     }
     DoTrigger() {
         this.TriggerTimes++;

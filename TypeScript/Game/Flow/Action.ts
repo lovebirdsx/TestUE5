@@ -57,6 +57,19 @@ export interface IFlowInfo {
     States: IStateInfo[];
 }
 
+export function parseFlowInfo(json: string): IFlowInfo {
+    if (!json) {
+        return {
+            Id: 0,
+            Name: 'Flow',
+            StateGenId: 0,
+            States: [],
+        };
+    }
+
+    return JSON.parse(json) as IFlowInfo;
+}
+
 export interface IFlowListInfo {
     VersionNum: number;
     FlowGenId: number;
@@ -102,6 +115,7 @@ export interface ITalkItem {
 }
 
 export interface IShowTalk {
+    ResetCamera?: boolean;
     TalkItems: ITalkItem[];
 }
 

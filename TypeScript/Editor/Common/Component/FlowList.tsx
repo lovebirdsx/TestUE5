@@ -3,11 +3,12 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 
-import { Btn } from '../../../Editor/Common/Component/CommonComponent';
 import { IFlowInfo, IFlowListInfo } from '../../../Game/Flow/Action';
-import { log } from '../../Common/Log';
-import { TModifyType } from '../../Common/Scheme/Type';
-import { FlowListOp } from '../Operations/FlowList';
+import { FlowListOp } from '../../FlowEditor/Operations/FlowList';
+import { log } from '../Log';
+import { TModifyType } from '../Scheme/Type';
+import { Btn } from './CommonComponent';
+import { ContextBtn } from './ContextBtn';
 import { Flow } from './Flow';
 
 export interface IFlowListProps {
@@ -148,9 +149,15 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                     OnModify={(newFlow, type): void => {
                         this.ModifiedFlow(id, newFlow, type);
                     }}
-                    OnContextCommand={(cmd): void => {
-                        this.OnContextCommand(id, cmd);
-                    }}
+                    PrefixElement={
+                        <ContextBtn
+                            Commands={['insert', 'remove', 'moveDown', 'moveUp']}
+                            OnCommand={(cmd): void => {
+                                this.OnContextCommand(id, cmd);
+                            }}
+                            Tip="针对当前剧情项操作"
+                        />
+                    }
                 />
             );
         });

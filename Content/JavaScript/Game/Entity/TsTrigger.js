@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const ue_1 = require("ue");
 const Log_1 = require("../../Editor/Common/Log");
-const TsActionRunner_1 = require("../Flow/TsActionRunner");
+const TsActionRunnerComponent_1 = require("../Flow/TsActionRunnerComponent");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsEntity_1 = require("./TsEntity");
 class TsTrigger extends TsEntity_1.default {
@@ -20,7 +20,7 @@ class TsTrigger extends TsEntity_1.default {
     ReceiveBeginPlay() {
         super.ReceiveBeginPlay();
         this.TriggerTimes = 0;
-        this.ActionRunner = this.GetComponentByTsClass(TsActionRunner_1.default);
+        this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent_1.default);
         if (!this.ActionRunner) {
             (0, Log_1.error)('TSTriggerEntity need set actionRunner');
         }

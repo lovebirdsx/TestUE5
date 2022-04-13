@@ -1,7 +1,7 @@
 import { Actor, edit_on_instance, no_blueprint } from 'ue';
 
 import { error, log } from '../../Editor/Common/Log';
-import TsActionRunner from '../Flow/TsActionRunner';
+import TsActionRunner from '../Flow/TsActionRunnerComponent';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 

@@ -8,7 +8,7 @@ import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Editor/Common/Log';
 import { IActionInfo, ILog, IWait, parseTriggerActionsJson, TActionType } from './Action';
 
-class TsActionRunner extends ActorComponent {
+class TsActionRunnerComponent extends ActorComponent {
     @no_blueprint()
     public IsRunning: boolean;
 
@@ -87,4 +87,4 @@ class TsActionRunner extends ActorComponent {
     }
 }
 
-export default TsActionRunner;
+export default TsActionRunnerComponent;

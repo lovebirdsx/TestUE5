@@ -14,7 +14,7 @@ const ue_1 = require("ue");
 const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Editor/Common/Log");
 const Action_1 = require("./Action");
-class TsActionRunner extends ue_1.ActorComponent {
+class TsActionRunnerComponent extends ue_1.ActorComponent {
     IsRunning;
     ActionMap;
     Constructor() {
@@ -76,24 +76,24 @@ class TsActionRunner extends ue_1.ActorComponent {
 }
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "IsRunning", void 0);
+], TsActionRunnerComponent.prototype, "IsRunning", void 0);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ActionMap", void 0);
+], TsActionRunnerComponent.prototype, "ActionMap", void 0);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ExecuteJson", null);
+], TsActionRunnerComponent.prototype, "ExecuteJson", null);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "Execute", null);
+], TsActionRunnerComponent.prototype, "Execute", null);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ExecuteOne", null);
+], TsActionRunnerComponent.prototype, "ExecuteOne", null);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ExecuteLog", null);
+], TsActionRunnerComponent.prototype, "ExecuteLog", null);
 __decorate([
     (0, ue_1.no_blueprint)()
-], TsActionRunner.prototype, "ExecuteWait", null);
-exports.default = TsActionRunner;
-//# sourceMappingURL=TsActionRunner.js.map
+], TsActionRunnerComponent.prototype, "ExecuteWait", null);
+exports.default = TsActionRunnerComponent;
+//# sourceMappingURL=TsActionRunnerComponent.js.map

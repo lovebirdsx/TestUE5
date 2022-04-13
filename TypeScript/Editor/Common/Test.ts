@@ -3,6 +3,28 @@
 import { error, log } from './Log';
 import { deepEquals } from './Util';
 
+export interface IErrorRecord {
+    TestName: string;
+    Error: Error;
+}
+
+const errorRecords: IErrorRecord[] = [];
+
+export function getTestErrorRecords(): IErrorRecord[] {
+    return errorRecords;
+}
+
+export function clearTestErrorRecords(): void {
+    errorRecords.splice(0, errorRecords.length);
+}
+
+function addErrorRecord(name: string, error: Error): void {
+    errorRecords.push({
+        TestName: name,
+        Error: error,
+    });
+}
+
 export function test(name: string, fun: () => void): void {
     try {
         fun();
@@ -10,6 +32,7 @@ export function test(name: string, fun: () => void): void {
     } catch (e) {
         const e1 = e as Error;
         error(`[${name}] failed:\n ${e1.stack}`);
+        addErrorRecord(name, e);
     }
 }
 

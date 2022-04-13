@@ -13,6 +13,7 @@ const TestTalkListTool_1 = require("../../Editor/UnitTest/TestTalkListTool");
 const TestTextListCsv_1 = require("../../Editor/UnitTest/TestTextListCsv");
 const react_umg_2 = require("../../react-umg/react-umg");
 const Log_1 = require("../Common/Log");
+const Test_1 = require("../Common/Test");
 const TestClass_1 = require("../UnitTest/Game/TestClass");
 const TestCsvParser_1 = require("../UnitTest/TestCsvParser");
 const TestEntityScheme_1 = require("../UnitTest/TestEntityScheme");
@@ -72,6 +73,7 @@ class TestEditor extends React.Component {
     }
     RenderTests() {
         return (React.createElement(react_umg_1.VerticalBox, null,
+            this.RenderUnitTestResults(),
             React.createElement(CommonComponent_1.H3, { Text: 'Test Logic' }),
             this.RenderTest(),
             React.createElement(CommonComponent_1.H3, { Text: 'Test Button enabled' }),
@@ -88,6 +90,23 @@ class TestEditor extends React.Component {
             this.RenderReadWriteCsv(),
             React.createElement(CommonComponent_1.H3, { Text: 'Test Csv View' }),
             React.createElement(TestCsvView_1.TestCsvView, null)));
+    }
+    RenderErrors() {
+        const errors = (0, Test_1.getTestErrorRecords)();
+        if (errors.length <= 0) {
+            return (React.createElement(CommonComponent_1.Text, { Text: 'Congratulations! All test passed :)', Color: '#008000 green', Size: CommonComponent_1.H3_SIZE }));
+        }
+        const errorElements = errors.map((err, id) => {
+            return (React.createElement(react_umg_1.VerticalBox, { key: id },
+                React.createElement(CommonComponent_1.Text, { Text: `[${err.TestName}]`, Color: '#CD5C5C indian red', Size: CommonComponent_1.H3_SIZE }),
+                React.createElement(CommonComponent_1.Text, { Text: err.Error.stack })));
+        });
+        return React.createElement(react_umg_1.VerticalBox, null, errorElements);
+    }
+    RenderUnitTestResults() {
+        return (React.createElement(react_umg_1.VerticalBox, null,
+            React.createElement(CommonComponent_1.H3, { Text: `Test result` }),
+            this.RenderErrors()));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

@@ -105,9 +105,9 @@ const defaultListSlot: VerticalBoxSlot = {
     HorizontalAlignment: EHorizontalAlignment.HAlign_Left,
 };
 const DEFAULT_LIST_FONT_SIZE = DEFAULT_FONT_SIZE;
-const H3_SIZE = DEFAULT_FONT_SIZE + 2;
-const H2_SIZE = H3_SIZE + 2;
-const H1_SIZE = H2_SIZE + 2;
+export const H3_SIZE = DEFAULT_FONT_SIZE + 2;
+export const H2_SIZE = H3_SIZE + 2;
+export const H1_SIZE = H2_SIZE + 2;
 export const HEADING_COLOR: TColor = '#1E90FF dodger blue';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

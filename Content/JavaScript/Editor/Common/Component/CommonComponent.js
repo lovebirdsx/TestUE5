@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.List = exports.Fold = exports.Check = exports.EditorBox = exports.Btn = exports.H3 = exports.H2 = exports.H1 = exports.SlotText = exports.Text = exports.HEADING_COLOR = exports.DEFAULT_OUTLINE_COLOR = exports.DEFAULT_HOVER_COLOR = exports.DEFAULT_BACK_COLOR = exports.DEFAULT_LIST_BACK_COLOR = exports.DEFAULT_EDIT_TEXT_COLOR = exports.DEFAULT_TEXT_COLOR = exports.TAB_OFFSET = void 0;
+exports.List = exports.Fold = exports.Check = exports.EditorBox = exports.Btn = exports.H3 = exports.H2 = exports.H1 = exports.SlotText = exports.Text = exports.HEADING_COLOR = exports.H1_SIZE = exports.H2_SIZE = exports.H3_SIZE = exports.DEFAULT_OUTLINE_COLOR = exports.DEFAULT_HOVER_COLOR = exports.DEFAULT_BACK_COLOR = exports.DEFAULT_LIST_BACK_COLOR = exports.DEFAULT_EDIT_TEXT_COLOR = exports.DEFAULT_TEXT_COLOR = exports.TAB_OFFSET = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
@@ -72,9 +72,9 @@ const defaultListSlot = {
     HorizontalAlignment: ue_1.EHorizontalAlignment.HAlign_Left,
 };
 const DEFAULT_LIST_FONT_SIZE = DEFAULT_FONT_SIZE;
-const H3_SIZE = DEFAULT_FONT_SIZE + 2;
-const H2_SIZE = H3_SIZE + 2;
-const H1_SIZE = H2_SIZE + 2;
+exports.H3_SIZE = DEFAULT_FONT_SIZE + 2;
+exports.H2_SIZE = exports.H3_SIZE + 2;
+exports.H1_SIZE = exports.H2_SIZE + 2;
 exports.HEADING_COLOR = '#1E90FF dodger blue';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function Text(props) {
@@ -89,17 +89,17 @@ function SlotText(props) {
 exports.SlotText = SlotText;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function H1(props) {
-    return React.createElement(Text, { ...props, Size: H1_SIZE, Color: exports.HEADING_COLOR });
+    return React.createElement(Text, { ...props, Size: exports.H1_SIZE, Color: exports.HEADING_COLOR });
 }
 exports.H1 = H1;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function H2(props) {
-    return React.createElement(Text, { ...props, Size: H2_SIZE, Color: exports.HEADING_COLOR });
+    return React.createElement(Text, { ...props, Size: exports.H2_SIZE, Color: exports.HEADING_COLOR });
 }
 exports.H2 = H2;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function H3(props) {
-    return React.createElement(Text, { ...props, Size: H3_SIZE, Color: exports.HEADING_COLOR });
+    return React.createElement(Text, { ...props, Size: exports.H3_SIZE, Color: exports.HEADING_COLOR });
 }
 exports.H3 = H3;
 // eslint-disable-next-line @typescript-eslint/naming-convention

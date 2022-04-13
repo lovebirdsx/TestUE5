@@ -11,7 +11,7 @@ import {
 } from 'react-umg';
 import { ESlateSizeRule, ReactUMGStarter } from 'ue';
 
-import { Btn, H3 } from '../../Editor/Common/Component/CommonComponent';
+import { Btn, H3, H3_SIZE, Text } from '../../Editor/Common/Component/CommonComponent';
 import testContainer from '../../Editor/UnitTest/Engine/TestContainer';
 import testFile from '../../Editor/UnitTest/Engine/TestFile';
 import testImmer from '../../Editor/UnitTest/TestImmer';
@@ -22,6 +22,7 @@ import testTextListCsv, {
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
 import { log } from '../Common/Log';
+import { getTestErrorRecords } from '../Common/Test';
 import testClass from '../UnitTest/Game/TestClass';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';
@@ -114,6 +115,7 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
     private RenderTests(): JSX.Element {
         return (
             <VerticalBox>
+                {this.RenderUnitTestResults()}
                 <H3 Text={'Test Logic'} />
                 {this.RenderTest()}
                 <H3 Text={'Test Button enabled'} />
@@ -130,6 +132,38 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
                 {this.RenderReadWriteCsv()}
                 <H3 Text={'Test Csv View'} />
                 <TestCsvView />
+            </VerticalBox>
+        );
+    }
+
+    private RenderErrors(): JSX.Element {
+        const errors = getTestErrorRecords();
+        if (errors.length <= 0) {
+            return (
+                <Text
+                    Text={'Congratulations! All test passed :)'}
+                    Color={'#008000 green'}
+                    Size={H3_SIZE}
+                />
+            );
+        }
+
+        const errorElements = errors.map((err, id) => {
+            return (
+                <VerticalBox key={id}>
+                    <Text Text={`[${err.TestName}]`} Color={'#CD5C5C indian red'} Size={H3_SIZE} />
+                    <Text Text={err.Error.stack} />
+                </VerticalBox>
+            );
+        });
+        return <VerticalBox>{errorElements}</VerticalBox>;
+    }
+
+    private RenderUnitTestResults(): JSX.Element {
+        return (
+            <VerticalBox>
+                <H3 Text={`Test result`} />
+                {this.RenderErrors()}
             </VerticalBox>
         );
     }

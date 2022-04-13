@@ -3,21 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable spellcheck/spell-checker */
 const Test_1 = require("../../Editor/Common/Test");
 const Util_1 = require("../../Editor/Common/Util");
-const Flow_1 = require("../../Editor/FlowEditor/Operations/Flow");
-const FlowList_1 = require("../../Editor/FlowEditor/Operations/FlowList");
+const Flow_1 = require("../Common/Operations/Flow");
+const FlowList_1 = require("../Common/Operations/FlowList");
 const TalkListTool_1 = require("../../Editor/FlowEditor/TalkListTool");
 const TalkerList_1 = require("../../Editor/TalkerEditor/TalkerList");
 function flowListEqual(f1, f2) {
     return (0, Util_1.deepEqualsIgnore)(f1, f2, ['flowGenId', 'stateGenId']);
 }
 function createFlowList({ FlowCount: flowCount, StateCount: stateCount, TalkCount: talkCount, TalkItemCount: talkItemCount, OptionCount: optionCount, }) {
-    const flowList = FlowList_1.FlowListOp.Create();
+    const flowList = FlowList_1.flowListOp.Create();
     for (let i = 0; i < flowCount; i++) {
-        const flow = FlowList_1.FlowListOp.CreateFlow(flowList);
+        const flow = FlowList_1.flowListOp.CreateFlow(flowList);
         flowList.FlowGenId++;
         flow.Name = `剧情${i + 1}`;
         for (let j = 0; j < stateCount; j++) {
-            const state = Flow_1.FlowOp.CreateState(flow);
+            const state = Flow_1.flowOp.CreateState(flow);
             flow.StateGenId++;
             for (let k = 0; k < talkCount; k++) {
                 const showTalk = {
@@ -28,13 +28,13 @@ function createFlowList({ FlowCount: flowCount, StateCount: stateCount, TalkCoun
                         Id: i1,
                         Name: `对话${i1}`,
                         WhoId: TalkerList_1.TalkerListOp.GetId(TalkerList_1.TalkerListOp.Get(), '小明'),
-                        TextId: FlowList_1.FlowListOp.CreateText(flowList, `对话内容${i1}`),
+                        TextId: FlowList_1.flowListOp.CreateText(flowList, `对话内容${i1}`),
                     };
                     if (optionCount > 0) {
                         talkItem.Options = [];
                         for (let k1 = 0; k1 < optionCount; k1++) {
                             const option = {
-                                TextId: FlowList_1.FlowListOp.CreateText(flowList, `选项内容${i1}`),
+                                TextId: FlowList_1.flowListOp.CreateText(flowList, `选项内容${i1}`),
                                 Actions: [],
                             };
                             talkItem.Options.push(option);
@@ -51,7 +51,7 @@ function createFlowList({ FlowCount: flowCount, StateCount: stateCount, TalkCoun
                 // 不然解析时会把所有的talkItem当成1个来处理
                 if (talkCount > 1) {
                     const showOption = {
-                        TextId: FlowList_1.FlowListOp.CreateText(flowList, `独立选项内容${k}`),
+                        TextId: FlowList_1.flowListOp.CreateText(flowList, `独立选项内容${k}`),
                     };
                     state.Actions.push({
                         Name: 'ShowOption',

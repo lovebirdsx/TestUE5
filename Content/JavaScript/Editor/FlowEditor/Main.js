@@ -5,7 +5,7 @@ const puerts_1 = require("puerts");
 const React = require("react");
 const KeyCommands_1 = require("../../Editor/Common/KeyCommands");
 const react_umg_1 = require("../../react-umg/react-umg");
-const FlowEditor_1 = require("./Component/FlowEditor");
+const FlowEditor_1 = require("./FlowEditor");
 const reactUmgStarter = puerts_1.argv.getByName('ReactUMGStarter');
 react_umg_1.ReactUMG.init(reactUmgStarter);
 KeyCommands_1.KeyCommands.Init(react_umg_1.ReactUMG.getRoot());

@@ -7,6 +7,7 @@ export type TActionType =
     | 'FinishState'
     | 'JumpTalk'
     | 'Log'
+    | 'PlayFlow'
     | 'PlaySequenceData'
     | 'SetCameraMode'
     | 'SetFlowBoolOption'
@@ -68,6 +69,12 @@ export function parseFlowInfo(json: string): IFlowInfo {
     }
 
     return JSON.parse(json) as IFlowInfo;
+}
+
+export interface IPlayFlow {
+    FlowListName: string;
+    FlowId: number;
+    StateId: number;
 }
 
 export interface IFlowListInfo {

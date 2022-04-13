@@ -4,8 +4,8 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 
 import { IFlowInfo, IFlowListInfo } from '../../../Game/Flow/Action';
-import { FlowListOp } from '../../FlowEditor/Operations/FlowList';
 import { log } from '../Log';
+import { flowListOp } from '../Operations/FlowList';
 import { TModifyType } from '../Scheme/Type';
 import { Btn } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
@@ -59,7 +59,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
 
     private readonly AddFlow = (): void => {
         this.Modify((from, to) => {
-            const flow = FlowListOp.CreateFlow(from);
+            const flow = flowListOp.CreateFlow(from);
             to.Flows.push(flow);
             to.FlowGenId = this.props.FlowList.FlowGenId + 1;
         }, 'normal');
@@ -67,7 +67,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
 
     private readonly InsertFlow = (id: number): void => {
         this.Modify((from, to) => {
-            const newFlow = FlowListOp.CreateFlow(this.props.FlowList);
+            const newFlow = flowListOp.CreateFlow(this.props.FlowList);
             to.Flows.splice(id + 1, 0, newFlow);
         }, 'normal');
     };

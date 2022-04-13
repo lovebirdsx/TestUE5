@@ -41,5 +41,8 @@ public:
 	static bool OpenFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
 
 	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
-	static bool SaveFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);		
+	static bool SaveFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
+	
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
+	static void FindFiles(TArray<FString>& FoundFiles, const FString& Directory, const FString& FileExtension);
 };

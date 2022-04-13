@@ -5,7 +5,7 @@ exports.State = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Flow_1 = require("../../FlowEditor/Operations/Flow");
+const Flow_1 = require("../Operations/Flow");
 const Log_1 = require("../Log");
 const Action_1 = require("../Scheme/Action");
 const Action_2 = require("./Action");
@@ -111,7 +111,7 @@ class State extends React.Component {
         }
     }
     ShowStateMoveTo(flow) {
-        const states = Flow_1.FlowOp.GetDestinationStates(flow, this.props.State);
+        const states = Flow_1.flowOp.GetDestinationStates(flow, this.props.State);
         const statesFormated = states.map((state) => `➔[${state}]`);
         return (states.length > 0 && (React.createElement(CommonComponent_1.SlotText, { Text: statesFormated.toString(), Tip: '当前状态有可能跳转的状态' })));
     }

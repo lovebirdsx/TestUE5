@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { FlowOp } from '../../FlowEditor/Operations/Flow';
+import { flowOp } from '../Operations/Flow';
 import { log } from '../Log';
 import { scheme, TModifyType } from '../Scheme/Action';
 import { Action } from './Action';
@@ -130,7 +130,7 @@ export class State extends React.Component<IStateProps> {
     }
 
     private ShowStateMoveTo(flow: IFlowInfo): React.ReactNode {
-        const states = FlowOp.GetDestinationStates(flow, this.props.State);
+        const states = flowOp.GetDestinationStates(flow, this.props.State);
         const statesFormated = states.map((state) => `➔[${state}]`);
         return (
             states.length > 0 && (

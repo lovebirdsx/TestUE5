@@ -4,7 +4,7 @@ exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exp
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const FlowList_1 = require("../../../FlowEditor/Operations/FlowList");
+const FlowList_1 = require("../../Operations/FlowList");
 const TalkerList_1 = require("../../../TalkerEditor/TalkerList");
 const Basic_1 = require("../../Component/Basic");
 const CommonComponent_1 = require("../../Component/CommonComponent");
@@ -23,7 +23,7 @@ function createTextIdScheme(defaultText, meta) {
             let textId = 0;
             FlowList_1.flowListContext.Modify(FlowList_1.EFlowListAction.GenText, (from, to) => {
                 const text = defaultText;
-                textId = FlowList_1.FlowListOp.CreateText(to, text);
+                textId = FlowList_1.flowListOp.CreateText(to, text);
             });
             return textId;
         },
@@ -33,7 +33,7 @@ function createTextIdScheme(defaultText, meta) {
                 React.createElement(CommonComponent_1.EditorBox, { Width: props.Type.Meta.Width, Text: FlowList_1.flowListContext.Get().Texts[props.Value], OnChange: (text) => {
                         FlowList_1.flowListContext.Modify(FlowList_1.EFlowListAction.ModifyText, (from, to) => {
                             const textId = props.Value;
-                            FlowList_1.FlowListOp.ModifyText(to, textId, text);
+                            FlowList_1.flowListOp.ModifyText(to, textId, text);
                         });
                     }, Tip: props.Type.Meta.Tip })));
         },

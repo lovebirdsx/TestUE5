@@ -1,12 +1,12 @@
 "use strict";
-/* eslint-disable spellcheck/spell-checker */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Flow = exports.flowContext = void 0;
+/* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Flow_1 = require("../../FlowEditor/Operations/Flow");
 const Log_1 = require("../Log");
+const Flow_1 = require("../Operations/Flow");
 const CommonComponent_1 = require("./CommonComponent");
 const State_1 = require("./State");
 exports.flowContext = React.createContext(undefined);
@@ -46,12 +46,12 @@ class Flow extends React.Component {
         this.Modify((from, to) => {
             to.StateGenId = from.StateGenId + 1;
             to._folded = false;
-            to.States.push(Flow_1.FlowOp.CreateState(from));
+            to.States.push(Flow_1.flowOp.CreateState(from));
         }, 'normal');
     };
     InsertState = (id) => {
         this.Modify((from, to) => {
-            to.States.splice(id + 1, 0, Flow_1.FlowOp.CreateState(from));
+            to.States.splice(id + 1, 0, Flow_1.flowOp.CreateState(from));
         }, 'normal');
     };
     MoveState = (id, isUp) => {

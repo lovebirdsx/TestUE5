@@ -15,8 +15,8 @@ import {
     TActionType,
 } from '../../Game/Flow/Action';
 import { TalkerListOp } from '../TalkerEditor/TalkerList';
-import { FlowOp } from './Operations/Flow';
-import { FlowListOp } from './Operations/FlowList';
+import { flowOp } from '../Common/Operations/Flow';
+import { flowListOp } from '../Common/Operations/FlowList';
 
 type TCsvTalkType = '对话' | '对话选项' | '独立选项';
 
@@ -69,7 +69,7 @@ export class TalkListCsvFile {
 
     public Gen(): IFlowListInfo {
         const flows: IFlowInfo[] = [];
-        const flowList = FlowListOp.Create();
+        const flowList = flowListOp.Create();
         flowList.Flows = flows;
 
         let lastAction: IActionInfo = null;
@@ -89,7 +89,7 @@ export class TalkListCsvFile {
             } = row;
 
             if (!lastFlow || flow !== lastFlow.Name) {
-                lastFlow = FlowListOp.CreateFlow(flowList);
+                lastFlow = flowListOp.CreateFlow(flowList);
                 flows.push(lastFlow);
                 flowList.FlowGenId++;
                 lastFlow.Name = flow;
@@ -97,7 +97,7 @@ export class TalkListCsvFile {
             }
 
             if (!lastState || lastState.Name !== state) {
-                lastState = FlowOp.CreateState(lastFlow);
+                lastState = flowOp.CreateState(lastFlow);
                 lastAction = undefined;
                 lastFlow.States.push(lastState);
                 lastFlow.StateGenId++;
@@ -115,7 +115,7 @@ export class TalkListCsvFile {
 
             if (actionType === 'ShowOption') {
                 lastAction.Params = {
-                    TextId: FlowListOp.CreateText(flowList, optionContent),
+                    TextId: flowListOp.CreateText(flowList, optionContent),
                 } as IShowOption;
                 lastAction = undefined;
             } else if (actionType === 'ShowTalk') {
@@ -128,7 +128,7 @@ export class TalkListCsvFile {
                     const showTalk = lastAction.Params as IShowTalk;
                     lastTalkItem = {
                         WhoId: TalkerListOp.GetId(TalkerListOp.Get(), who),
-                        TextId: FlowListOp.CreateText(flowList, talkContent),
+                        TextId: flowListOp.CreateText(flowList, talkContent),
                         Name: talkId,
                         Id: lastTalkId++,
                     };
@@ -141,7 +141,7 @@ export class TalkListCsvFile {
                         lastTalkItem.Options = [];
                     }
                     const talkOption: ITalkOption = {
-                        TextId: FlowListOp.CreateText(flowList, optionContent),
+                        TextId: flowListOp.CreateText(flowList, optionContent),
                         Actions: [],
                     };
                     lastTalkItem.Options.push(talkOption);

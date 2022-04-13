@@ -13,8 +13,8 @@ import {
 import {
     EFlowListAction,
     flowListContext,
-    FlowListOp,
-} from '../../../FlowEditor/Operations/FlowList';
+    flowListOp,
+} from '../../Operations/FlowList';
 import { TalkerListOp } from '../../../TalkerEditor/TalkerList';
 import { String } from '../../Component/Basic';
 import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../Component/CommonComponent';
@@ -52,7 +52,7 @@ function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitiveType<nu
             let textId = 0;
             flowListContext.Modify(EFlowListAction.GenText, (from, to) => {
                 const text = defaultText;
-                textId = FlowListOp.CreateText(to, text);
+                textId = flowListOp.CreateText(to, text);
             });
             return textId;
         },
@@ -66,7 +66,7 @@ function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitiveType<nu
                         OnChange={(text): void => {
                             flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
                                 const textId = props.Value as number;
-                                FlowListOp.ModifyText(to, textId, text);
+                                flowListOp.ModifyText(to, textId, text);
                             });
                         }}
                         Tip={props.Type.Meta.Tip}

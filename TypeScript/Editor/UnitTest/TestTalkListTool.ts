@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { assertEq, test } from '../../Editor/Common/Test';
 import { deepEqualsIgnore } from '../../Editor/Common/Util';
-import { FlowOp } from '../../Editor/FlowEditor/Operations/Flow';
-import { FlowListOp } from '../../Editor/FlowEditor/Operations/FlowList';
+import { flowOp } from '../Common/Operations/Flow';
+import { flowListOp } from '../Common/Operations/FlowList';
 import { TalkListCsvFile } from '../../Editor/FlowEditor/TalkListTool';
 import { TalkerListOp } from '../../Editor/TalkerEditor/TalkerList';
 import {
@@ -33,13 +33,13 @@ function createFlowList({
     TalkItemCount: talkItemCount,
     OptionCount: optionCount,
 }: ICreateConfig): IFlowListInfo {
-    const flowList = FlowListOp.Create();
+    const flowList = flowListOp.Create();
     for (let i = 0; i < flowCount; i++) {
-        const flow = FlowListOp.CreateFlow(flowList);
+        const flow = flowListOp.CreateFlow(flowList);
         flowList.FlowGenId++;
         flow.Name = `剧情${i + 1}`;
         for (let j = 0; j < stateCount; j++) {
-            const state = FlowOp.CreateState(flow);
+            const state = flowOp.CreateState(flow);
             flow.StateGenId++;
             for (let k = 0; k < talkCount; k++) {
                 const showTalk: IShowTalk = {
@@ -51,14 +51,14 @@ function createFlowList({
                         Id: i1,
                         Name: `对话${i1}`,
                         WhoId: TalkerListOp.GetId(TalkerListOp.Get(), '小明'),
-                        TextId: FlowListOp.CreateText(flowList, `对话内容${i1}`),
+                        TextId: flowListOp.CreateText(flowList, `对话内容${i1}`),
                     };
 
                     if (optionCount > 0) {
                         talkItem.Options = [];
                         for (let k1 = 0; k1 < optionCount; k1++) {
                             const option: ITalkOption = {
-                                TextId: FlowListOp.CreateText(flowList, `选项内容${i1}`),
+                                TextId: flowListOp.CreateText(flowList, `选项内容${i1}`),
                                 Actions: [],
                             };
                             talkItem.Options.push(option);
@@ -78,7 +78,7 @@ function createFlowList({
                 // 不然解析时会把所有的talkItem当成1个来处理
                 if (talkCount > 1) {
                     const showOption: IShowOption = {
-                        TextId: FlowListOp.CreateText(flowList, `独立选项内容${k}`),
+                        TextId: flowListOp.CreateText(flowList, `独立选项内容${k}`),
                     };
                     state.Actions.push({
                         Name: 'ShowOption',

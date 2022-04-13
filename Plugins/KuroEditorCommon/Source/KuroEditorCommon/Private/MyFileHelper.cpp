@@ -110,3 +110,9 @@ bool UMyFileHelper::SaveFileDialog(const FString& DialogTitle, const FString& De
 
 	return bOK;
 }
+
+void UMyFileHelper::FindFiles(TArray<FString>& FoundFiles, const FString& Directory, const FString& FileExtension)
+{
+	IPlatformFile& PlatformFile	 = FPlatformFileManager::Get().GetPlatformFile();
+	PlatformFile.FindFiles(FoundFiles, *Directory, *FileExtension);
+}

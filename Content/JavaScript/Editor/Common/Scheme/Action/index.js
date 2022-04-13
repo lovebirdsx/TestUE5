@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -17,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.scheme = void 0;
 const Log_1 = require("../../Log");
 const Type_1 = require("../Type");
+const Flow_1 = require("./Flow");
 const JumpTalk_1 = require("./JumpTalk");
 const Misc_1 = require("./Misc");
 const PlotNode_1 = require("./PlotNode");
@@ -30,6 +27,7 @@ const actionSchemeMap = {
     FinishState: State_1.finishStateScheme,
     JumpTalk: JumpTalk_1.jumpTalkScheme,
     Log: Misc_1.logScheme,
+    PlayFlow: Flow_1.playFlowScheme,
     PlaySequenceData: Sequence_1.playSequenceDataScheme,
     SetCameraMode: PlotNode_1.setCameraModeScheme,
     SetFlowBoolOption: PlotNode_1.setFlowBoolOptionScheme,

@@ -1,12 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
-
 import { produce } from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { FlowOp } from '../../FlowEditor/Operations/Flow';
 import { log } from '../Log';
+import { flowOp } from '../Operations/Flow';
 import { TModifyType } from '../Scheme/Type';
 import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from './CommonComponent';
 import { State } from './State';
@@ -60,13 +59,13 @@ export class Flow extends React.Component<IFlowProps> {
         this.Modify((from, to) => {
             to.StateGenId = from.StateGenId + 1;
             to._folded = false;
-            to.States.push(FlowOp.CreateState(from));
+            to.States.push(flowOp.CreateState(from));
         }, 'normal');
     };
 
     private readonly InsertState = (id: number): void => {
         this.Modify((from, to) => {
-            to.States.splice(id + 1, 0, FlowOp.CreateState(from));
+            to.States.splice(id + 1, 0, flowOp.CreateState(from));
         }, 'normal');
     };
 

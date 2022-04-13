@@ -7,6 +7,9 @@ const Log_1 = require("../Common/Log");
 function getDefaultFlowListPath() {
     return ue_1.MyFileHelper.GetPath(ue_1.EFileRoot.Save, 'Editor/DefaultFlowList.csv');
 }
+function getFlowListDir() {
+    return ue_1.MyFileHelper.GetPath(ue_1.EFileRoot.Content, 'Data/FlowList');
+}
 class ConfigFile {
     static SavePath = ue_1.MyFileHelper.GetPath(ue_1.EFileRoot.Save, 'Editor/FlowEditorConfig.json');
     // 剧情配置文件
@@ -19,6 +22,8 @@ class ConfigFile {
     IsDevelop;
     static MaxHistory = 100;
     static AutoSaveInterval = 60;
+    static FlowListDir = getFlowListDir();
+    static FlowListPrefix = '剧情_';
     Load() {
         const content = ue_1.MyFileHelper.Read(ConfigFile.SavePath);
         if (content) {

@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TalkListTool = exports.TalkListCsvFile = void 0;
 const ue_1 = require("ue");
 const TalkerList_1 = require("../TalkerEditor/TalkerList");
-const Flow_1 = require("./Operations/Flow");
-const FlowList_1 = require("./Operations/FlowList");
+const Flow_1 = require("../Common/Operations/Flow");
+const FlowList_1 = require("../Common/Operations/FlowList");
 const csvRowConfig = {
     Flow: '剧情',
     State: '状态',
@@ -38,7 +38,7 @@ class TalkListCsvFile {
     }
     Gen() {
         const flows = [];
-        const flowList = FlowList_1.FlowListOp.Create();
+        const flowList = FlowList_1.flowListOp.Create();
         flowList.Flows = flows;
         let lastAction = null;
         let lastFlow = null;
@@ -48,14 +48,14 @@ class TalkListCsvFile {
         this.Rows.forEach((row) => {
             const { Flow: flow, State: state, TalkId: talkId, TalkType: talkType, Who: who, TalkContent: talkContent, OptionContent: optionContent, } = row;
             if (!lastFlow || flow !== lastFlow.Name) {
-                lastFlow = FlowList_1.FlowListOp.CreateFlow(flowList);
+                lastFlow = FlowList_1.flowListOp.CreateFlow(flowList);
                 flows.push(lastFlow);
                 flowList.FlowGenId++;
                 lastFlow.Name = flow;
                 lastState = undefined;
             }
             if (!lastState || lastState.Name !== state) {
-                lastState = Flow_1.FlowOp.CreateState(lastFlow);
+                lastState = Flow_1.flowOp.CreateState(lastFlow);
                 lastAction = undefined;
                 lastFlow.States.push(lastState);
                 lastFlow.StateGenId++;
@@ -71,7 +71,7 @@ class TalkListCsvFile {
             }
             if (actionType === 'ShowOption') {
                 lastAction.Params = {
-                    TextId: FlowList_1.FlowListOp.CreateText(flowList, optionContent),
+                    TextId: FlowList_1.flowListOp.CreateText(flowList, optionContent),
                 };
                 lastAction = undefined;
             }
@@ -84,7 +84,7 @@ class TalkListCsvFile {
                     const showTalk = lastAction.Params;
                     lastTalkItem = {
                         WhoId: TalkerList_1.TalkerListOp.GetId(TalkerList_1.TalkerListOp.Get(), who),
-                        TextId: FlowList_1.FlowListOp.CreateText(flowList, talkContent),
+                        TextId: FlowList_1.flowListOp.CreateText(flowList, talkContent),
                         Name: talkId,
                         Id: lastTalkId++,
                     };
@@ -98,7 +98,7 @@ class TalkListCsvFile {
                         lastTalkItem.Options = [];
                     }
                     const talkOption = {
-                        TextId: FlowList_1.FlowListOp.CreateText(flowList, optionContent),
+                        TextId: FlowList_1.flowListOp.CreateText(flowList, optionContent),
                         Actions: [],
                     };
                     lastTalkItem.Options.push(talkOption);

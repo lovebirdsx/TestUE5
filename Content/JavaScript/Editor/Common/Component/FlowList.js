@@ -5,8 +5,8 @@ exports.FlowList = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const FlowList_1 = require("../../FlowEditor/Operations/FlowList");
 const Log_1 = require("../Log");
+const FlowList_1 = require("../Operations/FlowList");
 const CommonComponent_1 = require("./CommonComponent");
 const ContextBtn_1 = require("./ContextBtn");
 const Flow_1 = require("./Flow");
@@ -49,14 +49,14 @@ class FlowList extends React.Component {
     }
     AddFlow = () => {
         this.Modify((from, to) => {
-            const flow = FlowList_1.FlowListOp.CreateFlow(from);
+            const flow = FlowList_1.flowListOp.CreateFlow(from);
             to.Flows.push(flow);
             to.FlowGenId = this.props.FlowList.FlowGenId + 1;
         }, 'normal');
     };
     InsertFlow = (id) => {
         this.Modify((from, to) => {
-            const newFlow = FlowList_1.FlowListOp.CreateFlow(this.props.FlowList);
+            const newFlow = FlowList_1.flowListOp.CreateFlow(this.props.FlowList);
             to.Flows.splice(id + 1, 0, newFlow);
         }, 'normal');
     };

@@ -200,7 +200,7 @@ class EntityEditor extends React.Component {
             React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
             React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` }),
             React.createElement(CommonComponent_1.Btn, { Text: 'State', OnClick: this.Info, Tip: `输出状态` }),
-            React.createElement(CommonComponent_1.Btn, { Text: 'Test', OnClick: this.Test, Tip: `输出状态` })));
+            React.createElement(CommonComponent_1.Btn, { Text: 'Test', OnClick: this.Test, Tip: `测试` })));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

@@ -269,7 +269,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     Tip={`重做 ${getCommandKeyDesc('Redo')}`}
                 />
                 <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
-                <Btn Text={'Test'} OnClick={this.Test} Tip={`输出状态`} />
+                <Btn Text={'Test'} OnClick={this.Test} Tip={`测试`} />
             </HorizontalBox>
         );
     }

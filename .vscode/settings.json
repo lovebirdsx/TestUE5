@@ -4,7 +4,7 @@
     "runOnSave.commands": [
         {
             "match": ".*\\.ts", // 没有以'ts$'结尾是为了同时匹配ts和tsx
-            "command": "node ./Tools/send_editor_command.js 1000 RestartEntityEditor",
+            // "command": "node ./Tools/send_editor_command.js 1000 RestartTestEditor",
             "runIn": "backend",
             "runningStatusMessage": "RestartEditor...",
             "finishStatusMessage": "RestartEditor OK :)",

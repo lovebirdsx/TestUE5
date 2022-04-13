@@ -1,16 +1,48 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ActionRunnerHandler = void 0;
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-const ue_1 = require("ue");
 const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Editor/Common/Log");
+const TsEntityComponent_1 = require("../Entity/TsEntityComponent");
 const Action_1 = require("./Action");
-class TsActionRunnerComponent extends ue_1.ActorComponent {
-    // @no-blueprint
-    IsRunning;
+class ActionRunnerHandler {
+    MyIsRunning;
+    Actions;
+    Runner;
+    constructor(actions, runner) {
+        this.MyIsRunning = false;
+        this.Actions = actions;
+        this.Runner = runner;
+    }
+    get IsRunning() {
+        return this.MyIsRunning;
+    }
+    Stop() {
+        this.MyIsRunning = false;
+    }
+    async Execute() {
+        if (this.IsRunning) {
+            (0, Log_1.error)(`${this.Runner.GetName()} can not run actions again`);
+            return;
+        }
+        this.MyIsRunning = true;
+        const actions = this.Actions;
+        for (let i = 0; i < actions.length; i++) {
+            const action = actions[i];
+            await this.Runner.ExecuteOne(action);
+            if (!this.IsRunning) {
+                break;
+            }
+        }
+        this.MyIsRunning = false;
+    }
+}
+exports.ActionRunnerHandler = ActionRunnerHandler;
+class TsActionRunnerComponent extends TsEntityComponent_1.default {
     // @no-blueprint
     ActionMap;
     Constructor() {
@@ -28,29 +60,13 @@ class TsActionRunnerComponent extends ue_1.ActorComponent {
         this.ActionMap.set(name, fun);
     }
     // @no-blueprint
-    ExecuteJson(json) {
+    SpawnHandlerByJson(json) {
         const triggerActions = (0, Action_1.parseTriggerActionsJson)(json);
-        void this.Execute(triggerActions.Actions);
+        return this.SpawnHandler(triggerActions.Actions);
     }
     // @no-blueprint
-    async Execute(actions) {
-        if (this.IsRunning) {
-            (0, Log_1.error)(`${this.GetOwner().GetName()} can not run actions again`);
-            return;
-        }
-        this.IsRunning = true;
-        for (let i = 0; i < actions.length; i++) {
-            const action = actions[i];
-            await this.ExecuteOne(action);
-            if (!this.IsRunning) {
-                break;
-            }
-        }
-        this.IsRunning = false;
-    }
-    // @no-blueprint
-    Stop() {
-        this.IsRunning = false;
+    SpawnHandler(actions) {
+        return new ActionRunnerHandler(actions, this);
     }
     // @no-blueprint
     async ExecuteOne(action) {

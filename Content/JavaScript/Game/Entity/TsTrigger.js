@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-void */
 const ue_1 = require("ue");
 const Log_1 = require("../../Editor/Common/Log");
 const TsActionRunnerComponent_1 = require("../Flow/TsActionRunnerComponent");
@@ -19,22 +20,25 @@ class TsTrigger extends TsEntity_1.default {
     TriggerTimes = 0;
     // @no-blueprint
     ActionRunner;
+    // @no-blueprint
+    RunnerHandler;
     ReceiveBeginPlay() {
         super.ReceiveBeginPlay();
         this.TriggerTimes = 0;
         this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent_1.default);
+        this.RunnerHandler = this.ActionRunner.SpawnHandlerByJson(this.TriggerActionsJson);
     }
     // @no-blueprint
     DoTrigger() {
         this.TriggerTimes++;
-        this.ActionRunner.ExecuteJson(this.TriggerActionsJson);
+        void this.RunnerHandler.Execute();
         (0, Log_1.log)(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
     ReceiveActorBeginOverlap(other) {
         if (this.TriggerTimes >= this.MaxTriggerTimes) {
             return;
         }
-        if (this.ActionRunner.IsRunning) {
+        if (this.RunnerHandler.IsRunning) {
             return;
         }
         if (!(other instanceof TsPlayer_1.default)) {

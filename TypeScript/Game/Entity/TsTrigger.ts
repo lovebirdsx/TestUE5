@@ -1,7 +1,8 @@
+/* eslint-disable no-void */
 import { Actor, edit_on_instance } from 'ue';
 
 import { log } from '../../Editor/Common/Log';
-import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
+import TsActionRunnerComponent, { ActionRunnerHandler } from '../Flow/TsActionRunnerComponent';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
@@ -19,17 +20,21 @@ class TsTrigger extends TsEntity {
     // @no-blueprint
     private ActionRunner: TsActionRunnerComponent;
 
+    // @no-blueprint
+    private RunnerHandler: ActionRunnerHandler;
+
     public ReceiveBeginPlay(): void {
         super.ReceiveBeginPlay();
 
         this.TriggerTimes = 0;
         this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent);
+        this.RunnerHandler = this.ActionRunner.SpawnHandlerByJson(this.TriggerActionsJson);
     }
 
     // @no-blueprint
     private DoTrigger(): void {
         this.TriggerTimes++;
-        this.ActionRunner.ExecuteJson(this.TriggerActionsJson);
+        void this.RunnerHandler.Execute();
         log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
 
@@ -38,7 +43,7 @@ class TsTrigger extends TsEntity {
             return;
         }
 
-        if (this.ActionRunner.IsRunning) {
+        if (this.RunnerHandler.IsRunning) {
             return;
         }
 

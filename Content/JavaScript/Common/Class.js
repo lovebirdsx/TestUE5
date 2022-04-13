@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getClassObj = void 0;
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/prefer-function-type */
 const UE = require("ue");
 const Log_1 = require("../Editor/Common/Log");

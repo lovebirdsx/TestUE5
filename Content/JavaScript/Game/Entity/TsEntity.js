@@ -15,6 +15,11 @@ class TsEntity extends ue_1.Actor {
         (0, Log_1.error)(`${this.GetName()} can not get component for ${classObj.name}`);
         return undefined;
     }
+    // @no-blueprint
+    async Interact(player) {
+        (0, Log_1.error)(`Interact is not implement for ${this.GetName()}`);
+        return Promise.resolve();
+    }
 }
 exports.default = TsEntity;
 //# sourceMappingURL=TsEntity.js.map

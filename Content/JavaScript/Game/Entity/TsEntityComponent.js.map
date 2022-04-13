@@ -1,0 +1,1 @@
+{"version":3,"file":"TsEntityComponent.js","sourceRoot":"","sources":["../../../../TypeScript/Game/Entity/TsEntityComponent.ts"],"names":[],"mappings":";;AAAA,2BAAoC;AAEpC,MAAM,iBAAkB,SAAQ,mBAAc;IAC1C,IAAW,IAAI;QACX,OAAO,GAAG,IAAI,CAAC,QAAQ,EAAE,CAAC,OAAO,EAAE,IAAI,IAAI,CAAC,OAAO,EAAE,EAAE,CAAC;IAC5D,CAAC;CACJ;AAED,kBAAe,iBAAiB,CAAC"}

@@ -16,6 +16,9 @@ class TsPlayerController extends ue_1.PlayerController {
     ResetSpeed() {
         this.MyPlayer.ResetSpeed();
     }
+    Interact() {
+        this.MyPlayer.TryInteract();
+    }
 }
 exports.default = TsPlayerController;
 //# sourceMappingURL=TsPlayerController.js.map

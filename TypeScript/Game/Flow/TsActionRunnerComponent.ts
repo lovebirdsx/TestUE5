@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { ActorComponent, no_blueprint } from 'ue';
+import { ActorComponent } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Editor/Common/Log';
@@ -16,10 +16,10 @@ import {
 } from './Action';
 
 class TsActionRunnerComponent extends ActorComponent {
-    @no_blueprint()
+    // @no-blueprint
     public IsRunning: boolean;
 
-    @no_blueprint()
+    // @no-blueprint
     private ActionMap: Map<TActionType, TActionFun>;
 
     public Constructor(): void {
@@ -32,7 +32,7 @@ class TsActionRunnerComponent extends ActorComponent {
         );
     }
 
-    @no_blueprint()
+    // @no-blueprint
     public RegisterActionFun(name: TActionType, fun: TActionFun): void {
         if (this.ActionMap.has(name)) {
             error(`RegisterActionFun [${name}] already registered`);
@@ -40,13 +40,13 @@ class TsActionRunnerComponent extends ActorComponent {
         this.ActionMap.set(name, fun);
     }
 
-    @no_blueprint()
+    // @no-blueprint
     public ExecuteJson(json: string): void {
         const triggerActions = parseTriggerActionsJson(json);
         void this.Execute(triggerActions.Actions);
     }
 
-    @no_blueprint()
+    // @no-blueprint
     public async Execute(actions: IActionInfo[]): Promise<void> {
         if (this.IsRunning) {
             error(`${this.GetOwner().GetName()} can not run actions again`);
@@ -54,15 +54,24 @@ class TsActionRunnerComponent extends ActorComponent {
         }
 
         this.IsRunning = true;
+
         for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
             await this.ExecuteOne(action);
+            if (!this.IsRunning) {
+                break;
+            }
         }
 
         this.IsRunning = false;
     }
 
-    @no_blueprint()
+    // @no-blueprint
+    public Stop(): void {
+        this.IsRunning = false;
+    }
+
+    // @no-blueprint
     private async ExecuteOne(action: IActionInfo): Promise<void> {
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {
@@ -77,7 +86,7 @@ class TsActionRunnerComponent extends ActorComponent {
         }
     }
 
-    @no_blueprint()
+    // @no-blueprint
     private ExecuteLog(action: IActionInfo): void {
         const logAction = action.Params as ILog;
         switch (logAction.Level) {
@@ -95,7 +104,7 @@ class TsActionRunnerComponent extends ActorComponent {
         }
     }
 
-    @no_blueprint()
+    // @no-blueprint
     private async ExecuteWait(action: IActionInfo): Promise<void> {
         const waitAction = action.Params as IWait;
         return delay(waitAction.Time * 1000);

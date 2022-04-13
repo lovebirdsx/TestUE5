@@ -1,4 +1,4 @@
-import { Actor, edit_on_instance, no_blueprint } from 'ue';
+import { Actor, edit_on_instance } from 'ue';
 
 import { log } from '../../Editor/Common/Log';
 import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
@@ -13,10 +13,10 @@ class TsTrigger extends TsEntity {
     @edit_on_instance()
     public TriggerActionsJson: string;
 
-    @no_blueprint()
+    // @no-blueprint
     private TriggerTimes = 0;
 
-    @no_blueprint()
+    // @no-blueprint
     private ActionRunner: TsActionRunnerComponent;
 
     public ReceiveBeginPlay(): void {
@@ -26,7 +26,7 @@ class TsTrigger extends TsEntity {
         this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent);
     }
 
-    @no_blueprint()
+    // @no-blueprint
     private DoTrigger(): void {
         this.TriggerTimes++;
         this.ActionRunner.ExecuteJson(this.TriggerActionsJson);

@@ -21,6 +21,10 @@ class TsPlayerController extends PlayerController {
     public ResetSpeed(): void {
         this.MyPlayer.ResetSpeed();
     }
+
+    public Interact(): void {
+        this.MyPlayer.TryInteract();
+    }
 }
 
 export default TsPlayerController;

@@ -1,6 +1,7 @@
 import { Actor, ActorComponent } from 'ue';
 
 import { error } from '../../Editor/Common/Log';
+import TsPlayer from '../Player/TsPlayer';
 
 class TsEntity extends Actor {
     // PureTs中 GetComponentByClass不能正确返回TS创建的Component,故而自己写一个更为通用的
@@ -15,6 +16,12 @@ class TsEntity extends Actor {
 
         error(`${this.GetName()} can not get component for ${classObj.name}`);
         return undefined;
+    }
+
+    // @no-blueprint
+    public async Interact(player: TsPlayer): Promise<void> {
+        error(`Interact is not implement for ${this.GetName()}`);
+        return Promise.resolve();
     }
 }
 

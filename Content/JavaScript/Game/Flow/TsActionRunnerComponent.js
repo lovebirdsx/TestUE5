@@ -1,10 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/prefer-for-of */
@@ -15,7 +9,9 @@ const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Editor/Common/Log");
 const Action_1 = require("./Action");
 class TsActionRunnerComponent extends ue_1.ActorComponent {
+    // @no-blueprint
     IsRunning;
+    // @no-blueprint
     ActionMap;
     Constructor() {
         const owner = this.GetOwner();
@@ -24,16 +20,19 @@ class TsActionRunnerComponent extends ue_1.ActorComponent {
         this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         (0, Log_1.log)(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
     }
+    // @no-blueprint
     RegisterActionFun(name, fun) {
         if (this.ActionMap.has(name)) {
             (0, Log_1.error)(`RegisterActionFun [${name}] already registered`);
         }
         this.ActionMap.set(name, fun);
     }
+    // @no-blueprint
     ExecuteJson(json) {
         const triggerActions = (0, Action_1.parseTriggerActionsJson)(json);
         void this.Execute(triggerActions.Actions);
     }
+    // @no-blueprint
     async Execute(actions) {
         if (this.IsRunning) {
             (0, Log_1.error)(`${this.GetOwner().GetName()} can not run actions again`);
@@ -43,9 +42,17 @@ class TsActionRunnerComponent extends ue_1.ActorComponent {
         for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
             await this.ExecuteOne(action);
+            if (!this.IsRunning) {
+                break;
+            }
         }
         this.IsRunning = false;
     }
+    // @no-blueprint
+    Stop() {
+        this.IsRunning = false;
+    }
+    // @no-blueprint
     async ExecuteOne(action) {
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {
@@ -59,6 +66,7 @@ class TsActionRunnerComponent extends ue_1.ActorComponent {
             await actionFun(action);
         }
     }
+    // @no-blueprint
     ExecuteLog(action) {
         const logAction = action.Params;
         switch (logAction.Level) {
@@ -75,34 +83,11 @@ class TsActionRunnerComponent extends ue_1.ActorComponent {
                 break;
         }
     }
+    // @no-blueprint
     async ExecuteWait(action) {
         const waitAction = action.Params;
         return (0, Async_1.delay)(waitAction.Time * 1000);
     }
 }
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "IsRunning", void 0);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "ActionMap", void 0);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "RegisterActionFun", null);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "ExecuteJson", null);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "Execute", null);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "ExecuteOne", null);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "ExecuteLog", null);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsActionRunnerComponent.prototype, "ExecuteWait", null);
 exports.default = TsActionRunnerComponent;
 //# sourceMappingURL=TsActionRunnerComponent.js.map

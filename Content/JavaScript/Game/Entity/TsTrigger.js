@@ -15,13 +15,16 @@ class TsTrigger extends TsEntity_1.default {
     // @cpp: int
     MaxTriggerTimes;
     TriggerActionsJson;
+    // @no-blueprint
     TriggerTimes = 0;
+    // @no-blueprint
     ActionRunner;
     ReceiveBeginPlay() {
         super.ReceiveBeginPlay();
         this.TriggerTimes = 0;
         this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent_1.default);
     }
+    // @no-blueprint
     DoTrigger() {
         this.TriggerTimes++;
         this.ActionRunner.ExecuteJson(this.TriggerActionsJson);
@@ -46,14 +49,5 @@ __decorate([
 __decorate([
     (0, ue_1.edit_on_instance)()
 ], TsTrigger.prototype, "TriggerActionsJson", void 0);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsTrigger.prototype, "TriggerTimes", void 0);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsTrigger.prototype, "ActionRunner", void 0);
-__decorate([
-    (0, ue_1.no_blueprint)()
-], TsTrigger.prototype, "DoTrigger", null);
 exports.default = TsTrigger;
 //# sourceMappingURL=TsTrigger.js.map

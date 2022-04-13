@@ -24,6 +24,12 @@ class TsActionRunnerComponent extends ue_1.ActorComponent {
         this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         (0, Log_1.log)(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
     }
+    RegisterActionFun(name, fun) {
+        if (this.ActionMap.has(name)) {
+            (0, Log_1.error)(`RegisterActionFun [${name}] already registered`);
+        }
+        this.ActionMap.set(name, fun);
+    }
     ExecuteJson(json) {
         const triggerActions = (0, Action_1.parseTriggerActionsJson)(json);
         void this.Execute(triggerActions.Actions);
@@ -80,6 +86,9 @@ __decorate([
 __decorate([
     (0, ue_1.no_blueprint)()
 ], TsActionRunnerComponent.prototype, "ActionMap", void 0);
+__decorate([
+    (0, ue_1.no_blueprint)()
+], TsActionRunnerComponent.prototype, "RegisterActionFun", null);
 __decorate([
     (0, ue_1.no_blueprint)()
 ], TsActionRunnerComponent.prototype, "ExecuteJson", null);

@@ -16,6 +16,8 @@ export type TActionType =
     | 'ShowTalk'
     | 'Wait';
 
+export type TActionFun = (action: IActionInfo) => unknown;
+
 export interface IActionInfo {
     Name: TActionType;
     Async?: boolean;

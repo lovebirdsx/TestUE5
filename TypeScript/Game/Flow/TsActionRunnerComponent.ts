@@ -6,14 +6,21 @@ import { ActorComponent, no_blueprint } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Editor/Common/Log';
-import { IActionInfo, ILog, IWait, parseTriggerActionsJson, TActionType } from './Action';
+import {
+    IActionInfo,
+    ILog,
+    IWait,
+    parseTriggerActionsJson,
+    TActionFun,
+    TActionType,
+} from './Action';
 
 class TsActionRunnerComponent extends ActorComponent {
     @no_blueprint()
     public IsRunning: boolean;
 
     @no_blueprint()
-    private ActionMap: Map<TActionType, (action: IActionInfo) => unknown>;
+    private ActionMap: Map<TActionType, TActionFun>;
 
     public Constructor(): void {
         const owner = this.GetOwner();
@@ -23,6 +30,14 @@ class TsActionRunnerComponent extends ActorComponent {
         log(
             `ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`,
         );
+    }
+
+    @no_blueprint()
+    public RegisterActionFun(name: TActionType, fun: TActionFun): void {
+        if (this.ActionMap.has(name)) {
+            error(`RegisterActionFun [${name}] already registered`);
+        }
+        this.ActionMap.set(name, fun);
     }
 
     @no_blueprint()

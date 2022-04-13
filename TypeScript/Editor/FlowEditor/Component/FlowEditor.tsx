@@ -16,13 +16,13 @@ import { Btn, Check, SlotText, Text } from '../../../Editor/Common/Component/Com
 import { ErrorBoundary } from '../../../Editor/Common/Component/ErrorBoundary';
 import { getCommandKeyDesc, KeyCommands } from '../../../Editor/Common/KeyCommands';
 import { IFlowListInfo } from '../../../Game/Flow/Action';
+import { FlowList } from '../../Common/Component/FlowList';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Scheme/Type';
 import { openDirOfFile } from '../../Common/Util';
 import { ConfigFile } from '../ConfigFile';
 import { EFlowListAction, flowListContext, FlowListOp } from '../Operations/FlowList';
 import { TalkListTool } from '../TalkListTool';
-import { FlowList } from '../../Common/Component/FlowList';
 
 interface IFlowEditorState {
     Histories: IFlowListInfo[];

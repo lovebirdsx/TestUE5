@@ -34,7 +34,7 @@ exports.setPlotModeScheme = (0, Type_1.createObjectScheme)({
         },
     }),
 }, {
-    Filters: ['normal'],
+    Filters: [Type_1.EObjectFilter.FlowList],
     Meta: {
         Tip: '设定剧情模式,默认为D级演出',
     },

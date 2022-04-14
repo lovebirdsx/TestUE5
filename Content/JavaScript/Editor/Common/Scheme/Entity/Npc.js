@@ -20,12 +20,12 @@ function renderFlowJson(name, props) {
             } })));
     return (React.createElement(react_umg_1.VerticalBox, null,
         prefixElement,
-        React.createElement(Flow_1.Flow, { Flow: flow, OnModify: (newFlow, type) => {
+        React.createElement(Flow_1.Flow, { Flow: flow, ObjectFilter: Type_1.EObjectFilter.Npc, OnModify: (newFlow, type) => {
                 props.OnModify(JSON.stringify(newFlow), type);
             } })));
 }
 exports.flowJsonScheme = (0, Type_1.createStringScheme)({
-    Render: (props) => renderFlowJson('TriggerActionsJson', props),
+    Render: (props) => renderFlowJson('FlowConfig', props),
     Meta: {
         HideName: true,
         NewLine: true,

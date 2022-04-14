@@ -10,15 +10,11 @@ import {
     ITalkItem,
     ITalkOption,
 } from '../../../../Game/Flow/Action';
-import {
-    EFlowListAction,
-    flowListContext,
-    flowListOp,
-} from '../../Operations/FlowList';
 import { TalkerListOp } from '../../../TalkerEditor/TalkerList';
 import { String } from '../../Component/Basic';
 import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../Component/CommonComponent';
 import { Obj } from '../../Component/Obj';
+import { EFlowListAction, flowListContext, flowListOp } from '../../Operations/FlowList';
 import {
     createArrayScheme,
     createBooleanScheme,
@@ -28,6 +24,7 @@ import {
     createIntScheme,
     createObjectScheme,
     createStringScheme,
+    EObjectFilter,
     fixFileds,
     IAnyProps,
     IMeta,
@@ -39,7 +36,7 @@ import {
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
 
-const talkActionInfoScheme: TDynamicObjectType = createDynamicType('talk', {
+const talkActionInfoScheme: TDynamicObjectType = createDynamicType(EObjectFilter.Talk, {
     Meta: {
         NewLine: false,
         Tip: '动作',
@@ -312,7 +309,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
         }),
     },
     {
-        Filters: ['normal'],
+        Filters: [EObjectFilter.FlowList],
         Scheduled: true,
         Meta: {
             Tip: [
@@ -347,7 +344,7 @@ export const showOptionScheme = createObjectScheme<IShowOption>(
         }),
     },
     {
-        Filters: ['normal'],
+        Filters: [EObjectFilter.FlowList],
         Scheduled: true,
         Meta: {
             Tip: '显示独立选项',

@@ -58,6 +58,7 @@ exports.playFlowScheme = (0, Type_1.createObjectScheme)({
         Tip: '播放流程配置文件中的某个流程',
     },
     Render: renderPlayFlow,
+    Filters: [Type_1.EObjectFilter.Npc],
     CreateDefault: createDefaultPlayFlow,
 });
 //# sourceMappingURL=Flow.js.map

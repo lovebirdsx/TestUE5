@@ -26,7 +26,7 @@ exports.jumpTalkScheme = (0, Type_1.createObjectScheme)({
         },
     }),
 }, {
-    Filters: ['talk'],
+    Filters: [Type_1.EObjectFilter.Talk],
     Meta: {
         Tip: '跳转到当前状态的对话,跳转后,将继续播放对应的对话',
     },

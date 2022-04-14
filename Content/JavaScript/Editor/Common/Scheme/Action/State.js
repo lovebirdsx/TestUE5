@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changeRandomStateScheme = exports.changeStateScheme = exports.finishStateScheme = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Flow_1 = require("../../Component/Flow");
 const CommonComponent_1 = require("../../Component/CommonComponent");
+const Flow_1 = require("../../Component/Flow");
 const Type_1 = require("../Type");
 exports.finishStateScheme = (0, Type_1.createObjectScheme)({
     Result: (0, Type_1.createStringScheme)({
@@ -23,6 +23,7 @@ exports.finishStateScheme = (0, Type_1.createObjectScheme)({
     Meta: {
         Tip: '结束状态,后续的动作将不被执行',
     },
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
 });
 const DEFAULT_STATE_ID = 1;
 const stateIdScheme = (0, Type_1.createIntScheme)({
@@ -49,6 +50,7 @@ exports.changeStateScheme = (0, Type_1.createObjectScheme)({
     Meta: {
         Tip: '跳转到状态,执行后将继续执行对应状态的动作',
     },
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
 });
 exports.changeRandomStateScheme = (0, Type_1.createObjectScheme)({
     StateIds: (0, Type_1.createArrayScheme)({
@@ -61,5 +63,6 @@ exports.changeRandomStateScheme = (0, Type_1.createObjectScheme)({
     Meta: {
         Tip: '随机选择一个状态进行跳转',
     },
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
 });
 //# sourceMappingURL=State.js.map

@@ -6,7 +6,12 @@ import { parseFlowInfo } from '../../../../Game/Flow/Action';
 import { Btn, Text } from '../../Component/CommonComponent';
 import { Flow } from '../../Component/Flow';
 import { log } from '../../Log';
-import { createObjectSchemeForUeClass, createStringScheme, IAnyProps } from '../Type';
+import {
+    createObjectSchemeForUeClass,
+    createStringScheme,
+    EObjectFilter,
+    IAnyProps,
+} from '../Type';
 
 function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
     const flow = parseFlowInfo(props.Value as string);
@@ -32,6 +37,7 @@ function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
             {prefixElement}
             <Flow
                 Flow={flow}
+                ObjectFilter={EObjectFilter.Npc}
                 OnModify={(newFlow, type): void => {
                     props.OnModify(JSON.stringify(newFlow), type);
                 }}
@@ -41,7 +47,7 @@ function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
 }
 
 export const flowJsonScheme = createStringScheme({
-    Render: (props) => renderFlowJson('TriggerActionsJson', props),
+    Render: (props) => renderFlowJson('FlowConfig', props),
     Meta: {
         HideName: true,
         NewLine: true,

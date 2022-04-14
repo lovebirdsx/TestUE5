@@ -4,13 +4,14 @@ import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
 import { IActionInfo } from '../../../Game/Flow/Action';
-import { IAbstractType, scheme, TModifyType } from '../Scheme/Action';
+import { EObjectFilter, IAbstractType, scheme, TModifyType } from '../Scheme/Action';
 import { Any } from './Any';
 import { TAB_OFFSET } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
 
 export interface IActionProps {
     Action: IActionInfo;
+    ObjectFilter: EObjectFilter;
     OnModify: (action: IActionInfo, type: TModifyType) => void;
     OnContextCommand: (cmd: string) => void;
 }
@@ -20,11 +21,15 @@ export class Action extends React.Component<IActionProps> {
     public render(): JSX.Element {
         const { props } = this;
         const { Action: action } = props;
+        const typeScheme = scheme.GetDynamicObjectScheme(
+            props.ObjectFilter,
+        ) as IAbstractType<unknown>;
+
         return (
             <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
                 <Any
                     Value={action as unknown}
-                    Type={scheme.GetNormalActionScheme() as IAbstractType<unknown>}
+                    Type={typeScheme}
                     OnModify={props.OnModify as (obj: unknown, type: TModifyType) => void}
                     PrefixElement={
                         <ContextBtn

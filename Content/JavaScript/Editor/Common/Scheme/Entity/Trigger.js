@@ -10,7 +10,7 @@ const Log_1 = require("../../Log");
 const Action_2 = require("../Action");
 exports.actionsScheme = (0, Action_2.createObjectScheme)({
     Actions: (0, Action_2.createArrayScheme)({
-        Element: Action_2.normalActionScheme,
+        Element: Action_2.scheme.GetDynamicObjectScheme(Action_2.EObjectFilter.Trigger),
         Meta: {
             HideName: true,
             NewLine: true,

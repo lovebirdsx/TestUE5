@@ -1,7 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.createObjectScheme = exports.createDefaultObject = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.normalActionScheme = exports.createDynamicType = void 0;
+exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.createObjectScheme = exports.createDefaultObject = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
+/* eslint-disable no-param-reassign */
+/* eslint-disable spellcheck/spell-checker */
+const Util_1 = require("../../../Common/Util");
 const Log_1 = require("../Log");
+var EObjectFilter;
+(function (EObjectFilter) {
+    EObjectFilter[EObjectFilter["FlowList"] = 0] = "FlowList";
+    EObjectFilter[EObjectFilter["Npc"] = 1] = "Npc";
+    EObjectFilter[EObjectFilter["Trigger"] = 2] = "Trigger";
+    EObjectFilter[EObjectFilter["Talk"] = 3] = "Talk";
+})(EObjectFilter = exports.EObjectFilter || (exports.EObjectFilter = {}));
+exports.allObjectFilter = (0, Util_1.getEnumValues)(EObjectFilter);
+function objectFilterExcept(...args) {
+    return exports.allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
+}
+exports.objectFilterExcept = objectFilterExcept;
 function createDynamicType(filter, type) {
     return {
         Filter: filter,
@@ -23,11 +38,6 @@ function createDynamicType(filter, type) {
     };
 }
 exports.createDynamicType = createDynamicType;
-exports.normalActionScheme = createDynamicType('normal', {
-    Meta: {
-        NewLine: true,
-    },
-});
 function getEnumNames(config) {
     const names = [];
     for (const key in config) {
@@ -134,7 +144,7 @@ function createObjectScheme(fields, type) {
         Fields: fields,
         Meta: type.Meta || {},
         CreateDefault: type.CreateDefault || (() => createDefaultObject(fields)),
-        Filters: type.Filters || ['normal', 'talk'],
+        Filters: type.Filters || (0, Util_1.getEnumValues)(EObjectFilter),
         Fix: type.Fix || ((value, container) => fixFileds(value, fields)),
         Render: type.Render,
         Scheduled: type.Scheduled,

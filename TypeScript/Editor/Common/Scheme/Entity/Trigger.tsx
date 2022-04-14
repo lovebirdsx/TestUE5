@@ -12,14 +12,15 @@ import {
     createObjectScheme,
     createObjectSchemeForUeClass,
     createStringScheme,
+    EObjectFilter,
     IAnyProps,
-    normalActionScheme,
+    scheme,
     TModifyType,
 } from '../Action';
 
 export const actionsScheme = createObjectScheme<ITriggerActions>({
     Actions: createArrayScheme({
-        Element: normalActionScheme,
+        Element: scheme.GetDynamicObjectScheme(EObjectFilter.Trigger),
         Meta: {
             HideName: true,
             NewLine: true,

@@ -4,14 +4,14 @@ exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exp
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const FlowList_1 = require("../../Operations/FlowList");
 const TalkerList_1 = require("../../../TalkerEditor/TalkerList");
 const Basic_1 = require("../../Component/Basic");
 const CommonComponent_1 = require("../../Component/CommonComponent");
 const Obj_1 = require("../../Component/Obj");
+const FlowList_1 = require("../../Operations/FlowList");
 const Type_1 = require("../Type");
 exports.showTalkContext = React.createContext(undefined);
-const talkActionInfoScheme = (0, Type_1.createDynamicType)('talk', {
+const talkActionInfoScheme = (0, Type_1.createDynamicType)(Type_1.EObjectFilter.Talk, {
     Meta: {
         NewLine: false,
         Tip: '动作',
@@ -244,7 +244,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
         },
     }),
 }, {
-    Filters: ['normal'],
+    Filters: [Type_1.EObjectFilter.FlowList],
     Scheduled: true,
     Meta: {
         Tip: [
@@ -272,7 +272,7 @@ exports.showOptionScheme = (0, Type_1.createObjectScheme)({
         Tip: '选项内容',
     }),
 }, {
-    Filters: ['normal'],
+    Filters: [Type_1.EObjectFilter.FlowList],
     Scheduled: true,
     Meta: {
         Tip: '显示独立选项',

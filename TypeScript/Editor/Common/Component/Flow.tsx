@@ -6,7 +6,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
 import { log } from '../Log';
 import { flowOp } from '../Operations/Flow';
-import { TModifyType } from '../Scheme/Type';
+import { EObjectFilter, TModifyType } from '../Scheme/Type';
 import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from './CommonComponent';
 import { State } from './State';
 
@@ -14,6 +14,7 @@ export interface IFlowProps {
     Flow: IFlowInfo;
     IsDuplicate?: boolean;
     PrefixElement?: JSX.Element;
+    ObjectFilter: EObjectFilter;
     OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
 
@@ -136,6 +137,7 @@ export class Flow extends React.Component<IFlowProps> {
                         IsDuplicate={
                             states.find((e) => e !== state && e.Name === state.Name) !== undefined
                         }
+                        ObjectFilter={this.props.ObjectFilter}
                         State={state}
                         OnModify={(newConfig, type): void => {
                             this.ModifyState(id, newConfig, type);

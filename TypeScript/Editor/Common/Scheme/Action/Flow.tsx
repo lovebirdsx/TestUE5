@@ -6,7 +6,7 @@ import { ConfigFile } from '../../../FlowEditor/ConfigFile';
 import { List, Text } from '../../Component/CommonComponent';
 import { flowOp } from '../../Operations/Flow';
 import { flowListOp } from '../../Operations/FlowList';
-import { createObjectScheme, IAnyProps } from '../Type';
+import { createObjectScheme, EObjectFilter, IAnyProps } from '../Type';
 
 function renderPlayFlow(props: IAnyProps): JSX.Element {
     const playFlow = props.Value as IPlayFlow;
@@ -85,6 +85,7 @@ export const playFlowScheme = createObjectScheme<IPlayFlow>(
             Tip: '播放流程配置文件中的某个流程',
         },
         Render: renderPlayFlow,
+        Filters: [EObjectFilter.Npc],
         CreateDefault: createDefaultPlayFlow,
     },
 );

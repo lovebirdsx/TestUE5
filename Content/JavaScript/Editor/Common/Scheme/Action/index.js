@@ -52,58 +52,69 @@ function createActionNamesByfilter() {
     }
     return map;
 }
-const actionNamesByfilter = createActionNamesByfilter();
-function getScheme(name) {
-    const as = actionSchemeMap[name];
-    if (!as) {
-        (0, Log_1.error)(`No action scheme for ${name}`);
-    }
-    return as;
-}
-function spawnAction(name) {
-    const as = actionSchemeMap[name];
-    return {
-        Name: name,
-        Params: as.CreateDefault(undefined),
-    };
-}
-function spawnDefaultAction(filter) {
-    const actionName = actionNamesByfilter.get(filter || 'normal')[0];
-    const as = actionSchemeMap[actionName];
-    return {
-        Name: actionName,
-        Params: as.CreateDefault(undefined),
-    };
-}
-function getActionNames(filter) {
-    return actionNamesByfilter.get(filter || 'normal');
-}
-function isFolderAble(scheme) {
-    return scheme.Meta.NewLine;
-}
-function fixAction(action) {
-    const typeData = getScheme(action.Name);
-    if (!typeData) {
-        Object.assign(action, spawnDefaultAction('normal'));
-        return 'fixed';
-    }
-    const old = JSON.stringify(action.Params);
-    const result = (0, Type_1.fixFileds)(action.Params, typeData.Fields);
-    if (result === 'fixed') {
-        (0, Log_1.log)(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
-    }
+function createDynamicObjectSchemeMap() {
+    const result = new Map();
+    Type_1.allObjectFilter.forEach((objectFilter) => {
+        const type = (0, Type_1.createDynamicType)(objectFilter, {
+            Meta: {
+                NewLine: true,
+            },
+        });
+        result.set(objectFilter, type);
+    });
     return result;
 }
-function getNormalActionScheme() {
-    return Type_1.normalActionScheme;
+class Scheme {
+    ActionNamesByfilter;
+    DynamicObjectSchemeMap;
+    constructor() {
+        this.ActionNamesByfilter = createActionNamesByfilter();
+        this.DynamicObjectSchemeMap = createDynamicObjectSchemeMap();
+    }
+    GetScheme(name) {
+        const as = actionSchemeMap[name];
+        if (!as) {
+            (0, Log_1.error)(`No action scheme for ${name}`);
+        }
+        return as;
+    }
+    SpawnAction(name) {
+        const as = actionSchemeMap[name];
+        return {
+            Name: name,
+            Params: as.CreateDefault(undefined),
+        };
+    }
+    SpawnDefaultAction(filter) {
+        const actionName = this.ActionNamesByfilter.get(filter)[0];
+        const as = actionSchemeMap[actionName];
+        return {
+            Name: actionName,
+            Params: as.CreateDefault(undefined),
+        };
+    }
+    GetActionNames(filter) {
+        return this.ActionNamesByfilter.get(filter);
+    }
+    IsFolderAble(scheme) {
+        return scheme.Meta.NewLine;
+    }
+    FixAction(action, objectFilter) {
+        const typeData = this.GetScheme(action.Name);
+        if (!typeData) {
+            Object.assign(action, this.SpawnDefaultAction(objectFilter || Type_1.EObjectFilter.FlowList));
+            return 'fixed';
+        }
+        const old = JSON.stringify(action.Params);
+        const result = (0, Type_1.fixFileds)(action.Params, typeData.Fields);
+        if (result === 'fixed') {
+            (0, Log_1.log)(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
+        }
+        return result;
+    }
+    GetDynamicObjectScheme(objectFilter) {
+        return this.DynamicObjectSchemeMap.get(objectFilter);
+    }
 }
-exports.scheme = {
-    GetScheme: getScheme,
-    GetActionNames: getActionNames,
-    SpawnAction: spawnAction,
-    SpawnDefaultAction: spawnDefaultAction,
-    IsFolderAble: isFolderAble,
-    FixAction: fixAction,
-    GetNormalActionScheme: getNormalActionScheme,
-};
+exports.scheme = new Scheme();
 //# sourceMappingURL=index.js.map

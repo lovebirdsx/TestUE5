@@ -7,7 +7,7 @@ import {
     ISetPlotMode,
     plotModeConfig,
 } from '../../../../Game/Flow/Action';
-import { booleanHideNameScheme, createEnumType, createObjectScheme } from '../Type';
+import { booleanHideNameScheme, createEnumType, createObjectScheme, EObjectFilter } from '../Type';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {
@@ -49,7 +49,7 @@ export const setPlotModeScheme = createObjectScheme<ISetPlotMode>(
         }),
     },
     {
-        Filters: ['normal'],
+        Filters: [EObjectFilter.FlowList],
         Meta: {
             Tip: '设定剧情模式,默认为D级演出',
         },

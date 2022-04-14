@@ -114,7 +114,7 @@ class Flow extends React.Component {
         if (!flow._folded) {
             const { States: states } = flow;
             nodes = states.map((state, id) => {
-                return (React.createElement(State_1.State, { key: id, IsDuplicate: states.find((e) => e !== state && e.Name === state.Name) !== undefined, State: state, OnModify: (newConfig, type) => {
+                return (React.createElement(State_1.State, { key: id, IsDuplicate: states.find((e) => e !== state && e.Name === state.Name) !== undefined, ObjectFilter: this.props.ObjectFilter, State: state, OnModify: (newConfig, type) => {
                         this.ModifyState(id, newConfig, type);
                     }, OnContextCommand: (cmd) => {
                         this.OnContextCommand(id, cmd);

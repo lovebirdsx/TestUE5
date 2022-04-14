@@ -5,8 +5,8 @@ exports.State = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Flow_1 = require("../Operations/Flow");
 const Log_1 = require("../Log");
+const Flow_1 = require("../Operations/Flow");
 const Action_1 = require("../Scheme/Action");
 const Action_2 = require("./Action");
 const CommonComponent_1 = require("./CommonComponent");
@@ -40,7 +40,7 @@ class State extends React.Component {
         }, 'fold');
     };
     SpwanNewActionAfter(state, id) {
-        return Action_1.scheme.SpawnDefaultAction('normal');
+        return Action_1.scheme.SpawnDefaultAction(this.props.ObjectFilter);
     }
     AddAction = () => {
         this.Modify((from, to) => {
@@ -119,7 +119,7 @@ class State extends React.Component {
     render() {
         const { State: state } = this.props;
         const actions = state.Actions.map((e, id) => {
-            return (React.createElement(Action_2.Action, { key: id, Action: e, OnModify: (action, type) => {
+            return (React.createElement(Action_2.Action, { key: id, Action: e, ObjectFilter: this.props.ObjectFilter, OnModify: (action, type) => {
                     this.OnActionModify(id, action, type);
                 }, OnContextCommand: (cmd) => {
                     this.OnContextCommand(id, cmd);

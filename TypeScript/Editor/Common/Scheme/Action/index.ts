@@ -2,12 +2,13 @@
 import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
 import { error, log } from '../../Log';
 import {
+    allObjectFilter,
+    createDynamicType,
+    EObjectFilter,
     fixFileds,
     IAbstractType,
-    normalActionScheme,
     TDynamicObjectType,
     TFixResult,
-    TObjectFilter,
     TObjectType,
 } from '../Type';
 import { playFlowScheme } from './Flow';
@@ -37,8 +38,8 @@ const actionSchemeMap: { [key in TActionType]: TObjectType<unknown> } = {
     Wait: waitScheme as TObjectType<unknown>,
 };
 
-function createActionNamesByfilter(): Map<TObjectFilter, TActionType[]> {
-    const map = new Map<TObjectFilter, TActionType[]>();
+function createActionNamesByfilter(): Map<EObjectFilter, TActionType[]> {
+    const map = new Map<EObjectFilter, TActionType[]>();
     for (const typeName in actionSchemeMap) {
         const typeData = (actionSchemeMap as Record<string, TObjectType<unknown>>)[typeName];
         typeData.Filters.forEach((filter) => {
@@ -54,66 +55,80 @@ function createActionNamesByfilter(): Map<TObjectFilter, TActionType[]> {
     return map;
 }
 
-const actionNamesByfilter = createActionNamesByfilter();
-
-function getScheme(name: string): TObjectType<unknown> {
-    const as = (actionSchemeMap as Record<string, TObjectType<unknown>>)[name];
-    if (!as) {
-        error(`No action scheme for ${name}`);
-    }
-    return as;
-}
-
-function spawnAction(name: TActionType): IActionInfo {
-    const as = actionSchemeMap[name];
-    return {
-        Name: name,
-        Params: as.CreateDefault(undefined),
-    };
-}
-
-function spawnDefaultAction(filter: TObjectFilter): IActionInfo {
-    const actionName = actionNamesByfilter.get(filter || 'normal')[0];
-    const as = actionSchemeMap[actionName];
-    return {
-        Name: actionName,
-        Params: as.CreateDefault(undefined),
-    };
-}
-
-function getActionNames(filter?: TObjectFilter): TActionType[] {
-    return actionNamesByfilter.get(filter || 'normal');
-}
-
-function isFolderAble(scheme: IAbstractType<unknown>): boolean {
-    return scheme.Meta.NewLine;
-}
-
-function fixAction(action: IActionInfo): TFixResult {
-    const typeData = getScheme(action.Name);
-    if (!typeData) {
-        Object.assign(action, spawnDefaultAction('normal'));
-        return 'fixed';
-    }
-
-    const old = JSON.stringify(action.Params);
-    const result = fixFileds(action.Params, typeData.Fields);
-    if (result === 'fixed') {
-        log(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
-    }
+function createDynamicObjectSchemeMap(): Map<EObjectFilter, TDynamicObjectType> {
+    const result: Map<EObjectFilter, TDynamicObjectType> = new Map();
+    allObjectFilter.forEach((objectFilter) => {
+        const type = createDynamicType(objectFilter, {
+            Meta: {
+                NewLine: true,
+            },
+        });
+        result.set(objectFilter, type);
+    });
     return result;
 }
 
-function getNormalActionScheme(): TDynamicObjectType {
-    return normalActionScheme;
+class Scheme {
+    private readonly ActionNamesByfilter: Map<EObjectFilter, TActionType[]>;
+
+    private readonly DynamicObjectSchemeMap: Map<EObjectFilter, TDynamicObjectType>;
+
+    public constructor() {
+        this.ActionNamesByfilter = createActionNamesByfilter();
+        this.DynamicObjectSchemeMap = createDynamicObjectSchemeMap();
+    }
+
+    public GetScheme(name: string): TObjectType<unknown> {
+        const as = (actionSchemeMap as Record<string, TObjectType<unknown>>)[name];
+        if (!as) {
+            error(`No action scheme for ${name}`);
+        }
+        return as;
+    }
+
+    public SpawnAction(name: TActionType): IActionInfo {
+        const as = actionSchemeMap[name];
+        return {
+            Name: name,
+            Params: as.CreateDefault(undefined),
+        };
+    }
+
+    public SpawnDefaultAction(filter: EObjectFilter): IActionInfo {
+        const actionName = this.ActionNamesByfilter.get(filter)[0];
+        const as = actionSchemeMap[actionName];
+        return {
+            Name: actionName,
+            Params: as.CreateDefault(undefined),
+        };
+    }
+
+    public GetActionNames(filter: EObjectFilter): TActionType[] {
+        return this.ActionNamesByfilter.get(filter);
+    }
+
+    public IsFolderAble(scheme: IAbstractType<unknown>): boolean {
+        return scheme.Meta.NewLine;
+    }
+
+    public FixAction(action: IActionInfo, objectFilter?: EObjectFilter): TFixResult {
+        const typeData = this.GetScheme(action.Name);
+        if (!typeData) {
+            Object.assign(action, this.SpawnDefaultAction(objectFilter || EObjectFilter.FlowList));
+            return 'fixed';
+        }
+
+        const old = JSON.stringify(action.Params);
+        const result = fixFileds(action.Params, typeData.Fields);
+        if (result === 'fixed') {
+            log(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
+        }
+        return result;
+    }
+
+    public GetDynamicObjectScheme(objectFilter: EObjectFilter): TDynamicObjectType {
+        return this.DynamicObjectSchemeMap.get(objectFilter);
+    }
 }
 
-export const scheme = {
-    GetScheme: getScheme,
-    GetActionNames: getActionNames,
-    SpawnAction: spawnAction,
-    SpawnDefaultAction: spawnDefaultAction,
-    IsFolderAble: isFolderAble,
-    FixAction: fixAction,
-    GetNormalActionScheme: getNormalActionScheme,
-};
+export const scheme = new Scheme();

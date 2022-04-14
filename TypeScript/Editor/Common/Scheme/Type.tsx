@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
+import { getEnumValues } from '../../../Common/Util';
 import { IActionInfo, ILog } from '../../../Game/Flow/Action';
 import { error, log } from '../Log';
 
@@ -62,10 +63,21 @@ export type TArrayType<T> = IAbstractType<T[]> & {
     Element: IAbstractType<T>;
 };
 
-export type TObjectFilter = 'normal' | 'talk';
+export enum EObjectFilter {
+    FlowList, // 在flowlist中执行
+    Npc, // 在npc中执行
+    Trigger, // 在trigger中执行
+    Talk, // 在ShowTalk中执行
+}
+
+export const allObjectFilter = getEnumValues(EObjectFilter);
+export function objectFilterExcept(...args: EObjectFilter[]): EObjectFilter[] {
+    return allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
+}
+
 export type TObjectFields<T> = { [K in keyof T]: IAbstractType<T[K]> };
 export type TObjectType<T> = IAbstractType<T> & {
-    Filters: TObjectFilter[];
+    Filters: EObjectFilter[];
     Fields: TObjectFields<T>;
     Scheduled?: boolean;
 };
@@ -76,11 +88,11 @@ type TClassType<T> = IAbstractType<T> & {
 };
 
 export type TDynamicObjectType = IAbstractType<IActionInfo> & {
-    Filter: TObjectFilter;
+    Filter: EObjectFilter;
 };
 
 export function createDynamicType(
-    filter: TObjectFilter,
+    filter: EObjectFilter,
     type: Omit<Partial<TDynamicObjectType>, 'filter' | 'renderType'>,
 ): TDynamicObjectType {
     return {
@@ -103,12 +115,6 @@ export function createDynamicType(
         Render: type.Render,
     };
 }
-
-export const normalActionScheme = createDynamicType('normal', {
-    Meta: {
-        NewLine: true,
-    },
-});
 
 function getEnumNames(config: Record<string, string>): string[] {
     const names = [] as string[];
@@ -230,7 +236,7 @@ export function createObjectScheme<T>(
         Fields: fields,
         Meta: type.Meta || {},
         CreateDefault: type.CreateDefault || ((): T => createDefaultObject(fields)),
-        Filters: type.Filters || ['normal', 'talk'],
+        Filters: type.Filters || getEnumValues(EObjectFilter),
         Fix: type.Fix || ((value, container): TFixResult => fixFileds(value, fields)),
         Render: type.Render,
         Scheduled: type.Scheduled,

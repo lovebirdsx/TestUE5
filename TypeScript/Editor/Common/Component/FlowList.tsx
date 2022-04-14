@@ -6,7 +6,7 @@ import { HorizontalBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { IFlowInfo, IFlowListInfo } from '../../../Game/Flow/Action';
 import { log } from '../Log';
 import { flowListOp } from '../Operations/FlowList';
-import { TModifyType } from '../Scheme/Type';
+import { EObjectFilter, TModifyType } from '../Scheme/Type';
 import { Btn } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
 import { Flow } from './Flow';
@@ -143,6 +143,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                 <Flow
                     key={id}
                     Flow={flow}
+                    ObjectFilter={EObjectFilter.FlowList}
                     IsDuplicate={
                         flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined
                     }

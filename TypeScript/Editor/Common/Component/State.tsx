@@ -4,9 +4,9 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { flowOp } from '../Operations/Flow';
 import { log } from '../Log';
-import { scheme, TModifyType } from '../Scheme/Action';
+import { flowOp } from '../Operations/Flow';
+import { EObjectFilter, scheme, TModifyType } from '../Scheme/Action';
 import { Action } from './Action';
 import { Btn, EditorBox, Fold, SlotText, Text } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
@@ -15,6 +15,7 @@ import { flowContext } from './Flow';
 export interface IStateProps {
     State: IStateInfo;
     IsDuplicate: boolean;
+    ObjectFilter: EObjectFilter;
     OnContextCommand: (cmd: string) => void;
     OnModify: (state: IStateInfo, type: TModifyType) => void;
 }
@@ -50,7 +51,7 @@ export class State extends React.Component<IStateProps> {
     };
 
     private SpwanNewActionAfter(state: IStateInfo, id: number): IActionInfo {
-        return scheme.SpawnDefaultAction('normal');
+        return scheme.SpawnDefaultAction(this.props.ObjectFilter);
     }
 
     private readonly AddAction = (): void => {
@@ -147,6 +148,7 @@ export class State extends React.Component<IStateProps> {
                 <Action
                     key={id}
                     Action={e}
+                    ObjectFilter={this.props.ObjectFilter}
                     OnModify={(action, type): void => {
                         this.OnActionModify(id, action, type);
                     }}

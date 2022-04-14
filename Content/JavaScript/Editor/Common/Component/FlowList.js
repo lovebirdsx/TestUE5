@@ -7,6 +7,7 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../Log");
 const FlowList_1 = require("../Operations/FlowList");
+const Type_1 = require("../Scheme/Type");
 const CommonComponent_1 = require("./CommonComponent");
 const ContextBtn_1 = require("./ContextBtn");
 const Flow_1 = require("./Flow");
@@ -121,7 +122,7 @@ class FlowList extends React.Component {
     render() {
         const { Flows: flows } = this.props.FlowList;
         const nodes = flows.map((flow, id) => {
-            return (React.createElement(Flow_1.Flow, { key: id, Flow: flow, IsDuplicate: flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined, OnModify: (newFlow, type) => {
+            return (React.createElement(Flow_1.Flow, { key: id, Flow: flow, ObjectFilter: Type_1.EObjectFilter.FlowList, IsDuplicate: flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined, OnModify: (newFlow, type) => {
                     this.ModifiedFlow(id, newFlow, type);
                 }, PrefixElement: React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveDown', 'moveUp'], OnCommand: (cmd) => {
                         this.OnContextCommand(id, cmd);

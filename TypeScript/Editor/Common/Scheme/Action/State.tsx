@@ -4,14 +4,16 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import { IChangeRandomState, IChangeState, IFinishState } from '../../../../Game/Flow/Action';
-import { flowContext } from '../../Component/Flow';
 import { List } from '../../Component/CommonComponent';
+import { flowContext } from '../../Component/Flow';
 import {
     createArrayScheme,
     createIntScheme,
     createObjectScheme,
     createStringScheme,
+    EObjectFilter,
     IAnyProps,
+    objectFilterExcept,
 } from '../Type';
 
 export const finishStateScheme = createObjectScheme<IFinishState>(
@@ -32,6 +34,7 @@ export const finishStateScheme = createObjectScheme<IFinishState>(
         Meta: {
             Tip: '结束状态,后续的动作将不被执行',
         },
+        Filters: objectFilterExcept(EObjectFilter.Trigger),
     },
 );
 
@@ -78,6 +81,7 @@ export const changeStateScheme = createObjectScheme<IChangeState>(
         Meta: {
             Tip: '跳转到状态,执行后将继续执行对应状态的动作',
         },
+        Filters: objectFilterExcept(EObjectFilter.Trigger),
     },
 );
 
@@ -94,5 +98,6 @@ export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>(
         Meta: {
             Tip: '随机选择一个状态进行跳转',
         },
+        Filters: objectFilterExcept(EObjectFilter.Trigger),
     },
 );

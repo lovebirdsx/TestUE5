@@ -56,14 +56,6 @@
               ""Params"": {
                 ""Mode"": ""LevelC""
               }
-            },
-            {
-              ""Name"": ""PlayFlow"",
-              ""Params"": {
-                ""FlowListName"": ""剧情_1"",
-                ""FlowId"": 1,
-                ""StateId"": 2
-              }
             }
           ],
           ""Id"": 2

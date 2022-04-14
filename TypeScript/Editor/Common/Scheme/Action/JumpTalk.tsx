@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { IJumpTalk } from '../../../../Game/Flow/Action';
 import { List } from '../../Component/CommonComponent';
-import { createIntScheme, createObjectScheme, IAnyProps } from '../Type';
+import { createIntScheme, createObjectScheme, EObjectFilter, IAnyProps } from '../Type';
 import { showTalkContext } from './ShowTalk';
 
 export const jumpTalkScheme = createObjectScheme<IJumpTalk>(
@@ -41,7 +41,7 @@ export const jumpTalkScheme = createObjectScheme<IJumpTalk>(
         }),
     },
     {
-        Filters: ['talk'],
+        Filters: [EObjectFilter.Talk],
         Meta: {
             Tip: '跳转到当前状态的对话,跳转后,将继续播放对应的对话',
         },

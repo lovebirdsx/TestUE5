@@ -38,6 +38,18 @@
                 ""Level"": ""Info"",
                 ""Content"": ""剧情1 状态1 Log2""
               }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 2
+              }
             }
           ],
           ""Id"": 1
@@ -46,22 +58,29 @@
           ""Name"": ""状态2"",
           ""Actions"": [
             {
-              ""Name"": ""ChangeState"",
+              ""Name"": ""Log"",
               ""Params"": {
-                ""StateId"": 2
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态2 Log1""
               }
             },
             {
-              ""Name"": ""SetFlowBoolOption"",
+              ""Name"": ""Wait"",
               ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": true
+                ""Time"": 1
               }
             },
             {
-              ""Name"": ""SetPlotMode"",
+              ""Name"": ""Log"",
               ""Params"": {
-                ""Mode"": ""LevelC""
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态2 Log2""
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
               }
             }
           ],

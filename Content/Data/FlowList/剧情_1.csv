@@ -129,6 +129,13 @@
           ""Name"": ""状态1"",
           ""Actions"": [
             {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": true
+              }
+            },
+            {
               ""Name"": ""ShowTalk"",
               ""Params"": {
                 ""TalkItems"": [
@@ -197,6 +204,13 @@
                     ]
                   }
                 ]
+              }
+            },
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": false
               }
             }
           ],

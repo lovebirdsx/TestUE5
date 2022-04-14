@@ -4,7 +4,13 @@ import { GameplayStatics, PlayerController } from 'ue';
 import TsPlayer from './TSPlayer';
 
 class TsPlayerController extends PlayerController {
+    public static Instance: TsPlayerController;
+
     private MyPlayer: TsPlayer;
+
+    public Constructor(): void {
+        TsPlayerController.Instance = this;
+    }
 
     public ReceiveBeginPlay(): void {
         this.MyPlayer = GameplayStatics.GetPlayerCharacter(this.GetWorld(), 0) as TsPlayer;

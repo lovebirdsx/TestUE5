@@ -2,17 +2,10 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { delay } from '../../Common/Async';
-import { error, log, warn } from '../../Editor/Common/Log';
+import { error, log } from '../../Editor/Common/Log';
 import TsEntityComponent from '../Entity/TsEntityComponent';
-import {
-    IActionInfo,
-    ILog,
-    IWait,
-    parseTriggerActionsJson,
-    TActionFun,
-    TActionType,
-} from './Action';
+import { IActionInfo, parseTriggerActionsJson, TActionFun, TActionType } from './Action';
+import { globalActionsRunner } from './GlobalActionsRunner';
 
 export class ActionRunnerHandler {
     private MyIsRunning: boolean;
@@ -63,8 +56,6 @@ class TsActionRunnerComponent extends TsEntityComponent {
     public Constructor(): void {
         const owner = this.GetOwner();
         this.ActionMap = new Map();
-        this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
-        this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         log(
             `ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`,
         );
@@ -91,6 +82,11 @@ class TsActionRunnerComponent extends TsEntityComponent {
 
     // @no-blueprint
     public async ExecuteOne(action: IActionInfo): Promise<void> {
+        if (globalActionsRunner.ContainsAction(action.Name)) {
+            await globalActionsRunner.ExecuteOne(action);
+            return;
+        }
+
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {
             error(`No action for action type [${action.Name}]`);
@@ -102,30 +98,6 @@ class TsActionRunnerComponent extends TsEntityComponent {
         } else {
             await actionFun(action);
         }
-    }
-
-    // @no-blueprint
-    private ExecuteLog(action: IActionInfo): void {
-        const logAction = action.Params as ILog;
-        switch (logAction.Level) {
-            case 'Info':
-                log(logAction.Content);
-                break;
-            case 'Warn':
-                warn(logAction.Content);
-                break;
-            case 'Error':
-                error(logAction.Content);
-                break;
-            default:
-                break;
-        }
-    }
-
-    // @no-blueprint
-    private async ExecuteWait(action: IActionInfo): Promise<void> {
-        const waitAction = action.Params as IWait;
-        return delay(waitAction.Time * 1000);
     }
 }
 

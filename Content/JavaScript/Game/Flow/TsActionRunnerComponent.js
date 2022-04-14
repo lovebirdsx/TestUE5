@@ -5,10 +5,10 @@ exports.ActionRunnerHandler = void 0;
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Editor/Common/Log");
 const TsEntityComponent_1 = require("../Entity/TsEntityComponent");
 const Action_1 = require("./Action");
+const GlobalActionsRunner_1 = require("./GlobalActionsRunner");
 class ActionRunnerHandler {
     MyIsRunning;
     Actions;
@@ -48,8 +48,6 @@ class TsActionRunnerComponent extends TsEntityComponent_1.default {
     Constructor() {
         const owner = this.GetOwner();
         this.ActionMap = new Map();
-        this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
-        this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         (0, Log_1.log)(`ActionRunner's name is ${this.GetName()} owner is ${owner ? owner.GetName() : 'null'}`);
     }
     // @no-blueprint
@@ -70,6 +68,10 @@ class TsActionRunnerComponent extends TsEntityComponent_1.default {
     }
     // @no-blueprint
     async ExecuteOne(action) {
+        if (GlobalActionsRunner_1.globalActionsRunner.ContainsAction(action.Name)) {
+            await GlobalActionsRunner_1.globalActionsRunner.ExecuteOne(action);
+            return;
+        }
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {
             (0, Log_1.error)(`No action for action type [${action.Name}]`);
@@ -81,28 +83,6 @@ class TsActionRunnerComponent extends TsEntityComponent_1.default {
         else {
             await actionFun(action);
         }
-    }
-    // @no-blueprint
-    ExecuteLog(action) {
-        const logAction = action.Params;
-        switch (logAction.Level) {
-            case 'Info':
-                (0, Log_1.log)(logAction.Content);
-                break;
-            case 'Warn':
-                (0, Log_1.warn)(logAction.Content);
-                break;
-            case 'Error':
-                (0, Log_1.error)(logAction.Content);
-                break;
-            default:
-                break;
-        }
-    }
-    // @no-blueprint
-    async ExecuteWait(action) {
-        const waitAction = action.Params;
-        return (0, Async_1.delay)(waitAction.Time * 1000);
     }
 }
 exports.default = TsActionRunnerComponent;

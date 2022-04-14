@@ -7,6 +7,8 @@ import { error } from '../../Editor/Common/Log';
 import TsEntity from '../Entity/TsEntity';
 
 class TsPlayer extends TestUE5Character {
+    public static Instance: TsPlayer;
+
     private Movement: CharacterMovementComponent;
 
     private InitSpeed: number;
@@ -18,6 +20,8 @@ class TsPlayer extends TestUE5Character {
     private MyIsInteracting: boolean;
 
     public Constructor(): void {
+        TsPlayer.Instance = this;
+
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];

@@ -1,19 +1,38 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable for-direction */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/prefer-for-of */
+import { $ref } from 'puerts';
 import * as UE from 'ue';
 
+import { delay, TCallback, waitCallback } from '../../Common/Async';
+import { toUeArray } from '../../Editor/Common/Common';
 import { error, log } from '../../Editor/Common/Log';
 import { flowListOp } from '../../Editor/Common/Operations/FlowList';
+import { TalkerListOp } from '../../Editor/TalkerEditor/TalkerList';
 import TsEntity from '../Entity/TsEntity';
 import TsEntityComponent from '../Entity/TsEntityComponent';
 import TsHud from '../Player/TsHud';
-import { IActionInfo, IChangeState, IFlowInfo, IFlowListInfo, IPlayFlow } from './Action';
+import {
+    IActionInfo,
+    IChangeState,
+    IFlowInfo,
+    IFlowListInfo,
+    IJumpTalk,
+    IPlayFlow,
+    IShowTalk,
+    ITalkItem,
+    TActionType,
+} from './Action';
 import TsActionRunnerComponent, { ActionRunnerHandler } from './TsActionRunnerComponent';
 
 class FlowContext {
     public FlowInfo: IFlowInfo;
 
     public FlowListInfo: IFlowListInfo;
+
+    public ShowTalkInfo: IShowTalk;
 
     public StateId: number;
 
@@ -30,6 +49,14 @@ class FlowContext {
         this.StateId = stateId;
         this.Runner = runner;
     }
+
+    public get IsTalkContext(): boolean {
+        return this.FlowListInfo !== undefined;
+    }
+
+    public get IsStateChangeable(): boolean {
+        return this.FlowInfo !== undefined;
+    }
 }
 
 class TsFlowComponent extends TsEntityComponent {
@@ -42,6 +69,12 @@ class TsFlowComponent extends TsEntityComponent {
     // @no-blueprint
     private FlowStack: FlowContext[];
 
+    // @no-blueprint
+    private NeedJumpTalk: boolean;
+
+    // @no-blueprint
+    private NextTalkId: number;
+
     public ReceiveBeginPlay(): void {
         const entity = this.GetOwner() as TsEntity;
         this.ActionRunner = entity.GetComponentByTsClass(TsActionRunnerComponent);
@@ -49,6 +82,7 @@ class TsFlowComponent extends TsEntityComponent {
         this.ActionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
         this.ActionRunner.RegisterActionFun('PlayFlow', this.ExecutePlayFlow.bind(this));
         this.ActionRunner.RegisterActionFun('ShowTalk', this.ExecuteShowTalk.bind(this));
+        this.ActionRunner.RegisterActionFun('JumpTalk', this.ExecuteJumpTalk.bind(this));
 
         const playerController = UE.GameplayStatics.GetPlayerController(this.GetWorld(), 0);
         const tsHud = playerController.GetHUD() as TsHud;
@@ -61,7 +95,12 @@ class TsFlowComponent extends TsEntityComponent {
     private async ExecuteChangeState(actionInfo: IActionInfo): Promise<void> {
         const currentFlow = this.FlowStack.pop();
         if (!currentFlow) {
-            error(`ChangeState failed: ${this.Name} has not flow running`);
+            error(`${this.Name}: ChangeState failed because no flow running`);
+            return;
+        }
+
+        if (!currentFlow.FlowInfo) {
+            error(`${this.Name}: ChangeState failed because current flow is not state changeable`);
             return;
         }
 
@@ -73,23 +112,116 @@ class TsFlowComponent extends TsEntityComponent {
 
     // @no-blueprint
     private ExecuteFinishState(actionInfo: IActionInfo): void {
-        const currentFlow = this.FlowStack.pop();
-        if (!currentFlow) {
-            error(`FinishState failed: ${this.Name} has not flow running`);
-            return;
+        let isSucceed = false;
+        for (let i = this.FlowStack.length - 1; i >= 0; i--) {
+            const flowContext = this.FlowStack[i];
+            flowContext.Runner.Stop();
+            if (flowContext.IsStateChangeable) {
+                isSucceed = true;
+                break;
+            }
         }
 
-        currentFlow.Runner.Stop();
+        if (!isSucceed) {
+            error(`${this.Name}: FinishState failed because has not flow running`);
+        }
+    }
+
+    // @no-blueprint
+    private GetTalkContext(actionType: TActionType): FlowContext {
+        const currentFlow = this.FlowStack.at(-1);
+        if (!currentFlow) {
+            error(`${actionType} failed: ${this.Name} has not flow running`);
+            return undefined;
+        }
+
+        if (!currentFlow.FlowListInfo) {
+            error(`${actionType} failed: ${this.Name} has not flow running`);
+            return undefined;
+        }
+
+        return currentFlow;
+    }
+
+    // @no-blueprint
+    private async ShowTalkItem(flowContext: FlowContext, item: ITalkItem): Promise<void> {
+        const who = TalkerListOp.GetName(TalkerListOp.Get(), item.WhoId);
+        const texts = flowContext.FlowListInfo.Texts;
+        const content = texts[item.TextId];
+
+        this.TalkerDisplay.ShowSubtile(who, content);
+        await delay(content.length * (60 / 300) * 1000);
+        await this.RunActions(item.Actions);
+
+        if (item.Options) {
+            const optionTexts = item.Options.map((op) => texts[op.TextId]);
+            const ueOptionTexts = toUeArray(optionTexts, UE.BuiltinText);
+            this.TalkerDisplay.ShowOptions($ref(ueOptionTexts));
+            this.TalkerDisplay.OptionSelected.Clear();
+
+            let selectOptionCallback: TCallback<string> = undefined;
+            let selectOptionText: string = undefined;
+            this.TalkerDisplay.OptionSelected.Add((text) => {
+                selectOptionCallback(text);
+                selectOptionText = text;
+            });
+
+            await waitCallback<string>((resolve) => {
+                selectOptionCallback = resolve;
+            });
+
+            const option = item.Options.find((op) => texts[op.TextId] === selectOptionText);
+            await this.RunActions(option.Actions);
+        }
+
+        this.TalkerDisplay.HideAll();
     }
 
     // @no-blueprint
     private async ExecuteShowTalk(actionInfo: IActionInfo): Promise<void> {
-        // const action = actionInfo.Params as IShowTalk;
-        // const items = action.TalkItems;
-        // for (let i = 0; i < items.length; i++) {
-        //     const item = items[i];
-        //     // this.TalkerDisplay.ShowSubtile(item.)
-        // }
+        const currentFlow = this.GetTalkContext('ShowTalk');
+        if (!currentFlow) {
+            return;
+        }
+
+        const action = actionInfo.Params as IShowTalk;
+        const items = action.TalkItems;
+        let currTalkId = 0;
+        currentFlow.ShowTalkInfo = action;
+        while (currTalkId < items.length && currentFlow.Runner.IsRunning) {
+            if (currTalkId > 0) {
+                await delay(500);
+            }
+            const item = items[currTalkId++];
+            await this.ShowTalkItem(currentFlow, item);
+            if (this.NeedJumpTalk) {
+                this.NeedJumpTalk = false;
+                currTalkId = this.NextTalkId;
+            }
+        }
+    }
+
+    // @no-blueprint
+    private ExecuteJumpTalk(actionInfo: IActionInfo): void {
+        let context: FlowContext = undefined;
+        for (let i = this.FlowStack.length - 1; i >= 0; i--) {
+            const flowContext = this.FlowStack[i];
+            if (!flowContext.ShowTalkInfo) {
+                flowContext.Runner.Stop();
+            } else {
+                context = flowContext;
+                break;
+            }
+        }
+
+        if (!context) {
+            error(`${this.Name} JumpTalk failed: no talk flow found`);
+            return;
+        }
+
+        const action = actionInfo.Params as IJumpTalk;
+        this.NeedJumpTalk = true;
+        this.NextTalkId = context.ShowTalkInfo.TalkItems.findIndex((e) => e.Id === action.TalkId);
     }
 
     // @no-blueprint
@@ -105,6 +237,21 @@ class TsFlowComponent extends TsEntityComponent {
         }
 
         await this.RunFlow(flowListInfo, flowInfo, playFlow.StateId);
+    }
+
+    // @no-blueprint
+    private async RunActions(actions: IActionInfo[]): Promise<void> {
+        if (!actions) {
+            return;
+        }
+
+        const handler = this.ActionRunner.SpawnHandler(actions);
+        const context = new FlowContext(undefined, undefined, undefined, handler);
+        this.FlowStack.push(context);
+        await handler.Execute();
+        if (this.FlowStack.at(-1) === context) {
+            this.FlowStack.pop();
+        }
     }
 
     // @no-blueprint
@@ -125,6 +272,9 @@ class TsFlowComponent extends TsEntityComponent {
         const context = new FlowContext(flowListInfo, flowInfo, stateId, handler);
         this.FlowStack.push(context);
         await handler.Execute();
+        if (this.FlowStack.at(-1) === context) {
+            this.FlowStack.pop();
+        }
     }
 
     // @no-blueprint
@@ -138,7 +288,7 @@ class TsFlowComponent extends TsEntityComponent {
             return;
         }
 
-        await this.RunFlow(null, flowInfo, flowInfo.States[0].Id);
+        await this.RunFlow(undefined, flowInfo, flowInfo.States[0].Id);
     }
 }
 

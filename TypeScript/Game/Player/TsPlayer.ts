@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { CharacterMovementComponent, TestUE5Character } from 'ue';
 
+import { globalInit } from '../../Common/Init';
 import { error } from '../../Editor/Common/Log';
 import TsEntity from '../Entity/TsEntity';
 
@@ -20,6 +21,8 @@ class TsPlayer extends TestUE5Character {
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];
+
+        globalInit();
     }
 
     public get IsInteracting(): boolean {

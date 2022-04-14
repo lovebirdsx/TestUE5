@@ -72,18 +72,17 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         };
     }
 
-    private GetCurrentSelectEntity(): TsEntity | null {
+    private GetCurrentSelectEntity(): TsEntity {
         const actors = EditorLevelLibrary.GetSelectedLevelActors();
-        if (actors.Num() !== 1) {
-            return null;
+
+        for (let i = 0; i < actors.Num(); i++) {
+            const actor = actors.Get(i);
+            if (isChildOfClass(actor, TsEntity)) {
+                return actor as TsEntity;
+            }
         }
 
-        const actor = actors.Get(0);
-        if (isChildOfClass(actor, TsEntity)) {
-            return actor as TsEntity;
-        }
-
-        return null;
+        return undefined;
     }
 
     private readonly OnEntityDestory = (entity: Actor): void => {
@@ -107,7 +106,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         const entity = this.GetCurrentSelectEntity();
-        if (entity === null || entity === this.EntityState.Entity) {
+        if (!entity || entity === this.EntityState.Entity) {
             return;
         }
 

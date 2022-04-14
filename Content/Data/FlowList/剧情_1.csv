@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,剧情_1,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 2,
-  ""FlowGenId"": 2,
+  ""TextGenId"": 10,
+  ""FlowGenId"": 4,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -85,6 +85,122 @@
             }
           ],
           ""Id"": 2
+        }
+      ]
+    },
+    {
+      ""Id"": 2,
+      ""StateGenId"": 2,
+      ""Name"": ""显示对话"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 2
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 1,
+                    ""TextId"": 3
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 3,
+      ""StateGenId"": 2,
+      ""Name"": ""跳转对话"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 4
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 2,
+                    ""TextId"": 5,
+                    ""Options"": [
+                      {
+                        ""TextId"": 6,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 2
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 7,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 3
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 1,
+                    ""TextId"": 8,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""FinishState"",
+                        ""Params"": {
+                          ""Result"": ""去公园""
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 3,
+                    ""Name"": ""对话4"",
+                    ""WhoId"": 1,
+                    ""TextId"": 9,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""FinishState"",
+                        ""Params"": {
+                          ""Result"": ""去游乐场""
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
         }
       ]
     }

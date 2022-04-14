@@ -54,14 +54,13 @@ class EntityEditor extends React.Component {
     }
     GetCurrentSelectEntity() {
         const actors = ue_1.EditorLevelLibrary.GetSelectedLevelActors();
-        if (actors.Num() !== 1) {
-            return null;
+        for (let i = 0; i < actors.Num(); i++) {
+            const actor = actors.Get(i);
+            if ((0, Class_1.isChildOfClass)(actor, TsEntity_1.default)) {
+                return actor;
+            }
         }
-        const actor = actors.Get(0);
-        if ((0, Class_1.isChildOfClass)(actor, TsEntity_1.default)) {
-            return actor;
-        }
-        return null;
+        return undefined;
     }
     OnEntityDestory = (entity) => {
         this.setState((state) => {
@@ -81,7 +80,7 @@ class EntityEditor extends React.Component {
             return;
         }
         const entity = this.GetCurrentSelectEntity();
-        if (entity === null || entity === this.EntityState.Entity) {
+        if (!entity || entity === this.EntityState.Entity) {
             return;
         }
         const entityState = {

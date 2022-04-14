@@ -108,7 +108,7 @@ export interface IJumpTalk {
 
 export interface ITalkOption {
     TextId: number;
-    Actions: IActionInfo[];
+    Actions?: IActionInfo[];
 }
 
 export interface ITalkItem {

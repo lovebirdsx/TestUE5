@@ -62,6 +62,13 @@
               ""Params"": {
                 ""Time"": 0.5
               }
+            },
+            {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""Hello World""
+              }
             }
           ],
           ""Id"": 2

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const ue_1 = require("ue");
+const Init_1 = require("../../Common/Init");
 const Log_1 = require("../../Editor/Common/Log");
 class TsPlayer extends ue_1.TestUE5Character {
     Movement;
@@ -15,6 +16,7 @@ class TsPlayer extends ue_1.TestUE5Character {
         this.Movement = this.GetMovementComponent();
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];
+        (0, Init_1.globalInit)();
     }
     get IsInteracting() {
         return this.MyIsInteracting;

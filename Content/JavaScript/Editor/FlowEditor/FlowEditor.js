@@ -136,6 +136,11 @@ class FlowEditor extends React.Component {
         }
     };
     Save = () => {
+        const messages = [];
+        if (FlowList_2.flowListOp.Check(this.FlowList, messages) > 0) {
+            (0, Common_1.errorbox)(`保存失败，错误：\n${messages.join('\n')}`);
+            return;
+        }
         this.ConfigFile.Save();
         // 此处不能直接使用this.flowList,因为会修改其内容
         // React修改state中的内容,只能在setState中进行

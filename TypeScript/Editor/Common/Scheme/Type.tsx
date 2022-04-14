@@ -46,6 +46,7 @@ export interface IAbstractType<T> {
     Render?: TRender;
     CreateDefault: (container: unknown) => T;
     Fix: (value: T, container: unknown) => TFixResult;
+    Check: (value: T, container: unknown, messages: string[]) => number;
     Meta: IMeta;
 }
 
@@ -111,6 +112,7 @@ export function createDynamicType(
                 };
             }),
         Fix: type.Fix || ((): TFixResult => 'nothing'),
+        Check: type.Check || ((): number => 0),
         Meta: type.Meta || {},
         Render: type.Render,
     };
@@ -149,6 +151,7 @@ export function createEnumType<T extends string>(
             }
             return 'nothing';
         },
+        Check: type.Check || ((): number => 0),
         Names: getEnumNames(config),
     };
 }
@@ -165,6 +168,15 @@ export function createArrayScheme<T>(
             },
         Element: type.Element,
         Meta: type.Meta || {},
+        Check:
+            type.Check ||
+            ((value, container, messages): number => {
+                let fixCount = 0;
+                value.forEach((e) => {
+                    fixCount += type.Element.Check(e, value, messages);
+                });
+                return fixCount;
+            }),
         Fix:
             type.Fix ||
             ((value): TFixResult => {
@@ -215,6 +227,34 @@ export function fixFileds<T>(value: T, fields: TObjectFields<T>): TFixResult {
     return fixCount > 0 ? 'fixed' : 'nothing';
 }
 
+export function checkFields<T>(
+    value: T,
+    fields: TObjectFields<T>,
+    errorMessages: string[],
+): number {
+    let errorCount = 0;
+    for (const key in fields) {
+        const filedTypeData = fields[key];
+        if (value[key] === undefined) {
+            if (!filedTypeData.Meta.Optional) {
+                errorMessages.push(`字段[${key}]值为空`);
+                errorCount++;
+            }
+        } else {
+            errorCount += filedTypeData.Check(value[key], value, errorMessages);
+        }
+    }
+
+    for (const key in value) {
+        if (!fields[key] && !key.startsWith('_')) {
+            errorMessages.push(`存在非法的字段[${key}]`);
+            errorCount++;
+        }
+    }
+
+    return errorCount;
+}
+
 export function createDefaultObject<T>(fields: TObjectFields<T>): T {
     const fieldArray = [];
     for (const key in fields) {
@@ -238,6 +278,9 @@ export function createObjectScheme<T>(
         CreateDefault: type.CreateDefault || ((): T => createDefaultObject(fields)),
         Filters: type.Filters || getEnumValues(EObjectFilter),
         Fix: type.Fix || ((value, container): TFixResult => fixFileds(value, fields)),
+        Check:
+            type.Check ||
+            ((value, container, messages): number => checkFields(value, fields, messages)),
         Render: type.Render,
         Scheduled: type.Scheduled,
     };
@@ -255,6 +298,7 @@ export function createObjectSchemeForUeClass<T>(
         CreateDefault: type.CreateDefault || ((): T => null),
         Filters: [],
         Fix: type.Fix || ((value, container): TFixResult => 'canNotFixed'),
+        Check: type.Check || ((): number => 0),
         Render: type.Render,
         Scheduled: false,
     };
@@ -272,6 +316,7 @@ export function createIntScheme(
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'canNotFixed',
+        Check: type.Check || ((): number => 0),
     };
 }
 
@@ -289,6 +334,7 @@ export function createStringScheme(
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'nothing',
+        Check: type.Check || ((): number => 0),
     };
 }
 
@@ -309,6 +355,7 @@ export function createAssetScheme(
         ClassPath: type.ClassPath,
         SearchPath: type.SearchPath,
         Fix: () => 'nothing',
+        Check: type.Check || ((): number => 0),
     };
 }
 
@@ -324,6 +371,7 @@ export function createBooleanScheme(
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'canNotFixed',
+        Check: type.Check || ((): number => 0),
     };
 }
 
@@ -343,6 +391,7 @@ export function createFloatScheme(
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'canNotFixed',
+        Check: type.Check || ((): number => 0),
     };
 }
 

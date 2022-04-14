@@ -3,6 +3,7 @@ import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
 import { error, log } from '../../Log';
 import {
     allObjectFilter,
+    checkFields,
     createDynamicType,
     EObjectFilter,
     fixFileds,
@@ -124,6 +125,20 @@ class Scheme {
             log(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
         }
         return result;
+    }
+
+    public CheckAction(action: IActionInfo, errorMessages: string[]): number {
+        const typeData = this.GetScheme(action.Name);
+        if (!typeData) {
+            throw new Error(`Check action error: no scheme for name ${action.Name}`);
+        }
+
+        const errorMessages1 = [] as string[];
+        checkFields(action.Params, typeData.Fields, errorMessages1);
+        errorMessages1.forEach((msg) => {
+            errorMessages.push(`[${action.Name}]${msg}`);
+        });
+        return errorMessages1.length;
     }
 
     public GetDynamicObjectScheme(objectFilter: EObjectFilter): TDynamicObjectType {

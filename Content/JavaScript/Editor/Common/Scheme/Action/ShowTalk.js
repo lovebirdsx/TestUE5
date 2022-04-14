@@ -204,6 +204,68 @@ function fixTalkItem(item, container) {
     }
     return fixedCount > 0 ? 'fixed' : 'nothing';
 }
+function checkJumpTalk(actions, talkIds, message) {
+    let errorCount = 0;
+    actions.forEach((action, id) => {
+        if (action.Name === 'JumpTalk') {
+            const jumpTalk = action.Params;
+            if (!talkIds.includes(jumpTalk.TalkId)) {
+                message.push(`[${id}]JumpTalk的跳转对话id非法`);
+                errorCount++;
+            }
+        }
+        else if (action.Name === 'ShowTalk') {
+            const showTalk = action.Params;
+            showTalk.TalkItems.forEach((talkItem) => {
+                if (talkItem.Actions) {
+                    errorCount += checkJumpTalk(talkItem.Actions, talkIds, message);
+                }
+                if (talkItem.Options) {
+                    talkItem.Options.forEach((option) => {
+                        errorCount += checkJumpTalk(option.Actions, talkIds, message);
+                    });
+                }
+            });
+        }
+    });
+    return errorCount;
+}
+function checkTalkItem(item, container, message) {
+    const items = container;
+    let errorCount = 0;
+    if (!item.Name) {
+        errorCount++;
+        message.push(`对话名为空`);
+    }
+    else if (items.find((e) => item !== e && e.Name === item.Name)) {
+        errorCount++;
+        message.push(`对话名重复${item.Name}`);
+    }
+    else if (items.find((e) => item !== e && e.Id === item.Id)) {
+        errorCount++;
+        message.push(`对话${item.Name}id[${item.Id}]重复`);
+    }
+    // 确保item中每一个跳转对话指令的id合法
+    const alltalkIds = items.map((item) => item.Id);
+    if (item.Actions) {
+        errorCount += checkJumpTalk(item.Actions, alltalkIds, message);
+    }
+    if (item.Options) {
+        item.Options.forEach((option) => {
+            errorCount += checkJumpTalk(option.Actions, alltalkIds, message);
+        });
+    }
+    // 对话人必须存在
+    const talkers = TalkerList_1.TalkerListOp.Get();
+    if (!talkers.Talkers.find((e) => e.Id === item.WhoId)) {
+        message.push(`[${item.Name}]对话人没有配置`);
+        errorCount++;
+    }
+    // 检查TalkItem中的其它字段
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    errorCount += (0, Type_1.checkFields)(item, exports.talkItemScheme.Fields, message);
+    return errorCount;
+}
 exports.talkItemScheme = (0, Type_1.createObjectScheme)(talkItemFileds, {
     Meta: {
         NewLine: true,
@@ -216,6 +278,7 @@ exports.talkItemScheme = (0, Type_1.createObjectScheme)(talkItemFileds, {
         return item;
     },
     Fix: fixTalkItem,
+    Check: checkTalkItem,
 });
 exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     TalkItems: (0, Type_1.createArrayScheme)({

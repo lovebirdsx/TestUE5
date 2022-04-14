@@ -114,6 +114,14 @@ class FlowListOp {
         return JSON.parse(content) as IFlowListInfo;
     }
 
+    public Check(flowlist: IFlowListInfo, errorMessages: string[]): number {
+        let errorCount = 0;
+        flowlist.Flows.forEach((flow) => {
+            errorCount += flowOp.Check(flow, errorMessages);
+        });
+        return errorCount;
+    }
+
     public Fix(flowList: IFlowListInfo, versionTo: number): void {
         const versionFrom = flowList.VersionNum;
         if (versionFrom === versionTo) {

@@ -90,6 +90,13 @@ class FlowListOp {
         }
         return JSON.parse(content);
     }
+    Check(flowlist, errorMessages) {
+        let errorCount = 0;
+        flowlist.Flows.forEach((flow) => {
+            errorCount += Flow_1.flowOp.Check(flow, errorMessages);
+        });
+        return errorCount;
+    }
     Fix(flowList, versionTo) {
         const versionFrom = flowList.VersionNum;
         if (versionFrom === versionTo) {

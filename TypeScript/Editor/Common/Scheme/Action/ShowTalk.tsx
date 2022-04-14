@@ -16,6 +16,7 @@ import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../Component/Common
 import { Obj } from '../../Component/Obj';
 import { EFlowListAction, flowListContext, flowListOp } from '../../Operations/FlowList';
 import {
+    checkFields,
     createArrayScheme,
     createBooleanScheme,
     createDefaultObject,
@@ -266,6 +267,72 @@ function fixTalkItem(item: ITalkItem, container: unknown): TFixResult {
     return fixedCount > 0 ? 'fixed' : 'nothing';
 }
 
+function checkJumpTalk(actions: IActionInfo[], talkIds: number[], message: string[]): number {
+    let errorCount = 0;
+    actions.forEach((action, id) => {
+        if (action.Name === 'JumpTalk') {
+            const jumpTalk = action.Params as IJumpTalk;
+            if (!talkIds.includes(jumpTalk.TalkId)) {
+                message.push(`[${id}]JumpTalk的跳转对话id非法`);
+                errorCount++;
+            }
+        } else if (action.Name === 'ShowTalk') {
+            const showTalk = action.Params as IShowTalk;
+            showTalk.TalkItems.forEach((talkItem) => {
+                if (talkItem.Actions) {
+                    errorCount += checkJumpTalk(talkItem.Actions, talkIds, message);
+                }
+                if (talkItem.Options) {
+                    talkItem.Options.forEach((option) => {
+                        errorCount += checkJumpTalk(option.Actions, talkIds, message);
+                    });
+                }
+            });
+        }
+    });
+    return errorCount;
+}
+
+function checkTalkItem(item: ITalkItem, container: unknown, message: string[]): number {
+    const items = container as ITalkItem[];
+    let errorCount = 0;
+
+    if (!item.Name) {
+        errorCount++;
+        message.push(`对话名为空`);
+    } else if (items.find((e) => item !== e && e.Name === item.Name)) {
+        errorCount++;
+        message.push(`对话名重复${item.Name}`);
+    } else if (items.find((e) => item !== e && e.Id === item.Id)) {
+        errorCount++;
+        message.push(`对话${item.Name}id[${item.Id}]重复`);
+    }
+
+    // 确保item中每一个跳转对话指令的id合法
+    const alltalkIds = items.map((item) => item.Id);
+    if (item.Actions) {
+        errorCount += checkJumpTalk(item.Actions, alltalkIds, message);
+    }
+    if (item.Options) {
+        item.Options.forEach((option) => {
+            errorCount += checkJumpTalk(option.Actions, alltalkIds, message);
+        });
+    }
+
+    // 对话人必须存在
+    const talkers = TalkerListOp.Get();
+    if (!talkers.Talkers.find((e) => e.Id === item.WhoId)) {
+        message.push(`[${item.Name}]对话人没有配置`);
+        errorCount++;
+    }
+
+    // 检查TalkItem中的其它字段
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    errorCount += checkFields(item, talkItemScheme.Fields, message);
+
+    return errorCount;
+}
+
 export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
     Meta: {
         NewLine: true,
@@ -278,6 +345,7 @@ export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
         return item;
     },
     Fix: fixTalkItem,
+    Check: checkTalkItem,
 });
 
 export const showTalkScheme = createObjectScheme<IShowTalk>(

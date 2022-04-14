@@ -11,6 +11,17 @@ class FlowOp {
         };
         return state;
     }
+    Check(flow, errorMessages) {
+        let errorCount = 0;
+        flow.States.forEach((state) => {
+            const messages = [];
+            errorCount += State_1.stateOp.Check(state, messages);
+            messages.forEach((msg) => {
+                errorMessages.push(`[${flow.Name}]${msg}`);
+            });
+        });
+        return errorCount;
+    }
     Fix(flow, versionFrom, versionTo) {
         flow.States.forEach((state) => {
             State_1.stateOp.Fix(state, versionFrom, versionTo);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.createObjectScheme = exports.createDefaultObject = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
+exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
 const Util_1 = require("../../../Common/Util");
@@ -33,6 +33,7 @@ function createDynamicType(filter, type) {
                 };
             }),
         Fix: type.Fix || (() => 'nothing'),
+        Check: type.Check || (() => 0),
         Meta: type.Meta || {},
         Render: type.Render,
     };
@@ -66,6 +67,7 @@ function createEnumType(config, type) {
             }
             return 'nothing';
         },
+        Check: type.Check || (() => 0),
         Names: getEnumNames(config),
     };
 }
@@ -79,6 +81,14 @@ function createArrayScheme(type) {
             },
         Element: type.Element,
         Meta: type.Meta || {},
+        Check: type.Check ||
+            ((value, container, messages) => {
+                let fixCount = 0;
+                value.forEach((e) => {
+                    fixCount += type.Element.Check(e, value, messages);
+                });
+                return fixCount;
+            }),
         Fix: type.Fix ||
             ((value) => {
                 let fixCount = 0;
@@ -126,6 +136,29 @@ function fixFileds(value, fields) {
     return fixCount > 0 ? 'fixed' : 'nothing';
 }
 exports.fixFileds = fixFileds;
+function checkFields(value, fields, errorMessages) {
+    let errorCount = 0;
+    for (const key in fields) {
+        const filedTypeData = fields[key];
+        if (value[key] === undefined) {
+            if (!filedTypeData.Meta.Optional) {
+                errorMessages.push(`字段[${key}]值为空`);
+                errorCount++;
+            }
+        }
+        else {
+            errorCount += filedTypeData.Check(value[key], value, errorMessages);
+        }
+    }
+    for (const key in value) {
+        if (!fields[key] && !key.startsWith('_')) {
+            errorMessages.push(`存在非法的字段[${key}]`);
+            errorCount++;
+        }
+    }
+    return errorCount;
+}
+exports.checkFields = checkFields;
 function createDefaultObject(fields) {
     const fieldArray = [];
     for (const key in fields) {
@@ -146,6 +179,8 @@ function createObjectScheme(fields, type) {
         CreateDefault: type.CreateDefault || (() => createDefaultObject(fields)),
         Filters: type.Filters || (0, Util_1.getEnumValues)(EObjectFilter),
         Fix: type.Fix || ((value, container) => fixFileds(value, fields)),
+        Check: type.Check ||
+            ((value, container, messages) => checkFields(value, fields, messages)),
         Render: type.Render,
         Scheduled: type.Scheduled,
     };
@@ -160,6 +195,7 @@ function createObjectSchemeForUeClass(fields, type) {
         CreateDefault: type.CreateDefault || (() => null),
         Filters: [],
         Fix: type.Fix || ((value, container) => 'canNotFixed'),
+        Check: type.Check || (() => 0),
         Render: type.Render,
         Scheduled: false,
     };
@@ -174,6 +210,7 @@ function createIntScheme(type) {
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'canNotFixed',
+        Check: type.Check || (() => 0),
     };
 }
 exports.createIntScheme = createIntScheme;
@@ -187,6 +224,7 @@ function createStringScheme(type) {
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'nothing',
+        Check: type.Check || (() => 0),
     };
 }
 exports.createStringScheme = createStringScheme;
@@ -204,6 +242,7 @@ function createAssetScheme(type) {
         ClassPath: type.ClassPath,
         SearchPath: type.SearchPath,
         Fix: () => 'nothing',
+        Check: type.Check || (() => 0),
     };
 }
 exports.createAssetScheme = createAssetScheme;
@@ -216,6 +255,7 @@ function createBooleanScheme(type) {
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'canNotFixed',
+        Check: type.Check || (() => 0),
     };
 }
 exports.createBooleanScheme = createBooleanScheme;
@@ -232,6 +272,7 @@ function createFloatScheme(type) {
         Meta: type.Meta || {},
         Render: type.Render,
         Fix: () => 'canNotFixed',
+        Check: type.Check || (() => 0),
     };
 }
 exports.createFloatScheme = createFloatScheme;

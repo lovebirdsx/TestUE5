@@ -112,6 +112,18 @@ class Scheme {
         }
         return result;
     }
+    CheckAction(action, errorMessages) {
+        const typeData = this.GetScheme(action.Name);
+        if (!typeData) {
+            throw new Error(`Check action error: no scheme for name ${action.Name}`);
+        }
+        const errorMessages1 = [];
+        (0, Type_1.checkFields)(action.Params, typeData.Fields, errorMessages1);
+        errorMessages1.forEach((msg) => {
+            errorMessages.push(`[${action.Name}]${msg}`);
+        });
+        return errorMessages1.length;
+    }
     GetDynamicObjectScheme(objectFilter) {
         return this.DynamicObjectSchemeMap.get(objectFilter);
     }

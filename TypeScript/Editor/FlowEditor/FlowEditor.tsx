@@ -7,7 +7,7 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
 import { IFlowListInfo } from '../../Game/Flow/Action';
-import { msgbox, openLoadCsvFileDialog, openSaveCsvFileDialog } from '../Common/Common';
+import { errorbox, msgbox, openLoadCsvFileDialog, openSaveCsvFileDialog } from '../Common/Common';
 import { formatColor } from '../Common/Component/Color';
 import { Btn, Check, SlotText, Text } from '../Common/Component/CommonComponent';
 import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
@@ -177,6 +177,12 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     };
 
     private readonly Save = (): void => {
+        const messages: string[] = [];
+        if (flowListOp.Check(this.FlowList, messages) > 0) {
+            errorbox(`保存失败，错误：\n${messages.join('\n')}`);
+            return;
+        }
+
         this.ConfigFile.Save();
 
         // 此处不能直接使用this.flowList,因为会修改其内容

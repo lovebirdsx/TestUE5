@@ -19,6 +19,19 @@ class FlowOp {
         return state;
     }
 
+    public Check(flow: IFlowInfo, errorMessages: string[]): number {
+        let errorCount = 0;
+        flow.States.forEach((state): void => {
+            const messages = [] as string[];
+            errorCount += stateOp.Check(state, messages);
+            messages.forEach((msg) => {
+                errorMessages.push(`[${flow.Name}]${msg}`);
+            });
+        });
+
+        return errorCount;
+    }
+
     public Fix(flow: IFlowInfo, versionFrom: number, versionTo: number): void {
         flow.States.forEach((state): void => {
             stateOp.Fix(state, versionFrom, versionTo);

@@ -3,6 +3,18 @@ import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Flow/Action';
 import { scheme } from '../Scheme/Action';
 
 class StateOp {
+    public Check(state: IStateInfo, errorMessages: string[]): number {
+        let errorCount = 0;
+        state.Actions.forEach((action) => {
+            const messages = [] as string[];
+            errorCount += scheme.CheckAction(action, messages);
+            messages.forEach((msg) => {
+                errorMessages.push(`[${state.Name}]${msg}`);
+            });
+        });
+        return errorCount;
+    }
+
     public Fix(state: IStateInfo, versionFrom: number, versionTo: number): void {
         state.Actions.forEach((action) => {
             this.FixAction(action, versionFrom, versionTo);

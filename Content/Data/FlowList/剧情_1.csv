@@ -20,16 +20,23 @@
           ""Name"": ""状态1"",
           ""Actions"": [
             {
-              ""Name"": ""ShowTalk"",
+              ""Name"": ""Log"",
               ""Params"": {
-                ""TalkItems"": [
-                  {
-                    ""Id"": 1,
-                    ""Name"": ""对话1"",
-                    ""WhoId"": 1,
-                    ""TextId"": 1
-                  }
-                ]
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态1 Log1""
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
+            },
+            {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态1 Log2""
               }
             }
           ],

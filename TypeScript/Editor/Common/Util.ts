@@ -1,12 +1,10 @@
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import { PythonScriptLibrary } from 'ue';
 
-/* eslint-disable spellcheck/spell-checker */
-export function getEnumNames(e: undefined): string[] {
-    return Object.keys(e).filter((v) => Number.isNaN(parseInt(v, 10)));
-}
+import { ConfigFile } from '../FlowEditor/ConfigFile';
+import { flowListOp } from './Operations/FlowList';
 
 export function deepEquals<T>(x: T, y: T): boolean {
     if (x === y) {
@@ -101,4 +99,23 @@ export function openDirOfFile(filepath: string): void {
     ].join('\r\n');
 
     PythonScriptLibrary.ExecutePythonCommand(command);
+}
+
+export function sendEditorCommand(command: string): void {
+    const pythonCommand = [
+        'import socket',
+        'sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)',
+        `sock.sendto(bytes('${command}', 'utf-8'), ('127.0.0.1', 8888))`,
+    ].join('\r\n');
+
+    PythonScriptLibrary.ExecutePythonCommand(pythonCommand);
+}
+
+export function openFlowEditor(flowName: string): void {
+    const configFile = new ConfigFile();
+    configFile.Load();
+    configFile.FlowConfigPath = flowListOp.GetPath(flowName);
+    configFile.Save();
+
+    sendEditorCommand('RestartFlowEditor');
 }

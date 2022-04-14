@@ -18,11 +18,10 @@ class TsNpc extends TsEntity_1.default {
     Flow;
     ReceiveBeginPlay() {
         this.Flow = this.GetComponentByTsClass(TsFlowComponent_1.default);
-        this.Flow.Bind((0, Action_1.parseFlowInfo)(this.FlowJson));
     }
     // @no-blueprint
     async Interact(player) {
-        await this.Flow.Interact();
+        await this.Flow.Interact((0, Action_1.parseFlowInfo)(this.FlowJson));
     }
     ReceiveActorBeginOverlap(other) {
         if (!(other instanceof TsPlayer_1.default)) {

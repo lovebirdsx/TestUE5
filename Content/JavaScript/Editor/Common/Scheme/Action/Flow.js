@@ -7,6 +7,7 @@ const ConfigFile_1 = require("../../../FlowEditor/ConfigFile");
 const CommonComponent_1 = require("../../Component/CommonComponent");
 const Flow_1 = require("../../Operations/Flow");
 const FlowList_1 = require("../../Operations/FlowList");
+const Util_1 = require("../../Util");
 const Type_1 = require("../Type");
 function renderPlayFlow(props) {
     const playFlow = props.Value;
@@ -40,7 +41,10 @@ function renderPlayFlow(props) {
                         StateId: newState ? newState.Id : 0,
                     };
                     props.OnModify(newPlayFlow, 'normal');
-                }, Tip: `选择状态` })));
+                }, Tip: `选择状态` }),
+            React.createElement(CommonComponent_1.Btn, { Text: '⊙', OnClick: () => {
+                    (0, Util_1.openFlowEditor)(playFlow.FlowListName);
+                }, Tip: '打开流程配置' })));
     }
     return (React.createElement(react_umg_1.HorizontalBox, null,
         props.PrefixElement,
@@ -58,7 +62,7 @@ exports.playFlowScheme = (0, Type_1.createObjectScheme)({
         Tip: '播放流程配置文件中的某个流程',
     },
     Render: renderPlayFlow,
-    Filters: [Type_1.EObjectFilter.Npc],
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.FlowList, Type_1.EObjectFilter.Talk),
     CreateDefault: createDefaultPlayFlow,
 });
 //# sourceMappingURL=Flow.js.map

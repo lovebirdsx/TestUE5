@@ -14,7 +14,8 @@ var EObjectFilter;
 })(EObjectFilter = exports.EObjectFilter || (exports.EObjectFilter = {}));
 exports.allObjectFilter = (0, Util_1.getEnumValues)(EObjectFilter);
 function objectFilterExcept(...args) {
-    return exports.allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
+    const result = exports.allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
+    return result;
 }
 exports.objectFilterExcept = objectFilterExcept;
 function createDynamicType(filter, type) {

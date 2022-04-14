@@ -3,10 +3,11 @@ import { HorizontalBox } from 'react-umg';
 
 import { IPlayFlow } from '../../../../Game/Flow/Action';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
-import { List, Text } from '../../Component/CommonComponent';
+import { Btn, List, Text } from '../../Component/CommonComponent';
 import { flowOp } from '../../Operations/Flow';
 import { flowListOp } from '../../Operations/FlowList';
-import { createObjectScheme, EObjectFilter, IAnyProps } from '../Type';
+import { openFlowEditor } from '../../Util';
+import { createObjectScheme, EObjectFilter, IAnyProps, objectFilterExcept } from '../Type';
 
 function renderPlayFlow(props: IAnyProps): JSX.Element {
     const playFlow = props.Value as IPlayFlow;
@@ -58,6 +59,13 @@ function renderPlayFlow(props: IAnyProps): JSX.Element {
                     }}
                     Tip={`选择状态`}
                 />
+                <Btn
+                    Text={'⊙'}
+                    OnClick={(): void => {
+                        openFlowEditor(playFlow.FlowListName);
+                    }}
+                    Tip={'打开流程配置'}
+                />
             </HorizontalBox>
         );
     }
@@ -85,7 +93,7 @@ export const playFlowScheme = createObjectScheme<IPlayFlow>(
             Tip: '播放流程配置文件中的某个流程',
         },
         Render: renderPlayFlow,
-        Filters: [EObjectFilter.Npc],
+        Filters: objectFilterExcept(EObjectFilter.FlowList, EObjectFilter.Talk),
         CreateDefault: createDefaultPlayFlow,
     },
 );

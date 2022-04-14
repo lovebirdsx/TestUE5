@@ -73,7 +73,8 @@ export enum EObjectFilter {
 
 export const allObjectFilter = getEnumValues(EObjectFilter);
 export function objectFilterExcept(...args: EObjectFilter[]): EObjectFilter[] {
-    return allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
+    const result = allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
+    return result;
 }
 
 export type TObjectFields<T> = { [K in keyof T]: IAbstractType<T[K]> };

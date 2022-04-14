@@ -1,14 +1,12 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.openFlowEditor = exports.sendEditorCommand = exports.openDirOfFile = exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = void 0;
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.openDirOfFile = exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNames = void 0;
 const ue_1 = require("ue");
-/* eslint-disable spellcheck/spell-checker */
-function getEnumNames(e) {
-    return Object.keys(e).filter((v) => Number.isNaN(parseInt(v, 10)));
-}
-exports.getEnumNames = getEnumNames;
+const ConfigFile_1 = require("../FlowEditor/ConfigFile");
+const FlowList_1 = require("./Operations/FlowList");
 function deepEquals(x, y) {
     if (x === y) {
         return true;
@@ -88,4 +86,21 @@ function openDirOfFile(filepath) {
     ue_1.PythonScriptLibrary.ExecutePythonCommand(command);
 }
 exports.openDirOfFile = openDirOfFile;
+function sendEditorCommand(command) {
+    const pythonCommand = [
+        'import socket',
+        'sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)',
+        `sock.sendto(bytes('${command}', 'utf-8'), ('127.0.0.1', 8888))`,
+    ].join('\r\n');
+    ue_1.PythonScriptLibrary.ExecutePythonCommand(pythonCommand);
+}
+exports.sendEditorCommand = sendEditorCommand;
+function openFlowEditor(flowName) {
+    const configFile = new ConfigFile_1.ConfigFile();
+    configFile.Load();
+    configFile.FlowConfigPath = FlowList_1.flowListOp.GetPath(flowName);
+    configFile.Save();
+    sendEditorCommand('RestartFlowEditor');
+}
+exports.openFlowEditor = openFlowEditor;
 //# sourceMappingURL=Util.js.map

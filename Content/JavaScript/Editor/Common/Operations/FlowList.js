@@ -186,13 +186,15 @@ class FlowListOp {
         csv.Save(rows, csvPath);
         (0, Log_1.log)(`save text csv to: ${csvPath}`);
     }
-    LoadByName(name) {
+    GetPath(name) {
         const nameId = this.Names.indexOf(name);
         if (nameId < 0) {
             throw new Error(`Can not find flowlist for [${name}]`);
         }
-        const path = this.Files[nameId];
-        return this.Load(path);
+        return this.Files[nameId];
+    }
+    LoadByName(name) {
+        return this.Load(this.GetPath(name));
     }
     Load(path) {
         let row = null;

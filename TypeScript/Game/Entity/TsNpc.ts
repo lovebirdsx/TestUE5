@@ -15,13 +15,11 @@ class TsNpc extends TsEntity {
 
     public ReceiveBeginPlay(): void {
         this.Flow = this.GetComponentByTsClass(TsFlowComponent);
-
-        this.Flow.Bind(parseFlowInfo(this.FlowJson));
     }
 
     // @no-blueprint
     public async Interact(player: TsPlayer): Promise<void> {
-        await this.Flow.Interact();
+        await this.Flow.Interact(parseFlowInfo(this.FlowJson));
     }
 
     public ReceiveActorBeginOverlap(other: Actor): void {

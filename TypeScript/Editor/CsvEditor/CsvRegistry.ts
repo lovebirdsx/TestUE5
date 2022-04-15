@@ -2,15 +2,18 @@
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { CustomSeqCsvLoader } from '../Common/CsvConfig/CustomSeqCsv';
-import { GlobalConfigCsvLoader } from '../Common/CsvConfig/GlobalConfigCsv';
+import { GlobalConfigCsv, GlobalConfigCsvLoader } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerCsvLoader } from '../Common/CsvConfig/TalkerCsv';
-import { CsvLoader, ICsv, TCsvRowBase } from '../Common/CsvLoader';
+import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from '../Common/CsvLoader';
 import { error, log, warn } from '../Common/Log';
+
+export type TCsvClass = new () => GlobalCsv;
 
 interface ICsvFileConfig {
     Name: string;
     Path: string;
     CsvLoaderClass: new () => CsvLoader<TCsvRowBase>;
+    CsvClass: TCsvClass;
 }
 
 const CSV_FILE_BASE_DIR = 'Data/Tables';
@@ -20,23 +23,30 @@ const configs: ICsvFileConfig[] = [
         Name: '全局配置',
         Path: 'q.全局配置.csv',
         CsvLoaderClass: GlobalConfigCsvLoader,
+        CsvClass: GlobalConfigCsv,
     },
     {
         Name: '对话人',
         Path: 'd.对话人.csv',
         CsvLoaderClass: TalkerCsvLoader,
+        CsvClass: undefined,
     },
     {
         Name: '自定义序列',
         Path: 'z.自定义序列.csv',
         CsvLoaderClass: CustomSeqCsvLoader,
+        CsvClass: undefined,
     },
 ];
 
 class CsvRegistry {
     private readonly ConfigMap = new Map<string, ICsvFileConfig>();
 
+    private readonly ConfigMapByCsvClass = new Map<TCsvClass, ICsvFileConfig>();
+
     private readonly LoaderMap = new Map<string, CsvLoader<TCsvRowBase>>();
+
+    private readonly CsvMap = new Map<TCsvClass, GlobalCsv>();
 
     public readonly Names: string[] = [];
 
@@ -45,6 +55,7 @@ class CsvRegistry {
     public constructor() {
         configs.forEach((file) => {
             this.ConfigMap.set(file.Name, file);
+            this.ConfigMapByCsvClass.set(file.CsvClass, file);
             this.Names.push(file.Name);
         });
         this.BaseDir = MyFileHelper.GetPath(EFileRoot.Content, CSV_FILE_BASE_DIR);
@@ -95,6 +106,23 @@ class CsvRegistry {
 
         log(`Save csv: [${path}]`);
         return true;
+    }
+
+    public GetCsv<T extends GlobalCsv>(classObj: new () => T): T {
+        let result = this.CsvMap.get(classObj);
+        if (!result) {
+            const config = this.ConfigMapByCsvClass.get(classObj);
+            if (!config) {
+                error(`No config for csvClass [${classObj.name}]`);
+                return undefined;
+            }
+
+            result = new config.CsvClass();
+            result.Bind(this.Load(config.Name));
+            this.CsvMap.set(classObj, result);
+        }
+
+        return result as T;
     }
 }
 

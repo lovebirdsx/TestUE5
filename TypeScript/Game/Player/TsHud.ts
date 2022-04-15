@@ -1,5 +1,4 @@
 /* eslint-disable no-void */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { $ref } from 'puerts';
 import { BuiltinText, HUD, UMGManager } from 'ue';
@@ -40,15 +39,15 @@ class TsHud extends HUD {
 
     // @no-blueprint
     public async Test(): Promise<void> {
-        await delay(1000);
+        await delay(1);
         this.UiTalkerDisplay.ShowSubtile('小明', '今天天气不错');
-        await delay(1000);
+        await delay(1);
         this.UiTalkerDisplay.ShowSubtile('小红', '是呀，要出去玩一下吗？');
 
         let resolve: TCallback<string> = undefined;
         let optionText: string = undefined;
 
-        await delay(1000);
+        await delay(1);
         this.ShowOptions(['选项1', '选项2']);
         this.UiTalkerDisplay.OptionSelected.Clear();
         this.UiTalkerDisplay.OptionSelected.Add((text) => {
@@ -60,15 +59,15 @@ class TsHud extends HUD {
         });
         log(`你选择了[${optionText}]`);
         this.UiTalkerDisplay.HideOptions();
-        await delay(1000);
+        await delay(1);
 
         this.ShowOptions(['选项1', '选项2', '选项3']);
-        await delay(2000);
+        await delay(2);
         this.UiTalkerDisplay.HideOptions();
 
-        await delay(1000);
+        await delay(1);
         this.ShowOptions(['选项1', '选项2', '选项3', '选项4']);
-        await delay(2000);
+        await delay(2);
         this.UiTalkerDisplay.HideAll();
     }
 }

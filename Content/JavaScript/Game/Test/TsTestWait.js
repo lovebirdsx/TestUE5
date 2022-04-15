@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-await-in-loop */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/naming-convention */
 const ue_1 = require("ue");
@@ -14,7 +13,7 @@ class TsTestWait extends ue_1.Actor {
     //@no-blueprint
     async ATest() {
         for (let i = 0; i < 10; i++) {
-            await (0, Async_1.delay)(1000);
+            await (0, Async_1.delay)(1);
             (0, Log_1.log)(`TsTestWait wait count ${i}`);
         }
     }

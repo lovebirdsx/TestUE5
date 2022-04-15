@@ -8,7 +8,14 @@ const Any_1 = require("../../Component/Any");
 const CsvView_1 = require("../../Component/CsvView");
 const Log_1 = require("../../Log");
 const Type_1 = require("../Type");
-exports.csvCellTypeScheme = (0, Type_1.createEnumType)(Action_1.csvCellTypeConfig, {
+function genCsvCellTypeEnumConfig() {
+    const configs = Action_1.csvCellTypeConfig;
+    const slotList = Object.entries(configs).map(([type, slot]) => {
+        return [type, slot.Desc];
+    });
+    return Object.fromEntries(slotList);
+}
+exports.csvCellTypeScheme = (0, Type_1.createEnumType)(genCsvCellTypeEnumConfig(), {
     Meta: {
         HideName: true,
     },

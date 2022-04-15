@@ -2,15 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-await-in-loop */
 /* eslint-disable for-direction */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/prefer-for-of */
 const puerts_1 = require("puerts");
 const UE = require("ue");
 const Async_1 = require("../../Common/Async");
 const Common_1 = require("../../Editor/Common/Common");
+const GlobalConfigCsv_1 = require("../../Editor/Common/CsvConfig/GlobalConfigCsv");
 const Log_1 = require("../../Editor/Common/Log");
 const FlowList_1 = require("../../Editor/Common/Operations/FlowList");
+const CsvRegistry_1 = require("../../Editor/CsvEditor/CsvRegistry");
 const TalkerList_1 = require("../../Editor/TalkerEditor/TalkerList");
 const TsEntityComponent_1 = require("../Entity/TsEntityComponent");
 const TsActionRunnerComponent_1 = require("./TsActionRunnerComponent");
@@ -107,7 +108,25 @@ class TsFlowComponent extends TsEntityComponent_1.default {
         const texts = flowContext.FlowListInfo.Texts;
         const content = texts[item.TextId];
         this.TalkerDisplay.ShowSubtile(who, content);
-        await (0, Async_1.delay)(content.length * (60 / 300) * 1000);
+        // 等待固定时间
+        const globalConfig = CsvRegistry_1.csvRegistry.GetCsv(GlobalConfigCsv_1.GlobalConfigCsv);
+        const waitTime = item.WaitTime || globalConfig.GetConfig('TalkJumpWaitTime');
+        await (0, Async_1.delay)(waitTime);
+        let skipCallback = undefined;
+        let isUserSkipTalk = false;
+        this.TalkerDisplay.ShowSkipTip();
+        this.TalkerDisplay.TalkSkipped.Clear();
+        this.TalkerDisplay.TalkSkipped.Add(() => {
+            isUserSkipTalk = true;
+            skipCallback();
+        });
+        // 超时自动跳过
+        const waitPromise = (0, Async_1.delayByCondition)(globalConfig.GetConfig('TalkAutoJumpTime'), () => !isUserSkipTalk);
+        // 玩家点击
+        const clickPromise = (0, Async_1.waitCallback)((resolve) => {
+            skipCallback = resolve;
+        });
+        await Promise.race([waitPromise, clickPromise]);
         await this.RunActions(item.Actions);
         if (item.Options) {
             const optionTexts = item.Options.map((op) => texts[op.TextId]);
@@ -115,12 +134,10 @@ class TsFlowComponent extends TsEntityComponent_1.default {
             this.TalkerDisplay.ShowOptions((0, puerts_1.$ref)(ueOptionTexts));
             this.TalkerDisplay.OptionSelected.Clear();
             let selectOptionCallback = undefined;
-            let selectOptionText = undefined;
             this.TalkerDisplay.OptionSelected.Add((text) => {
                 selectOptionCallback(text);
-                selectOptionText = text;
             });
-            await (0, Async_1.waitCallback)((resolve) => {
+            const selectOptionText = await (0, Async_1.waitCallback)((resolve) => {
                 selectOptionCallback = resolve;
             });
             const option = item.Options.find((op) => texts[op.TextId] === selectOptionText);
@@ -140,7 +157,7 @@ class TsFlowComponent extends TsEntityComponent_1.default {
         currentFlow.ShowTalkInfo = action;
         while (currTalkId < items.length && currentFlow.Runner.IsRunning) {
             if (currTalkId > 0) {
-                await (0, Async_1.delay)(500);
+                await (0, Async_1.delay)(CsvRegistry_1.csvRegistry.GetCsv(GlobalConfigCsv_1.GlobalConfigCsv).GetConfig('TalkShowInterval'));
             }
             const item = items[currTalkId++];
             await this.ShowTalkItem(currentFlow, item);

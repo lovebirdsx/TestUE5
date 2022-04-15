@@ -5,8 +5,6 @@ import TsPlayer from '../Player/TsPlayer';
 import TsPlayerController from '../Player/TsPlayerController';
 import { IActionInfo, ILog, ISetFlowBoolOption, IWait, TActionFun, TActionType } from './Action';
 
-const MS_PER_SECOND = 1000;
-
 class GlobalActionsRunner {
     private readonly ActionMap: Map<TActionType, TActionFun>;
 
@@ -54,7 +52,7 @@ class GlobalActionsRunner {
 
     private async ExecuteWait(actionInfo: IActionInfo): Promise<void> {
         const action = actionInfo.Params as IWait;
-        return delay(action.Time * MS_PER_SECOND);
+        return delay(action.Time);
     }
 
     private ExecuteSetFlowBoolOption(actionInfo: IActionInfo): void {

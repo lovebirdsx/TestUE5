@@ -3,7 +3,8 @@ import produce from 'immer';
 import * as React from 'react';
 import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 
-import { Csv, ICsv, ICsvFieldEx, TCsvRowBase, TCsvValueType } from '../CsvLoader';
+import { TCsvValueType } from '../../../Game/Flow/Action';
+import { Csv, ICsv, ICsvFieldEx, TCsvRowBase } from '../CsvLoader';
 import { error, log } from '../Log';
 import { TModifyType } from '../Scheme/Type';
 import { Any } from './Any';

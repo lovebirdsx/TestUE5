@@ -1,5 +1,4 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Actor } from 'ue';
@@ -15,7 +14,7 @@ class TsTestWait extends Actor {
     //@no-blueprint
     private async ATest(): Promise<void> {
         for (let i = 0; i < 10; i++) {
-            await delay(1000);
+            await delay(1);
             log(`TsTestWait wait count ${i}`);
         }
     }

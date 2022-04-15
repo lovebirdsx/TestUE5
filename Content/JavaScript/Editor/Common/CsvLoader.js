@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Csv = exports.CsvLoader = void 0;
+exports.Csv = exports.CsvLoader = exports.GlobalCsv = void 0;
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
@@ -20,6 +20,15 @@ const csvFieldValidValues = {
     Default: { CnName: '默认值' },
     CnName: { CnName: '#' },
 };
+class GlobalCsv {
+    Name;
+    FiledTypes;
+    Rows;
+    Bind(csv) {
+        Object.assign(this, csv);
+    }
+}
+exports.GlobalCsv = GlobalCsv;
 class CsvLoader {
     FiledTypes;
     Name;

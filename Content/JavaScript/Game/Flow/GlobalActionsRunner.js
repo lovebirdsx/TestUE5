@@ -6,7 +6,6 @@ const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Editor/Common/Log");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsPlayerController_1 = require("../Player/TsPlayerController");
-const MS_PER_SECOND = 1000;
 class GlobalActionsRunner {
     ActionMap;
     constructor() {
@@ -49,7 +48,7 @@ class GlobalActionsRunner {
     }
     async ExecuteWait(actionInfo) {
         const action = actionInfo.Params;
-        return (0, Async_1.delay)(action.Time * MS_PER_SECOND);
+        return (0, Async_1.delay)(action.Time);
     }
     ExecuteSetFlowBoolOption(actionInfo) {
         const action = actionInfo.Params;

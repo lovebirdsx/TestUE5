@@ -3,6 +3,7 @@
 import produce from 'immer';
 import { MyFileHelper } from 'ue';
 
+import { TCsvValueType } from '../../Game/Flow/Action';
 import { LineReader, LineWriter } from './LineStream';
 import { error, log, warn } from './Log';
 import { IAbstractType } from './Scheme/Type';
@@ -44,8 +45,6 @@ const csvFieldValidValues: { [key in keyof ICsvField]: IValidateType } = {
     CnName: { CnName: '#' },
 };
 
-export type TCsvValueType = bigint | number | string;
-
 export type TCsvRowBase = Record<string, TCsvValueType>;
 
 export interface ICsvFieldEx extends ICsvField {
@@ -56,6 +55,18 @@ export interface ICsv {
     Name: string;
     FiledTypes: ICsvFieldEx[];
     Rows: TCsvRowBase[];
+}
+
+export class GlobalCsv implements ICsv {
+    public Name: string;
+
+    public FiledTypes: ICsvFieldEx[];
+
+    public Rows: TCsvRowBase[];
+
+    public Bind(csv: ICsv): void {
+        Object.assign(this, csv);
+    }
 }
 
 export class CsvLoader<TCsvRow extends TCsvRowBase> {

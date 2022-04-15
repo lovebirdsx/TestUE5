@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.csvCellTypeConfig = exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig = exports.flowBoolOptionConfig = exports.logLeveConfig = exports.parseFlowInfo = exports.parseTriggerActionsJson = exports.FLOW_LIST_VERSION = void 0;
+exports.parseCsvValue = exports.csvCellTypeConfig = exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig = exports.flowBoolOptionConfig = exports.logLeveConfig = exports.parseFlowInfo = exports.parseTriggerActionsJson = exports.FLOW_LIST_VERSION = void 0;
 /* eslint-disable spellcheck/spell-checker */
 exports.FLOW_LIST_VERSION = 8;
 function parseTriggerActionsJson(json) {
@@ -55,11 +55,31 @@ exports.cameraBindModeConfig = {
     Three: '3角色',
     None: '无',
 };
-// CSV中单元格值类型
 exports.csvCellTypeConfig = {
-    Int: '整形',
-    String: '字符串',
-    Float: '浮点型',
-    Boolean: '布尔型',
+    Int: {
+        Default: 0,
+        Prase: (str) => parseInt(str, 10),
+        Desc: '整形',
+    },
+    String: {
+        Default: '',
+        Prase: (str) => str,
+        Desc: '字符串',
+    },
+    Boolean: {
+        Default: false,
+        Prase: (str) => Boolean(str),
+        Desc: '布尔型',
+    },
+    Float: {
+        Default: 0.0,
+        Prase: (str) => parseFloat(str),
+        Desc: '浮点型',
+    },
 };
+function parseCsvValue(stringValue, type) {
+    const config = exports.csvCellTypeConfig[type];
+    return config.Prase(stringValue);
+}
+exports.parseCsvValue = parseCsvValue;
 //# sourceMappingURL=Action.js.map

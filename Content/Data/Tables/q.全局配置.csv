@@ -8,4 +8,5 @@
 #,Id,变量名,说明,变量类型,值
 ,1,Talk.JumpWaitTime,默认跳过对话的等待时长,Float,0.5
 ,2,Talk.CharPerMin,字幕每分钟显示多少个,Int,100
-,3,BooleanValue,Bool值测试,Boolean,true
+,3,Talk.ShowInterval,两句对话之间的停顿时长,Float,0.5
+,4,Talk.AutoJumpTime,玩家不点击时，自动跳过对话的时间,Float,5

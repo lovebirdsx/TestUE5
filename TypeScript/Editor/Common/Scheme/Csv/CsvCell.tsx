@@ -16,7 +16,19 @@ import {
     stringScheme,
 } from '../Type';
 
-export const csvCellTypeScheme = createEnumType(csvCellTypeConfig, {
+interface ICellConfigSlot {
+    Desc: string;
+}
+
+function genCsvCellTypeEnumConfig(): Record<string, string> {
+    const configs = csvCellTypeConfig as Record<string, ICellConfigSlot>;
+    const slotList = Object.entries(configs).map(([type, slot]) => {
+        return [type, slot.Desc];
+    });
+    return Object.fromEntries(slotList) as Record<string, string>;
+}
+
+export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
     Meta: {
         HideName: true,
     },

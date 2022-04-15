@@ -74,6 +74,9 @@ function calHash(str) {
         hash = (hash << 5) - hash + chr;
         hash |= 0; // Convert to 32bit integer
     }
+    if (hash < 0) {
+        hash = -hash;
+    }
     return hash;
 }
 exports.calHash = calHash;

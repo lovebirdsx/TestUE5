@@ -23,6 +23,7 @@ const Misc_1 = require("./Misc");
 const PlotNode_1 = require("./PlotNode");
 const Sequence_1 = require("./Sequence");
 const ShowTalk_1 = require("./ShowTalk");
+const ShowText_1 = require("./ShowText");
 const State_1 = require("./State");
 __exportStar(require("../Type"), exports);
 const actionSchemeMap = {
@@ -36,6 +37,7 @@ const actionSchemeMap = {
     SetCameraMode: PlotNode_1.setCameraModeScheme,
     SetFlowBoolOption: PlotNode_1.setFlowBoolOptionScheme,
     SetPlotMode: PlotNode_1.setPlotModeScheme,
+    ShowCenterText: ShowText_1.showCenterTextScheme,
     ShowMessage: Misc_1.showMssageScheme,
     ShowOption: ShowTalk_1.showOptionScheme,
     ShowTalk: ShowTalk_1.showTalkScheme,

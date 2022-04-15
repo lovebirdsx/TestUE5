@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exports.talkerScheme = exports.talkOptionScheme = exports.showTalkContext = void 0;
+exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exports.talkerScheme = exports.talkOptionScheme = exports.createTextIdScheme = exports.showTalkContext = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
@@ -40,6 +40,7 @@ function createTextIdScheme(defaultText, meta) {
         Meta: meta,
     });
 }
+exports.createTextIdScheme = createTextIdScheme;
 exports.talkOptionScheme = (0, Type_1.createObjectScheme)({
     TextId: createTextIdScheme('该做啥选择呢', {
         HideName: true,

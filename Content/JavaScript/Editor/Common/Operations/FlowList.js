@@ -298,6 +298,15 @@ class FlowListOp {
                     }
                 });
             }
+            else if (action.Name === 'ShowCenterText') {
+                const showCenterText = action.Params;
+                const textId = showCenterText.TextId;
+                if (textIds[textId]) {
+                    (0, Log_1.error)(`Duplicated textid ${textId}`);
+                    return;
+                }
+                textIds[textId] = true;
+            }
         });
         const idsToRemove = [];
         for (const id in flowList.Texts) {

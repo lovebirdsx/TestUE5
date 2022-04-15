@@ -4,6 +4,7 @@
 import { PythonScriptLibrary } from 'ue';
 
 import { ConfigFile } from '../FlowEditor/ConfigFile';
+import { log } from './Log';
 import { flowListOp } from './Operations/FlowList';
 
 export function deepEquals<T>(x: T, y: T): boolean {
@@ -88,6 +89,11 @@ export function calHash(str: string): number {
         hash = (hash << 5) - hash + chr;
         hash |= 0; // Convert to 32bit integer
     }
+
+    if (hash < 0) {
+        hash = -hash;
+    }
+
     return hash;
 }
 

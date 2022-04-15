@@ -12,6 +12,7 @@ export type TActionType =
     | 'SetCameraMode'
     | 'SetFlowBoolOption'
     | 'SetPlotMode'
+    | 'ShowCenterText'
     | 'ShowMessage'
     | 'ShowOption'
     | 'ShowTalk'
@@ -216,3 +217,7 @@ export const csvCellTypeConfig = {
 };
 
 export type TCsvCellType = keyof typeof csvCellTypeConfig;
+
+export interface IShowCenterText {
+    TextId: number;
+}

@@ -9,6 +9,7 @@ import {
     IFlowInfo,
     IFlowListInfo,
     IPlayFlow,
+    IShowCenterText,
     IShowOption,
     IShowTalk,
 } from '../../../Game/Flow/Action';
@@ -368,6 +369,14 @@ class FlowListOp {
                         });
                     }
                 });
+            } else if (action.Name === 'ShowCenterText') {
+                const showCenterText = action.Params as IShowCenterText;
+                const textId = showCenterText.TextId;
+                if (textIds[textId]) {
+                    error(`Duplicated textid ${textId}`);
+                    return;
+                }
+                textIds[textId] = true;
             }
         });
 

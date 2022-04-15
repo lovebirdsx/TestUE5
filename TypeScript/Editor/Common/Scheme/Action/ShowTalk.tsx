@@ -44,7 +44,7 @@ const talkActionInfoScheme: TDynamicObjectType = createDynamicType(EObjectFilter
     },
 });
 
-function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitiveType<number> {
+export function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitiveType<number> {
     return createIntScheme({
         CreateDefault: () => {
             let textId = 0;

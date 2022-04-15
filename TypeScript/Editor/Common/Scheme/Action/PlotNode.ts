@@ -7,7 +7,13 @@ import {
     ISetPlotMode,
     plotModeConfig,
 } from '../../../../Game/Flow/Action';
-import { booleanHideNameScheme, createEnumType, createObjectScheme, EObjectFilter } from '../Type';
+import {
+    booleanHideNameScheme,
+    createEnumType,
+    createObjectScheme,
+    EObjectFilter,
+    objectFilterExcept,
+} from '../Type';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {
@@ -22,6 +28,7 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
         Meta: {
             Tip: '设定和剧情播放相关的控制变量',
         },
+        Filters: objectFilterExcept(EObjectFilter.Trigger),
     },
 );
 

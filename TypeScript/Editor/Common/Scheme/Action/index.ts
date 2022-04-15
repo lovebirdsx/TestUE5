@@ -13,7 +13,7 @@ import {
     TObjectType,
 } from '../Type';
 import { playFlowScheme } from './Flow';
-import { jumpTalkScheme } from './JumpTalk';
+import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playSequenceDataScheme } from './Sequence';
@@ -26,7 +26,8 @@ export * from '../Type';
 const actionSchemeMap: { [key in TActionType]: TObjectType<unknown> } = {
     ChangeState: changeStateScheme as TObjectType<unknown>,
     ChangeRandomState: changeRandomStateScheme as TObjectType<unknown>,
-    FinishState: finishStateScheme as TObjectType<unknown>,
+    FinishTalk: finishTalkScheme,
+    FinishState: finishStateScheme,
     JumpTalk: jumpTalkScheme as TObjectType<unknown>,
     Log: logScheme as TObjectType<unknown>,
     PlayFlow: playFlowScheme as TObjectType<unknown>,

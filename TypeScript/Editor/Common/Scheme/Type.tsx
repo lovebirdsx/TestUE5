@@ -66,7 +66,6 @@ export type TArrayType<T> = IAbstractType<T[]> & {
 
 export enum EObjectFilter {
     FlowList, // 在flowlist中执行
-    Npc, // 在npc中执行
     Trigger, // 在trigger中执行
     Talk, // 在ShowTalk中执行
 }
@@ -286,6 +285,8 @@ export function createObjectScheme<T>(
         Scheduled: type.Scheduled,
     };
 }
+
+export const emptyObjectScheme = createObjectScheme({});
 
 export function createObjectSchemeForUeClass<T>(
     fields: TClassFields<T>,

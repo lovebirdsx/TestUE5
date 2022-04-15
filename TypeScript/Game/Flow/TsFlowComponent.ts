@@ -12,7 +12,6 @@ import { error, log } from '../../Editor/Common/Log';
 import { flowListOp } from '../../Editor/Common/Operations/FlowList';
 import { csvRegistry } from '../../Editor/CsvEditor/CsvRegistry';
 import { TalkerListOp } from '../../Editor/TalkerEditor/TalkerList';
-import TsEntity from '../Entity/TsEntity';
 import TsEntityComponent from '../Entity/TsEntityComponent';
 import TsHud from '../Player/TsHud';
 import {
@@ -77,8 +76,7 @@ class TsFlowComponent extends TsEntityComponent {
     private NextTalkId: number;
 
     public ReceiveBeginPlay(): void {
-        const entity = this.GetOwner() as TsEntity;
-        this.ActionRunner = entity.GetComponentByTsClass(TsActionRunnerComponent);
+        this.ActionRunner = this.GetComponent(TsActionRunnerComponent);
         this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
         this.ActionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
         this.ActionRunner.RegisterActionFun('PlayFlow', this.ExecutePlayFlow.bind(this));

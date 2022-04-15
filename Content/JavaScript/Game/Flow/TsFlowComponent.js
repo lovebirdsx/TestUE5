@@ -46,8 +46,7 @@ class TsFlowComponent extends TsEntityComponent_1.default {
     // @no-blueprint
     NextTalkId;
     ReceiveBeginPlay() {
-        const entity = this.GetOwner();
-        this.ActionRunner = entity.GetComponentByTsClass(TsActionRunnerComponent_1.default);
+        this.ActionRunner = this.GetComponent(TsActionRunnerComponent_1.default);
         this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
         this.ActionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
         this.ActionRunner.RegisterActionFun('PlayFlow', this.ExecutePlayFlow.bind(this));

@@ -5,6 +5,7 @@ export type TActionType =
     | 'ChangeRandomState'
     | 'ChangeState'
     | 'FinishState'
+    | 'FinishTalk'
     | 'JumpTalk'
     | 'Log'
     | 'PlayFlow'
@@ -129,12 +130,6 @@ export interface IShowTalk {
 
 export interface IShowOption {
     TextId: number;
-}
-
-export interface IFinishState {
-    Result: string;
-    Arg1?: string;
-    Arg2?: string;
 }
 
 export interface IChangeState {

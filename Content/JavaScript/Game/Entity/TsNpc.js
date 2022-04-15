@@ -17,7 +17,7 @@ class TsNpc extends TsEntity_1.default {
     // @no-blueprint
     Flow;
     ReceiveBeginPlay() {
-        this.Flow = this.GetComponentByTsClass(TsFlowComponent_1.default);
+        this.Flow = this.GetComponent(TsFlowComponent_1.default);
     }
     // @no-blueprint
     async Interact(player) {

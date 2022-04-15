@@ -11,5 +11,6 @@ exports.showCenterTextScheme = (0, Type_1.createObjectScheme)({
     }),
 }, {
     Scheduled: true,
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
 });
 //# sourceMappingURL=ShowText.js.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
+exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.createObjectSchemeForUeClass = exports.emptyObjectScheme = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
 const Util_1 = require("../../../Common/Util");
@@ -8,9 +8,8 @@ const Log_1 = require("../Log");
 var EObjectFilter;
 (function (EObjectFilter) {
     EObjectFilter[EObjectFilter["FlowList"] = 0] = "FlowList";
-    EObjectFilter[EObjectFilter["Npc"] = 1] = "Npc";
-    EObjectFilter[EObjectFilter["Trigger"] = 2] = "Trigger";
-    EObjectFilter[EObjectFilter["Talk"] = 3] = "Talk";
+    EObjectFilter[EObjectFilter["Trigger"] = 1] = "Trigger";
+    EObjectFilter[EObjectFilter["Talk"] = 2] = "Talk";
 })(EObjectFilter = exports.EObjectFilter || (exports.EObjectFilter = {}));
 exports.allObjectFilter = (0, Util_1.getEnumValues)(EObjectFilter);
 function objectFilterExcept(...args) {
@@ -187,6 +186,7 @@ function createObjectScheme(fields, type) {
     };
 }
 exports.createObjectScheme = createObjectScheme;
+exports.emptyObjectScheme = createObjectScheme({});
 function createObjectSchemeForUeClass(fields, type) {
     type = type || {};
     return {

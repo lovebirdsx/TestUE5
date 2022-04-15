@@ -3,38 +3,25 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { IChangeRandomState, IChangeState, IFinishState } from '../../../../Game/Flow/Action';
+import { IChangeRandomState, IChangeState } from '../../../../Game/Flow/Action';
 import { List } from '../../Component/CommonComponent';
 import { flowContext } from '../../Component/Flow';
 import {
     createArrayScheme,
     createIntScheme,
     createObjectScheme,
-    createStringScheme,
     EObjectFilter,
     IAnyProps,
     objectFilterExcept,
 } from '../Type';
 
-export const finishStateScheme = createObjectScheme<IFinishState>(
-    {
-        Result: createStringScheme({
-            CreateDefault: () => '结果',
-        }),
-        Arg1: createStringScheme({
-            Meta: { Optional: true },
-            CreateDefault: () => '参数1',
-        }),
-        Arg2: createStringScheme({
-            Meta: { Optional: true },
-            CreateDefault: () => '参数2',
-        }),
-    },
+export const finishStateScheme = createObjectScheme(
+    {},
     {
         Meta: {
             Tip: '结束状态,后续的动作将不被执行',
         },
-        Filters: objectFilterExcept(EObjectFilter.Trigger),
+        Filters: objectFilterExcept(EObjectFilter.FlowList),
     },
 );
 
@@ -79,9 +66,8 @@ export const changeStateScheme = createObjectScheme<IChangeState>(
     },
     {
         Meta: {
-            Tip: '跳转到状态,执行后将继续执行对应状态的动作',
+            Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
         },
-        Filters: objectFilterExcept(EObjectFilter.Trigger),
     },
 );
 

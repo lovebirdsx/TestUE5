@@ -6,10 +6,10 @@ import TsFlowComponent from '../Flow/TsFlowComponent';
 class TsTestGetTsComponent extends TsEntity {
     public ReceiveBeginPlay(): void {
         log('TsTestGetTsComponent =====');
-        const actionRunner = this.GetComponentByTsClass(TsActionRunnerComponent);
+        const actionRunner = this.GetComponent(TsActionRunnerComponent);
         log(`actionRunner name is ${actionRunner.GetName()}`);
 
-        const flow = this.GetComponentByTsClass(TsFlowComponent);
+        const flow = this.GetComponent(TsFlowComponent);
         log(`flow name is ${flow.GetName()}`);
     }
 }

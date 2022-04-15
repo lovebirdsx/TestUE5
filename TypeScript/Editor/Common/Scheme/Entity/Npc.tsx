@@ -37,7 +37,7 @@ function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
             {prefixElement}
             <Flow
                 Flow={flow}
-                ObjectFilter={EObjectFilter.Npc}
+                ObjectFilter={EObjectFilter.Trigger}
                 OnModify={(newFlow, type): void => {
                     props.OnModify(JSON.stringify(newFlow), type);
                 }}

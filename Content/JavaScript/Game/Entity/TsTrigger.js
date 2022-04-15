@@ -23,9 +23,8 @@ class TsTrigger extends TsEntity_1.default {
     // @no-blueprint
     RunnerHandler;
     ReceiveBeginPlay() {
-        super.ReceiveBeginPlay();
         this.TriggerTimes = 0;
-        this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent_1.default);
+        this.ActionRunner = this.GetComponent(TsActionRunnerComponent_1.default);
         this.RunnerHandler = this.ActionRunner.SpawnHandlerByJson(this.TriggerActionsJson);
     }
     // @no-blueprint

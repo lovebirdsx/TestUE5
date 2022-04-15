@@ -47,3 +47,13 @@ export const jumpTalkScheme = createObjectScheme<IJumpTalk>(
         },
     },
 );
+
+export const finishTalkScheme = createObjectScheme(
+    {},
+    {
+        Filters: [EObjectFilter.Talk],
+        Meta: {
+            Tip: '结束当前对话,跳到ShowTalk之后的动作执行',
+        },
+    },
+);

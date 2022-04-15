@@ -7,7 +7,7 @@ import { Btn, List, Text } from '../../Component/CommonComponent';
 import { flowOp } from '../../Operations/Flow';
 import { flowListOp } from '../../Operations/FlowList';
 import { openFlowEditor } from '../../Util';
-import { createObjectScheme, EObjectFilter, IAnyProps, objectFilterExcept } from '../Type';
+import { createObjectScheme, IAnyProps } from '../Type';
 
 function renderPlayFlow(props: IAnyProps): JSX.Element {
     const playFlow = props.Value as IPlayFlow;
@@ -93,7 +93,7 @@ export const playFlowScheme = createObjectScheme<IPlayFlow>(
             Tip: '播放流程配置文件中的某个流程',
         },
         Render: renderPlayFlow,
-        Filters: objectFilterExcept(EObjectFilter.FlowList, EObjectFilter.Talk),
+        Filters: [],
         CreateDefault: createDefaultPlayFlow,
     },
 );

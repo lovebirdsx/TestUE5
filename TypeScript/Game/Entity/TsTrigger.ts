@@ -24,10 +24,8 @@ class TsTrigger extends TsEntity {
     private RunnerHandler: ActionRunnerHandler;
 
     public ReceiveBeginPlay(): void {
-        super.ReceiveBeginPlay();
-
         this.TriggerTimes = 0;
-        this.ActionRunner = this.GetComponentByTsClass(TsActionRunnerComponent);
+        this.ActionRunner = this.GetComponent(TsActionRunnerComponent);
         this.RunnerHandler = this.ActionRunner.SpawnHandlerByJson(this.TriggerActionsJson);
     }
 

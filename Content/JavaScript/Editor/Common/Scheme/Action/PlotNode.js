@@ -15,6 +15,7 @@ exports.setFlowBoolOptionScheme = (0, Type_1.createObjectScheme)({
     Meta: {
         Tip: '设定和剧情播放相关的控制变量',
     },
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
 });
 exports.setCameraModeScheme = (0, Type_1.createObjectScheme)({
     Mode: (0, Type_1.createEnumType)(Action_1.cameraModeConfig, {

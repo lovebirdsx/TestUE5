@@ -14,7 +14,7 @@ class TsNpc extends TsEntity {
     private Flow: TsFlowComponent;
 
     public ReceiveBeginPlay(): void {
-        this.Flow = this.GetComponentByTsClass(TsFlowComponent);
+        this.Flow = this.GetComponent(TsFlowComponent);
     }
 
     // @no-blueprint

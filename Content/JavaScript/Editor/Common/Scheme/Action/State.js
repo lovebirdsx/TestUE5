@@ -7,23 +7,11 @@ const react_umg_1 = require("react-umg");
 const CommonComponent_1 = require("../../Component/CommonComponent");
 const Flow_1 = require("../../Component/Flow");
 const Type_1 = require("../Type");
-exports.finishStateScheme = (0, Type_1.createObjectScheme)({
-    Result: (0, Type_1.createStringScheme)({
-        CreateDefault: () => '结果',
-    }),
-    Arg1: (0, Type_1.createStringScheme)({
-        Meta: { Optional: true },
-        CreateDefault: () => '参数1',
-    }),
-    Arg2: (0, Type_1.createStringScheme)({
-        Meta: { Optional: true },
-        CreateDefault: () => '参数2',
-    }),
-}, {
+exports.finishStateScheme = (0, Type_1.createObjectScheme)({}, {
     Meta: {
         Tip: '结束状态,后续的动作将不被执行',
     },
-    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
+    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.FlowList),
 });
 const DEFAULT_STATE_ID = 1;
 const stateIdScheme = (0, Type_1.createIntScheme)({
@@ -48,9 +36,8 @@ exports.changeStateScheme = (0, Type_1.createObjectScheme)({
     StateId: stateIdScheme,
 }, {
     Meta: {
-        Tip: '跳转到状态,执行后将继续执行对应状态的动作',
+        Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
     },
-    Filters: (0, Type_1.objectFilterExcept)(Type_1.EObjectFilter.Trigger),
 });
 exports.changeRandomStateScheme = (0, Type_1.createObjectScheme)({
     StateIds: (0, Type_1.createArrayScheme)({

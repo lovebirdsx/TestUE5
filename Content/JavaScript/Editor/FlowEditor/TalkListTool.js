@@ -4,9 +4,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TalkListTool = exports.TalkListCsvFile = void 0;
 const ue_1 = require("ue");
+const FlowList_1 = require("../../Game/Common/Operations/FlowList");
+const TalkerList_1 = require("../../Game/Common/Operations/TalkerList");
 const Flow_1 = require("../Common/Operations/Flow");
-const FlowList_1 = require("../Common/Operations/FlowList");
-const TalkerList_1 = require("../TalkerEditor/TalkerList");
 const csvRowConfig = {
     Flow: '剧情',
     State: '状态',
@@ -55,7 +55,7 @@ class TalkListCsvFile {
                 lastState = undefined;
             }
             if (!lastState || lastState.Name !== state) {
-                lastState = Flow_1.flowOp.CreateState(lastFlow);
+                lastState = Flow_1.editorFlowOp.CreateState(lastFlow);
                 lastAction = undefined;
                 lastFlow.States.push(lastState);
                 lastFlow.StateGenId++;

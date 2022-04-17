@@ -3,10 +3,10 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { EditorAssetLibrary, Object, Struct } from 'ue';
 
+import { log } from '../../Common/Log';
 import { assetListCache } from '../Common/AssetListCache';
-import { AssetSelector, IAssetSelectorProps } from '../Common/Component/AssetSelector';
-import { Btn } from '../Common/Component/CommonComponent';
-import { log } from '../Common/Log';
+import { AssetSelector, IAssetSelectorProps } from '../Common/ReactComponent/AssetSelector';
+import { Btn } from '../Common/ReactComponent/CommonComponent';
 
 export class TestAssetSelector extends React.Component<unknown, IAssetSelectorProps> {
     public constructor(props: unknown) {

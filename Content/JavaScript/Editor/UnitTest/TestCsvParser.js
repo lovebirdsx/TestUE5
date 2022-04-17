@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 Object.defineProperty(exports, "__esModule", { value: true });
-const Test_1 = require("../../Editor/Common/Test");
-const CsvParser_1 = require("../Common/CsvParser");
+const CsvParser_1 = require("../../Common/CsvParser");
+const Test_1 = require("../../Common/Test");
 function testCsvParser() {
     (0, Test_1.test)('parse csv', () => {
         const test = [

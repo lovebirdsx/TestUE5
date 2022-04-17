@@ -4,7 +4,7 @@
 import { Actor } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { log } from '../../Editor/Common/Log';
+import { log } from '../../Common/Log';
 
 class TsTestWait extends Actor {
     public ReceiveBeginPlay(): void {

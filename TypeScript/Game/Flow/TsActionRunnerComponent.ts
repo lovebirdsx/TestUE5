@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { error, log } from '../../Editor/Common/Log';
+import { error, log } from '../../Common/Log';
 import TsEntityComponent from '../Entity/TsEntityComponent';
 import { IActionInfo, parseTriggerActionsJson, TActionFun, TActionType } from './Action';
 import { globalActionsRunner } from './GlobalActionsRunner';

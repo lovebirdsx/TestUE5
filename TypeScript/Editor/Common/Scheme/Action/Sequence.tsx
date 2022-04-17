@@ -1,5 +1,5 @@
+import { createAssetScheme, createEnumType, createObjectScheme } from '../../../../Common/Type';
 import { cameraBindModeConfig, IPlaySequenceData } from '../../../../Game/Flow/Action';
-import { createAssetScheme, createEnumType, createObjectScheme } from '../Type';
 
 const DEFAULT_SEQUENCEDATA_PATH =
     '/Game/Aki/Sequence/Task_Seq/Area_ZD/MainTask/Main_ZD_0001/Base/Main_ZD_0001_001.Main_ZD_0001_001';

@@ -6,16 +6,22 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
+import { log } from '../../Common/Log';
+import { TModifyType } from '../../Common/Type';
+import {
+    errorbox,
+    msgbox,
+    openLoadCsvFileDialog,
+    openSaveCsvFileDialog,
+} from '../../Common/UeHelper';
+import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
-import { errorbox, msgbox, openLoadCsvFileDialog, openSaveCsvFileDialog } from '../Common/Common';
-import { formatColor } from '../Common/Component/Color';
-import { Btn, Check, SlotText, Text } from '../Common/Component/CommonComponent';
-import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
-import { FlowList } from '../Common/Component/FlowList';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { log } from '../Common/Log';
-import { EFlowListAction, flowListContext, flowListOp } from '../Common/Operations/FlowList';
-import { TModifyType } from '../Common/Scheme/Type';
+import { editorFlowListOp } from '../Common/Operations/FlowList';
+import { formatColor } from '../Common/ReactComponent/Color';
+import { Btn, Check, SlotText, Text } from '../Common/ReactComponent/CommonComponent';
+import { ErrorBoundary } from '../Common/ReactComponent/ErrorBoundary';
+import { FlowList } from '../Common/ReactComponent/FlowList';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from './ConfigFile';
 import { TalkListTool } from './TalkListTool';
@@ -135,7 +141,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         }
 
         // 加载剧情配置
-        const flowListConfig = flowListOp.Load(this.ConfigFile.FlowConfigPath);
+        const flowListConfig = editorFlowListOp.Load(this.ConfigFile.FlowConfigPath);
 
         return {
             Histories: [flowListConfig],
@@ -178,7 +184,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
 
     private readonly Save = (): void => {
         const messages: string[] = [];
-        if (flowListOp.Check(this.FlowList, messages) > 0) {
+        if (editorFlowListOp.Check(this.FlowList, messages) > 0) {
             errorbox(`保存失败，错误：\n${messages.join('\n')}`);
             return;
         }
@@ -188,13 +194,13 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         // 此处不能直接使用this.flowList,因为会修改其内容
         // React修改state中的内容,只能在setState中进行
         const flowListToSave = produce(this.FlowList, (draft) => {
-            const removeCount = flowListOp.FormatTexts(draft);
+            const removeCount = editorFlowListOp.FormatTexts(draft);
             if (removeCount > 0) {
                 log(`remove ${removeCount} text ids`);
             }
         });
 
-        flowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
+        editorFlowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
 
         this.setState({
             Saved: this.FlowList,

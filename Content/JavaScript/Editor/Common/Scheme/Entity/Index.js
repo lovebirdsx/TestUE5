@@ -1,64 +1,21 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.entityScheme = void 0;
-const Class_1 = require("../../../../Common/Class");
 const TsNpc_1 = require("../../../../Game/Entity/TsNpc");
 const TsTrigger_1 = require("../../../../Game/Entity/TsTrigger");
-const Log_1 = require("../../Log");
-const Npc_1 = require("./Npc");
-const Trigger_1 = require("./Trigger");
-class EntitySchemes {
-    SchemeMap = new Map();
-    constructor() {
-        this.RegAllSchemes();
-    }
-    RegScheme(classType, scheme) {
-        if (!scheme) {
-            (0, Log_1.error)(`Reg null scheme for class [${classType.name}]`);
-            return;
-        }
-        const classObj = (0, Class_1.getClassObj)(classType);
-        this.SchemeMap.set(classObj, scheme);
-    }
-    RegAllSchemes() {
-        this.RegScheme(TsTrigger_1.default, Trigger_1.triggerScheme);
-        this.RegScheme(TsNpc_1.default, Npc_1.npcScheme);
-    }
-    GetSchemeByUeObj(obj) {
-        return this.GetSchemeByUeClass(obj.GetClass());
-    }
-    GetSchemeByUeClass(classObj) {
-        const result = this.SchemeMap.get(classObj);
-        if (!result) {
-            (0, Log_1.error)(`Can not find scheme for ue class obj ${classObj.GetName()}`);
-        }
-        return result;
-    }
-    GetScheme(classType) {
-        const classObj = (0, Class_1.getClassObj)(classType);
-        return this.GetSchemeByUeClass(classObj);
-    }
-    GenData(obj) {
-        const scheme = this.GetSchemeByUeClass(obj.GetClass());
-        const result = {};
-        if (!scheme) {
-            return result;
-        }
-        for (const fieldName in scheme.Fields) {
-            result[fieldName] = obj[fieldName];
-        }
-        return result;
-    }
-    ApplyData(pureData, obj) {
-        const classObj = obj.GetClass();
-        const scheme = this.GetSchemeByUeClass(classObj);
-        for (const fieldName in scheme.Fields) {
-            if (pureData[fieldName] === undefined) {
-                (0, Log_1.error)(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
-            }
-        }
-        Object.assign(obj, pureData);
-    }
-}
-exports.entityScheme = new EntitySchemes();
+const EditorEntityRegistry_1 = require("./EditorEntityRegistry");
+const NpcScheme_1 = require("./NpcScheme");
+const TriggerScheme_1 = require("./TriggerScheme");
+EditorEntityRegistry_1.editorEntityRegistry.RegScheme(TsTrigger_1.default, TriggerScheme_1.triggerScheme);
+EditorEntityRegistry_1.editorEntityRegistry.RegScheme(TsNpc_1.default, NpcScheme_1.npcScheme);
+__exportStar(require("./EditorEntityRegistry"), exports);
 //# sourceMappingURL=Index.js.map

@@ -14,7 +14,7 @@ function at<T>(n: number): T | undefined {
     return this[n];
 }
 
-export function globalInit(): void {
+function regAt(): void {
     for (const c of [Array, String]) {
         Object.defineProperty(c.prototype, 'at', {
             value: at,
@@ -23,4 +23,8 @@ export function globalInit(): void {
             configurable: true,
         });
     }
+}
+
+export function globalInit(): void {
+    regAt();
 }

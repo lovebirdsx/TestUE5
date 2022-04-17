@@ -14,7 +14,7 @@ import * as Reconciler from 'react-reconciler';
 import { ComboBoxStringProps, TArray } from 'react-umg';
 import * as UE from 'ue';
 
-import { error, log } from '../Editor/Common/Log';
+import { error, log } from '../Common/Log';
 
 let world: UE.World = null;
 let reactUMGStarter: UE.ReactUMGStarter = null;

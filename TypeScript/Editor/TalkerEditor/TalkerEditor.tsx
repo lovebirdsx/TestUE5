@@ -4,21 +4,19 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { ESlateSizeRule } from 'ue';
 
-import { formatColor } from '../Common/Component/Color';
-import { Btn, H1, H3 } from '../Common/Component/CommonComponent';
-import { ContextBtn } from '../Common/Component/ContextBtn';
-import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
-import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { log } from '../Common/Log';
+import { log } from '../../Common/Log';
 import {
     ITalkerInfo,
     ITalkerListInfo,
     TALKER_LIST_CSV_PATH,
     TalkerListOp,
-} from '../TalkerEditor/TalkerList';
-import { Talker } from './Talker';
-
-export const talkerListContext = React.createContext<ITalkerListInfo>(undefined);
+} from '../../Game/Common/Operations/TalkerList';
+import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
+import { formatColor } from '../Common/ReactComponent/Color';
+import { Btn, H1, H3 } from '../Common/ReactComponent/CommonComponent';
+import { ContextBtn } from '../Common/ReactComponent/ContextBtn';
+import { ErrorBoundary } from '../Common/ReactComponent/ErrorBoundary';
+import { Talker, talkerListContext } from './Talker';
 
 interface ITalkerEditorState {
     TalkerList: ITalkerListInfo;

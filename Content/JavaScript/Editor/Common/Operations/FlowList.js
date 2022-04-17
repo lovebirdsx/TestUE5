@@ -1,99 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.flowListOp = exports.flowListContext = exports.EFlowListAction = void 0;
+exports.editorFlowListOp = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
-const puerts_1 = require("puerts");
 const ue_1 = require("ue");
+const File_1 = require("../../../Common/File");
+const Log_1 = require("../../../Common/Log");
+const FlowListCsv_1 = require("../../../Game/Common/CsvConfig/FlowListCsv");
+const TextListCsv_1 = require("../../../Game/Common/CsvConfig/TextListCsv");
+const FlowList_1 = require("../../../Game/Common/Operations/FlowList");
 const Action_1 = require("../../../Game/Flow/Action");
-const ConfigFile_1 = require("../../FlowEditor/ConfigFile");
-const Common_1 = require("../Common");
-const FlowListCsv_1 = require("../CsvConfig/FlowListCsv");
-const TextListCsv_1 = require("../CsvConfig/TextListCsv");
-const EditorContext_1 = require("../EditorContext");
-const File_1 = require("../File");
-const Log_1 = require("../Log");
-const Util_1 = require("../Util");
 const Flow_1 = require("./Flow");
 const State_1 = require("./State");
-var EFlowListAction;
-(function (EFlowListAction) {
-    EFlowListAction[EFlowListAction["GenText"] = 0] = "GenText";
-    EFlowListAction[EFlowListAction["ModifyText"] = 1] = "ModifyText";
-})(EFlowListAction = exports.EFlowListAction || (exports.EFlowListAction = {}));
-exports.flowListContext = (0, EditorContext_1.createEditorContext)();
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
-const MAX_TEXT_ID = 1e8;
-function getFlowListFiles() {
-    const dir = ConfigFile_1.ConfigFile.FlowListDir;
-    const array = (0, ue_1.NewArray)(ue_1.BuiltinString);
-    ue_1.MyFileHelper.FindFiles((0, puerts_1.$ref)(array), dir, 'csv');
-    const files = (0, Common_1.toTsArray)(array);
-    const flowListFiles = files.filter((file) => {
-        const fileName = (0, File_1.getFileName)(file);
-        return fileName.startsWith(ConfigFile_1.ConfigFile.FlowListPrefix);
-    });
-    // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
-    flowListFiles.sort();
-    return flowListFiles;
-}
-class FlowListOp {
-    Names;
-    Files;
-    constructor() {
-        this.RefreshCache();
-    }
-    RefreshCache() {
-        this.Files = getFlowListFiles();
-        this.Names = this.Files.map((file) => {
-            return (0, File_1.getFileNameWithOutExt)(file);
-        });
-    }
-    Create() {
-        return {
-            VersionNum: Action_1.FLOW_LIST_VERSION,
-            TextGenId: 1,
-            FlowGenId: 1,
-            Flows: [],
-            Texts: {},
-        };
-    }
-    CreateText(flowList, text) {
-        if (flowList.TextGenId >= MAX_TEXT_ID) {
-            (0, Log_1.error)(`文本id已经超过最大值${MAX_TEXT_ID}`);
-            return flowList.TextGenId;
-        }
-        const textId = flowList.TextGenId;
-        flowList.Texts[textId] = text;
-        flowList.TextGenId++;
-        return textId;
-    }
-    RemoveText(flowList, textId) {
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete flowList.Texts[textId];
-    }
-    ModifyText(flowList, textId, text) {
-        flowList.Texts[textId] = text;
-    }
-    CreateFlow(flowList) {
-        const flow = {
-            Id: flowList.FlowGenId,
-            StateGenId: 1,
-            Name: `剧情${flowList.FlowGenId}`,
-            States: [],
-        };
-        return flow;
-    }
-    Parse(content) {
-        if (!content) {
-            return undefined;
-        }
-        return JSON.parse(content);
-    }
+class EditorFlowListOp {
     Check(flowlist, errorMessages) {
         let errorCount = 0;
         flowlist.Flows.forEach((flow) => {
-            errorCount += Flow_1.flowOp.Check(flow, errorMessages);
+            errorCount += Flow_1.editorFlowOp.Check(flow, errorMessages);
         });
         return errorCount;
     }
@@ -107,9 +31,13 @@ class FlowListOp {
             flowList.TextGenId = 0;
         }
         flowList.Flows.forEach((flow) => {
-            Flow_1.flowOp.Fix(flow, versionFrom, versionTo);
+            Flow_1.editorFlowOp.Fix(flow, versionFrom, versionTo);
         });
         flowList.VersionNum = versionTo;
+    }
+    RemoveText(flowList, textId) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete flowList.Texts[textId];
     }
     LoadEditor(path) {
         const abPath = this.GetEditorSavePath(path);
@@ -141,86 +69,6 @@ class FlowListOp {
             }
         }
         return config;
-    }
-    GetTextListPath(configPath) {
-        return `${(0, File_1.getDir)(configPath)}/Text_${(0, File_1.getFileName)(configPath)}`;
-    }
-    LoadTextList(flowList, path) {
-        const csvPath = this.GetTextListPath(path);
-        const csv = new TextListCsv_1.TextListCsvLoader();
-        const rows = csv.Load(csvPath);
-        const texts = {};
-        if (rows) {
-            rows.forEach((row) => {
-                texts[row.Id] = row.Text;
-            });
-            (0, Log_1.log)(`load text csv from: ${csvPath}`);
-        }
-        else {
-            (0, Log_1.warn)(`load text csv failed: ${csvPath}`);
-        }
-        flowList.Texts = texts;
-    }
-    GenTextKey(name) {
-        return BigInt((0, Util_1.calHash)(name) * MAX_TEXT_ID);
-    }
-    SaveTextList(flowList, path) {
-        const rows = [];
-        const flowListId = (0, File_1.getFileNameWithOutExt)(path);
-        const keyBase = this.GenTextKey(flowListId);
-        for (const key in flowList.Texts) {
-            const id = parseInt(key, 10);
-            rows.push({
-                Key: keyBase + BigInt(id),
-                FlowListId: flowListId,
-                Id: id,
-                Text: flowList.Texts[key],
-            });
-        }
-        if (rows.length <= 0) {
-            return;
-        }
-        rows.sort((a, b) => a.Id - b.Id);
-        const csvPath = this.GetTextListPath(path);
-        const csv = new TextListCsv_1.TextListCsvLoader();
-        csv.Save(rows, csvPath);
-        (0, Log_1.log)(`save text csv to: ${csvPath}`);
-    }
-    GetPath(name) {
-        const nameId = this.Names.indexOf(name);
-        if (nameId < 0) {
-            throw new Error(`Can not find flowlist for [${name}]`);
-        }
-        return this.Files[nameId];
-    }
-    LoadByName(name) {
-        return this.Load(this.GetPath(name));
-    }
-    Load(path) {
-        let row = null;
-        let flowList = null;
-        try {
-            const flowListCsv = new FlowListCsv_1.FlowListCsvLoader();
-            row = flowListCsv.LoadOne(path);
-        }
-        catch (err) {
-            (0, Log_1.error)(err);
-            (0, Common_1.errorbox)(`打开流程配置文件失败:\n${path}\n${Log_1.error}`);
-            row = null;
-        }
-        if (!row) {
-            flowList = this.Create();
-        }
-        else {
-            flowList = this.Parse(row.Json);
-            const editor = this.LoadEditor(path);
-            this.MergeEditorToConfig(flowList, editor);
-            this.LoadTextList(flowList, path);
-            if (flowList.VersionNum !== Action_1.FLOW_LIST_VERSION) {
-                this.Fix(flowList, Action_1.FLOW_LIST_VERSION);
-            }
-        }
-        return flowList;
     }
     SaveConfig(flowList, path) {
         const flowListWithOutTexts = (0, immer_1.default)(flowList, (draft) => {
@@ -257,6 +105,41 @@ class FlowListOp {
         else {
             (0, Log_1.error)(`Save flowList editor to [${editorSavePath}] failed`);
         }
+    }
+    Load(path) {
+        const flowList = FlowList_1.flowListOp.Load(path);
+        const editor = this.LoadEditor(path);
+        this.MergeEditorToConfig(flowList, editor);
+        if (flowList.VersionNum !== Action_1.FLOW_LIST_VERSION) {
+            this.Fix(flowList, Action_1.FLOW_LIST_VERSION);
+        }
+        return flowList;
+    }
+    Save(flowList, path) {
+        this.SaveConfig(flowList, path);
+        this.SaveEditor(flowList, path);
+    }
+    SaveTextList(flowList, path) {
+        const rows = [];
+        const flowListId = (0, File_1.getFileNameWithOutExt)(path);
+        const keyBase = FlowList_1.flowListOp.GenTextKey(flowListId);
+        for (const key in flowList.Texts) {
+            const id = parseInt(key, 10);
+            rows.push({
+                Key: keyBase + BigInt(id),
+                FlowListId: flowListId,
+                Id: id,
+                Text: flowList.Texts[key],
+            });
+        }
+        if (rows.length <= 0) {
+            return;
+        }
+        rows.sort((a, b) => a.Id - b.Id);
+        const csvPath = FlowList_1.flowListOp.GetTextListPath(path);
+        const csv = new TextListCsv_1.TextListCsvLoader();
+        csv.Save(rows, csvPath);
+        (0, Log_1.log)(`save text csv to: ${csvPath}`);
     }
     ForeachActions(flowList, actionCb) {
         flowList.Flows.forEach((flow) => {
@@ -320,41 +203,6 @@ class FlowListOp {
         });
         return idsToRemove.length;
     }
-    Save(flowList, path) {
-        this.SaveConfig(flowList, path);
-        this.SaveEditor(flowList, path);
-    }
-    GetFlowNames(flowList) {
-        return flowList.Flows.map((flow) => flow.Name);
-    }
-    GetFlowName(flowList, flowId) {
-        const flow = flowList.Flows.find((flow) => flow.Id === flowId);
-        return flow !== undefined ? flow.Name : '';
-    }
-    GetFlowId(flowList, flowName) {
-        const flow = flowList.Flows.find((flow) => flow.Name === flowName);
-        return flow !== undefined ? flow.Id : 0;
-    }
-    CreateDefaultPlayFlowFor(flowListName) {
-        const flowList = this.LoadByName(flowListName);
-        const flow = flowList.Flows.length > 0 ? flowList.Flows[0] : null;
-        const state = flow && flow.States.length > 0 ? flow.States[0] : null;
-        return {
-            FlowListName: flowListName,
-            FlowId: flow ? flow.Id : 0,
-            StateId: state ? state.Id : 0,
-        };
-    }
-    CreateDefaultPlayFlow() {
-        if (this.Names.length <= 0) {
-            return {
-                FlowListName: '',
-                FlowId: 0,
-                StateId: 0,
-            };
-        }
-        return this.CreateDefaultPlayFlowFor(this.Names[0]);
-    }
 }
-exports.flowListOp = new FlowListOp();
+exports.editorFlowListOp = new EditorFlowListOp();
 //# sourceMappingURL=FlowList.js.map

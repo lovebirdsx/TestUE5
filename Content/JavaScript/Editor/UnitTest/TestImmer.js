@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-param-reassign */
 const immer_1 = require("immer");
-const Test_1 = require("../../Editor/Common/Test");
+const Test_1 = require("../../Common/Test");
 function testImmer() {
     (0, Test_1.test)('no modify object', () => {
         const foo1 = {

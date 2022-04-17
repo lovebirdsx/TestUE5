@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.finishTalkScheme = exports.jumpTalkScheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
-const CommonComponent_1 = require("../../Component/CommonComponent");
-const Type_1 = require("../Type");
+const Type_1 = require("../../../../Common/Type");
+const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
 const ShowTalk_1 = require("./ShowTalk");
 exports.jumpTalkScheme = (0, Type_1.createObjectScheme)({
     TalkId: (0, Type_1.createIntScheme)({

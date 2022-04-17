@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changeRandomStateScheme = exports.changeStateScheme = exports.finishStateScheme = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../../Component/CommonComponent");
-const Flow_1 = require("../../Component/Flow");
-const Type_1 = require("../Type");
+const Type_1 = require("../../../../Common/Type");
+const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
+const Context_1 = require("../../ReactComponent/Context");
 exports.finishStateScheme = (0, Type_1.createObjectScheme)({}, {
     Meta: {
         Tip: '结束状态,后续的动作将不被执行',
@@ -20,7 +20,7 @@ const stateIdScheme = (0, Type_1.createIntScheme)({
     },
     CreateDefault: (container) => DEFAULT_STATE_ID,
     Render: (props) => {
-        return (React.createElement(Flow_1.flowContext.Consumer, null, (value) => {
+        return (React.createElement(Context_1.flowContext.Consumer, null, (value) => {
             const stateNames = value.States.map((e) => e.Name);
             const selectedState = value.States.find((e) => e.Id === props.Value);
             return (React.createElement(react_umg_1.HorizontalBox, null,

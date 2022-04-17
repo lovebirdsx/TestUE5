@@ -4,9 +4,9 @@ exports.TestCsvView = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const ue_1 = require("ue");
-const CsvView_1 = require("../Common/Component/CsvView");
-const TalkerCsv_1 = require("../Common/CsvConfig/TalkerCsv");
-const CsvLoader_1 = require("../Common/CsvLoader");
+const TalkerCsv_1 = require("../../Game/Common/CsvConfig/TalkerCsv");
+const CsvOp_1 = require("../Common/Operations/CsvOp");
+const CsvView_1 = require("../Common/ReactComponent/CsvView");
 const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
 class TestCsvView extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class TestCsvView extends React.Component {
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
-        CsvLoader_1.Csv.Log(this.state.Csv);
+        CsvOp_1.csvOp.Log(this.state.Csv);
         return React.createElement(CsvView_1.CsvView, { Csv: this.state.Csv, OnModify: this.OnModify });
     }
 }

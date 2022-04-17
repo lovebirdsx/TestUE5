@@ -1,5 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
+    booleanHideNameScheme,
+    createEnumType,
+    createObjectScheme,
+    EObjectFilter,
+    objectFilterExcept,
+} from '../../../../Common/Type';
+import {
     cameraModeConfig,
     flowBoolOptionConfig,
     ISetCameraMode,
@@ -7,13 +14,6 @@ import {
     ISetPlotMode,
     plotModeConfig,
 } from '../../../../Game/Flow/Action';
-import {
-    booleanHideNameScheme,
-    createEnumType,
-    createObjectScheme,
-    EObjectFilter,
-    objectFilterExcept,
-} from '../Type';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {

@@ -3,10 +3,10 @@
 import { CharacterMovementComponent, TestUE5Character } from 'ue';
 
 import { globalInit } from '../../Common/Init';
-import { error } from '../../Editor/Common/Log';
-import TsEntity from '../Entity/TsEntity';
+import { error } from '../../Common/Log';
+import { ITsEntity, ITsPlayer } from '../Entity/Interface';
 
-class TsPlayer extends TestUE5Character {
+class TsPlayer extends TestUE5Character implements ITsPlayer {
     public static Instance: TsPlayer;
 
     private Movement: CharacterMovementComponent;
@@ -14,7 +14,7 @@ class TsPlayer extends TestUE5Character {
     private InitSpeed: number;
 
     // @no-blueprint
-    private Interacters: TsEntity[];
+    private Interacters: ITsEntity[];
 
     // @no-blueprint
     private MyIsInteracting: boolean;
@@ -27,6 +27,10 @@ class TsPlayer extends TestUE5Character {
         this.Interacters = [];
 
         globalInit();
+    }
+
+    public get Name(): string {
+        return this.GetName();
     }
 
     public get IsInteracting(): boolean {
@@ -54,10 +58,10 @@ class TsPlayer extends TestUE5Character {
     }
 
     // @no-blueprint
-    public AddInteractor(interacter: TsEntity): void {
+    public AddInteractor(interacter: ITsEntity): void {
         const index = this.Interacters.indexOf(interacter);
         if (index >= 0) {
-            error(`Add duplicate interacter [${interacter.GetName()}]`);
+            error(`Add duplicate interacter [${interacter.Name}]`);
             return;
         }
 
@@ -65,10 +69,10 @@ class TsPlayer extends TestUE5Character {
     }
 
     // @no-blueprint
-    public RemoveInteractor(interacter: TsEntity): void {
+    public RemoveInteractor(interacter: ITsEntity): void {
         const index = this.Interacters.indexOf(interacter);
         if (index < 0) {
-            error(`Remove not exist interactor [${interacter.GetName()}]`);
+            error(`Remove not exist interactor [${interacter.Name}]`);
             return;
         }
 

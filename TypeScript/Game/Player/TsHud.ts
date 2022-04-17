@@ -5,7 +5,7 @@ import { BuiltinText, HUD, UMGManager } from 'ue';
 import * as UE from 'ue';
 
 import { delay, TCallback, waitCallback } from '../../Common/Async';
-import { log } from '../../Editor/Common/Log';
+import { log } from '../../Common/Log';
 
 class TsHud extends HUD {
     // @no-blueprint

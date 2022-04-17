@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 
-import { assertEq, test } from '../../Editor/Common/Test';
-import { parseCsv, stringifyCsv } from '../Common/CsvParser';
+import { parseCsv, stringifyCsv } from '../../Common/CsvParser';
+import { assertEq, test } from '../../Common/Test';
 
 export default function testCsvParser(): void {
     test('parse csv', () => {

@@ -1,0 +1,1 @@
+{"version":3,"file":"Config.js","sourceRoot":"","sources":["../../../../TypeScript/Game/Common/Config.ts"],"names":[],"mappings":";;;AAAA,2BAA6C;AAE7C,SAAS,cAAc;IACnB,OAAO,iBAAY,CAAC,OAAO,CAAC,cAAS,CAAC,OAAO,EAAE,eAAe,CAAC,CAAC;AACpE,CAAC;AAED,MAAM,UAAU;IACI,WAAW,GAAG,cAAc,EAAE,CAAC;IAE/B,cAAc,GAAG,KAAK,CAAC;CAC1C;AAEY,QAAA,UAAU,GAAG,IAAI,UAAU,EAAE,CAAC"}

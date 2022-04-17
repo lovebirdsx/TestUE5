@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable spellcheck/spell-checker */
-const Test_1 = require("../../Editor/Common/Test");
-const Util_1 = require("../../Editor/Common/Util");
-const Flow_1 = require("../Common/Operations/Flow");
-const FlowList_1 = require("../Common/Operations/FlowList");
+const Test_1 = require("../../Common/Test");
+const Util_1 = require("../../Common/Util");
 const TalkListTool_1 = require("../../Editor/FlowEditor/TalkListTool");
-const TalkerList_1 = require("../../Editor/TalkerEditor/TalkerList");
+const FlowList_1 = require("../../Game/Common/Operations/FlowList");
+const TalkerList_1 = require("../../Game/Common/Operations/TalkerList");
+const Flow_1 = require("../Common/Operations/Flow");
 function flowListEqual(f1, f2) {
     return (0, Util_1.deepEqualsIgnore)(f1, f2, ['flowGenId', 'stateGenId']);
 }
@@ -17,7 +17,7 @@ function createFlowList({ FlowCount: flowCount, StateCount: stateCount, TalkCoun
         flowList.FlowGenId++;
         flow.Name = `剧情${i + 1}`;
         for (let j = 0; j < stateCount; j++) {
-            const state = Flow_1.flowOp.CreateState(flow);
+            const state = Flow_1.editorFlowOp.CreateState(flow);
             flow.StateGenId++;
             for (let k = 0; k < talkCount; k++) {
                 const showTalk = {

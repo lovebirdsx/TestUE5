@@ -5,7 +5,7 @@ exports.ActionRunnerHandler = void 0;
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-const Log_1 = require("../../Editor/Common/Log");
+const Log_1 = require("../../Common/Log");
 const TsEntityComponent_1 = require("../Entity/TsEntityComponent");
 const Action_1 = require("./Action");
 const GlobalActionsRunner_1 = require("./GlobalActionsRunner");

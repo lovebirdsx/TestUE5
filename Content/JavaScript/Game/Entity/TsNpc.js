@@ -8,20 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
-const Action_1 = require("../Flow/Action");
-const TsFlowComponent_1 = require("../Flow/TsFlowComponent");
+// import { parseFlowInfo } from '../Flow/Action';
+// import TsFlowComponent from '../Flow/TsFlowComponent';
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsEntity_1 = require("./TsEntity");
 class TsNpc extends TsEntity_1.default {
-    FlowJson;
+    PlayFlowJson;
     // @no-blueprint
-    Flow;
+    // private Flow: TsFlowComponent;
     ReceiveBeginPlay() {
-        this.Flow = this.GetComponent(TsFlowComponent_1.default);
+        // this.Flow = this.GetComponent(TsFlowComponent);
     }
     // @no-blueprint
     async Interact(player) {
-        await this.Flow.Interact((0, Action_1.parseFlowInfo)(this.FlowJson));
+        // await this.Flow.Interact(parseFlowInfo(this.PlayFlowJson));
     }
     ReceiveActorBeginOverlap(other) {
         if (!(other instanceof TsPlayer_1.default)) {
@@ -38,6 +38,6 @@ class TsNpc extends TsEntity_1.default {
 }
 __decorate([
     (0, ue_1.edit_on_instance)()
-], TsNpc.prototype, "FlowJson", void 0);
+], TsNpc.prototype, "PlayFlowJson", void 0);
 exports.default = TsNpc;
 //# sourceMappingURL=TsNpc.js.map

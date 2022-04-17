@@ -2,9 +2,9 @@
 import { $ref } from 'puerts';
 import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
 
-import { assertEq, assertTrue, test } from '../../../Editor/Common/Test';
-import { toTsArray } from '../../Common/Common';
-import { getFileName, getFileNameWithOutExt, removeExtension } from '../../Common/File';
+import { getFileName, getFileNameWithOutExt, removeExtension } from '../../../Common/File';
+import { assertEq, assertTrue, test } from '../../../Common/Test';
+import { toTsArray } from '../../../Common/UeHelper';
 
 export default function testFile(): void {
     test('read save file', () => {

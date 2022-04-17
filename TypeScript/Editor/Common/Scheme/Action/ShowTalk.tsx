@@ -3,19 +3,6 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import {
-    IActionInfo,
-    IJumpTalk,
-    IShowOption,
-    IShowTalk,
-    ITalkItem,
-    ITalkOption,
-} from '../../../../Game/Flow/Action';
-import { TalkerListOp } from '../../../TalkerEditor/TalkerList';
-import { String } from '../../Component/Basic';
-import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../Component/CommonComponent';
-import { Obj } from '../../Component/Obj';
-import { EFlowListAction, flowListContext, flowListOp } from '../../Operations/FlowList';
-import {
     checkFields,
     createArrayScheme,
     createBooleanScheme,
@@ -33,16 +20,45 @@ import {
     TFixResult,
     TObjectFields,
     TPrimitiveType,
-} from '../Type';
+} from '../../../../Common/Type';
+import {
+    EFlowListAction,
+    flowListContext,
+    flowListOp,
+} from '../../../../Game/Common/Operations/FlowList';
+import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
+import {
+    IActionInfo,
+    IJumpTalk,
+    IShowOption,
+    IShowTalk,
+    ITalkItem,
+    ITalkOption,
+} from '../../../../Game/Flow/Action';
+import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../ReactComponent/CommonComponent';
+import { Obj } from '../../ReactComponent/Dynamic';
+import { String } from '../../ReactComponent/Dynamic/Basic';
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
 
-const talkActionInfoScheme: TDynamicObjectType = createDynamicType(EObjectFilter.Talk, {
-    Meta: {
-        NewLine: false,
-        Tip: '动作',
+const talkActionInfoScheme: TDynamicObjectType<IActionInfo> = createDynamicType<IActionInfo>(
+    EObjectFilter.Talk,
+    {
+        CreateDefault: (container): IActionInfo => {
+            const jumpTalk: IJumpTalk = {
+                TalkId: 0,
+            };
+            return {
+                Name: 'JumpTalk',
+                Params: jumpTalk,
+            };
+        },
+        Meta: {
+            NewLine: false,
+            Tip: '动作',
+        },
     },
-});
+);
 
 export function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitiveType<number> {
     return createIntScheme({

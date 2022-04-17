@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { BuiltinInt } from 'ue';
 
-import { toTsArray, toUeArray } from '../../../Editor/Common/Common';
-import { assertEq, test } from '../../../Editor/Common/Test';
+import { assertEq, test } from '../../../Common/Test';
+import { toTsArray, toUeArray } from '../../../Common/UeHelper';
 
 export default function testContainer(): void {
     test('array', () => {

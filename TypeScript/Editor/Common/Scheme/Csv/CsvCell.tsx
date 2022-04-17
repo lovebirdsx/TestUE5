@@ -1,10 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { csvCellTypeConfig, TCsvCellType } from '../../../../Game/Flow/Action';
-import { Any } from '../../Component/Any';
-import { csvCellContext, ICsvCellContext } from '../../Component/CsvView';
-import { error } from '../../Log';
+import { csvCellTypeConfig, TCsvCellType } from '../../../../Common/CsvLoader';
+import { error } from '../../../../Common/Log';
 import {
     booleanScheme,
     createEnumType,
@@ -14,7 +12,9 @@ import {
     IAnyProps,
     intScheme,
     stringScheme,
-} from '../Type';
+} from '../../../../Common/Type';
+import { csvCellContext, ICsvCellContext } from '../../ReactComponent/Context';
+import { Any } from '../../ReactComponent/Dynamic';
 
 interface ICellConfigSlot {
     Desc: string;

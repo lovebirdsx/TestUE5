@@ -6,21 +6,21 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue';
 
 import { isChildOfClass } from '../../Common/Class';
+import { log } from '../../Common/Log';
+import { TModifyType } from '../../Common/Type';
 import TsEntity from '../../Game/Entity/TsEntity';
-import { formatColor } from '../Common/Component/Color';
-import { Btn, SlotText, Text } from '../Common/Component/CommonComponent';
-import { ErrorBoundary } from '../Common/Component/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditor from '../Common/LevelEditor';
-import { log } from '../Common/Log';
-import { entityScheme } from '../Common/Scheme/Entity/Index';
-import { TModifyType } from '../Common/Scheme/Type';
+import { formatColor } from '../Common/ReactComponent/Color';
+import { Btn, SlotText, Text } from '../Common/ReactComponent/CommonComponent';
+import { ErrorBoundary } from '../Common/ReactComponent/ErrorBoundary';
+import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Index';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
 
 interface IEntityState {
     Entity: TsEntity;
-    PureData: Record<string, unknown>;
+    PureData: TEntityPureData;
 }
 
 interface IEntityEditorState {
@@ -62,7 +62,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: entityScheme.GenData(entity),
+                PureData: editorEntityRegistry.GenData(entity),
             };
         }
 
@@ -112,7 +112,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         const entityState: IEntityState = {
             Entity: entity,
-            PureData: entityScheme.GenData(entity),
+            PureData: editorEntityRegistry.GenData(entity),
         };
         this.RecordEntityState(entityState, 'normal');
 
@@ -171,7 +171,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         });
     }
 
-    private readonly OnEntityModify = (data: Record<string, unknown>, type: TModifyType): void => {
+    private readonly OnEntityModify = (data: TEntityPureData, type: TModifyType): void => {
         const es = this.EntityState;
         const newState: IEntityState = {
             Entity: es.Entity,
@@ -192,7 +192,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        entityScheme.ApplyData(es.PureData, es.Entity);
+        editorEntityRegistry.ApplyData(es.PureData, es.Entity);
         this.LastApplyEntityState = es;
     }
 

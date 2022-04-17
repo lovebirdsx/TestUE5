@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.assetListCache = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
-const Log_1 = require("./Log");
+const Log_1 = require("../../Common/Log");
 class AssetListCache {
     Items;
     constructor() {

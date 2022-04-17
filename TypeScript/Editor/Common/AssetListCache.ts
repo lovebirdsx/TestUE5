@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorAssetLibrary, EditorOperations } from 'ue';
 
-import { error, log } from './Log';
+import { error, log } from '../../Common/Log';
 
 export interface IAsset {
     Name: string;

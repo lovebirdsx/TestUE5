@@ -1,16 +1,16 @@
-import { log } from '../../Editor/Common/Log';
+import { log } from '../../Common/Log';
 import TsEntity from '../Entity/TsEntity';
-import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
-import TsFlowComponent from '../Flow/TsFlowComponent';
+// import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
+// import TsFlowComponent from '../Flow/TsFlowComponent';
 
 class TsTestGetTsComponent extends TsEntity {
     public ReceiveBeginPlay(): void {
         log('TsTestGetTsComponent =====');
-        const actionRunner = this.GetComponent(TsActionRunnerComponent);
-        log(`actionRunner name is ${actionRunner.GetName()}`);
+        // const actionRunner = this.GetComponent(TsActionRunnerComponent);
+        // log(`actionRunner name is ${actionRunner.GetName()}`);
 
-        const flow = this.GetComponent(TsFlowComponent);
-        log(`flow name is ${flow.GetName()}`);
+        // const flow = this.GetComponent(TsFlowComponent);
+        // log(`flow name is ${flow.GetName()}`);
     }
 }
 

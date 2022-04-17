@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TalkerEditor = exports.talkerListContext = void 0;
+exports.TalkerEditor = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
-const Color_1 = require("../Common/Component/Color");
-const CommonComponent_1 = require("../Common/Component/CommonComponent");
-const ContextBtn_1 = require("../Common/Component/ContextBtn");
-const ErrorBoundary_1 = require("../Common/Component/ErrorBoundary");
+const Log_1 = require("../../Common/Log");
+const TalkerList_1 = require("../../Game/Common/Operations/TalkerList");
 const KeyCommands_1 = require("../Common/KeyCommands");
-const Log_1 = require("../Common/Log");
-const TalkerList_1 = require("../TalkerEditor/TalkerList");
+const Color_1 = require("../Common/ReactComponent/Color");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const ContextBtn_1 = require("../Common/ReactComponent/ContextBtn");
+const ErrorBoundary_1 = require("../Common/ReactComponent/ErrorBoundary");
 const Talker_1 = require("./Talker");
-exports.talkerListContext = React.createContext(undefined);
 class TalkerEditor extends React.Component {
     CommandHandles = [];
     constructor(props) {
@@ -148,7 +147,7 @@ class TalkerEditor extends React.Component {
                         React.createElement(CommonComponent_1.Btn, { Text: "\u4FDD\u5B58", OnClick: this.Save, Tip: (0, KeyCommands_1.getCommandKeyDesc)('Save') })))),
             React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
                 React.createElement(ErrorBoundary_1.ErrorBoundary, null,
-                    React.createElement(exports.talkerListContext.Provider, { value: this.state.TalkerList }, talkers)))));
+                    React.createElement(Talker_1.talkerListContext.Provider, { value: this.state.TalkerList }, talkers)))));
     }
 }
 exports.TalkerEditor = TalkerEditor;

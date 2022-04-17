@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { UMGRoot } from 'ue';
 
-import { error } from './Log';
+import { error } from '../../Common/Log';
 
 const allCommands = [
     'Save',

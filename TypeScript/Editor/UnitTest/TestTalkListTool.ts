@@ -1,10 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
-import { assertEq, test } from '../../Editor/Common/Test';
-import { deepEqualsIgnore } from '../../Editor/Common/Util';
-import { flowOp } from '../Common/Operations/Flow';
-import { flowListOp } from '../Common/Operations/FlowList';
+import { assertEq, test } from '../../Common/Test';
+import { deepEqualsIgnore } from '../../Common/Util';
 import { TalkListCsvFile } from '../../Editor/FlowEditor/TalkListTool';
-import { TalkerListOp } from '../../Editor/TalkerEditor/TalkerList';
+import { flowListOp } from '../../Game/Common/Operations/FlowList';
+import { TalkerListOp } from '../../Game/Common/Operations/TalkerList';
 import {
     IActionInfo,
     IFlowListInfo,
@@ -13,6 +12,7 @@ import {
     ITalkItem,
     ITalkOption,
 } from '../../Game/Flow/Action';
+import { editorFlowOp } from '../Common/Operations/Flow';
 
 function flowListEqual(f1: IFlowListInfo, f2: IFlowListInfo): boolean {
     return deepEqualsIgnore(f1, f2, ['flowGenId', 'stateGenId']);
@@ -39,7 +39,7 @@ function createFlowList({
         flowList.FlowGenId++;
         flow.Name = `剧情${i + 1}`;
         for (let j = 0; j < stateCount; j++) {
-            const state = flowOp.CreateState(flow);
+            const state = editorFlowOp.CreateState(flow);
             flow.StateGenId++;
             for (let k = 0; k < talkCount; k++) {
                 const showTalk: IShowTalk = {

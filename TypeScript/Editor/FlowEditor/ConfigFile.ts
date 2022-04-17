@@ -1,14 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { log } from '../Common/Log';
+import { log } from '../../Common/Log';
 
 function getDefaultFlowListPath(): string {
     return MyFileHelper.GetPath(EFileRoot.Save, 'Editor/DefaultFlowList.csv');
-}
-
-function getFlowListDir(): string {
-    return MyFileHelper.GetPath(EFileRoot.Content, 'Data/FlowList');
 }
 
 export class ConfigFile {
@@ -33,10 +29,6 @@ export class ConfigFile {
     public static readonly MaxHistory = 100;
 
     public static readonly AutoSaveInterval = 60;
-
-    public static readonly FlowListDir = getFlowListDir();
-
-    public static readonly FlowListPrefix = '剧情_';
 
     public Load(): void {
         const content = MyFileHelper.Read(ConfigFile.SavePath);

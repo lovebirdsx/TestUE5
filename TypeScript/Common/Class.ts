@@ -2,26 +2,29 @@
 /* eslint-disable @typescript-eslint/prefer-function-type */
 import * as UE from 'ue';
 
-import { error, warn } from '../Editor/Common/Log';
-import TsEntity from '../Game/Entity/TsEntity';
-import TsNpc from '../Game/Entity/TsNpc';
-import TsTrigger from '../Game/Entity/TsTrigger';
+import { error, warn } from './Log';
 
-export interface IUeClassType<T extends UE.Object> extends Function {
+export interface ITsClassType<T extends UE.Object> extends Function {
     new (...args: unknown[]): T;
 }
 
-export type TUeClassType = IUeClassType<UE.Object>;
+export type TTsClassType = ITsClassType<UE.Object>;
 
-const classMap: Map<TUeClassType, UE.Class> = new Map();
+const tsClassToUeClassMap: Map<TTsClassType, UE.Class> = new Map();
 
-export function getClassObj(classType: TUeClassType): UE.Class {
-    return classMap.get(classType);
+const ueClassToTsClassMap: Map<UE.Class, TTsClassType> = new Map();
+
+export function getUeClassByTsClass(tsClassType: TTsClassType): UE.Class {
+    return tsClassToUeClassMap.get(tsClassType);
 }
 
-export function isChildOfClass(childObj: UE.Object, parentClassType: TUeClassType): boolean {
+export function getTsClassByUeClass(ueClassType: UE.Class): TTsClassType {
+    return ueClassToTsClassMap.get(ueClassType);
+}
+
+export function isChildOfClass(childObj: UE.Object, parentClassType: TTsClassType): boolean {
     const childClass = childObj.GetClass();
-    const parentClass = getClassObj(parentClassType);
+    const parentClass = getUeClassByTsClass(parentClassType);
     if (!parentClass) {
         warn(
             `can not find class type [${
@@ -34,35 +37,28 @@ export function isChildOfClass(childObj: UE.Object, parentClassType: TUeClassTyp
     return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }
 
-export function isChildOf(childClassType: TUeClassType, parentClassType: TUeClassType): boolean {
-    const childClass = getClassObj(childClassType);
-    const parentClass = getClassObj(parentClassType);
+export function isChildOf(childClassType: TTsClassType, parentClassType: TTsClassType): boolean {
+    const childClass = getUeClassByTsClass(childClassType);
+    const parentClass = getUeClassByTsClass(parentClassType);
     if (!childClass || !parentClass) {
         return false;
     }
     return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }
 
-export function isType(obj: UE.Object, classType: TUeClassType): boolean {
+export function isType(obj: UE.Object, classType: TTsClassType): boolean {
     const classObj1 = obj.GetClass();
-    const classObj2 = getClassObj(classType);
+    const classObj2 = getUeClassByTsClass(classType);
     return classObj1 === classObj2;
 }
 
-function regBlueprintType(path: string, classType: TUeClassType): void {
+export function regBlueprintType(path: string, classType: TTsClassType): void {
     const classObj = UE.Class.Load(path);
     if (!classObj) {
         error(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
 
-    classMap.set(classType, classObj);
+    tsClassToUeClassMap.set(classType, classObj);
+    ueClassToTsClassMap.set(classObj, classType);
 }
-
-function regAllTypes(): void {
-    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsEntity.TsEntity_C', TsEntity);
-    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsTrigger.TsTrigger_C', TsTrigger);
-    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsNpc.TsNpc_C', TsNpc);
-}
-
-regAllTypes();

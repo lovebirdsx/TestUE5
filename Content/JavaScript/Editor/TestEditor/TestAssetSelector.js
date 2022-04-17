@@ -5,10 +5,10 @@ exports.TestAssetSelector = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
+const Log_1 = require("../../Common/Log");
 const AssetListCache_1 = require("../Common/AssetListCache");
-const AssetSelector_1 = require("../Common/Component/AssetSelector");
-const CommonComponent_1 = require("../Common/Component/CommonComponent");
-const Log_1 = require("../Common/Log");
+const AssetSelector_1 = require("../Common/ReactComponent/AssetSelector");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
 class TestAssetSelector extends React.Component {
     constructor(props) {
         super(props);

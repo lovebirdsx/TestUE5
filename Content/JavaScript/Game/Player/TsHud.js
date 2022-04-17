@@ -6,7 +6,7 @@ const puerts_1 = require("puerts");
 const ue_1 = require("ue");
 const UE = require("ue");
 const Async_1 = require("../../Common/Async");
-const Log_1 = require("../../Editor/Common/Log");
+const Log_1 = require("../../Common/Log");
 class TsHud extends ue_1.HUD {
     // @no-blueprint
     UiTalkerDisplay;

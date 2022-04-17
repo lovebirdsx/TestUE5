@@ -1,6 +1,6 @@
 import { GameInstance } from 'ue';
 
-import { log } from '../Editor/Common/Log';
+import { log } from '../Common/Log';
 
 class TsGameInstance extends GameInstance {
     public static Instance: TsGameInstance;

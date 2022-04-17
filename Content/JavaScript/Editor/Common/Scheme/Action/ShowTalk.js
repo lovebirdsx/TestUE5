@@ -4,14 +4,23 @@ exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exp
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const TalkerList_1 = require("../../../TalkerEditor/TalkerList");
-const Basic_1 = require("../../Component/Basic");
-const CommonComponent_1 = require("../../Component/CommonComponent");
-const Obj_1 = require("../../Component/Obj");
-const FlowList_1 = require("../../Operations/FlowList");
-const Type_1 = require("../Type");
+const Type_1 = require("../../../../Common/Type");
+const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
+const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
+const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
+const Dynamic_1 = require("../../ReactComponent/Dynamic");
+const Basic_1 = require("../../ReactComponent/Dynamic/Basic");
 exports.showTalkContext = React.createContext(undefined);
 const talkActionInfoScheme = (0, Type_1.createDynamicType)(Type_1.EObjectFilter.Talk, {
+    CreateDefault: (container) => {
+        const jumpTalk = {
+            TalkId: 0,
+        };
+        return {
+            Name: 'JumpTalk',
+            Params: jumpTalk,
+        };
+    },
     Meta: {
         NewLine: false,
         Tip: '动作',
@@ -326,7 +335,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     },
     Render(props) {
         return (React.createElement(exports.showTalkContext.Provider, { value: props.Value },
-            React.createElement(Obj_1.Obj, { ...props })));
+            React.createElement(Dynamic_1.Obj, { ...props })));
     },
 });
 exports.showOptionScheme = (0, Type_1.createObjectScheme)({

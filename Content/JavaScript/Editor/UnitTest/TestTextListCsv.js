@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.readTextListCsv = exports.writeTextListCsv = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
-const TextListCsv_1 = require("../../Editor/Common/CsvConfig/TextListCsv");
-const Test_1 = require("../../Editor/Common/Test");
-const Log_1 = require("../Common/Log");
+const Log_1 = require("../../Common/Log");
+const Test_1 = require("../../Common/Test");
+const TextListCsv_1 = require("../../Game/Common/CsvConfig/TextListCsv");
 function testTextListCsv() {
     function testFor(textCount) {
         const caseName = `textCount = ${textCount}`;

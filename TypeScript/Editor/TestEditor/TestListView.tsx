@@ -4,9 +4,9 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { Btn, List } from '../../Editor/Common/Component/CommonComponent';
-import { FilterableList } from '../Common/Component/FilterableList';
-import { log } from '../Common/Log';
+import { log } from '../../Common/Log';
+import { Btn, List } from '../Common/ReactComponent/CommonComponent';
+import { FilterableList } from '../Common/ReactComponent/FilterableList';
 
 interface ITestListViewState {
     SelectName: string;

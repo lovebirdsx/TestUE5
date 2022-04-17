@@ -7,14 +7,15 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
-const Common_1 = require("../Common/Common");
-const Color_1 = require("../Common/Component/Color");
-const CommonComponent_1 = require("../Common/Component/CommonComponent");
-const ErrorBoundary_1 = require("../Common/Component/ErrorBoundary");
-const FlowList_1 = require("../Common/Component/FlowList");
+const Log_1 = require("../../Common/Log");
+const UeHelper_1 = require("../../Common/UeHelper");
+const FlowList_1 = require("../../Game/Common/Operations/FlowList");
 const KeyCommands_1 = require("../Common/KeyCommands");
-const Log_1 = require("../Common/Log");
 const FlowList_2 = require("../Common/Operations/FlowList");
+const Color_1 = require("../Common/ReactComponent/Color");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const ErrorBoundary_1 = require("../Common/ReactComponent/ErrorBoundary");
+const FlowList_3 = require("../Common/ReactComponent/FlowList");
 const Util_1 = require("../Common/Util");
 const ConfigFile_1 = require("./ConfigFile");
 const TalkListTool_1 = require("./TalkListTool");
@@ -79,11 +80,11 @@ class FlowEditor extends React.Component {
         // 没有在componentWillMount中调用,是因为会报警告
         // 参考 https://github.com/facebook/react/issues/5737
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        FlowList_2.flowListContext.Set(() => this.FlowList, (flowList, type) => {
-            if (type === FlowList_2.EFlowListAction.ModifyText) {
+        FlowList_1.flowListContext.Set(() => this.FlowList, (flowList, type) => {
+            if (type === FlowList_1.EFlowListAction.ModifyText) {
                 this.ModifyFlowList(flowList, 'normal');
             }
-            else if (type === FlowList_2.EFlowListAction.GenText) {
+            else if (type === FlowList_1.EFlowListAction.GenText) {
                 this.ModifyFlowList(flowList, 'normal', true);
             }
         });
@@ -91,7 +92,7 @@ class FlowEditor extends React.Component {
     ComponentWillUnmount() {
         this.RemKeyCommands();
         this.StopAutoSave();
-        FlowList_2.flowListContext.Clear();
+        FlowList_1.flowListContext.Clear();
     }
     get FlowList() {
         return this.state.Histories[this.state.StepId];
@@ -103,7 +104,7 @@ class FlowEditor extends React.Component {
             this.ConfigFile.Save();
         }
         // 加载剧情配置
-        const flowListConfig = FlowList_2.flowListOp.Load(this.ConfigFile.FlowConfigPath);
+        const flowListConfig = FlowList_2.editorFlowListOp.Load(this.ConfigFile.FlowConfigPath);
         return {
             Histories: [flowListConfig],
             StepId: 0,
@@ -118,7 +119,7 @@ class FlowEditor extends React.Component {
         (0, Util_1.openDirOfFile)(this.ConfigFile.FlowConfigPath);
     };
     OpenByDialog = () => {
-        const openPath = (0, Common_1.openLoadCsvFileDialog)(this.ConfigFile.FlowConfigPath);
+        const openPath = (0, UeHelper_1.openLoadCsvFileDialog)(this.ConfigFile.FlowConfigPath);
         if (!openPath) {
             return;
         }
@@ -137,20 +138,20 @@ class FlowEditor extends React.Component {
     };
     Save = () => {
         const messages = [];
-        if (FlowList_2.flowListOp.Check(this.FlowList, messages) > 0) {
-            (0, Common_1.errorbox)(`保存失败，错误：\n${messages.join('\n')}`);
+        if (FlowList_2.editorFlowListOp.Check(this.FlowList, messages) > 0) {
+            (0, UeHelper_1.errorbox)(`保存失败，错误：\n${messages.join('\n')}`);
             return;
         }
         this.ConfigFile.Save();
         // 此处不能直接使用this.flowList,因为会修改其内容
         // React修改state中的内容,只能在setState中进行
         const flowListToSave = (0, immer_1.default)(this.FlowList, (draft) => {
-            const removeCount = FlowList_2.flowListOp.FormatTexts(draft);
+            const removeCount = FlowList_2.editorFlowListOp.FormatTexts(draft);
             if (removeCount > 0) {
                 (0, Log_1.log)(`remove ${removeCount} text ids`);
             }
         });
-        FlowList_2.flowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
+        FlowList_2.editorFlowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
         this.setState({
             Saved: this.FlowList,
         });
@@ -159,7 +160,7 @@ class FlowEditor extends React.Component {
         return this.FlowList !== this.state.Saved;
     }
     SaveByDialog = () => {
-        const openPath = (0, Common_1.openSaveCsvFileDialog)(this.ConfigFile.FlowConfigPath);
+        const openPath = (0, UeHelper_1.openSaveCsvFileDialog)(this.ConfigFile.FlowConfigPath);
         if (!openPath) {
             return;
         }
@@ -205,7 +206,7 @@ class FlowEditor extends React.Component {
         return `${state.StepId + 1} / ${state.Histories.length}`;
     };
     Export = () => {
-        const path = (0, Common_1.openSaveCsvFileDialog)(this.ConfigFile.CsvExportPath);
+        const path = (0, UeHelper_1.openSaveCsvFileDialog)(this.ConfigFile.CsvExportPath);
         if (!path) {
             return;
         }
@@ -215,7 +216,7 @@ class FlowEditor extends React.Component {
         (0, Log_1.log)(`Export flowlist to ${path} succeed`);
     };
     Import = () => {
-        const path = (0, Common_1.openLoadCsvFileDialog)(this.ConfigFile.CsvImportPath);
+        const path = (0, UeHelper_1.openLoadCsvFileDialog)(this.ConfigFile.CsvImportPath);
         if (!path) {
             return;
         }
@@ -226,7 +227,7 @@ class FlowEditor extends React.Component {
             listInfo = TalkListTool_1.TalkListTool.Import(path);
         }
         catch (e) {
-            (0, Common_1.msgbox)(`导入失败:${e}`);
+            (0, UeHelper_1.msgbox)(`导入失败:${e}`);
             return;
         }
         this.ModifyFlowList(listInfo, 'normal');
@@ -299,7 +300,7 @@ class FlowEditor extends React.Component {
                     this.state.IsDevelop && this.RenderDevelopElements())),
             React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
                 React.createElement(ErrorBoundary_1.ErrorBoundary, null,
-                    React.createElement(FlowList_1.FlowList, { FlowList: this.FlowList, OnModify: this.ModifyFlowList })))));
+                    React.createElement(FlowList_3.FlowList, { FlowList: this.FlowList, OnModify: this.ModifyFlowList })))));
     }
 }
 exports.FlowEditor = FlowEditor;

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.testSaveFileDialog = exports.testOpenFileDialog = void 0;
 const puerts_1 = require("puerts");
 const ue_1 = require("ue");
-const Log_1 = require("../Common/Log");
+const Log_1 = require("../../Common/Log");
 // Layer .raw files|*.raw|Layer .r8 files|*.r8|All files|*.*
 function testOpenFileDialog() {
     const filesRef = (0, puerts_1.$ref)((0, ue_1.NewArray)(ue_1.BuiltinString));

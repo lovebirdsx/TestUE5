@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const puerts_1 = require("puerts");
 const ue_1 = require("ue");
-const Test_1 = require("../../../Editor/Common/Test");
-const Common_1 = require("../../Common/Common");
-const File_1 = require("../../Common/File");
+const File_1 = require("../../../Common/File");
+const Test_1 = require("../../../Common/Test");
+const UeHelper_1 = require("../../../Common/UeHelper");
 function testFile() {
     (0, Test_1.test)('read save file', () => {
         const file = ue_1.MyFileHelper.GetPath(ue_1.EFileRoot.Save, 'Test/Foo.txt');
@@ -31,7 +31,7 @@ function testFile() {
         }
         const resultArray = (0, ue_1.NewArray)(ue_1.BuiltinString);
         ue_1.MyFileHelper.FindFiles((0, puerts_1.$ref)(resultArray), dir, 'test');
-        const fileNames = (0, Common_1.toTsArray)(resultArray);
+        const fileNames = (0, UeHelper_1.toTsArray)(resultArray);
         (0, Test_1.assertEq)(fileNames.length, 3, 'file count must equal');
         for (let i = 0; i < 3; i++) {
             const fileName = `${dir}/test${i}.test`;

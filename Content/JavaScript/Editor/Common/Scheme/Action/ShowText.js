@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showCenterTextScheme = void 0;
-const Type_1 = require("../Type");
+const Type_1 = require("../../../../Common/Type");
 const ShowTalk_1 = require("./ShowTalk");
 exports.showCenterTextScheme = (0, Type_1.createObjectScheme)({
     TextId: (0, ShowTalk_1.createTextIdScheme)('在屏幕上显示点啥吧!', {

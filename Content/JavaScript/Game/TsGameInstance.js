@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ue_1 = require("ue");
-const Log_1 = require("../Editor/Common/Log");
+const Log_1 = require("../Common/Log");
 class TsGameInstance extends ue_1.GameInstance {
     static Instance;
     Constructor() {

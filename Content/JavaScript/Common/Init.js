@@ -16,7 +16,7 @@ function at(n) {
     }
     return this[n];
 }
-function globalInit() {
+function regAt() {
     for (const c of [Array, String]) {
         Object.defineProperty(c.prototype, 'at', {
             value: at,
@@ -25,6 +25,9 @@ function globalInit() {
             configurable: true,
         });
     }
+}
+function globalInit() {
+    regAt();
 }
 exports.globalInit = globalInit;
 //# sourceMappingURL=Init.js.map

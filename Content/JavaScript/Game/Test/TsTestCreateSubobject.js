@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const puerts_1 = require("puerts");
 const ue_1 = require("ue");
-const Log_1 = require("../../Editor/Common/Log");
+const Log_1 = require("../../Common/Log");
 const TsActionRunnerComponent_1 = require("../Flow/TsActionRunnerComponent");
 class TsTestCreateSubobject extends ue_1.Actor {
     ActionRunner;

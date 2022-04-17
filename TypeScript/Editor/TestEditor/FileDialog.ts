@@ -1,7 +1,7 @@
 import { $ref, $unref } from 'puerts';
 import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
 
-import { log } from '../Common/Log';
+import { log } from '../../Common/Log';
 
 // Layer .raw files|*.raw|Layer .r8 files|*.r8|All files|*.*
 export function testOpenFileDialog(): void {

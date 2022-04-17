@@ -3,6 +3,8 @@
 
 import { MyFileHelper } from 'ue';
 
+import { flowListOp } from '../../Game/Common/Operations/FlowList';
+import { TalkerListOp } from '../../Game/Common/Operations/TalkerList';
 import {
     IActionInfo,
     IFlowInfo,
@@ -14,9 +16,7 @@ import {
     ITalkOption,
     TActionType,
 } from '../../Game/Flow/Action';
-import { flowOp } from '../Common/Operations/Flow';
-import { flowListOp } from '../Common/Operations/FlowList';
-import { TalkerListOp } from '../TalkerEditor/TalkerList';
+import { editorFlowOp } from '../Common/Operations/Flow';
 
 type TCsvTalkType = '对话' | '对话选项' | '独立选项';
 
@@ -97,7 +97,7 @@ export class TalkListCsvFile {
             }
 
             if (!lastState || lastState.Name !== state) {
-                lastState = flowOp.CreateState(lastFlow);
+                lastState = editorFlowOp.CreateState(lastFlow);
                 lastAction = undefined;
                 lastFlow.States.push(lastState);
                 lastFlow.StateGenId++;

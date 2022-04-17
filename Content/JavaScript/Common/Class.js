@@ -1,21 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getClassObj = void 0;
+exports.regBlueprintType = exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getTsClassByUeClass = exports.getUeClassByTsClass = void 0;
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/prefer-function-type */
 const UE = require("ue");
-const Log_1 = require("../Editor/Common/Log");
-const TsEntity_1 = require("../Game/Entity/TsEntity");
-const TsNpc_1 = require("../Game/Entity/TsNpc");
-const TsTrigger_1 = require("../Game/Entity/TsTrigger");
-const classMap = new Map();
-function getClassObj(classType) {
-    return classMap.get(classType);
+const Log_1 = require("./Log");
+const tsClassToUeClassMap = new Map();
+const ueClassToTsClassMap = new Map();
+function getUeClassByTsClass(tsClassType) {
+    return tsClassToUeClassMap.get(tsClassType);
 }
-exports.getClassObj = getClassObj;
+exports.getUeClassByTsClass = getUeClassByTsClass;
+function getTsClassByUeClass(ueClassType) {
+    return ueClassToTsClassMap.get(ueClassType);
+}
+exports.getTsClassByUeClass = getTsClassByUeClass;
 function isChildOfClass(childObj, parentClassType) {
     const childClass = childObj.GetClass();
-    const parentClass = getClassObj(parentClassType);
+    const parentClass = getUeClassByTsClass(parentClassType);
     if (!parentClass) {
         (0, Log_1.warn)(`can not find class type [${parentClassType.name}], childObj [${childObj.GetName()}-${childClass.GetName()}]`);
         return false;
@@ -24,8 +26,8 @@ function isChildOfClass(childObj, parentClassType) {
 }
 exports.isChildOfClass = isChildOfClass;
 function isChildOf(childClassType, parentClassType) {
-    const childClass = getClassObj(childClassType);
-    const parentClass = getClassObj(parentClassType);
+    const childClass = getUeClassByTsClass(childClassType);
+    const parentClass = getUeClassByTsClass(parentClassType);
     if (!childClass || !parentClass) {
         return false;
     }
@@ -34,7 +36,7 @@ function isChildOf(childClassType, parentClassType) {
 exports.isChildOf = isChildOf;
 function isType(obj, classType) {
     const classObj1 = obj.GetClass();
-    const classObj2 = getClassObj(classType);
+    const classObj2 = getUeClassByTsClass(classType);
     return classObj1 === classObj2;
 }
 exports.isType = isType;
@@ -44,12 +46,8 @@ function regBlueprintType(path, classType) {
         (0, Log_1.error)(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
-    classMap.set(classType, classObj);
+    tsClassToUeClassMap.set(classType, classObj);
+    ueClassToTsClassMap.set(classObj, classType);
 }
-function regAllTypes() {
-    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsEntity.TsEntity_C', TsEntity_1.default);
-    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsTrigger.TsTrigger_C', TsTrigger_1.default);
-    regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsNpc.TsNpc_C', TsNpc_1.default);
-}
-regAllTypes();
+exports.regBlueprintType = regBlueprintType;
 //# sourceMappingURL=Class.js.map

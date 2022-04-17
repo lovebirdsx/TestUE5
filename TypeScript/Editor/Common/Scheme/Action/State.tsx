@@ -3,9 +3,6 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { IChangeRandomState, IChangeState } from '../../../../Game/Flow/Action';
-import { List } from '../../Component/CommonComponent';
-import { flowContext } from '../../Component/Flow';
 import {
     createArrayScheme,
     createIntScheme,
@@ -13,7 +10,10 @@ import {
     EObjectFilter,
     IAnyProps,
     objectFilterExcept,
-} from '../Type';
+} from '../../../../Common/Type';
+import { IChangeRandomState, IChangeState } from '../../../../Game/Flow/Action';
+import { List } from '../../ReactComponent/CommonComponent';
+import { flowContext } from '../../ReactComponent/Context';
 
 export const finishStateScheme = createObjectScheme(
     {},

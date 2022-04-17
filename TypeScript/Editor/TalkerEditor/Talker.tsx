@@ -3,9 +3,10 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { EditorBox } from '../../Editor/Common/Component/CommonComponent';
-import { ITalkerInfo, ITalkerListInfo } from '../../Editor/TalkerEditor/TalkerList';
-import { talkerListContext } from './TalkerEditor';
+import { ITalkerInfo, ITalkerListInfo } from '../../Game/Common/Operations/TalkerList';
+import { EditorBox } from '../Common/ReactComponent/CommonComponent';
+
+export const talkerListContext = React.createContext<ITalkerListInfo>(undefined);
 
 export interface ITalkerProps {
     Talker: ITalkerInfo;

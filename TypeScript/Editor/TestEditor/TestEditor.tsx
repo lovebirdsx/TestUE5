@@ -11,7 +11,8 @@ import {
 } from 'react-umg';
 import { ESlateSizeRule, ReactUMGStarter } from 'ue';
 
-import { Btn, H3, H3_SIZE, Text } from '../../Editor/Common/Component/CommonComponent';
+import { log } from '../../Common/Log';
+import { getTestErrorRecords } from '../../Common/Test';
 import testContainer from '../../Editor/UnitTest/Engine/TestContainer';
 import testFile from '../../Editor/UnitTest/Engine/TestFile';
 import testImmer from '../../Editor/UnitTest/TestImmer';
@@ -21,8 +22,7 @@ import testTextListCsv, {
     writeTextListCsv,
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
-import { log } from '../Common/Log';
-import { getTestErrorRecords } from '../Common/Test';
+import { Btn, H3, H3_SIZE, Text } from '../Common/ReactComponent/CommonComponent';
 import testClass from '../UnitTest/Game/TestClass';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';

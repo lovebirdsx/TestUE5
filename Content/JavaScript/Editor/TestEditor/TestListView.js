@@ -5,9 +5,9 @@ exports.TestListView = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../../Editor/Common/Component/CommonComponent");
-const FilterableList_1 = require("../Common/Component/FilterableList");
-const Log_1 = require("../Common/Log");
+const Log_1 = require("../../Common/Log");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const FilterableList_1 = require("../Common/ReactComponent/FilterableList");
 class TestListView extends React.Component {
     constructor(props) {
         super(props);

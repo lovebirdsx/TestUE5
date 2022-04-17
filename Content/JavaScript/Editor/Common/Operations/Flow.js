@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.flowOp = void 0;
+exports.editorFlowOp = void 0;
 const State_1 = require("./State");
-class FlowOp {
+class EditorFlowOp {
     CreateState(flow) {
         const state = {
             Name: `状态${flow.StateGenId}`,
@@ -92,12 +92,6 @@ class FlowOp {
         this.GetDestinationStatesImpl(flow, state.Actions, result);
         return result;
     }
-    GetState(flow, stateId) {
-        return flow.States.find((state) => state.Id === stateId);
-    }
-    GetStateNames(flow) {
-        return flow.States.map((state) => state.Name);
-    }
 }
-exports.flowOp = new FlowOp();
+exports.editorFlowOp = new EditorFlowOp();
 //# sourceMappingURL=Flow.js.map

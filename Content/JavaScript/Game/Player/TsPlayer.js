@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const ue_1 = require("ue");
 const Init_1 = require("../../Common/Init");
-const Log_1 = require("../../Editor/Common/Log");
+const Log_1 = require("../../Common/Log");
 class TsPlayer extends ue_1.TestUE5Character {
     static Instance;
     Movement;
@@ -19,6 +19,9 @@ class TsPlayer extends ue_1.TestUE5Character {
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];
         (0, Init_1.globalInit)();
+    }
+    get Name() {
+        return this.GetName();
     }
     get IsInteracting() {
         return this.MyIsInteracting;
@@ -43,7 +46,7 @@ class TsPlayer extends ue_1.TestUE5Character {
     AddInteractor(interacter) {
         const index = this.Interacters.indexOf(interacter);
         if (index >= 0) {
-            (0, Log_1.error)(`Add duplicate interacter [${interacter.GetName()}]`);
+            (0, Log_1.error)(`Add duplicate interacter [${interacter.Name}]`);
             return;
         }
         this.Interacters.push(interacter);
@@ -52,7 +55,7 @@ class TsPlayer extends ue_1.TestUE5Character {
     RemoveInteractor(interacter) {
         const index = this.Interacters.indexOf(interacter);
         if (index < 0) {
-            (0, Log_1.error)(`Remove not exist interactor [${interacter.GetName()}]`);
+            (0, Log_1.error)(`Remove not exist interactor [${interacter.Name}]`);
             return;
         }
         this.Interacters.splice(index, 1);

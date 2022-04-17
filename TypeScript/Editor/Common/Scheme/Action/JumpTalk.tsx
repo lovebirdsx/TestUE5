@@ -1,9 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
+import {
+    createIntScheme,
+    createObjectScheme,
+    EObjectFilter,
+    IAnyProps,
+} from '../../../../Common/Type';
 import { IJumpTalk } from '../../../../Game/Flow/Action';
-import { List } from '../../Component/CommonComponent';
-import { createIntScheme, createObjectScheme, EObjectFilter, IAnyProps } from '../Type';
+import { List } from '../../ReactComponent/CommonComponent';
 import { showTalkContext } from './ShowTalk';
 
 export const jumpTalkScheme = createObjectScheme<IJumpTalk>(

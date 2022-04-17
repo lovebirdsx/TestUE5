@@ -8,13 +8,13 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
+const Log_1 = require("../../Common/Log");
 const TsEntity_1 = require("../../Game/Entity/TsEntity");
-const Color_1 = require("../Common/Component/Color");
-const CommonComponent_1 = require("../Common/Component/CommonComponent");
-const ErrorBoundary_1 = require("../Common/Component/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
 const LevelEditor_1 = require("../Common/LevelEditor");
-const Log_1 = require("../Common/Log");
+const Color_1 = require("../Common/ReactComponent/Color");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const ErrorBoundary_1 = require("../Common/ReactComponent/ErrorBoundary");
 const Index_1 = require("../Common/Scheme/Entity/Index");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
@@ -44,7 +44,7 @@ class EntityEditor extends React.Component {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: Index_1.entityScheme.GenData(entity),
+                PureData: Index_1.editorEntityRegistry.GenData(entity),
             };
         }
         return {
@@ -85,7 +85,7 @@ class EntityEditor extends React.Component {
         }
         const entityState = {
             Entity: entity,
-            PureData: Index_1.entityScheme.GenData(entity),
+            PureData: Index_1.editorEntityRegistry.GenData(entity),
         };
         this.RecordEntityState(entityState, 'normal');
         entity.OnDestroyed.Remove(this.OnEntityDestory);
@@ -151,7 +151,7 @@ class EntityEditor extends React.Component {
         if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }
-        Index_1.entityScheme.ApplyData(es.PureData, es.Entity);
+        Index_1.editorEntityRegistry.ApplyData(es.PureData, es.Entity);
         this.LastApplyEntityState = es;
     }
     RenderEntity() {

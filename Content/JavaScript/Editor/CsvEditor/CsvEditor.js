@@ -6,14 +6,14 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
-const Color_1 = require("../Common/Component/Color");
-const CommonComponent_1 = require("../Common/Component/CommonComponent");
-const CsvView_1 = require("../Common/Component/CsvView");
+const Log_1 = require("../../Common/Log");
+const CsvRegistry_1 = require("../../Game/Common/CsvConfig/CsvRegistry");
 const KeyCommands_1 = require("../Common/KeyCommands");
-const Log_1 = require("../Common/Log");
+const Color_1 = require("../Common/ReactComponent/Color");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const CsvView_1 = require("../Common/ReactComponent/CsvView");
 const Util_1 = require("../Common/Util");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
-const CsvRegistry_1 = require("./CsvRegistry");
 function canUndo(state) {
     return state.StepId > 0 && state.Histories.length > 0;
 }

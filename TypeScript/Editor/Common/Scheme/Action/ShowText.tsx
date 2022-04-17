@@ -1,5 +1,5 @@
+import { createObjectScheme, EObjectFilter, objectFilterExcept } from '../../../../Common/Type';
 import { IShowCenterText } from '../../../../Game/Flow/Action';
-import { createObjectScheme, EObjectFilter, objectFilterExcept } from '../Type';
 import { createTextIdScheme } from './ShowTalk';
 
 export const showCenterTextScheme = createObjectScheme<IShowCenterText>(

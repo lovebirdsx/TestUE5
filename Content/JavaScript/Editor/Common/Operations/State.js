@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stateOp = void 0;
-const Action_1 = require("../Scheme/Action");
+const Index_1 = require("../Scheme/Action/Index");
 class StateOp {
     Check(state, errorMessages) {
         let errorCount = 0;
         state.Actions.forEach((action) => {
             const messages = [];
-            errorCount += Action_1.scheme.CheckAction(action, messages);
+            errorCount += Index_1.actionRegistry.CheckAction(action, messages);
             messages.forEach((msg) => {
                 errorMessages.push(`[${state.Name}]${msg}`);
             });
@@ -20,7 +20,7 @@ class StateOp {
         });
     }
     FixAction(action, versionFrom, versionTo) {
-        Action_1.scheme.FixAction(action);
+        Index_1.actionRegistry.FixAction(action);
     }
     ForeachActions(state, actionCb) {
         state.Actions.forEach((action) => {

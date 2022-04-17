@@ -1,17 +1,21 @@
+/* eslint-disable spellcheck/spell-checker */
+import produce from 'immer';
 import * as React from 'react';
-import { HorizontalBox } from 'react-umg';
+import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { TModifyType } from '../../Common/Type';
+import { parseComponentsState } from '../../Game/Entity/Interface';
 import TsEntity from '../../Game/Entity/TsEntity';
-import { Btn, SlotText } from '../Common/Component/CommonComponent';
-import { Obj } from '../Common/Component/Obj';
 import LevelEditor from '../Common/LevelEditor';
-import { entityScheme } from '../Common/Scheme/Entity/Index';
-import { TModifyType } from '../Common/Scheme/Type';
+import { Btn, SlotText } from '../Common/ReactComponent/CommonComponent';
+import { Obj } from '../Common/ReactComponent/Dynamic';
+import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Index';
+import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {
     Entity: TsEntity;
-    PureData: Record<string, unknown>;
-    OnModify: (data: Record<string, unknown>, type: TModifyType) => void;
+    PureData: TEntityPureData;
+    OnModify: (data: TEntityPureData, type: TModifyType) => void;
 }
 
 export class EntityView extends React.Component<IEntityViewProps> {
@@ -35,14 +39,30 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const props = this.props;
         const entity = props.Entity;
         const pureData = props.PureData;
-        const scheme = entityScheme.GetSchemeByUeObj(entity);
+        const scheme = editorEntityRegistry.GetSchemeByEntity(entity);
+
+        const componentsState = parseComponentsState(pureData.ComponentsStateJson);
+        const componentClassObjs = editorEntityRegistry.GetComponentClasses(entity);
+
         return (
-            <Obj
-                PrefixElement={this.RenderPrefixElement()}
-                Value={pureData}
-                Type={scheme}
-                OnModify={props.OnModify}
-            />
+            <VerticalBox>
+                <Obj
+                    PrefixElement={this.RenderPrefixElement()}
+                    Value={pureData}
+                    Type={scheme}
+                    OnModify={props.OnModify}
+                />
+                <ComponentsState
+                    Value={componentsState}
+                    ClassObjs={componentClassObjs}
+                    OnModify={(data, type): void => {
+                        const newPureData = produce(pureData, (draft) => {
+                            draft.ComponentsStateJson = JSON.stringify(data);
+                        });
+                        props.OnModify(newPureData, type);
+                    }}
+                />
+            </VerticalBox>
         );
     }
 }

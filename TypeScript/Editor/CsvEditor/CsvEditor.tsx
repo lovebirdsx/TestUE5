@@ -12,21 +12,21 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { formatColor } from '../Common/Component/Color';
+import { ICsv } from '../../Common/CsvLoader';
+import { log } from '../../Common/Log';
+import { csvRegistry } from '../../Game/Common/CsvConfig/CsvRegistry';
+import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
+import { formatColor } from '../Common/ReactComponent/Color';
 import {
     Btn,
     DEFAULT_TEXT_COLOR,
     HEADING_COLOR,
     SlotText,
     Text,
-} from '../Common/Component/CommonComponent';
-import { CsvView } from '../Common/Component/CsvView';
-import { ICsv } from '../Common/CsvLoader';
-import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { log } from '../Common/Log';
+} from '../Common/ReactComponent/CommonComponent';
+import { CsvView } from '../Common/ReactComponent/CsvView';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
-import { csvRegistry } from './CsvRegistry';
 
 interface ICsvState {
     Name: string;

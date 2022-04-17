@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { delay } from '../../Common/Async';
-import { error, log, warn } from '../../Editor/Common/Log';
+import { error, log, warn } from '../../Common/Log';
 import TsPlayer from '../Player/TsPlayer';
 import TsPlayerController from '../Player/TsPlayerController';
 import { IActionInfo, ILog, ISetFlowBoolOption, IWait, TActionFun, TActionType } from './Action';

@@ -5,7 +5,7 @@ exports.TestButton = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
-const CommonComponent_1 = require("../../Editor/Common/Component/CommonComponent");
+const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
 class TestButton extends React.Component {
     constructor(props) {
         super(props);

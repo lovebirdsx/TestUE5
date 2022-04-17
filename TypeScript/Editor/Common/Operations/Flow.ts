@@ -9,7 +9,7 @@ import {
 } from '../../../Game/Flow/Action';
 import { stateOp } from './State';
 
-class FlowOp {
+class EditorFlowOp {
     public CreateState(flow: IFlowInfo): IStateInfo {
         const state: IStateInfo = {
             Name: `状态${flow.StateGenId}`,
@@ -108,14 +108,6 @@ class FlowOp {
         this.GetDestinationStatesImpl(flow, state.Actions, result);
         return result;
     }
-
-    public GetState(flow: IFlowInfo, stateId: number): IStateInfo {
-        return flow.States.find((state) => state.Id === stateId);
-    }
-
-    public GetStateNames(flow: IFlowInfo): string[] {
-        return flow.States.map((state) => state.Name);
-    }
 }
 
-export const flowOp = new FlowOp();
+export const editorFlowOp = new EditorFlowOp();

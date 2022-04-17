@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommandKeyDesc = exports.KeyCommands = void 0;
-const Log_1 = require("./Log");
+const Log_1 = require("../../Common/Log");
 const allCommands = [
     'Save',
     'Redo',

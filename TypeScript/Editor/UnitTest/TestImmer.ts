@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import produce from 'immer';
 
-import { assertEq, assertNe, test } from '../../Editor/Common/Test';
+import { assertEq, assertNe, test } from '../../Common/Test';
 
 export default function testImmer(): void {
     test('no modify object', () => {

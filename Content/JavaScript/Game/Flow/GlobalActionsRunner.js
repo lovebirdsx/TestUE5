@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.globalActionsRunner = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Async_1 = require("../../Common/Async");
-const Log_1 = require("../../Editor/Common/Log");
+const Log_1 = require("../../Common/Log");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsPlayerController_1 = require("../Player/TsPlayerController");
 class GlobalActionsRunner {

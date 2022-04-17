@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/naming-convention */
 const ue_1 = require("ue");
 const Async_1 = require("../../Common/Async");
-const Log_1 = require("../../Editor/Common/Log");
+const Log_1 = require("../../Common/Log");
 class TsTestWait extends ue_1.Actor {
     ReceiveBeginPlay() {
         void this.ATest();

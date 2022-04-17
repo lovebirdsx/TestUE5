@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { ContextBtn } from '../../Editor/Common/Component/ContextBtn';
-import { log } from '../Common/Log';
+import { log } from '../../Common/Log';
+import { ContextBtn } from '../Common/ReactComponent/ContextBtn';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function TestContextBtn(): JSX.Element {

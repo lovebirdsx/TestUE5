@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.csvFollowCellScheme = exports.csvCellTypeScheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
-const Action_1 = require("../../../../Game/Flow/Action");
-const Any_1 = require("../../Component/Any");
-const CsvView_1 = require("../../Component/CsvView");
-const Log_1 = require("../../Log");
-const Type_1 = require("../Type");
+const CsvLoader_1 = require("../../../../Common/CsvLoader");
+const Log_1 = require("../../../../Common/Log");
+const Type_1 = require("../../../../Common/Type");
+const Context_1 = require("../../ReactComponent/Context");
+const Dynamic_1 = require("../../ReactComponent/Dynamic");
 function genCsvCellTypeEnumConfig() {
-    const configs = Action_1.csvCellTypeConfig;
+    const configs = CsvLoader_1.csvCellTypeConfig;
     const slotList = Object.entries(configs).map(([type, slot]) => {
         return [type, slot.Desc];
     });
@@ -39,12 +39,12 @@ exports.csvFollowCellScheme = (0, Type_1.createStringScheme)({
     RrenderType: 'custom',
     CreateDefault: (container) => '',
     Render: (props) => {
-        return (React.createElement(CsvView_1.csvCellContext.Consumer, null, (ctx) => {
+        return (React.createElement(Context_1.csvCellContext.Consumer, null, (ctx) => {
             const csv = ctx.Csv;
             const prevCellName = csv.FiledTypes[ctx.ColId - 1].Name;
             const prevCellvalue = ctx.Csv.Rows[ctx.RowId][prevCellName];
             const scheme = getCsvCellSchemeByType(prevCellvalue);
-            return React.createElement(Any_1.Any, { ...props, Type: scheme });
+            return React.createElement(Dynamic_1.Any, { ...props, Type: scheme });
         }));
     },
 });

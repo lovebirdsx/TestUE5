@@ -1,13 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Flow/Action';
-import { scheme } from '../Scheme/Action';
+import { actionRegistry } from '../Scheme/Action/Index';
 
 class StateOp {
     public Check(state: IStateInfo, errorMessages: string[]): number {
         let errorCount = 0;
         state.Actions.forEach((action) => {
             const messages = [] as string[];
-            errorCount += scheme.CheckAction(action, messages);
+            errorCount += actionRegistry.CheckAction(action, messages);
             messages.forEach((msg) => {
                 errorMessages.push(`[${state.Name}]${msg}`);
             });
@@ -22,7 +22,7 @@ class StateOp {
     }
 
     public FixAction(action: IActionInfo, versionFrom: number, versionTo: number): void {
-        scheme.FixAction(action);
+        actionRegistry.FixAction(action);
     }
 
     public ForeachActions(state: IStateInfo, actionCb: (action: IActionInfo) => void): void {

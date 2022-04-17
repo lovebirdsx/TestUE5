@@ -79,6 +79,18 @@ export interface IPlayFlow {
     StateId: number;
 }
 
+export function parsePlayFlow(json: string): IPlayFlow {
+    if (!json) {
+        return {
+            FlowListName: '',
+            FlowId: 0,
+            StateId: 0,
+        };
+    }
+
+    return JSON.parse(json) as IPlayFlow;
+}
+
 export interface IFlowListInfo {
     VersionNum: number;
     FlowGenId: number;
@@ -202,40 +214,6 @@ export const cameraBindModeConfig = {
 };
 
 export type TCameraBindMode = keyof typeof cameraBindModeConfig;
-
-// CSV中单元格值类型
-export type TCsvValueType = bigint | boolean | number | string;
-
-export const csvCellTypeConfig = {
-    Int: {
-        Default: 0,
-        Prase: (str: string): number => parseInt(str, 10),
-        Desc: '整形',
-    },
-    String: {
-        Default: '',
-        Prase: (str: string): string => str,
-        Desc: '字符串',
-    },
-    Boolean: {
-        Default: false,
-        Prase: (str: string): boolean => Boolean(str),
-        Desc: '布尔型',
-    },
-    Float: {
-        Default: 0.0,
-        Prase: (str: string): number => parseFloat(str),
-        Desc: '浮点型',
-    },
-};
-
-export type TCsvCellType = keyof typeof csvCellTypeConfig;
-export type TCsvValue<T extends TCsvCellType> = typeof csvCellTypeConfig[T]['Default'];
-
-export function parseCsvValue<T extends TCsvCellType>(stringValue: string, type: T): TCsvValue<T> {
-    const config = csvCellTypeConfig[type];
-    return config.Prase(stringValue);
-}
 
 export interface IShowCenterText {
     TextId: number;

@@ -20,8 +20,6 @@
 - bat文件：确保UnrealEditor.exe在Path下
   - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD
   - BuildHlodForTestHlod.bat 为TestHlod.umap生成HLOD
-- Tools
-  - circular_check.sh 检查Ts中的循环依赖,结果将保存在madge.svg文件中,该文件可以通过浏览器查看
 
 ## 关于PuerTS
 
@@ -37,3 +35,7 @@
 
 - 安装 Run on Save插件，注意作者为 `pucelle`
 - 在保存ts之后，可以执行对应的指令
+
+## 指令
+
+`sh Tools/circular_check.sh` 检查循环依赖

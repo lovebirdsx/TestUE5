@@ -22,10 +22,12 @@
     "tsc-watch": "^4.6.0",
     "typescript": "^4.5.5"
   },
+  "scripts": {
+    "lint": "eslint . --ext .ts --ext .tsx"
+  },
   "madge": {
 		"fontSize": "10px",
-    "fileExtensions": ["ts"],
-    "excludeRegExp": "Ts*.ts",
+    "fileExtensions": ["ts", "tsx"],
 		"graphVizOptions": {
 			"G": {
 				"rankdir": "LR"

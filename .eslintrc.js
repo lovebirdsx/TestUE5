@@ -10,9 +10,14 @@ module.exports = {
         es2021: true,
         node: true,
     },
-    extends: ['eslint:recommended', 'plugin:@typescript-eslint/all', 'plugin:prettier/recommended'],
+    extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/all',
+        'plugin:prettier/recommended',
+        'plugin:import/typescript',
+    ],
     parser: '@typescript-eslint/parser',
-    plugins: ['simple-import-sort', 'spellcheck'],
+    plugins: ['simple-import-sort', 'spellcheck', 'import'],
     parserOptions: {
         tsconfigRootDir: __dirname,
         project: './tsconfig.eslint.json',
@@ -20,6 +25,17 @@ module.exports = {
     },
     root: true,
     rules: {
+        'import/no-restricted-paths': [
+            'error',
+            {
+                basePath: './TypeScript',
+                zones: [
+                    { target: './Game', from: './Editor', message: 'Game不能访问Editor' },
+                    { target: './Common', from: './Editor', message: 'Common不能访问Editor' },
+                    { target: './Common', from: './Game', message: 'Common不能访问Game' },
+                ],
+            },
+        ],
         // 禁止在循环内出现 await
         'no-await-in-loop': 'error',
         // 禁止使用 console 统一使用 Log

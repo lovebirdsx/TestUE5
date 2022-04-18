@@ -9,8 +9,14 @@ import { TalkerCsvLoader } from './TalkerCsv';
 
 export type TCsvClass = new () => GlobalCsv;
 
+export enum ECsvName {
+    Global = '全局配置',
+    Talker = '对话人',
+    CustomSeq = '自定义序列',
+}
+
 interface ICsvFileConfig {
-    Name: string;
+    Name: ECsvName;
     Path: string;
     CsvLoaderClass: new () => CsvLoader<TCsvRowBase>;
     CsvClass: TCsvClass;
@@ -20,19 +26,19 @@ const CSV_FILE_BASE_DIR = 'Data/Tables';
 
 const configs: ICsvFileConfig[] = [
     {
-        Name: '全局配置',
+        Name: ECsvName.Global,
         Path: 'q.全局配置.csv',
         CsvLoaderClass: GlobalConfigCsvLoader,
         CsvClass: GlobalConfigCsv,
     },
     {
-        Name: '对话人',
+        Name: ECsvName.Talker,
         Path: 'd.对话人.csv',
         CsvLoaderClass: TalkerCsvLoader,
         CsvClass: undefined,
     },
     {
-        Name: '自定义序列',
+        Name: ECsvName.CustomSeq,
         Path: 'z.自定义序列.csv',
         CsvLoaderClass: CustomSeqCsvLoader,
         CsvClass: undefined,
@@ -40,7 +46,7 @@ const configs: ICsvFileConfig[] = [
 ];
 
 class CsvRegistry {
-    private readonly ConfigMap = new Map<string, ICsvFileConfig>();
+    private readonly ConfigMap = new Map<ECsvName, ICsvFileConfig>();
 
     private readonly ConfigMapByCsvClass = new Map<TCsvClass, ICsvFileConfig>();
 
@@ -74,12 +80,12 @@ class CsvRegistry {
         return loader;
     }
 
-    public GetPath(name: string): string {
+    public GetPath(name: ECsvName): string {
         const config = this.ConfigMap.get(name);
         return this.GetSavePath(config.Path);
     }
 
-    public Load(name: string): ICsv {
+    public Load(name: ECsvName): ICsv {
         const config = this.ConfigMap.get(name);
         if (!config) {
             error(`Can not load csv for name [${name}]`);
@@ -90,7 +96,7 @@ class CsvRegistry {
         return loader.LoadCsv(this.GetSavePath(config.Path));
     }
 
-    public Save(name: string, csv: ICsv): boolean {
+    public Save(name: ECsvName, csv: ICsv): boolean {
         const config = this.ConfigMap.get(name);
         if (!config) {
             error(`Can not save csv for name [${name}]`);

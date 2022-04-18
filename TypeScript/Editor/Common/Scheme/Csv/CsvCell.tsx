@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
+import { HorizontalBox } from 'react-umg';
 
 import { csvCellTypeConfig, TCsvCellType } from '../../../../Common/CsvLoader';
 import { csvOp } from '../../../../Common/CsvOp';
@@ -15,10 +16,12 @@ import {
     stringScheme,
     TPrimitiveType,
 } from '../../../../Common/Type';
-import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
-import { List } from '../../ReactComponent/CommonComponent';
+import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
+import { ConfigFile } from '../../../FlowEditor/ConfigFile';
+import { Btn, List } from '../../ReactComponent/CommonComponent';
 import { csvCellContext, ICsvCellContext } from '../../ReactComponent/Context';
 import { Any } from '../../ReactComponent/Dynamic';
+import { sendEditorCommand } from '../../Util';
 
 interface ICellConfigSlot {
     Desc: string;
@@ -72,9 +75,18 @@ export const csvFollowCellScheme = createStringScheme({
     },
 });
 
+function openCsvEditor(csvName: string): void {
+    const configFile = new ConfigFile();
+    configFile.Load();
+    configFile.CsvName = csvName;
+    configFile.Save();
+
+    sendEditorCommand('RestartCsvEditor');
+}
+
 // 创建csv引用字段Scheme
 function createCsvIndexScheme<T extends bigint | number | string>(
-    csvName: string,
+    csvName: ECsvName,
     indexField: string,
     valueField: string,
     indexType: 'BigInt' | 'Int' | 'String',
@@ -102,22 +114,39 @@ function createCsvIndexScheme<T extends bigint | number | string>(
             const id = props.Value as string;
             const selected = values[ids.indexOf(id)];
             return (
-                <List
-                    Items={values}
-                    Selected={selected}
-                    OnSelectChanged={function (item: string): void {
-                        const newId = ids[values.indexOf(item)];
-                        props.OnModify(newId, 'normal');
-                    }}
-                />
+                <HorizontalBox>
+                    <List
+                        Items={values}
+                        Selected={selected}
+                        Tip={`CSV配置[${csvName}]中的[${valueField}]列`}
+                        OnSelectChanged={function (item: string): void {
+                            const newId = ids[values.indexOf(item)];
+                            props.OnModify(newId, 'normal');
+                        }}
+                    />
+                    <Btn
+                        Text={'⊙'}
+                        OnClick={(): void => {
+                            openCsvEditor(csvName);
+                        }}
+                        Tip={`打开Csv配置[${csvName}]`}
+                    />
+                </HorizontalBox>
             );
         },
         Check: () => 0,
         Fix: (value, container) => 'canNotFixed',
-        Meta: {},
+        Meta: {
+            HideName: true,
+        },
     };
 }
 
-export const talkerNamesScheme = createCsvIndexScheme('对话人', 'Id', 'Name', 'Int');
+export const talkerNamesScheme = createCsvIndexScheme<number>(ECsvName.Talker, 'Id', 'Name', 'Int');
 
-export const customSeqIdScheme = createCsvIndexScheme('自定义序列', 'Id', 'Name', 'Int');
+export const customSeqIdScheme = createCsvIndexScheme<number>(
+    ECsvName.CustomSeq,
+    'Id',
+    'Name',
+    'Int',
+);

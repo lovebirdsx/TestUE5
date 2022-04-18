@@ -6,7 +6,7 @@ import { playFlowScheme } from './Flow';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
-import { playSequenceDataScheme } from './Sequence';
+import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
 import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
@@ -20,7 +20,7 @@ const actionSchemeMap: { [key in TActionType]: TObjectType<unknown> } = {
     Log: logScheme as TObjectType<unknown>,
     PlayFlow: playFlowScheme as TObjectType<unknown>,
     PlaySequenceData: playSequenceDataScheme as TObjectType<unknown>,
-    PlayCustomSequence: playSequenceDataScheme as TObjectType<unknown>,
+    PlayCustomSequence: playCustomSequenceScheme as TObjectType<unknown>,
     SetCameraMode: setCameraModeScheme as TObjectType<unknown>,
     SetFlowBoolOption: setFlowBoolOptionScheme as TObjectType<unknown>,
     SetPlotMode: setPlotModeScheme as TObjectType<unknown>,

@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 

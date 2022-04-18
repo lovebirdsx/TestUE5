@@ -43,6 +43,16 @@ class CsvOp {
 
         return [indexes, values];
     }
+
+    public GetValue(
+        csv: ICsv,
+        indexFieldName: string,
+        indexFieldValue: string,
+        valueName: string,
+    ): string {
+        const findRow = csv.Rows.find((row) => row[indexFieldName].toString() === indexFieldValue);
+        return findRow ? findRow[valueName].toString() : '';
+    }
 }
 
 export const csvOp = new CsvOp();

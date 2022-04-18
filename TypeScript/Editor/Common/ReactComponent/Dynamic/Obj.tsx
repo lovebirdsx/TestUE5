@@ -96,6 +96,7 @@ export class Obj extends React.Component<IAnyProps> {
                 <Any
                     PrefixElement={<SlotText Text={fieldKey} />}
                     Value={fieldValue}
+                    Owner={value}
                     Type={fieldTypeData}
                     IsFolded={isFolded}
                     OnFoldChange={(folded): void => {
@@ -111,6 +112,7 @@ export class Obj extends React.Component<IAnyProps> {
         return (
             <Any
                 Value={fieldValue}
+                Owner={this.props.Value}
                 Type={fieldTypeData}
                 OnModify={(obj: unknown, type: TModifyType): void => {
                     this.ModifyKv(fieldKey, obj, type);

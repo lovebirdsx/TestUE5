@@ -1,20 +1,26 @@
-import produce from 'immer';
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+/* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { csvOp } from '../../../../Common/CsvOp';
 import {
     createAssetScheme,
     createEnumType,
     createObjectScheme,
+    createUnknownScheme,
     IAbstractType,
     IAnyProps,
 } from '../../../../Common/Type';
+import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
+import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
 import {
     cameraBindModeConfig,
     IPlayCustomSequence,
     IPlaySequenceData,
+    TCameraBindMode,
 } from '../../../../Game/Flow/Action';
-import { Any } from '../../ReactComponent/Dynamic/Index';
+import { List } from '../../ReactComponent/CommonComponent';
 import { customSeqIdScheme } from '../Csv/CsvCell';
 
 const DEFAULT_SEQUENCEDATA_PATH = '/Game/Test/CustomSequence/Sequence1.Sequence1';
@@ -40,36 +46,80 @@ export const playSequenceDataScheme = createObjectScheme<IPlaySequenceData>(
     },
 );
 
-function renderPlayCustomSequence(props: IAnyProps): JSX.Element {
-    const action = props.Value as IPlayCustomSequence;
-
-    return (
-        <HorizontalBox>
-            <Any
-                Value={action.CustomSeqId}
-                Type={customSeqIdScheme as IAbstractType<unknown>}
-                OnModify={(newId, type): void => {
-                    const newProps = produce(action, (draft) => {
-                        draft.CustomSeqId = newId as number;
-                    });
-                    props.OnModify(newProps, type);
-                }}
-            />
-        </HorizontalBox>
-    );
+function getTalkerCountByCameraBindType(type: TCameraBindMode): number {
+    switch (type) {
+        case 'One':
+            return 1;
+        case 'Two':
+            return 2;
+        case 'Three':
+            return 3;
+        case 'None':
+            return 0;
+        default:
+            return 0;
+    }
 }
+
+const DEFAULT_WHO_ID = 0;
+
+const whoIdsScheme = createUnknownScheme({
+    CreateDefault: (container) => [],
+    Meta: {
+        Tip: '镜头绑定的对象',
+    },
+    Render: (props: IAnyProps): JSX.Element => {
+        const ownerActionr = props.Owner as IPlayCustomSequence;
+        const whoIds = ownerActionr.WhoIds;
+        const customSeqId = ownerActionr.CustomSeqId;
+        const csv = csvRegistry.Load(ECsvName.CustomSeq);
+        const cameraBindType = csvOp.GetValue(
+            csv,
+            'Id',
+            customSeqId.toString(),
+            'BinderType',
+        ) as TCameraBindMode;
+        const whoCount = getTalkerCountByCameraBindType(cameraBindType);
+        const whoElements: JSX.Element[] = [];
+        const talkers = TalkerListOp.Get().Talkers;
+        for (let i = 0; i < whoCount; i++) {
+            const whoId = i < whoIds.length ? whoIds[i] : DEFAULT_WHO_ID;
+            const names = TalkerListOp.GetNames();
+            const selectedTalker = talkers.find((e) => e.Id === whoId);
+            whoElements.push(
+                <List
+                    key={i}
+                    Items={names}
+                    Selected={selectedTalker ? selectedTalker.Name : ''}
+                    Tip={'绑定对象'}
+                    OnSelectChanged={(name: string): void => {
+                        const who = talkers.find((e) => e.Name === name);
+                        const result = whoIds.slice();
+                        const selectWhoId = who ? who.Id : DEFAULT_WHO_ID;
+                        while (result.length < whoCount) {
+                            result.push(DEFAULT_WHO_ID);
+                        }
+                        result[i] = selectWhoId;
+                        props.OnModify(result, 'normal');
+                    }}
+                />,
+            );
+        }
+
+        return <HorizontalBox>{whoElements}</HorizontalBox>;
+    },
+});
 
 export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>(
     {
-        CustomSeqId: undefined,
-        WhoIds: undefined,
+        CustomSeqId: customSeqIdScheme,
+        WhoIds: whoIdsScheme as IAbstractType<number[]>,
     },
     {
         Scheduled: true,
         Meta: {
             Tip: '播放自定义Sequence',
         },
-        Render: renderPlayCustomSequence,
     },
 );
 

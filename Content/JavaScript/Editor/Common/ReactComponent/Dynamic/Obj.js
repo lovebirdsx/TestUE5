@@ -65,13 +65,13 @@ class Obj extends React.Component {
             const isFolded = typeof value === 'object'
                 ? value[fieldFoldKey]
                 : false;
-            return (React.createElement(Any_1.Any, { PrefixElement: React.createElement(CommonComponent_1.SlotText, { Text: fieldKey }), Value: fieldValue, Type: fieldTypeData, IsFolded: isFolded, OnFoldChange: (folded) => {
+            return (React.createElement(Any_1.Any, { PrefixElement: React.createElement(CommonComponent_1.SlotText, { Text: fieldKey }), Value: fieldValue, Owner: value, Type: fieldTypeData, IsFolded: isFolded, OnFoldChange: (folded) => {
                     this.OnArrayFieldFoldChange(fieldKey, folded);
                 }, OnModify: (v, type) => {
                     this.ModifyKv(fieldKey, v, type);
                 } }));
         }
-        return (React.createElement(Any_1.Any, { Value: fieldValue, Type: fieldTypeData, OnModify: (obj, type) => {
+        return (React.createElement(Any_1.Any, { Value: fieldValue, Owner: this.props.Value, Type: fieldTypeData, OnModify: (obj, type) => {
                 this.ModifyKv(fieldKey, obj, type);
             } }));
     }

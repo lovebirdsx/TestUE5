@@ -33,6 +33,10 @@ class CsvOp {
         }
         return [indexes, values];
     }
+    GetValue(csv, indexFieldName, indexFieldValue, valueName) {
+        const findRow = csv.Rows.find((row) => row[indexFieldName].toString() === indexFieldValue);
+        return findRow ? findRow[valueName].toString() : '';
+    }
 }
 exports.csvOp = new CsvOp();
 //# sourceMappingURL=CsvOp.js.map

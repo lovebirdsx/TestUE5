@@ -30,6 +30,7 @@ export type TModifyType = 'fold' | 'normal';
 
 export interface IAnyProps {
     Value: unknown;
+    Owner?: unknown;
     Type: IAbstractType<unknown>;
     OnModify: (obj: unknown, type: TModifyType) => void;
     PrefixElement?: JSX.Element;
@@ -372,3 +373,15 @@ export function createFloatScheme(
 }
 
 export const floatScheme = createFloatScheme();
+
+// ============================================================================
+export function createUnknownScheme(type: Partial<IAbstractType<unknown>>): IAbstractType<unknown> {
+    return {
+        RrenderType: 'custom',
+        Render: type.Render,
+        CreateDefault: type.CreateDefault || ((): unknown => undefined),
+        Fix: type.Fix || ((): TFixResult => 'canNotFixed'),
+        Check: type.Check || ((): number => 0),
+        Meta: type.Meta || {},
+    };
+}

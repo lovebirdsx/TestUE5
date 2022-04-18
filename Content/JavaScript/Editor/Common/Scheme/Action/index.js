@@ -28,7 +28,7 @@ const actionSchemeMap = {
     Log: Misc_1.logScheme,
     PlayFlow: Flow_1.playFlowScheme,
     PlaySequenceData: Sequence_1.playSequenceDataScheme,
-    PlayCustomSequence: Sequence_1.playSequenceDataScheme,
+    PlayCustomSequence: Sequence_1.playCustomSequenceScheme,
     SetCameraMode: PlotNode_1.setCameraModeScheme,
     SetFlowBoolOption: PlotNode_1.setFlowBoolOptionScheme,
     SetPlotMode: PlotNode_1.setPlotModeScheme,

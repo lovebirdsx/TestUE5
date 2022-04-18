@@ -14,7 +14,7 @@ import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
 import { ICsv } from '../../Common/CsvLoader';
 import { log } from '../../Common/Log';
-import { csvRegistry } from '../../Game/Common/CsvConfig/CsvRegistry';
+import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { formatColor } from '../Common/ReactComponent/Color';
 import {
@@ -29,7 +29,7 @@ import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 
 interface ICsvState {
-    Name: string;
+    Name: ECsvName;
     Csv: ICsv;
 }
 
@@ -70,8 +70,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
     private LoadInitState(): ICsvEditorState {
         const name = this.ConfigFile.CsvName;
         const csvState: ICsvState = {
-            Name: name,
-            Csv: csvRegistry.Load(name),
+            Name: name as ECsvName,
+            Csv: csvRegistry.Load(name as ECsvName),
         };
         return {
             StepId: 0,
@@ -282,8 +282,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         }
 
         const newCsvState = {
-            Name: name,
-            Csv: csvRegistry.Load(name),
+            Name: name as ECsvName,
+            Csv: csvRegistry.Load(name as ECsvName),
         };
         this.RecordCsvState(newCsvState, true);
 

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
+exports.createUnknownScheme = exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
 const Log_1 = require("./Log");
@@ -256,4 +256,16 @@ function createFloatScheme(type) {
 }
 exports.createFloatScheme = createFloatScheme;
 exports.floatScheme = createFloatScheme();
+// ============================================================================
+function createUnknownScheme(type) {
+    return {
+        RrenderType: 'custom',
+        Render: type.Render,
+        CreateDefault: type.CreateDefault || (() => undefined),
+        Fix: type.Fix || (() => 'canNotFixed'),
+        Check: type.Check || (() => 0),
+        Meta: type.Meta || {},
+    };
+}
+exports.createUnknownScheme = createUnknownScheme;
 //# sourceMappingURL=Type.js.map

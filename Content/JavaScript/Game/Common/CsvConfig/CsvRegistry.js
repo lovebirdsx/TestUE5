@@ -1,28 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.csvRegistry = void 0;
+exports.csvRegistry = exports.ECsvName = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
 const Log_1 = require("../../../Common/Log");
 const CustomSeqCsv_1 = require("./CustomSeqCsv");
 const GlobalConfigCsv_1 = require("./GlobalConfigCsv");
 const TalkerCsv_1 = require("./TalkerCsv");
+var ECsvName;
+(function (ECsvName) {
+    ECsvName["Global"] = "\u5168\u5C40\u914D\u7F6E";
+    ECsvName["Talker"] = "\u5BF9\u8BDD\u4EBA";
+    ECsvName["CustomSeq"] = "\u81EA\u5B9A\u4E49\u5E8F\u5217";
+})(ECsvName = exports.ECsvName || (exports.ECsvName = {}));
 const CSV_FILE_BASE_DIR = 'Data/Tables';
 const configs = [
     {
-        Name: '全局配置',
+        Name: ECsvName.Global,
         Path: 'q.全局配置.csv',
         CsvLoaderClass: GlobalConfigCsv_1.GlobalConfigCsvLoader,
         CsvClass: GlobalConfigCsv_1.GlobalConfigCsv,
     },
     {
-        Name: '对话人',
+        Name: ECsvName.Talker,
         Path: 'd.对话人.csv',
         CsvLoaderClass: TalkerCsv_1.TalkerCsvLoader,
         CsvClass: undefined,
     },
     {
-        Name: '自定义序列',
+        Name: ECsvName.CustomSeq,
         Path: 'z.自定义序列.csv',
         CsvLoaderClass: CustomSeqCsv_1.CustomSeqCsvLoader,
         CsvClass: undefined,

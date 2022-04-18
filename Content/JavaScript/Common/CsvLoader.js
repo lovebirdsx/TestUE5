@@ -69,6 +69,9 @@ exports.GlobalCsv = GlobalCsv;
 class CsvLoader {
     FiledTypes;
     Name;
+    // 每一列对应的FieldName
+    ColumeNames;
+    FieldMap = new Map();
     constructor(name, fieldTypes) {
         // 检查是否存在索引,filter字段用于表示该功能
         let filterCount = 0;
@@ -82,15 +85,26 @@ class CsvLoader {
         }
         this.FiledTypes = fieldTypes.slice();
         this.Name = name;
+        fieldTypes.forEach((fieldType) => {
+            this.FieldMap.set(fieldType.Name, fieldType);
+        });
     }
     CheckHeadline(tockens, fieldName) {
         const validate = csvFieldValidValues[fieldName];
         if (tockens[0] !== validate.CnName) {
             throw new Error(`CSV file [${this.Name}] first colume invalid, expect[${validate.CnName}] actual:[${tockens[0]}]`);
         }
-        if (tockens.length !== this.FiledTypes.length + 1) {
-            throw new Error(`CSV file [${this.Name}] header tocken count invalid, field[${validate.CnName}], expect[${this.FiledTypes.length + 1}], actual[${tockens.length}]`);
+        if (fieldName === 'Name') {
+            this.ColumeNames = tockens;
         }
+        // 允许长度不一致
+        // if (tockens.length !== this.FiledTypes.length + 1) {
+        //     throw new Error(
+        //         `CSV file [${this.Name}] header tocken count invalid, field[${
+        //             validate.CnName
+        //         }], expect[${this.FiledTypes.length + 1}], actual[${tockens.length}]`,
+        //     );
+        // }
         for (let i = 1; i < tockens.length; i++) {
             if (validate.Range) {
                 const toc = tockens[i];
@@ -120,12 +134,21 @@ class CsvLoader {
     }
     ReadRow(reader) {
         const tockens = reader.readNext();
-        if (tockens.length !== this.FiledTypes.length + 1) {
-            throw new Error(`CSV [${this.Name}] row count invalid, row[${reader.currentLineNumber}], expect count[${this.FiledTypes.length + 1}], actual[${tockens.length}]`);
-        }
+        // 允许长度不一致
+        // if (tockens.length !== this.FiledTypes.length + 1) {
+        //     throw new Error(
+        //         `CSV [${this.Name}] row count invalid, row[${
+        //             reader.currentLineNumber
+        //         }], expect count[${this.FiledTypes.length + 1}], actual[${tockens.length}]`,
+        //     );
+        // }
         const row = {};
         for (let i = 1; i < tockens.length; i++) {
-            const fieldType = this.FiledTypes[i - 1];
+            const fieldName = this.ColumeNames[i];
+            const fieldType = this.FieldMap.get(fieldName);
+            if (!fieldType) {
+                continue;
+            }
             if (fieldType.Type === 'Int') {
                 row[fieldType.Name] = parseInt(tockens[i], 10);
             }
@@ -155,7 +178,10 @@ class CsvLoader {
         tockens.push('');
         this.FiledTypes.forEach((fieldType) => {
             const value = row[fieldType.Name];
-            if (typeof value === 'string') {
+            if (value === undefined) {
+                tockens.push('');
+            }
+            else if (typeof value === 'string') {
                 tockens.push(value);
             }
             else {

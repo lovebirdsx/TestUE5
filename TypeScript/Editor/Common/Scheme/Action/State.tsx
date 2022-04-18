@@ -9,7 +9,6 @@ import {
     createObjectScheme,
     EObjectFilter,
     IAnyProps,
-    objectFilterExcept,
 } from '../../../../Common/Type';
 import { IChangeRandomState, IChangeState } from '../../../../Game/Flow/Action';
 import { List } from '../../ReactComponent/CommonComponent';
@@ -18,10 +17,10 @@ import { flowContext } from '../../ReactComponent/Context';
 export const finishStateScheme = createObjectScheme(
     {},
     {
+        Filters: [EObjectFilter.FlowList],
         Meta: {
             Tip: '结束状态,后续的动作将不被执行',
         },
-        Filters: objectFilterExcept(EObjectFilter.FlowList),
     },
 );
 
@@ -65,6 +64,7 @@ export const changeStateScheme = createObjectScheme<IChangeState>(
         StateId: stateIdScheme,
     },
     {
+        Filters: [EObjectFilter.FlowList],
         Meta: {
             Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
         },
@@ -81,9 +81,9 @@ export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>(
         }),
     },
     {
+        Filters: [EObjectFilter.FlowList],
         Meta: {
             Tip: '随机选择一个状态进行跳转',
         },
-        Filters: objectFilterExcept(EObjectFilter.Trigger),
     },
 );

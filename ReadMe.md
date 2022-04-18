@@ -38,4 +38,7 @@
 
 ## 指令
 
-`sh Tools/circular_check.sh` 检查循环依赖
+`sh Tools/check_all.sh` 检查所有,包括
+
+- `sh Tools/check_circular.sh` 检查循环依赖
+- `npm run lint` 代码静态检查

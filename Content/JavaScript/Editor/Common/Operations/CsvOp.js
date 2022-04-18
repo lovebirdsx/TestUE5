@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.csvOp = void 0;
+exports.editorCsvOp = void 0;
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const Log_1 = require("../../../Common/Log");
 const CsvScheme_1 = require("../Scheme/Csv/CsvScheme");
-class CsvOp {
+class EditorCsvOp {
     Log(csv) {
         const headers = csv.FiledTypes.map((field) => {
             return field.Name;
@@ -102,5 +102,5 @@ class CsvOp {
         });
     }
 }
-exports.csvOp = new CsvOp();
+exports.editorCsvOp = new EditorCsvOp();
 //# sourceMappingURL=CsvOp.js.map

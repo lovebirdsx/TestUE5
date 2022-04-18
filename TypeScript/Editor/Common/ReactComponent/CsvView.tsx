@@ -6,7 +6,7 @@ import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 import { ICsv, ICsvFieldEx, TCsvRowBase, TCsvValueType } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TModifyType } from '../../../Common/Type';
-import { csvOp } from '../Operations/CsvOp';
+import { editorCsvOp } from '../Operations/CsvOp';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
 import { Btn, SlotText, Text } from './CommonComponent';
 import { csvCellContext } from './Context';
@@ -40,30 +40,30 @@ export class CsvView extends React.Component<ICsvViewProps> {
     }
 
     private InsertRow(rowId: number): void {
-        const newCsv = csvOp.MutableInsert(this.props.Csv, rowId);
+        const newCsv = editorCsvOp.MutableInsert(this.props.Csv, rowId);
         this.props.OnModify(newCsv);
     }
 
     private RemoveRow(rowId: number): void {
-        const newCsv = csvOp.MutableRemove(this.props.Csv, rowId);
+        const newCsv = editorCsvOp.MutableRemove(this.props.Csv, rowId);
         this.props.OnModify(newCsv);
     }
 
     private MoveRow(rowId: number, isUp: boolean): void {
         const csv = this.props.Csv;
-        if (!csvOp.CanMove(csv, rowId, isUp)) {
+        if (!editorCsvOp.CanMove(csv, rowId, isUp)) {
             log(`CsvView ${csv.Name} can not move ${isUp ? 'up' : 'down'} for row ${rowId}`);
             return;
         }
 
-        const newCsv = csvOp.MutableMove(this.props.Csv, rowId, isUp);
+        const newCsv = editorCsvOp.MutableMove(this.props.Csv, rowId, isUp);
         this.props.OnModify(newCsv);
     }
 
     private RenderHead(fieldTypes: ICsvFieldEx[]): JSX.Element[] {
         const result = fieldTypes.map((field, index) => {
             const slot: GridSlot = { Row: 0, Column: index };
-            if (csvOp.IsIndexField(field)) {
+            if (editorCsvOp.IsIndexField(field)) {
                 return (
                     <HorizontalBox key={field.Name} Slot={slot}>
                         <Btn
@@ -111,7 +111,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
             }
 
             // 索引字段不能直接修改
-            if (csvOp.IsIndexField(field)) {
+            if (editorCsvOp.IsIndexField(field)) {
                 return (
                     <HorizontalBox Slot={slot} key={`${rowId}-${index}`}>
                         <ContextBtn

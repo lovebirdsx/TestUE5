@@ -50,7 +50,7 @@ export interface IAbstractType<T> {
     Meta: IMeta;
 }
 
-export type TPrimitiveType<T extends boolean | number | string> = IAbstractType<T>;
+export type TPrimitiveType<T extends bigint | boolean | number | string> = IAbstractType<T>;
 export type TEnumType<T> = IAbstractType<T> & {
     Config: Record<string, string>;
     Names: string[];

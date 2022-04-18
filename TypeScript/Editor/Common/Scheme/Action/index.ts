@@ -20,6 +20,7 @@ const actionSchemeMap: { [key in TActionType]: TObjectType<unknown> } = {
     Log: logScheme as TObjectType<unknown>,
     PlayFlow: playFlowScheme as TObjectType<unknown>,
     PlaySequenceData: playSequenceDataScheme as TObjectType<unknown>,
+    PlayCustomSequence: playSequenceDataScheme as TObjectType<unknown>,
     SetCameraMode: setCameraModeScheme as TObjectType<unknown>,
     SetFlowBoolOption: setFlowBoolOptionScheme as TObjectType<unknown>,
     SetPlotMode: setPlotModeScheme as TObjectType<unknown>,

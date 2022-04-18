@@ -6,7 +6,7 @@ import { ICsv, ICsvFieldEx, TCsvRowBase, TCsvValueType } from '../../../Common/C
 import { error, log } from '../../../Common/Log';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
 
-class CsvOp {
+class EditorCsvOp {
     public Log(csv: ICsv): void {
         const headers = csv.FiledTypes.map((field) => {
             return field.Name;
@@ -114,4 +114,4 @@ class CsvOp {
     }
 }
 
-export const csvOp = new CsvOp();
+export const editorCsvOp = new EditorCsvOp();

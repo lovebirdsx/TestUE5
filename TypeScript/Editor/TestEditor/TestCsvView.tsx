@@ -4,7 +4,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 
 import { ICsv } from '../../Common/CsvLoader';
 import { TalkerCsvLoader } from '../../Game/Common/CsvConfig/TalkerCsv';
-import { csvOp } from '../Common/Operations/CsvOp';
+import { editorCsvOp } from '../Common/Operations/CsvOp';
 import { CsvView } from '../Common/ReactComponent/CsvView';
 
 const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
@@ -29,7 +29,7 @@ export class TestCsvView extends React.Component<unknown, ITestCsvState> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        csvOp.Log(this.state.Csv);
+        editorCsvOp.Log(this.state.Csv);
         return <CsvView Csv={this.state.Csv} OnModify={this.OnModify} />;
     }
 }

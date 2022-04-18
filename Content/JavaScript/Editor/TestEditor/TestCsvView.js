@@ -22,7 +22,7 @@ class TestCsvView extends React.Component {
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
-        CsvOp_1.csvOp.Log(this.state.Csv);
+        CsvOp_1.editorCsvOp.Log(this.state.Csv);
         return React.createElement(CsvView_1.CsvView, { Csv: this.state.Csv, OnModify: this.OnModify });
     }
 }

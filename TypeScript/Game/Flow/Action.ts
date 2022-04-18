@@ -8,6 +8,7 @@ export type TActionType =
     | 'FinishTalk'
     | 'JumpTalk'
     | 'Log'
+    | 'PlayCustomSequence'
     | 'PlayFlow'
     | 'PlaySequenceData'
     | 'SetCameraMode'
@@ -198,6 +199,12 @@ export interface ISetPlotMode {
 
 export interface IPlaySequenceData {
     Path: string;
+}
+
+// 播放自定义Sequence,CustomSeqId对应[自定义序列]配表中的配置
+export interface IPlayCustomSequence {
+    CustomSeqId: number;
+    WhoIds: number[];
 }
 
 // 等待一段时间

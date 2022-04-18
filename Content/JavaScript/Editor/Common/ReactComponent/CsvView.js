@@ -33,26 +33,26 @@ class CsvView extends React.Component {
         }
     }
     InsertRow(rowId) {
-        const newCsv = CsvOp_1.csvOp.MutableInsert(this.props.Csv, rowId);
+        const newCsv = CsvOp_1.editorCsvOp.MutableInsert(this.props.Csv, rowId);
         this.props.OnModify(newCsv);
     }
     RemoveRow(rowId) {
-        const newCsv = CsvOp_1.csvOp.MutableRemove(this.props.Csv, rowId);
+        const newCsv = CsvOp_1.editorCsvOp.MutableRemove(this.props.Csv, rowId);
         this.props.OnModify(newCsv);
     }
     MoveRow(rowId, isUp) {
         const csv = this.props.Csv;
-        if (!CsvOp_1.csvOp.CanMove(csv, rowId, isUp)) {
+        if (!CsvOp_1.editorCsvOp.CanMove(csv, rowId, isUp)) {
             (0, Log_1.log)(`CsvView ${csv.Name} can not move ${isUp ? 'up' : 'down'} for row ${rowId}`);
             return;
         }
-        const newCsv = CsvOp_1.csvOp.MutableMove(this.props.Csv, rowId, isUp);
+        const newCsv = CsvOp_1.editorCsvOp.MutableMove(this.props.Csv, rowId, isUp);
         this.props.OnModify(newCsv);
     }
     RenderHead(fieldTypes) {
         const result = fieldTypes.map((field, index) => {
             const slot = { Row: 0, Column: index };
-            if (CsvOp_1.csvOp.IsIndexField(field)) {
+            if (CsvOp_1.editorCsvOp.IsIndexField(field)) {
                 return (React.createElement(react_umg_1.HorizontalBox, { key: field.Name, Slot: slot },
                     React.createElement(CommonComponent_1.Btn, { Text: '+', Width: 28, OnClick: () => {
                             this.InsertRow(this.props.Csv.Rows.length);
@@ -78,7 +78,7 @@ class CsvView extends React.Component {
                 return (React.createElement(CommonComponent_1.Text, { Text: '未知类型', Tip: '请配置对应Csv字段的Meta成员', Slot: slot, key: `${rowId}-${index}` }));
             }
             // 索引字段不能直接修改
-            if (CsvOp_1.csvOp.IsIndexField(field)) {
+            if (CsvOp_1.editorCsvOp.IsIndexField(field)) {
                 return (React.createElement(react_umg_1.HorizontalBox, { Slot: slot, key: `${rowId}-${index}` },
                     React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveUp', 'moveDown'], OnCommand: (cmd) => {
                             this.OnContextCommand(rowId, cmd);

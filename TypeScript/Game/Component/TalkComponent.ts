@@ -76,8 +76,10 @@ export class TalkComponent extends Component {
         });
         await Promise.race([waitPromise, clickPromise]);
 
-        this.ActionsRunHandle = this.ActionRunner.SpawnHandler(item.Actions);
-        await this.ActionsRunHandle.Execute();
+        if (item.Actions) {
+            this.ActionsRunHandle = this.ActionRunner.SpawnHandler(item.Actions);
+            await this.ActionsRunHandle.Execute();
+        }
 
         // 选项
         if (item.Options && this.IsShowing && !this.NeedJumpTalk) {

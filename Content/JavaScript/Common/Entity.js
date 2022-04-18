@@ -57,6 +57,13 @@ class Entity {
         }
         return false;
     }
+    Init() {
+        this.Components.forEach((c) => {
+            if (c.OnStart) {
+                c.OnInit();
+            }
+        });
+    }
     Start() {
         this.Components.forEach((c) => {
             if (c.OnStart) {

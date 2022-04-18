@@ -55,8 +55,10 @@ class TalkComponent extends Entity_1.Component {
             skipCallback = resolve;
         });
         await Promise.race([waitPromise, clickPromise]);
-        this.ActionsRunHandle = this.ActionRunner.SpawnHandler(item.Actions);
-        await this.ActionsRunHandle.Execute();
+        if (item.Actions) {
+            this.ActionsRunHandle = this.ActionRunner.SpawnHandler(item.Actions);
+            await this.ActionsRunHandle.Execute();
+        }
         // 选项
         if (item.Options && this.IsShowing && !this.NeedJumpTalk) {
             const optionTexts = item.Options.map((op) => texts[op.TextId]);

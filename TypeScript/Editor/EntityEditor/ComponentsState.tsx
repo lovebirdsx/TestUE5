@@ -3,8 +3,8 @@ import produce from 'immer';
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
+import { TComponentClass } from '../../Common/Entity';
 import { TModifyType } from '../../Common/Type';
-import { TComponentClass } from '../../Game/Entity';
 import { IComponentsState } from '../../Game/Entity/Interface';
 import { Obj } from '../Common/ReactComponent/Dynamic';
 import { componentRegistry } from '../Common/Scheme/Component/Index';

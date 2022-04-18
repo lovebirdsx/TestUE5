@@ -1,11 +1,15 @@
 /* eslint-disable no-void */
 import { Actor, edit_on_instance } from 'ue';
 
+import { TComponentClass } from '../../Common/Entity';
 import { log } from '../../Common/Log';
-// import TsActionRunnerComponent, { ActionRunnerHandler } from '../Flow/TsActionRunnerComponent';
+import { ActionRunnerComponent, ActionRunnerHandler } from '../Component/ActionRunnerComponent';
+import { parseTriggerActionsJson } from '../Flow/Action';
 import TsPlayer from '../Player/TsPlayer';
 import { ITsTrigger } from './Interface';
 import TsEntity from './TsEntity';
+
+export const triggerComponentClasses: TComponentClass[] = [ActionRunnerComponent];
 
 class TsTrigger extends TsEntity implements ITsTrigger {
     // @cpp: int
@@ -19,21 +23,29 @@ class TsTrigger extends TsEntity implements ITsTrigger {
     private TriggerTimes = 0;
 
     // @no-blueprint
-    // private ActionRunner: TsActionRunnerComponent;
+    private ActonRunner: ActionRunnerComponent;
 
     // @no-blueprint
-    // private RunnerHandler: ActionRunnerHandler;
+    private Handler: ActionRunnerHandler;
+
+    // @no-blueprint
+    public GetComponentClasses(): TComponentClass[] {
+        return triggerComponentClasses;
+    }
 
     public ReceiveBeginPlay(): void {
+        super.ReceiveBeginPlay();
+        this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent);
+        this.Handler = this.ActonRunner.SpawnHandler(
+            parseTriggerActionsJson(this.TriggerActionsJson).Actions,
+        );
         this.TriggerTimes = 0;
-        // this.ActionRunner = this.GetComponent(TsActionRunnerComponent);
-        // this.RunnerHandler = this.ActionRunner.SpawnHandlerByJson(this.TriggerActionsJson);
     }
 
     // @no-blueprint
     private DoTrigger(): void {
         this.TriggerTimes++;
-        // void this.RunnerHandler.Execute();
+        void this.Handler.Execute();
         log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
 
@@ -42,9 +54,9 @@ class TsTrigger extends TsEntity implements ITsTrigger {
             return;
         }
 
-        // if (this.RunnerHandler.IsRunning) {
-        //     return;
-        // }
+        if (this.Handler.IsRunning) {
+            return;
+        }
 
         if (!(other instanceof TsPlayer)) {
             return;

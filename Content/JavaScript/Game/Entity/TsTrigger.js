@@ -6,12 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.triggerComponentClasses = void 0;
 /* eslint-disable no-void */
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
-// import TsActionRunnerComponent, { ActionRunnerHandler } from '../Flow/TsActionRunnerComponent';
+const ActionRunnerComponent_1 = require("../Component/ActionRunnerComponent");
+const Action_1 = require("../Flow/Action");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsEntity_1 = require("./TsEntity");
+exports.triggerComponentClasses = [ActionRunnerComponent_1.ActionRunnerComponent];
 class TsTrigger extends TsEntity_1.default {
     // @cpp: int
     MaxTriggerTimes;
@@ -19,27 +22,32 @@ class TsTrigger extends TsEntity_1.default {
     // @no-blueprint
     TriggerTimes = 0;
     // @no-blueprint
-    // private ActionRunner: TsActionRunnerComponent;
+    ActonRunner;
     // @no-blueprint
-    // private RunnerHandler: ActionRunnerHandler;
+    Handler;
+    // @no-blueprint
+    GetComponentClasses() {
+        return exports.triggerComponentClasses;
+    }
     ReceiveBeginPlay() {
+        super.ReceiveBeginPlay();
+        this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent_1.ActionRunnerComponent);
+        this.Handler = this.ActonRunner.SpawnHandler((0, Action_1.parseTriggerActionsJson)(this.TriggerActionsJson).Actions);
         this.TriggerTimes = 0;
-        // this.ActionRunner = this.GetComponent(TsActionRunnerComponent);
-        // this.RunnerHandler = this.ActionRunner.SpawnHandlerByJson(this.TriggerActionsJson);
     }
     // @no-blueprint
     DoTrigger() {
         this.TriggerTimes++;
-        // void this.RunnerHandler.Execute();
+        void this.Handler.Execute();
         (0, Log_1.log)(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
     ReceiveActorBeginOverlap(other) {
         if (this.TriggerTimes >= this.MaxTriggerTimes) {
             return;
         }
-        // if (this.RunnerHandler.IsRunning) {
-        //     return;
-        // }
+        if (this.Handler.IsRunning) {
+            return;
+        }
         if (!(other instanceof TsPlayer_1.default)) {
             return;
         }

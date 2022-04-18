@@ -4,6 +4,7 @@ exports.globalActionsRunner = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Common/Log");
+const UeHelper_1 = require("../../Common/UeHelper");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsPlayerController_1 = require("../Player/TsPlayerController");
 class GlobalActionsRunner {
@@ -12,6 +13,7 @@ class GlobalActionsRunner {
         this.ActionMap = new Map();
         this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
+        this.ActionMap.set('ShowMessage', this.ExecuteShowMessage.bind(this));
         this.ActionMap.set('SetFlowBoolOption', this.ExecuteSetFlowBoolOption.bind(this));
     }
     ContainsAction(actionType) {
@@ -45,6 +47,10 @@ class GlobalActionsRunner {
             default:
                 break;
         }
+    }
+    ExecuteShowMessage(actionInfo) {
+        const action = actionInfo.Params;
+        (0, UeHelper_1.msgbox)(action.Content);
     }
     async ExecuteWait(actionInfo) {
         const action = actionInfo.Params;

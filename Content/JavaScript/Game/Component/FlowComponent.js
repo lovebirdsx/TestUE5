@@ -49,6 +49,7 @@ class FlowComponent extends Entity_1.Component {
         (0, Log_1.log)(`[${this.Name}][${this.FlowInfo.Name}] to state [${state.Name}]`);
         this.Handler = this.ActionRunner.SpawnHandler(state.Actions);
         await this.Handler.Execute();
+        this.Handler = undefined;
     }
 }
 exports.FlowComponent = FlowComponent;

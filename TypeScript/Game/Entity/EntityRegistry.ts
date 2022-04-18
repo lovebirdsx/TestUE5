@@ -1,8 +1,6 @@
 import { TTsClassType } from '../../Common/Class';
-import { Component } from '../../Common/Entity';
+import { TComponentClass } from '../../Common/Entity';
 import { error } from '../../Common/Log';
-
-export type TComponentClass = new () => Component;
 
 class EntityRegistry {
     private readonly EntityMap = new Map<TTsClassType, TComponentClass[]>();

@@ -1,9 +1,18 @@
 /* eslint-disable spellcheck/spell-checker */
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Common/Log';
+import { msgbox } from '../../Common/UeHelper';
 import TsPlayer from '../Player/TsPlayer';
 import TsPlayerController from '../Player/TsPlayerController';
-import { IActionInfo, ILog, ISetFlowBoolOption, IWait, TActionFun, TActionType } from './Action';
+import {
+    IActionInfo,
+    ILog,
+    ISetFlowBoolOption,
+    IShowMessage,
+    IWait,
+    TActionFun,
+    TActionType,
+} from './Action';
 
 class GlobalActionsRunner {
     private readonly ActionMap: Map<TActionType, TActionFun>;
@@ -12,6 +21,7 @@ class GlobalActionsRunner {
         this.ActionMap = new Map();
         this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
+        this.ActionMap.set('ShowMessage', this.ExecuteShowMessage.bind(this));
         this.ActionMap.set('SetFlowBoolOption', this.ExecuteSetFlowBoolOption.bind(this));
     }
 
@@ -48,6 +58,11 @@ class GlobalActionsRunner {
             default:
                 break;
         }
+    }
+
+    private ExecuteShowMessage(actionInfo: IActionInfo): void {
+        const action = actionInfo.Params as IShowMessage;
+        msgbox(action.Content);
     }
 
     private async ExecuteWait(actionInfo: IActionInfo): Promise<void> {

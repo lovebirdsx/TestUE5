@@ -1,25 +1,36 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, edit_on_instance } from 'ue';
+import { Actor } from 'ue';
 
-// import { parseFlowInfo } from '../Flow/Action';
-// import TsFlowComponent from '../Flow/TsFlowComponent';
+import { TComponentClass } from '../../Common/Entity';
+import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
+import { FlowComponent } from '../Component/FlowComponent';
+import { TalkComponent } from '../Component/TalkComponent';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
+export const npcComponentClasses: TComponentClass[] = [
+    FlowComponent,
+    TalkComponent,
+    ActionRunnerComponent,
+];
+
 class TsNpc extends TsEntity {
-    @edit_on_instance()
-    public PlayFlowJson: string;
+    // @no-blueprint
+    public GetComponentClasses(): TComponentClass[] {
+        return npcComponentClasses;
+    }
 
     // @no-blueprint
-    // private Flow: TsFlowComponent;
+    private Flow: FlowComponent;
 
     public ReceiveBeginPlay(): void {
-        // this.Flow = this.GetComponent(TsFlowComponent);
+        super.ReceiveBeginPlay();
+        this.Flow = this.Entity.GetComponent(FlowComponent);
     }
 
     // @no-blueprint
     public async Interact(player: TsPlayer): Promise<void> {
-        // await this.Flow.Interact(parseFlowInfo(this.PlayFlowJson));
+        await this.Flow.Run();
     }
 
     public ReceiveActorBeginOverlap(other: Actor): void {

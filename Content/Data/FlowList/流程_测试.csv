@@ -1,0 +1,532 @@
+﻿客户端/服务端 使用,C,C
+字段名,Id,Json
+字段数据类型,String,String
+该字段是否用于条件筛选,1,0
+是否导出多语言,0,0
+条件检查,notEmpty && unique,
+默认值,,
+#,Id,Json字符串
+,流程_测试,"{
+  ""VersionNum"": 8,
+  ""TextGenId"": 31,
+  ""FlowGenId"": 5,
+  ""Flows"": [
+    {
+      ""Id"": 1,
+      ""StateGenId"": 3,
+      ""Name"": ""基础调用"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态1 Log1""
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
+            },
+            {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态1 Log2""
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 2
+              }
+            }
+          ],
+          ""Id"": 1
+        },
+        {
+          ""Name"": ""状态2"",
+          ""Actions"": [
+            {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态2 Log1""
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
+            },
+            {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""剧情1 状态2 Log2""
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
+            }
+          ],
+          ""Id"": 2
+        }
+      ]
+    },
+    {
+      ""Id"": 2,
+      ""StateGenId"": 2,
+      ""Name"": ""显示对话"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 2
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 2,
+                    ""TextId"": 3
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 3,
+      ""StateGenId"": 2,
+      ""Name"": ""跳转对话"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": true
+              }
+            },
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 4
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 2,
+                    ""TextId"": 5,
+                    ""Options"": [
+                      {
+                        ""TextId"": 6,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 2
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 7,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 3
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 1,
+                    ""TextId"": 8,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""FinishState"",
+                        ""Params"": {
+                          ""Result"": ""去公园""
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 3,
+                    ""Name"": ""对话4"",
+                    ""WhoId"": 1,
+                    ""TextId"": 9,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""FinishState"",
+                        ""Params"": {
+                          ""Result"": ""去游乐场""
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": false
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 4,
+      ""StateGenId"": 5,
+      ""Name"": ""转换状态测试"",
+      ""States"": [
+        {
+          ""Name"": ""初始"",
+          ""Actions"": [
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": true
+              }
+            },
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 10,
+                    ""Options"": [
+                      {
+                        ""TextId"": 11,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 0
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 12,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 1,
+                    ""TextId"": 13,
+                    ""Options"": [
+                      {
+                        ""TextId"": 14,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 15,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 3
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 16,
+                        ""Actions"": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": false
+              }
+            }
+          ],
+          ""Id"": 1
+        },
+        {
+          ""Name"": ""去火星"",
+          ""Actions"": [
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": true
+              }
+            },
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 17,
+                    ""Options"": [
+                      {
+                        ""TextId"": 18,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 19,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 1,
+                    ""TextId"": 20,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 4
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": false
+              }
+            }
+          ],
+          ""Id"": 2
+        },
+        {
+          ""Name"": ""去月球"",
+          ""Actions"": [
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": true
+              }
+            },
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 21,
+                    ""Options"": [
+                      {
+                        ""TextId"": 22,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 23,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 1,
+                    ""TextId"": 24,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 4
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": false
+              }
+            }
+          ],
+          ""Id"": 3
+        },
+        {
+          ""Name"": ""结束"",
+          ""Actions"": [
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": true
+              }
+            },
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 25,
+                    ""Options"": [
+                      {
+                        ""TextId"": 26,
+                        ""Actions"": []
+                      },
+                      {
+                        ""TextId"": 27,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 1,
+                    ""TextId"": 28,
+                    ""Options"": [
+                      {
+                        ""TextId"": 29,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 1
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 30,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""SetFlowBoolOption"",
+              ""Params"": {
+                ""Option"": ""DisableInput"",
+                ""Value"": false
+              }
+            }
+          ],
+          ""Id"": 4
+        }
+      ]
+    }
+  ]
+}"

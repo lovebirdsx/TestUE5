@@ -26,16 +26,16 @@ export const jumpTalkScheme = createObjectScheme<IJumpTalk>(
                         {(value): JSX.Element => {
                             const showTalk = value;
                             const items = showTalk.TalkItems;
-                            const slected = items[props.Value as number].Name;
+                            const talkId = props.Value as number;
+                            const selected = items.find((e) => e.Id === talkId);
+                            const selectedName = selected ? selected.Name : '';
                             return (
                                 <List
                                     Items={items.map((e) => e.Name)}
-                                    Selected={slected}
+                                    Selected={selectedName}
                                     OnSelectChanged={(itemName: string): void => {
-                                        props.OnModify(
-                                            items.findIndex((it) => it.Name === itemName),
-                                            'normal',
-                                        );
+                                        const item = items.find((it) => it.Name === itemName);
+                                        props.OnModify(item ? item.Id : 0, 'normal');
                                     }}
                                 />
                             );

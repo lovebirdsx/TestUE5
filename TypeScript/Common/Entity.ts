@@ -14,6 +14,8 @@ export abstract class Component {
     public OnDestroy(): void {}
 }
 
+export type TComponentClass = new () => Component;
+
 type TClass<T> = new (...args: unknown[]) => T;
 
 export class Entity {
@@ -69,6 +71,14 @@ export class Entity {
         }
 
         return false;
+    }
+
+    public Init(): void {
+        this.Components.forEach((c) => {
+            if (c.OnStart) {
+                c.OnInit();
+            }
+        });
     }
 
     public Start(): void {

@@ -1,5 +1,6 @@
 import { Class } from 'ue';
 
+import { TComponentClass } from '../../Common/Entity';
 import { IPlayFlow } from '../Flow/Action';
 
 export interface IFlowComponent {
@@ -11,6 +12,7 @@ export interface ITsEntity {
     Interact: (player: ITsPlayer) => Promise<void>;
     Name: string;
     GetClass: () => Class;
+    GetComponentClasses: () => TComponentClass[];
 }
 
 export interface ITsTrigger {

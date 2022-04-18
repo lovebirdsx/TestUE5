@@ -18,9 +18,12 @@ exports.jumpTalkScheme = (0, Type_1.createObjectScheme)({
             return (React.createElement(ShowTalk_1.showTalkContext.Consumer, null, (value) => {
                 const showTalk = value;
                 const items = showTalk.TalkItems;
-                const slected = items[props.Value].Name;
-                return (React.createElement(CommonComponent_1.List, { Items: items.map((e) => e.Name), Selected: slected, OnSelectChanged: (itemName) => {
-                        props.OnModify(items.findIndex((it) => it.Name === itemName), 'normal');
+                const talkId = props.Value;
+                const selected = items.find((e) => e.Id === talkId);
+                const selectedName = selected ? selected.Name : '';
+                return (React.createElement(CommonComponent_1.List, { Items: items.map((e) => e.Name), Selected: selectedName, OnSelectChanged: (itemName) => {
+                        const item = items.find((it) => it.Name === itemName);
+                        props.OnModify(item ? item.Id : 0, 'normal');
                     } }));
             }));
         },

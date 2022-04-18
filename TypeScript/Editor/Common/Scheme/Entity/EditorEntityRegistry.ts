@@ -2,9 +2,10 @@
 import * as UE from 'ue';
 
 import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../../../Common/Class';
+import { TComponentClass } from '../../../../Common/Entity';
 import { error } from '../../../../Common/Log';
 import { TObjectType } from '../../../../Common/Type';
-import { entityRegistry, TComponentClass } from '../../../../Game/Entity/Index';
+import { entityRegistry } from '../../../../Game/Entity/Index';
 import { IComponentsState, ITsEntity } from '../../../../Game/Entity/Interface';
 import { componentRegistry } from '../Component/Index';
 

@@ -71,5 +71,6 @@ export class FlowComponent extends Component implements IFlowComponent {
 
         this.Handler = this.ActionRunner.SpawnHandler(state.Actions);
         await this.Handler.Execute();
+        this.Handler = undefined;
     }
 }

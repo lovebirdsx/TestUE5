@@ -15,7 +15,7 @@ const LevelEditor_1 = require("../Common/LevelEditor");
 const Color_1 = require("../Common/ReactComponent/Color");
 const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
 const ErrorBoundary_1 = require("../Common/ReactComponent/ErrorBoundary");
-const Index_1 = require("../Common/Scheme/Entity/Index");
+const Public_1 = require("../Common/Scheme/Entity/Public");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
 function canUndo(state) {
@@ -44,7 +44,7 @@ class EntityEditor extends React.Component {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: Index_1.editorEntityRegistry.GenData(entity),
+                PureData: Public_1.editorEntityRegistry.GenData(entity),
             };
         }
         return {
@@ -85,7 +85,7 @@ class EntityEditor extends React.Component {
         }
         const entityState = {
             Entity: entity,
-            PureData: Index_1.editorEntityRegistry.GenData(entity),
+            PureData: Public_1.editorEntityRegistry.GenData(entity),
         };
         this.RecordEntityState(entityState, 'normal');
         entity.OnDestroyed.Remove(this.OnEntityDestory);
@@ -151,7 +151,7 @@ class EntityEditor extends React.Component {
         if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }
-        Index_1.editorEntityRegistry.ApplyData(es.PureData, es.Entity);
+        Public_1.editorEntityRegistry.ApplyData(es.PureData, es.Entity);
         this.LastApplyEntityState = es;
     }
     RenderEntity() {

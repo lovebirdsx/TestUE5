@@ -6,7 +6,6 @@ import {
     createDynamicType,
     EObjectFilter,
     fixFileds,
-    IAbstractType,
     TDynamicObjectType,
     TFixResult,
     TObjectType,
@@ -97,10 +96,6 @@ class ActionRegistry {
 
     public GetActionNames(filter: EObjectFilter): TActionType[] {
         return this.ActionNamesByfilter.get(filter);
-    }
-
-    public IsFolderAble(scheme: IAbstractType<unknown>): boolean {
-        return scheme.Meta.NewLine;
     }
 
     public FixAction(action: IActionInfo, objectFilter?: EObjectFilter): TFixResult {

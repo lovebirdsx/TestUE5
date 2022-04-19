@@ -6,7 +6,7 @@ import { VerticalBox } from 'react-umg';
 import { TComponentClass } from '../../Common/Entity';
 import { TModifyType } from '../../Common/Type';
 import { IComponentsState } from '../../Game/Entity/Interface';
-import { Obj } from '../Common/ReactComponent/Dynamic';
+import { Obj } from '../Common/ReactComponent/Dynamic/Public';
 import { componentRegistry } from '../Common/Scheme/Component/Index';
 
 export interface IComponentsStateProps {

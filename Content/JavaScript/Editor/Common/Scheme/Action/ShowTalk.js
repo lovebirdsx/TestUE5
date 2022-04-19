@@ -8,8 +8,8 @@ const Type_1 = require("../../../../Common/Type");
 const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
 const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
-const Dynamic_1 = require("../../ReactComponent/Dynamic");
 const Basic_1 = require("../../ReactComponent/Dynamic/Basic");
+const Obj_1 = require("../../ReactComponent/Dynamic/Obj");
 exports.showTalkContext = React.createContext(undefined);
 const talkActionInfoScheme = (0, Type_1.createDynamicType)(Type_1.EObjectFilter.Talk, {
     CreateDefault: (container) => {
@@ -335,7 +335,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     },
     Render(props) {
         return (React.createElement(exports.showTalkContext.Provider, { value: props.Value },
-            React.createElement(Dynamic_1.Obj, { ...props })));
+            React.createElement(Obj_1.Obj, { ...props })));
     },
 });
 exports.showOptionScheme = (0, Type_1.createObjectScheme)({

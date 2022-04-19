@@ -14,7 +14,7 @@ import LevelEditor from '../Common/LevelEditor';
 import { formatColor } from '../Common/ReactComponent/Color';
 import { Btn, SlotText, Text } from '../Common/ReactComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/ReactComponent/ErrorBoundary';
-import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Index';
+import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
 

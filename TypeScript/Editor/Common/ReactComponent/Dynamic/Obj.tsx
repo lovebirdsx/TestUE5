@@ -11,7 +11,6 @@ import {
     TModifyType,
     TObjectType,
 } from '../../../../Common/Type';
-import { actionRegistry } from '../../Scheme/Action/Index';
 import { Btn, Fold, SlotText, TAB_OFFSET, Text } from '../CommonComponent';
 import { ContextBtn } from '../ContextBtn';
 import { Any } from './Any';
@@ -149,7 +148,7 @@ export class Obj extends React.Component<IAnyProps> {
                 continue;
             }
 
-            if (actionRegistry.IsFolderAble(fieldTypeData)) {
+            if (fieldTypeData.Meta.NewLine) {
                 newLineFields.push(fieldTypeData);
                 newLineFieldsKey.push(key);
                 if (

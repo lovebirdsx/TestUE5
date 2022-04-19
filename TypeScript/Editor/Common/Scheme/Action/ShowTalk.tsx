@@ -36,8 +36,8 @@ import {
     ITalkOption,
 } from '../../../../Game/Flow/Action';
 import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../ReactComponent/CommonComponent';
-import { Obj } from '../../ReactComponent/Dynamic';
 import { String } from '../../ReactComponent/Dynamic/Basic';
+import { Obj } from '../../ReactComponent/Dynamic/Obj';
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
 

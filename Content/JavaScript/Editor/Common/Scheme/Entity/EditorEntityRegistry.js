@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.editorEntityRegistry = void 0;
 const Class_1 = require("../../../../Common/Class");
 const Log_1 = require("../../../../Common/Log");
-const Index_1 = require("../../../../Game/Entity/Index");
-const Index_2 = require("../Component/Index");
+const Public_1 = require("../../../../Game/Entity/Public");
+const Index_1 = require("../Component/Index");
 class EditorEntityRegistry {
     SchemeMap = new Map();
     RegScheme(classType, scheme) {
@@ -31,12 +31,12 @@ class EditorEntityRegistry {
     }
     GetComponentClasses(obj) {
         const tsClassObj = (0, Class_1.getTsClassByUeClass)(obj.GetClass());
-        return Index_1.entityRegistry.GetComponents(tsClassObj);
+        return Public_1.entityRegistry.GetComponents(tsClassObj);
     }
     GenComponentsStateJson(classObjs) {
         const components = {};
         classObjs.forEach((classObj) => {
-            const componentScheme = Index_2.componentRegistry.GetScheme(classObj.name);
+            const componentScheme = Index_1.componentRegistry.GetScheme(classObj.name);
             components[classObj.name] = componentScheme.CreateDefault(undefined);
         });
         const componentsState = {

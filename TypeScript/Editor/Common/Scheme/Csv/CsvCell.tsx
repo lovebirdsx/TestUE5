@@ -20,7 +20,7 @@ import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegi
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
 import { Btn, List } from '../../ReactComponent/CommonComponent';
 import { csvCellContext, ICsvCellContext } from '../../ReactComponent/Context';
-import { Any } from '../../ReactComponent/Dynamic';
+import { Any } from '../../ReactComponent/Dynamic/Any';
 import { sendEditorCommand } from '../../Util';
 
 interface ICellConfigSlot {

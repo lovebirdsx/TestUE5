@@ -6,7 +6,7 @@ import { HorizontalBox } from 'react-umg';
 
 import { IAnyProps, TDynamicObjectType, TModifyType } from '../../../../Common/Type';
 import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
-import { actionRegistry } from '../../Scheme/Action/Index';
+import { actionRegistry } from '../../Scheme/Action/Public';
 import { Check, List, Text } from '../CommonComponent';
 import { Any } from './Any';
 

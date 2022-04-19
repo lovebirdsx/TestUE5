@@ -6,7 +6,6 @@ exports.Obj = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Index_1 = require("../../Scheme/Action/Index");
 const CommonComponent_1 = require("../CommonComponent");
 const ContextBtn_1 = require("../ContextBtn");
 const Any_1 = require("./Any");
@@ -98,7 +97,7 @@ class Obj extends React.Component {
             if (fieldTypeData.Meta.Hide) {
                 continue;
             }
-            if (Index_1.actionRegistry.IsFolderAble(fieldTypeData)) {
+            if (fieldTypeData.Meta.NewLine) {
                 newLineFields.push(fieldTypeData);
                 newLineFieldsKey.push(key);
                 if (fieldTypeData.RrenderType === 'array' &&

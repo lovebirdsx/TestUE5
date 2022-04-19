@@ -28,8 +28,9 @@ function initAllComponents() {
     ComponentRegistry_1.componentRegistry.Register('asset', Basic_1.Asset);
 }
 initAllComponents();
-__exportStar(require("../Action"), exports);
 __exportStar(require("./Any"), exports);
+__exportStar(require("./Array"), exports);
+__exportStar(require("./Basic"), exports);
 __exportStar(require("./Dynamic"), exports);
 __exportStar(require("./Obj"), exports);
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=Public.js.map

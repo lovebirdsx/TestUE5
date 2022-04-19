@@ -8,8 +8,8 @@ import { parseComponentsState } from '../../Game/Entity/Interface';
 import TsEntity from '../../Game/Entity/TsEntity';
 import LevelEditor from '../Common/LevelEditor';
 import { Btn, SlotText } from '../Common/ReactComponent/CommonComponent';
-import { Obj } from '../Common/ReactComponent/Dynamic';
-import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Index';
+import { Obj } from '../Common/ReactComponent/Dynamic/Public';
+import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {

@@ -11,7 +11,7 @@ const CsvScheme_1 = require("../Scheme/Csv/CsvScheme");
 const CommonComponent_1 = require("./CommonComponent");
 const Context_1 = require("./Context");
 const ContextBtn_1 = require("./ContextBtn");
-const Dynamic_1 = require("./Dynamic");
+const Public_1 = require("./Dynamic/Public");
 class CsvView extends React.Component {
     OnContextCommand(rowId, cmd) {
         switch (cmd) {
@@ -87,7 +87,7 @@ class CsvView extends React.Component {
             }
             return (React.createElement(react_umg_1.SizeBox, { Slot: slot, key: `${rowId}-${index}` },
                 React.createElement(Context_1.csvCellContext.Provider, { value: { RowId: rowId, ColId: index, Csv: csv } },
-                    React.createElement(Dynamic_1.Any, { Value: row[field.Name], Type: CsvScheme_1.csvScheme.GetSchme(field.Meta), OnModify: (value, type) => {
+                    React.createElement(Public_1.Any, { Value: row[field.Name], Type: CsvScheme_1.csvScheme.GetSchme(field.Meta), OnModify: (value, type) => {
                             this.ModifyValue(rowId, field.Name, value);
                         } }))));
         });

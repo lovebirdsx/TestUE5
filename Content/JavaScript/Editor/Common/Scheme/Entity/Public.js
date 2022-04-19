@@ -18,4 +18,4 @@ const TriggerScheme_1 = require("./TriggerScheme");
 EditorEntityRegistry_1.editorEntityRegistry.RegScheme(TsTrigger_1.default, TriggerScheme_1.triggerScheme);
 EditorEntityRegistry_1.editorEntityRegistry.RegScheme(TsNpc_1.default, NpcScheme_1.npcScheme);
 __exportStar(require("./EditorEntityRegistry"), exports);
-//# sourceMappingURL=Index.js.map
+//# sourceMappingURL=Public.js.map

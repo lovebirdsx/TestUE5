@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Flow/Action';
-import { actionRegistry } from '../Scheme/Action/Index';
+import { actionRegistry } from '../Scheme/Action/Public';
 
 class StateOp {
     public Check(state: IStateInfo, errorMessages: string[]): number {

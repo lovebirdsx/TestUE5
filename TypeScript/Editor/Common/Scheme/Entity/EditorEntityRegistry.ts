@@ -5,7 +5,7 @@ import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../..
 import { TComponentClass } from '../../../../Common/Entity';
 import { error } from '../../../../Common/Log';
 import { TObjectType } from '../../../../Common/Type';
-import { entityRegistry } from '../../../../Game/Entity/Index';
+import { entityRegistry } from '../../../../Game/Entity/Public';
 import { IComponentsState, ITsEntity } from '../../../../Game/Entity/Interface';
 import { componentRegistry } from '../Component/Index';
 

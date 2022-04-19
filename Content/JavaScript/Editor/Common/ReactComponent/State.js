@@ -7,7 +7,7 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../../../Common/Log");
 const Flow_1 = require("../Operations/Flow");
-const Index_1 = require("../Scheme/Action/Index");
+const Public_1 = require("../Scheme/Action/Public");
 const Action_1 = require("./Action");
 const CommonComponent_1 = require("./CommonComponent");
 const Context_1 = require("./Context");
@@ -40,7 +40,7 @@ class State extends React.Component {
         }, 'fold');
     };
     SpwanNewActionAfter(state, id) {
-        return Index_1.actionRegistry.SpawnDefaultAction(this.props.ObjectFilter);
+        return Public_1.actionRegistry.SpawnDefaultAction(this.props.ObjectFilter);
     }
     AddAction = () => {
         this.Modify((from, to) => {

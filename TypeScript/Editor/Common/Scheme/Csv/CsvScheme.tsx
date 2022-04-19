@@ -7,7 +7,7 @@ import {
     intScheme,
     stringScheme,
 } from '../../../../Common/Type';
-import { cameraBindModeScheme, seqDataScheme } from '../Action/Index';
+import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
 import { csvCellTypeScheme, csvFollowCellScheme } from './CsvCell';
 
 const csvSchemaMap2: { [key in ECsvCellRenderType]: IAbstractType<unknown> } = {

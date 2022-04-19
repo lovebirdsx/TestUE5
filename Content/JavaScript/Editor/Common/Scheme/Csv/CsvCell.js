@@ -12,7 +12,7 @@ const CsvRegistry_1 = require("../../../../Game/Common/CsvConfig/CsvRegistry");
 const ConfigFile_1 = require("../../../FlowEditor/ConfigFile");
 const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
 const Context_1 = require("../../ReactComponent/Context");
-const Dynamic_1 = require("../../ReactComponent/Dynamic");
+const Any_1 = require("../../ReactComponent/Dynamic/Any");
 const Util_1 = require("../../Util");
 function genCsvCellTypeEnumConfig() {
     const configs = CsvLoader_1.csvCellTypeConfig;
@@ -50,7 +50,7 @@ exports.csvFollowCellScheme = (0, Type_1.createStringScheme)({
             const prevCellName = csv.FiledTypes[ctx.ColId - 1].Name;
             const prevCellvalue = ctx.Csv.Rows[ctx.RowId][prevCellName];
             const scheme = getCsvCellSchemeByType(prevCellvalue);
-            return React.createElement(Dynamic_1.Any, { ...props, Type: scheme });
+            return React.createElement(Any_1.Any, { ...props, Type: scheme });
         }));
     },
 });

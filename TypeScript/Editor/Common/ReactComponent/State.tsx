@@ -7,7 +7,7 @@ import { log } from '../../../Common/Log';
 import { EObjectFilter, TModifyType } from '../../../Common/Type';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
 import { editorFlowOp } from '../Operations/Flow';
-import { actionRegistry } from '../Scheme/Action/Index';
+import { actionRegistry } from '../Scheme/Action/Public';
 import { Action } from './Action';
 import { Btn, EditorBox, Fold, SlotText, Text } from './CommonComponent';
 import { flowContext } from './Context';

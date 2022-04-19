@@ -19,7 +19,8 @@ function initAllComponents(): void {
 
 initAllComponents();
 
-export * from '../Action';
 export * from './Any';
+export * from './Array';
+export * from './Basic';
 export * from './Dynamic';
 export * from './Obj';

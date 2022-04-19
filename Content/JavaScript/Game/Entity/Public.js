@@ -25,4 +25,4 @@ __exportStar(require("./EntityRegistry"), exports);
 __exportStar(require("./TsEntity"), exports);
 __exportStar(require("./TsNpc"), exports);
 __exportStar(require("./TsTrigger"), exports);
-//# sourceMappingURL=Index.js.map
+//# sourceMappingURL=Public.js.map

@@ -14,8 +14,8 @@ import {
 import { ITsTrigger } from '../../../../Game/Entity/Interface';
 import { ITriggerActions, parseTriggerActionsJson } from '../../../../Game/Flow/Action';
 import { Btn, Text } from '../../ReactComponent/CommonComponent';
-import { Obj } from '../../ReactComponent/Dynamic';
-import { actionRegistry } from '../Action';
+import { Obj } from '../../ReactComponent/Dynamic/Public';
+import { actionRegistry } from '../Action/Public';
 
 export const actionsScheme = createObjectScheme<ITriggerActions>({
     Actions: createArrayScheme({

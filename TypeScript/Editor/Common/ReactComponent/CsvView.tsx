@@ -11,7 +11,7 @@ import { csvScheme } from '../Scheme/Csv/CsvScheme';
 import { Btn, SlotText, Text } from './CommonComponent';
 import { csvCellContext } from './Context';
 import { ContextBtn } from './ContextBtn';
-import { Any } from './Dynamic';
+import { Any } from './Dynamic/Public';
 
 export interface ICsvViewProps {
     Csv: ICsv;

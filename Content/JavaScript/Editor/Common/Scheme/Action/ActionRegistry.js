@@ -75,9 +75,6 @@ class ActionRegistry {
     GetActionNames(filter) {
         return this.ActionNamesByfilter.get(filter);
     }
-    IsFolderAble(scheme) {
-        return scheme.Meta.NewLine;
-    }
     FixAction(action, objectFilter) {
         const typeData = this.GetScheme(action.Name);
         if (!typeData) {

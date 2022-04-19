@@ -5,10 +5,10 @@ import { VerticalBox } from 'react-umg';
 
 import { EObjectFilter, IAbstractType, TModifyType } from '../../../Common/Type';
 import { IActionInfo } from '../../../Game/Flow/Action';
-import { actionRegistry } from '../Scheme/Action/Index';
+import { actionRegistry } from '../Scheme/Action/Public';
 import { TAB_OFFSET } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
-import { Dynamic } from './Dynamic';
+import { Dynamic } from './Dynamic/Public';
 
 export interface IActionProps {
     Action: IActionInfo;

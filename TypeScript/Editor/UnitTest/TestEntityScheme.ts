@@ -4,7 +4,7 @@ import { NewObject } from 'ue';
 import { getUeClassByTsClass } from '../../Common/Class';
 import { assertEq, test } from '../../Common/Test';
 import TsTrigger from '../../Game/Entity/TsTrigger';
-import { editorEntityRegistry } from '../Common/Scheme/Entity/Index';
+import { editorEntityRegistry } from '../Common/Scheme/Entity/Public';
 
 export default function testEntityScheme(): void {
     test('gen pure data', () => {

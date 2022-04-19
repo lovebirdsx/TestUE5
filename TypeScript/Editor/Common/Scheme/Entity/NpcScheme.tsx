@@ -5,8 +5,8 @@ import { log } from '../../../../Common/Log';
 import { createStringScheme, emptyObjectScheme, IAnyProps } from '../../../../Common/Type';
 import { parsePlayFlow } from '../../../../Game/Flow/Action';
 import { Btn, Text } from '../../ReactComponent/CommonComponent';
-import { Any } from '../../ReactComponent/Dynamic';
-import { playFlowScheme } from '../Action/Index';
+import { Any } from '../../ReactComponent/Dynamic/Public';
+import { playFlowScheme } from '../Action/Public';
 
 function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
     const playFlow = parsePlayFlow(props.Value as string);

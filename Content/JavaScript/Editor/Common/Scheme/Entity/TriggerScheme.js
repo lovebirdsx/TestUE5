@@ -7,11 +7,11 @@ const Log_1 = require("../../../../Common/Log");
 const Type_1 = require("../../../../Common/Type");
 const Action_1 = require("../../../../Game/Flow/Action");
 const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
-const Dynamic_1 = require("../../ReactComponent/Dynamic");
-const Action_2 = require("../Action");
+const Public_1 = require("../../ReactComponent/Dynamic/Public");
+const Public_2 = require("../Action/Public");
 exports.actionsScheme = (0, Type_1.createObjectScheme)({
     Actions: (0, Type_1.createArrayScheme)({
-        Element: Action_2.actionRegistry.GetDynamicObjectScheme(Type_1.EObjectFilter.Trigger),
+        Element: Public_2.actionRegistry.GetDynamicObjectScheme(Type_1.EObjectFilter.Trigger),
         Meta: {
             HideName: true,
             NewLine: true,
@@ -28,7 +28,7 @@ function renderActionJson(name, props) {
         React.createElement(CommonComponent_1.Btn, { Text: 'P', OnClick: () => {
                 (0, Log_1.log)(props.Value);
             } })));
-    return (React.createElement(Dynamic_1.Obj, { PrefixElement: prefixElement, Value: actions, Type: exports.actionsScheme, OnModify: (obj, type) => {
+    return (React.createElement(Public_1.Obj, { PrefixElement: prefixElement, Value: actions, Type: exports.actionsScheme, OnModify: (obj, type) => {
             props.OnModify(JSON.stringify(obj), type);
         } }));
 }

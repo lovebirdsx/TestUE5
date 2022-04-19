@@ -5,7 +5,7 @@ exports.ComponentsState = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const Dynamic_1 = require("../Common/ReactComponent/Dynamic");
+const Public_1 = require("../Common/ReactComponent/Dynamic/Public");
 const Index_1 = require("../Common/Scheme/Component/Index");
 class ComponentsState extends React.Component {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -18,7 +18,7 @@ class ComponentsState extends React.Component {
             if (!value) {
                 value = scheme.CreateDefault(undefined);
             }
-            return (React.createElement(Dynamic_1.Obj, { key: id, Value: value, Type: scheme, OnModify: (obj, type) => {
+            return (React.createElement(Public_1.Obj, { key: id, Value: value, Type: scheme, OnModify: (obj, type) => {
                     const newComponentState = (0, immer_1.default)(this.props.Value, (draft) => {
                         draft.Components[classObj.name] = obj;
                     });

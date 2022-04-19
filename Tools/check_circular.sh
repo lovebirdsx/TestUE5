@@ -8,7 +8,7 @@ ignore_files=(
 regx=$(IFS=\| ; echo "${ignore_files[*]}")
 # echo "$regx"
 
-madge -c --extensions ts,tsx -x "$regx" ./TypeScript
+madge -c --warning --extensions ts,tsx -x "$regx" ./TypeScript
 
 # 下面的指令可以生成图
 # madge -c -i madge.svg -x "$regx" ./TypeScript

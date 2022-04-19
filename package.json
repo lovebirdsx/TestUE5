@@ -24,14 +24,5 @@
   },
   "scripts": {
     "lint": "eslint . --ext .ts --ext .tsx"
-  },
-  "madge": {
-		"fontSize": "10px",
-    "fileExtensions": ["ts", "tsx"],
-		"graphVizOptions": {
-			"G": {
-				"rankdir": "LR"
-			}
-		}
-	}
+  }
 }

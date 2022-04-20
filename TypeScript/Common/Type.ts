@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
+import { ComponentClass, FunctionComponent } from 'react';
+
 import { error, log } from './Log';
 import { getEnumValues } from './Util';
 
@@ -50,6 +52,76 @@ export interface IAbstractType<T> {
     Check: (value: T, container: unknown, messages: string[]) => number;
     Meta: IMeta;
 }
+
+export abstract class DataScheme<TData = unknown, TMeta = unknown, TParent = unknown> {
+    public abstract CreateDefault(parent: TParent): TData;
+
+    public abstract Fix(value: TData, container: TParent): TFixResult;
+
+    public abstract Check(value: TData, container: TParent, messages: string[]): number;
+
+    public abstract Meta: TMeta;
+}
+
+export interface IDataProps<TData = unknown, TMeta = unknown, TParent = unknown> {
+    Value: TData;
+    Scheme: DataScheme<TData, TMeta, TParent>;
+    Parent: TParent;
+    ParentScheme?: DataScheme<TParent>;
+    OnModify: (obj: TData) => void;
+    PrefixElement?: string;
+}
+
+type TComponentClass<TProps> = ComponentClass<TProps> | FunctionComponent<TProps>;
+
+export type TDataRender<TData = unknown, TMeta = unknown, TParent = unknown> = (
+    props: IDataProps<TData, TMeta, TParent>,
+) => TComponentClass<IDataProps<TData, TMeta, TParent>>;
+
+class DataRegistry {
+    private readonly ShemeMap = new Map<string, DataScheme>();
+
+    private readonly RenderMap = new Map<string, TDataRender>();
+
+    public Reg<TData, TMeta = unknown, TParent = unknown>(
+        type: string,
+        scheme: DataScheme<TData, TMeta, TParent>,
+        render: TDataRender<TData, TMeta, TParent>,
+    ): void {
+        this.ShemeMap.set(type, scheme as DataScheme);
+        this.RenderMap.set(type, render as TDataRender);
+    }
+
+    public Reg2<TData, TMeta = unknown, TParent = unknown>(
+        type: TElementRenderType,
+        scheme: DataScheme<TData, TMeta, TParent>,
+        render: TDataRender<TData, TMeta, TParent>,
+    ): void {
+        this.Reg(type as string, scheme, render);
+    }
+
+    public GetScheme<TData, TMeta = unknown, TParent = unknown>(
+        type: string,
+    ): DataScheme<TData, TMeta, TParent> {
+        const result = this.ShemeMap.get(type);
+        if (!result) {
+            throw new Error(`No sheme for type [${type}]`);
+        }
+        return result as DataScheme<TData, TMeta, TParent>;
+    }
+
+    public GetRender<TData, TMeta = unknown, TParent = unknown>(
+        type: string,
+    ): TDataRender<TData, TMeta, TParent> {
+        const result = this.RenderMap.get(type);
+        if (!result) {
+            throw new Error(`No render for type [${type}]`);
+        }
+        return result as TDataRender<TData, TMeta, TParent>;
+    }
+}
+
+export const dataRegistry = new DataRegistry();
 
 export type TPrimitiveType<T extends bigint | boolean | number | string> = IAbstractType<T>;
 export type TEnumType<T> = IAbstractType<T> & {

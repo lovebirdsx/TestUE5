@@ -1,10 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUnknownScheme = exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = void 0;
-/* eslint-disable no-param-reassign */
-/* eslint-disable spellcheck/spell-checker */
+exports.createUnknownScheme = exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = exports.dataRegistry = exports.DataScheme = void 0;
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
+class DataScheme {
+}
+exports.DataScheme = DataScheme;
+class DataRegistry {
+    ShemeMap = new Map();
+    RenderMap = new Map();
+    Reg(type, scheme, render) {
+        this.ShemeMap.set(type, scheme);
+        this.RenderMap.set(type, render);
+    }
+    Reg2(type, scheme, render) {
+        this.Reg(type, scheme, render);
+    }
+    GetScheme(type) {
+        const result = this.ShemeMap.get(type);
+        if (!result) {
+            throw new Error(`No sheme for type [${type}]`);
+        }
+        return result;
+    }
+    GetRender(type) {
+        const result = this.RenderMap.get(type);
+        if (!result) {
+            throw new Error(`No render for type [${type}]`);
+        }
+        return result;
+    }
+}
+exports.dataRegistry = new DataRegistry();
 var EObjectFilter;
 (function (EObjectFilter) {
     EObjectFilter[EObjectFilter["FlowList"] = 0] = "FlowList";

@@ -104,12 +104,27 @@ class FlowEditor extends React.Component {
             this.ConfigFile.Save();
         }
         // 加载剧情配置
-        const flowListConfig = FlowList_2.editorFlowListOp.Load(this.ConfigFile.FlowConfigPath);
+        let flowListConfig = undefined;
+        let openError = undefined;
+        try {
+            flowListConfig = FlowList_1.flowListOp.Load(this.ConfigFile.FlowConfigPath);
+        }
+        catch (e) {
+            let errorStr = undefined;
+            if (typeof e === 'string') {
+                errorStr = e;
+            }
+            else if (e instanceof Error) {
+                errorStr = e.message;
+            }
+            openError = `打开配置文件出错(流程配置文件不是Text_开头的文件哟!)\n\n[${this.ConfigFile.FlowConfigPath}]\n${errorStr}`;
+        }
         return {
             Histories: [flowListConfig],
             StepId: 0,
             Saved: flowListConfig,
             IsDevelop: this.ConfigFile.IsDevelop,
+            OpenError: openError,
         };
     }
     Open(path) {
@@ -299,8 +314,7 @@ class FlowEditor extends React.Component {
                         React.createElement(CommonComponent_1.Btn, { Text: '导入对话...', OnClick: this.Import, Tip: '从CSV中导入对话配置,具体请参考【流程编辑器】使用说明' })),
                     this.state.IsDevelop && this.RenderDevelopElements())),
             React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
-                React.createElement(ErrorBoundary_1.ErrorBoundary, null,
-                    React.createElement(FlowList_3.FlowList, { FlowList: this.FlowList, OnModify: this.ModifyFlowList })))));
+                React.createElement(ErrorBoundary_1.ErrorBoundary, null, this.state.OpenError ? (React.createElement(CommonComponent_1.SlotText, { Text: `${this.state.OpenError}` })) : (React.createElement(FlowList_3.FlowList, { FlowList: this.FlowList, OnModify: this.ModifyFlowList }))))));
     }
 }
 exports.FlowEditor = FlowEditor;

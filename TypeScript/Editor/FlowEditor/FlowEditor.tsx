@@ -14,7 +14,11 @@ import {
     openLoadCsvFileDialog,
     openSaveCsvFileDialog,
 } from '../../Common/UeHelper';
-import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
+import {
+    EFlowListAction,
+    flowListContext,
+    flowListOp,
+} from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
@@ -31,6 +35,7 @@ interface IFlowEditorState {
     StepId: number;
     Saved: IFlowListInfo;
     IsDevelop: boolean;
+    OpenError: string;
 }
 
 function canUndo(state: IFlowEditorState): boolean {
@@ -141,13 +146,26 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         }
 
         // 加载剧情配置
-        const flowListConfig = editorFlowListOp.Load(this.ConfigFile.FlowConfigPath);
+        let flowListConfig: IFlowListInfo = undefined;
+        let openError: string = undefined;
+        try {
+            flowListConfig = flowListOp.Load(this.ConfigFile.FlowConfigPath);
+        } catch (e: unknown) {
+            let errorStr: string = undefined;
+            if (typeof e === 'string') {
+                errorStr = e;
+            } else if (e instanceof Error) {
+                errorStr = e.message;
+            }
+            openError = `打开配置文件出错(流程配置文件不是Text_开头的文件哟!)\n\n[${this.ConfigFile.FlowConfigPath}]\n${errorStr}`;
+        }
 
         return {
             Histories: [flowListConfig],
             StepId: 0,
             Saved: flowListConfig,
             IsDevelop: this.ConfigFile.IsDevelop,
+            OpenError: openError,
         };
     }
 
@@ -447,7 +465,11 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                 </Border>
                 <ScrollBox Slot={scrollBoxSlot}>
                     <ErrorBoundary>
-                        <FlowList FlowList={this.FlowList} OnModify={this.ModifyFlowList} />
+                        {this.state.OpenError ? (
+                            <SlotText Text={`${this.state.OpenError}`} />
+                        ) : (
+                            <FlowList FlowList={this.FlowList} OnModify={this.ModifyFlowList} />
+                        )}
                     </ErrorBoundary>
                 </ScrollBox>
             </VerticalBox>

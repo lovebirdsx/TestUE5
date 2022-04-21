@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
-
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
@@ -20,12 +19,12 @@ import {
     flowListOp,
 } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
-import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { FlowList } from '../Common/ExtendComponent/FlowList';
+import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
+import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from './ConfigFile';
 import { TalkListTool } from './TalkListTool';

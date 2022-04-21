@@ -20,12 +20,12 @@ const ShowTalk_1 = require("./ShowTalk");
 const ShowText_1 = require("./ShowText");
 const State_1 = require("./State");
 const objectSchemeMap = {
-    ChangeState: new State_1.ChangeStateScheme(),
-    ChangeRandomState: new State_1.ChangeRandomStateScheme(),
+    ChangeState: State_1.changeStateScheme,
+    ChangeRandomState: State_1.changeRandomStateScheme,
     FinishTalk: new JumpTalk_1.FinishTalkScheme(),
-    FinishState: new State_1.FinishStateScheme(),
+    FinishState: State_1.finishStateScheme,
     JumpTalk: new JumpTalk_1.JumpTalkScheme(),
-    Log: new Misc_1.LogScheme(),
+    Log: Misc_1.logScheme,
     PlayFlow: Flow_1.playFlowScheme,
     PlaySequenceData: Sequence_1.playSequenceDataScheme,
     PlayCustomSequence: Sequence_1.playCustomSequenceScheme,

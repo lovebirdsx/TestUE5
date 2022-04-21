@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNamesByConfig = exports.getEnumNames = exports.getEnumValues = void 0;
+exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNames = exports.getEnumValues = void 0;
 /* eslint-disable spellcheck/spell-checker */
 function getEnumValues(enumType) {
     const valueNames = Object.keys(enumType).filter((item) => !Number.isNaN(Number(item)));
@@ -12,14 +12,6 @@ function getEnumNames(enumType) {
     return names;
 }
 exports.getEnumNames = getEnumNames;
-function getEnumNamesByConfig(config) {
-    const names = [];
-    for (const key in config) {
-        names.push(key);
-    }
-    return names;
-}
-exports.getEnumNamesByConfig = getEnumNamesByConfig;
 function deepEquals(x, y) {
     if (x === y) {
         return true;

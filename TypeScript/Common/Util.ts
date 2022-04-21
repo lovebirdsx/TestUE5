@@ -9,14 +9,6 @@ export function getEnumNames(enumType: Record<number, string>): string[] {
     return names;
 }
 
-export function getEnumNamesByConfig(config: Record<string, string>): string[] {
-    const names = [] as string[];
-    for (const key in config) {
-        names.push(key);
-    }
-    return names;
-}
-
 export function deepEquals<T>(x: T, y: T): boolean {
     if (x === y) {
         return true;

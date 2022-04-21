@@ -15,7 +15,6 @@ import {
     Scheme,
     stringScheme,
 } from '../../../../Common/Type';
-import { getEnumNamesByConfig } from '../../../../Common/Util';
 import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
 import { Btn, List } from '../../BaseComponent/CommonComponent';
@@ -35,15 +34,14 @@ function genCsvCellTypeEnumConfig(): Record<string, string> {
     return Object.fromEntries(slotList) as Record<string, string>;
 }
 
-const csvCellTypeEnumConfig = genCsvCellTypeEnumConfig();
+// fuck
+// export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
+//     Meta: {
+//         HideName: true,
+//     },
+// });
 
-export class CsvCellTypeScheme extends EnumScheme<TCsvCellType> {
-    public Config: Record<string, string> = csvCellTypeEnumConfig;
-
-    public Names: string[] = getEnumNamesByConfig(csvCellTypeEnumConfig);
-}
-
-export const csvCellTypeScheme = new CsvCellTypeScheme();
+export const csvCellTypeScheme = new EnumScheme(genCsvCellTypeEnumConfig());
 
 function getCsvCellSchemeByType(type: TCsvCellType): Scheme {
     switch (type) {

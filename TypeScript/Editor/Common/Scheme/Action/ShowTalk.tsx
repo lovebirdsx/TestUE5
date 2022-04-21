@@ -17,7 +17,6 @@ import {
     IMeta,
     // FloatScheme,
     IProps,
-    ObjectScheme,
     Scheme,
     TFixResult,
     TObjectFields,
@@ -410,9 +409,9 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
                 '    若当前对话没有跳转指令,则按顺序执行下一条对话',
             ].join('\n'),
         },
-        Render(props: IProps<IShowTalk, ObjectScheme<IShowTalk>>) {
+        Render(props: IProps) {
             return (
-                <showTalkContext.Provider value={props.Value}>
+                <showTalkContext.Provider value={props.Value as IShowTalk}>
                     <Obj {...props} />
                 </showTalkContext.Provider>
             );

@@ -6,7 +6,6 @@ import {
     EActionFilter,
     EnumScheme,
 } from '../../../../Common/Type';
-import { getEnumNamesByConfig } from '../../../../Common/Util';
 import {
     cameraModeConfig,
     flowBoolOptionConfig,
@@ -14,20 +13,17 @@ import {
     ISetFlowBoolOption,
     ISetPlotMode,
     plotModeConfig,
-    TCameraMode,
-    TFlowBoolOption,
-    TPlotMode,
 } from '../../../../Game/Flow/Action';
-
-export class FlowBooleanOptionScheme extends EnumScheme<TFlowBoolOption> {
-    public Config: Record<string, string> = flowBoolOptionConfig;
-
-    public Names: string[] = getEnumNamesByConfig(flowBoolOptionConfig);
-}
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {
-        Option: new FlowBooleanOptionScheme(),
+        // fuck
+        // Option: createEnumType(flowBoolOptionConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }),
+        Option: new EnumScheme(flowBoolOptionConfig),
         Value: booleanHideNameScheme,
     },
     {
@@ -38,15 +34,15 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     },
 );
 
-export class CameraModeScheme extends EnumScheme<TCameraMode> {
-    public Config: Record<string, string> = cameraModeConfig;
-
-    public Names: string[] = getEnumNamesByConfig(cameraModeConfig);
-}
-
 export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
     {
-        Mode: new CameraModeScheme(),
+        // fuck
+        // Mode: createEnumType(cameraModeConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }),
+        Mode: new EnumScheme(cameraModeConfig),
     },
     {
         Meta: {
@@ -55,15 +51,15 @@ export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
     },
 );
 
-export class PlotModeScheme extends EnumScheme<TPlotMode> {
-    public Config: Record<string, string> = plotModeConfig;
-
-    public Names: string[] = getEnumNamesByConfig(plotModeConfig);
-}
-
 export const setPlotModeScheme = createObjectScheme<ISetPlotMode>(
     {
-        Mode: new PlotModeScheme(),
+        // fuck
+        // Mode: createEnumType(plotModeConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }),
+        Mode: new EnumScheme(plotModeConfig),
     },
     {
         Filters: [EActionFilter.FlowList],

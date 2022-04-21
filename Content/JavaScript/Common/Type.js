@@ -30,12 +30,25 @@ function getSchemeClass(scheme) {
     return undefined;
 }
 exports.getSchemeClass = getSchemeClass;
+function getEnumNames(config) {
+    const names = [];
+    for (const key in config) {
+        names.push(key);
+    }
+    return names;
+}
 class EnumScheme extends Scheme {
     RenderType = 'enum';
-    HideName = true;
+    Config;
+    Names;
     Meta = {
         HideName: true,
     };
+    constructor(config) {
+        super();
+        this.Config = config;
+        this.Names = getEnumNames(config);
+    }
     CreateDefault() {
         for (const k in this.Config) {
             return k;
@@ -58,7 +71,6 @@ class ArrayScheme extends Scheme {
     CreateDefault() {
         return [];
     }
-    HideName = true;
 }
 exports.ArrayScheme = ArrayScheme;
 var EActionFilter;
@@ -199,7 +211,6 @@ exports.emptyObjectScheme = createObjectScheme({});
 // ============================================================================
 class IntScheme extends Scheme {
     RenderType = 'int';
-    HideName = true;
     CreateDefault() {
         return 0;
     }

@@ -6,10 +6,10 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Interface_1 = require("../../Game/Entity/Interface");
-const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const LevelEditor_1 = require("../Common/LevelEditor");
-const Public_1 = require("../Common/Scheme/Entity/Public");
-const Public_2 = require("../Common/SchemeComponent/Basic/Public");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
+const Public_1 = require("../Common/SchemeComponent/Basic/Public");
+const Public_2 = require("../Common/Scheme/Entity/Public");
 const ComponentsState_1 = require("./ComponentsState");
 class EntityView extends React.Component {
     OnClickBtnNav = () => {
@@ -27,11 +27,11 @@ class EntityView extends React.Component {
         const props = this.props;
         const entity = props.Entity;
         const pureData = props.PureData;
-        const scheme = Public_1.editorEntityRegistry.GetSchemeByEntity(entity);
+        const scheme = Public_2.editorEntityRegistry.GetSchemeByEntity(entity);
         const componentsState = (0, Interface_1.parseComponentsState)(pureData.ComponentsStateJson);
-        const componentClassObjs = Public_1.editorEntityRegistry.GetComponentClasses(entity);
+        const componentClassObjs = Public_2.editorEntityRegistry.GetComponentClasses(entity);
         return (React.createElement(react_umg_1.VerticalBox, null,
-            React.createElement(Public_2.Obj, { PrefixElement: this.RenderPrefixElement(), Value: pureData, Scheme: scheme, OnModify: props.OnModify }),
+            React.createElement(Public_1.Obj, { PrefixElement: this.RenderPrefixElement(), Value: pureData, Scheme: scheme, OnModify: props.OnModify }),
             React.createElement(ComponentsState_1.ComponentsState, { Value: componentsState, ClassObjs: componentClassObjs, OnModify: (data, type) => {
                     const newPureData = (0, immer_1.default)(pureData, (draft) => {
                         draft.ComponentsStateJson = JSON.stringify(data);

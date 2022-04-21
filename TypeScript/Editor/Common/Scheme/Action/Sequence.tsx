@@ -12,7 +12,6 @@ import {
     IProps,
     Scheme,
 } from '../../../../Common/Type';
-import { getEnumNamesByConfig } from '../../../../Common/Util';
 import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
 import {
@@ -131,10 +130,4 @@ export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>(
 //     },
 // });
 
-export class CameraBindModeScheme extends EnumScheme<TCameraBindMode> {
-    public Config: Record<string, string> = cameraBindModeConfig;
-
-    public Names: string[] = getEnumNamesByConfig(cameraBindModeConfig);
-}
-
-export const cameraBindModeScheme = new CameraBindModeScheme();
+export const cameraBindModeScheme = new EnumScheme(cameraBindModeConfig);

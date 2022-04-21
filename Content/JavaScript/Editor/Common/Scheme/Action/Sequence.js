@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cameraBindModeScheme = exports.CameraBindModeScheme = exports.playCustomSequenceScheme = exports.playSequenceDataScheme = exports.seqDataScheme = void 0;
+exports.cameraBindModeScheme = exports.playCustomSequenceScheme = exports.playSequenceDataScheme = exports.seqDataScheme = void 0;
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const CsvOp_1 = require("../../../../Common/CsvOp");
 const Type_1 = require("../../../../Common/Type");
-const Util_1 = require("../../../../Common/Util");
 const CsvRegistry_1 = require("../../../../Game/Common/CsvConfig/CsvRegistry");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
 const Action_1 = require("../../../../Game/Flow/Action");
@@ -92,10 +91,5 @@ exports.playCustomSequenceScheme = (0, Type_1.createObjectScheme)({
 //         HideName: true,
 //     },
 // });
-class CameraBindModeScheme extends Type_1.EnumScheme {
-    Config = Action_1.cameraBindModeConfig;
-    Names = (0, Util_1.getEnumNamesByConfig)(Action_1.cameraBindModeConfig);
-}
-exports.CameraBindModeScheme = CameraBindModeScheme;
-exports.cameraBindModeScheme = new CameraBindModeScheme();
+exports.cameraBindModeScheme = new Type_1.EnumScheme(Action_1.cameraBindModeConfig);
 //# sourceMappingURL=Sequence.js.map

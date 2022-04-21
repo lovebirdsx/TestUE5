@@ -230,10 +230,8 @@ function fixJumpTalk(actions: IActionInfo[], talkIds: number[]): number {
     return fixCount;
 }
 
-function fixTalkItem(item: ITalkItem): TFixResult {
-    // const items = container as ITalkItem[];
-    // fuck
-    const items = [] as ITalkItem[];
+function fixTalkItem(showTalk: IShowTalk, item: ITalkItem): TFixResult {
+    const items = showTalk.TalkItems;
     let fixedCount = 0;
     // 确保对话名字唯一
     if (!item.Name || items.find((e) => e.Name === item.Name)) {
@@ -304,10 +302,8 @@ function checkJumpTalk(actions: IActionInfo[], talkIds: number[], message: strin
     return errorCount;
 }
 
-function checkTalkItem(item: ITalkItem, message: string[]): number {
-    // const items = container as ITalkItem[];
-    // fuck
-    const items = [] as ITalkItem[];
+function checkTalkItem(showTalk: IShowTalk, item: ITalkItem, message: string[]): number {
+    const items = showTalk.TalkItems;
     let errorCount = 0;
 
     if (!item.Name) {
@@ -351,8 +347,6 @@ export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
         NewLine: true,
         Tip: '对话项',
     },
-    Fix: fixTalkItem,
-    Check: checkTalkItem,
 });
 
 export const showTalkScheme = createObjectScheme<IShowTalk>(
@@ -364,16 +358,6 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
                 HideName: true,
                 ArraySimplify: true,
                 Tip: '对话列表',
-            },
-            Fix: (items: ITalkItem[]) => {
-                let fixCount = 0;
-                items.forEach((item) => {
-                    const result = fixTalkItem(item);
-                    if (result === 'fixed') {
-                        fixCount++;
-                    }
-                });
-                return fixCount > 0 ? 'fixed' : 'nothing';
             },
         }),
         ResetCamera: createBooleanScheme({
@@ -406,6 +390,23 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
                     <Obj {...props} />
                 </showTalkContext.Provider>
             );
+        },
+        Fix(value: IShowTalk): TFixResult {
+            let fixCount = 0;
+            value.TalkItems.forEach((item) => {
+                const result0 = fixTalkItem(value, item);
+                if (result0 !== 'fixed') {
+                    fixCount++;
+                }
+            });
+            return fixCount > 0 ? 'fixed' : 'nothing';
+        },
+        Check(value: IShowTalk, message: string[]): number {
+            let result = 0;
+            value.TalkItems.forEach((item) => {
+                result += checkTalkItem(value, item, message);
+            });
+            return result;
         },
     },
 );

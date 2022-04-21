@@ -169,10 +169,8 @@ function fixJumpTalk(actions, talkIds) {
     });
     return fixCount;
 }
-function fixTalkItem(item) {
-    // const items = container as ITalkItem[];
-    // fuck
-    const items = [];
+function fixTalkItem(showTalk, item) {
+    const items = showTalk.TalkItems;
     let fixedCount = 0;
     // 确保对话名字唯一
     if (!item.Name || items.find((e) => e.Name === item.Name)) {
@@ -238,10 +236,8 @@ function checkJumpTalk(actions, talkIds, message) {
     });
     return errorCount;
 }
-function checkTalkItem(item, message) {
-    // const items = container as ITalkItem[];
-    // fuck
-    const items = [];
+function checkTalkItem(showTalk, item, message) {
+    const items = showTalk.TalkItems;
     let errorCount = 0;
     if (!item.Name) {
         errorCount++;
@@ -281,8 +277,6 @@ exports.talkItemScheme = (0, Type_1.createObjectScheme)(talkItemFileds, {
         NewLine: true,
         Tip: '对话项',
     },
-    Fix: fixTalkItem,
-    Check: checkTalkItem,
 });
 exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     TalkItems: (0, Type_1.createArrayScheme)({
@@ -292,16 +286,6 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
             HideName: true,
             ArraySimplify: true,
             Tip: '对话列表',
-        },
-        Fix: (items) => {
-            let fixCount = 0;
-            items.forEach((item) => {
-                const result = fixTalkItem(item);
-                if (result === 'fixed') {
-                    fixCount++;
-                }
-            });
-            return fixCount > 0 ? 'fixed' : 'nothing';
         },
     }),
     ResetCamera: (0, Type_1.createBooleanScheme)({
@@ -330,6 +314,23 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     Render(props) {
         return (React.createElement(exports.showTalkContext.Provider, { value: props.Value },
             React.createElement(Obj_1.Obj, { ...props })));
+    },
+    Fix(value) {
+        let fixCount = 0;
+        value.TalkItems.forEach((item) => {
+            const result0 = fixTalkItem(value, item);
+            if (result0 !== 'fixed') {
+                fixCount++;
+            }
+        });
+        return fixCount > 0 ? 'fixed' : 'nothing';
+    },
+    Check(value, message) {
+        let result = 0;
+        value.TalkItems.forEach((item) => {
+            result += checkTalkItem(value, item, message);
+        });
+        return result;
     },
 });
 exports.showOptionScheme = (0, Type_1.createObjectScheme)({

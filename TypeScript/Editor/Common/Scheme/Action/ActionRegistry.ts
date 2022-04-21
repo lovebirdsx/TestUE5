@@ -1,32 +1,35 @@
 /* eslint-disable spellcheck/spell-checker */
 import { error, log } from '../../../../Common/Log';
 import {
-    allObjectFilter,
     checkFields,
-    createDynamicType,
-    EObjectFilter,
+    EActionFilter,
     fixFileds,
-    TDynamicObjectType,
+    ObjectScheme,
     TFixResult,
-    TObjectType,
 } from '../../../../Common/Type';
-import { IActionInfo, ILog, TActionType } from '../../../../Game/Flow/Action';
+import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
+import {
+    ActionScheme,
+    FlowListActionScheme,
+    TalkActionScheme,
+    TriggerActionScheme,
+} from './Action';
 
-export type TActionSchemeMap = { [key in TActionType]: TObjectType<unknown> };
+export type TObjectSchemeMap = { [key in TActionType]: ObjectScheme<unknown> };
 
 class ActionRegistry {
-    private ActionSchemeMap: TActionSchemeMap;
+    private ObjectSchemeMap: TObjectSchemeMap;
 
-    private ActionNamesByfilter: Map<EObjectFilter, TActionType[]>;
+    private ActionNamesByfilter: Map<EActionFilter, TActionType[]>;
 
-    private DynamicObjectSchemeMap: Map<EObjectFilter, TDynamicObjectType<IActionInfo>>;
+    private AcitonObjectSchemeMap: Map<EActionFilter, ActionScheme>;
 
     private CreateActionNamesByfilter(
-        actionSchemeMap: TActionSchemeMap,
-    ): Map<EObjectFilter, TActionType[]> {
-        const map = new Map<EObjectFilter, TActionType[]>();
+        actionSchemeMap: TObjectSchemeMap,
+    ): Map<EActionFilter, TActionType[]> {
+        const map = new Map<EActionFilter, TActionType[]>();
         for (const typeName in actionSchemeMap) {
-            const typeData = (actionSchemeMap as Record<string, TObjectType<unknown>>)[typeName];
+            const typeData = (actionSchemeMap as Record<string, ObjectScheme<unknown>>)[typeName];
             typeData.Filters.forEach((filter) => {
                 let names = map.get(filter);
                 if (!names) {
@@ -40,37 +43,22 @@ class ActionRegistry {
         return map;
     }
 
-    private CreateDynamicObjectSchemeMap(): Map<EObjectFilter, TDynamicObjectType<IActionInfo>> {
-        const result: Map<EObjectFilter, TDynamicObjectType<IActionInfo>> = new Map();
-        allObjectFilter.forEach((objectFilter) => {
-            const type = createDynamicType<IActionInfo>(objectFilter, {
-                CreateDefault: (container): IActionInfo => {
-                    const logAction: ILog = {
-                        Level: 'Info',
-                        Content: 'Hello World',
-                    };
-                    return {
-                        Name: 'Log',
-                        Params: logAction,
-                    };
-                },
-                Meta: {
-                    NewLine: true,
-                },
-            });
-            result.set(objectFilter, type);
-        });
+    private CreateDynamicObjectSchemeMap(): Map<EActionFilter, ActionScheme> {
+        const result: Map<EActionFilter, ActionScheme> = new Map();
+        result.set(EActionFilter.FlowList, new FlowListActionScheme());
+        result.set(EActionFilter.Talk, new TalkActionScheme());
+        result.set(EActionFilter.Trigger, new TriggerActionScheme());
         return result;
     }
 
-    public SetupActionMap(actionSchemeMap: TActionSchemeMap): void {
-        this.ActionSchemeMap = actionSchemeMap;
-        this.ActionNamesByfilter = this.CreateActionNamesByfilter(actionSchemeMap);
-        this.DynamicObjectSchemeMap = this.CreateDynamicObjectSchemeMap();
+    public SetupObjectMap(objectSchemeMap: TObjectSchemeMap): void {
+        this.ObjectSchemeMap = objectSchemeMap;
+        this.ActionNamesByfilter = this.CreateActionNamesByfilter(objectSchemeMap);
+        this.AcitonObjectSchemeMap = this.CreateDynamicObjectSchemeMap();
     }
 
-    public GetScheme(name: string): TObjectType<unknown> {
-        const as = (this.ActionSchemeMap as Record<string, TObjectType<unknown>>)[name];
+    public GetScheme(name: string): ObjectScheme<unknown> {
+        const as = (this.ObjectSchemeMap as Record<string, ObjectScheme<unknown>>)[name];
         if (!as) {
             error(`No action scheme for ${name}`);
         }
@@ -78,30 +66,30 @@ class ActionRegistry {
     }
 
     public SpawnAction(name: TActionType): IActionInfo {
-        const as = this.ActionSchemeMap[name];
+        const as = this.ObjectSchemeMap[name];
         return {
             Name: name,
-            Params: as.CreateDefault(undefined),
+            Params: as.CreateDefault(),
         };
     }
 
-    public SpawnDefaultAction(filter: EObjectFilter): IActionInfo {
+    public SpawnDefaultAction(filter: EActionFilter): IActionInfo {
         const actionName = this.ActionNamesByfilter.get(filter)[0];
-        const as = this.ActionSchemeMap[actionName];
+        const as = this.ObjectSchemeMap[actionName];
         return {
             Name: actionName,
-            Params: as.CreateDefault(undefined),
+            Params: as.CreateDefault(),
         };
     }
 
-    public GetActionNames(filter: EObjectFilter): TActionType[] {
+    public GetActionNames(filter: EActionFilter): TActionType[] {
         return this.ActionNamesByfilter.get(filter);
     }
 
-    public FixAction(action: IActionInfo, objectFilter?: EObjectFilter): TFixResult {
+    public FixAction(action: IActionInfo, objectFilter?: EActionFilter): TFixResult {
         const typeData = this.GetScheme(action.Name);
         if (!typeData) {
-            Object.assign(action, this.SpawnDefaultAction(objectFilter || EObjectFilter.FlowList));
+            Object.assign(action, this.SpawnDefaultAction(objectFilter || EActionFilter.FlowList));
             return 'fixed';
         }
 
@@ -127,8 +115,8 @@ class ActionRegistry {
         return errorMessages1.length;
     }
 
-    public GetDynamicObjectScheme(objectFilter: EObjectFilter): TDynamicObjectType<IActionInfo> {
-        return this.DynamicObjectSchemeMap.get(objectFilter);
+    public GetActionScheme(objectFilter: EActionFilter): ActionScheme {
+        return this.AcitonObjectSchemeMap.get(objectFilter);
     }
 }
 

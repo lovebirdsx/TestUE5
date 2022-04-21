@@ -10,11 +10,11 @@ const Type_1 = require("../../../../Common/Type");
 const CsvRegistry_1 = require("../../../../Game/Common/CsvConfig/CsvRegistry");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
 const Action_1 = require("../../../../Game/Flow/Action");
-const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
+const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const CsvCell_1 = require("../Csv/CsvCell");
 const DEFAULT_SEQUENCEDATA_PATH = '/Game/Test/CustomSequence/Sequence1.Sequence1';
 exports.seqDataScheme = (0, Type_1.createAssetScheme)({
-    CreateDefault: (container) => DEFAULT_SEQUENCEDATA_PATH,
+    CreateDefault: () => DEFAULT_SEQUENCEDATA_PATH,
     SearchPath: 'Test/CustomSequence',
     ClassPath: `Blueprint'/Game/Test/CustomSequence/CustomSequence.CustomSequence'`,
     Meta: {
@@ -45,7 +45,7 @@ function getTalkerCountByCameraBindType(type) {
 }
 const DEFAULT_WHO_ID = 0;
 const whoIdsScheme = (0, Type_1.createUnknownScheme)({
-    CreateDefault: (container) => [],
+    CreateDefault: () => [],
     Meta: {
         Tip: '镜头绑定的对象',
     },
@@ -85,9 +85,11 @@ exports.playCustomSequenceScheme = (0, Type_1.createObjectScheme)({
         Tip: '播放自定义Sequence',
     },
 });
-exports.cameraBindModeScheme = (0, Type_1.createEnumType)(Action_1.cameraBindModeConfig, {
-    Meta: {
-        HideName: true,
-    },
-});
+// fuck
+// export const cameraBindModeScheme = createEnumType(cameraBindModeConfig, {
+//     Meta: {
+//         HideName: true,
+//     },
+// });
+exports.cameraBindModeScheme = new Type_1.EnumScheme(Action_1.cameraBindModeConfig);
 //# sourceMappingURL=Sequence.js.map

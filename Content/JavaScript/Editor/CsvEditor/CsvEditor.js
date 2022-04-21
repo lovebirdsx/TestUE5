@@ -8,10 +8,11 @@ const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
 const CsvRegistry_1 = require("../../Game/Common/CsvConfig/CsvRegistry");
+const Color_1 = require("../Common/BaseComponent/Color");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
+const CsvView_1 = require("../Common/ExtendComponent/CsvView");
+const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
-const Color_1 = require("../Common/ReactComponent/Color");
-const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
-const CsvView_1 = require("../Common/ReactComponent/CsvView");
 const Util_1 = require("../Common/Util");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 function canUndo(state) {
@@ -210,13 +211,15 @@ class CsvEditor extends React.Component {
             Size: { SizeRule: ue_1.ESlateSizeRule.Fill },
         };
         return (React.createElement(react_umg_1.VerticalBox, null,
-            React.createElement(react_umg_1.Border, { BrushColor: (0, Color_1.formatColor)('#060606 ue back') },
-                React.createElement(react_umg_1.VerticalBox, null,
-                    this.RenderPath(),
-                    this.RenderToolbar(),
-                    this.RenderAllCsvEntries())),
-            React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
-                React.createElement(CsvView_1.CsvView, { Csv: this.CurrentCsvState.Csv, OnModify: this.OnModifyCsv }))));
+            React.createElement(ErrorBoundary_1.ErrorBoundary, null,
+                React.createElement(react_umg_1.Border, { BrushColor: (0, Color_1.formatColor)('#060606 ue back') },
+                    React.createElement(react_umg_1.VerticalBox, null,
+                        this.RenderPath(),
+                        this.RenderToolbar(),
+                        this.RenderAllCsvEntries())),
+                React.createElement(ErrorBoundary_1.ErrorBoundary, null,
+                    React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
+                        React.createElement(CsvView_1.CsvView, { Csv: this.CurrentCsvState.Csv, OnModify: this.OnModifyCsv }))))));
     }
 }
 exports.CsvEditor = CsvEditor;

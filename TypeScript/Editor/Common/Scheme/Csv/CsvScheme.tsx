@@ -3,14 +3,14 @@ import { ECsvCellRenderType, ICsvMeta } from '../../../../Common/CsvLoader';
 import {
     booleanScheme,
     floatScheme,
-    IAbstractType,
     intScheme,
+    Scheme,
     stringScheme,
 } from '../../../../Common/Type';
 import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
 import { csvCellTypeScheme, csvFollowCellScheme } from './CsvCell';
 
-const csvSchemaMap2: { [key in ECsvCellRenderType]: IAbstractType<unknown> } = {
+const csvSchemaMap2: { [key in ECsvCellRenderType]: Scheme } = {
     [ECsvCellRenderType.String]: stringScheme,
     [ECsvCellRenderType.Int]: intScheme,
     [ECsvCellRenderType.Float]: floatScheme,
@@ -23,7 +23,7 @@ const csvSchemaMap2: { [key in ECsvCellRenderType]: IAbstractType<unknown> } = {
 
 /* eslint-disable spellcheck/spell-checker */
 class CsvScheme {
-    public GetSchme(meta: ICsvMeta): IAbstractType<unknown> {
+    public GetSchme(meta: ICsvMeta): Scheme {
         return csvSchemaMap2[meta.RenderType];
     }
 }

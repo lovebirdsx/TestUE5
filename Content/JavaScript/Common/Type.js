@@ -1,64 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUnknownScheme = exports.floatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.intScheme = exports.createIntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.createEnumType = exports.createDynamicType = exports.objectFilterExcept = exports.allObjectFilter = exports.EObjectFilter = exports.dataRegistry = exports.DataScheme = void 0;
+exports.createUnknownScheme = exports.floatScheme = exports.FloatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.ArrayScheme = exports.AssetScheme = exports.EnumScheme = exports.getSchemeClass = exports.Scheme = void 0;
+/* eslint-disable no-param-reassign */
+/* eslint-disable spellcheck/spell-checker */
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
-class DataScheme {
+class Scheme {
+    Render;
+    Fix(value) {
+        return 'canNotFixed';
+    }
+    Check(value, messages) {
+        return 0;
+    }
+    Meta = {};
+    HideName; // 是否显示字段的名字
+    Hide; // 是否在编辑器中隐藏
+    NewLine; // 字段是否换行
+    Optional; // 字段是否可选
+    ArraySimplify; // 数组的名字不新起一行
+    Width; // 显示的宽度
+    Tip; // 提示文字
 }
-exports.DataScheme = DataScheme;
-class DataRegistry {
-    ShemeMap = new Map();
-    RenderMap = new Map();
-    Reg(type, scheme, render) {
-        this.ShemeMap.set(type, scheme);
-        this.RenderMap.set(type, render);
+exports.Scheme = Scheme;
+function getSchemeClass(scheme) {
+    if (scheme.constructor) {
+        return scheme.constructor;
     }
-    Reg2(type, scheme, render) {
-        this.Reg(type, scheme, render);
-    }
-    GetScheme(type) {
-        const result = this.ShemeMap.get(type);
-        if (!result) {
-            throw new Error(`No sheme for type [${type}]`);
-        }
-        return result;
-    }
-    GetRender(type) {
-        const result = this.RenderMap.get(type);
-        if (!result) {
-            throw new Error(`No render for type [${type}]`);
-        }
-        return result;
-    }
+    return undefined;
 }
-exports.dataRegistry = new DataRegistry();
-var EObjectFilter;
-(function (EObjectFilter) {
-    EObjectFilter[EObjectFilter["FlowList"] = 0] = "FlowList";
-    EObjectFilter[EObjectFilter["Trigger"] = 1] = "Trigger";
-    EObjectFilter[EObjectFilter["Talk"] = 2] = "Talk";
-})(EObjectFilter = exports.EObjectFilter || (exports.EObjectFilter = {}));
-exports.allObjectFilter = (0, Util_1.getEnumValues)(EObjectFilter);
-function objectFilterExcept(...args) {
-    const result = exports.allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
-    return result;
-}
-exports.objectFilterExcept = objectFilterExcept;
-function createDynamicType(filter, type) {
-    if (!type.CreateDefault) {
-        (0, Log_1.error)(`Dynamic type CreateDefault can not be undefined`);
-    }
-    return {
-        Filter: filter,
-        RrenderType: 'dynamic',
-        CreateDefault: type.CreateDefault,
-        Fix: type.Fix || (() => 'nothing'),
-        Check: type.Check || (() => 0),
-        Meta: type.Meta || {},
-        Render: type.Render,
-    };
-}
-exports.createDynamicType = createDynamicType;
+exports.getSchemeClass = getSchemeClass;
 function getEnumNames(config) {
     const names = [];
     for (const key in config) {
@@ -66,35 +37,57 @@ function getEnumNames(config) {
     }
     return names;
 }
-function createEnumType(config, type) {
-    // eslint-disable-next-line no-param-reassign
-    type = type || {};
-    return {
-        RrenderType: 'enum',
-        Config: config,
-        CreateDefault: type.CreateDefault ||
-            (() => {
-                for (const k in config) {
-                    return k;
-                }
-                return undefined;
-            }),
-        Meta: type.Meta || {},
-        Fix: (value, container) => {
-            // 由于value是值类型,所以无法修复
-            if (!config[value]) {
-                return 'canNotFixed';
-            }
-            return 'nothing';
-        },
-        Check: type.Check || (() => 0),
-        Names: getEnumNames(config),
+class EnumScheme extends Scheme {
+    RenderType = 'enum';
+    Config;
+    Names;
+    Meta = {
+        HideName: true,
     };
+    constructor(config) {
+        super();
+        this.Config = config;
+        this.Names = getEnumNames(config);
+    }
+    CreateDefault() {
+        for (const k in this.Config) {
+            return k;
+        }
+        return undefined;
+    }
 }
-exports.createEnumType = createEnumType;
+exports.EnumScheme = EnumScheme;
+class AssetScheme extends Scheme {
+    RenderType = 'asset';
+    CreateDefault() {
+        return '';
+    }
+    ClassPath;
+    SearchPath;
+}
+exports.AssetScheme = AssetScheme;
+class ArrayScheme extends Scheme {
+    RenderType = 'array';
+    CreateDefault() {
+        return [];
+    }
+}
+exports.ArrayScheme = ArrayScheme;
+var EActionFilter;
+(function (EActionFilter) {
+    EActionFilter[EActionFilter["FlowList"] = 0] = "FlowList";
+    EActionFilter[EActionFilter["Trigger"] = 1] = "Trigger";
+    EActionFilter[EActionFilter["Talk"] = 2] = "Talk";
+})(EActionFilter = exports.EActionFilter || (exports.EActionFilter = {}));
+exports.allActionFilters = (0, Util_1.getEnumValues)(EActionFilter);
+function actionFilterExcept(...args) {
+    const result = exports.allActionFilters.filter((filter) => !args.includes(filter));
+    return result;
+}
+exports.actionFilterExcept = actionFilterExcept;
 function createArrayScheme(type) {
     return {
-        RrenderType: 'array',
+        RenderType: 'array',
         CreateDefault: type.CreateDefault ||
             function () {
                 return [];
@@ -102,10 +95,10 @@ function createArrayScheme(type) {
         Element: type.Element,
         Meta: type.Meta || {},
         Check: type.Check ||
-            ((value, container, messages) => {
+            ((value, messages) => {
                 let fixCount = 0;
                 value.forEach((e) => {
-                    fixCount += type.Element.Check(e, value, messages);
+                    fixCount += type.Element.Check(e, messages);
                 });
                 return fixCount;
             }),
@@ -113,7 +106,7 @@ function createArrayScheme(type) {
             ((value) => {
                 let fixCount = 0;
                 value.forEach((e) => {
-                    if (type.Element.Fix(e, value) === 'fixed') {
+                    if (type.Element.Fix(e) === 'fixed') {
                         fixCount++;
                     }
                 });
@@ -128,13 +121,13 @@ function fixFileds(value, fields) {
         const filedTypeData = fields[key];
         if (value[key] === undefined) {
             if (!filedTypeData.Meta.Optional) {
-                value[key] = filedTypeData.CreateDefault(value);
+                value[key] = filedTypeData.CreateDefault();
                 (0, Log_1.log)(`fixed no exist field [${key}]`);
                 fixCount++;
             }
         }
         else {
-            const reuslt = filedTypeData.Fix(value[key], value);
+            const reuslt = filedTypeData.Fix(value[key]);
             if (reuslt === 'fixed') {
                 (0, Log_1.log)(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
                 fixCount++;
@@ -167,7 +160,7 @@ function checkFields(value, fields, errorMessages) {
             }
         }
         else {
-            errorCount += filedTypeData.Check(value[key], value, errorMessages);
+            errorCount += filedTypeData.Check(value[key], errorMessages);
         }
     }
     for (const key in value) {
@@ -184,23 +177,31 @@ function createDefaultObject(fields) {
     for (const key in fields) {
         const filedTypeData = fields[key];
         if (!filedTypeData.Meta.Optional) {
-            fieldArray.push([key, filedTypeData.CreateDefault(undefined)]);
+            fieldArray.push([key, filedTypeData.CreateDefault()]);
         }
     }
     return Object.fromEntries(fieldArray);
 }
 exports.createDefaultObject = createDefaultObject;
+class ObjectScheme extends Scheme {
+    RenderType = 'object';
+    Filters = exports.allActionFilters;
+    CreateDefault() {
+        return createDefaultObject(this.Fields);
+    }
+    Scheduled;
+}
+exports.ObjectScheme = ObjectScheme;
 function createObjectScheme(fields, type) {
     type = type || {};
     return {
-        RrenderType: 'object',
+        RenderType: 'object',
         Fields: fields,
         Meta: type.Meta || {},
         CreateDefault: type.CreateDefault || (() => createDefaultObject(fields)),
-        Filters: type.Filters || (0, Util_1.getEnumValues)(EObjectFilter),
-        Fix: type.Fix || ((value, container) => fixFileds(value, fields)),
-        Check: type.Check ||
-            ((value, container, messages) => checkFields(value, fields, messages)),
+        Filters: type.Filters || (0, Util_1.getEnumValues)(EActionFilter),
+        Fix: type.Fix || ((value) => fixFileds(value, fields)),
+        Check: type.Check || ((value, messages) => checkFields(value, fields, messages)),
         Render: type.Render,
         Scheduled: type.Scheduled,
     };
@@ -208,10 +209,17 @@ function createObjectScheme(fields, type) {
 exports.createObjectScheme = createObjectScheme;
 exports.emptyObjectScheme = createObjectScheme({});
 // ============================================================================
+class IntScheme extends Scheme {
+    RenderType = 'int';
+    CreateDefault() {
+        return 0;
+    }
+}
+exports.IntScheme = IntScheme;
 function createIntScheme(type) {
     type = type || {};
     return {
-        RrenderType: 'int',
+        RenderType: 'int',
         CreateDefault: type.CreateDefault || (() => 0),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -220,12 +228,19 @@ function createIntScheme(type) {
     };
 }
 exports.createIntScheme = createIntScheme;
-exports.intScheme = createIntScheme();
+exports.intScheme = new IntScheme();
 // ============================================================================
+class StringScheme extends Scheme {
+    RenderType = 'string';
+    CreateDefault() {
+        return '';
+    }
+}
+exports.StringScheme = StringScheme;
 function createStringScheme(type) {
     type = type || {};
     return {
-        RrenderType: 'string',
+        RenderType: 'string',
         CreateDefault: type.CreateDefault || (() => 'Empty'),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -241,7 +256,7 @@ function createAssetScheme(type) {
         (0, Log_1.error)('AssetScheme must set ClassPath and SearchPath');
     }
     return {
-        RrenderType: 'asset',
+        RenderType: 'asset',
         CreateDefault: type.CreateDefault || (() => ''),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -253,10 +268,17 @@ function createAssetScheme(type) {
 }
 exports.createAssetScheme = createAssetScheme;
 // ============================================================================
+class BooleanScheme extends Scheme {
+    RenderType = 'boolean';
+    CreateDefault() {
+        return false;
+    }
+}
+exports.BooleanScheme = BooleanScheme;
 function createBooleanScheme(type) {
     type = type || {};
     return {
-        RrenderType: 'boolean',
+        RenderType: 'boolean',
         CreateDefault: type.CreateDefault || (() => false),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -273,7 +295,7 @@ exports.booleanHideNameScheme = createBooleanScheme({
 function createFloatScheme(type) {
     type = type || {};
     return {
-        RrenderType: 'float',
+        RenderType: 'float',
         CreateDefault: type.CreateDefault || (() => 0.0),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -282,11 +304,18 @@ function createFloatScheme(type) {
     };
 }
 exports.createFloatScheme = createFloatScheme;
-exports.floatScheme = createFloatScheme();
+class FloatScheme extends Scheme {
+    RenderType = 'float';
+    CreateDefault() {
+        return 0.0;
+    }
+}
+exports.FloatScheme = FloatScheme;
+exports.floatScheme = new FloatScheme();
 // ============================================================================
 function createUnknownScheme(type) {
     return {
-        RrenderType: 'custom',
+        RenderType: 'custom',
         Render: type.Render,
         CreateDefault: type.CreateDefault || (() => undefined),
         Fix: type.Fix || (() => 'canNotFixed'),

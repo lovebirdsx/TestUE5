@@ -1,20 +1,21 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
-    createEnumType,
-    createFloatScheme,
     createObjectScheme,
     createStringScheme,
-    IAbstractType,
+    EnumScheme,
+    FloatScheme,
 } from '../../../../Common/Type';
-import { ILog, IShowMessage, IWait, logLeveConfig, TLogLevel } from '../../../../Game/Flow/Action';
+import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Game/Flow/Action';
 
 export const logScheme = createObjectScheme<ILog>(
     {
-        Level: createEnumType(logLeveConfig, {
-            Meta: {
-                HideName: true,
-            },
-        }) as IAbstractType<TLogLevel>,
+        // fuck
+        // Level: createEnumType(logLeveConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }) as Scheme<TLogLevel>,
+        Level: new EnumScheme(logLeveConfig),
         Content: createStringScheme({
             Meta: {
                 HideName: true,
@@ -49,15 +50,19 @@ export const showMssageScheme = createObjectScheme<IShowMessage>(
     },
 );
 
+class TimeScheme extends FloatScheme {
+    public CreateDefault(): number {
+        return 0.5;
+    }
+
+    public HideName?: boolean = true;
+
+    public Tip?: string = '等待时长，单位秒';
+}
+
 export const waitScheme = createObjectScheme<IWait>(
     {
-        Time: createFloatScheme({
-            CreateDefault: () => 0.5,
-            Meta: {
-                HideName: true,
-                Tip: '等待时长，单位秒',
-            },
-        }),
+        Time: new TimeScheme(),
     },
     {
         Meta: {

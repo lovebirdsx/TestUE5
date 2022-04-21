@@ -1,4 +1,4 @@
-import { createObjectScheme, EObjectFilter, objectFilterExcept } from '../../../../Common/Type';
+import { createObjectScheme, EActionFilter, actionFilterExcept } from '../../../../Common/Type';
 import { IShowCenterText } from '../../../../Game/Flow/Action';
 import { createTextIdScheme } from './ShowTalk';
 
@@ -12,6 +12,6 @@ export const showCenterTextScheme = createObjectScheme<IShowCenterText>(
     },
     {
         Scheduled: true,
-        Filters: objectFilterExcept(EObjectFilter.Trigger),
+        Filters: actionFilterExcept(EActionFilter.Trigger),
     },
 );

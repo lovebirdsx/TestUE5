@@ -3,7 +3,7 @@ import { produce } from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { Btn, Text } from '../Common/ReactComponent/CommonComponent';
+import { Btn, Text } from '../Common/BaseComponent/CommonComponent';
 
 interface IChildInfo {
     Id: number;

@@ -4,9 +4,9 @@ import * as UE from 'ue';
 import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../../../Common/Class';
 import { TComponentClass } from '../../../../Common/Entity';
 import { error } from '../../../../Common/Log';
-import { TObjectType } from '../../../../Common/Type';
-import { entityRegistry } from '../../../../Game/Entity/Public';
+import { ObjectScheme } from '../../../../Common/Type';
 import { IComponentsState, ITsEntity } from '../../../../Game/Entity/Interface';
+import { entityRegistry } from '../../../../Game/Entity/Public';
 import { componentRegistry } from '../Component/Index';
 
 export type TEntityPureData = Record<string, unknown> & {
@@ -14,9 +14,9 @@ export type TEntityPureData = Record<string, unknown> & {
 };
 
 class EditorEntityRegistry {
-    private readonly SchemeMap: Map<UE.Class, TObjectType<unknown>> = new Map();
+    private readonly SchemeMap: Map<UE.Class, ObjectScheme<unknown>> = new Map();
 
-    public RegScheme(classType: TTsClassType, scheme: TObjectType<unknown>): void {
+    public RegScheme(classType: TTsClassType, scheme: ObjectScheme<unknown>): void {
         if (!scheme) {
             error(`Reg null scheme for class [${classType.name}]`);
             return;
@@ -25,19 +25,19 @@ class EditorEntityRegistry {
         this.SchemeMap.set(classObj, scheme);
     }
 
-    public GetSchemeByEntity<T extends TTsClassType>(obj: UE.Object): TObjectType<Partial<T>> {
+    public GetSchemeByEntity<T extends TTsClassType>(obj: UE.Object): ObjectScheme<Partial<T>> {
         return this.GetSchemeByUeClass(obj.GetClass());
     }
 
-    public GetSchemeByUeClass<T extends TTsClassType>(classObj: UE.Class): TObjectType<Partial<T>> {
+    public GetSchemeByUeClass<T extends TTsClassType>(classObj: UE.Class): ObjectScheme<Partial<T>> {
         const result = this.SchemeMap.get(classObj);
         if (!result) {
             error(`Can not find scheme for ue class obj ${classObj.GetName()}`);
         }
-        return result as TObjectType<Partial<T>>;
+        return result as ObjectScheme<Partial<T>>;
     }
 
-    public GetScheme<T extends TTsClassType>(classType: T): TObjectType<Partial<T>> {
+    public GetScheme<T extends TTsClassType>(classType: T): ObjectScheme<Partial<T>> {
         const classObj = getUeClassByTsClass(classType);
         return this.GetSchemeByUeClass<T>(classObj);
     }
@@ -51,10 +51,7 @@ class EditorEntityRegistry {
         const components: Record<string, Record<string, unknown>> = {};
         classObjs.forEach((classObj) => {
             const componentScheme = componentRegistry.GetScheme(classObj.name);
-            components[classObj.name] = componentScheme.CreateDefault(undefined) as Record<
-                string,
-                unknown
-            >;
+            components[classObj.name] = componentScheme.CreateDefault() as Record<string, unknown>;
         });
         const componentsState: IComponentsState = {
             Components: components,

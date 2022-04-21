@@ -37,7 +37,7 @@ class EditorEntityRegistry {
         const components = {};
         classObjs.forEach((classObj) => {
             const componentScheme = Index_1.componentRegistry.GetScheme(classObj.name);
-            components[classObj.name] = componentScheme.CreateDefault(undefined);
+            components[classObj.name] = componentScheme.CreateDefault();
         });
         const componentsState = {
             Components: components,

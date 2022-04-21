@@ -6,7 +6,7 @@ const React = require("react");
 const ue_1 = require("ue");
 const TalkerCsv_1 = require("../../Game/Common/CsvConfig/TalkerCsv");
 const CsvOp_1 = require("../Common/Operations/CsvOp");
-const CsvView_1 = require("../Common/ReactComponent/CsvView");
+const CsvView_1 = require("../Common/ExtendComponent/CsvView");
 const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
 class TestCsvView extends React.Component {
     constructor(props) {

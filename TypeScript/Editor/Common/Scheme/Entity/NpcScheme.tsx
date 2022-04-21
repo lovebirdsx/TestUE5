@@ -2,13 +2,13 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { createStringScheme, emptyObjectScheme, IAnyProps } from '../../../../Common/Type';
+import { createStringScheme, emptyObjectScheme, IProps } from '../../../../Common/Type';
 import { parsePlayFlow } from '../../../../Game/Flow/Action';
-import { Btn, Text } from '../../ReactComponent/CommonComponent';
-import { Any } from '../../ReactComponent/Dynamic/Public';
+import { Btn, Text } from '../../BaseComponent/CommonComponent';
+import { Any } from '../../SchemeComponent/Basic/Public';
 import { playFlowScheme } from '../Action/Public';
 
-function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
+function renderFlowJson(name: string, props: IProps): JSX.Element {
     const playFlow = parsePlayFlow(props.Value as string);
     const prefixElement = (
         <HorizontalBox>
@@ -34,7 +34,7 @@ function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
             {prefixElement}
             <Any
                 Value={playFlow}
-                Type={playFlowScheme}
+                Scheme={playFlowScheme}
                 OnModify={(newFlow, type): void => {
                     props.OnModify(JSON.stringify(newFlow), type);
                 }}
@@ -45,7 +45,7 @@ function renderFlowJson(name: string, props: IAnyProps): JSX.Element {
 
 export const playFlowJsonScheme = createStringScheme({
     Render: (props) => renderFlowJson('Flow', props),
-    CreateDefault: (container): string => {
+    CreateDefault: (): string => {
         return JSON.stringify(parsePlayFlow(''));
     },
     Meta: {

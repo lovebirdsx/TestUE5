@@ -5,7 +5,7 @@ exports.TestContextBtn = void 0;
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../../Common/Log");
-const ContextBtn_1 = require("../Common/ReactComponent/ContextBtn");
+const ContextBtn_1 = require("../Common/BaseComponent/ContextBtn");
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function TestContextBtn() {
     return (React.createElement(react_umg_1.VerticalBox, null,

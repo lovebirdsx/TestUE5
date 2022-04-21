@@ -2,13 +2,13 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { createObjectScheme, IAnyProps } from '../../../../Common/Type';
+import { createObjectScheme, IProps } from '../../../../Common/Type';
 import { gameConfig } from '../../../../Game/Common/Config';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IPlayFlow } from '../../../../Game/Flow/Action';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
-import { Btn, List, Text } from '../../ReactComponent/CommonComponent';
+import { Btn, List, Text } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
 
 function openFlowEditor(flowName: string): void {
@@ -43,7 +43,7 @@ function createDefaultPlayFlow(): IPlayFlow {
     return createDefaultPlayFlowFor(flowListOp.Names[0]);
 }
 
-function renderPlayFlow(props: IAnyProps): JSX.Element {
+function renderPlayFlow(props: IProps): JSX.Element {
     const playFlow = props.Value as IPlayFlow;
     if (flowListOp.Names.length > 0) {
         if (!flowListOp.Names.includes(playFlow.FlowListName)) {

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
 import { log } from '../../Common/Log';
-import { ContextBtn } from '../Common/ReactComponent/ContextBtn';
+import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function TestContextBtn(): JSX.Element {

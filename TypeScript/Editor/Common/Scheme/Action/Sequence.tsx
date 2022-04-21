@@ -6,11 +6,11 @@ import { HorizontalBox } from 'react-umg';
 import { csvOp } from '../../../../Common/CsvOp';
 import {
     createAssetScheme,
-    createEnumType,
     createObjectScheme,
     createUnknownScheme,
-    IAbstractType,
-    IAnyProps,
+    EnumScheme,
+    IProps,
+    Scheme,
 } from '../../../../Common/Type';
 import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
@@ -20,13 +20,13 @@ import {
     IPlaySequenceData,
     TCameraBindMode,
 } from '../../../../Game/Flow/Action';
-import { List } from '../../ReactComponent/CommonComponent';
+import { List } from '../../BaseComponent/CommonComponent';
 import { customSeqIdScheme } from '../Csv/CsvCell';
 
 const DEFAULT_SEQUENCEDATA_PATH = '/Game/Test/CustomSequence/Sequence1.Sequence1';
 
 export const seqDataScheme = createAssetScheme({
-    CreateDefault: (container: unknown) => DEFAULT_SEQUENCEDATA_PATH,
+    CreateDefault: () => DEFAULT_SEQUENCEDATA_PATH,
     SearchPath: 'Test/CustomSequence',
     ClassPath: `Blueprint'/Game/Test/CustomSequence/CustomSequence.CustomSequence'`,
     Meta: {
@@ -64,11 +64,11 @@ function getTalkerCountByCameraBindType(type: TCameraBindMode): number {
 const DEFAULT_WHO_ID = 0;
 
 const whoIdsScheme = createUnknownScheme({
-    CreateDefault: (container) => [],
+    CreateDefault: () => [],
     Meta: {
         Tip: '镜头绑定的对象',
     },
-    Render: (props: IAnyProps): JSX.Element => {
+    Render: (props: IProps): JSX.Element => {
         const ownerActionr = props.Owner as IPlayCustomSequence;
         const whoIds = ownerActionr.WhoIds;
         const customSeqId = ownerActionr.CustomSeqId;
@@ -113,7 +113,7 @@ const whoIdsScheme = createUnknownScheme({
 export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>(
     {
         CustomSeqId: customSeqIdScheme,
-        WhoIds: whoIdsScheme as IAbstractType<number[]>,
+        WhoIds: whoIdsScheme as Scheme<number[]>,
     },
     {
         Scheduled: true,
@@ -123,8 +123,11 @@ export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>(
     },
 );
 
-export const cameraBindModeScheme = createEnumType(cameraBindModeConfig, {
-    Meta: {
-        HideName: true,
-    },
-});
+// fuck
+// export const cameraBindModeScheme = createEnumType(cameraBindModeConfig, {
+//     Meta: {
+//         HideName: true,
+//     },
+// });
+
+export const cameraBindModeScheme = new EnumScheme(cameraBindModeConfig);

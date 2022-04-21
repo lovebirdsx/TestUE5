@@ -15,16 +15,17 @@ import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 import { ICsv } from '../../Common/CsvLoader';
 import { log } from '../../Common/Log';
 import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
-import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { formatColor } from '../Common/ReactComponent/Color';
+import { formatColor } from '../Common/BaseComponent/Color';
 import {
     Btn,
     DEFAULT_TEXT_COLOR,
     HEADING_COLOR,
     SlotText,
     Text,
-} from '../Common/ReactComponent/CommonComponent';
-import { CsvView } from '../Common/ReactComponent/CsvView';
+} from '../Common/BaseComponent/CommonComponent';
+import { CsvView } from '../Common/ExtendComponent/CsvView';
+import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 
@@ -321,16 +322,20 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
 
         return (
             <VerticalBox>
-                <Border BrushColor={formatColor('#060606 ue back')}>
-                    <VerticalBox>
-                        {this.RenderPath()}
-                        {this.RenderToolbar()}
-                        {this.RenderAllCsvEntries()}
-                    </VerticalBox>
-                </Border>
-                <ScrollBox Slot={scrollBoxSlot}>
-                    <CsvView Csv={this.CurrentCsvState.Csv} OnModify={this.OnModifyCsv} />
-                </ScrollBox>
+                <ErrorBoundary>
+                    <Border BrushColor={formatColor('#060606 ue back')}>
+                        <VerticalBox>
+                            {this.RenderPath()}
+                            {this.RenderToolbar()}
+                            {this.RenderAllCsvEntries()}
+                        </VerticalBox>
+                    </Border>
+                    <ErrorBoundary>
+                        <ScrollBox Slot={scrollBoxSlot}>
+                            <CsvView Csv={this.CurrentCsvState.Csv} OnModify={this.OnModifyCsv} />
+                        </ScrollBox>
+                    </ErrorBoundary>
+                </ErrorBoundary>
             </VerticalBox>
         );
     }

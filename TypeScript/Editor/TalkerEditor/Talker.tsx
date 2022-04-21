@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import { ITalkerInfo, ITalkerListInfo } from '../../Game/Common/Operations/TalkerList';
-import { EditorBox } from '../Common/ReactComponent/CommonComponent';
+import { EditorBox } from '../Common/BaseComponent/CommonComponent';
 
 export const talkerListContext = React.createContext<ITalkerListInfo>(undefined);
 

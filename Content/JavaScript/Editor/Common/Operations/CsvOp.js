@@ -68,7 +68,7 @@ class EditorCsvOp {
             }
             else {
                 const typeData = CsvScheme_1.csvScheme.GetSchme(field.Meta);
-                row[field.Name] = typeData.CreateDefault(null);
+                row[field.Name] = typeData.CreateDefault();
             }
         });
         return (0, immer_1.default)(csv, (draft) => {

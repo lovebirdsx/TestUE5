@@ -7,20 +7,19 @@ import { csvOp } from '../../../../Common/CsvOp';
 import { error } from '../../../../Common/Log';
 import {
     booleanScheme,
-    createEnumType,
     createStringScheme,
+    EnumScheme,
     floatScheme,
-    IAbstractType,
-    IAnyProps,
     intScheme,
+    IProps,
+    Scheme,
     stringScheme,
-    TPrimitiveType,
 } from '../../../../Common/Type';
 import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
-import { Btn, List } from '../../ReactComponent/CommonComponent';
-import { csvCellContext, ICsvCellContext } from '../../ReactComponent/Context';
-import { Any } from '../../ReactComponent/Dynamic/Any';
+import { Btn, List } from '../../BaseComponent/CommonComponent';
+import { Any } from '../../SchemeComponent/Basic/Any';
+import { csvCellContext, ICsvCellContext } from '../../SchemeComponent/Context';
 import { sendEditorCommand } from '../../Util';
 
 interface ICellConfigSlot {
@@ -35,22 +34,25 @@ function genCsvCellTypeEnumConfig(): Record<string, string> {
     return Object.fromEntries(slotList) as Record<string, string>;
 }
 
-export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
-    Meta: {
-        HideName: true,
-    },
-});
+// fuck
+// export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
+//     Meta: {
+//         HideName: true,
+//     },
+// });
 
-function getCsvCellSchemeByType(type: TCsvCellType): IAbstractType<unknown> {
+export const csvCellTypeScheme = new EnumScheme(genCsvCellTypeEnumConfig());
+
+function getCsvCellSchemeByType(type: TCsvCellType): Scheme {
     switch (type) {
         case 'Int':
-            return intScheme as IAbstractType<unknown>;
+            return intScheme as Scheme;
         case 'Float':
-            return floatScheme as IAbstractType<unknown>;
+            return floatScheme as Scheme;
         case 'String':
-            return stringScheme as IAbstractType<unknown>;
+            return stringScheme as Scheme;
         case 'Boolean':
-            return booleanScheme as IAbstractType<unknown>;
+            return booleanScheme as Scheme;
         default:
             error(`not supported TCsvCellType ${type}`);
             return stringScheme;
@@ -58,9 +60,9 @@ function getCsvCellSchemeByType(type: TCsvCellType): IAbstractType<unknown> {
 }
 
 export const csvFollowCellScheme = createStringScheme({
-    RrenderType: 'custom',
-    CreateDefault: (container: unknown) => '',
-    Render: (props: IAnyProps): JSX.Element => {
+    RenderType: 'custom',
+    CreateDefault: () => '',
+    Render: (props: IProps): JSX.Element => {
         return (
             <csvCellContext.Consumer>
                 {(ctx: ICsvCellContext): React.ReactNode => {
@@ -68,7 +70,7 @@ export const csvFollowCellScheme = createStringScheme({
                     const prevCellName = csv.FiledTypes[ctx.ColId - 1].Name;
                     const prevCellvalue = ctx.Csv.Rows[ctx.RowId][prevCellName] as TCsvCellType;
                     const scheme = getCsvCellSchemeByType(prevCellvalue);
-                    return <Any {...props} Type={scheme} />;
+                    return <Any {...props} Scheme={scheme} />;
                 }}
             </csvCellContext.Consumer>
         );
@@ -90,7 +92,7 @@ function createCsvIndexScheme<T extends bigint | number | string>(
     indexField: string,
     valueField: string,
     indexType: 'BigInt' | 'Int' | 'String',
-): TPrimitiveType<T> {
+): Scheme<T> {
     const csv = csvRegistry.Load(csvName);
     const [ids, values] = csvOp.GetIndexsAndValues(csv, indexField, valueField);
 
@@ -101,8 +103,8 @@ function createCsvIndexScheme<T extends bigint | number | string>(
     }
 
     return {
-        RrenderType: 'custom',
-        CreateDefault: (container: unknown): T => {
+        RenderType: 'custom',
+        CreateDefault: (): T => {
             if (indexType === 'Int') {
                 return parseInt(ids[0]) as T;
             } else if (indexType === 'BigInt') {
@@ -110,7 +112,7 @@ function createCsvIndexScheme<T extends bigint | number | string>(
             }
             return ids[0] as T;
         },
-        Render: (props: IAnyProps): JSX.Element => {
+        Render: (props: IProps): JSX.Element => {
             const id = props.Value as string;
             const selected = values[ids.indexOf(id)];
             return (
@@ -135,7 +137,7 @@ function createCsvIndexScheme<T extends bigint | number | string>(
             );
         },
         Check: () => 0,
-        Fix: (value, container) => 'canNotFixed',
+        Fix: (value) => 'canNotFixed',
         Meta: {
             HideName: true,
         },

@@ -19,12 +19,12 @@ const Sequence_1 = require("./Sequence");
 const ShowTalk_1 = require("./ShowTalk");
 const ShowText_1 = require("./ShowText");
 const State_1 = require("./State");
-const actionSchemeMap = {
+const objectSchemeMap = {
     ChangeState: State_1.changeStateScheme,
     ChangeRandomState: State_1.changeRandomStateScheme,
-    FinishTalk: JumpTalk_1.finishTalkScheme,
+    FinishTalk: new JumpTalk_1.FinishTalkScheme(),
     FinishState: State_1.finishStateScheme,
-    JumpTalk: JumpTalk_1.jumpTalkScheme,
+    JumpTalk: new JumpTalk_1.JumpTalkScheme(),
     Log: Misc_1.logScheme,
     PlayFlow: Flow_1.playFlowScheme,
     PlaySequenceData: Sequence_1.playSequenceDataScheme,
@@ -38,7 +38,7 @@ const actionSchemeMap = {
     ShowTalk: ShowTalk_1.showTalkScheme,
     Wait: Misc_1.waitScheme,
 };
-ActionRegistry_1.actionRegistry.SetupActionMap(actionSchemeMap);
+ActionRegistry_1.actionRegistry.SetupObjectMap(objectSchemeMap);
 __exportStar(require("./ActionRegistry"), exports);
 __exportStar(require("./Flow"), exports);
 __exportStar(require("./Sequence"), exports);

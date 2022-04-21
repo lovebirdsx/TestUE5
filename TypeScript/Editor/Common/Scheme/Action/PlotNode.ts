@@ -1,10 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
+    actionFilterExcept,
     booleanHideNameScheme,
-    createEnumType,
     createObjectScheme,
-    EObjectFilter,
-    objectFilterExcept,
+    EActionFilter,
+    EnumScheme,
 } from '../../../../Common/Type';
 import {
     cameraModeConfig,
@@ -17,28 +17,32 @@ import {
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {
-        Option: createEnumType(flowBoolOptionConfig, {
-            Meta: {
-                HideName: true,
-            },
-        }),
+        // fuck
+        // Option: createEnumType(flowBoolOptionConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }),
+        Option: new EnumScheme(flowBoolOptionConfig),
         Value: booleanHideNameScheme,
     },
     {
         Meta: {
             Tip: '设定和剧情播放相关的控制变量',
         },
-        Filters: objectFilterExcept(EObjectFilter.Trigger),
+        Filters: actionFilterExcept(EActionFilter.Trigger),
     },
 );
 
 export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
     {
-        Mode: createEnumType(cameraModeConfig, {
-            Meta: {
-                HideName: true,
-            },
-        }),
+        // fuck
+        // Mode: createEnumType(cameraModeConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }),
+        Mode: new EnumScheme(cameraModeConfig),
     },
     {
         Meta: {
@@ -49,14 +53,16 @@ export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
 
 export const setPlotModeScheme = createObjectScheme<ISetPlotMode>(
     {
-        Mode: createEnumType(plotModeConfig, {
-            Meta: {
-                HideName: true,
-            },
-        }),
+        // fuck
+        // Mode: createEnumType(plotModeConfig, {
+        //     Meta: {
+        //         HideName: true,
+        //     },
+        // }),
+        Mode: new EnumScheme(plotModeConfig),
     },
     {
-        Filters: [EObjectFilter.FlowList],
+        Filters: [EActionFilter.FlowList],
         Meta: {
             Tip: '设定剧情模式,默认为D级演出',
         },

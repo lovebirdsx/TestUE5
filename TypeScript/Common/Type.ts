@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable spellcheck/spell-checker */
-import { ComponentClass, FunctionComponent } from 'react';
-
 import { error, log } from './Log';
 import { getEnumValues } from './Util';
 
@@ -30,157 +28,59 @@ export interface IMeta {
 
 export type TModifyType = 'fold' | 'normal';
 
-export interface IAnyProps {
-    Value: unknown;
+export interface IProps<T = unknown, TScheme extends Scheme<T> = Scheme<T>> {
+    Value: T;
     Owner?: unknown;
-    Type: IAbstractType<unknown>;
+    Scheme: TScheme;
     OnModify: (obj: unknown, type: TModifyType) => void;
     PrefixElement?: JSX.Element;
     IsFolded?: boolean;
     OnFoldChange?: (folded: boolean) => void;
 }
 
-export type TRender = (props: IAnyProps) => JSX.Element;
+export type TRender = (props: IProps) => JSX.Element;
 
 export type TFixResult = 'canNotFixed' | 'fixed' | 'nothing';
 
-export interface IAbstractType<T> {
-    RrenderType: TElementRenderType;
-    Render?: TRender;
-    CreateDefault: (container: unknown) => T;
-    Fix: (value: T, container: unknown) => TFixResult;
-    Check: (value: T, container: unknown, messages: string[]) => number;
-    Meta: IMeta;
-}
+export abstract class Scheme<T = unknown> {
+    public abstract RenderType: TElementRenderType;
 
-export abstract class DataScheme<TData = unknown, TMeta = unknown, TParent = unknown> {
-    public abstract CreateDefault(parent: TParent): TData;
+    public Render?: TRender;
 
-    public abstract Fix(value: TData, container: TParent): TFixResult;
+    public abstract CreateDefault(): T;
 
-    public abstract Check(value: TData, container: TParent, messages: string[]): number;
-
-    public abstract Meta: TMeta;
-}
-
-export interface IDataProps<TData = unknown, TMeta = unknown, TParent = unknown> {
-    Value: TData;
-    Scheme: DataScheme<TData, TMeta, TParent>;
-    Parent: TParent;
-    ParentScheme?: DataScheme<TParent>;
-    OnModify: (obj: TData) => void;
-    PrefixElement?: string;
-}
-
-type TComponentClass<TProps> = ComponentClass<TProps> | FunctionComponent<TProps>;
-
-export type TDataRender<TData = unknown, TMeta = unknown, TParent = unknown> = (
-    props: IDataProps<TData, TMeta, TParent>,
-) => TComponentClass<IDataProps<TData, TMeta, TParent>>;
-
-class DataRegistry {
-    private readonly ShemeMap = new Map<string, DataScheme>();
-
-    private readonly RenderMap = new Map<string, TDataRender>();
-
-    public Reg<TData, TMeta = unknown, TParent = unknown>(
-        type: string,
-        scheme: DataScheme<TData, TMeta, TParent>,
-        render: TDataRender<TData, TMeta, TParent>,
-    ): void {
-        this.ShemeMap.set(type, scheme as DataScheme);
-        this.RenderMap.set(type, render as TDataRender);
+    public Fix(value: T): TFixResult {
+        return 'canNotFixed';
     }
 
-    public Reg2<TData, TMeta = unknown, TParent = unknown>(
-        type: TElementRenderType,
-        scheme: DataScheme<TData, TMeta, TParent>,
-        render: TDataRender<TData, TMeta, TParent>,
-    ): void {
-        this.Reg(type as string, scheme, render);
+    public Check(value: T, messages: string[]): number {
+        return 0;
     }
 
-    public GetScheme<TData, TMeta = unknown, TParent = unknown>(
-        type: string,
-    ): DataScheme<TData, TMeta, TParent> {
-        const result = this.ShemeMap.get(type);
-        if (!result) {
-            throw new Error(`No sheme for type [${type}]`);
-        }
-        return result as DataScheme<TData, TMeta, TParent>;
-    }
+    public Meta: IMeta = {};
 
-    public GetRender<TData, TMeta = unknown, TParent = unknown>(
-        type: string,
-    ): TDataRender<TData, TMeta, TParent> {
-        const result = this.RenderMap.get(type);
-        if (!result) {
-            throw new Error(`No render for type [${type}]`);
-        }
-        return result as TDataRender<TData, TMeta, TParent>;
-    }
+    public HideName?: boolean; // 是否显示字段的名字
+
+    public Hide?: boolean; // 是否在编辑器中隐藏
+
+    public NewLine?: boolean; // 字段是否换行
+
+    public Optional?: boolean; // 字段是否可选
+
+    public ArraySimplify?: boolean; // 数组的名字不新起一行
+
+    public Width?: number; // 显示的宽度
+
+    public Tip?: string; // 提示文字
 }
 
-export const dataRegistry = new DataRegistry();
+export type TSchemeClass<T = undefined> = new () => Scheme<T>;
 
-export type TPrimitiveType<T extends bigint | boolean | number | string> = IAbstractType<T>;
-export type TEnumType<T> = IAbstractType<T> & {
-    Config: Record<string, string>;
-    Names: string[];
-};
-export type TAssetType = IAbstractType<string> & {
-    ClassPath: string;
-    SearchPath: string;
-};
-
-export type TArrayType<T> = IAbstractType<T[]> & {
-    Element: IAbstractType<T>;
-};
-
-export enum EObjectFilter {
-    FlowList, // 在flowlist中执行
-    Trigger, // 在trigger中执行
-    Talk, // 在ShowTalk中执行
-}
-
-export const allObjectFilter = getEnumValues(EObjectFilter);
-export function objectFilterExcept(...args: EObjectFilter[]): EObjectFilter[] {
-    const result = allObjectFilter.filter((objerFilter) => !args.includes(objerFilter));
-    return result;
-}
-
-export type TObjectFields<T> = { [K in keyof T]: IAbstractType<T[K]> };
-export type TObjectType<T> = IAbstractType<T> & {
-    Filters: EObjectFilter[];
-    Fields: TObjectFields<T>;
-    Scheduled?: boolean;
-};
-
-export type TClassFields<T> = Partial<TObjectFields<T>>;
-export type TClassType<T> = IAbstractType<T> & {
-    Fields: TClassFields<T>;
-};
-
-export type TDynamicObjectType<T> = IAbstractType<T> & {
-    Filter: EObjectFilter;
-};
-
-export function createDynamicType<T>(
-    filter: EObjectFilter,
-    type: Omit<Partial<TDynamicObjectType<T>>, 'filter' | 'renderType'>,
-): TDynamicObjectType<T> {
-    if (!type.CreateDefault) {
-        error(`Dynamic type CreateDefault can not be undefined`);
+export function getSchemeClass<T = unknown>(scheme: Scheme<T>): TSchemeClass<T> {
+    if (scheme.constructor) {
+        return scheme.constructor as TSchemeClass<T>;
     }
-    return {
-        Filter: filter,
-        RrenderType: 'dynamic',
-        CreateDefault: type.CreateDefault,
-        Fix: type.Fix || ((): TFixResult => 'nothing'),
-        Check: type.Check || ((): number => 0),
-        Meta: type.Meta || {},
-        Render: type.Render,
-    };
+    return undefined;
 }
 
 function getEnumNames(config: Record<string, string>): string[] {
@@ -191,41 +91,77 @@ function getEnumNames(config: Record<string, string>): string[] {
     return names;
 }
 
-export function createEnumType<T extends string>(
-    config: Record<string, string>,
-    type?: Omit<Partial<TEnumType<T>>, 'fix' | 'renderType'>,
-): TEnumType<T> {
-    // eslint-disable-next-line no-param-reassign
-    type = type || {};
-    return {
-        RrenderType: 'enum',
-        Config: config,
-        CreateDefault:
-            type.CreateDefault ||
-            ((): T => {
-                for (const k in config) {
-                    return k as T;
-                }
-                return undefined;
-            }),
-        Meta: type.Meta || {},
-        Fix: (value: string, container: unknown): TFixResult => {
-            // 由于value是值类型,所以无法修复
-            if (!config[value]) {
-                return 'canNotFixed';
-            }
-            return 'nothing';
-        },
-        Check: type.Check || ((): number => 0),
-        Names: getEnumNames(config),
+export class EnumScheme<T extends string> extends Scheme<T> {
+    public RenderType: TElementRenderType = 'enum';
+
+    public readonly Config: Record<string, string>;
+
+    public readonly Names: string[];
+
+    public readonly Meta: IMeta = {
+        HideName: true,
     };
+
+    public constructor(config: Record<string, string>) {
+        super();
+        this.Config = config;
+        this.Names = getEnumNames(config);
+    }
+
+    public CreateDefault(): T {
+        for (const k in this.Config) {
+            return k as T;
+        }
+        return undefined;
+    }
 }
 
+export class AssetScheme extends Scheme<string> {
+    public RenderType: TElementRenderType = 'asset';
+
+    public CreateDefault(): string {
+        return '';
+    }
+
+    public ClassPath: string;
+
+    public SearchPath: string;
+}
+
+export abstract class ArrayScheme<T = unknown> extends Scheme<T[]> {
+    public RenderType: TElementRenderType = 'array';
+
+    public CreateDefault(): T[] {
+        return [];
+    }
+
+    public abstract Element: Scheme<T>;
+}
+
+export enum EActionFilter {
+    FlowList, // 在flowlist中执行
+    Trigger, // 在trigger中执行
+    Talk, // 在ShowTalk中执行
+}
+
+export const allActionFilters = getEnumValues(EActionFilter);
+export function actionFilterExcept(...args: EActionFilter[]): EActionFilter[] {
+    const result = allActionFilters.filter((filter) => !args.includes(filter));
+    return result;
+}
+
+export type TObjectFields<T> = { [K in keyof T]: Scheme<T[K]> };
+
+export type TClassFields<T> = Partial<TObjectFields<T>>;
+export type TClassType<T> = Scheme<T> & {
+    Fields: TClassFields<T>;
+};
+
 export function createArrayScheme<T>(
-    type: Omit<Partial<TArrayType<T>>, 'renderType'>,
-): TArrayType<T> {
+    type: Omit<Partial<ArrayScheme<T>>, 'renderType'>,
+): ArrayScheme<T> {
     return {
-        RrenderType: 'array',
+        RenderType: 'array',
         CreateDefault:
             type.CreateDefault ||
             function (): T[] {
@@ -235,10 +171,10 @@ export function createArrayScheme<T>(
         Meta: type.Meta || {},
         Check:
             type.Check ||
-            ((value, container, messages): number => {
+            ((value, messages): number => {
                 let fixCount = 0;
                 value.forEach((e) => {
-                    fixCount += type.Element.Check(e, value, messages);
+                    fixCount += type.Element.Check(e, messages);
                 });
                 return fixCount;
             }),
@@ -247,7 +183,7 @@ export function createArrayScheme<T>(
             ((value): TFixResult => {
                 let fixCount = 0;
                 value.forEach((e) => {
-                    if (type.Element.Fix(e, value) === 'fixed') {
+                    if (type.Element.Fix(e) === 'fixed') {
                         fixCount++;
                     }
                 });
@@ -262,12 +198,12 @@ export function fixFileds<T>(value: T, fields: TObjectFields<T>): TFixResult {
         const filedTypeData = fields[key];
         if (value[key] === undefined) {
             if (!filedTypeData.Meta.Optional) {
-                value[key] = filedTypeData.CreateDefault(value);
+                value[key] = filedTypeData.CreateDefault();
                 log(`fixed no exist field [${key}]`);
                 fixCount++;
             }
         } else {
-            const reuslt = filedTypeData.Fix(value[key], value);
+            const reuslt = filedTypeData.Fix(value[key]);
             if (reuslt === 'fixed') {
                 log(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
                 fixCount++;
@@ -306,7 +242,7 @@ export function checkFields<T>(
                 errorCount++;
             }
         } else {
-            errorCount += filedTypeData.Check(value[key], value, errorMessages);
+            errorCount += filedTypeData.Check(value[key], errorMessages);
         }
     }
 
@@ -325,27 +261,39 @@ export function createDefaultObject<T>(fields: TObjectFields<T>): T {
     for (const key in fields) {
         const filedTypeData = fields[key];
         if (!filedTypeData.Meta.Optional) {
-            fieldArray.push([key, filedTypeData.CreateDefault(undefined)]);
+            fieldArray.push([key, filedTypeData.CreateDefault()]);
         }
     }
     return Object.fromEntries(fieldArray) as T;
 }
 
+export abstract class ObjectScheme<T> extends Scheme<T> {
+    public RenderType: TElementRenderType = 'object';
+
+    public Filters: EActionFilter[] = allActionFilters;
+
+    public abstract Fields: TObjectFields<T>;
+
+    public CreateDefault(): T {
+        return createDefaultObject<T>(this.Fields);
+    }
+
+    public Scheduled?: boolean;
+}
+
 export function createObjectScheme<T>(
-    fields: { [K in keyof T]: IAbstractType<T[K]> },
-    type?: Omit<Partial<TObjectType<T>>, 'fields' | 'renderType'>,
-): TObjectType<T> {
+    fields: { [K in keyof T]: Scheme<T[K]> },
+    type?: Omit<Partial<ObjectScheme<T>>, 'fields' | 'renderType'>,
+): ObjectScheme<T> {
     type = type || {};
     return {
-        RrenderType: 'object',
+        RenderType: 'object',
         Fields: fields,
         Meta: type.Meta || {},
         CreateDefault: type.CreateDefault || ((): T => createDefaultObject(fields)),
-        Filters: type.Filters || getEnumValues(EObjectFilter),
-        Fix: type.Fix || ((value, container): TFixResult => fixFileds(value, fields)),
-        Check:
-            type.Check ||
-            ((value, container, messages): number => checkFields(value, fields, messages)),
+        Filters: type.Filters || getEnumValues(EActionFilter),
+        Fix: type.Fix || ((value): TFixResult => fixFileds(value, fields)),
+        Check: type.Check || ((value, messages): number => checkFields(value, fields, messages)),
         Render: type.Render,
         Scheduled: type.Scheduled,
     };
@@ -355,12 +303,20 @@ export const emptyObjectScheme = createObjectScheme({});
 
 // ============================================================================
 
+export class IntScheme extends Scheme<number> {
+    public RenderType: TElementRenderType = 'int';
+
+    public CreateDefault(): number {
+        return 0;
+    }
+}
+
 export function createIntScheme(
-    type?: Omit<Partial<TPrimitiveType<number>>, 'fix' | 'renderType'>,
-): TPrimitiveType<number> {
+    type?: Omit<Partial<Scheme<number>>, 'fix' | 'renderType'>,
+): Scheme<number> {
     type = type || {};
     return {
-        RrenderType: 'int',
+        RenderType: 'int',
         CreateDefault: type.CreateDefault || ((): number => 0),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -369,16 +325,24 @@ export function createIntScheme(
     };
 }
 
-export const intScheme = createIntScheme();
+export const intScheme = new IntScheme();
 
 // ============================================================================
 
+export class StringScheme extends Scheme<string> {
+    public RenderType: TElementRenderType = 'string';
+
+    public CreateDefault(): string {
+        return '';
+    }
+}
+
 export function createStringScheme(
-    type?: Omit<Partial<TPrimitiveType<string>>, 'fix' | 'renderType'>,
-): TPrimitiveType<string> {
+    type?: Omit<Partial<Scheme<string>>, 'fix' | 'renderType'>,
+): Scheme<string> {
     type = type || {};
     return {
-        RrenderType: 'string',
+        RenderType: 'string',
         CreateDefault: type.CreateDefault || ((): string => 'Empty'),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -391,13 +355,13 @@ export const stringScheme = createStringScheme();
 
 // ============================================================================
 export function createAssetScheme(
-    type: Omit<Partial<TAssetType>, 'fix' | 'renderType'>,
-): TAssetType {
+    type: Omit<Partial<AssetScheme>, 'fix' | 'renderType'>,
+): AssetScheme {
     if (!type.ClassPath || !type.SearchPath) {
         error('AssetScheme must set ClassPath and SearchPath');
     }
     return {
-        RrenderType: 'asset',
+        RenderType: 'asset',
         CreateDefault: type.CreateDefault || ((): string => ''),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -410,12 +374,20 @@ export function createAssetScheme(
 
 // ============================================================================
 
+export class BooleanScheme extends Scheme<boolean> {
+    public RenderType: TElementRenderType = 'boolean';
+
+    public CreateDefault(): boolean {
+        return false;
+    }
+}
+
 export function createBooleanScheme(
-    type?: Omit<Partial<TPrimitiveType<boolean>>, 'fix' | 'renderType'>,
-): TPrimitiveType<boolean> {
+    type?: Omit<Partial<BooleanScheme>, 'fix' | 'renderType'>,
+): BooleanScheme {
     type = type || {};
     return {
-        RrenderType: 'boolean',
+        RenderType: 'boolean',
         CreateDefault: type.CreateDefault || ((): false => false),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -431,11 +403,11 @@ export const booleanHideNameScheme = createBooleanScheme({
 
 // ============================================================================
 export function createFloatScheme(
-    type?: Omit<Partial<TPrimitiveType<number>>, 'fix' | 'renderType'>,
-): TPrimitiveType<number> {
+    type?: Omit<Partial<Scheme<number>>, 'fix' | 'renderType'>,
+): Scheme<number> {
     type = type || {};
     return {
-        RrenderType: 'float',
+        RenderType: 'float',
         CreateDefault: type.CreateDefault || ((): number => 0.0),
         Meta: type.Meta || {},
         Render: type.Render,
@@ -444,12 +416,20 @@ export function createFloatScheme(
     };
 }
 
-export const floatScheme = createFloatScheme();
+export class FloatScheme extends Scheme<number> {
+    public RenderType: TElementRenderType = 'float';
+
+    public CreateDefault(): number {
+        return 0.0;
+    }
+}
+
+export const floatScheme = new FloatScheme();
 
 // ============================================================================
-export function createUnknownScheme(type: Partial<IAbstractType<unknown>>): IAbstractType<unknown> {
+export function createUnknownScheme(type: Partial<Scheme>): Scheme {
     return {
-        RrenderType: 'custom',
+        RenderType: 'custom',
         Render: type.Render,
         CreateDefault: type.CreateDefault || ((): unknown => undefined),
         Fix: type.Fix || ((): TFixResult => 'canNotFixed'),

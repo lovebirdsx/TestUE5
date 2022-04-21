@@ -22,10 +22,10 @@ import {
 import { IFlowListInfo } from '../../Game/Flow/Action';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
-import { formatColor } from '../Common/ReactComponent/Color';
-import { Btn, Check, SlotText, Text } from '../Common/ReactComponent/CommonComponent';
-import { ErrorBoundary } from '../Common/ReactComponent/ErrorBoundary';
-import { FlowList } from '../Common/ReactComponent/FlowList';
+import { formatColor } from '../Common/BaseComponent/Color';
+import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
+import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { FlowList } from '../Common/ExtendComponent/FlowList';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from './ConfigFile';
 import { TalkListTool } from './TalkListTool';

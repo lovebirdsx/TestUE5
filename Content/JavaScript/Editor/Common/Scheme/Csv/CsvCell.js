@@ -10,9 +10,9 @@ const Log_1 = require("../../../../Common/Log");
 const Type_1 = require("../../../../Common/Type");
 const CsvRegistry_1 = require("../../../../Game/Common/CsvConfig/CsvRegistry");
 const ConfigFile_1 = require("../../../FlowEditor/ConfigFile");
-const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
-const Context_1 = require("../../ReactComponent/Context");
-const Any_1 = require("../../ReactComponent/Dynamic/Any");
+const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
+const Any_1 = require("../../SchemeComponent/Basic/Any");
+const Context_1 = require("../../SchemeComponent/Context");
 const Util_1 = require("../../Util");
 function genCsvCellTypeEnumConfig() {
     const configs = CsvLoader_1.csvCellTypeConfig;
@@ -21,11 +21,13 @@ function genCsvCellTypeEnumConfig() {
     });
     return Object.fromEntries(slotList);
 }
-exports.csvCellTypeScheme = (0, Type_1.createEnumType)(genCsvCellTypeEnumConfig(), {
-    Meta: {
-        HideName: true,
-    },
-});
+// fuck
+// export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
+//     Meta: {
+//         HideName: true,
+//     },
+// });
+exports.csvCellTypeScheme = new Type_1.EnumScheme(genCsvCellTypeEnumConfig());
 function getCsvCellSchemeByType(type) {
     switch (type) {
         case 'Int':
@@ -42,15 +44,15 @@ function getCsvCellSchemeByType(type) {
     }
 }
 exports.csvFollowCellScheme = (0, Type_1.createStringScheme)({
-    RrenderType: 'custom',
-    CreateDefault: (container) => '',
+    RenderType: 'custom',
+    CreateDefault: () => '',
     Render: (props) => {
         return (React.createElement(Context_1.csvCellContext.Consumer, null, (ctx) => {
             const csv = ctx.Csv;
             const prevCellName = csv.FiledTypes[ctx.ColId - 1].Name;
             const prevCellvalue = ctx.Csv.Rows[ctx.RowId][prevCellName];
             const scheme = getCsvCellSchemeByType(prevCellvalue);
-            return React.createElement(Any_1.Any, { ...props, Type: scheme });
+            return React.createElement(Any_1.Any, { ...props, Scheme: scheme });
         }));
     },
 });
@@ -69,8 +71,8 @@ function createCsvIndexScheme(csvName, indexField, valueField, indexType) {
         throw new Error(`Can not create csv index scheme [${csvName}] [${indexField}] [${valueField}]`);
     }
     return {
-        RrenderType: 'custom',
-        CreateDefault: (container) => {
+        RenderType: 'custom',
+        CreateDefault: () => {
             if (indexType === 'Int') {
                 return parseInt(ids[0]);
             }
@@ -92,7 +94,7 @@ function createCsvIndexScheme(csvName, indexField, valueField, indexType) {
                     }, Tip: `打开Csv配置[${csvName}]` })));
         },
         Check: () => 0,
-        Fix: (value, container) => 'canNotFixed',
+        Fix: (value) => 'canNotFixed',
         Meta: {
             HideName: true,
         },

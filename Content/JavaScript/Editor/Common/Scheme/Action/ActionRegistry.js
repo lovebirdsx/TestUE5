@@ -4,10 +4,11 @@ exports.actionRegistry = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Log_1 = require("../../../../Common/Log");
 const Type_1 = require("../../../../Common/Type");
+const Action_1 = require("./Action");
 class ActionRegistry {
-    ActionSchemeMap;
+    ObjectSchemeMap;
     ActionNamesByfilter;
-    DynamicObjectSchemeMap;
+    AcitonObjectSchemeMap;
     CreateActionNamesByfilter(actionSchemeMap) {
         const map = new Map();
         for (const typeName in actionSchemeMap) {
@@ -25,51 +26,36 @@ class ActionRegistry {
     }
     CreateDynamicObjectSchemeMap() {
         const result = new Map();
-        Type_1.allObjectFilter.forEach((objectFilter) => {
-            const type = (0, Type_1.createDynamicType)(objectFilter, {
-                CreateDefault: (container) => {
-                    const logAction = {
-                        Level: 'Info',
-                        Content: 'Hello World',
-                    };
-                    return {
-                        Name: 'Log',
-                        Params: logAction,
-                    };
-                },
-                Meta: {
-                    NewLine: true,
-                },
-            });
-            result.set(objectFilter, type);
-        });
+        result.set(Type_1.EActionFilter.FlowList, new Action_1.FlowListActionScheme());
+        result.set(Type_1.EActionFilter.Talk, new Action_1.TalkActionScheme());
+        result.set(Type_1.EActionFilter.Trigger, new Action_1.TriggerActionScheme());
         return result;
     }
-    SetupActionMap(actionSchemeMap) {
-        this.ActionSchemeMap = actionSchemeMap;
-        this.ActionNamesByfilter = this.CreateActionNamesByfilter(actionSchemeMap);
-        this.DynamicObjectSchemeMap = this.CreateDynamicObjectSchemeMap();
+    SetupObjectMap(objectSchemeMap) {
+        this.ObjectSchemeMap = objectSchemeMap;
+        this.ActionNamesByfilter = this.CreateActionNamesByfilter(objectSchemeMap);
+        this.AcitonObjectSchemeMap = this.CreateDynamicObjectSchemeMap();
     }
     GetScheme(name) {
-        const as = this.ActionSchemeMap[name];
+        const as = this.ObjectSchemeMap[name];
         if (!as) {
             (0, Log_1.error)(`No action scheme for ${name}`);
         }
         return as;
     }
     SpawnAction(name) {
-        const as = this.ActionSchemeMap[name];
+        const as = this.ObjectSchemeMap[name];
         return {
             Name: name,
-            Params: as.CreateDefault(undefined),
+            Params: as.CreateDefault(),
         };
     }
     SpawnDefaultAction(filter) {
         const actionName = this.ActionNamesByfilter.get(filter)[0];
-        const as = this.ActionSchemeMap[actionName];
+        const as = this.ObjectSchemeMap[actionName];
         return {
             Name: actionName,
-            Params: as.CreateDefault(undefined),
+            Params: as.CreateDefault(),
         };
     }
     GetActionNames(filter) {
@@ -78,7 +64,7 @@ class ActionRegistry {
     FixAction(action, objectFilter) {
         const typeData = this.GetScheme(action.Name);
         if (!typeData) {
-            Object.assign(action, this.SpawnDefaultAction(objectFilter || Type_1.EObjectFilter.FlowList));
+            Object.assign(action, this.SpawnDefaultAction(objectFilter || Type_1.EActionFilter.FlowList));
             return 'fixed';
         }
         const old = JSON.stringify(action.Params);
@@ -100,8 +86,8 @@ class ActionRegistry {
         });
         return errorMessages1.length;
     }
-    GetDynamicObjectScheme(objectFilter) {
-        return this.DynamicObjectSchemeMap.get(objectFilter);
+    GetActionScheme(objectFilter) {
+        return this.AcitonObjectSchemeMap.get(objectFilter);
     }
 }
 exports.actionRegistry = new ActionRegistry();

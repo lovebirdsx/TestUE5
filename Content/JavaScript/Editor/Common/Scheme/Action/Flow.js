@@ -9,7 +9,7 @@ const Config_1 = require("../../../../Game/Common/Config");
 const Flow_1 = require("../../../../Game/Common/Operations/Flow");
 const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
 const ConfigFile_1 = require("../../../FlowEditor/ConfigFile");
-const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
+const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const Util_1 = require("../../Util");
 function openFlowEditor(flowName) {
     const configFile = new ConfigFile_1.ConfigFile();

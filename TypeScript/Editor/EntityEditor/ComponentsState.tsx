@@ -6,8 +6,8 @@ import { VerticalBox } from 'react-umg';
 import { TComponentClass } from '../../Common/Entity';
 import { TModifyType } from '../../Common/Type';
 import { IComponentsState } from '../../Game/Entity/Interface';
-import { Obj } from '../Common/ReactComponent/Dynamic/Public';
 import { componentRegistry } from '../Common/Scheme/Component/Index';
+import { Obj } from '../Common/SchemeComponent/Basic/Public';
 
 export interface IComponentsStateProps {
     Value: IComponentsState;
@@ -25,14 +25,14 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
             const scheme = componentRegistry.GetScheme(classObj.name);
             let value = components[classObj.name];
             if (!value) {
-                value = scheme.CreateDefault(undefined) as Record<string, unknown>;
+                value = scheme.CreateDefault() as Record<string, unknown>;
             }
 
             return (
                 <Obj
                     key={id}
                     Value={value}
-                    Type={scheme}
+                    Scheme={scheme}
                     OnModify={(obj, type): void => {
                         const newComponentState = produce(this.props.Value, (draft) => {
                             draft.Components[classObj.name] = obj as Record<string, unknown>;

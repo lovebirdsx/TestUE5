@@ -12,10 +12,10 @@ import {
     TalkerListOp,
 } from '../../Game/Common/Operations/TalkerList';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { formatColor } from '../Common/ReactComponent/Color';
-import { Btn, H1, H3 } from '../Common/ReactComponent/CommonComponent';
-import { ContextBtn } from '../Common/ReactComponent/ContextBtn';
-import { ErrorBoundary } from '../Common/ReactComponent/ErrorBoundary';
+import { formatColor } from '../Common/BaseComponent/Color';
+import { Btn, H1, H3 } from '../Common/BaseComponent/CommonComponent';
+import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
+import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { Talker, talkerListContext } from './Talker';
 
 interface ITalkerEditorState {

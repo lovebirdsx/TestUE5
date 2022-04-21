@@ -6,8 +6,8 @@ const react_umg_1 = require("react-umg");
 const Log_1 = require("../../../../Common/Log");
 const Type_1 = require("../../../../Common/Type");
 const Action_1 = require("../../../../Game/Flow/Action");
-const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
-const Public_1 = require("../../ReactComponent/Dynamic/Public");
+const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
+const Public_1 = require("../../SchemeComponent/Basic/Public");
 const Public_2 = require("../Action/Public");
 function renderFlowJson(name, props) {
     const playFlow = (0, Action_1.parsePlayFlow)(props.Value);
@@ -22,13 +22,13 @@ function renderFlowJson(name, props) {
     // 注意下面只能用Any来渲染,Obj不能正确处理自定义Render的情况
     return (React.createElement(react_umg_1.VerticalBox, null,
         prefixElement,
-        React.createElement(Public_1.Any, { Value: playFlow, Type: Public_2.playFlowScheme, OnModify: (newFlow, type) => {
+        React.createElement(Public_1.Any, { Value: playFlow, Scheme: Public_2.playFlowScheme, OnModify: (newFlow, type) => {
                 props.OnModify(JSON.stringify(newFlow), type);
             } })));
 }
 exports.playFlowJsonScheme = (0, Type_1.createStringScheme)({
     Render: (props) => renderFlowJson('Flow', props),
-    CreateDefault: (container) => {
+    CreateDefault: () => {
         return JSON.stringify((0, Action_1.parsePlayFlow)(''));
     },
     Meta: {

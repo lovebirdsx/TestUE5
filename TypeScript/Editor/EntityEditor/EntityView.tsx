@@ -7,8 +7,8 @@ import { TModifyType } from '../../Common/Type';
 import { parseComponentsState } from '../../Game/Entity/Interface';
 import TsEntity from '../../Game/Entity/TsEntity';
 import LevelEditor from '../Common/LevelEditor';
-import { Btn, SlotText } from '../Common/ReactComponent/CommonComponent';
-import { Obj } from '../Common/ReactComponent/Dynamic/Public';
+import { Btn, SlotText } from '../Common/BaseComponent/CommonComponent';
+import { Obj } from '../Common/SchemeComponent/Basic/Public';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { ComponentsState } from './ComponentsState';
 
@@ -49,7 +49,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 <Obj
                     PrefixElement={this.RenderPrefixElement()}
                     Value={pureData}
-                    Type={scheme}
+                    Scheme={scheme}
                     OnModify={props.OnModify}
                 />
                 <ComponentsState

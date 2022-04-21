@@ -73,7 +73,7 @@ class EditorCsvOp {
                 }
             } else {
                 const typeData = csvScheme.GetSchme(field.Meta);
-                row[field.Name] = typeData.CreateDefault(null) as TCsvValueType;
+                row[field.Name] = typeData.CreateDefault() as TCsvValueType;
             }
         });
 

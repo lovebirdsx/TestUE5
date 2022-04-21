@@ -22,7 +22,7 @@ import testTextListCsv, {
     writeTextListCsv,
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
-import { Btn, H3, H3_SIZE, Text } from '../Common/ReactComponent/CommonComponent';
+import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
 import testClass from '../UnitTest/Game/TestClass';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';

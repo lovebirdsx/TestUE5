@@ -6,8 +6,8 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../../Common/Log");
-const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
-const FilterableList_1 = require("../Common/ReactComponent/FilterableList");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
+const FilterableList_1 = require("../Common/BaseComponent/FilterableList");
 class TestListView extends React.Component {
     constructor(props) {
         super(props);

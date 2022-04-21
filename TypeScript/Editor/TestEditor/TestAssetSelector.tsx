@@ -5,8 +5,8 @@ import { EditorAssetLibrary, Object, Struct } from 'ue';
 
 import { log } from '../../Common/Log';
 import { assetListCache } from '../Common/AssetListCache';
-import { AssetSelector, IAssetSelectorProps } from '../Common/ReactComponent/AssetSelector';
-import { Btn } from '../Common/ReactComponent/CommonComponent';
+import { AssetSelector, IAssetSelectorProps } from '../Common/BaseComponent/AssetSelector';
+import { Btn } from '../Common/BaseComponent/CommonComponent';
 
 export class TestAssetSelector extends React.Component<unknown, IAssetSelectorProps> {
     public constructor(props: unknown) {

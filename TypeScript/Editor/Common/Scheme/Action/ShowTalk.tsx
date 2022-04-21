@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
@@ -7,19 +8,18 @@ import {
     createArrayScheme,
     createBooleanScheme,
     createDefaultObject,
-    createDynamicType,
     createFloatScheme,
     createIntScheme,
     createObjectScheme,
     createStringScheme,
-    EObjectFilter,
+    EActionFilter,
     fixFileds,
-    IAnyProps,
     IMeta,
-    TDynamicObjectType,
+    // FloatScheme,
+    IProps,
+    Scheme,
     TFixResult,
     TObjectFields,
-    TPrimitiveType,
 } from '../../../../Common/Type';
 import {
     EFlowListAction,
@@ -35,32 +35,14 @@ import {
     ITalkItem,
     ITalkOption,
 } from '../../../../Game/Flow/Action';
-import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../ReactComponent/CommonComponent';
-import { String } from '../../ReactComponent/Dynamic/Basic';
-import { Obj } from '../../ReactComponent/Dynamic/Obj';
+import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
+import { String } from '../../SchemeComponent/Basic/Basic';
+import { Obj } from '../../SchemeComponent/Basic/Obj';
+import { TalkActionScheme } from './Action';
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
 
-const talkActionInfoScheme: TDynamicObjectType<IActionInfo> = createDynamicType<IActionInfo>(
-    EObjectFilter.Talk,
-    {
-        CreateDefault: (container): IActionInfo => {
-            const jumpTalk: IJumpTalk = {
-                TalkId: 0,
-            };
-            return {
-                Name: 'JumpTalk',
-                Params: jumpTalk,
-            };
-        },
-        Meta: {
-            NewLine: false,
-            Tip: '动作',
-        },
-    },
-);
-
-export function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitiveType<number> {
+export function createTextIdScheme(defaultText: string, meta: IMeta): Scheme<number> {
     return createIntScheme({
         CreateDefault: () => {
             let textId = 0;
@@ -70,12 +52,12 @@ export function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitive
             });
             return textId;
         },
-        Render: (props: IAnyProps) => {
+        Render: (props: IProps) => {
             return (
                 <HorizontalBox>
                     {props.PrefixElement}
                     <EditorBox
-                        Width={props.Type.Meta.Width}
+                        Width={props.Scheme.Meta.Width}
                         Text={flowListContext.Get().Texts[props.Value as number]}
                         OnChange={(text): void => {
                             flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
@@ -83,7 +65,7 @@ export function createTextIdScheme(defaultText: string, meta: IMeta): TPrimitive
                                 flowListOp.ModifyText(to, textId, text);
                             });
                         }}
-                        Tip={props.Type.Meta.Tip}
+                        Tip={props.Scheme.Meta.Tip}
                     />
                 </HorizontalBox>
             );
@@ -99,7 +81,7 @@ export const talkOptionScheme = createObjectScheme<ITalkOption>({
         Tip: '选项内容',
     }),
     Actions: createArrayScheme({
-        Element: talkActionInfoScheme,
+        Element: new TalkActionScheme(),
         Meta: {
             HideName: true,
             NewLine: false,
@@ -135,7 +117,7 @@ export const talkerScheme = createIntScheme({
             <List
                 Items={names}
                 Selected={selectedTalker ? selectedTalker.Name : ''}
-                Tip={props.Type.Meta.Tip}
+                Tip={props.Scheme.Meta.Tip}
                 OnSelectChanged={(name: string): void => {
                     const who = talkers.find((e) => e.Name === name);
                     props.OnModify(who.Id, 'normal');
@@ -145,6 +127,19 @@ export const talkerScheme = createIntScheme({
     },
 });
 
+// fuck
+// class WaitTimeScheme extends FloatScheme {
+//     public CreateDefault(): number {
+//         return 1;
+//     }
+
+//     public Optional?: boolean = true;
+
+//     public Width?: number = 40;
+
+//     public Tip?: string = '等待多久之后可以跳过，默认值在【全局配置】表中定义';
+// }
+
 const talkItemFileds: TObjectFields<ITalkItem> = {
     Id: createIntScheme({
         CreateDefault: () => 1,
@@ -152,7 +147,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
     }),
     Name: createStringScheme({
         CreateDefault: () => '对话1',
-        Render: (props: IAnyProps) => {
+        Render: (props: IProps<string>) => {
             return (
                 <showTalkContext.Consumer>
                     {(value): JSX.Element => {
@@ -160,7 +155,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
                             <String
                                 {...props}
                                 Color={
-                                    hasTalk(value, props.Value as string)
+                                    hasTalk(value, props.Value)
                                         ? '#FF0000 red'
                                         : DEFAULT_EDIT_TEXT_COLOR
                                 }
@@ -182,7 +177,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         Tip: '对话内容',
     }),
     WaitTime: createFloatScheme({
-        CreateDefault: (container: unknown) => 1,
+        CreateDefault: () => 1,
         Meta: {
             Optional: true,
             Width: 40,
@@ -190,7 +185,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         },
     }),
     Actions: createArrayScheme({
-        Element: talkActionInfoScheme,
+        Element: new TalkActionScheme(),
         Meta: {
             NewLine: true,
             HideName: true,
@@ -237,8 +232,10 @@ function fixJumpTalk(actions: IActionInfo[], talkIds: number[]): number {
     return fixCount;
 }
 
-function fixTalkItem(item: ITalkItem, container: unknown): TFixResult {
-    const items = container as ITalkItem[];
+function fixTalkItem(item: ITalkItem): TFixResult {
+    // const items = container as ITalkItem[];
+    // fuck
+    const items = [] as ITalkItem[];
     let fixedCount = 0;
     // 确保对话名字唯一
     if (!item.Name || items.find((e) => e.Name === item.Name)) {
@@ -309,8 +306,10 @@ function checkJumpTalk(actions: IActionInfo[], talkIds: number[], message: strin
     return errorCount;
 }
 
-function checkTalkItem(item: ITalkItem, container: unknown, message: string[]): number {
-    const items = container as ITalkItem[];
+function checkTalkItem(item: ITalkItem, message: string[]): number {
+    // const items = container as ITalkItem[];
+    // fuck
+    const items = [] as ITalkItem[];
     let errorCount = 0;
 
     if (!item.Name) {
@@ -354,10 +353,11 @@ export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
         NewLine: true,
         Tip: '对话项',
     },
-    CreateDefault(container: unknown) {
-        const items = container as ITalkItem[];
+    CreateDefault() {
+        // fuck
+        // const items = container as ITalkItem[];
         const item = createDefaultObject<ITalkItem>(talkItemFileds);
-        fixTalkItem(item, items);
+        // fixTalkItem(item, items);
         return item;
     },
     Fix: fixTalkItem,
@@ -374,10 +374,10 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
                 ArraySimplify: true,
                 Tip: '对话列表',
             },
-            Fix: (items: ITalkItem[], container: unknown) => {
+            Fix: (items: ITalkItem[]) => {
                 let fixCount = 0;
                 items.forEach((item) => {
-                    const result = fixTalkItem(item, items);
+                    const result = fixTalkItem(item);
                     if (result === 'fixed') {
                         fixCount++;
                     }
@@ -393,7 +393,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
         }),
     },
     {
-        Filters: [EObjectFilter.FlowList],
+        Filters: [EActionFilter.FlowList],
         Scheduled: true,
         Meta: {
             Tip: [
@@ -409,7 +409,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
                 '    若当前对话没有跳转指令,则按顺序执行下一条对话',
             ].join('\n'),
         },
-        Render(props: IAnyProps) {
+        Render(props: IProps) {
             return (
                 <showTalkContext.Provider value={props.Value as IShowTalk}>
                     <Obj {...props} />
@@ -428,7 +428,7 @@ export const showOptionScheme = createObjectScheme<IShowOption>(
         }),
     },
     {
-        Filters: [EObjectFilter.FlowList],
+        Filters: [EActionFilter.FlowList],
         Scheduled: true,
         Meta: {
             Tip: '显示独立选项',

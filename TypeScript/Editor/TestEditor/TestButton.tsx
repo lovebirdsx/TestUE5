@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 import { EditorOperations, EMsgType } from 'ue';
 
-import { Btn, Check } from '../Common/ReactComponent/CommonComponent';
+import { Btn, Check } from '../Common/BaseComponent/CommonComponent';
 
 interface ITestButtonState {
     IsButtonEnabled?: boolean;

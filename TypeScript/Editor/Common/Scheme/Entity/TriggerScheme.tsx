@@ -7,19 +7,19 @@ import {
     createIntScheme,
     createObjectScheme,
     createStringScheme,
-    EObjectFilter,
-    IAnyProps,
+    EActionFilter,
+    IProps,
     TModifyType,
 } from '../../../../Common/Type';
 import { ITsTrigger } from '../../../../Game/Entity/Interface';
 import { ITriggerActions, parseTriggerActionsJson } from '../../../../Game/Flow/Action';
-import { Btn, Text } from '../../ReactComponent/CommonComponent';
-import { Obj } from '../../ReactComponent/Dynamic/Public';
+import { Btn, Text } from '../../BaseComponent/CommonComponent';
+import { Obj } from '../../SchemeComponent/Basic/Public';
 import { actionRegistry } from '../Action/Public';
 
 export const actionsScheme = createObjectScheme<ITriggerActions>({
     Actions: createArrayScheme({
-        Element: actionRegistry.GetDynamicObjectScheme(EObjectFilter.Trigger),
+        Element: actionRegistry.GetActionScheme(EActionFilter.Trigger),
         Meta: {
             HideName: true,
             NewLine: true,
@@ -27,7 +27,7 @@ export const actionsScheme = createObjectScheme<ITriggerActions>({
     }),
 });
 
-function renderActionJson(name: string, props: IAnyProps): JSX.Element {
+function renderActionJson(name: string, props: IProps): JSX.Element {
     const actions = parseTriggerActionsJson(props.Value as string);
     const prefixElement = (
         <HorizontalBox>
@@ -50,7 +50,7 @@ function renderActionJson(name: string, props: IAnyProps): JSX.Element {
         <Obj
             PrefixElement={prefixElement}
             Value={actions}
-            Type={actionsScheme}
+            Scheme={actionsScheme}
             OnModify={(obj: unknown, type: TModifyType): void => {
                 props.OnModify(JSON.stringify(obj), type);
             }}

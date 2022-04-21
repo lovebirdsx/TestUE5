@@ -5,7 +5,7 @@ exports.Talker = exports.talkerListContext = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
-const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 exports.talkerListContext = React.createContext(undefined);
 class Talker extends React.Component {
     Modify(cb) {

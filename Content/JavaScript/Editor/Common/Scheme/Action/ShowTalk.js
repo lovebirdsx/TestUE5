@@ -1,31 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exports.talkerScheme = exports.talkOptionScheme = exports.createTextIdScheme = exports.showTalkContext = void 0;
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Type_1 = require("../../../../Common/Type");
 const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
-const CommonComponent_1 = require("../../ReactComponent/CommonComponent");
-const Basic_1 = require("../../ReactComponent/Dynamic/Basic");
-const Obj_1 = require("../../ReactComponent/Dynamic/Obj");
+const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
+const Basic_1 = require("../../SchemeComponent/Basic/Basic");
+const Obj_1 = require("../../SchemeComponent/Basic/Obj");
+const Action_1 = require("./Action");
 exports.showTalkContext = React.createContext(undefined);
-const talkActionInfoScheme = (0, Type_1.createDynamicType)(Type_1.EObjectFilter.Talk, {
-    CreateDefault: (container) => {
-        const jumpTalk = {
-            TalkId: 0,
-        };
-        return {
-            Name: 'JumpTalk',
-            Params: jumpTalk,
-        };
-    },
-    Meta: {
-        NewLine: false,
-        Tip: '动作',
-    },
-});
 function createTextIdScheme(defaultText, meta) {
     return (0, Type_1.createIntScheme)({
         CreateDefault: () => {
@@ -39,12 +26,12 @@ function createTextIdScheme(defaultText, meta) {
         Render: (props) => {
             return (React.createElement(react_umg_1.HorizontalBox, null,
                 props.PrefixElement,
-                React.createElement(CommonComponent_1.EditorBox, { Width: props.Type.Meta.Width, Text: FlowList_1.flowListContext.Get().Texts[props.Value], OnChange: (text) => {
+                React.createElement(CommonComponent_1.EditorBox, { Width: props.Scheme.Meta.Width, Text: FlowList_1.flowListContext.Get().Texts[props.Value], OnChange: (text) => {
                         FlowList_1.flowListContext.Modify(FlowList_1.EFlowListAction.ModifyText, (from, to) => {
                             const textId = props.Value;
                             FlowList_1.flowListOp.ModifyText(to, textId, text);
                         });
-                    }, Tip: props.Type.Meta.Tip })));
+                    }, Tip: props.Scheme.Meta.Tip })));
         },
         Meta: meta,
     });
@@ -57,7 +44,7 @@ exports.talkOptionScheme = (0, Type_1.createObjectScheme)({
         Tip: '选项内容',
     }),
     Actions: (0, Type_1.createArrayScheme)({
-        Element: talkActionInfoScheme,
+        Element: new Action_1.TalkActionScheme(),
         Meta: {
             HideName: true,
             NewLine: false,
@@ -87,12 +74,21 @@ exports.talkerScheme = (0, Type_1.createIntScheme)({
         const { Talkers: talkers } = TalkerList_1.TalkerListOp.Get();
         const names = TalkerList_1.TalkerListOp.GetNames();
         const selectedTalker = talkers.find((e) => e.Id === props.Value);
-        return (React.createElement(CommonComponent_1.List, { Items: names, Selected: selectedTalker ? selectedTalker.Name : '', Tip: props.Type.Meta.Tip, OnSelectChanged: (name) => {
+        return (React.createElement(CommonComponent_1.List, { Items: names, Selected: selectedTalker ? selectedTalker.Name : '', Tip: props.Scheme.Meta.Tip, OnSelectChanged: (name) => {
                 const who = talkers.find((e) => e.Name === name);
                 props.OnModify(who.Id, 'normal');
             } }));
     },
 });
+// fuck
+// class WaitTimeScheme extends FloatScheme {
+//     public CreateDefault(): number {
+//         return 1;
+//     }
+//     public Optional?: boolean = true;
+//     public Width?: number = 40;
+//     public Tip?: string = '等待多久之后可以跳过，默认值在【全局配置】表中定义';
+// }
 const talkItemFileds = {
     Id: (0, Type_1.createIntScheme)({
         CreateDefault: () => 1,
@@ -119,7 +115,7 @@ const talkItemFileds = {
         Tip: '对话内容',
     }),
     WaitTime: (0, Type_1.createFloatScheme)({
-        CreateDefault: (container) => 1,
+        CreateDefault: () => 1,
         Meta: {
             Optional: true,
             Width: 40,
@@ -127,7 +123,7 @@ const talkItemFileds = {
         },
     }),
     Actions: (0, Type_1.createArrayScheme)({
-        Element: talkActionInfoScheme,
+        Element: new Action_1.TalkActionScheme(),
         Meta: {
             NewLine: true,
             HideName: true,
@@ -173,8 +169,10 @@ function fixJumpTalk(actions, talkIds) {
     });
     return fixCount;
 }
-function fixTalkItem(item, container) {
-    const items = container;
+function fixTalkItem(item) {
+    // const items = container as ITalkItem[];
+    // fuck
+    const items = [];
     let fixedCount = 0;
     // 确保对话名字唯一
     if (!item.Name || items.find((e) => e.Name === item.Name)) {
@@ -240,8 +238,10 @@ function checkJumpTalk(actions, talkIds, message) {
     });
     return errorCount;
 }
-function checkTalkItem(item, container, message) {
-    const items = container;
+function checkTalkItem(item, message) {
+    // const items = container as ITalkItem[];
+    // fuck
+    const items = [];
     let errorCount = 0;
     if (!item.Name) {
         errorCount++;
@@ -281,10 +281,11 @@ exports.talkItemScheme = (0, Type_1.createObjectScheme)(talkItemFileds, {
         NewLine: true,
         Tip: '对话项',
     },
-    CreateDefault(container) {
-        const items = container;
+    CreateDefault() {
+        // fuck
+        // const items = container as ITalkItem[];
         const item = (0, Type_1.createDefaultObject)(talkItemFileds);
-        fixTalkItem(item, items);
+        // fixTalkItem(item, items);
         return item;
     },
     Fix: fixTalkItem,
@@ -299,10 +300,10 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
             ArraySimplify: true,
             Tip: '对话列表',
         },
-        Fix: (items, container) => {
+        Fix: (items) => {
             let fixCount = 0;
             items.forEach((item) => {
-                const result = fixTalkItem(item, items);
+                const result = fixTalkItem(item);
                 if (result === 'fixed') {
                     fixCount++;
                 }
@@ -317,7 +318,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
         },
     }),
 }, {
-    Filters: [Type_1.EObjectFilter.FlowList],
+    Filters: [Type_1.EActionFilter.FlowList],
     Scheduled: true,
     Meta: {
         Tip: [
@@ -345,7 +346,7 @@ exports.showOptionScheme = (0, Type_1.createObjectScheme)({
         Tip: '选项内容',
     }),
 }, {
-    Filters: [Type_1.EObjectFilter.FlowList],
+    Filters: [Type_1.EActionFilter.FlowList],
     Scheduled: true,
     Meta: {
         Tip: '显示独立选项',

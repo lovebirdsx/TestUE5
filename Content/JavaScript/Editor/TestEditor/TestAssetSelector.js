@@ -7,8 +7,8 @@ const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
 const AssetListCache_1 = require("../Common/AssetListCache");
-const AssetSelector_1 = require("../Common/ReactComponent/AssetSelector");
-const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
+const AssetSelector_1 = require("../Common/BaseComponent/AssetSelector");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 class TestAssetSelector extends React.Component {
     constructor(props) {
         super(props);

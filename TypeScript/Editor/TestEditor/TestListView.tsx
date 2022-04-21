@@ -5,8 +5,8 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../Common/Log';
-import { Btn, List } from '../Common/ReactComponent/CommonComponent';
-import { FilterableList } from '../Common/ReactComponent/FilterableList';
+import { Btn, List } from '../Common/BaseComponent/CommonComponent';
+import { FilterableList } from '../Common/BaseComponent/FilterableList';
 
 interface ITestListViewState {
     SelectName: string;

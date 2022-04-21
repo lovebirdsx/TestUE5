@@ -9,10 +9,10 @@ const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
 const TalkerList_1 = require("../../Game/Common/Operations/TalkerList");
 const KeyCommands_1 = require("../Common/KeyCommands");
-const Color_1 = require("../Common/ReactComponent/Color");
-const CommonComponent_1 = require("../Common/ReactComponent/CommonComponent");
-const ContextBtn_1 = require("../Common/ReactComponent/ContextBtn");
-const ErrorBoundary_1 = require("../Common/ReactComponent/ErrorBoundary");
+const Color_1 = require("../Common/BaseComponent/Color");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
+const ContextBtn_1 = require("../Common/BaseComponent/ContextBtn");
+const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
 const Talker_1 = require("./Talker");
 class TalkerEditor extends React.Component {
     CommandHandles = [];

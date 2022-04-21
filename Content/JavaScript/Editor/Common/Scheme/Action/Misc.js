@@ -5,11 +5,13 @@ exports.waitScheme = exports.showMssageScheme = exports.logScheme = void 0;
 const Type_1 = require("../../../../Common/Type");
 const Action_1 = require("../../../../Game/Flow/Action");
 exports.logScheme = (0, Type_1.createObjectScheme)({
-    Level: (0, Type_1.createEnumType)(Action_1.logLeveConfig, {
-        Meta: {
-            HideName: true,
-        },
-    }),
+    // fuck
+    // Level: createEnumType(logLeveConfig, {
+    //     Meta: {
+    //         HideName: true,
+    //     },
+    // }) as Scheme<TLogLevel>,
+    Level: new Type_1.EnumScheme(Action_1.logLeveConfig),
     Content: (0, Type_1.createStringScheme)({
         Meta: {
             HideName: true,
@@ -37,14 +39,15 @@ exports.showMssageScheme = (0, Type_1.createObjectScheme)({
         Tip: '在屏幕上显示消息',
     },
 });
+class TimeScheme extends Type_1.FloatScheme {
+    CreateDefault() {
+        return 0.5;
+    }
+    HideName = true;
+    Tip = '等待时长，单位秒';
+}
 exports.waitScheme = (0, Type_1.createObjectScheme)({
-    Time: (0, Type_1.createFloatScheme)({
-        CreateDefault: () => 0.5,
-        Meta: {
-            HideName: true,
-            Tip: '等待时长，单位秒',
-        },
-    }),
+    Time: new TimeScheme(),
 }, {
     Meta: {
         Tip: '等待一段时间',

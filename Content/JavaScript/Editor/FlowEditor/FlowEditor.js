@@ -30,6 +30,7 @@ class FlowEditor extends React.Component {
     CommandHandles = [];
     AutoSaveHander;
     LastModifyTime;
+    LastSaveFailState;
     TimeSecond;
     constructor(props) {
         super(props);
@@ -64,6 +65,9 @@ class FlowEditor extends React.Component {
             return;
         }
         if (this.TimeSecond - this.LastModifyTime < ConfigFile_1.ConfigFile.AutoSaveInterval) {
+            return;
+        }
+        if (this.FlowList === this.LastSaveFailState) {
             return;
         }
         (0, Log_1.log)('Auto save triggered');
@@ -155,6 +159,7 @@ class FlowEditor extends React.Component {
         const messages = [];
         if (FlowList_2.editorFlowListOp.Check(this.FlowList, messages) > 0) {
             (0, UeHelper_1.errorbox)(`保存失败，错误：\n${messages.join('\n')}`);
+            this.LastSaveFailState = this.FlowList;
             return;
         }
         this.ConfigFile.Save();

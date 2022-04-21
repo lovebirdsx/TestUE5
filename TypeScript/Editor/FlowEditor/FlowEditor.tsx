@@ -55,6 +55,8 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
 
     private LastModifyTime: number;
 
+    private LastSaveFailState: IFlowListInfo;
+
     private TimeSecond: number;
 
     public constructor(props: unknown) {
@@ -96,6 +98,9 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             return;
         }
         if (this.TimeSecond - this.LastModifyTime < ConfigFile.AutoSaveInterval) {
+            return;
+        }
+        if (this.FlowList === this.LastSaveFailState) {
             return;
         }
 
@@ -204,6 +209,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         const messages: string[] = [];
         if (editorFlowListOp.Check(this.FlowList, messages) > 0) {
             errorbox(`保存失败，错误：\n${messages.join('\n')}`);
+            this.LastSaveFailState = this.FlowList;
             return;
         }
 

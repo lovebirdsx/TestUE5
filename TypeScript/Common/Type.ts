@@ -83,30 +83,18 @@ export function getSchemeClass<T = unknown>(scheme: Scheme<T>): TSchemeClass<T> 
     return undefined;
 }
 
-function getEnumNames(config: Record<string, string>): string[] {
-    const names = [] as string[];
-    for (const key in config) {
-        names.push(key);
-    }
-    return names;
-}
-
-export class EnumScheme<T extends string> extends Scheme<T> {
+export abstract class EnumScheme<T extends string> extends Scheme<T> {
     public RenderType: TElementRenderType = 'enum';
 
-    public readonly Config: Record<string, string>;
+    public abstract Config: Record<string, string>;
 
-    public readonly Names: string[];
+    public abstract Names: string[];
+
+    public HideName?: boolean = true;
 
     public readonly Meta: IMeta = {
         HideName: true,
     };
-
-    public constructor(config: Record<string, string>) {
-        super();
-        this.Config = config;
-        this.Names = getEnumNames(config);
-    }
 
     public CreateDefault(): T {
         for (const k in this.Config) {
@@ -136,6 +124,8 @@ export abstract class ArrayScheme<T = unknown> extends Scheme<T[]> {
     }
 
     public abstract Element: Scheme<T>;
+
+    public HideName?: boolean = true;
 }
 
 export enum EActionFilter {
@@ -305,6 +295,8 @@ export const emptyObjectScheme = createObjectScheme({});
 
 export class IntScheme extends Scheme<number> {
     public RenderType: TElementRenderType = 'int';
+
+    public HideName?: boolean = true;
 
     public CreateDefault(): number {
         return 0;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.customSeqIdScheme = exports.talkerNamesScheme = exports.csvFollowCellScheme = exports.csvCellTypeScheme = void 0;
+exports.customSeqIdScheme = exports.talkerNamesScheme = exports.csvFollowCellScheme = exports.csvCellTypeScheme = exports.CsvCellTypeScheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
 const react_umg_1 = require("react-umg");
@@ -8,12 +8,13 @@ const CsvLoader_1 = require("../../../../Common/CsvLoader");
 const CsvOp_1 = require("../../../../Common/CsvOp");
 const Log_1 = require("../../../../Common/Log");
 const Type_1 = require("../../../../Common/Type");
+const Util_1 = require("../../../../Common/Util");
 const CsvRegistry_1 = require("../../../../Game/Common/CsvConfig/CsvRegistry");
 const ConfigFile_1 = require("../../../FlowEditor/ConfigFile");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const Any_1 = require("../../SchemeComponent/Basic/Any");
 const Context_1 = require("../../SchemeComponent/Context");
-const Util_1 = require("../../Util");
+const Util_2 = require("../../Util");
 function genCsvCellTypeEnumConfig() {
     const configs = CsvLoader_1.csvCellTypeConfig;
     const slotList = Object.entries(configs).map(([type, slot]) => {
@@ -21,13 +22,13 @@ function genCsvCellTypeEnumConfig() {
     });
     return Object.fromEntries(slotList);
 }
-// fuck
-// export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
-//     Meta: {
-//         HideName: true,
-//     },
-// });
-exports.csvCellTypeScheme = new Type_1.EnumScheme(genCsvCellTypeEnumConfig());
+const csvCellTypeEnumConfig = genCsvCellTypeEnumConfig();
+class CsvCellTypeScheme extends Type_1.EnumScheme {
+    Config = csvCellTypeEnumConfig;
+    Names = (0, Util_1.getEnumNamesByConfig)(csvCellTypeEnumConfig);
+}
+exports.CsvCellTypeScheme = CsvCellTypeScheme;
+exports.csvCellTypeScheme = new CsvCellTypeScheme();
 function getCsvCellSchemeByType(type) {
     switch (type) {
         case 'Int':
@@ -61,7 +62,7 @@ function openCsvEditor(csvName) {
     configFile.Load();
     configFile.CsvName = csvName;
     configFile.Save();
-    (0, Util_1.sendEditorCommand)('RestartCsvEditor');
+    (0, Util_2.sendEditorCommand)('RestartCsvEditor');
 }
 // 创建csv引用字段Scheme
 function createCsvIndexScheme(csvName, indexField, valueField, indexType) {

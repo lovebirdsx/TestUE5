@@ -10,12 +10,12 @@ const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
 const UeHelper_1 = require("../../Common/UeHelper");
 const FlowList_1 = require("../../Game/Common/Operations/FlowList");
-const KeyCommands_1 = require("../Common/KeyCommands");
-const FlowList_2 = require("../Common/Operations/FlowList");
 const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
-const FlowList_3 = require("../Common/ExtendComponent/FlowList");
+const FlowList_2 = require("../Common/ExtendComponent/FlowList");
+const KeyCommands_1 = require("../Common/KeyCommands");
+const FlowList_3 = require("../Common/Operations/FlowList");
 const Util_1 = require("../Common/Util");
 const ConfigFile_1 = require("./ConfigFile");
 const TalkListTool_1 = require("./TalkListTool");
@@ -30,6 +30,7 @@ class FlowEditor extends React.Component {
     CommandHandles = [];
     AutoSaveHander;
     LastModifyTime;
+    LastSaveFailState;
     TimeSecond;
     constructor(props) {
         super(props);
@@ -64,6 +65,9 @@ class FlowEditor extends React.Component {
             return;
         }
         if (this.TimeSecond - this.LastModifyTime < ConfigFile_1.ConfigFile.AutoSaveInterval) {
+            return;
+        }
+        if (this.FlowList === this.LastSaveFailState) {
             return;
         }
         (0, Log_1.log)('Auto save triggered');
@@ -153,20 +157,21 @@ class FlowEditor extends React.Component {
     };
     Save = () => {
         const messages = [];
-        if (FlowList_2.editorFlowListOp.Check(this.FlowList, messages) > 0) {
+        if (FlowList_3.editorFlowListOp.Check(this.FlowList, messages) > 0) {
             (0, UeHelper_1.errorbox)(`保存失败，错误：\n${messages.join('\n')}`);
+            this.LastSaveFailState = this.FlowList;
             return;
         }
         this.ConfigFile.Save();
         // 此处不能直接使用this.flowList,因为会修改其内容
         // React修改state中的内容,只能在setState中进行
         const flowListToSave = (0, immer_1.default)(this.FlowList, (draft) => {
-            const removeCount = FlowList_2.editorFlowListOp.FormatTexts(draft);
+            const removeCount = FlowList_3.editorFlowListOp.FormatTexts(draft);
             if (removeCount > 0) {
                 (0, Log_1.log)(`remove ${removeCount} text ids`);
             }
         });
-        FlowList_2.editorFlowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
+        FlowList_3.editorFlowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
         this.setState({
             Saved: this.FlowList,
         });
@@ -314,7 +319,7 @@ class FlowEditor extends React.Component {
                         React.createElement(CommonComponent_1.Btn, { Text: '导入对话...', OnClick: this.Import, Tip: '从CSV中导入对话配置,具体请参考【流程编辑器】使用说明' })),
                     this.state.IsDevelop && this.RenderDevelopElements())),
             React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
-                React.createElement(ErrorBoundary_1.ErrorBoundary, null, this.state.OpenError ? (React.createElement(CommonComponent_1.SlotText, { Text: `${this.state.OpenError}` })) : (React.createElement(FlowList_3.FlowList, { FlowList: this.FlowList, OnModify: this.ModifyFlowList }))))));
+                React.createElement(ErrorBoundary_1.ErrorBoundary, null, this.state.OpenError ? (React.createElement(CommonComponent_1.SlotText, { Text: `${this.state.OpenError}` })) : (React.createElement(FlowList_2.FlowList, { FlowList: this.FlowList, OnModify: this.ModifyFlowList }))))));
     }
 }
 exports.FlowEditor = FlowEditor;

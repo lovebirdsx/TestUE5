@@ -4,20 +4,20 @@ import { TActionType } from '../../../../Game/Flow/Action';
 import { actionRegistry } from './ActionRegistry';
 import { playFlowScheme } from './Flow';
 import { FinishTalkScheme, JumpTalkScheme } from './JumpTalk';
-import { logScheme, showMssageScheme, waitScheme } from './Misc';
+import { LogScheme, showMssageScheme, waitScheme } from './Misc';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
-import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
+import { ChangeRandomStateScheme, ChangeStateScheme, FinishStateScheme } from './State';
 
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
-    ChangeState: changeStateScheme as ObjectScheme<unknown>,
-    ChangeRandomState: changeRandomStateScheme as ObjectScheme<unknown>,
+    ChangeState: new ChangeStateScheme() as ObjectScheme<unknown>,
+    ChangeRandomState: new ChangeRandomStateScheme() as ObjectScheme<unknown>,
     FinishTalk: new FinishTalkScheme(),
-    FinishState: finishStateScheme,
+    FinishState: new FinishStateScheme(),
     JumpTalk: new JumpTalkScheme() as ObjectScheme<unknown>,
-    Log: logScheme as ObjectScheme<unknown>,
+    Log: new LogScheme() as ObjectScheme<unknown>,
     PlayFlow: playFlowScheme as ObjectScheme<unknown>,
     PlaySequenceData: playSequenceDataScheme as ObjectScheme<unknown>,
     PlayCustomSequence: playCustomSequenceScheme as ObjectScheme<unknown>,

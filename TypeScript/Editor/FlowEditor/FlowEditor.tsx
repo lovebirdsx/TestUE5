@@ -20,12 +20,12 @@ import {
     flowListOp,
 } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
-import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { FlowList } from '../Common/ExtendComponent/FlowList';
+import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
+import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from './ConfigFile';
 import { TalkListTool } from './TalkListTool';
@@ -54,6 +54,8 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     private AutoSaveHander: NodeJS.Timer;
 
     private LastModifyTime: number;
+
+    private LastSaveFailState: IFlowListInfo;
 
     private TimeSecond: number;
 
@@ -95,7 +97,12 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         if (!this.NeedSave()) {
             return;
         }
+
         if (this.TimeSecond - this.LastModifyTime < ConfigFile.AutoSaveInterval) {
+            return;
+        }
+
+        if (this.FlowList === this.LastSaveFailState) {
             return;
         }
 
@@ -204,6 +211,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         const messages: string[] = [];
         if (editorFlowListOp.Check(this.FlowList, messages) > 0) {
             errorbox(`保存失败，错误：\n${messages.join('\n')}`);
+            this.LastSaveFailState = this.FlowList;
             return;
         }
 

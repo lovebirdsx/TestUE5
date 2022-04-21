@@ -3,13 +3,13 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { TModifyType } from '../../Common/Type';
+import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { parseComponentsState } from '../../Game/Entity/Interface';
 import TsEntity from '../../Game/Entity/TsEntity';
-import LevelEditor from '../Common/LevelEditor';
 import { Btn, SlotText } from '../Common/BaseComponent/CommonComponent';
-import { Obj } from '../Common/SchemeComponent/Basic/Public';
+import LevelEditor from '../Common/LevelEditor';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
+import { Obj } from '../Common/SchemeComponent/Basic/Public';
 import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {
@@ -49,7 +49,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 <Obj
                     PrefixElement={this.RenderPrefixElement()}
                     Value={pureData}
-                    Scheme={scheme}
+                    Scheme={scheme as ObjectScheme<TEntityPureData>}
                     OnModify={props.OnModify}
                 />
                 <ComponentsState

@@ -4,33 +4,41 @@ import {
     createStringScheme,
     EnumScheme,
     FloatScheme,
+    ObjectScheme,
+    StringScheme,
+    TObjectFields,
 } from '../../../../Common/Type';
-import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Game/Flow/Action';
+import { getEnumNamesByConfig } from '../../../../Common/Util';
+import { ILog, IShowMessage, IWait, logLeveConfig, TLogLevel } from '../../../../Game/Flow/Action';
 
-export const logScheme = createObjectScheme<ILog>(
-    {
-        // fuck
-        // Level: createEnumType(logLeveConfig, {
-        //     Meta: {
-        //         HideName: true,
-        //     },
-        // }) as Scheme<TLogLevel>,
-        Level: new EnumScheme(logLeveConfig),
-        Content: createStringScheme({
-            Meta: {
-                HideName: true,
-                Width: 300,
-                Tip: '内容',
-            },
-            CreateDefault: () => 'Hello World',
-        }),
-    },
-    {
-        Meta: {
-            Tip: '向控制台输出消息',
-        },
-    },
-);
+export class LogLevelScheme extends EnumScheme<TLogLevel> {
+    public Config: Record<string, string> = logLeveConfig;
+
+    public Names: string[] = getEnumNamesByConfig(logLeveConfig);
+}
+
+const DEFAULT_CONTENT_LEN = 300;
+
+export class ContentScheme extends StringScheme {
+    public CreateDefault(): string {
+        return 'Hello World';
+    }
+
+    public HideName?: boolean = true;
+
+    public Width?: number = DEFAULT_CONTENT_LEN;
+
+    public Tip?: string = '内容';
+}
+
+export class LogScheme extends ObjectScheme<ILog> {
+    public Fields: TObjectFields<ILog> = {
+        Level: new LogLevelScheme(),
+        Content: new ContentScheme(),
+    };
+
+    public Tip?: string = '向控制台输出消息';
+}
 
 export const showMssageScheme = createObjectScheme<IShowMessage>(
     {

@@ -1,21 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
+    createEnumScheme,
     createObjectScheme,
     createStringScheme,
-    EnumScheme,
     FloatScheme,
 } from '../../../../Common/Type';
 import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Game/Flow/Action';
 
 export const logScheme = createObjectScheme<ILog>(
     {
-        // fuck
-        // Level: createEnumType(logLeveConfig, {
-        //     Meta: {
-        //         HideName: true,
-        //     },
-        // }) as Scheme<TLogLevel>,
-        Level: new EnumScheme(logLeveConfig),
+        Level: createEnumScheme(logLeveConfig),
         Content: createStringScheme({
             Meta: {
                 HideName: true,

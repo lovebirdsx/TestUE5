@@ -35,7 +35,7 @@ const stateIdScheme = (0, Type_1.createIntScheme)({
 exports.changeStateScheme = (0, Type_1.createObjectScheme)({
     StateId: stateIdScheme,
 }, {
-    Filters: [Type_1.EActionFilter.FlowList],
+    Filters: [Type_1.EActionFilter.FlowList, Type_1.EActionFilter.Talk],
     Meta: {
         Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
     },

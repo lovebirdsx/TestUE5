@@ -6,9 +6,9 @@ import { HorizontalBox } from 'react-umg';
 import { csvOp } from '../../../../Common/CsvOp';
 import {
     createAssetScheme,
+    createEnumScheme,
     createObjectScheme,
-    createUnknownScheme,
-    EnumScheme,
+    createScheme,
     IProps,
     Scheme,
 } from '../../../../Common/Type';
@@ -63,7 +63,7 @@ function getTalkerCountByCameraBindType(type: TCameraBindMode): number {
 
 const DEFAULT_WHO_ID = 0;
 
-const whoIdsScheme = createUnknownScheme({
+const whoIdsScheme = createScheme({
     CreateDefault: () => [],
     Meta: {
         Tip: '镜头绑定的对象',
@@ -123,11 +123,4 @@ export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>(
     },
 );
 
-// fuck
-// export const cameraBindModeScheme = createEnumType(cameraBindModeConfig, {
-//     Meta: {
-//         HideName: true,
-//     },
-// });
-
-export const cameraBindModeScheme = new EnumScheme(cameraBindModeConfig);
+export const cameraBindModeScheme = createEnumScheme(cameraBindModeConfig);

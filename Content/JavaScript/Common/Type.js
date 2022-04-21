@@ -1,12 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUnknownScheme = exports.floatScheme = exports.FloatScheme = exports.createFloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createDefaultObject = exports.checkFields = exports.fixFileds = exports.createArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.ArrayScheme = exports.AssetScheme = exports.EnumScheme = exports.getSchemeClass = exports.Scheme = void 0;
-/* eslint-disable no-param-reassign */
+exports.floatScheme = exports.createFloatScheme = exports.FloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.AssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createArrayScheme = exports.ArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.createEnumScheme = exports.EnumScheme = exports.getSchemeClass = exports.createScheme = exports.Scheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
 class Scheme {
+    RenderType = 'string';
     Render;
+    CreateDefault() {
+        return undefined;
+    }
     Fix(value) {
         return 'canNotFixed';
     }
@@ -14,7 +17,7 @@ class Scheme {
         return 0;
     }
     Meta = {};
-    HideName; // 是否显示字段的名字
+    HideName = true; // 是否显示字段的名字
     Hide; // 是否在编辑器中隐藏
     NewLine; // 字段是否换行
     Optional; // 字段是否可选
@@ -23,6 +26,12 @@ class Scheme {
     Tip; // 提示文字
 }
 exports.Scheme = Scheme;
+function createScheme(type) {
+    const scheme = new Scheme();
+    Object.assign(scheme, type);
+    return scheme;
+}
+exports.createScheme = createScheme;
 function getSchemeClass(scheme) {
     if (scheme.constructor) {
         return scheme.constructor;
@@ -41,14 +50,6 @@ class EnumScheme extends Scheme {
     RenderType = 'enum';
     Config;
     Names;
-    Meta = {
-        HideName: true,
-    };
-    constructor(config) {
-        super();
-        this.Config = config;
-        this.Names = getEnumNames(config);
-    }
     CreateDefault() {
         for (const k in this.Config) {
             return k;
@@ -57,22 +58,13 @@ class EnumScheme extends Scheme {
     }
 }
 exports.EnumScheme = EnumScheme;
-class AssetScheme extends Scheme {
-    RenderType = 'asset';
-    CreateDefault() {
-        return '';
-    }
-    ClassPath;
-    SearchPath;
+function createEnumScheme(config) {
+    const scheme = new EnumScheme();
+    scheme.Config = config;
+    scheme.Names = getEnumNames(config);
+    return scheme;
 }
-exports.AssetScheme = AssetScheme;
-class ArrayScheme extends Scheme {
-    RenderType = 'array';
-    CreateDefault() {
-        return [];
-    }
-}
-exports.ArrayScheme = ArrayScheme;
+exports.createEnumScheme = createEnumScheme;
 var EActionFilter;
 (function (EActionFilter) {
     EActionFilter[EActionFilter["FlowList"] = 0] = "FlowList";
@@ -85,126 +77,115 @@ function actionFilterExcept(...args) {
     return result;
 }
 exports.actionFilterExcept = actionFilterExcept;
+class ArrayScheme extends Scheme {
+    RenderType = 'array';
+    CreateDefault() {
+        return [];
+    }
+    Element;
+    Check(value, messages) {
+        let fixCount = 0;
+        value.forEach((e) => {
+            fixCount += this.Element.Check(e, messages);
+        });
+        return fixCount;
+    }
+    Fix(value) {
+        let fixCount = 0;
+        value.forEach((e) => {
+            if (this.Element.Fix(e) === 'fixed') {
+                fixCount++;
+            }
+        });
+        return fixCount > 0 ? 'fixed' : 'nothing';
+    }
+}
+exports.ArrayScheme = ArrayScheme;
 function createArrayScheme(type) {
-    return {
-        RenderType: 'array',
-        CreateDefault: type.CreateDefault ||
-            function () {
-                return [];
-            },
-        Element: type.Element,
-        Meta: type.Meta || {},
-        Check: type.Check ||
-            ((value, messages) => {
-                let fixCount = 0;
-                value.forEach((e) => {
-                    fixCount += type.Element.Check(e, messages);
-                });
-                return fixCount;
-            }),
-        Fix: type.Fix ||
-            ((value) => {
-                let fixCount = 0;
-                value.forEach((e) => {
-                    if (type.Element.Fix(e) === 'fixed') {
-                        fixCount++;
-                    }
-                });
-                return fixCount > 0 ? 'fixed' : 'nothing';
-            }),
-    };
+    const scheme = new ArrayScheme();
+    Object.assign(scheme, type);
+    return scheme;
 }
 exports.createArrayScheme = createArrayScheme;
-function fixFileds(value, fields) {
-    let fixCount = 0;
-    for (const key in fields) {
-        const filedTypeData = fields[key];
-        if (value[key] === undefined) {
-            if (!filedTypeData.Meta.Optional) {
-                value[key] = filedTypeData.CreateDefault();
-                (0, Log_1.log)(`fixed no exist field [${key}]`);
-                fixCount++;
-            }
-        }
-        else {
-            const reuslt = filedTypeData.Fix(value[key]);
-            if (reuslt === 'fixed') {
-                (0, Log_1.log)(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
-                fixCount++;
-            }
-        }
-    }
-    const keysToRemove = [];
-    for (const key in value) {
-        if (!fields[key] && !key.startsWith('_')) {
-            keysToRemove.push(key);
-        }
-    }
-    keysToRemove.forEach((key) => {
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete value[key];
-        fixCount++;
-        (0, Log_1.log)(`remove no exist field [${key}]`);
-    });
-    return fixCount > 0 ? 'fixed' : 'nothing';
-}
-exports.fixFileds = fixFileds;
-function checkFields(value, fields, errorMessages) {
-    let errorCount = 0;
-    for (const key in fields) {
-        const filedTypeData = fields[key];
-        if (value[key] === undefined) {
-            if (!filedTypeData.Meta.Optional) {
-                errorMessages.push(`字段[${key}]值为空`);
-                errorCount++;
-            }
-        }
-        else {
-            errorCount += filedTypeData.Check(value[key], errorMessages);
-        }
-    }
-    for (const key in value) {
-        if (!fields[key] && !key.startsWith('_')) {
-            errorMessages.push(`存在非法的字段[${key}]`);
-            errorCount++;
-        }
-    }
-    return errorCount;
-}
-exports.checkFields = checkFields;
-function createDefaultObject(fields) {
-    const fieldArray = [];
-    for (const key in fields) {
-        const filedTypeData = fields[key];
-        if (!filedTypeData.Meta.Optional) {
-            fieldArray.push([key, filedTypeData.CreateDefault()]);
-        }
-    }
-    return Object.fromEntries(fieldArray);
-}
-exports.createDefaultObject = createDefaultObject;
 class ObjectScheme extends Scheme {
     RenderType = 'object';
     Filters = exports.allActionFilters;
+    Fields;
     CreateDefault() {
-        return createDefaultObject(this.Fields);
+        const fieldArray = [];
+        for (const key in this.Fields) {
+            const filedTypeData = this.Fields[key];
+            if (!filedTypeData.Meta.Optional) {
+                fieldArray.push([key, filedTypeData.CreateDefault()]);
+            }
+        }
+        return Object.fromEntries(fieldArray);
     }
     Scheduled;
+    Fix(value) {
+        let fixCount = 0;
+        for (const key in this.Fields) {
+            const filedTypeData = this.Fields[key];
+            if (value[key] === undefined) {
+                if (!filedTypeData.Meta.Optional) {
+                    value[key] = filedTypeData.CreateDefault();
+                    (0, Log_1.log)(`fixed no exist field [${key}]`);
+                    fixCount++;
+                }
+            }
+            else {
+                const reuslt = filedTypeData.Fix(value[key]);
+                if (reuslt === 'fixed') {
+                    (0, Log_1.log)(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
+                    fixCount++;
+                }
+            }
+        }
+        const keysToRemove = [];
+        for (const key in value) {
+            if (!this.Fields[key] && !key.startsWith('_')) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach((key) => {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete value[key];
+            fixCount++;
+            (0, Log_1.log)(`remove no exist field [${key}]`);
+        });
+        return fixCount > 0 ? 'fixed' : 'nothing';
+    }
+    Check(value, messages) {
+        let errorCount = 0;
+        for (const key in this.Fields) {
+            const filedTypeData = this.Fields[key];
+            if (value[key] === undefined) {
+                if (!filedTypeData.Meta.Optional) {
+                    messages.push(`字段[${key}]值为空`);
+                    errorCount++;
+                }
+            }
+            else {
+                errorCount += filedTypeData.Check(value[key], messages);
+            }
+        }
+        for (const key in value) {
+            if (!this.Fields[key] && !key.startsWith('_')) {
+                messages.push(`存在非法的字段[${key}]`);
+                errorCount++;
+            }
+        }
+        return errorCount;
+    }
 }
 exports.ObjectScheme = ObjectScheme;
 function createObjectScheme(fields, type) {
-    type = type || {};
-    return {
-        RenderType: 'object',
-        Fields: fields,
-        Meta: type.Meta || {},
-        CreateDefault: type.CreateDefault || (() => createDefaultObject(fields)),
-        Filters: type.Filters || (0, Util_1.getEnumValues)(EActionFilter),
-        Fix: type.Fix || ((value) => fixFileds(value, fields)),
-        Check: type.Check || ((value, messages) => checkFields(value, fields, messages)),
-        Render: type.Render,
-        Scheduled: type.Scheduled,
-    };
+    const scheme = new ObjectScheme();
+    scheme.Fields = fields;
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
 }
 exports.createObjectScheme = createObjectScheme;
 exports.emptyObjectScheme = createObjectScheme({});
@@ -214,18 +195,15 @@ class IntScheme extends Scheme {
     CreateDefault() {
         return 0;
     }
+    HideName = true;
 }
 exports.IntScheme = IntScheme;
 function createIntScheme(type) {
-    type = type || {};
-    return {
-        RenderType: 'int',
-        CreateDefault: type.CreateDefault || (() => 0),
-        Meta: type.Meta || {},
-        Render: type.Render,
-        Fix: () => 'canNotFixed',
-        Check: type.Check || (() => 0),
-    };
+    const scheme = new IntScheme();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
 }
 exports.createIntScheme = createIntScheme;
 exports.intScheme = new IntScheme();
@@ -233,38 +211,36 @@ exports.intScheme = new IntScheme();
 class StringScheme extends Scheme {
     RenderType = 'string';
     CreateDefault() {
-        return '';
+        return 'Empty';
     }
 }
 exports.StringScheme = StringScheme;
 function createStringScheme(type) {
-    type = type || {};
-    return {
-        RenderType: 'string',
-        CreateDefault: type.CreateDefault || (() => 'Empty'),
-        Meta: type.Meta || {},
-        Render: type.Render,
-        Fix: () => 'nothing',
-        Check: type.Check || (() => 0),
-    };
+    const scheme = new StringScheme();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
 }
 exports.createStringScheme = createStringScheme;
 exports.stringScheme = createStringScheme();
 // ============================================================================
+class AssetScheme extends Scheme {
+    RenderType = 'asset';
+    CreateDefault() {
+        return '';
+    }
+    ClassPath;
+    SearchPath;
+}
+exports.AssetScheme = AssetScheme;
 function createAssetScheme(type) {
     if (!type.ClassPath || !type.SearchPath) {
         (0, Log_1.error)('AssetScheme must set ClassPath and SearchPath');
     }
-    return {
-        RenderType: 'asset',
-        CreateDefault: type.CreateDefault || (() => ''),
-        Meta: type.Meta || {},
-        Render: type.Render,
-        ClassPath: type.ClassPath,
-        SearchPath: type.SearchPath,
-        Fix: () => 'nothing',
-        Check: type.Check || (() => 0),
-    };
+    const scheme = new AssetScheme();
+    Object.assign(scheme, type);
+    return scheme;
 }
 exports.createAssetScheme = createAssetScheme;
 // ============================================================================
@@ -276,15 +252,11 @@ class BooleanScheme extends Scheme {
 }
 exports.BooleanScheme = BooleanScheme;
 function createBooleanScheme(type) {
-    type = type || {};
-    return {
-        RenderType: 'boolean',
-        CreateDefault: type.CreateDefault || (() => false),
-        Meta: type.Meta || {},
-        Render: type.Render,
-        Fix: () => 'canNotFixed',
-        Check: type.Check || (() => 0),
-    };
+    const scheme = new BooleanScheme();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
 }
 exports.createBooleanScheme = createBooleanScheme;
 exports.booleanScheme = createBooleanScheme();
@@ -292,18 +264,6 @@ exports.booleanHideNameScheme = createBooleanScheme({
     Meta: { HideName: true },
 });
 // ============================================================================
-function createFloatScheme(type) {
-    type = type || {};
-    return {
-        RenderType: 'float',
-        CreateDefault: type.CreateDefault || (() => 0.0),
-        Meta: type.Meta || {},
-        Render: type.Render,
-        Fix: () => 'canNotFixed',
-        Check: type.Check || (() => 0),
-    };
-}
-exports.createFloatScheme = createFloatScheme;
 class FloatScheme extends Scheme {
     RenderType = 'float';
     CreateDefault() {
@@ -311,17 +271,13 @@ class FloatScheme extends Scheme {
     }
 }
 exports.FloatScheme = FloatScheme;
-exports.floatScheme = new FloatScheme();
-// ============================================================================
-function createUnknownScheme(type) {
-    return {
-        RenderType: 'custom',
-        Render: type.Render,
-        CreateDefault: type.CreateDefault || (() => undefined),
-        Fix: type.Fix || (() => 'canNotFixed'),
-        Check: type.Check || (() => 0),
-        Meta: type.Meta || {},
-    };
+function createFloatScheme(type) {
+    const scheme = new FloatScheme();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
 }
-exports.createUnknownScheme = createUnknownScheme;
+exports.createFloatScheme = createFloatScheme;
+exports.floatScheme = createFloatScheme();
 //# sourceMappingURL=Type.js.map

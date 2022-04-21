@@ -22,9 +22,9 @@ const State_1 = require("./State");
 const objectSchemeMap = {
     ChangeState: State_1.changeStateScheme,
     ChangeRandomState: State_1.changeRandomStateScheme,
-    FinishTalk: new JumpTalk_1.FinishTalkScheme(),
+    FinishTalk: JumpTalk_1.finishTalkScheme,
     FinishState: State_1.finishStateScheme,
-    JumpTalk: new JumpTalk_1.JumpTalkScheme(),
+    JumpTalk: JumpTalk_1.jumpTalkScheme,
     Log: Misc_1.logScheme,
     PlayFlow: Flow_1.playFlowScheme,
     PlaySequenceData: Sequence_1.playSequenceDataScheme,

@@ -5,13 +5,7 @@ exports.waitScheme = exports.showMssageScheme = exports.logScheme = void 0;
 const Type_1 = require("../../../../Common/Type");
 const Action_1 = require("../../../../Game/Flow/Action");
 exports.logScheme = (0, Type_1.createObjectScheme)({
-    // fuck
-    // Level: createEnumType(logLeveConfig, {
-    //     Meta: {
-    //         HideName: true,
-    //     },
-    // }) as Scheme<TLogLevel>,
-    Level: new Type_1.EnumScheme(Action_1.logLeveConfig),
+    Level: (0, Type_1.createEnumScheme)(Action_1.logLeveConfig),
     Content: (0, Type_1.createStringScheme)({
         Meta: {
             HideName: true,

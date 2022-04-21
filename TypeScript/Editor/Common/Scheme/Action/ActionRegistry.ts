@@ -1,12 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { error, log } from '../../../../Common/Log';
-import {
-    checkFields,
-    EActionFilter,
-    fixFileds,
-    ObjectScheme,
-    TFixResult,
-} from '../../../../Common/Type';
+import { EActionFilter, ObjectScheme, TFixResult } from '../../../../Common/Type';
 import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
 import {
     ActionScheme,
@@ -93,9 +87,9 @@ class ActionRegistry {
             return 'fixed';
         }
 
-        const old = JSON.stringify(action.Params);
-        const result = fixFileds(action.Params, typeData.Fields);
+        const result = typeData.Fix(action.Params);
         if (result === 'fixed') {
+            const old = JSON.stringify(action.Params);
             log(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
         }
         return result;
@@ -108,7 +102,7 @@ class ActionRegistry {
         }
 
         const errorMessages1 = [] as string[];
-        checkFields(action.Params, typeData.Fields, errorMessages1);
+        typeData.Check(action.Params, errorMessages1);
         errorMessages1.forEach((msg) => {
             errorMessages.push(`[${action.Name}]${msg}`);
         });

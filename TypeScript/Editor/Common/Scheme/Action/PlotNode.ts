@@ -2,9 +2,9 @@
 import {
     actionFilterExcept,
     booleanHideNameScheme,
+    createEnumScheme,
     createObjectScheme,
     EActionFilter,
-    EnumScheme,
 } from '../../../../Common/Type';
 import {
     cameraModeConfig,
@@ -17,13 +17,7 @@ import {
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
     {
-        // fuck
-        // Option: createEnumType(flowBoolOptionConfig, {
-        //     Meta: {
-        //         HideName: true,
-        //     },
-        // }),
-        Option: new EnumScheme(flowBoolOptionConfig),
+        Option: createEnumScheme(flowBoolOptionConfig),
         Value: booleanHideNameScheme,
     },
     {
@@ -36,13 +30,7 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
 
 export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
     {
-        // fuck
-        // Mode: createEnumType(cameraModeConfig, {
-        //     Meta: {
-        //         HideName: true,
-        //     },
-        // }),
-        Mode: new EnumScheme(cameraModeConfig),
+        Mode: createEnumScheme(cameraModeConfig),
     },
     {
         Meta: {
@@ -53,13 +41,7 @@ export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
 
 export const setPlotModeScheme = createObjectScheme<ISetPlotMode>(
     {
-        // fuck
-        // Mode: createEnumType(plotModeConfig, {
-        //     Meta: {
-        //         HideName: true,
-        //     },
-        // }),
-        Mode: new EnumScheme(plotModeConfig),
+        Mode: createEnumScheme(plotModeConfig),
     },
     {
         Filters: [EActionFilter.FlowList],

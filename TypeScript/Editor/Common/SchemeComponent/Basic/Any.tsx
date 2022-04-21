@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { getSchemeClass, IProps } from '../../../../Common/Type';
+import { IProps } from '../../../../Common/Type';
 import { Text } from '../../BaseComponent/CommonComponent';
 import { renderRegistry } from '../RenderRegistry';
 import { componentRegistry } from './ComponentRegistry';
@@ -15,7 +15,7 @@ export class Any extends React.Component<IProps> {
             return type.Render(props);
         }
 
-        const component = renderRegistry.GetComponent(getSchemeClass(props.Scheme));
+        const component = renderRegistry.GetComponent(props.Scheme);
         if (component) {
             return React.createElement(component, { ...props });
         }

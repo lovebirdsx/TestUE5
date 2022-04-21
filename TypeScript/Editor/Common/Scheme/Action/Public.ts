@@ -3,7 +3,7 @@ import { ObjectScheme } from '../../../../Common/Type';
 import { TActionType } from '../../../../Game/Flow/Action';
 import { actionRegistry } from './ActionRegistry';
 import { playFlowScheme } from './Flow';
-import { FinishTalkScheme, JumpTalkScheme } from './JumpTalk';
+import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
@@ -14,9 +14,9 @@ import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from '.
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeState: changeStateScheme as ObjectScheme<unknown>,
     ChangeRandomState: changeRandomStateScheme as ObjectScheme<unknown>,
-    FinishTalk: new FinishTalkScheme(),
+    FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
-    JumpTalk: new JumpTalkScheme() as ObjectScheme<unknown>,
+    JumpTalk: jumpTalkScheme as ObjectScheme<unknown>,
     Log: logScheme as ObjectScheme<unknown>,
     PlayFlow: playFlowScheme as ObjectScheme<unknown>,
     PlaySequenceData: playSequenceDataScheme as ObjectScheme<unknown>,

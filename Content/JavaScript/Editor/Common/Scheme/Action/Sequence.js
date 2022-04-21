@@ -44,7 +44,7 @@ function getTalkerCountByCameraBindType(type) {
     }
 }
 const DEFAULT_WHO_ID = 0;
-const whoIdsScheme = (0, Type_1.createUnknownScheme)({
+const whoIdsScheme = (0, Type_1.createScheme)({
     CreateDefault: () => [],
     Meta: {
         Tip: '镜头绑定的对象',
@@ -85,11 +85,5 @@ exports.playCustomSequenceScheme = (0, Type_1.createObjectScheme)({
         Tip: '播放自定义Sequence',
     },
 });
-// fuck
-// export const cameraBindModeScheme = createEnumType(cameraBindModeConfig, {
-//     Meta: {
-//         HideName: true,
-//     },
-// });
-exports.cameraBindModeScheme = new Type_1.EnumScheme(Action_1.cameraBindModeConfig);
+exports.cameraBindModeScheme = (0, Type_1.createEnumScheme)(Action_1.cameraBindModeConfig);
 //# sourceMappingURL=Sequence.js.map

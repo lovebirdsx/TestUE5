@@ -4,16 +4,13 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import {
-    checkFields,
     createArrayScheme,
     createBooleanScheme,
-    createDefaultObject,
     createFloatScheme,
     createIntScheme,
     createObjectScheme,
     createStringScheme,
     EActionFilter,
-    fixFileds,
     IMeta,
     // FloatScheme,
     IProps,
@@ -274,7 +271,7 @@ function fixTalkItem(item: ITalkItem): TFixResult {
 
     // 修复每一个TalkItem
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    if (fixFileds(item, talkItemScheme.Fields) === 'fixed') {
+    if (talkItemScheme.Fix(item) === 'fixed') {
         fixedCount++;
     }
 
@@ -344,7 +341,7 @@ function checkTalkItem(item: ITalkItem, message: string[]): number {
 
     // 检查TalkItem中的其它字段
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    errorCount += checkFields(item, talkItemScheme.Fields, message);
+    errorCount += talkItemScheme.Check(item, message);
 
     return errorCount;
 }
@@ -353,13 +350,6 @@ export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
     Meta: {
         NewLine: true,
         Tip: '对话项',
-    },
-    CreateDefault() {
-        // fuck
-        // const items = container as ITalkItem[];
-        const item = createDefaultObject<ITalkItem>(talkItemFileds);
-        // fixTalkItem(item, items);
-        return item;
     },
     Fix: fixTalkItem,
     Check: checkTalkItem,

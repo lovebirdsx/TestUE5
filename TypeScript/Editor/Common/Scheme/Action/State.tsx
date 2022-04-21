@@ -64,7 +64,7 @@ export const changeStateScheme = createObjectScheme<IChangeState>(
         StateId: stateIdScheme,
     },
     {
-        Filters: [EActionFilter.FlowList],
+        Filters: [EActionFilter.FlowList, EActionFilter.Talk],
         Meta: {
             Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
         },

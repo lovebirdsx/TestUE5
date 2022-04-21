@@ -67,9 +67,9 @@ class ActionRegistry {
             Object.assign(action, this.SpawnDefaultAction(objectFilter || Type_1.EActionFilter.FlowList));
             return 'fixed';
         }
-        const old = JSON.stringify(action.Params);
-        const result = (0, Type_1.fixFileds)(action.Params, typeData.Fields);
+        const result = typeData.Fix(action.Params);
         if (result === 'fixed') {
+            const old = JSON.stringify(action.Params);
             (0, Log_1.log)(`Fix action [${action.Name}]: from ${old} => ${JSON.stringify(action.Params)}`);
         }
         return result;
@@ -80,7 +80,7 @@ class ActionRegistry {
             throw new Error(`Check action error: no scheme for name ${action.Name}`);
         }
         const errorMessages1 = [];
-        (0, Type_1.checkFields)(action.Params, typeData.Fields, errorMessages1);
+        typeData.Check(action.Params, errorMessages1);
         errorMessages1.forEach((msg) => {
             errorMessages.push(`[${action.Name}]${msg}`);
         });

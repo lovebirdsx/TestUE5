@@ -7,8 +7,9 @@ import { csvOp } from '../../../../Common/CsvOp';
 import { error } from '../../../../Common/Log';
 import {
     booleanScheme,
+    createEnumScheme,
+    createScheme,
     createStringScheme,
-    EnumScheme,
     floatScheme,
     intScheme,
     IProps,
@@ -34,14 +35,7 @@ function genCsvCellTypeEnumConfig(): Record<string, string> {
     return Object.fromEntries(slotList) as Record<string, string>;
 }
 
-// fuck
-// export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
-//     Meta: {
-//         HideName: true,
-//     },
-// });
-
-export const csvCellTypeScheme = new EnumScheme(genCsvCellTypeEnumConfig());
+export const csvCellTypeScheme = createEnumScheme(genCsvCellTypeEnumConfig());
 
 function getCsvCellSchemeByType(type: TCsvCellType): Scheme {
     switch (type) {
@@ -60,7 +54,6 @@ function getCsvCellSchemeByType(type: TCsvCellType): Scheme {
 }
 
 export const csvFollowCellScheme = createStringScheme({
-    RenderType: 'custom',
     CreateDefault: () => '',
     Render: (props: IProps): JSX.Element => {
         return (
@@ -102,8 +95,7 @@ function createCsvIndexScheme<T extends bigint | number | string>(
         );
     }
 
-    return {
-        RenderType: 'custom',
+    return createScheme({
         CreateDefault: (): T => {
             if (indexType === 'Int') {
                 return parseInt(ids[0]) as T;
@@ -136,12 +128,10 @@ function createCsvIndexScheme<T extends bigint | number | string>(
                 </HorizontalBox>
             );
         },
-        Check: () => 0,
-        Fix: (value) => 'canNotFixed',
         Meta: {
             HideName: true,
         },
-    };
+    });
 }
 
 export const talkerNamesScheme = createCsvIndexScheme<number>(ECsvName.Talker, 'Id', 'Name', 'Int');

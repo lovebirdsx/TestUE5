@@ -21,13 +21,7 @@ function genCsvCellTypeEnumConfig() {
     });
     return Object.fromEntries(slotList);
 }
-// fuck
-// export const csvCellTypeScheme = createEnumType(genCsvCellTypeEnumConfig(), {
-//     Meta: {
-//         HideName: true,
-//     },
-// });
-exports.csvCellTypeScheme = new Type_1.EnumScheme(genCsvCellTypeEnumConfig());
+exports.csvCellTypeScheme = (0, Type_1.createEnumScheme)(genCsvCellTypeEnumConfig());
 function getCsvCellSchemeByType(type) {
     switch (type) {
         case 'Int':
@@ -44,7 +38,6 @@ function getCsvCellSchemeByType(type) {
     }
 }
 exports.csvFollowCellScheme = (0, Type_1.createStringScheme)({
-    RenderType: 'custom',
     CreateDefault: () => '',
     Render: (props) => {
         return (React.createElement(Context_1.csvCellContext.Consumer, null, (ctx) => {
@@ -70,8 +63,7 @@ function createCsvIndexScheme(csvName, indexField, valueField, indexType) {
     if (!ids || !values) {
         throw new Error(`Can not create csv index scheme [${csvName}] [${indexField}] [${valueField}]`);
     }
-    return {
-        RenderType: 'custom',
+    return (0, Type_1.createScheme)({
         CreateDefault: () => {
             if (indexType === 'Int') {
                 return parseInt(ids[0]);
@@ -93,12 +85,10 @@ function createCsvIndexScheme(csvName, indexField, valueField, indexType) {
                         openCsvEditor(csvName);
                     }, Tip: `打开Csv配置[${csvName}]` })));
         },
-        Check: () => 0,
-        Fix: (value) => 'canNotFixed',
         Meta: {
             HideName: true,
         },
-    };
+    });
 }
 exports.talkerNamesScheme = createCsvIndexScheme(CsvRegistry_1.ECsvName.Talker, 'Id', 'Name', 'Int');
 exports.customSeqIdScheme = createCsvIndexScheme(CsvRegistry_1.ECsvName.CustomSeq, 'Id', 'Name', 'Int');

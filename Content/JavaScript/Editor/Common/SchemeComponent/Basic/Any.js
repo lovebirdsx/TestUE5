@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Any = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
-const Type_1 = require("../../../../Common/Type");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const RenderRegistry_1 = require("../RenderRegistry");
 const ComponentRegistry_1 = require("./ComponentRegistry");
@@ -15,7 +14,7 @@ class Any extends React.Component {
         if (type.Render) {
             return type.Render(props);
         }
-        const component = RenderRegistry_1.renderRegistry.GetComponent((0, Type_1.getSchemeClass)(props.Scheme));
+        const component = RenderRegistry_1.renderRegistry.GetComponent(props.Scheme);
         if (component) {
             return React.createElement(component, { ...props });
         }

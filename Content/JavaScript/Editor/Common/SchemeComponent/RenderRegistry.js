@@ -6,17 +6,17 @@ class RenderRegistry {
     RegComponent(schemeClass, render) {
         this.RenderClassMap.set(schemeClass, render);
     }
-    RegArrayComponent(schemeClass, render) {
-        this.RegComponent(schemeClass, render);
+    RegArrayComponent(scheme, render) {
+        this.RegComponent(scheme, render);
     }
-    RegObjComponent(schemeClass, render) {
-        this.RegComponent(schemeClass, render);
+    RegObjComponent(scheme, render) {
+        this.RegComponent(scheme, render);
     }
-    RegActionComponent(schemeClass, render) {
-        this.RegComponent(schemeClass, render);
+    RegActionComponent(scheme, render) {
+        this.RegComponent(scheme, render);
     }
-    GetComponent(schemeClass) {
-        const result = this.RenderClassMap.get(schemeClass);
+    GetComponent(scheme) {
+        const result = this.RenderClassMap.get(scheme);
         return result;
     }
 }

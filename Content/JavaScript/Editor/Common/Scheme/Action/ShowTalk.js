@@ -207,7 +207,7 @@ function fixTalkItem(item) {
     }
     // 修复每一个TalkItem
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    if ((0, Type_1.fixFileds)(item, exports.talkItemScheme.Fields) === 'fixed') {
+    if (exports.talkItemScheme.Fix(item) === 'fixed') {
         fixedCount++;
     }
     return fixedCount > 0 ? 'fixed' : 'nothing';
@@ -273,20 +273,13 @@ function checkTalkItem(item, message) {
     }
     // 检查TalkItem中的其它字段
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    errorCount += (0, Type_1.checkFields)(item, exports.talkItemScheme.Fields, message);
+    errorCount += exports.talkItemScheme.Check(item, message);
     return errorCount;
 }
 exports.talkItemScheme = (0, Type_1.createObjectScheme)(talkItemFileds, {
     Meta: {
         NewLine: true,
         Tip: '对话项',
-    },
-    CreateDefault() {
-        // fuck
-        // const items = container as ITalkItem[];
-        const item = (0, Type_1.createDefaultObject)(talkItemFileds);
-        // fixTalkItem(item, items);
-        return item;
     },
     Fix: fixTalkItem,
     Check: checkTalkItem,

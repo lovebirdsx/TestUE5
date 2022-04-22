@@ -15,16 +15,19 @@ const Context_1 = require("../SchemeComponent/Context");
 class CsvView extends React.Component {
     OnContextCommand(rowId, cmd) {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertRow(rowId);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertRow(rowId + 1);
+                break;
+            case '移除':
                 this.RemoveRow(rowId);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.MoveRow(rowId, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.MoveRow(rowId, false);
                 break;
             default:
@@ -80,7 +83,7 @@ class CsvView extends React.Component {
             // 索引字段不能直接修改
             if (CsvOp_1.editorCsvOp.IsIndexField(field)) {
                 return (React.createElement(react_umg_1.HorizontalBox, { Slot: slot, key: `${rowId}-${index}` },
-                    React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveUp', 'moveDown'], OnCommand: (cmd) => {
+                    React.createElement(ContextBtn_1.ContextBtn, { Commands: ['上插', '下插', '移除', '上移', '下移'], OnCommand: (cmd) => {
                             this.OnContextCommand(rowId, cmd);
                         } }),
                     React.createElement(CommonComponent_1.SlotText, { Text: row[field.Name].toString() })));

@@ -21,16 +21,19 @@ export interface ICsvViewProps {
 export class CsvView extends React.Component<ICsvViewProps> {
     private OnContextCommand(rowId: number, cmd: string): void {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertRow(rowId);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertRow(rowId + 1);
+                break;
+            case '移除':
                 this.RemoveRow(rowId);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.MoveRow(rowId, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.MoveRow(rowId, false);
                 break;
             default:
@@ -115,7 +118,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
                 return (
                     <HorizontalBox Slot={slot} key={`${rowId}-${index}`}>
                         <ContextBtn
-                            Commands={['insert', 'remove', 'moveUp', 'moveDown']}
+                            Commands={['上插', '下插', '移除', '上移', '下移']}
                             OnCommand={(cmd): void => {
                                 this.OnContextCommand(rowId, cmd);
                             }}

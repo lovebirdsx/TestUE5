@@ -127,9 +127,9 @@ class Flow extends React.Component {
         return (React.createElement(react_umg_1.VerticalBox, null,
             React.createElement(react_umg_1.HorizontalBox, null,
                 React.createElement(CommonComponent_1.Fold, { IsFold: flow._folded, IsFull: flow.States.length > 0, OnChanged: this.ChangeFold }),
+                this.props.PrefixElement,
                 React.createElement(CommonComponent_1.Text, { Text: '●', Color: this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white' }),
                 React.createElement(CommonComponent_1.EditorBox, { Text: flow.Name, OnChange: this.ChangeName, Tip: "\u5267\u60C5\u540D\u5B57", Width: 100 }),
-                this.props.PrefixElement,
                 React.createElement(CommonComponent_1.Btn, { Text: '✚状态', OnClick: this.AddState, Tip: ADD_STATE_TIP })),
             React.createElement(react_umg_1.VerticalBox, { RenderTransform: { Translation: { X: CommonComponent_1.TAB_OFFSET } } },
                 React.createElement(Context_1.flowContext.Provider, { value: flow }, nodes))));

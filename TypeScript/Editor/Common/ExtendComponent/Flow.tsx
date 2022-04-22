@@ -159,6 +159,7 @@ export class Flow extends React.Component<IFlowProps> {
                         IsFull={flow.States.length > 0}
                         OnChanged={this.ChangeFold}
                     />
+                    {this.props.PrefixElement}
                     <Text
                         Text={'●'}
                         Color={this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'}
@@ -169,7 +170,6 @@ export class Flow extends React.Component<IFlowProps> {
                         Tip="剧情名字"
                         Width={100}
                     />
-                    {this.props.PrefixElement}
                     <Btn Text={'✚状态'} OnClick={this.AddState} Tip={ADD_STATE_TIP} />
                 </HorizontalBox>
                 <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>

@@ -35,7 +35,7 @@ RenderRegistry_1.renderRegistry.RegComponent(CsvCell_1.csvFollowCellScheme, Csv_
 RenderRegistry_1.renderRegistry.RegComponent(NpcScheme_1.playFlowJsonScheme, Flow_2.RenderPlayFlowJson);
 RenderRegistry_1.renderRegistry.RegComponent(TriggerScheme_1.actionsJsonScheme, Flow_2.RenderActionJson);
 RenderRegistry_1.renderRegistry.RegObjComponent(ShowTalk_1.showTalkScheme, Talk_1.RenderShowTalk);
-RenderRegistry_1.renderRegistry.RegObjComponent(Flow_1.playFlowScheme, Flow_2.RenderPlayFlow);
+RenderRegistry_1.renderRegistry.RegComponent(Flow_1.playFlowScheme, Flow_2.RenderPlayFlow);
 RenderRegistry_1.renderRegistry.RegComponent(Sequence_1.whoIdsScheme, Sequence_2.RenderWhoIdsScheme);
 __exportStar(require("./Basic/Public"), exports);
 //# sourceMappingURL=Public.js.map

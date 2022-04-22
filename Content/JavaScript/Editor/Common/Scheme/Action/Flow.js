@@ -25,13 +25,8 @@ function createDefaultPlayFlow() {
     }
     return createDefaultPlayFlowFor(FlowList_1.flowListOp.Names[0]);
 }
-exports.playFlowScheme = (0, Type_1.createObjectScheme)({
-    FlowListName: null,
-    FlowId: null,
-    StateId: null,
-}, {
+exports.playFlowScheme = (0, Type_1.createScheme)({
     Tip: '播放流程配置文件中的某个流程',
-    Filters: [],
     RenderType: 'custom',
     CreateDefault: createDefaultPlayFlow,
 });

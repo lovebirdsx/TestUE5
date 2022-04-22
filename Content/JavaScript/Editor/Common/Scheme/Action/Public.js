@@ -11,7 +11,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ActionRegistry_1 = require("./ActionRegistry");
-const Flow_1 = require("./Flow");
 const JumpTalk_1 = require("./JumpTalk");
 const Misc_1 = require("./Misc");
 const PlotNode_1 = require("./PlotNode");
@@ -26,7 +25,6 @@ const objectSchemeMap = {
     FinishState: State_1.finishStateScheme,
     JumpTalk: JumpTalk_1.jumpTalkScheme,
     Log: Misc_1.logScheme,
-    PlayFlow: Flow_1.playFlowScheme,
     PlaySequenceData: Sequence_1.playSequenceDataScheme,
     PlayCustomSequence: Sequence_1.playCustomSequenceScheme,
     SetCameraMode: PlotNode_1.setCameraModeScheme,

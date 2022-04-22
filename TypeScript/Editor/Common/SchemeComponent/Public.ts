@@ -38,7 +38,7 @@ renderRegistry.RegComponent<string>(csvFollowCellScheme, RenderCsvFollowCell);
 renderRegistry.RegComponent<string>(playFlowJsonScheme, RenderPlayFlowJson);
 renderRegistry.RegComponent<string>(actionsJsonScheme, RenderActionJson);
 renderRegistry.RegObjComponent<IShowTalk>(showTalkScheme, RenderShowTalk);
-renderRegistry.RegObjComponent<IPlayFlow>(playFlowScheme, RenderPlayFlow);
+renderRegistry.RegComponent<IPlayFlow>(playFlowScheme, RenderPlayFlow);
 
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 

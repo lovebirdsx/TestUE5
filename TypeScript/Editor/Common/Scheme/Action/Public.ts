@@ -2,7 +2,6 @@
 import { ObjectScheme } from '../../../../Common/Type';
 import { TActionType } from '../../../../Game/Flow/Action';
 import { actionRegistry } from './ActionRegistry';
-import { playFlowScheme } from './Flow';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
@@ -12,23 +11,22 @@ import { showCenterTextScheme } from './ShowText';
 import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
 
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
-    ChangeState: changeStateScheme as ObjectScheme<unknown>,
-    ChangeRandomState: changeRandomStateScheme as ObjectScheme<unknown>,
+    ChangeState: changeStateScheme,
+    ChangeRandomState: changeRandomStateScheme,
     FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
-    JumpTalk: jumpTalkScheme as ObjectScheme<unknown>,
-    Log: logScheme as ObjectScheme<unknown>,
-    PlayFlow: playFlowScheme as ObjectScheme<unknown>,
-    PlaySequenceData: playSequenceDataScheme as ObjectScheme<unknown>,
-    PlayCustomSequence: playCustomSequenceScheme as ObjectScheme<unknown>,
-    SetCameraMode: setCameraModeScheme as ObjectScheme<unknown>,
-    SetFlowBoolOption: setFlowBoolOptionScheme as ObjectScheme<unknown>,
-    SetPlotMode: setPlotModeScheme as ObjectScheme<unknown>,
-    ShowCenterText: showCenterTextScheme as ObjectScheme<unknown>,
-    ShowMessage: showMssageScheme as ObjectScheme<unknown>,
-    ShowOption: showOptionScheme as ObjectScheme<unknown>,
-    ShowTalk: showTalkScheme as ObjectScheme<unknown>,
-    Wait: waitScheme as ObjectScheme<unknown>,
+    JumpTalk: jumpTalkScheme,
+    Log: logScheme,
+    PlaySequenceData: playSequenceDataScheme,
+    PlayCustomSequence: playCustomSequenceScheme,
+    SetCameraMode: setCameraModeScheme,
+    SetFlowBoolOption: setFlowBoolOptionScheme,
+    SetPlotMode: setPlotModeScheme,
+    ShowCenterText: showCenterTextScheme,
+    ShowMessage: showMssageScheme,
+    ShowOption: showOptionScheme,
+    ShowTalk: showTalkScheme,
+    Wait: waitScheme,
 };
 
 actionRegistry.SetupObjectMap(objectSchemeMap);

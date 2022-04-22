@@ -9,7 +9,6 @@ export type TActionType =
     | 'JumpTalk'
     | 'Log'
     | 'PlayCustomSequence'
-    | 'PlayFlow'
     | 'PlaySequenceData'
     | 'SetCameraMode'
     | 'SetFlowBoolOption'

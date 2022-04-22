@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createObjectScheme } from '../../../../Common/Type';
+import { createScheme } from '../../../../Common/Type';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IPlayFlow } from '../../../../Game/Flow/Action';
 
@@ -26,16 +26,8 @@ function createDefaultPlayFlow(): IPlayFlow {
     return createDefaultPlayFlowFor(flowListOp.Names[0]);
 }
 
-export const playFlowScheme = createObjectScheme<IPlayFlow>(
-    {
-        FlowListName: null,
-        FlowId: null,
-        StateId: null,
-    },
-    {
-        Tip: '播放流程配置文件中的某个流程',
-        Filters: [],
-        RenderType: 'custom',
-        CreateDefault: createDefaultPlayFlow,
-    },
-);
+export const playFlowScheme = createScheme<IPlayFlow>({
+    Tip: '播放流程配置文件中的某个流程',
+    RenderType: 'custom',
+    CreateDefault: createDefaultPlayFlow,
+});

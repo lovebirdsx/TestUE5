@@ -9,6 +9,7 @@ import {
     createStringScheme,
     EActionFilter,
     IntScheme,
+    ObjectScheme,
     TFixResult,
     TObjectFields,
 } from '../../../../Common/Type';
@@ -26,7 +27,8 @@ import {
     ITalkItem,
     ITalkOption,
 } from '../../../../Game/Flow/Action';
-import { TalkActionScheme } from './Action';
+import { globalContexts } from '../../GlobalContext';
+import { talkActionScheme } from './Action';
 
 export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>): IntScheme {
     return createIntScheme({
@@ -43,20 +45,25 @@ export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>
 }
 
 export const talkOptionTextIdScheme = createTextIdScheme('该做啥选择呢', {
+    Name: 'TalkOptionTextId',
     Width: 200,
     Tip: '选项内容',
 });
 
 export const talkOptionScheme = createObjectScheme<ITalkOption>({
-    TextId: talkOptionTextIdScheme,
-    Actions: createArrayScheme({
-        Element: new TalkActionScheme(),
-        NewLine: false,
-        Tip: '选项动作',
-    }),
+    Name: 'TalkOption',
+    Fields: {
+        TextId: talkOptionTextIdScheme,
+        Actions: createArrayScheme({
+            Element: talkActionScheme,
+            NewLine: false,
+            Tip: '选项动作',
+        }),
+    },
 });
 
 export const talkerIdScheme = createIntScheme({
+    Name: 'TakerId',
     Tip: '说话人',
     CreateDefault: () => {
         const { Talkers: talkers } = TalkerListOp.Get();
@@ -65,11 +72,13 @@ export const talkerIdScheme = createIntScheme({
 });
 
 export const talkItemTextIdScheme = createTextIdScheme('说点什么吧', {
+    Name: 'TalkItemTextId',
     Width: 500,
     Tip: '对话内容',
 });
 
 export const talkItemNameScheme = createStringScheme({
+    Name: 'TalkItemName',
     Tip: '对话名字',
     CreateDefault: () => '对话1',
 });
@@ -93,7 +102,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         ArraySimplify: true,
         Optional: true,
         Tip: '动作列表',
-        Element: new TalkActionScheme(),
+        Element: talkActionScheme,
     }),
     Options: createArrayScheme({
         NewLine: true,
@@ -130,8 +139,7 @@ function fixJumpTalk(actions: IActionInfo[], talkIds: number[]): number {
     return fixCount;
 }
 
-function fixTalkItem(showTalk: IShowTalk, item: ITalkItem): TFixResult {
-    const items = showTalk.TalkItems;
+function fixTalkItem(items: ITalkItem[], item: ITalkItem): TFixResult {
     let fixedCount = 0;
     // 确保对话名字唯一
     if (!item.Name || items.find((e) => e.Name === item.Name)) {
@@ -242,13 +250,23 @@ function checkTalkItem(showTalk: IShowTalk, item: ITalkItem, message: string[]):
     return errorCount;
 }
 
-export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
+export const talkItemScheme = createObjectScheme<ITalkItem>({
+    Name: 'TalkItem',
+    Fields: talkItemFileds,
     NewLine: true,
     Tip: '对话项',
+    CreateDefault(): ITalkItem {
+        const item = ObjectScheme.CreateByFields(talkItemFileds);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        const items: ITalkItem[] = globalContexts.Get<ITalkItem[]>(showTalkScheme.Fields.TalkItems);
+        fixTalkItem(items, item);
+        return item;
+    },
 });
 
-export const showTalkScheme = createObjectScheme<IShowTalk>(
-    {
+export const showTalkScheme = createObjectScheme<IShowTalk>({
+    Name: 'ShowTalk',
+    Fields: {
         TalkItems: createArrayScheme<ITalkItem>({
             NewLine: true,
             ArraySimplify: true,
@@ -260,48 +278,45 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
             Optional: true,
         }),
     },
-    {
-        Filters: [EActionFilter.FlowList],
-        Scheduled: true,
-        Tip: [
-            '显示对话',
-            '  对话',
-            '    由多个[talkItem]构成',
-            '    每个[talkItem]可以配置对话内容,对话动作和选项,',
-            '    对话执行时,执行顺序为: 对话内容->对话动作->选项',
-            '  执行顺序',
-            '    选项被玩家选择后,其中包含的动作将被依次执行',
-            '    若选项的动作中包含了跳转执行,则会跳转对应的对话或者状态',
-            '    执行跳转动作后,该动作所在序列的后续的动作将不被执行',
-            '    若当前对话没有跳转指令,则按顺序执行下一条对话',
-        ].join('\n'),
-        Fix(value: IShowTalk): TFixResult {
-            let fixCount = 0;
-            value.TalkItems.forEach((item) => {
-                const result0 = fixTalkItem(value, item);
-                if (result0 !== 'fixed') {
-                    fixCount++;
-                }
-            });
-            return fixCount > 0 ? 'fixed' : 'nothing';
-        },
-        Check(value: IShowTalk, message: string[]): number {
-            let result = 0;
-            value.TalkItems.forEach((item) => {
-                result += checkTalkItem(value, item, message);
-            });
-            return result;
-        },
+    Filters: [EActionFilter.FlowList],
+    Scheduled: true,
+    Tip: [
+        '显示对话',
+        '  对话',
+        '    由多个[talkItem]构成',
+        '    每个[talkItem]可以配置对话内容,对话动作和选项,',
+        '    对话执行时,执行顺序为: 对话内容->对话动作->选项',
+        '  执行顺序',
+        '    选项被玩家选择后,其中包含的动作将被依次执行',
+        '    若选项的动作中包含了跳转执行,则会跳转对应的对话或者状态',
+        '    执行跳转动作后,该动作所在序列的后续的动作将不被执行',
+        '    若当前对话没有跳转指令,则按顺序执行下一条对话',
+    ].join('\n'),
+    Fix(value: IShowTalk): TFixResult {
+        let fixCount = 0;
+        value.TalkItems.forEach((item) => {
+            const result0 = fixTalkItem(value.TalkItems, item);
+            if (result0 !== 'fixed') {
+                fixCount++;
+            }
+        });
+        return fixCount > 0 ? 'fixed' : 'nothing';
     },
-);
+    Check(value: IShowTalk, message: string[]): number {
+        let result = 0;
+        value.TalkItems.forEach((item) => {
+            result += checkTalkItem(value, item, message);
+        });
+        return result;
+    },
+});
 
-export const showOptionScheme = createObjectScheme<IShowOption>(
-    {
+export const showOptionScheme = createObjectScheme<IShowOption>({
+    Name: 'ShowOption',
+    Fields: {
         TextId: talkOptionTextIdScheme,
     },
-    {
-        Filters: [EActionFilter.FlowList],
-        Scheduled: true,
-        Tip: '显示独立选项',
-    },
-);
+    Filters: [EActionFilter.FlowList],
+    Scheduled: true,
+    Tip: '显示独立选项',
+});

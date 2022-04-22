@@ -8,6 +8,7 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const ContextBtn_1 = require("../../BaseComponent/ContextBtn");
+const GlobalContext_1 = require("../../GlobalContext");
 const Any_1 = require("./Any");
 function getFoldFieldName(key) {
     return `_${key}Folded`;
@@ -39,7 +40,11 @@ class Obj extends React.Component {
         this.ModifyKv(getFoldFieldName(key), isFolded, 'fold');
     }
     AddArrayItem(arrayKey, arrayValue, arrayTypeData) {
+        const objHandle = GlobalContext_1.globalContexts.Push(this.props.Scheme, this.props.Value);
+        const arrayHandle = GlobalContext_1.globalContexts.Push(arrayTypeData, arrayValue);
         const newArrayItem = arrayTypeData.Element.CreateDefault();
+        GlobalContext_1.globalContexts.Pop(arrayHandle);
+        GlobalContext_1.globalContexts.Pop(objHandle);
         const newArrayValue = (0, immer_1.default)(arrayValue, (draft) => {
             draft.push(newArrayItem);
         });

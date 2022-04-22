@@ -32,6 +32,8 @@ export type TRender = (props: IProps) => JSX.Element;
 export type TFixResult = 'canNotFixed' | 'fixed' | 'nothing';
 
 export class Scheme<T = unknown> {
+    public Name = 'Scheme';
+
     public RenderType: TElementRenderType = 'string';
 
     public CreateDefault(): T {
@@ -85,11 +87,20 @@ function getEnumNames(config: Record<string, string>): string[] {
 }
 
 export class EnumScheme<T extends string> extends Scheme<T> {
+    public Name = 'EnumScheme';
+
     public RenderType: TElementRenderType = 'enum';
 
     public Config: Record<string, string>;
 
-    public Names: string[];
+    private MyNames: string[];
+
+    public get Names(): string[] {
+        if (!this.MyNames) {
+            this.MyNames = getEnumNames(this.Config);
+        }
+        return this.MyNames;
+    }
 
     public CreateDefault(): T {
         for (const k in this.Config) {
@@ -99,10 +110,11 @@ export class EnumScheme<T extends string> extends Scheme<T> {
     }
 }
 
-export function createEnumScheme<T extends string>(config: Record<string, string>): EnumScheme<T> {
+export function createEnumScheme<T extends string>(
+    type: Omit<Partial<EnumScheme<T>>, 'RenderType'>,
+): EnumScheme<T> {
     const scheme = new EnumScheme<T>();
-    scheme.Config = config;
-    scheme.Names = getEnumNames(config);
+    Object.assign(scheme, type);
     return scheme;
 }
 
@@ -168,10 +180,10 @@ export class ObjectScheme<T> extends Scheme<T> {
 
     public Fields: TObjectFields<T>;
 
-    public CreateDefault(): T {
+    public static CreateByFields<T>(fields: TObjectFields<T>): T {
         const fieldArray = [];
-        for (const key in this.Fields) {
-            const filedTypeData = this.Fields[key];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
             if (!filedTypeData.Optional) {
                 fieldArray.push([key, filedTypeData.CreateDefault()]);
             }
@@ -179,12 +191,16 @@ export class ObjectScheme<T> extends Scheme<T> {
         return Object.fromEntries(fieldArray) as T;
     }
 
+    public CreateDefault(): T {
+        return ObjectScheme.CreateByFields<T>(this.Fields);
+    }
+
     public Scheduled?: boolean;
 
-    public Fix(value: T): TFixResult {
+    public static FixByFields<T>(fields: TObjectFields<T>, value: T): TFixResult {
         let fixCount = 0;
-        for (const key in this.Fields) {
-            const filedTypeData = this.Fields[key];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
             if (value[key] === undefined) {
                 if (!filedTypeData.Optional) {
                     value[key] = filedTypeData.CreateDefault();
@@ -202,7 +218,7 @@ export class ObjectScheme<T> extends Scheme<T> {
 
         const keysToRemove = [] as string[];
         for (const key in value) {
-            if (!this.Fields[key] && !key.startsWith('_')) {
+            if (!fields[key] && !key.startsWith('_')) {
                 keysToRemove.push(key);
             }
         }
@@ -217,10 +233,14 @@ export class ObjectScheme<T> extends Scheme<T> {
         return fixCount > 0 ? 'fixed' : 'nothing';
     }
 
-    public Check(value: T, messages: string[]): number {
+    public Fix(value: T): TFixResult {
+        return ObjectScheme.FixByFields(this.Fields, value);
+    }
+
+    public static CheckByFields<T>(fields: TObjectFields<T>, value: T, messages: string[]): number {
         let errorCount = 0;
-        for (const key in this.Fields) {
-            const filedTypeData = this.Fields[key];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
             if (value[key] === undefined) {
                 if (!filedTypeData.Optional) {
                     messages.push(`字段[${key}]值为空`);
@@ -232,7 +252,7 @@ export class ObjectScheme<T> extends Scheme<T> {
         }
 
         for (const key in value) {
-            if (!this.Fields[key] && !key.startsWith('_')) {
+            if (!fields[key] && !key.startsWith('_')) {
                 messages.push(`存在非法的字段[${key}]`);
                 errorCount++;
             }
@@ -240,21 +260,25 @@ export class ObjectScheme<T> extends Scheme<T> {
 
         return errorCount;
     }
+
+    public Check(value: T, messages: string[]): number {
+        return ObjectScheme.CheckByFields(this.Fields, value, messages);
+    }
 }
 
 export function createObjectScheme<T>(
-    fields: TObjectFields<T>,
-    type?: Omit<Partial<ObjectScheme<T>>, 'fields' | 'renderType'>,
+    type: Omit<Partial<ObjectScheme<T>>, 'renderType'>,
 ): ObjectScheme<T> {
     const scheme = new ObjectScheme<T>();
-    scheme.Fields = fields;
     if (type) {
         Object.assign(scheme, type);
     }
     return scheme;
 }
 
-export const emptyObjectScheme = createObjectScheme({});
+export const emptyObjectScheme = createObjectScheme({
+    Name: 'EmptyObject',
+});
 
 // ============================================================================
 
@@ -287,7 +311,7 @@ export class StringScheme extends Scheme<string> {
 }
 
 export function createStringScheme(
-    type?: Omit<Partial<StringScheme>, 'fix' | 'renderType'>,
+    type: Omit<Partial<StringScheme>, 'fix' | 'renderType'>,
 ): StringScheme {
     const scheme = new StringScheme();
     if (type) {
@@ -296,7 +320,9 @@ export function createStringScheme(
     return scheme;
 }
 
-export const stringScheme = createStringScheme();
+export const stringScheme = createStringScheme({
+    Name: 'String',
+});
 
 // ============================================================================
 export class AssetScheme extends Scheme<string> {
@@ -333,7 +359,7 @@ export class BooleanScheme extends Scheme<boolean> {
 }
 
 export function createBooleanScheme(
-    type?: Omit<Partial<BooleanScheme>, 'fix' | 'renderType'>,
+    type: Omit<Partial<BooleanScheme>, 'fix' | 'renderType'>,
 ): BooleanScheme {
     const scheme = new BooleanScheme();
     if (type) {
@@ -342,8 +368,11 @@ export function createBooleanScheme(
     return scheme;
 }
 
-export const booleanHideNameScheme = createBooleanScheme();
+export const booleanHideNameScheme = createBooleanScheme({
+    Name: 'Boolean',
+});
 export const booleanScheme = createBooleanScheme({
+    Name: 'Boolean',
     ShowName: true,
 });
 
@@ -357,7 +386,7 @@ export class FloatScheme extends Scheme<number> {
 }
 
 export function createFloatScheme(
-    type?: Omit<Partial<FloatScheme>, 'fix' | 'renderType'>,
+    type: Omit<Partial<FloatScheme>, 'fix' | 'renderType'>,
 ): FloatScheme {
     const scheme = new FloatScheme();
     if (type) {
@@ -366,7 +395,9 @@ export function createFloatScheme(
     return scheme;
 }
 
-export const floatScheme = createFloatScheme();
+export const floatScheme = createFloatScheme({
+    Name: 'Float',
+});
 
 // ============================================================================
 

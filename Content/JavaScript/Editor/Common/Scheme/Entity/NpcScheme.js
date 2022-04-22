@@ -4,6 +4,7 @@ exports.npcScheme = exports.playFlowJsonScheme = void 0;
 const Type_1 = require("../../../../Common/Type");
 const Action_1 = require("../../../../Game/Flow/Action");
 exports.playFlowJsonScheme = (0, Type_1.createStringScheme)({
+    Name: 'PlayFlowJson',
     NewLine: true,
     CreateDefault: () => {
         return JSON.stringify((0, Action_1.parsePlayFlow)(''));

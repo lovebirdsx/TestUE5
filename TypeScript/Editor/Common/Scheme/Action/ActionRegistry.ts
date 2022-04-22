@@ -4,9 +4,9 @@ import { EActionFilter, ObjectScheme, TFixResult } from '../../../../Common/Type
 import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
 import {
     ActionScheme,
-    FlowListActionScheme,
-    TalkActionScheme,
-    TriggerActionScheme,
+    flowListActionScheme,
+    talkActionScheme,
+    triggerActionScheme,
 } from './Action';
 
 export type TObjectSchemeMap = { [key in TActionType]: ObjectScheme<unknown> };
@@ -39,9 +39,9 @@ class ActionRegistry {
 
     private CreateDynamicObjectSchemeMap(): Map<EActionFilter, ActionScheme> {
         const result: Map<EActionFilter, ActionScheme> = new Map();
-        result.set(EActionFilter.FlowList, new FlowListActionScheme());
-        result.set(EActionFilter.Talk, new TalkActionScheme());
-        result.set(EActionFilter.Trigger, new TriggerActionScheme());
+        result.set(EActionFilter.FlowList, flowListActionScheme);
+        result.set(EActionFilter.Talk, talkActionScheme);
+        result.set(EActionFilter.Trigger, triggerActionScheme);
         return result;
     }
 

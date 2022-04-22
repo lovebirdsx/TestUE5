@@ -10,18 +10,27 @@ import { ITriggerActions } from '../../../../Game/Flow/Action';
 import { actionRegistry } from '../Action/Public';
 
 export const actionsScheme = createObjectScheme<ITriggerActions>({
-    Actions: createArrayScheme({
-        NewLine: true,
-        Element: actionRegistry.GetActionScheme(EActionFilter.Trigger),
-    }),
+    Name: 'TriggerActions',
+    Fields: {
+        Actions: createArrayScheme({
+            NewLine: true,
+            Element: actionRegistry.GetActionScheme(EActionFilter.Trigger),
+        }),
+    },
 });
 
-export const actionsJsonScheme = createStringScheme({ NewLine: true });
+export const actionsJsonScheme = createStringScheme({
+    Name: 'ActionsJson',
+    NewLine: true,
+});
 
 export const triggerScheme = createObjectScheme<ITsTrigger>({
-    MaxTriggerTimes: createIntScheme({
-        ShowName: true,
-        NewLine: true,
-    }),
-    TriggerActionsJson: actionsJsonScheme,
+    Name: 'TsTrigger',
+    Fields: {
+        MaxTriggerTimes: createIntScheme({
+            ShowName: true,
+            NewLine: true,
+        }),
+        TriggerActionsJson: actionsJsonScheme,
+    },
 });

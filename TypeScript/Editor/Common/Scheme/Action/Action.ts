@@ -1,10 +1,11 @@
+/* eslint-disable spellcheck/spell-checker */
 import { EActionFilter, Scheme, TElementRenderType } from '../../../../Common/Type';
-import { IActionInfo, ILog } from '../../../../Game/Flow/Action';
+import { IActionInfo, IJumpTalk, ILog, IShowTalk } from '../../../../Game/Flow/Action';
 
-export abstract class ActionScheme extends Scheme<IActionInfo> {
+export class ActionScheme extends Scheme<IActionInfo> {
     public RenderType: TElementRenderType = 'dynamic';
 
-    public abstract Filter: EActionFilter;
+    public Filter: EActionFilter = EActionFilter.FlowList;
 
     public CreateDefault(): IActionInfo {
         const logAction: ILog = {
@@ -19,14 +20,41 @@ export abstract class ActionScheme extends Scheme<IActionInfo> {
     }
 }
 
-export class FlowListActionScheme extends ActionScheme {
-    public Filter: EActionFilter = EActionFilter.FlowList;
+export function createActionScheme(type: Partial<ActionScheme>): ActionScheme {
+    const scheme = new ActionScheme();
+    Object.assign(scheme, type);
+    return scheme;
 }
 
-export class TalkActionScheme extends ActionScheme {
-    public Filter: EActionFilter = EActionFilter.Talk;
-}
+export const flowListActionScheme = createActionScheme({
+    Name: 'FlowListAction',
+    Filter: EActionFilter.FlowList,
+    CreateDefault(): IActionInfo {
+        const showTalk: IShowTalk = {
+            TalkItems: [],
+        };
+        return {
+            Name: 'ShowTalk',
+            Params: showTalk,
+        };
+    },
+});
 
-export class TriggerActionScheme extends ActionScheme {
-    public Filter: EActionFilter = EActionFilter.Trigger;
-}
+export const talkActionScheme = createActionScheme({
+    Name: 'TalkAction',
+    Filter: EActionFilter.Talk,
+    CreateDefault(): IActionInfo {
+        const jumpTalk: IJumpTalk = {
+            TalkId: 1,
+        };
+        return {
+            Name: 'JumpTalk',
+            Params: jumpTalk,
+        };
+    },
+});
+
+export const triggerActionScheme = createActionScheme({
+    Name: 'TriggerAction',
+    Filter: EActionFilter.Trigger,
+});

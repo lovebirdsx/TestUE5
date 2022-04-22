@@ -4,17 +4,26 @@ exports.triggerScheme = exports.actionsJsonScheme = exports.actionsScheme = void
 const Type_1 = require("../../../../Common/Type");
 const Public_1 = require("../Action/Public");
 exports.actionsScheme = (0, Type_1.createObjectScheme)({
-    Actions: (0, Type_1.createArrayScheme)({
-        NewLine: true,
-        Element: Public_1.actionRegistry.GetActionScheme(Type_1.EActionFilter.Trigger),
-    }),
+    Name: 'TriggerActions',
+    Fields: {
+        Actions: (0, Type_1.createArrayScheme)({
+            NewLine: true,
+            Element: Public_1.actionRegistry.GetActionScheme(Type_1.EActionFilter.Trigger),
+        }),
+    },
 });
-exports.actionsJsonScheme = (0, Type_1.createStringScheme)({ NewLine: true });
+exports.actionsJsonScheme = (0, Type_1.createStringScheme)({
+    Name: 'ActionsJson',
+    NewLine: true,
+});
 exports.triggerScheme = (0, Type_1.createObjectScheme)({
-    MaxTriggerTimes: (0, Type_1.createIntScheme)({
-        ShowName: true,
-        NewLine: true,
-    }),
-    TriggerActionsJson: exports.actionsJsonScheme,
+    Name: 'TsTrigger',
+    Fields: {
+        MaxTriggerTimes: (0, Type_1.createIntScheme)({
+            ShowName: true,
+            NewLine: true,
+        }),
+        TriggerActionsJson: exports.actionsJsonScheme,
+    },
 });
 //# sourceMappingURL=TriggerScheme.js.map

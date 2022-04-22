@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TriggerActionScheme = exports.TalkActionScheme = exports.FlowListActionScheme = exports.ActionScheme = void 0;
+exports.triggerActionScheme = exports.talkActionScheme = exports.flowListActionScheme = exports.createActionScheme = exports.ActionScheme = void 0;
+/* eslint-disable spellcheck/spell-checker */
 const Type_1 = require("../../../../Common/Type");
 class ActionScheme extends Type_1.Scheme {
     RenderType = 'dynamic';
+    Filter = Type_1.EActionFilter.FlowList;
     CreateDefault() {
         const logAction = {
             Level: 'Info',
@@ -16,16 +18,40 @@ class ActionScheme extends Type_1.Scheme {
     }
 }
 exports.ActionScheme = ActionScheme;
-class FlowListActionScheme extends ActionScheme {
-    Filter = Type_1.EActionFilter.FlowList;
+function createActionScheme(type) {
+    const scheme = new ActionScheme();
+    Object.assign(scheme, type);
+    return scheme;
 }
-exports.FlowListActionScheme = FlowListActionScheme;
-class TalkActionScheme extends ActionScheme {
-    Filter = Type_1.EActionFilter.Talk;
-}
-exports.TalkActionScheme = TalkActionScheme;
-class TriggerActionScheme extends ActionScheme {
-    Filter = Type_1.EActionFilter.Trigger;
-}
-exports.TriggerActionScheme = TriggerActionScheme;
+exports.createActionScheme = createActionScheme;
+exports.flowListActionScheme = createActionScheme({
+    Name: 'FlowListAction',
+    Filter: Type_1.EActionFilter.FlowList,
+    CreateDefault() {
+        const showTalk = {
+            TalkItems: [],
+        };
+        return {
+            Name: 'ShowTalk',
+            Params: showTalk,
+        };
+    },
+});
+exports.talkActionScheme = createActionScheme({
+    Name: 'TalkAction',
+    Filter: Type_1.EActionFilter.Talk,
+    CreateDefault() {
+        const jumpTalk = {
+            TalkId: 1,
+        };
+        return {
+            Name: 'JumpTalk',
+            Params: jumpTalk,
+        };
+    },
+});
+exports.triggerActionScheme = createActionScheme({
+    Name: 'TriggerAction',
+    Filter: Type_1.EActionFilter.Trigger,
+});
 //# sourceMappingURL=Action.js.map

@@ -29,14 +29,18 @@ function getCsvCellSchemeByType(type) {
     }
 }
 exports.getCsvCellSchemeByType = getCsvCellSchemeByType;
-exports.csvFollowCellScheme = (0, Type_1.createStringScheme)();
+exports.csvFollowCellScheme = (0, Type_1.createStringScheme)({
+    Name: 'CsvFollowCell',
+});
 exports.talkerNamesScheme = (0, Type_1.createCsvIndexValueScheme)({
+    Name: 'TalkerNames',
     CsvName: Type_1.ECsvName.Talker,
     IndexField: 'Id',
     ValueField: 'Name',
     IndexType: 'Int',
 });
 exports.customSeqIdScheme = (0, Type_1.createCsvIndexValueScheme)({
+    Name: 'CustomSeqId',
     CsvName: Type_1.ECsvName.CustomSeq,
     IndexField: 'Id',
     ValueField: 'Name',

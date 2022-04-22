@@ -5,6 +5,7 @@ exports.createCsvIndexValueScheme = exports.CsvIndexValueScheme = exports.ECsvNa
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
 class Scheme {
+    Name = 'Scheme';
     RenderType = 'string';
     CreateDefault() {
         return undefined;
@@ -45,9 +46,16 @@ function getEnumNames(config) {
     return names;
 }
 class EnumScheme extends Scheme {
+    Name = 'EnumScheme';
     RenderType = 'enum';
     Config;
-    Names;
+    MyNames;
+    get Names() {
+        if (!this.MyNames) {
+            this.MyNames = getEnumNames(this.Config);
+        }
+        return this.MyNames;
+    }
     CreateDefault() {
         for (const k in this.Config) {
             return k;
@@ -56,10 +64,9 @@ class EnumScheme extends Scheme {
     }
 }
 exports.EnumScheme = EnumScheme;
-function createEnumScheme(config) {
+function createEnumScheme(type) {
     const scheme = new EnumScheme();
-    scheme.Config = config;
-    scheme.Names = getEnumNames(config);
+    Object.assign(scheme, type);
     return scheme;
 }
 exports.createEnumScheme = createEnumScheme;
@@ -109,21 +116,24 @@ class ObjectScheme extends Scheme {
     RenderType = 'object';
     Filters = exports.allActionFilters;
     Fields;
-    CreateDefault() {
+    static CreateByFields(fields) {
         const fieldArray = [];
-        for (const key in this.Fields) {
-            const filedTypeData = this.Fields[key];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
             if (!filedTypeData.Optional) {
                 fieldArray.push([key, filedTypeData.CreateDefault()]);
             }
         }
         return Object.fromEntries(fieldArray);
     }
+    CreateDefault() {
+        return ObjectScheme.CreateByFields(this.Fields);
+    }
     Scheduled;
-    Fix(value) {
+    static FixByFields(fields, value) {
         let fixCount = 0;
-        for (const key in this.Fields) {
-            const filedTypeData = this.Fields[key];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
             if (value[key] === undefined) {
                 if (!filedTypeData.Optional) {
                     value[key] = filedTypeData.CreateDefault();
@@ -141,7 +151,7 @@ class ObjectScheme extends Scheme {
         }
         const keysToRemove = [];
         for (const key in value) {
-            if (!this.Fields[key] && !key.startsWith('_')) {
+            if (!fields[key] && !key.startsWith('_')) {
                 keysToRemove.push(key);
             }
         }
@@ -153,10 +163,13 @@ class ObjectScheme extends Scheme {
         });
         return fixCount > 0 ? 'fixed' : 'nothing';
     }
-    Check(value, messages) {
+    Fix(value) {
+        return ObjectScheme.FixByFields(this.Fields, value);
+    }
+    static CheckByFields(fields, value, messages) {
         let errorCount = 0;
-        for (const key in this.Fields) {
-            const filedTypeData = this.Fields[key];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
             if (value[key] === undefined) {
                 if (!filedTypeData.Optional) {
                     messages.push(`字段[${key}]值为空`);
@@ -168,25 +181,29 @@ class ObjectScheme extends Scheme {
             }
         }
         for (const key in value) {
-            if (!this.Fields[key] && !key.startsWith('_')) {
+            if (!fields[key] && !key.startsWith('_')) {
                 messages.push(`存在非法的字段[${key}]`);
                 errorCount++;
             }
         }
         return errorCount;
     }
+    Check(value, messages) {
+        return ObjectScheme.CheckByFields(this.Fields, value, messages);
+    }
 }
 exports.ObjectScheme = ObjectScheme;
-function createObjectScheme(fields, type) {
+function createObjectScheme(type) {
     const scheme = new ObjectScheme();
-    scheme.Fields = fields;
     if (type) {
         Object.assign(scheme, type);
     }
     return scheme;
 }
 exports.createObjectScheme = createObjectScheme;
-exports.emptyObjectScheme = createObjectScheme({});
+exports.emptyObjectScheme = createObjectScheme({
+    Name: 'EmptyObject',
+});
 // ============================================================================
 class IntScheme extends Scheme {
     RenderType = 'int';
@@ -220,7 +237,9 @@ function createStringScheme(type) {
     return scheme;
 }
 exports.createStringScheme = createStringScheme;
-exports.stringScheme = createStringScheme();
+exports.stringScheme = createStringScheme({
+    Name: 'String',
+});
 // ============================================================================
 class AssetScheme extends Scheme {
     RenderType = 'asset';
@@ -256,8 +275,11 @@ function createBooleanScheme(type) {
     return scheme;
 }
 exports.createBooleanScheme = createBooleanScheme;
-exports.booleanHideNameScheme = createBooleanScheme();
+exports.booleanHideNameScheme = createBooleanScheme({
+    Name: 'Boolean',
+});
 exports.booleanScheme = createBooleanScheme({
+    Name: 'Boolean',
     ShowName: true,
 });
 // ============================================================================
@@ -276,7 +298,9 @@ function createFloatScheme(type) {
     return scheme;
 }
 exports.createFloatScheme = createFloatScheme;
-exports.floatScheme = createFloatScheme();
+exports.floatScheme = createFloatScheme({
+    Name: 'Float',
+});
 // ============================================================================
 var ECsvName;
 (function (ECsvName) {

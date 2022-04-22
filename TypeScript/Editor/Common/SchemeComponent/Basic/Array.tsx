@@ -7,14 +7,15 @@ import { log } from '../../../../Common/Log';
 import { ArrayScheme, IProps, TModifyType } from '../../../../Common/Type';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { globalContexts } from '../../GlobalContext';
 import { Any } from './Any';
 
-export class Array extends React.Component<IProps> {
+export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
     public ModifyByCb(
         cb: (from: unknown[], to: unknown[]) => void,
         type: TModifyType = 'normal',
     ): void {
-        const from = this.props.Value as unknown[];
+        const from = this.props.Value;
         const newValue = produce(from, (draft) => {
             cb(from, draft);
         });
@@ -22,8 +23,10 @@ export class Array extends React.Component<IProps> {
     }
 
     private SpawnElementAfter(array: unknown[], id: number): unknown {
-        const arrayType = this.props.Scheme as ArrayScheme;
-        const result = arrayType.Element.CreateDefault();
+        const scheme = this.props.Scheme;
+        const handle = globalContexts.Push(scheme, this.props.Value);
+        const result = scheme.Element.CreateDefault();
+        globalContexts.Pop(handle);
         return result;
     }
 
@@ -94,8 +97,7 @@ export class Array extends React.Component<IProps> {
     }
 
     private GetArrayItemTip(): string {
-        const arrayType = this.props.Scheme as ArrayScheme;
-        return arrayType.Element.Tip || '数组项';
+        return this.props.Scheme.Element.Tip || '数组项';
     }
 
     private CreatePrefixElement(id: number): JSX.Element {
@@ -114,16 +116,14 @@ export class Array extends React.Component<IProps> {
     }
 
     private CreateItemsElement(): JSX.Element[] {
-        const { Value: value, Scheme: type } = this.props;
-        const arrayType = type as ArrayScheme;
-        const arrayValue = value as unknown[];
-        return arrayValue.map((e, id) => {
+        const { Value: value, Scheme: scheme } = this.props;
+        return value.map((e, id) => {
             return (
                 <Any
                     key={id}
                     PrefixElement={this.CreatePrefixElement(id)}
                     Value={e}
-                    Scheme={arrayType.Element}
+                    Scheme={scheme.Element}
                     OnModify={(e0, type): void => {
                         this.Modify(id, e0, type);
                     }}
@@ -158,7 +158,7 @@ export class Array extends React.Component<IProps> {
                     <Fold
                         IsFold={isFolded}
                         OnChanged={this.props.OnFoldChange}
-                        IsFull={(value as unknown[]).length > 0}
+                        IsFull={value.length > 0}
                     />
                     {prefixElement}
                     {<Btn Text={'✚'} OnClick={this.Add} />}

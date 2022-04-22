@@ -6,6 +6,7 @@ exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exp
 const Type_1 = require("../../../../Common/Type");
 const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
+const GlobalContext_1 = require("../../GlobalContext");
 const Action_1 = require("./Action");
 function createTextIdScheme(defaultText, type) {
     return (0, Type_1.createIntScheme)({
@@ -22,18 +23,23 @@ function createTextIdScheme(defaultText, type) {
 }
 exports.createTextIdScheme = createTextIdScheme;
 exports.talkOptionTextIdScheme = createTextIdScheme('该做啥选择呢', {
+    Name: 'TalkOptionTextId',
     Width: 200,
     Tip: '选项内容',
 });
 exports.talkOptionScheme = (0, Type_1.createObjectScheme)({
-    TextId: exports.talkOptionTextIdScheme,
-    Actions: (0, Type_1.createArrayScheme)({
-        Element: new Action_1.TalkActionScheme(),
-        NewLine: false,
-        Tip: '选项动作',
-    }),
+    Name: 'TalkOption',
+    Fields: {
+        TextId: exports.talkOptionTextIdScheme,
+        Actions: (0, Type_1.createArrayScheme)({
+            Element: Action_1.talkActionScheme,
+            NewLine: false,
+            Tip: '选项动作',
+        }),
+    },
 });
 exports.talkerIdScheme = (0, Type_1.createIntScheme)({
+    Name: 'TakerId',
     Tip: '说话人',
     CreateDefault: () => {
         const { Talkers: talkers } = TalkerList_1.TalkerListOp.Get();
@@ -41,10 +47,12 @@ exports.talkerIdScheme = (0, Type_1.createIntScheme)({
     },
 });
 exports.talkItemTextIdScheme = createTextIdScheme('说点什么吧', {
+    Name: 'TalkItemTextId',
     Width: 500,
     Tip: '对话内容',
 });
 exports.talkItemNameScheme = (0, Type_1.createStringScheme)({
+    Name: 'TalkItemName',
     Tip: '对话名字',
     CreateDefault: () => '对话1',
 });
@@ -67,7 +75,7 @@ const talkItemFileds = {
         ArraySimplify: true,
         Optional: true,
         Tip: '动作列表',
-        Element: new Action_1.TalkActionScheme(),
+        Element: Action_1.talkActionScheme,
     }),
     Options: (0, Type_1.createArrayScheme)({
         NewLine: true,
@@ -103,8 +111,7 @@ function fixJumpTalk(actions, talkIds) {
     });
     return fixCount;
 }
-function fixTalkItem(showTalk, item) {
-    const items = showTalk.TalkItems;
+function fixTalkItem(items, item) {
     let fixedCount = 0;
     // 确保对话名字唯一
     if (!item.Name || items.find((e) => e.Name === item.Name)) {
@@ -206,22 +213,33 @@ function checkTalkItem(showTalk, item, message) {
     errorCount += exports.talkItemScheme.Check(item, message);
     return errorCount;
 }
-exports.talkItemScheme = (0, Type_1.createObjectScheme)(talkItemFileds, {
+exports.talkItemScheme = (0, Type_1.createObjectScheme)({
+    Name: 'TalkItem',
+    Fields: talkItemFileds,
     NewLine: true,
     Tip: '对话项',
+    CreateDefault() {
+        const item = Type_1.ObjectScheme.CreateByFields(talkItemFileds);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        const items = GlobalContext_1.globalContexts.Get(exports.showTalkScheme.Fields.TalkItems);
+        fixTalkItem(items, item);
+        return item;
+    },
 });
 exports.showTalkScheme = (0, Type_1.createObjectScheme)({
-    TalkItems: (0, Type_1.createArrayScheme)({
-        NewLine: true,
-        ArraySimplify: true,
-        Tip: '对话列表',
-        Element: exports.talkItemScheme,
-    }),
-    ResetCamera: (0, Type_1.createBooleanScheme)({
-        Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
-        Optional: true,
-    }),
-}, {
+    Name: 'ShowTalk',
+    Fields: {
+        TalkItems: (0, Type_1.createArrayScheme)({
+            NewLine: true,
+            ArraySimplify: true,
+            Tip: '对话列表',
+            Element: exports.talkItemScheme,
+        }),
+        ResetCamera: (0, Type_1.createBooleanScheme)({
+            Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
+            Optional: true,
+        }),
+    },
     Filters: [Type_1.EActionFilter.FlowList],
     Scheduled: true,
     Tip: [
@@ -239,7 +257,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     Fix(value) {
         let fixCount = 0;
         value.TalkItems.forEach((item) => {
-            const result0 = fixTalkItem(value, item);
+            const result0 = fixTalkItem(value.TalkItems, item);
             if (result0 !== 'fixed') {
                 fixCount++;
             }
@@ -255,8 +273,10 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     },
 });
 exports.showOptionScheme = (0, Type_1.createObjectScheme)({
-    TextId: exports.talkOptionTextIdScheme,
-}, {
+    Name: 'ShowOption',
+    Fields: {
+        TextId: exports.talkOptionTextIdScheme,
+    },
     Filters: [Type_1.EActionFilter.FlowList],
     Scheduled: true,
     Tip: '显示独立选项',

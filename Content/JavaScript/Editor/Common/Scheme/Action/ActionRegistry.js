@@ -26,9 +26,9 @@ class ActionRegistry {
     }
     CreateDynamicObjectSchemeMap() {
         const result = new Map();
-        result.set(Type_1.EActionFilter.FlowList, new Action_1.FlowListActionScheme());
-        result.set(Type_1.EActionFilter.Talk, new Action_1.TalkActionScheme());
-        result.set(Type_1.EActionFilter.Trigger, new Action_1.TriggerActionScheme());
+        result.set(Type_1.EActionFilter.FlowList, Action_1.flowListActionScheme);
+        result.set(Type_1.EActionFilter.Talk, Action_1.talkActionScheme);
+        result.set(Type_1.EActionFilter.Trigger, Action_1.triggerActionScheme);
         return result;
     }
     SetupObjectMap(objectSchemeMap) {

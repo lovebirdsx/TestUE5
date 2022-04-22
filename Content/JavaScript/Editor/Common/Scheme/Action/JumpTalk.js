@@ -5,12 +5,15 @@ exports.finishTalkScheme = exports.jumpTalkScheme = exports.jumpIdScheme = void 
 const Type_1 = require("../../../../Common/Type");
 exports.jumpIdScheme = (0, Type_1.createIntScheme)();
 exports.jumpTalkScheme = (0, Type_1.createObjectScheme)({
-    TalkId: exports.jumpIdScheme,
-}, {
+    Name: 'JumpTalk',
+    Fields: {
+        TalkId: exports.jumpIdScheme,
+    },
     Filters: [Type_1.EActionFilter.Talk],
     Tip: '跳转到当前状态的对话,跳转后,将继续播放对应的对话',
 });
-exports.finishTalkScheme = (0, Type_1.createObjectScheme)({}, {
+exports.finishTalkScheme = (0, Type_1.createObjectScheme)({
+    Name: 'FinishTalk',
     Filters: [Type_1.EActionFilter.Talk],
     Tip: '结束当前对话,跳到ShowTalk之后的动作执行',
 });

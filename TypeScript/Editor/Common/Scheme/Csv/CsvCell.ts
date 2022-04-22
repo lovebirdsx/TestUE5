@@ -43,9 +43,12 @@ export function getCsvCellSchemeByType(type: TCsvCellType): Scheme {
     }
 }
 
-export const csvFollowCellScheme = createStringScheme();
+export const csvFollowCellScheme = createStringScheme({
+    Name: 'CsvFollowCell',
+});
 
 export const talkerNamesScheme = createCsvIndexValueScheme<number>({
+    Name: 'TalkerNames',
     CsvName: ECsvName.Talker,
     IndexField: 'Id',
     ValueField: 'Name',
@@ -53,6 +56,7 @@ export const talkerNamesScheme = createCsvIndexValueScheme<number>({
 });
 
 export const customSeqIdScheme = createCsvIndexValueScheme<number>({
+    Name: 'CustomSeqId',
     CsvName: ECsvName.CustomSeq,
     IndexField: 'Id',
     ValueField: 'Name',

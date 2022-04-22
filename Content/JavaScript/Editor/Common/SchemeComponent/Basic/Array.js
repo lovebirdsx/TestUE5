@@ -8,6 +8,7 @@ const react_umg_1 = require("react-umg");
 const Log_1 = require("../../../../Common/Log");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const ContextBtn_1 = require("../../BaseComponent/ContextBtn");
+const GlobalContext_1 = require("../../GlobalContext");
 const Any_1 = require("./Any");
 class Array extends React.Component {
     ModifyByCb(cb, type = 'normal') {
@@ -18,8 +19,10 @@ class Array extends React.Component {
         this.props.OnModify(newValue, type);
     }
     SpawnElementAfter(array, id) {
-        const arrayType = this.props.Scheme;
-        const result = arrayType.Element.CreateDefault();
+        const scheme = this.props.Scheme;
+        const handle = GlobalContext_1.globalContexts.Push(scheme, this.props.Value);
+        const result = scheme.Element.CreateDefault();
+        GlobalContext_1.globalContexts.Pop(handle);
         return result;
     }
     Modify(id, e, type) {
@@ -86,8 +89,7 @@ class Array extends React.Component {
         }
     }
     GetArrayItemTip() {
-        const arrayType = this.props.Scheme;
-        return arrayType.Element.Tip || '数组项';
+        return this.props.Scheme.Element.Tip || '数组项';
     }
     CreatePrefixElement(id) {
         return (React.createElement(react_umg_1.HorizontalBox, null,
@@ -96,11 +98,9 @@ class Array extends React.Component {
                 }, Tip: `针对当前${this.GetArrayItemTip()}操作` })));
     }
     CreateItemsElement() {
-        const { Value: value, Scheme: type } = this.props;
-        const arrayType = type;
-        const arrayValue = value;
-        return arrayValue.map((e, id) => {
-            return (React.createElement(Any_1.Any, { key: id, PrefixElement: this.CreatePrefixElement(id), Value: e, Scheme: arrayType.Element, OnModify: (e0, type) => {
+        const { Value: value, Scheme: scheme } = this.props;
+        return value.map((e, id) => {
+            return (React.createElement(Any_1.Any, { key: id, PrefixElement: this.CreatePrefixElement(id), Value: e, Scheme: scheme.Element, OnModify: (e0, type) => {
                     this.Modify(id, e0, type);
                 } }));
         });

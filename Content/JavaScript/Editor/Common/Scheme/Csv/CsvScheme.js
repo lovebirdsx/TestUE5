@@ -6,7 +6,7 @@ const CsvLoader_1 = require("../../../../Common/CsvLoader");
 const Type_1 = require("../../../../Common/Type");
 const Sequence_1 = require("../Action/Sequence");
 const CsvCell_1 = require("./CsvCell");
-const csvSchemaMap2 = {
+const csvSchemaMap = {
     [CsvLoader_1.ECsvCellRenderType.String]: Type_1.stringScheme,
     [CsvLoader_1.ECsvCellRenderType.Int]: Type_1.intScheme,
     [CsvLoader_1.ECsvCellRenderType.Float]: Type_1.floatScheme,
@@ -19,7 +19,7 @@ const csvSchemaMap2 = {
 /* eslint-disable spellcheck/spell-checker */
 class CsvScheme {
     GetSchme(meta) {
-        return csvSchemaMap2[meta.RenderType];
+        return csvSchemaMap[meta.RenderType];
     }
 }
 exports.csvScheme = new CsvScheme();

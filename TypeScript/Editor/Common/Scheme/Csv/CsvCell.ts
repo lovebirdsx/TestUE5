@@ -25,7 +25,9 @@ function genCsvCellTypeEnumConfig(): Record<string, string> {
     return Object.fromEntries(slotList) as Record<string, string>;
 }
 
-export const csvCellTypeScheme = createEnumScheme(genCsvCellTypeEnumConfig());
+export const csvCellTypeScheme = createEnumScheme({
+    Config: genCsvCellTypeEnumConfig(),
+});
 
 export function getCsvCellSchemeByType(type: TCsvCellType): Scheme {
     switch (type) {

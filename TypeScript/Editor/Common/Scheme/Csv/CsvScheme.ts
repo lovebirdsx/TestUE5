@@ -10,7 +10,7 @@ import {
 import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
 import { csvCellTypeScheme, csvFollowCellScheme } from './CsvCell';
 
-const csvSchemaMap2: { [key in ECsvCellRenderType]: Scheme } = {
+const csvSchemaMap: { [key in ECsvCellRenderType]: Scheme } = {
     [ECsvCellRenderType.String]: stringScheme,
     [ECsvCellRenderType.Int]: intScheme,
     [ECsvCellRenderType.Float]: floatScheme,
@@ -24,7 +24,7 @@ const csvSchemaMap2: { [key in ECsvCellRenderType]: Scheme } = {
 /* eslint-disable spellcheck/spell-checker */
 class CsvScheme {
     public GetSchme(meta: ICsvMeta): Scheme {
-        return csvSchemaMap2[meta.RenderType];
+        return csvSchemaMap[meta.RenderType];
     }
 }
 

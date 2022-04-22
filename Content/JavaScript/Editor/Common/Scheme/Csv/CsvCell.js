@@ -12,7 +12,9 @@ function genCsvCellTypeEnumConfig() {
     });
     return Object.fromEntries(slotList);
 }
-exports.csvCellTypeScheme = (0, Type_1.createEnumScheme)(genCsvCellTypeEnumConfig());
+exports.csvCellTypeScheme = (0, Type_1.createEnumScheme)({
+    Config: genCsvCellTypeEnumConfig(),
+});
 function getCsvCellSchemeByType(type) {
     switch (type) {
         case 'Int':

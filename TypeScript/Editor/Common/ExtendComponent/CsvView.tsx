@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 import * as React from 'react';
@@ -6,7 +7,7 @@ import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TCsvValueType, TModifyType } from '../../../Common/Type';
-import { Btn, SlotText, Text } from '../BaseComponent/CommonComponent';
+import { Btn, EditorBox, SlotText, Text } from '../BaseComponent/CommonComponent';
 import { ContextBtn } from '../BaseComponent/ContextBtn';
 import { editorCsvOp } from '../Operations/CsvOp';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
@@ -15,10 +16,14 @@ import { csvCellContext } from '../SchemeComponent/Context';
 
 export interface ICsvViewProps {
     Csv: ICsv;
+    FilterTexts: string[];
     OnModify: (csv: ICsv) => void;
+    OnModifyFilterTexts: (id: number, text: string) => void;
 }
 
 export class CsvView extends React.Component<ICsvViewProps> {
+    private CurrGridRowId: number;
+
     private OnContextCommand(rowId: number, cmd: string): void {
         switch (cmd) {
             case '上插':
@@ -63,9 +68,39 @@ export class CsvView extends React.Component<ICsvViewProps> {
         this.props.OnModify(newCsv);
     }
 
-    private RenderHead(fieldTypes: ICsvFieldEx[]): JSX.Element[] {
+    private RenderFilter(fieldTypes: ICsvFieldEx[]): JSX.Element[] {
+        const gridRowId = this.CurrGridRowId++;
+        const filterTexts = this.props.FilterTexts;
         const result = fieldTypes.map((field, index) => {
-            const slot: GridSlot = { Row: 0, Column: index };
+            const slot: GridSlot = { Row: gridRowId, Column: index };
+            const text = index < filterTexts.length ? filterTexts[index] : '';
+            return (
+                <HorizontalBox Slot={slot} key={field.Name}>
+                    <EditorBox
+                        Text={text}
+                        Tip={'输入过滤字符串,将只显示对应的行'}
+                        Width={index === 0 ? 30 : 60}
+                        OnChange={(text: string): void => {
+                            this.props.OnModifyFilterTexts(index, text);
+                        }}
+                    />
+                    <Btn
+                        Text={'C'}
+                        Tip={'清空过滤内容'}
+                        OnClick={(): void => {
+                            this.props.OnModifyFilterTexts(index, '');
+                        }}
+                    />
+                </HorizontalBox>
+            );
+        });
+        return result;
+    }
+
+    private RenderHead(fieldTypes: ICsvFieldEx[]): JSX.Element[] {
+        const gridRowId = this.CurrGridRowId++;
+        const result = fieldTypes.map((field, index) => {
+            const slot: GridSlot = { Row: gridRowId, Column: index };
             if (editorCsvOp.IsIndexField(field)) {
                 return (
                     <HorizontalBox key={field.Name} Slot={slot}>
@@ -98,10 +133,30 @@ export class CsvView extends React.Component<ICsvViewProps> {
         this.props.OnModify(newCsv);
     }
 
+    private IsInFilter(fieldTypes: ICsvFieldEx[], row: TCsvRowBase): boolean {
+        const filterTexts = this.props.FilterTexts;
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let i = 0; i < fieldTypes.length; i++) {
+            const field = fieldTypes[i];
+            const filter = filterTexts[i];
+            const value = row[field.Name].toString();
+
+            if (value && !value.includes(filter)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private RenderRow(fieldTypes: ICsvFieldEx[], row: TCsvRowBase, rowId: number): JSX.Element[] {
+        if (!this.IsInFilter(fieldTypes, row)) {
+            return [];
+        }
+
         const csv = this.props.Csv;
+        const gridRowId = this.CurrGridRowId++;
         const result = fieldTypes.map((field, index) => {
-            const slot: GridSlot = { Row: rowId + 1, Column: index };
+            const slot: GridSlot = { Row: gridRowId, Column: index };
             if (!field.Meta) {
                 return (
                     <Text
@@ -156,8 +211,10 @@ export class CsvView extends React.Component<ICsvViewProps> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const csv = this.props.Csv;
+        this.CurrGridRowId = 0;
         return (
             <GridPanel>
+                {this.RenderFilter(csv.FiledTypes)}
                 {this.RenderHead(csv.FiledTypes)}
                 {this.RenderRows(csv.FiledTypes, csv.Rows)}
             </GridPanel>

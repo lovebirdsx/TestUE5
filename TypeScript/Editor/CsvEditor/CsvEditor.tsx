@@ -33,6 +33,7 @@ import { ConfigFile } from '../FlowEditor/ConfigFile';
 interface ICsvState {
     Name: ECsvName;
     Csv: ICsv;
+    FilterTexts: string[];
 }
 
 interface ICsvEditorState {
@@ -71,9 +72,11 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
 
     private LoadInitState(): ICsvEditorState {
         const name = this.ConfigFile.CsvName;
+        const csv = csvRegistry.Load(name as ECsvName);
         const csvState: ICsvState = {
             Name: name as ECsvName,
-            Csv: csvRegistry.Load(name as ECsvName),
+            Csv: csv,
+            FilterTexts: csv.FiledTypes.map(() => ''),
         };
         return {
             StepId: 0,
@@ -163,9 +166,18 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             {
                 Name: this.CurrentCsvState.Name,
                 Csv: csv,
+                FilterTexts: this.CurrentCsvState.FilterTexts,
             },
             false,
         );
+    };
+
+    private readonly OnModifyFilterTexts = (id: number, text: string): void => {
+        const state = this.CurrentCsvState;
+        const newState = produce(state, (draft) => {
+            draft.FilterTexts[id] = text;
+        });
+        this.RecordCsvState(newState, false);
     };
 
     private SaveImpl(): void {
@@ -283,9 +295,11 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             }
         }
 
-        const newCsvState = {
+        const newCsv = csvRegistry.Load(name as ECsvName);
+        const newCsvState: ICsvState = {
             Name: name as ECsvName,
-            Csv: csvRegistry.Load(name as ECsvName),
+            Csv: newCsv,
+            FilterTexts: newCsv.FiledTypes.map(() => ''),
         };
         this.RecordCsvState(newCsvState, true);
 
@@ -333,7 +347,12 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                     </Border>
                     <ErrorBoundary>
                         <ScrollBox Slot={scrollBoxSlot}>
-                            <CsvView Csv={this.CurrentCsvState.Csv} OnModify={this.OnModifyCsv} />
+                            <CsvView
+                                Csv={this.CurrentCsvState.Csv}
+                                FilterTexts={this.CurrentCsvState.FilterTexts}
+                                OnModify={this.OnModifyCsv}
+                                OnModifyFilterTexts={this.OnModifyFilterTexts}
+                            />
                         </ScrollBox>
                     </ErrorBoundary>
                 </ErrorBoundary>

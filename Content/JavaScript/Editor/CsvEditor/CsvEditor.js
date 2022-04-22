@@ -35,9 +35,11 @@ class CsvEditor extends React.Component {
     }
     LoadInitState() {
         const name = this.ConfigFile.CsvName;
+        const csv = CsvRegistry_1.csvRegistry.Load(name);
         const csvState = {
             Name: name,
-            Csv: CsvRegistry_1.csvRegistry.Load(name),
+            Csv: csv,
+            FilterTexts: csv.FiledTypes.map(() => ''),
         };
         return {
             StepId: 0,
@@ -111,7 +113,15 @@ class CsvEditor extends React.Component {
         this.RecordCsvState({
             Name: this.CurrentCsvState.Name,
             Csv: csv,
+            FilterTexts: this.CurrentCsvState.FilterTexts,
         }, false);
+    };
+    OnModifyFilterTexts = (id, text) => {
+        const state = this.CurrentCsvState;
+        const newState = (0, immer_1.default)(state, (draft) => {
+            draft.FilterTexts[id] = text;
+        });
+        this.RecordCsvState(newState, false);
     };
     SaveImpl() {
         const state = this.CurrentCsvState;
@@ -184,9 +194,11 @@ class CsvEditor extends React.Component {
                 this.SaveImpl();
             }
         }
+        const newCsv = CsvRegistry_1.csvRegistry.Load(name);
         const newCsvState = {
             Name: name,
-            Csv: CsvRegistry_1.csvRegistry.Load(name),
+            Csv: newCsv,
+            FilterTexts: newCsv.FiledTypes.map(() => ''),
         };
         this.RecordCsvState(newCsvState, true);
         this.ConfigFile.CsvName = name;
@@ -219,7 +231,7 @@ class CsvEditor extends React.Component {
                         this.RenderAllCsvEntries())),
                 React.createElement(ErrorBoundary_1.ErrorBoundary, null,
                     React.createElement(react_umg_1.ScrollBox, { Slot: scrollBoxSlot },
-                        React.createElement(CsvView_1.CsvView, { Csv: this.CurrentCsvState.Csv, OnModify: this.OnModifyCsv }))))));
+                        React.createElement(CsvView_1.CsvView, { Csv: this.CurrentCsvState.Csv, FilterTexts: this.CurrentCsvState.FilterTexts, OnModify: this.OnModifyCsv, OnModifyFilterTexts: this.OnModifyFilterTexts }))))));
     }
 }
 exports.CsvEditor = CsvEditor;

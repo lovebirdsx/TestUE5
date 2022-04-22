@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CsvView = void 0;
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const React = require("react");
@@ -13,6 +14,7 @@ const CsvScheme_1 = require("../Scheme/Csv/CsvScheme");
 const Public_1 = require("../SchemeComponent/Basic/Public");
 const Context_1 = require("../SchemeComponent/Context");
 class CsvView extends React.Component {
+    CurrGridRowId;
     OnContextCommand(rowId, cmd) {
         switch (cmd) {
             case '上插':
@@ -52,9 +54,26 @@ class CsvView extends React.Component {
         const newCsv = CsvOp_1.editorCsvOp.MutableMove(this.props.Csv, rowId, isUp);
         this.props.OnModify(newCsv);
     }
-    RenderHead(fieldTypes) {
+    RenderFilter(fieldTypes) {
+        const gridRowId = this.CurrGridRowId++;
+        const filterTexts = this.props.FilterTexts;
         const result = fieldTypes.map((field, index) => {
-            const slot = { Row: 0, Column: index };
+            const slot = { Row: gridRowId, Column: index };
+            const text = index < filterTexts.length ? filterTexts[index] : '';
+            return (React.createElement(react_umg_1.HorizontalBox, { Slot: slot, key: field.Name },
+                React.createElement(CommonComponent_1.EditorBox, { Text: text, Tip: '输入过滤字符串,将只显示对应的行', Width: index === 0 ? 30 : 60, OnChange: (text) => {
+                        this.props.OnModifyFilterTexts(index, text);
+                    } }),
+                React.createElement(CommonComponent_1.Btn, { Text: 'C', Tip: '清空过滤内容', OnClick: () => {
+                        this.props.OnModifyFilterTexts(index, '');
+                    } })));
+        });
+        return result;
+    }
+    RenderHead(fieldTypes) {
+        const gridRowId = this.CurrGridRowId++;
+        const result = fieldTypes.map((field, index) => {
+            const slot = { Row: gridRowId, Column: index };
             if (CsvOp_1.editorCsvOp.IsIndexField(field)) {
                 return (React.createElement(react_umg_1.HorizontalBox, { key: field.Name, Slot: slot },
                     React.createElement(CommonComponent_1.Btn, { Text: '+', Width: 28, OnClick: () => {
@@ -73,10 +92,27 @@ class CsvView extends React.Component {
         });
         this.props.OnModify(newCsv);
     }
+    IsInFilter(fieldTypes, row) {
+        const filterTexts = this.props.FilterTexts;
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let i = 0; i < fieldTypes.length; i++) {
+            const field = fieldTypes[i];
+            const filter = filterTexts[i];
+            const value = row[field.Name].toString();
+            if (value && !value.includes(filter)) {
+                return false;
+            }
+        }
+        return true;
+    }
     RenderRow(fieldTypes, row, rowId) {
+        if (!this.IsInFilter(fieldTypes, row)) {
+            return [];
+        }
         const csv = this.props.Csv;
+        const gridRowId = this.CurrGridRowId++;
         const result = fieldTypes.map((field, index) => {
-            const slot = { Row: rowId + 1, Column: index };
+            const slot = { Row: gridRowId, Column: index };
             if (!field.Meta) {
                 return (React.createElement(CommonComponent_1.Text, { Text: '未知类型', Tip: '请配置对应Csv字段的Meta成员', Slot: slot, key: `${rowId}-${index}` }));
             }
@@ -106,7 +142,9 @@ class CsvView extends React.Component {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
         const csv = this.props.Csv;
+        this.CurrGridRowId = 0;
         return (React.createElement(react_umg_1.GridPanel, null,
+            this.RenderFilter(csv.FiledTypes),
             this.RenderHead(csv.FiledTypes),
             this.RenderRows(csv.FiledTypes, csv.Rows)));
     }

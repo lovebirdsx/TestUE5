@@ -11,6 +11,7 @@ import {
 import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
 import { IShowTalk } from '../../../../Game/Flow/Action';
 import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
+import { FilterableList } from '../../BaseComponent/FilterableList';
 import { Obj, String } from '../Basic/Public';
 import { showTalkContext } from '../Context';
 
@@ -97,7 +98,7 @@ export function RenderTalkerIdScheme(props: IProps<number>): JSX.Element {
     const names = TalkerListOp.GetNames();
     const selectedTalker = talkers.find((e) => e.Id === props.Value);
     return (
-        <List
+        <FilterableList
             Items={names}
             Selected={selectedTalker ? selectedTalker.Name : ''}
             Tip={props.Scheme.Tip}

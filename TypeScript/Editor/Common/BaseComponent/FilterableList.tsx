@@ -9,6 +9,8 @@ interface IFilterableListState {
     IsFilterExpand: boolean;
 }
 
+const MAX_ITEM_COUNT = 10;
+
 export class FilterableList extends React.Component<IListProps, IFilterableListState> {
     public constructor(props: IListProps) {
         super(props);
@@ -41,6 +43,10 @@ export class FilterableList extends React.Component<IListProps, IFilterableListS
         const props = this.props;
         const state = this.state;
         const newProps = produce(props, (draft: IListProps) => {
+            if (props.Items.length <= MAX_ITEM_COUNT) {
+                return;
+            }
+
             if (state.IsFilterExpand) {
                 const filteredItems = props.Items.filter((item: string) =>
                     item.toLowerCase().includes(state.Filter),
@@ -53,12 +59,17 @@ export class FilterableList extends React.Component<IListProps, IFilterableListS
         return (
             <HorizontalBox>
                 <List {...newProps} />
-                <Btn
-                    Text={'▤'}
-                    OnClick={this.OnFilterBtnClicked}
-                    Tip={'点击后，在弹出的输入框中填入字符串，下拉列表中的内容将匹配输入的字符串'}
-                />
-                {state.IsFilterExpand && (
+                {props.Items.length > MAX_ITEM_COUNT && (
+                    <Btn
+                        Text={'▤'}
+                        OnClick={this.OnFilterBtnClicked}
+                        Tip={
+                            '点击后，在弹出的输入框中填入字符串，下拉列表中的内容将匹配输入的字符串'
+                        }
+                    />
+                )}
+
+                {props.Items.length > MAX_ITEM_COUNT && state.IsFilterExpand && (
                     <EditorBox Text={state.Filter} OnChange={this.OnFilterTextChanged} />
                 )}
             </HorizontalBox>

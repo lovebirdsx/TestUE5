@@ -7,6 +7,7 @@ const react_umg_1 = require("react-umg");
 const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
+const FilterableList_1 = require("../../BaseComponent/FilterableList");
 const Public_1 = require("../Basic/Public");
 const Context_1 = require("../Context");
 function RenderJumpTalkId(props) {
@@ -58,7 +59,7 @@ function RenderTalkerIdScheme(props) {
     const { Talkers: talkers } = TalkerList_1.TalkerListOp.Get();
     const names = TalkerList_1.TalkerListOp.GetNames();
     const selectedTalker = talkers.find((e) => e.Id === props.Value);
-    return (React.createElement(CommonComponent_1.List, { Items: names, Selected: selectedTalker ? selectedTalker.Name : '', Tip: props.Scheme.Tip, OnSelectChanged: (name) => {
+    return (React.createElement(FilterableList_1.FilterableList, { Items: names, Selected: selectedTalker ? selectedTalker.Name : '', Tip: props.Scheme.Tip, OnSelectChanged: (name) => {
             const who = talkers.find((e) => e.Name === name);
             props.OnModify(who.Id, 'normal');
         } }));

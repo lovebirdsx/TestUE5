@@ -5,6 +5,7 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const CommonComponent_1 = require("./CommonComponent");
+const MAX_ITEM_COUNT = 10;
 class FilterableList extends React.Component {
     constructor(props) {
         super(props);
@@ -33,6 +34,9 @@ class FilterableList extends React.Component {
         const props = this.props;
         const state = this.state;
         const newProps = (0, immer_1.default)(props, (draft) => {
+            if (props.Items.length <= MAX_ITEM_COUNT) {
+                return;
+            }
             if (state.IsFilterExpand) {
                 const filteredItems = props.Items.filter((item) => item.toLowerCase().includes(state.Filter));
                 draft.Items = filteredItems;
@@ -41,8 +45,8 @@ class FilterableList extends React.Component {
         });
         return (React.createElement(react_umg_1.HorizontalBox, null,
             React.createElement(CommonComponent_1.List, { ...newProps }),
-            React.createElement(CommonComponent_1.Btn, { Text: '▤', OnClick: this.OnFilterBtnClicked, Tip: '点击后，在弹出的输入框中填入字符串，下拉列表中的内容将匹配输入的字符串' }),
-            state.IsFilterExpand && (React.createElement(CommonComponent_1.EditorBox, { Text: state.Filter, OnChange: this.OnFilterTextChanged }))));
+            props.Items.length > MAX_ITEM_COUNT && (React.createElement(CommonComponent_1.Btn, { Text: '▤', OnClick: this.OnFilterBtnClicked, Tip: '点击后，在弹出的输入框中填入字符串，下拉列表中的内容将匹配输入的字符串' })),
+            props.Items.length > MAX_ITEM_COUNT && state.IsFilterExpand && (React.createElement(CommonComponent_1.EditorBox, { Text: state.Filter, OnChange: this.OnFilterTextChanged }))));
     }
 }
 exports.FilterableList = FilterableList;

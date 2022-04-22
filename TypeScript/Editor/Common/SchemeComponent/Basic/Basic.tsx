@@ -5,7 +5,8 @@ import { HorizontalBox } from 'react-umg';
 import { AssetScheme, EnumScheme, IProps } from '../../../../Common/Type';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { TColor } from '../../BaseComponent/Color';
-import { Check, EditorBox, List } from '../../BaseComponent/CommonComponent';
+import { Check, EditorBox } from '../../BaseComponent/CommonComponent';
+import { FilterableList } from '../../BaseComponent/FilterableList';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function Bool(props: IProps<boolean>): JSX.Element {
@@ -76,15 +77,15 @@ export function String(props: IProps<string> & { Color?: TColor }): JSX.Element 
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export function Enum(props: IProps<string>): JSX.Element {
-    const enumType = props.Scheme as EnumScheme<string>;
+export function Enum(props: IProps<string, EnumScheme<string>>): JSX.Element {
+    const scheme = props.Scheme;
     return (
         <HorizontalBox>
-            <List
+            <FilterableList
                 Width={props.Scheme.Width}
-                Items={enumType.Names}
+                Items={scheme.Names}
                 Selected={props.Value}
-                Tip={enumType.Config[props.Value]}
+                Tip={scheme.Config[props.Value]}
                 OnSelectChanged={(item): void => {
                     props.OnModify(item, 'normal');
                 }}

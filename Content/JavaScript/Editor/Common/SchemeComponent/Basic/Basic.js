@@ -6,6 +6,7 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const AssetSelector_1 = require("../../BaseComponent/AssetSelector");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
+const FilterableList_1 = require("../../BaseComponent/FilterableList");
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function Bool(props) {
     return (React.createElement(react_umg_1.HorizontalBox, null,
@@ -44,9 +45,9 @@ function String(props) {
 exports.String = String;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function Enum(props) {
-    const enumType = props.Scheme;
+    const scheme = props.Scheme;
     return (React.createElement(react_umg_1.HorizontalBox, null,
-        React.createElement(CommonComponent_1.List, { Width: props.Scheme.Width, Items: enumType.Names, Selected: props.Value, Tip: enumType.Config[props.Value], OnSelectChanged: (item) => {
+        React.createElement(FilterableList_1.FilterableList, { Width: props.Scheme.Width, Items: scheme.Names, Selected: props.Value, Tip: scheme.Config[props.Value], OnSelectChanged: (item) => {
                 props.OnModify(item, 'normal');
             } })));
 }

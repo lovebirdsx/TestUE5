@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import * as React from 'react';
-import { HorizontalBox } from 'react-umg';
-
 import {
     createArrayScheme,
     createBooleanScheme,
@@ -12,8 +9,6 @@ import {
     createStringScheme,
     EActionFilter,
     IntScheme,
-    IProps,
-    ObjectScheme,
     TFixResult,
     TObjectFields,
 } from '../../../../Common/Type';
@@ -31,12 +26,7 @@ import {
     ITalkItem,
     ITalkOption,
 } from '../../../../Game/Flow/Action';
-import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
-import { String } from '../../SchemeComponent/Basic/Basic';
-import { Obj } from '../../SchemeComponent/Basic/Obj';
 import { TalkActionScheme } from './Action';
-
-export const showTalkContext = React.createContext<IShowTalk>(undefined);
 
 export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>): IntScheme {
     return createIntScheme({
@@ -48,33 +38,17 @@ export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>
             });
             return textId;
         },
-        Render: (props: IProps) => {
-            return (
-                <HorizontalBox>
-                    {props.PrefixElement}
-                    <EditorBox
-                        Width={props.Scheme.Width}
-                        Text={flowListContext.Get().Texts[props.Value as number]}
-                        OnChange={(text): void => {
-                            flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
-                                const textId = props.Value as number;
-                                flowListOp.ModifyText(to, textId, text);
-                            });
-                        }}
-                        Tip={props.Scheme.Tip}
-                    />
-                </HorizontalBox>
-            );
-        },
         ...type,
     });
 }
 
+export const talkOptionTextIdScheme = createTextIdScheme('该做啥选择呢', {
+    Width: 200,
+    Tip: '选项内容',
+});
+
 export const talkOptionScheme = createObjectScheme<ITalkOption>({
-    TextId: createTextIdScheme('该做啥选择呢', {
-        Width: 200,
-        Tip: '选项内容',
-    }),
+    TextId: talkOptionTextIdScheme,
     Actions: createArrayScheme({
         Element: new TalkActionScheme(),
         NewLine: false,
@@ -82,38 +56,22 @@ export const talkOptionScheme = createObjectScheme<ITalkOption>({
     }),
 });
 
-function hasTalk(showTalk: IShowTalk, name: string): boolean {
-    let count = 0;
-    showTalk.TalkItems.forEach((item) => {
-        if (item.Name === name) {
-            count++;
-        }
-    });
-    return count > 1;
-}
-
-export const talkerScheme = createIntScheme({
+export const talkerIdScheme = createIntScheme({
     Tip: '说话人',
     CreateDefault: () => {
         const { Talkers: talkers } = TalkerListOp.Get();
         return talkers.length > 0 ? talkers[0].Id : 1;
     },
-    Render: (props) => {
-        const { Talkers: talkers } = TalkerListOp.Get();
-        const names = TalkerListOp.GetNames();
-        const selectedTalker = talkers.find((e) => e.Id === props.Value);
-        return (
-            <List
-                Items={names}
-                Selected={selectedTalker ? selectedTalker.Name : ''}
-                Tip={props.Scheme.Tip}
-                OnSelectChanged={(name: string): void => {
-                    const who = talkers.find((e) => e.Name === name);
-                    props.OnModify(who.Id, 'normal');
-                }}
-            />
-        );
-    },
+});
+
+export const talkItemTextIdScheme = createTextIdScheme('说点什么吧', {
+    Width: 500,
+    Tip: '对话内容',
+});
+
+export const talkItemNameScheme = createStringScheme({
+    Tip: '对话名字',
+    CreateDefault: () => '对话1',
 });
 
 const talkItemFileds: TObjectFields<ITalkItem> = {
@@ -121,33 +79,9 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         Hide: true,
         CreateDefault: () => 1,
     }),
-    Name: createStringScheme({
-        Tip: '对话名字',
-        CreateDefault: () => '对话1',
-        Render: (props: IProps<string>) => {
-            return (
-                <showTalkContext.Consumer>
-                    {(value): JSX.Element => {
-                        return (
-                            <String
-                                {...props}
-                                Color={
-                                    hasTalk(value, props.Value)
-                                        ? '#FF0000 red'
-                                        : DEFAULT_EDIT_TEXT_COLOR
-                                }
-                            />
-                        );
-                    }}
-                </showTalkContext.Consumer>
-            );
-        },
-    }),
-    WhoId: talkerScheme,
-    TextId: createTextIdScheme('说点什么吧', {
-        Width: 500,
-        Tip: '对话内容',
-    }),
+    Name: talkItemNameScheme,
+    WhoId: talkerIdScheme,
+    TextId: talkItemTextIdScheme,
     WaitTime: createFloatScheme({
         Optional: true,
         Width: 40,
@@ -341,13 +275,6 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
             '    执行跳转动作后,该动作所在序列的后续的动作将不被执行',
             '    若当前对话没有跳转指令,则按顺序执行下一条对话',
         ].join('\n'),
-        Render(props: IProps<IShowTalk, ObjectScheme<IShowTalk>>) {
-            return (
-                <showTalkContext.Provider value={props.Value}>
-                    <Obj {...props} />
-                </showTalkContext.Provider>
-            );
-        },
         Fix(value: IShowTalk): TFixResult {
             let fixCount = 0;
             value.TalkItems.forEach((item) => {
@@ -370,10 +297,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
 
 export const showOptionScheme = createObjectScheme<IShowOption>(
     {
-        TextId: createTextIdScheme('该做啥选择呢', {
-            Width: 200,
-            Tip: '选项内容',
-        }),
+        TextId: talkOptionTextIdScheme,
     },
     {
         Filters: [EActionFilter.FlowList],

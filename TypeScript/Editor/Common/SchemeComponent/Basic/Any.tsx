@@ -11,9 +11,6 @@ export class Any extends React.Component<IProps> {
     public render(): JSX.Element {
         const { props } = this;
         const { Scheme: type } = props;
-        if (type.Render) {
-            return type.Render(props);
-        }
 
         const component = renderRegistry.GetComponent(props.Scheme);
         if (component) {

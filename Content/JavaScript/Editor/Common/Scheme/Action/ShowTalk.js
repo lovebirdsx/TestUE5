@@ -1,18 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exports.talkerScheme = exports.talkOptionScheme = exports.createTextIdScheme = exports.showTalkContext = void 0;
+exports.showOptionScheme = exports.showTalkScheme = exports.talkItemScheme = exports.talkItemNameScheme = exports.talkItemTextIdScheme = exports.talkerIdScheme = exports.talkOptionScheme = exports.talkOptionTextIdScheme = exports.createTextIdScheme = void 0;
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-const React = require("react");
-const react_umg_1 = require("react-umg");
 const Type_1 = require("../../../../Common/Type");
 const FlowList_1 = require("../../../../Game/Common/Operations/FlowList");
 const TalkerList_1 = require("../../../../Game/Common/Operations/TalkerList");
-const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
-const Basic_1 = require("../../SchemeComponent/Basic/Basic");
-const Obj_1 = require("../../SchemeComponent/Basic/Obj");
 const Action_1 = require("./Action");
-exports.showTalkContext = React.createContext(undefined);
 function createTextIdScheme(defaultText, type) {
     return (0, Type_1.createIntScheme)({
         CreateDefault: () => {
@@ -23,77 +17,45 @@ function createTextIdScheme(defaultText, type) {
             });
             return textId;
         },
-        Render: (props) => {
-            return (React.createElement(react_umg_1.HorizontalBox, null,
-                props.PrefixElement,
-                React.createElement(CommonComponent_1.EditorBox, { Width: props.Scheme.Width, Text: FlowList_1.flowListContext.Get().Texts[props.Value], OnChange: (text) => {
-                        FlowList_1.flowListContext.Modify(FlowList_1.EFlowListAction.ModifyText, (from, to) => {
-                            const textId = props.Value;
-                            FlowList_1.flowListOp.ModifyText(to, textId, text);
-                        });
-                    }, Tip: props.Scheme.Tip })));
-        },
         ...type,
     });
 }
 exports.createTextIdScheme = createTextIdScheme;
+exports.talkOptionTextIdScheme = createTextIdScheme('该做啥选择呢', {
+    Width: 200,
+    Tip: '选项内容',
+});
 exports.talkOptionScheme = (0, Type_1.createObjectScheme)({
-    TextId: createTextIdScheme('该做啥选择呢', {
-        Width: 200,
-        Tip: '选项内容',
-    }),
+    TextId: exports.talkOptionTextIdScheme,
     Actions: (0, Type_1.createArrayScheme)({
         Element: new Action_1.TalkActionScheme(),
         NewLine: false,
         Tip: '选项动作',
     }),
 });
-function hasTalk(showTalk, name) {
-    let count = 0;
-    showTalk.TalkItems.forEach((item) => {
-        if (item.Name === name) {
-            count++;
-        }
-    });
-    return count > 1;
-}
-exports.talkerScheme = (0, Type_1.createIntScheme)({
+exports.talkerIdScheme = (0, Type_1.createIntScheme)({
     Tip: '说话人',
     CreateDefault: () => {
         const { Talkers: talkers } = TalkerList_1.TalkerListOp.Get();
         return talkers.length > 0 ? talkers[0].Id : 1;
     },
-    Render: (props) => {
-        const { Talkers: talkers } = TalkerList_1.TalkerListOp.Get();
-        const names = TalkerList_1.TalkerListOp.GetNames();
-        const selectedTalker = talkers.find((e) => e.Id === props.Value);
-        return (React.createElement(CommonComponent_1.List, { Items: names, Selected: selectedTalker ? selectedTalker.Name : '', Tip: props.Scheme.Tip, OnSelectChanged: (name) => {
-                const who = talkers.find((e) => e.Name === name);
-                props.OnModify(who.Id, 'normal');
-            } }));
-    },
+});
+exports.talkItemTextIdScheme = createTextIdScheme('说点什么吧', {
+    Width: 500,
+    Tip: '对话内容',
+});
+exports.talkItemNameScheme = (0, Type_1.createStringScheme)({
+    Tip: '对话名字',
+    CreateDefault: () => '对话1',
 });
 const talkItemFileds = {
     Id: (0, Type_1.createIntScheme)({
         Hide: true,
         CreateDefault: () => 1,
     }),
-    Name: (0, Type_1.createStringScheme)({
-        Tip: '对话名字',
-        CreateDefault: () => '对话1',
-        Render: (props) => {
-            return (React.createElement(exports.showTalkContext.Consumer, null, (value) => {
-                return (React.createElement(Basic_1.String, { ...props, Color: hasTalk(value, props.Value)
-                        ? '#FF0000 red'
-                        : CommonComponent_1.DEFAULT_EDIT_TEXT_COLOR }));
-            }));
-        },
-    }),
-    WhoId: exports.talkerScheme,
-    TextId: createTextIdScheme('说点什么吧', {
-        Width: 500,
-        Tip: '对话内容',
-    }),
+    Name: exports.talkItemNameScheme,
+    WhoId: exports.talkerIdScheme,
+    TextId: exports.talkItemTextIdScheme,
     WaitTime: (0, Type_1.createFloatScheme)({
         Optional: true,
         Width: 40,
@@ -274,10 +236,6 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
         '    执行跳转动作后,该动作所在序列的后续的动作将不被执行',
         '    若当前对话没有跳转指令,则按顺序执行下一条对话',
     ].join('\n'),
-    Render(props) {
-        return (React.createElement(exports.showTalkContext.Provider, { value: props.Value },
-            React.createElement(Obj_1.Obj, { ...props })));
-    },
     Fix(value) {
         let fixCount = 0;
         value.TalkItems.forEach((item) => {
@@ -297,10 +255,7 @@ exports.showTalkScheme = (0, Type_1.createObjectScheme)({
     },
 });
 exports.showOptionScheme = (0, Type_1.createObjectScheme)({
-    TextId: createTextIdScheme('该做啥选择呢', {
-        Width: 200,
-        Tip: '选项内容',
-    }),
+    TextId: exports.talkOptionTextIdScheme,
 }, {
     Filters: [Type_1.EActionFilter.FlowList],
     Scheduled: true,

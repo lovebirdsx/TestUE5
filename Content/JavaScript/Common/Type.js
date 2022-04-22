@@ -1,12 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.FloatScheme = exports.booleanScheme = exports.booleanHideNameScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.AssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createArrayScheme = exports.ArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.createEnumScheme = exports.EnumScheme = exports.getSchemeClass = exports.createScheme = exports.Scheme = void 0;
+exports.createCsvIndexValueScheme = exports.CsvIndexValueScheme = exports.ECsvName = exports.floatScheme = exports.createFloatScheme = exports.FloatScheme = exports.booleanScheme = exports.booleanHideNameScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.AssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createArrayScheme = exports.ArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.createEnumScheme = exports.EnumScheme = exports.getSchemeClass = exports.createScheme = exports.Scheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
 class Scheme {
     RenderType = 'string';
-    Render;
     CreateDefault() {
         return undefined;
     }
@@ -278,4 +277,34 @@ function createFloatScheme(type) {
 }
 exports.createFloatScheme = createFloatScheme;
 exports.floatScheme = createFloatScheme();
+// ============================================================================
+var ECsvName;
+(function (ECsvName) {
+    ECsvName["Global"] = "\u5168\u5C40\u914D\u7F6E";
+    ECsvName["Talker"] = "\u5BF9\u8BDD\u4EBA";
+    ECsvName["CustomSeq"] = "\u81EA\u5B9A\u4E49\u5E8F\u5217";
+})(ECsvName = exports.ECsvName || (exports.ECsvName = {}));
+class CsvIndexValueScheme extends Scheme {
+    RenderType = 'csvIndexValue';
+    CreateDefault() {
+        if (this.IndexType === 'Int') {
+            return 1;
+        }
+        else if (this.IndexType === 'BigInt') {
+            return BigInt(1);
+        }
+        return '';
+    }
+    CsvName;
+    IndexField;
+    ValueField;
+    IndexType;
+}
+exports.CsvIndexValueScheme = CsvIndexValueScheme;
+function createCsvIndexValueScheme(type) {
+    const scheme = new CsvIndexValueScheme();
+    Object.assign(scheme, type);
+    return scheme;
+}
+exports.createCsvIndexValueScheme = createCsvIndexValueScheme;
 //# sourceMappingURL=Type.js.map

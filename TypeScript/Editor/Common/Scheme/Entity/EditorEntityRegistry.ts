@@ -29,7 +29,9 @@ class EditorEntityRegistry {
         return this.GetSchemeByUeClass(obj.GetClass());
     }
 
-    public GetSchemeByUeClass<T extends TTsClassType>(classObj: UE.Class): ObjectScheme<Partial<T>> {
+    public GetSchemeByUeClass<T extends TTsClassType>(
+        classObj: UE.Class,
+    ): ObjectScheme<Partial<T>> {
         const result = this.SchemeMap.get(classObj);
         if (!result) {
             error(`Can not find scheme for ue class obj ${classObj.GetName()}`);

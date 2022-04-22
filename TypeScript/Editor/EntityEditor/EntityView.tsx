@@ -9,7 +9,7 @@ import TsEntity from '../../Game/Entity/TsEntity';
 import { Btn, SlotText } from '../Common/BaseComponent/CommonComponent';
 import LevelEditor from '../Common/LevelEditor';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
-import { Obj } from '../Common/SchemeComponent/Basic/Public';
+import { Obj } from '../Common/SchemeComponent/Public';
 import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {

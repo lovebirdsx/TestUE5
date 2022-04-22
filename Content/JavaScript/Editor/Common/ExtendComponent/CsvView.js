@@ -6,12 +6,12 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../../../Common/Log");
+const CommonComponent_1 = require("../BaseComponent/CommonComponent");
+const ContextBtn_1 = require("../BaseComponent/ContextBtn");
 const CsvOp_1 = require("../Operations/CsvOp");
 const CsvScheme_1 = require("../Scheme/Csv/CsvScheme");
 const Public_1 = require("../SchemeComponent/Basic/Public");
 const Context_1 = require("../SchemeComponent/Context");
-const CommonComponent_1 = require("../BaseComponent/CommonComponent");
-const ContextBtn_1 = require("../BaseComponent/ContextBtn");
 class CsvView extends React.Component {
     OnContextCommand(rowId, cmd) {
         switch (cmd) {

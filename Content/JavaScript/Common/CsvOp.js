@@ -35,7 +35,7 @@ class CsvOp {
     }
     GetValue(csv, indexFieldName, indexFieldValue, valueName) {
         const findRow = csv.Rows.find((row) => row[indexFieldName].toString() === indexFieldValue);
-        return findRow ? findRow[valueName].toString() : '';
+        return findRow ? findRow[valueName] : undefined;
     }
 }
 exports.csvOp = new CsvOp();

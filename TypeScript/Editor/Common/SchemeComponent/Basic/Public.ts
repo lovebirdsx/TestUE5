@@ -2,6 +2,7 @@
 import { Array } from './Array';
 import { Asset, Bool, Enum, Float, Int, String } from './Basic';
 import { componentRegistry } from './ComponentRegistry';
+import { CsvIndexValue } from './CsvIndexValue';
 import { Dynamic } from './Dynamic';
 import { Obj } from './Obj';
 
@@ -15,6 +16,7 @@ function initAllComponents(): void {
     componentRegistry.Register('string', String);
     componentRegistry.Register('enum', Enum);
     componentRegistry.Register('asset', Asset);
+    componentRegistry.Register('csvIndexValue', CsvIndexValue);
 }
 
 initAllComponents();

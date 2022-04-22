@@ -182,10 +182,8 @@
                     ""TextId"": 8,
                     ""Actions"": [
                       {
-                        ""Name"": ""FinishState"",
-                        ""Params"": {
-                          ""Result"": ""去公园""
-                        }
+                        ""Name"": ""FinishTalk"",
+                        ""Params"": {}
                       }
                     ]
                   },
@@ -196,10 +194,8 @@
                     ""TextId"": 9,
                     ""Actions"": [
                       {
-                        ""Name"": ""FinishState"",
-                        ""Params"": {
-                          ""Result"": ""去游乐场""
-                        }
+                        ""Name"": ""FinishTalk"",
+                        ""Params"": {}
                       }
                     ]
                   }

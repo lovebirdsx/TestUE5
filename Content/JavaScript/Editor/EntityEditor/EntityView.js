@@ -9,7 +9,7 @@ const Interface_1 = require("../../Game/Entity/Interface");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const LevelEditor_1 = require("../Common/LevelEditor");
 const Public_1 = require("../Common/Scheme/Entity/Public");
-const Public_2 = require("../Common/SchemeComponent/Basic/Public");
+const Public_2 = require("../Common/SchemeComponent/Public");
 const ComponentsState_1 = require("./ComponentsState");
 class EntityView extends React.Component {
     OnClickBtnNav = () => {

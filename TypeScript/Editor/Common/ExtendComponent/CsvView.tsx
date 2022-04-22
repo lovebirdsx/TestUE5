@@ -3,15 +3,15 @@ import produce from 'immer';
 import * as React from 'react';
 import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 
-import { ICsv, ICsvFieldEx, TCsvRowBase, TCsvValueType } from '../../../Common/CsvLoader';
+import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
-import { TModifyType } from '../../../Common/Type';
+import { TCsvValueType, TModifyType } from '../../../Common/Type';
+import { Btn, SlotText, Text } from '../BaseComponent/CommonComponent';
+import { ContextBtn } from '../BaseComponent/ContextBtn';
 import { editorCsvOp } from '../Operations/CsvOp';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
 import { Any } from '../SchemeComponent/Basic/Public';
 import { csvCellContext } from '../SchemeComponent/Context';
-import { Btn, SlotText, Text } from '../BaseComponent/CommonComponent';
-import { ContextBtn } from '../BaseComponent/ContextBtn';
 
 export interface ICsvViewProps {
     Csv: ICsv;

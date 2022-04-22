@@ -1,15 +1,49 @@
-/* eslint-disable spellcheck/spell-checker */
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as React from 'react';
-import { HorizontalBox } from 'react-umg';
+import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { createObjectScheme, IProps } from '../../../../Common/Type';
+import { log } from '../../../../Common/Log';
+import { IProps, TModifyType } from '../../../../Common/Type';
 import { gameConfig } from '../../../../Game/Common/Config';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
-import { IPlayFlow } from '../../../../Game/Flow/Action';
+import { IPlayFlow, parsePlayFlow, parseTriggerActionsJson } from '../../../../Game/Flow/Action';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
 import { Btn, List, Text } from '../../BaseComponent/CommonComponent';
+import { createDefaultPlayFlowFor, playFlowScheme } from '../../Scheme/Action/Flow';
+import { actionsScheme } from '../../Scheme/Entity/TriggerScheme';
 import { sendEditorCommand } from '../../Util';
+import { Any } from '../Basic/Any';
+import { flowContext } from '../Context';
+
+const DEFAULT_STATE_ID = 1;
+
+export function RenderStateId(props: IProps<number>): JSX.Element {
+    return (
+        <flowContext.Consumer>
+            {(value): JSX.Element => {
+                const stateNames = value.States.map((e) => e.Name);
+                const selectedState = value.States.find((e) => e.Id === props.Value);
+                return (
+                    <HorizontalBox>
+                        {props.PrefixElement}
+                        <List
+                            Items={stateNames}
+                            Selected={selectedState ? selectedState.Name : ''}
+                            Tip="目标状态"
+                            OnSelectChanged={(selectedStateName): void => {
+                                const state = value.States.find(
+                                    (e) => e.Name === selectedStateName,
+                                );
+                                props.OnModify(state ? state.Id : DEFAULT_STATE_ID, 'normal');
+                            }}
+                        />
+                    </HorizontalBox>
+                );
+            }}
+        </flowContext.Consumer>
+    );
+}
 
 function openFlowEditor(flowName: string): void {
     const configFile = new ConfigFile();
@@ -20,30 +54,7 @@ function openFlowEditor(flowName: string): void {
     sendEditorCommand('RestartFlowEditor');
 }
 
-function createDefaultPlayFlowFor(flowListName: string): IPlayFlow {
-    const flowList = flowListOp.LoadByName(flowListName);
-    const flow = flowList.Flows.length > 0 ? flowList.Flows[0] : null;
-    const state = flow && flow.States.length > 0 ? flow.States[0] : null;
-    return {
-        FlowListName: flowListName,
-        FlowId: flow ? flow.Id : 0,
-        StateId: state ? state.Id : 0,
-    };
-}
-
-function createDefaultPlayFlow(): IPlayFlow {
-    if (flowListOp.Names.length <= 0) {
-        return {
-            FlowListName: '',
-            FlowId: 0,
-            StateId: 0,
-        };
-    }
-
-    return createDefaultPlayFlowFor(flowListOp.Names[0]);
-}
-
-function renderPlayFlow(props: IProps): JSX.Element {
+export function RenderPlayFlow(props: IProps): JSX.Element {
     const playFlow = props.Value as IPlayFlow;
     if (flowListOp.Names.length > 0) {
         if (!flowListOp.Names.includes(playFlow.FlowListName)) {
@@ -131,16 +142,71 @@ function renderPlayFlow(props: IProps): JSX.Element {
     );
 }
 
-export const playFlowScheme = createObjectScheme<IPlayFlow>(
-    {
-        FlowListName: null,
-        FlowId: null,
-        StateId: null,
-    },
-    {
-        Tip: '播放流程配置文件中的某个流程',
-        Render: renderPlayFlow,
-        Filters: [],
-        CreateDefault: createDefaultPlayFlow,
-    },
-);
+export function RenderPlayFlowJson(props: IProps): JSX.Element {
+    const playFlow = parsePlayFlow(props.Value as string);
+    const prefixElement = (
+        <HorizontalBox>
+            {props.PrefixElement}
+            <Btn
+                Text={'R'}
+                OnClick={(): void => {
+                    props.OnModify('', 'normal');
+                }}
+            />
+            <Btn
+                Text={'P'}
+                OnClick={(): void => {
+                    log(props.Value as string);
+                }}
+            />
+        </HorizontalBox>
+    );
+
+    // 注意下面只能用Any来渲染,Obj不能正确处理自定义Render的情况
+    return (
+        <VerticalBox>
+            {prefixElement}
+            <Any
+                Value={playFlow}
+                Scheme={playFlowScheme}
+                OnModify={(newFlow, type): void => {
+                    props.OnModify(JSON.stringify(newFlow), type);
+                }}
+            />
+        </VerticalBox>
+    );
+}
+
+export function RenderActionJson(props: IProps): JSX.Element {
+    const actions = parseTriggerActionsJson(props.Value as string);
+    const prefixElement = (
+        <HorizontalBox>
+            {props.PrefixElement}
+            <Text Text={'TriggerActions'} />
+            <Btn
+                Text={'Reset'}
+                Tip={'重置'}
+                OnClick={(): void => {
+                    props.OnModify('', 'normal');
+                }}
+            />
+            <Btn
+                Text={'Log'}
+                Tip={'输出动作Json'}
+                OnClick={(): void => {
+                    log(props.Value as string);
+                }}
+            />
+        </HorizontalBox>
+    );
+    return (
+        <Any
+            PrefixElement={prefixElement}
+            Value={actions}
+            Scheme={actionsScheme}
+            OnModify={(obj: unknown, type: TModifyType): void => {
+                props.OnModify(JSON.stringify(obj), type);
+            }}
+        />
+    );
+}

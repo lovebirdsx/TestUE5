@@ -14,7 +14,8 @@ import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
 import { ICsv } from '../../Common/CsvLoader';
 import { log } from '../../Common/Log';
-import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
+import { ECsvName } from '../../Common/Type';
+import { csvRegistry } from '../../Game/Common/CsvConfig/CsvRegistry';
 import { formatColor } from '../Common/BaseComponent/Color';
 import {
     Btn,
@@ -23,8 +24,8 @@ import {
     SlotText,
     Text,
 } from '../Common/BaseComponent/CommonComponent';
-import { CsvView } from '../Common/ExtendComponent/CsvView';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { CsvView } from '../Common/ExtendComponent/CsvView';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';

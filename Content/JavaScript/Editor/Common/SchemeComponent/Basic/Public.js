@@ -14,6 +14,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Array_1 = require("./Array");
 const Basic_1 = require("./Basic");
 const ComponentRegistry_1 = require("./ComponentRegistry");
+const CsvIndexValue_1 = require("./CsvIndexValue");
 const Dynamic_1 = require("./Dynamic");
 const Obj_1 = require("./Obj");
 function initAllComponents() {
@@ -26,6 +27,7 @@ function initAllComponents() {
     ComponentRegistry_1.componentRegistry.Register('string', Basic_1.String);
     ComponentRegistry_1.componentRegistry.Register('enum', Basic_1.Enum);
     ComponentRegistry_1.componentRegistry.Register('asset', Basic_1.Asset);
+    ComponentRegistry_1.componentRegistry.Register('csvIndexValue', CsvIndexValue_1.CsvIndexValue);
 }
 initAllComponents();
 __exportStar(require("./Any"), exports);

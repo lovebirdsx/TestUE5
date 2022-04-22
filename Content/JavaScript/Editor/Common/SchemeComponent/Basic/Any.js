@@ -11,9 +11,6 @@ class Any extends React.Component {
     render() {
         const { props } = this;
         const { Scheme: type } = props;
-        if (type.Render) {
-            return type.Render(props);
-        }
         const component = RenderRegistry_1.renderRegistry.GetComponent(props.Scheme);
         if (component) {
             return React.createElement(component, { ...props });

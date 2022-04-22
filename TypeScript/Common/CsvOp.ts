@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { ICsv } from './CsvLoader';
 import { error } from './Log';
+import { TCsvValueType } from './Type';
 
 class CsvOp {
     private GetFieldIndex(csv: ICsv, fieldName: string, isIndex: boolean): number {
@@ -19,39 +20,39 @@ class CsvOp {
         return indexFieldId;
     }
 
-    public GetIndexsAndValues(
+    public GetIndexsAndValues<TIndex extends TCsvValueType, TValue extends TCsvValueType>(
         csv: ICsv,
         indexFieldName: string,
         valueFieldName: string,
-    ): [string[], string[]] {
+    ): [TIndex[], TValue[]] {
         const indexFieldId = this.GetFieldIndex(csv, indexFieldName, true);
         const valueFieldId = this.GetFieldIndex(csv, valueFieldName, false);
 
-        let indexes: string[] = undefined;
+        let indexes: TIndex[] = undefined;
         if (indexFieldId >= 0) {
             indexes = csv.Rows.map((row) => {
-                return row[indexFieldName] as string;
+                return row[indexFieldName] as TIndex;
             });
         }
 
-        let values: string[] = undefined;
+        let values: TValue[] = undefined;
         if (valueFieldId >= 0) {
             values = csv.Rows.map((row) => {
-                return row[valueFieldName] as string;
+                return row[valueFieldName] as TValue;
             });
         }
 
         return [indexes, values];
     }
 
-    public GetValue(
+    public GetValue<T extends TCsvValueType>(
         csv: ICsv,
         indexFieldName: string,
         indexFieldValue: string,
         valueName: string,
-    ): string {
+    ): T {
         const findRow = csv.Rows.find((row) => row[indexFieldName].toString() === indexFieldValue);
-        return findRow ? findRow[valueName].toString() : '';
+        return findRow ? (findRow[valueName] as T) : undefined;
     }
 }
 

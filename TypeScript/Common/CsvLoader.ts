@@ -4,9 +4,7 @@ import { MyFileHelper } from 'ue';
 
 import { LineReader, LineWriter } from './LineStream';
 import { log, warn } from './Log';
-
-// CSV中单元格值类型
-export type TCsvValueType = bigint | boolean | number | string;
+import { TCsvValueType } from './Type';
 
 export const csvCellTypeConfig = {
     Int: {

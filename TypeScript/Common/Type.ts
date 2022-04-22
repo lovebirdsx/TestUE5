@@ -6,9 +6,9 @@ export type TElementRenderType =
     | 'array'
     | 'asset'
     | 'boolean'
+    | 'csvIndexValue'
     | 'custom'
     | 'dynamic'
-    | 'entity'
     | 'enum'
     | 'float'
     | 'int'
@@ -33,8 +33,6 @@ export type TFixResult = 'canNotFixed' | 'fixed' | 'nothing';
 
 export class Scheme<T = unknown> {
     public RenderType: TElementRenderType = 'string';
-
-    public Render?: TRender;
 
     public CreateDefault(): T {
         return undefined;
@@ -369,3 +367,42 @@ export function createFloatScheme(
 }
 
 export const floatScheme = createFloatScheme();
+
+// ============================================================================
+
+export enum ECsvName {
+    Global = '全局配置',
+    Talker = '对话人',
+    CustomSeq = '自定义序列',
+}
+
+export type TCsvValueType = bigint | boolean | number | string;
+
+export class CsvIndexValueScheme<T extends TCsvValueType> extends Scheme<T> {
+    public RenderType: TElementRenderType = 'csvIndexValue';
+
+    public CreateDefault(): T {
+        if (this.IndexType === 'Int') {
+            return 1 as T;
+        } else if (this.IndexType === 'BigInt') {
+            return BigInt(1) as T;
+        }
+        return '' as T;
+    }
+
+    public CsvName: ECsvName;
+
+    public IndexField: string;
+
+    public ValueField: string;
+
+    public IndexType: 'BigInt' | 'Int' | 'String';
+}
+
+export function createCsvIndexValueScheme<T extends TCsvValueType>(
+    type: Partial<CsvIndexValueScheme<T>>,
+): CsvIndexValueScheme<T> {
+    const scheme = new CsvIndexValueScheme<T>();
+    Object.assign(scheme, type);
+    return scheme;
+}

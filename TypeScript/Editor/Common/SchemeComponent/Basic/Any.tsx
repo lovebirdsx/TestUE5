@@ -2,11 +2,12 @@
 import * as React from 'react';
 
 import { IProps } from '../../../../Common/Type';
+import { TColor } from '../../BaseComponent/Color';
 import { Text } from '../../BaseComponent/CommonComponent';
 import { renderRegistry } from '../RenderRegistry';
 import { componentRegistry } from './ComponentRegistry';
 
-export class Any extends React.Component<IProps> {
+export class Any extends React.Component<IProps & { Color?: TColor }> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const { props } = this;

@@ -7,6 +7,7 @@ import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TCsvValueType, TModifyType } from '../../../Common/Type';
+import { TColor } from '../BaseComponent/Color';
 import { Btn, EditorBox, SlotText, Text } from '../BaseComponent/CommonComponent';
 import { ContextBtn } from '../BaseComponent/ContextBtn';
 import { editorCsvOp } from '../Operations/CsvOp';
@@ -23,6 +24,8 @@ export interface ICsvViewProps {
 
 export class CsvView extends React.Component<ICsvViewProps> {
     private CurrGridRowId: number;
+
+    private readonly IndexColumes = new Map<string, string[]>();
 
     private OnContextCommand(rowId: number, cmd: string): void {
         switch (cmd) {
@@ -183,10 +186,21 @@ export class CsvView extends React.Component<ICsvViewProps> {
                 );
             }
 
+            // 重复的字段提示红色
+            const value = row[field.Name].toString();
+            let color: TColor = undefined;
+            if (field.Filter === '1') {
+                const colValues = this.IndexColumes.get(field.Name);
+                if (colValues.find((e, id) => e === value && rowId !== id)) {
+                    color = '#8B0000 dark red';
+                }
+            }
+
             return (
                 <SizeBox Slot={slot} key={`${rowId}-${index}`}>
                     <csvCellContext.Provider value={{ RowId: rowId, ColId: index, Csv: csv }}>
                         <Any
+                            Color={color}
                             Value={row[field.Name]}
                             Scheme={csvScheme.GetSchme(field.Meta)}
                             OnModify={(value: unknown, type: TModifyType): void => {
@@ -208,10 +222,29 @@ export class CsvView extends React.Component<ICsvViewProps> {
         return result;
     }
 
+    private UpdateIndexCols(): void {
+        this.IndexColumes.clear();
+        const indexNames: string[] = [];
+        this.props.Csv.FiledTypes.forEach((fieldType) => {
+            if (fieldType.Filter === '1') {
+                this.IndexColumes.set(fieldType.Name, []);
+                indexNames.push(fieldType.Name);
+            }
+        });
+
+        this.props.Csv.Rows.forEach((row) => {
+            indexNames.forEach((name) => {
+                const value = row[name] as string;
+                this.IndexColumes.get(name).push(value);
+            });
+        });
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const csv = this.props.Csv;
         this.CurrGridRowId = 0;
+        this.UpdateIndexCols();
         return (
             <GridPanel>
                 {this.RenderFilter(csv.FiledTypes)}

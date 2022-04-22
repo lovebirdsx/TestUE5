@@ -15,6 +15,7 @@ const Public_1 = require("../SchemeComponent/Basic/Public");
 const Context_1 = require("../SchemeComponent/Context");
 class CsvView extends React.Component {
     CurrGridRowId;
+    IndexColumes = new Map();
     OnContextCommand(rowId, cmd) {
         switch (cmd) {
             case '上插':
@@ -124,9 +125,18 @@ class CsvView extends React.Component {
                         } }),
                     React.createElement(CommonComponent_1.SlotText, { Text: row[field.Name].toString() })));
             }
+            // 重复的字段提示红色
+            const value = row[field.Name].toString();
+            let color = undefined;
+            if (field.Filter === '1') {
+                const colValues = this.IndexColumes.get(field.Name);
+                if (colValues.find((e, id) => e === value && rowId !== id)) {
+                    color = '#8B0000 dark red';
+                }
+            }
             return (React.createElement(react_umg_1.SizeBox, { Slot: slot, key: `${rowId}-${index}` },
                 React.createElement(Context_1.csvCellContext.Provider, { value: { RowId: rowId, ColId: index, Csv: csv } },
-                    React.createElement(Public_1.Any, { Value: row[field.Name], Scheme: CsvScheme_1.csvScheme.GetSchme(field.Meta), OnModify: (value, type) => {
+                    React.createElement(Public_1.Any, { Color: color, Value: row[field.Name], Scheme: CsvScheme_1.csvScheme.GetSchme(field.Meta), OnModify: (value, type) => {
                             this.ModifyValue(rowId, field.Name, value);
                         } }))));
         });
@@ -139,10 +149,27 @@ class CsvView extends React.Component {
         });
         return result;
     }
+    UpdateIndexCols() {
+        this.IndexColumes.clear();
+        const indexNames = [];
+        this.props.Csv.FiledTypes.forEach((fieldType) => {
+            if (fieldType.Filter === '1') {
+                this.IndexColumes.set(fieldType.Name, []);
+                indexNames.push(fieldType.Name);
+            }
+        });
+        this.props.Csv.Rows.forEach((row) => {
+            indexNames.forEach((name) => {
+                const value = row[name];
+                this.IndexColumes.get(name).push(value);
+            });
+        });
+    }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
         const csv = this.props.Csv;
         this.CurrGridRowId = 0;
+        this.UpdateIndexCols();
         return (React.createElement(react_umg_1.GridPanel, null,
             this.RenderFilter(csv.FiledTypes),
             this.RenderHead(csv.FiledTypes),

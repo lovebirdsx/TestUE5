@@ -22,7 +22,7 @@ const customSeqCsvFields = [
         ExportType: 'C',
         Name: 'Name',
         Type: 'String',
-        Filter: '0',
+        Filter: '1',
         Localization: '1',
         Condition: '',
         Default: '',

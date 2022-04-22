@@ -260,6 +260,12 @@ export const talkItemScheme = createObjectScheme<ITalkItem>({
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const items: ITalkItem[] = globalContexts.Get<ITalkItem[]>(showTalkScheme.Fields.TalkItems);
         fixTalkItem(items, item);
+
+        // 保存最后一个说话者的名字
+        const lastItem = items.at(-1);
+        if (lastItem) {
+            item.WhoId = lastItem.WhoId;
+        }
         return item;
     },
 });

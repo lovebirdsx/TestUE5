@@ -223,6 +223,11 @@ exports.talkItemScheme = (0, Type_1.createObjectScheme)({
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const items = GlobalContext_1.globalContexts.Get(exports.showTalkScheme.Fields.TalkItems);
         fixTalkItem(items, item);
+        // 保存最后一个说话者的名字
+        const lastItem = items.at(-1);
+        if (lastItem) {
+            item.WhoId = lastItem.WhoId;
+        }
         return item;
     },
 });

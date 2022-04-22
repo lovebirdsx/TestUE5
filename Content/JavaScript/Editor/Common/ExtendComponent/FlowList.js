@@ -58,7 +58,7 @@ class FlowList extends React.Component {
     InsertFlow = (id) => {
         this.Modify((from, to) => {
             const newFlow = FlowList_1.flowListOp.CreateFlow(this.props.FlowList);
-            to.Flows.splice(id + 1, 0, newFlow);
+            to.Flows.splice(id, 0, newFlow);
         }, 'normal');
     };
     RemoveFlow = (id) => {
@@ -68,16 +68,19 @@ class FlowList extends React.Component {
     };
     OnContextCommand = (id, cmd) => {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertFlow(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertFlow(id + 1);
+                break;
+            case '移除':
                 this.RemoveFlow(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.FlowMove(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.FlowMove(id, false);
                 break;
             default:
@@ -124,7 +127,7 @@ class FlowList extends React.Component {
         const nodes = flows.map((flow, id) => {
             return (React.createElement(Flow_1.Flow, { key: id, Flow: flow, ObjectFilter: Type_1.EActionFilter.FlowList, IsDuplicate: flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined, OnModify: (newFlow, type) => {
                     this.ModifiedFlow(id, newFlow, type);
-                }, PrefixElement: React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveDown', 'moveUp'], OnCommand: (cmd) => {
+                }, PrefixElement: React.createElement(ContextBtn_1.ContextBtn, { Commands: ['上插', '下插', '移除', '上移', '下移'], OnCommand: (cmd) => {
                         this.OnContextCommand(id, cmd);
                     }, Tip: "\u9488\u5BF9\u5F53\u524D\u5267\u60C5\u9879\u64CD\u4F5C" }) }));
         });

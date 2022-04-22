@@ -6,9 +6,9 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../../../Common/Log");
+const CommonComponent_1 = require("../BaseComponent/CommonComponent");
 const Flow_1 = require("../Operations/Flow");
 const Context_1 = require("../SchemeComponent/Context");
-const CommonComponent_1 = require("../BaseComponent/CommonComponent");
 const State_1 = require("./State");
 const ADD_STATE_TIP = [
     '增加状态',
@@ -91,16 +91,19 @@ class Flow extends React.Component {
     };
     OnContextCommand(id, cmd) {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertState(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertState(id + 1);
+                break;
+            case '移除':
                 this.RemoveState(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.MoveState(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.MoveState(id, false);
                 break;
             default:

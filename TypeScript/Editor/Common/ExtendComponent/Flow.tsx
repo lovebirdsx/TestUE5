@@ -6,9 +6,9 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { log } from '../../../Common/Log';
 import { EActionFilter, TModifyType } from '../../../Common/Type';
 import { IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
+import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from '../BaseComponent/CommonComponent';
 import { editorFlowOp } from '../Operations/Flow';
 import { flowContext } from '../SchemeComponent/Context';
-import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from '../BaseComponent/CommonComponent';
 import { State } from './State';
 
 export interface IFlowProps {
@@ -106,16 +106,19 @@ export class Flow extends React.Component<IFlowProps> {
 
     private OnContextCommand(id: number, cmd: string): void {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertState(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertState(id + 1);
+                break;
+            case '移除':
                 this.RemoveState(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.MoveState(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.MoveState(id, false);
                 break;
             default:

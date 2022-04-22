@@ -51,21 +51,21 @@ export class State extends React.Component<IStateProps> {
         }, 'fold');
     };
 
-    private SpwanNewActionAfter(state: IStateInfo, id: number): IActionInfo {
+    private SpwanNewActionAfter(): IActionInfo {
         return actionRegistry.SpawnDefaultAction(this.props.ObjectFilter);
     }
 
     private readonly AddAction = (): void => {
         this.Modify((from, to) => {
-            to.Actions.push(this.SpwanNewActionAfter(from, from.Actions.length - 1));
+            to.Actions.push(this.SpwanNewActionAfter());
             to._folded = false;
         }, 'normal');
     };
 
     private readonly InsertAction = (id: number): void => {
         this.Modify((from, to) => {
-            const action = this.SpwanNewActionAfter(from, id);
-            to.Actions.splice(id + 1, 0, action);
+            const action = this.SpwanNewActionAfter();
+            to.Actions.splice(id, 0, action);
         }, 'normal');
     };
 
@@ -114,16 +114,19 @@ export class State extends React.Component<IStateProps> {
 
     private OnContextCommand(id: number, cmd: string): void {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertAction(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertAction(id + 1);
+                break;
+            case '移除':
                 this.RemoveAction(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.MoveAction(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.MoveAction(id, false);
                 break;
             default:
@@ -173,7 +176,7 @@ export class State extends React.Component<IStateProps> {
                     />
                     <EditorBox Text={state.Name} OnChange={this.ChangeName} Tip="状态名字" />
                     <ContextBtn
-                        Commands={['insert', 'remove', 'moveUp', 'moveDown']}
+                        Commands={['上插', '下插', '移除', '上移', '下移']}
                         OnCommand={this.props.OnContextCommand}
                         Tip="针对当前状态项操作"
                     />

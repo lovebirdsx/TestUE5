@@ -32,7 +32,7 @@ export class Action extends React.Component<IActionProps> {
                     OnModify={props.OnModify as (obj: unknown, type: TModifyType) => void}
                     PrefixElement={
                         <ContextBtn
-                            Commands={['insert', 'remove', 'moveUp', 'moveDown']}
+                            Commands={['上插', '下插', '移除', '上移', '下移']}
                             OnCommand={props.OnContextCommand}
                             Tip="针对当前动作项进行操作"
                         />

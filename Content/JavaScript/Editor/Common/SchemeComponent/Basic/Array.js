@@ -18,7 +18,7 @@ class Array extends React.Component {
         });
         this.props.OnModify(newValue, type);
     }
-    SpawnElementAfter(array, id) {
+    SpawnElement() {
         const scheme = this.props.Scheme;
         const handle = GlobalContext_1.globalContexts.Push(scheme, this.props.Value);
         const result = scheme.Element.CreateDefault();
@@ -32,14 +32,14 @@ class Array extends React.Component {
     }
     Add = () => {
         this.ModifyByCb((from, to) => {
-            const e = this.SpawnElementAfter(from, from.length - 1);
+            const e = this.SpawnElement();
             to.push(e);
         });
         this.props.OnFoldChange(false);
     };
     Insert = (id) => {
         this.ModifyByCb((from, to) => {
-            const e = this.SpawnElementAfter(from, id);
+            const e = this.SpawnElement();
             to.splice(id, 0, e);
         });
     };
@@ -72,16 +72,19 @@ class Array extends React.Component {
     };
     OnElementContextCommand(id, cmd) {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.Insert(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.Insert(id + 1);
+                break;
+            case '移除':
                 this.Remove(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.Move(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.Move(id, false);
                 break;
             default:
@@ -93,7 +96,7 @@ class Array extends React.Component {
     }
     CreatePrefixElement(id) {
         return (React.createElement(react_umg_1.HorizontalBox, null,
-            React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveUp', 'moveDown'], OnCommand: (cmd) => {
+            React.createElement(ContextBtn_1.ContextBtn, { Commands: ['上插', '下插', '移除', '上移', '下移'], OnCommand: (cmd) => {
                     this.OnElementContextCommand(id, cmd);
                 }, Tip: `针对当前${this.GetArrayItemTip()}操作` })));
     }

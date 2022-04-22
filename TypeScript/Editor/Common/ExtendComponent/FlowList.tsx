@@ -68,7 +68,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
     private readonly InsertFlow = (id: number): void => {
         this.Modify((from, to) => {
             const newFlow = flowListOp.CreateFlow(this.props.FlowList);
-            to.Flows.splice(id + 1, 0, newFlow);
+            to.Flows.splice(id, 0, newFlow);
         }, 'normal');
     };
 
@@ -80,16 +80,19 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
 
     private readonly OnContextCommand = (id: number, cmd: string): void => {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertFlow(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertFlow(id + 1);
+                break;
+            case '移除':
                 this.RemoveFlow(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.FlowMove(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.FlowMove(id, false);
                 break;
             default:
@@ -152,7 +155,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                     }}
                     PrefixElement={
                         <ContextBtn
-                            Commands={['insert', 'remove', 'moveDown', 'moveUp']}
+                            Commands={['上插', '下插', '移除', '上移', '下移']}
                             OnCommand={(cmd): void => {
                                 this.OnContextCommand(id, cmd);
                             }}

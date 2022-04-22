@@ -39,19 +39,19 @@ class State extends React.Component {
             to._folded = !from._folded;
         }, 'fold');
     };
-    SpwanNewActionAfter(state, id) {
+    SpwanNewActionAfter() {
         return Public_1.actionRegistry.SpawnDefaultAction(this.props.ObjectFilter);
     }
     AddAction = () => {
         this.Modify((from, to) => {
-            to.Actions.push(this.SpwanNewActionAfter(from, from.Actions.length - 1));
+            to.Actions.push(this.SpwanNewActionAfter());
             to._folded = false;
         }, 'normal');
     };
     InsertAction = (id) => {
         this.Modify((from, to) => {
-            const action = this.SpwanNewActionAfter(from, id);
-            to.Actions.splice(id + 1, 0, action);
+            const action = this.SpwanNewActionAfter();
+            to.Actions.splice(id, 0, action);
         }, 'normal');
     };
     RemoveAction = (id) => {
@@ -94,16 +94,19 @@ class State extends React.Component {
     };
     OnContextCommand(id, cmd) {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.InsertAction(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.InsertAction(id + 1);
+                break;
+            case '移除':
                 this.RemoveAction(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.MoveAction(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.MoveAction(id, false);
                 break;
             default:
@@ -130,7 +133,7 @@ class State extends React.Component {
                 React.createElement(CommonComponent_1.Fold, { IsFold: state._folded, IsFull: state.Actions.length > 0, OnChanged: this.ChangeFold }),
                 React.createElement(CommonComponent_1.Text, { Text: '●', Color: this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white' }),
                 React.createElement(CommonComponent_1.EditorBox, { Text: state.Name, OnChange: this.ChangeName, Tip: "\u72B6\u6001\u540D\u5B57" }),
-                React.createElement(ContextBtn_1.ContextBtn, { Commands: ['insert', 'remove', 'moveUp', 'moveDown'], OnCommand: this.props.OnContextCommand, Tip: "\u9488\u5BF9\u5F53\u524D\u72B6\u6001\u9879\u64CD\u4F5C" }),
+                React.createElement(ContextBtn_1.ContextBtn, { Commands: ['上插', '下插', '移除', '上移', '下移'], OnCommand: this.props.OnContextCommand, Tip: "\u9488\u5BF9\u5F53\u524D\u72B6\u6001\u9879\u64CD\u4F5C" }),
                 React.createElement(CommonComponent_1.Btn, { Text: '✚动作', OnClick: this.AddAction, Tip: ADD_ACTION_TIP }),
                 React.createElement(Context_1.flowContext.Consumer, null, (value) => {
                     return this.ShowStateMoveTo(value);

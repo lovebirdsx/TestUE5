@@ -22,7 +22,7 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
         this.props.OnModify(newValue, type);
     }
 
-    private SpawnElementAfter(array: unknown[], id: number): unknown {
+    private SpawnElement(): unknown {
         const scheme = this.props.Scheme;
         const handle = globalContexts.Push(scheme, this.props.Value);
         const result = scheme.Element.CreateDefault();
@@ -38,7 +38,7 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
 
     private readonly Add = (): void => {
         this.ModifyByCb((from, to) => {
-            const e = this.SpawnElementAfter(from, from.length - 1);
+            const e = this.SpawnElement();
             to.push(e);
         });
         this.props.OnFoldChange(false);
@@ -46,7 +46,7 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
 
     private readonly Insert = (id: number): void => {
         this.ModifyByCb((from, to) => {
-            const e = this.SpawnElementAfter(from, id);
+            const e = this.SpawnElement();
             to.splice(id, 0, e);
         });
     };
@@ -79,16 +79,19 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
 
     private OnElementContextCommand(id: number, cmd: string): void {
         switch (cmd) {
-            case 'insert':
+            case '上插':
                 this.Insert(id);
                 break;
-            case 'remove':
+            case '下插':
+                this.Insert(id + 1);
+                break;
+            case '移除':
                 this.Remove(id);
                 break;
-            case 'moveUp':
+            case '上移':
                 this.Move(id, true);
                 break;
-            case 'moveDown':
+            case '下移':
                 this.Move(id, false);
                 break;
             default:
@@ -103,9 +106,8 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
     private CreatePrefixElement(id: number): JSX.Element {
         return (
             <HorizontalBox>
-                {/* <SlotText text={`[${id}]`}/> */}
                 <ContextBtn
-                    Commands={['insert', 'remove', 'moveUp', 'moveDown']}
+                    Commands={['上插', '下插', '移除', '上移', '下移']}
                     OnCommand={(cmd): void => {
                         this.OnElementContextCommand(id, cmd);
                     }}

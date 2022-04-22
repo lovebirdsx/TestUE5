@@ -9,15 +9,10 @@ const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const Context_1 = require("../../SchemeComponent/Context");
 exports.finishStateScheme = (0, Type_1.createObjectScheme)({}, {
     Filters: [Type_1.EActionFilter.FlowList],
-    Meta: {
-        Tip: '结束状态,后续的动作将不被执行',
-    },
+    Tip: '结束状态,后续的动作将不被执行',
 });
 const DEFAULT_STATE_ID = 1;
 const stateIdScheme = (0, Type_1.createIntScheme)({
-    Meta: {
-        HideName: true,
-    },
     CreateDefault: () => DEFAULT_STATE_ID,
     Render: (props) => {
         return (React.createElement(Context_1.flowContext.Consumer, null, (value) => {
@@ -36,21 +31,14 @@ exports.changeStateScheme = (0, Type_1.createObjectScheme)({
     StateId: stateIdScheme,
 }, {
     Filters: [Type_1.EActionFilter.FlowList, Type_1.EActionFilter.Talk],
-    Meta: {
-        Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
-    },
+    Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
 });
 exports.changeRandomStateScheme = (0, Type_1.createObjectScheme)({
     StateIds: (0, Type_1.createArrayScheme)({
         Element: stateIdScheme,
-        Meta: {
-            HideName: true,
-        },
     }),
 }, {
     Filters: [Type_1.EActionFilter.FlowList],
-    Meta: {
-        Tip: '随机选择一个状态进行跳转',
-    },
+    Tip: '随机选择一个状态进行跳转',
 });
 //# sourceMappingURL=State.js.map

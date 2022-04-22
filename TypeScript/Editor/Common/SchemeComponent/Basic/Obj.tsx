@@ -133,16 +133,16 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
         const optinalKeys: string[] = [];
         for (const key in objectType.Fields) {
             const fieldTypeData = (objectType.Fields as Record<string, unknown>)[key] as Scheme;
-            if (fieldTypeData.Meta.Hide || fieldTypeData.Hide) {
+            if (fieldTypeData.Hide) {
                 continue;
             }
 
-            if (fieldTypeData.Meta.NewLine || fieldTypeData.NewLine) {
+            if (fieldTypeData.NewLine) {
                 newLineFields.push(fieldTypeData);
                 newLineFieldsKey.push(key);
                 if (
                     fieldTypeData.RenderType === 'array' &&
-                    (fieldTypeData.Meta.ArraySimplify || fieldTypeData.ArraySimplify) &&
+                    fieldTypeData.ArraySimplify &&
                     objValue[key]
                 ) {
                     simplifyArrayFields.push(fieldTypeData);
@@ -153,7 +153,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
                 sameLineFieldsKey.push(key);
             }
 
-            if (fieldTypeData.Meta.Optional || fieldTypeData.Optional) {
+            if (fieldTypeData.Optional) {
                 optinalKeys.push(key);
             }
         }
@@ -164,19 +164,13 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
             const fieldTypeData = (objectType.Fields as Record<string, unknown>)[
                 fieldKey
             ] as Scheme;
-            if (
-                (fieldTypeData.Meta.Optional || fieldTypeData.Optional) &&
-                fieldValue === undefined
-            ) {
+            if (fieldTypeData.Optional && fieldValue === undefined) {
                 return undefined;
             }
             return (
                 <HorizontalBox key={fieldKey}>
-                    {!fieldTypeData.Meta.HideName && !fieldTypeData.HideName && (
-                        <Text
-                            Text={`${fieldKey}:`}
-                            Tip={fieldTypeData.Meta.Tip || fieldTypeData.Tip || fieldKey}
-                        />
+                    {fieldTypeData.ShowName && (
+                        <Text Text={`${fieldKey}:`} Tip={fieldTypeData.Tip || fieldKey} />
                     )}
                     {this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)}
                 </HorizontalBox>
@@ -192,7 +186,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
             ] as Scheme;
             return (
                 <HorizontalBox key={arrayFieldKey}>
-                    <SlotText Text={arrayFieldKey} Tip={arrayTypeData.Meta.Tip || arrayFieldKey} />
+                    <SlotText Text={arrayFieldKey} Tip={arrayTypeData.Tip || arrayFieldKey} />
                     <Btn
                         Text={'✚'}
                         Tip={'添加'}
@@ -219,8 +213,8 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
             if (fieldValue !== undefined) {
                 newLine.push(
                     <HorizontalBox key={id}>
-                        {!fieldTypeData.Meta.HideName && (
-                            <Text Text={`${fieldKey}:`} Tip={fieldTypeData.Meta.Tip || fieldKey} />
+                        {fieldTypeData.ShowName && (
+                            <Text Text={`${fieldKey}:`} Tip={fieldTypeData.Tip || fieldKey} />
                         )}
                         {this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)}
                     </HorizontalBox>,

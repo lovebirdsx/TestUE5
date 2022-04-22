@@ -44,13 +44,10 @@ function renderFlowJson(name: string, props: IProps): JSX.Element {
 }
 
 export const playFlowJsonScheme = createStringScheme({
+    NewLine: true,
     Render: (props) => renderFlowJson('Flow', props),
     CreateDefault: (): string => {
         return JSON.stringify(parsePlayFlow(''));
-    },
-    Meta: {
-        HideName: true,
-        NewLine: true,
     },
 });
 

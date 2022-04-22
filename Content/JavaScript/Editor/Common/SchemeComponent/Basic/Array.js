@@ -87,7 +87,7 @@ class Array extends React.Component {
     }
     GetArrayItemTip() {
         const arrayType = this.props.Scheme;
-        return arrayType.Element.Meta.Tip || arrayType.Element.Tip || '数组项';
+        return arrayType.Element.Tip || '数组项';
     }
     CreatePrefixElement(id) {
         return (React.createElement(react_umg_1.HorizontalBox, null,
@@ -112,7 +112,7 @@ class Array extends React.Component {
     }
     RenderMutilineArray() {
         const { Value: value, Scheme: type, IsFolded: isFolded, PrefixElement: prefixElement, } = this.props;
-        if (type.Meta.ArraySimplify || type.ArraySimplify) {
+        if (type.ArraySimplify) {
             return React.createElement(react_umg_1.VerticalBox, null, !isFolded && this.CreateItemsElement());
         }
         return (React.createElement(react_umg_1.VerticalBox, null,
@@ -125,7 +125,7 @@ class Array extends React.Component {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
         const { Scheme: type } = this.props;
-        if (type.Meta.NewLine || type.NewLine) {
+        if (type.NewLine) {
             return this.RenderMutilineArray();
         }
         return this.RenderOneLineArray();

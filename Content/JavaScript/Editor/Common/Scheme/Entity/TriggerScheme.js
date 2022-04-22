@@ -11,11 +11,8 @@ const Public_1 = require("../../SchemeComponent/Basic/Public");
 const Public_2 = require("../Action/Public");
 exports.actionsScheme = (0, Type_1.createObjectScheme)({
     Actions: (0, Type_1.createArrayScheme)({
+        NewLine: true,
         Element: Public_2.actionRegistry.GetActionScheme(Type_1.EActionFilter.Trigger),
-        Meta: {
-            HideName: true,
-            NewLine: true,
-        },
     }),
 });
 function renderActionJson(name, props) {
@@ -33,17 +30,12 @@ function renderActionJson(name, props) {
         } }));
 }
 exports.actionsJsonScheme = (0, Type_1.createStringScheme)({
+    NewLine: true,
     Render: (props) => renderActionJson('TriggerActionsJson', props),
-    Meta: {
-        HideName: true,
-        NewLine: true,
-    },
 });
 exports.triggerScheme = (0, Type_1.createObjectScheme)({
     MaxTriggerTimes: (0, Type_1.createIntScheme)({
-        Meta: {
-            NewLine: true,
-        },
+        NewLine: true,
     }),
     TriggerActionsJson: exports.actionsJsonScheme,
 });

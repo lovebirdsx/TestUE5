@@ -19,11 +19,8 @@ import { actionRegistry } from '../Action/Public';
 
 export const actionsScheme = createObjectScheme<ITriggerActions>({
     Actions: createArrayScheme({
+        NewLine: true,
         Element: actionRegistry.GetActionScheme(EActionFilter.Trigger),
-        Meta: {
-            HideName: true,
-            NewLine: true,
-        },
     }),
 });
 
@@ -59,18 +56,13 @@ function renderActionJson(name: string, props: IProps): JSX.Element {
 }
 
 export const actionsJsonScheme = createStringScheme({
+    NewLine: true,
     Render: (props) => renderActionJson('TriggerActionsJson', props),
-    Meta: {
-        HideName: true,
-        NewLine: true,
-    },
 });
 
 export const triggerScheme = createObjectScheme<ITsTrigger>({
     MaxTriggerTimes: createIntScheme({
-        Meta: {
-            NewLine: true,
-        },
+        NewLine: true,
     }),
     TriggerActionsJson: actionsJsonScheme,
 });

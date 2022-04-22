@@ -27,13 +27,10 @@ function renderFlowJson(name, props) {
             } })));
 }
 exports.playFlowJsonScheme = (0, Type_1.createStringScheme)({
+    NewLine: true,
     Render: (props) => renderFlowJson('Flow', props),
     CreateDefault: () => {
         return JSON.stringify((0, Action_1.parsePlayFlow)(''));
-    },
-    Meta: {
-        HideName: true,
-        NewLine: true,
     },
 });
 exports.npcScheme = Type_1.emptyObjectScheme;

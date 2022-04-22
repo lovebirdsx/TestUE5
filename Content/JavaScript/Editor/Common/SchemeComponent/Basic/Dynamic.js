@@ -36,7 +36,7 @@ class Dynamic extends React.Component {
         const actionTypeData = Public_1.actionRegistry.GetScheme(action.Name);
         return (React.createElement(Any_1.Any, { Value: action.Params, Scheme: actionTypeData, OnModify: this.Modify, PrefixElement: React.createElement(react_umg_1.HorizontalBox, null,
                 prefixElement,
-                React.createElement(CommonComponent_1.List, { Items: Public_1.actionRegistry.GetActionNames(dynamicType.Filter), Selected: action.Name, OnSelectChanged: this.Select, Tip: actionTypeData.Meta.Tip || actionTypeData.Tip }),
+                React.createElement(CommonComponent_1.List, { Items: Public_1.actionRegistry.GetActionNames(dynamicType.Filter), Selected: action.Name, OnSelectChanged: this.Select, Tip: actionTypeData.Tip }),
                 actionTypeData.Scheduled && (React.createElement(CommonComponent_1.Text, { Text: "async", Tip: "\u662F\u5426\u4EE5\u5F02\u6B65\u65B9\u5F0F\u6267\u884C\u52A8\u4F5C" })),
                 actionTypeData.Scheduled && (React.createElement(CommonComponent_1.Check, { UnChecked: !action.Async, OnChecked: this.ChangeAsync }))) }));
     }

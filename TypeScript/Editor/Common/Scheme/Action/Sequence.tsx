@@ -29,9 +29,6 @@ export const seqDataScheme = createAssetScheme({
     CreateDefault: () => DEFAULT_SEQUENCEDATA_PATH,
     SearchPath: 'Test/CustomSequence',
     ClassPath: `Blueprint'/Game/Test/CustomSequence/CustomSequence.CustomSequence'`,
-    Meta: {
-        HideName: true,
-    },
 });
 
 export const playSequenceDataScheme = createObjectScheme<IPlaySequenceData>(
@@ -40,9 +37,7 @@ export const playSequenceDataScheme = createObjectScheme<IPlaySequenceData>(
     },
     {
         Scheduled: true,
-        Meta: {
-            Tip: '播放SequenceData',
-        },
+        Tip: '播放SequenceData',
     },
 );
 
@@ -64,10 +59,8 @@ function getTalkerCountByCameraBindType(type: TCameraBindMode): number {
 const DEFAULT_WHO_ID = 0;
 
 const whoIdsScheme = createScheme({
+    Tip: '镜头绑定的对象',
     CreateDefault: () => [],
-    Meta: {
-        Tip: '镜头绑定的对象',
-    },
     Render: (props: IProps): JSX.Element => {
         const ownerActionr = props.Owner as IPlayCustomSequence;
         const whoIds = ownerActionr.WhoIds;
@@ -117,9 +110,7 @@ export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>(
     },
     {
         Scheduled: true,
-        Meta: {
-            Tip: '播放自定义Sequence',
-        },
+        Tip: '播放自定义Sequence',
     },
 );
 

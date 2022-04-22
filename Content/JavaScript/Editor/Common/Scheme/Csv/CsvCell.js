@@ -85,9 +85,6 @@ function createCsvIndexScheme(csvName, indexField, valueField, indexType) {
                         openCsvEditor(csvName);
                     }, Tip: `打开Csv配置[${csvName}]` })));
         },
-        Meta: {
-            HideName: true,
-        },
     });
 }
 exports.talkerNamesScheme = createCsvIndexScheme(CsvRegistry_1.ECsvName.Talker, 'Id', 'Name', 'Int');

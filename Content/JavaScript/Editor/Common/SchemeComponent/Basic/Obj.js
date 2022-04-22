@@ -93,14 +93,14 @@ class Obj extends React.Component {
         const optinalKeys = [];
         for (const key in objectType.Fields) {
             const fieldTypeData = objectType.Fields[key];
-            if (fieldTypeData.Meta.Hide || fieldTypeData.Hide) {
+            if (fieldTypeData.Hide) {
                 continue;
             }
-            if (fieldTypeData.Meta.NewLine || fieldTypeData.NewLine) {
+            if (fieldTypeData.NewLine) {
                 newLineFields.push(fieldTypeData);
                 newLineFieldsKey.push(key);
                 if (fieldTypeData.RenderType === 'array' &&
-                    (fieldTypeData.Meta.ArraySimplify || fieldTypeData.ArraySimplify) &&
+                    fieldTypeData.ArraySimplify &&
                     objValue[key]) {
                     simplifyArrayFields.push(fieldTypeData);
                     simplifyArrayFieldsKey.push(key);
@@ -110,7 +110,7 @@ class Obj extends React.Component {
                 sameLineFields.push(fieldTypeData);
                 sameLineFieldsKey.push(key);
             }
-            if (fieldTypeData.Meta.Optional || fieldTypeData.Optional) {
+            if (fieldTypeData.Optional) {
                 optinalKeys.push(key);
             }
         }
@@ -118,12 +118,11 @@ class Obj extends React.Component {
             const fieldKey = sameLineFieldsKey[id];
             const fieldValue = objValue[fieldKey];
             const fieldTypeData = objectType.Fields[fieldKey];
-            if ((fieldTypeData.Meta.Optional || fieldTypeData.Optional) &&
-                fieldValue === undefined) {
+            if (fieldTypeData.Optional && fieldValue === undefined) {
                 return undefined;
             }
             return (React.createElement(react_umg_1.HorizontalBox, { key: fieldKey },
-                !fieldTypeData.Meta.HideName && !fieldTypeData.HideName && (React.createElement(CommonComponent_1.Text, { Text: `${fieldKey}:`, Tip: fieldTypeData.Meta.Tip || fieldTypeData.Tip || fieldKey })),
+                fieldTypeData.ShowName && (React.createElement(CommonComponent_1.Text, { Text: `${fieldKey}:`, Tip: fieldTypeData.Tip || fieldKey })),
                 this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)));
         });
         const simplifyArray = simplifyArrayFields.map((e, id) => {
@@ -132,7 +131,7 @@ class Obj extends React.Component {
             const arrayFieldValue = objValue[arrayFieldKey];
             const arrayTypeData = objectType.Fields[arrayFieldKey];
             return (React.createElement(react_umg_1.HorizontalBox, { key: arrayFieldKey },
-                React.createElement(CommonComponent_1.SlotText, { Text: arrayFieldKey, Tip: arrayTypeData.Meta.Tip || arrayFieldKey }),
+                React.createElement(CommonComponent_1.SlotText, { Text: arrayFieldKey, Tip: arrayTypeData.Tip || arrayFieldKey }),
                 React.createElement(CommonComponent_1.Btn, { Text: '✚', Tip: '添加', OnClick: () => {
                         this.AddArrayItem(arrayFieldKey, arrayFieldValue, arrayTypeData);
                     } })));
@@ -145,7 +144,7 @@ class Obj extends React.Component {
             const fieldTypeData = objectType.Fields[fieldKey];
             if (fieldValue !== undefined) {
                 newLine.push(React.createElement(react_umg_1.HorizontalBox, { key: id },
-                    !fieldTypeData.Meta.HideName && (React.createElement(CommonComponent_1.Text, { Text: `${fieldKey}:`, Tip: fieldTypeData.Meta.Tip || fieldKey })),
+                    fieldTypeData.ShowName && (React.createElement(CommonComponent_1.Text, { Text: `${fieldKey}:`, Tip: fieldTypeData.Tip || fieldKey })),
                     this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)));
             }
         });

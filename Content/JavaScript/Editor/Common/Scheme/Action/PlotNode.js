@@ -8,24 +8,18 @@ exports.setFlowBoolOptionScheme = (0, Type_1.createObjectScheme)({
     Option: (0, Type_1.createEnumScheme)(Action_1.flowBoolOptionConfig),
     Value: Type_1.booleanHideNameScheme,
 }, {
-    Meta: {
-        Tip: '设定和剧情播放相关的控制变量',
-    },
+    Tip: '设定和剧情播放相关的控制变量',
     Filters: (0, Type_1.actionFilterExcept)(Type_1.EActionFilter.Trigger),
 });
 exports.setCameraModeScheme = (0, Type_1.createObjectScheme)({
     Mode: (0, Type_1.createEnumScheme)(Action_1.cameraModeConfig),
 }, {
-    Meta: {
-        Tip: '设定镜头模式',
-    },
+    Tip: '设定镜头模式',
 });
 exports.setPlotModeScheme = (0, Type_1.createObjectScheme)({
     Mode: (0, Type_1.createEnumScheme)(Action_1.plotModeConfig),
 }, {
     Filters: [Type_1.EActionFilter.FlowList],
-    Meta: {
-        Tip: '设定剧情模式,默认为D级演出',
-    },
+    Tip: '设定剧情模式,默认为D级演出',
 });
 //# sourceMappingURL=PlotNode.js.map

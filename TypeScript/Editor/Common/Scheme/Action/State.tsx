@@ -18,18 +18,13 @@ export const finishStateScheme = createObjectScheme(
     {},
     {
         Filters: [EActionFilter.FlowList],
-        Meta: {
-            Tip: '结束状态,后续的动作将不被执行',
-        },
+        Tip: '结束状态,后续的动作将不被执行',
     },
 );
 
 const DEFAULT_STATE_ID = 1;
 
 const stateIdScheme = createIntScheme({
-    Meta: {
-        HideName: true,
-    },
     CreateDefault: () => DEFAULT_STATE_ID,
     Render: (props: IProps) => {
         return (
@@ -65,9 +60,7 @@ export const changeStateScheme = createObjectScheme<IChangeState>(
     },
     {
         Filters: [EActionFilter.FlowList, EActionFilter.Talk],
-        Meta: {
-            Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
-        },
+        Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
     },
 );
 
@@ -75,15 +68,10 @@ export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>(
     {
         StateIds: createArrayScheme({
             Element: stateIdScheme,
-            Meta: {
-                HideName: true,
-            },
         }),
     },
     {
         Filters: [EActionFilter.FlowList],
-        Meta: {
-            Tip: '随机选择一个状态进行跳转',
-        },
+        Tip: '随机选择一个状态进行跳转',
     },
 );

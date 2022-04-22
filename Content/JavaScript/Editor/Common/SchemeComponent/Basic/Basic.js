@@ -12,14 +12,14 @@ function Bool(props) {
         props.PrefixElement,
         React.createElement(CommonComponent_1.Check, { UnChecked: !props.Value, OnChecked: (value) => {
                 props.OnModify(value, 'normal');
-            }, Tip: props.Scheme.Meta.Tip || props.Scheme.Tip })));
+            }, Tip: props.Scheme.Tip })));
 }
 exports.Bool = Bool;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function Int(props) {
     return (React.createElement(react_umg_1.HorizontalBox, null,
         props.PrefixElement,
-        React.createElement(CommonComponent_1.EditorBox, { Width: props.Scheme.Meta.Width || props.Scheme.Width, Tip: props.Scheme.Meta.Tip || props.Scheme.Tip, Text: Math.floor(props.Value).toString(), OnChange: (text) => {
+        React.createElement(CommonComponent_1.EditorBox, { Width: props.Scheme.Width, Tip: props.Scheme.Tip, Text: Math.floor(props.Value).toString(), OnChange: (text) => {
                 props.OnModify(Math.floor(parseInt(text, 10)), 'normal');
             } })));
 }
@@ -37,9 +37,9 @@ exports.Float = Float;
 function String(props) {
     return (React.createElement(react_umg_1.HorizontalBox, null,
         props.PrefixElement,
-        React.createElement(CommonComponent_1.EditorBox, { Width: props.Scheme.Meta.Width || props.Scheme.Width, Text: props.Value, OnChange: (text) => {
+        React.createElement(CommonComponent_1.EditorBox, { Width: props.Scheme.Width, Text: props.Value, OnChange: (text) => {
                 props.OnModify(text, 'normal');
-            }, Tip: props.Scheme.Meta.Tip || props.Scheme.Tip, Color: props.Color })));
+            }, Tip: props.Scheme.Tip, Color: props.Color })));
 }
 exports.String = String;
 // eslint-disable-next-line @typescript-eslint/naming-convention

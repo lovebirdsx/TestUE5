@@ -15,16 +15,6 @@ export type TElementRenderType =
     | 'object'
     | 'string';
 
-export interface IMeta {
-    HideName?: boolean; // 是否显示字段的名字
-    Hide?: boolean; // 是否在编辑器中隐藏
-    NewLine?: boolean; // 字段是否换行
-    Optional?: boolean; // 字段是否可选
-    ArraySimplify?: boolean; // 数组的名字不新起一行
-    Width?: number; // 显示的宽度
-    Tip?: string; // 提示文字
-}
-
 export type TModifyType = 'fold' | 'normal';
 
 export interface IProps<T = unknown, TScheme extends Scheme<T> = Scheme<T>> {
@@ -58,9 +48,7 @@ export class Scheme<T = unknown> {
         return 0;
     }
 
-    public Meta: IMeta = {};
-
-    public HideName?: boolean = true; // 是否显示字段的名字
+    public ShowName?: boolean; // 是否显示字段的名字
 
     public Hide?: boolean; // 是否在编辑器中隐藏
 
@@ -186,7 +174,7 @@ export class ObjectScheme<T> extends Scheme<T> {
         const fieldArray = [];
         for (const key in this.Fields) {
             const filedTypeData = this.Fields[key];
-            if (!filedTypeData.Meta.Optional) {
+            if (!filedTypeData.Optional) {
                 fieldArray.push([key, filedTypeData.CreateDefault()]);
             }
         }
@@ -200,7 +188,7 @@ export class ObjectScheme<T> extends Scheme<T> {
         for (const key in this.Fields) {
             const filedTypeData = this.Fields[key];
             if (value[key] === undefined) {
-                if (!filedTypeData.Meta.Optional) {
+                if (!filedTypeData.Optional) {
                     value[key] = filedTypeData.CreateDefault();
                     log(`fixed no exist field [${key}]`);
                     fixCount++;
@@ -236,7 +224,7 @@ export class ObjectScheme<T> extends Scheme<T> {
         for (const key in this.Fields) {
             const filedTypeData = this.Fields[key];
             if (value[key] === undefined) {
-                if (!filedTypeData.Meta.Optional) {
+                if (!filedTypeData.Optional) {
                     messages.push(`字段[${key}]值为空`);
                     errorCount++;
                 }
@@ -278,8 +266,6 @@ export class IntScheme extends Scheme<number> {
     public CreateDefault(): number {
         return 0;
     }
-
-    public HideName?: boolean = true;
 }
 
 export function createIntScheme(type?: Omit<Partial<IntScheme>, 'fix' | 'renderType'>): IntScheme {
@@ -358,9 +344,9 @@ export function createBooleanScheme(
     return scheme;
 }
 
-export const booleanScheme = createBooleanScheme();
-export const booleanHideNameScheme = createBooleanScheme({
-    Meta: { HideName: true },
+export const booleanHideNameScheme = createBooleanScheme();
+export const booleanScheme = createBooleanScheme({
+    ShowName: true,
 });
 
 // ============================================================================

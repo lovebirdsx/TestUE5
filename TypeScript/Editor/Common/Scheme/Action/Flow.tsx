@@ -138,9 +138,7 @@ export const playFlowScheme = createObjectScheme<IPlayFlow>(
         StateId: null,
     },
     {
-        Meta: {
-            Tip: '播放流程配置文件中的某个流程',
-        },
+        Tip: '播放流程配置文件中的某个流程',
         Render: renderPlayFlow,
         Filters: [],
         CreateDefault: createDefaultPlayFlow,

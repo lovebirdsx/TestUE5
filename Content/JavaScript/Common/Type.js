@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floatScheme = exports.createFloatScheme = exports.FloatScheme = exports.booleanHideNameScheme = exports.booleanScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.AssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createArrayScheme = exports.ArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.createEnumScheme = exports.EnumScheme = exports.getSchemeClass = exports.createScheme = exports.Scheme = void 0;
+exports.floatScheme = exports.createFloatScheme = exports.FloatScheme = exports.booleanScheme = exports.booleanHideNameScheme = exports.createBooleanScheme = exports.BooleanScheme = exports.createAssetScheme = exports.AssetScheme = exports.stringScheme = exports.createStringScheme = exports.StringScheme = exports.intScheme = exports.createIntScheme = exports.IntScheme = exports.emptyObjectScheme = exports.createObjectScheme = exports.ObjectScheme = exports.createArrayScheme = exports.ArrayScheme = exports.actionFilterExcept = exports.allActionFilters = exports.EActionFilter = exports.createEnumScheme = exports.EnumScheme = exports.getSchemeClass = exports.createScheme = exports.Scheme = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
@@ -16,8 +16,7 @@ class Scheme {
     Check(value, messages) {
         return 0;
     }
-    Meta = {};
-    HideName = true; // 是否显示字段的名字
+    ShowName; // 是否显示字段的名字
     Hide; // 是否在编辑器中隐藏
     NewLine; // 字段是否换行
     Optional; // 字段是否可选
@@ -115,7 +114,7 @@ class ObjectScheme extends Scheme {
         const fieldArray = [];
         for (const key in this.Fields) {
             const filedTypeData = this.Fields[key];
-            if (!filedTypeData.Meta.Optional) {
+            if (!filedTypeData.Optional) {
                 fieldArray.push([key, filedTypeData.CreateDefault()]);
             }
         }
@@ -127,7 +126,7 @@ class ObjectScheme extends Scheme {
         for (const key in this.Fields) {
             const filedTypeData = this.Fields[key];
             if (value[key] === undefined) {
-                if (!filedTypeData.Meta.Optional) {
+                if (!filedTypeData.Optional) {
                     value[key] = filedTypeData.CreateDefault();
                     (0, Log_1.log)(`fixed no exist field [${key}]`);
                     fixCount++;
@@ -160,7 +159,7 @@ class ObjectScheme extends Scheme {
         for (const key in this.Fields) {
             const filedTypeData = this.Fields[key];
             if (value[key] === undefined) {
-                if (!filedTypeData.Meta.Optional) {
+                if (!filedTypeData.Optional) {
                     messages.push(`字段[${key}]值为空`);
                     errorCount++;
                 }
@@ -195,7 +194,6 @@ class IntScheme extends Scheme {
     CreateDefault() {
         return 0;
     }
-    HideName = true;
 }
 exports.IntScheme = IntScheme;
 function createIntScheme(type) {
@@ -259,9 +257,9 @@ function createBooleanScheme(type) {
     return scheme;
 }
 exports.createBooleanScheme = createBooleanScheme;
-exports.booleanScheme = createBooleanScheme();
-exports.booleanHideNameScheme = createBooleanScheme({
-    Meta: { HideName: true },
+exports.booleanHideNameScheme = createBooleanScheme();
+exports.booleanScheme = createBooleanScheme({
+    ShowName: true,
 });
 // ============================================================================
 class FloatScheme extends Scheme {

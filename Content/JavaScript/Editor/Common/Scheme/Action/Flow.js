@@ -92,9 +92,7 @@ exports.playFlowScheme = (0, Type_1.createObjectScheme)({
     FlowId: null,
     StateId: null,
 }, {
-    Meta: {
-        Tip: '播放流程配置文件中的某个流程',
-    },
+    Tip: '播放流程配置文件中的某个流程',
     Render: renderPlayFlow,
     Filters: [],
     CreateDefault: createDefaultPlayFlow,

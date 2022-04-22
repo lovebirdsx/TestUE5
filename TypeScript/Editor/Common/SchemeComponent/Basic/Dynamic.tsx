@@ -53,7 +53,7 @@ export class Dynamic extends React.Component<IProps> {
                             Items={actionRegistry.GetActionNames(dynamicType.Filter)}
                             Selected={action.Name}
                             OnSelectChanged={this.Select}
-                            Tip={actionTypeData.Meta.Tip || actionTypeData.Tip}
+                            Tip={actionTypeData.Tip}
                         />
                         {actionTypeData.Scheduled && (
                             <Text Text="async" Tip="是否以异步方式执行动作" />

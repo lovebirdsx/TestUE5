@@ -95,7 +95,7 @@ export class Array extends React.Component<IProps> {
 
     private GetArrayItemTip(): string {
         const arrayType = this.props.Scheme as ArrayScheme;
-        return arrayType.Element.Meta.Tip || arrayType.Element.Tip || '数组项';
+        return arrayType.Element.Tip || '数组项';
     }
 
     private CreatePrefixElement(id: number): JSX.Element {
@@ -149,7 +149,7 @@ export class Array extends React.Component<IProps> {
             PrefixElement: prefixElement,
         } = this.props;
 
-        if (type.Meta.ArraySimplify || type.ArraySimplify) {
+        if (type.ArraySimplify) {
             return <VerticalBox>{!isFolded && this.CreateItemsElement()}</VerticalBox>;
         }
         return (
@@ -173,7 +173,7 @@ export class Array extends React.Component<IProps> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const { Scheme: type } = this.props;
-        if (type.Meta.NewLine || type.NewLine) {
+        if (type.NewLine) {
             return this.RenderMutilineArray();
         }
 

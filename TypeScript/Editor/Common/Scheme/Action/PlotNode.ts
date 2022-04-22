@@ -21,9 +21,7 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>(
         Value: booleanHideNameScheme,
     },
     {
-        Meta: {
-            Tip: '设定和剧情播放相关的控制变量',
-        },
+        Tip: '设定和剧情播放相关的控制变量',
         Filters: actionFilterExcept(EActionFilter.Trigger),
     },
 );
@@ -33,9 +31,7 @@ export const setCameraModeScheme = createObjectScheme<ISetCameraMode>(
         Mode: createEnumScheme(cameraModeConfig),
     },
     {
-        Meta: {
-            Tip: '设定镜头模式',
-        },
+        Tip: '设定镜头模式',
     },
 );
 
@@ -45,8 +41,6 @@ export const setPlotModeScheme = createObjectScheme<ISetPlotMode>(
     },
     {
         Filters: [EActionFilter.FlowList],
-        Meta: {
-            Tip: '设定剧情模式,默认为D级演出',
-        },
+        Tip: '设定剧情模式,默认为D级演出',
     },
 );

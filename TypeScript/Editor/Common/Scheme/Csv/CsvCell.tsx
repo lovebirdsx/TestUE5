@@ -128,9 +128,6 @@ function createCsvIndexScheme<T extends bigint | number | string>(
                 </HorizontalBox>
             );
         },
-        Meta: {
-            HideName: true,
-        },
     });
 }
 

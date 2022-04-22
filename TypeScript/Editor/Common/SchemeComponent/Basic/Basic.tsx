@@ -17,7 +17,7 @@ export function Bool(props: IProps<boolean>): JSX.Element {
                 OnChecked={(value): void => {
                     props.OnModify(value, 'normal');
                 }}
-                Tip={props.Scheme.Meta.Tip || props.Scheme.Tip}
+                Tip={props.Scheme.Tip}
             />
         </HorizontalBox>
     );
@@ -29,8 +29,8 @@ export function Int(props: IProps<number>): JSX.Element {
         <HorizontalBox>
             {props.PrefixElement}
             <EditorBox
-                Width={props.Scheme.Meta.Width || props.Scheme.Width}
-                Tip={props.Scheme.Meta.Tip || props.Scheme.Tip}
+                Width={props.Scheme.Width}
+                Tip={props.Scheme.Tip}
                 Text={Math.floor(props.Value).toString()}
                 OnChange={(text): void => {
                     props.OnModify(Math.floor(parseInt(text, 10)), 'normal');
@@ -63,12 +63,12 @@ export function String(props: IProps<string> & { Color?: TColor }): JSX.Element 
         <HorizontalBox>
             {props.PrefixElement}
             <EditorBox
-                Width={props.Scheme.Meta.Width || props.Scheme.Width}
+                Width={props.Scheme.Width}
                 Text={props.Value}
                 OnChange={(text): void => {
                     props.OnModify(text, 'normal');
                 }}
-                Tip={props.Scheme.Meta.Tip || props.Scheme.Tip}
+                Tip={props.Scheme.Tip}
                 Color={props.Color}
             />
         </HorizontalBox>

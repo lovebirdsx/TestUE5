@@ -11,11 +11,9 @@ import {
     createObjectScheme,
     createStringScheme,
     EActionFilter,
-    IMeta,
-    // FloatScheme,
+    IntScheme,
     IProps,
     ObjectScheme,
-    Scheme,
     TFixResult,
     TObjectFields,
 } from '../../../../Common/Type';
@@ -40,7 +38,7 @@ import { TalkActionScheme } from './Action';
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
 
-export function createTextIdScheme(defaultText: string, meta: IMeta): Scheme<number> {
+export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>): IntScheme {
     return createIntScheme({
         CreateDefault: () => {
             let textId = 0;
@@ -55,7 +53,7 @@ export function createTextIdScheme(defaultText: string, meta: IMeta): Scheme<num
                 <HorizontalBox>
                     {props.PrefixElement}
                     <EditorBox
-                        Width={props.Scheme.Meta.Width}
+                        Width={props.Scheme.Width}
                         Text={flowListContext.Get().Texts[props.Value as number]}
                         OnChange={(text): void => {
                             flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
@@ -63,28 +61,24 @@ export function createTextIdScheme(defaultText: string, meta: IMeta): Scheme<num
                                 flowListOp.ModifyText(to, textId, text);
                             });
                         }}
-                        Tip={props.Scheme.Meta.Tip}
+                        Tip={props.Scheme.Tip}
                     />
                 </HorizontalBox>
             );
         },
-        Meta: meta,
+        ...type,
     });
 }
 
 export const talkOptionScheme = createObjectScheme<ITalkOption>({
     TextId: createTextIdScheme('该做啥选择呢', {
-        HideName: true,
         Width: 200,
         Tip: '选项内容',
     }),
     Actions: createArrayScheme({
         Element: new TalkActionScheme(),
-        Meta: {
-            HideName: true,
-            NewLine: false,
-            Tip: '选项动作',
-        },
+        NewLine: false,
+        Tip: '选项动作',
     }),
 });
 
@@ -99,13 +93,10 @@ function hasTalk(showTalk: IShowTalk, name: string): boolean {
 }
 
 export const talkerScheme = createIntScheme({
+    Tip: '说话人',
     CreateDefault: () => {
         const { Talkers: talkers } = TalkerListOp.Get();
         return talkers.length > 0 ? talkers[0].Id : 1;
-    },
-    Meta: {
-        HideName: true,
-        Tip: '说话人',
     },
     Render: (props) => {
         const { Talkers: talkers } = TalkerListOp.Get();
@@ -115,7 +106,7 @@ export const talkerScheme = createIntScheme({
             <List
                 Items={names}
                 Selected={selectedTalker ? selectedTalker.Name : ''}
-                Tip={props.Scheme.Meta.Tip}
+                Tip={props.Scheme.Tip}
                 OnSelectChanged={(name: string): void => {
                     const who = talkers.find((e) => e.Name === name);
                     props.OnModify(who.Id, 'normal');
@@ -125,25 +116,13 @@ export const talkerScheme = createIntScheme({
     },
 });
 
-// fuck
-// class WaitTimeScheme extends FloatScheme {
-//     public CreateDefault(): number {
-//         return 1;
-//     }
-
-//     public Optional?: boolean = true;
-
-//     public Width?: number = 40;
-
-//     public Tip?: string = '等待多久之后可以跳过，默认值在【全局配置】表中定义';
-// }
-
 const talkItemFileds: TObjectFields<ITalkItem> = {
     Id: createIntScheme({
+        Hide: true,
         CreateDefault: () => 1,
-        Meta: { Hide: true },
     }),
     Name: createStringScheme({
+        Tip: '对话名字',
         CreateDefault: () => '对话1',
         Render: (props: IProps<string>) => {
             return (
@@ -163,44 +142,31 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
                 </showTalkContext.Consumer>
             );
         },
-        Meta: {
-            HideName: true,
-            Tip: '对话名字',
-        },
     }),
     WhoId: talkerScheme,
     TextId: createTextIdScheme('说点什么吧', {
-        HideName: true,
         Width: 500,
         Tip: '对话内容',
     }),
     WaitTime: createFloatScheme({
+        Optional: true,
+        Width: 40,
+        Tip: '等待多久之后可以跳过，默认值在【全局配置】表中定义',
         CreateDefault: () => 1,
-        Meta: {
-            Optional: true,
-            Width: 40,
-            Tip: '等待多久之后可以跳过，默认值在【全局配置】表中定义',
-        },
     }),
     Actions: createArrayScheme({
+        NewLine: true,
+        ArraySimplify: true,
+        Optional: true,
+        Tip: '动作列表',
         Element: new TalkActionScheme(),
-        Meta: {
-            NewLine: true,
-            HideName: true,
-            ArraySimplify: true,
-            Optional: true,
-            Tip: '动作列表',
-        },
     }),
     Options: createArrayScheme({
+        NewLine: true,
+        ArraySimplify: true,
+        Optional: true,
+        Tip: '选项列表',
         Element: talkOptionScheme,
-        Meta: {
-            NewLine: true,
-            HideName: true,
-            ArraySimplify: true,
-            Optional: true,
-            Tip: '选项列表',
-        },
     }),
 };
 
@@ -343,47 +309,38 @@ function checkTalkItem(showTalk: IShowTalk, item: ITalkItem, message: string[]):
 }
 
 export const talkItemScheme = createObjectScheme<ITalkItem>(talkItemFileds, {
-    Meta: {
-        NewLine: true,
-        Tip: '对话项',
-    },
+    NewLine: true,
+    Tip: '对话项',
 });
 
 export const showTalkScheme = createObjectScheme<IShowTalk>(
     {
         TalkItems: createArrayScheme<ITalkItem>({
+            NewLine: true,
+            ArraySimplify: true,
+            Tip: '对话列表',
             Element: talkItemScheme,
-            Meta: {
-                NewLine: true,
-                HideName: true,
-                ArraySimplify: true,
-                Tip: '对话列表',
-            },
         }),
         ResetCamera: createBooleanScheme({
-            Meta: {
-                Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
-                Optional: true,
-            },
+            Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
+            Optional: true,
         }),
     },
     {
         Filters: [EActionFilter.FlowList],
         Scheduled: true,
-        Meta: {
-            Tip: [
-                '显示对话',
-                '  对话',
-                '    由多个[talkItem]构成',
-                '    每个[talkItem]可以配置对话内容,对话动作和选项,',
-                '    对话执行时,执行顺序为: 对话内容->对话动作->选项',
-                '  执行顺序',
-                '    选项被玩家选择后,其中包含的动作将被依次执行',
-                '    若选项的动作中包含了跳转执行,则会跳转对应的对话或者状态',
-                '    执行跳转动作后,该动作所在序列的后续的动作将不被执行',
-                '    若当前对话没有跳转指令,则按顺序执行下一条对话',
-            ].join('\n'),
-        },
+        Tip: [
+            '显示对话',
+            '  对话',
+            '    由多个[talkItem]构成',
+            '    每个[talkItem]可以配置对话内容,对话动作和选项,',
+            '    对话执行时,执行顺序为: 对话内容->对话动作->选项',
+            '  执行顺序',
+            '    选项被玩家选择后,其中包含的动作将被依次执行',
+            '    若选项的动作中包含了跳转执行,则会跳转对应的对话或者状态',
+            '    执行跳转动作后,该动作所在序列的后续的动作将不被执行',
+            '    若当前对话没有跳转指令,则按顺序执行下一条对话',
+        ].join('\n'),
         Render(props: IProps<IShowTalk, ObjectScheme<IShowTalk>>) {
             return (
                 <showTalkContext.Provider value={props.Value}>
@@ -414,7 +371,6 @@ export const showTalkScheme = createObjectScheme<IShowTalk>(
 export const showOptionScheme = createObjectScheme<IShowOption>(
     {
         TextId: createTextIdScheme('该做啥选择呢', {
-            HideName: true,
             Width: 200,
             Tip: '选项内容',
         }),
@@ -422,8 +378,6 @@ export const showOptionScheme = createObjectScheme<IShowOption>(
     {
         Filters: [EActionFilter.FlowList],
         Scheduled: true,
-        Meta: {
-            Tip: '显示独立选项',
-        },
+        Tip: '显示独立选项',
     },
 );

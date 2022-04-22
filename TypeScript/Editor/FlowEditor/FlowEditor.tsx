@@ -72,6 +72,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         this.CommandHandles.push(kc.AddCommandCallback('Save', this.Save));
         this.CommandHandles.push(kc.AddCommandCallback('SaveAs', this.SaveByDialog));
         this.CommandHandles.push(kc.AddCommandCallback('Open', this.OpenByDialog));
+        this.CommandHandles.push(kc.AddCommandCallback('New', this.NewByDialog));
         this.CommandHandles.push(kc.AddCommandCallback('Redo', this.Redo));
         this.CommandHandles.push(kc.AddCommandCallback('Undo', this.Undo));
         this.CommandHandles.push(kc.AddCommandCallback('ClearConsole', this.ClearConsole));
@@ -181,27 +182,43 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         openDirOfFile(this.ConfigFile.FlowConfigPath);
     };
 
-    private readonly OpenByDialog = (): void => {
-        const openPath = openLoadCsvFileDialog(this.ConfigFile.FlowConfigPath);
-        if (!openPath) {
-            return;
-        }
-
+    private CheckSave(): boolean {
         if (this.NeedSave()) {
             const result = EditorOperations.ShowMessage(
                 EMsgType.YesNoCancel,
                 '当前配置已经修改,需要保存吗?',
             );
             if (result === EMsgResult.Cancel) {
-                return;
+                return false;
             } else if (result === EMsgResult.Yes) {
                 this.Save();
             }
         }
 
+        return true;
+    }
+
+    private readonly OpenByDialog = (): void => {
+        const openPath = openLoadCsvFileDialog(this.ConfigFile.FlowConfigPath);
+        if (!openPath) {
+            return;
+        }
+
+        if (!this.CheckSave()) {
+            return;
+        }
+
         if (openPath !== this.ConfigFile.FlowConfigPath) {
             this.Open(openPath);
         }
+    };
+
+    private readonly NewByDialog = (): void => {
+        if (!this.CheckSave()) {
+            return;
+        }
+
+        this.Open(editorFlowListOp.GenNewFlowListFile());
     };
 
     private readonly Save = (): void => {
@@ -428,6 +445,11 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                             />
                         </HorizontalBox>
                         <HorizontalBox>
+                            <Btn
+                                Text={'新建...'}
+                                OnClick={this.NewByDialog}
+                                Tip={getCommandKeyDesc('New')}
+                            />
                             <Btn
                                 Text={'打开...'}
                                 OnClick={this.OpenByDialog}

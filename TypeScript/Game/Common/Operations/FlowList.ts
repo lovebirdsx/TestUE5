@@ -47,11 +47,21 @@ class FlowListOp {
         this.RefreshCache();
     }
 
-    private RefreshCache(): void {
+    public RefreshCache(): void {
         this.Files = getFlowListFiles();
         this.Names = this.Files.map((file) => {
             return getFileNameWithOutExt(file);
         });
+    }
+
+    public GenNewFlowListPath(): string {
+        let id = 1;
+        while (true) {
+            const name = `${gameConfig.FlowListPrefix}${id++}`;
+            if (!this.Names.includes(name)) {
+                return `${gameConfig.FlowListDir}/${name}.csv`;
+            }
+        }
     }
 
     public CreateFlow(flowList: IFlowListInfo): IFlowInfo {

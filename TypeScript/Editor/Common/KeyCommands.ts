@@ -4,6 +4,7 @@ import { UMGRoot } from 'ue';
 import { error } from '../../Common/Log';
 
 const allCommands = [
+    'New',
     'Save',
     'Redo',
     'Undo',
@@ -121,6 +122,7 @@ type TKey = typeof allKeys[number];
 
 const commandMap: { [key in TCommand]: TKey[] } = {
     Open: ['LeftControl', 'O'],
+    New: ['LeftControl', 'N'],
     SaveAs: ['LeftControl', 'LeftShift', 'S'],
     Save: ['LeftControl', 'S'],
     Redo: ['LeftControl', 'LeftShift', 'Z'],

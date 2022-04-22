@@ -160,6 +160,14 @@ class EditorFlowListOp {
         return flowList;
     }
 
+    public GenNewFlowListFile(): string {
+        const newPath = flowListOp.GenNewFlowListPath();
+        const flowListInfo = flowListOp.Create();
+        this.Save(flowListInfo, newPath);
+        flowListOp.RefreshCache();
+        return newPath;
+    }
+
     public Save(flowList: IFlowListInfo, path: string): void {
         this.SaveConfig(flowList, path);
         this.SaveEditor(flowList, path);

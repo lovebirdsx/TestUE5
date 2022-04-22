@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommandKeyDesc = exports.KeyCommands = void 0;
 const Log_1 = require("../../Common/Log");
 const allCommands = [
+    'New',
     'Save',
     'Redo',
     'Undo',
@@ -116,6 +117,7 @@ const allKeys = [
 ];
 const commandMap = {
     Open: ['LeftControl', 'O'],
+    New: ['LeftControl', 'N'],
     SaveAs: ['LeftControl', 'LeftShift', 'S'],
     Save: ['LeftControl', 'S'],
     Redo: ['LeftControl', 'LeftShift', 'Z'],

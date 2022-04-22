@@ -45,6 +45,15 @@ class FlowListOp {
             return (0, File_1.getFileNameWithOutExt)(file);
         });
     }
+    GenNewFlowListPath() {
+        let id = 1;
+        while (true) {
+            const name = `${Config_1.gameConfig.FlowListPrefix}${id++}`;
+            if (!this.Names.includes(name)) {
+                return `${Config_1.gameConfig.FlowListDir}/${name}.csv`;
+            }
+        }
+    }
     CreateFlow(flowList) {
         const flow = {
             Id: flowList.FlowGenId,

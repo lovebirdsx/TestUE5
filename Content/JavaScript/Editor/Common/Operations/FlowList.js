@@ -115,6 +115,13 @@ class EditorFlowListOp {
         }
         return flowList;
     }
+    GenNewFlowListFile() {
+        const newPath = FlowList_1.flowListOp.GenNewFlowListPath();
+        const flowListInfo = FlowList_1.flowListOp.Create();
+        this.Save(flowListInfo, newPath);
+        FlowList_1.flowListOp.RefreshCache();
+        return newPath;
+    }
     Save(flowList, path) {
         this.SaveConfig(flowList, path);
         this.SaveEditor(flowList, path);

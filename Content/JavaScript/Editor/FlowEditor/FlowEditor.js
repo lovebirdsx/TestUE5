@@ -43,6 +43,7 @@ class FlowEditor extends React.Component {
         this.CommandHandles.push(kc.AddCommandCallback('Save', this.Save));
         this.CommandHandles.push(kc.AddCommandCallback('SaveAs', this.SaveByDialog));
         this.CommandHandles.push(kc.AddCommandCallback('Open', this.OpenByDialog));
+        this.CommandHandles.push(kc.AddCommandCallback('New', this.NewByDialog));
         this.CommandHandles.push(kc.AddCommandCallback('Redo', this.Redo));
         this.CommandHandles.push(kc.AddCommandCallback('Undo', this.Undo));
         this.CommandHandles.push(kc.AddCommandCallback('ClearConsole', this.ClearConsole));
@@ -137,23 +138,35 @@ class FlowEditor extends React.Component {
     OpenFlowListConfigDir = () => {
         (0, Util_1.openDirOfFile)(this.ConfigFile.FlowConfigPath);
     };
-    OpenByDialog = () => {
-        const openPath = (0, UeHelper_1.openLoadCsvFileDialog)(this.ConfigFile.FlowConfigPath);
-        if (!openPath) {
-            return;
-        }
+    CheckSave() {
         if (this.NeedSave()) {
             const result = ue_1.EditorOperations.ShowMessage(ue_1.EMsgType.YesNoCancel, '当前配置已经修改,需要保存吗?');
             if (result === ue_1.EMsgResult.Cancel) {
-                return;
+                return false;
             }
             else if (result === ue_1.EMsgResult.Yes) {
                 this.Save();
             }
         }
+        return true;
+    }
+    OpenByDialog = () => {
+        const openPath = (0, UeHelper_1.openLoadCsvFileDialog)(this.ConfigFile.FlowConfigPath);
+        if (!openPath) {
+            return;
+        }
+        if (!this.CheckSave()) {
+            return;
+        }
         if (openPath !== this.ConfigFile.FlowConfigPath) {
             this.Open(openPath);
         }
+    };
+    NewByDialog = () => {
+        if (!this.CheckSave()) {
+            return;
+        }
+        this.Open(FlowList_3.editorFlowListOp.GenNewFlowListFile());
     };
     Save = () => {
         const messages = [];
@@ -310,6 +323,7 @@ class FlowEditor extends React.Component {
                         React.createElement(CommonComponent_1.SlotText, { Text: `${this.NeedSave() ? '*' : ''}${this.ConfigFile.FlowConfigPath}`, Tip: "\u5F53\u524D\u6253\u5F00\u7684\u5267\u60C5\u914D\u7F6E\u6587\u4EF6\u8DEF\u5F84(\u76F8\u5BF9\u4E8EContent\u76EE\u5F55)" }),
                         React.createElement(CommonComponent_1.Btn, { Text: '目录', OnClick: this.OpenFlowListConfigDir, Tip: '打开配置文件所在目录' })),
                     React.createElement(react_umg_1.HorizontalBox, null,
+                        React.createElement(CommonComponent_1.Btn, { Text: '新建...', OnClick: this.NewByDialog, Tip: (0, KeyCommands_1.getCommandKeyDesc)('New') }),
                         React.createElement(CommonComponent_1.Btn, { Text: '打开...', OnClick: this.OpenByDialog, Tip: (0, KeyCommands_1.getCommandKeyDesc)('Open') }),
                         React.createElement(CommonComponent_1.Btn, { Text: '保存', OnClick: this.Save, Tip: (0, KeyCommands_1.getCommandKeyDesc)('Save') }),
                         React.createElement(CommonComponent_1.Btn, { Text: '另存为...', OnClick: this.SaveByDialog, Tip: (0, KeyCommands_1.getCommandKeyDesc)('SaveAs') }),

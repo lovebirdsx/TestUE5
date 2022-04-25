@@ -44,7 +44,11 @@
 
 ## 指令
 
-`sh Tools/check_all.sh` 检查所有,包括
+- 开启watch
 
-- `sh Tools/check_circular.sh` 检查循环依赖
-- `npm run lint` 代码静态检查
+`cd Tools`
+`sh watch.sh`
+
+- 代码检查
+
+`sh Tools/check_all.sh`

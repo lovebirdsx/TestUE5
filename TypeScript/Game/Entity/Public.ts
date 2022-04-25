@@ -1,4 +1,4 @@
-import { regBlueprintType } from '../../Common/Class';
+import { regBlueprintType, TTsClassType } from '../../Common/Class';
 import { entityRegistry } from './EntityRegistry';
 import TsEntity, { entityComponentClasses } from './TsEntity';
 import TsNpc, { npcComponentClasses } from './TsNpc';
@@ -8,9 +8,29 @@ entityRegistry.Register(TsEntity, ...entityComponentClasses);
 entityRegistry.Register(TsNpc, ...npcComponentClasses);
 entityRegistry.Register(TsTrigger, ...triggerComponentClasses);
 
-regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsNpc.TsNpc_C', TsNpc);
-regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsTrigger.TsTrigger_C', TsTrigger);
-regBlueprintType('/Game/Blueprints/TypeScript/Game/Entity/TsEntity.TsEntity_C', TsEntity);
+export enum EBlueprintId {
+    Entity,
+    Npc,
+    Trigger,
+}
+
+function makeTsClassPath(basePath: string, name: string, dir?: string): string {
+    if (dir) {
+        return `${basePath}${dir}/${name}.${name}_C`;
+    }
+    return `${basePath}${name}.${name}_C`;
+}
+
+const ENTITY_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Entity/';
+
+function regEntity(id: EBlueprintId, tsClass: TTsClassType, dir?: string): void {
+    const path = makeTsClassPath(ENTITY_BASE_PATH, tsClass.name, dir);
+    regBlueprintType(id, path, tsClass);
+}
+
+regEntity(EBlueprintId.Entity, TsEntity);
+regEntity(EBlueprintId.Npc, TsNpc);
+regEntity(EBlueprintId.Trigger, TsTrigger);
 
 export * from './EntityRegistry';
 export * from './TsEntity';

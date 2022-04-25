@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAssetPath = exports.getBlueprintPath = exports.regBlueprintType = exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getTsClassByUeClass = exports.getUeClassByTsClass = void 0;
+exports.getAssetPath = exports.getBlueprintPath = exports.getBlueprintType = exports.regBlueprintType = exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getTsClassByUeClass = exports.getUeClassByTsClass = void 0;
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/prefer-function-type */
 const UE = require("ue");
@@ -8,6 +8,7 @@ const Log_1 = require("./Log");
 const tsClassToUeClassMap = new Map();
 const ueClassToTsClassMap = new Map();
 const pathByClass = new Map();
+const ueClassById = new Map();
 function getUeClassByTsClass(tsClassType) {
     return tsClassToUeClassMap.get(tsClassType);
 }
@@ -41,17 +42,26 @@ function isType(obj, classType) {
     return classObj1 === classObj2;
 }
 exports.isType = isType;
-function regBlueprintType(path, classType) {
+function regBlueprintType(id, path, classType) {
     const classObj = UE.Class.Load(path);
     if (!classObj) {
         (0, Log_1.error)(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
+    const class0 = ueClassById.get(id);
+    if (class0) {
+        throw new Error(`id [${id}] is already reg by class [${class0.GetName()}]`);
+    }
+    ueClassById.set(id, classObj);
     pathByClass.set(classObj, path);
     tsClassToUeClassMap.set(classType, classObj);
     ueClassToTsClassMap.set(classObj, classType);
 }
 exports.regBlueprintType = regBlueprintType;
+function getBlueprintType(id) {
+    return ueClassById.get(id);
+}
+exports.getBlueprintType = getBlueprintType;
 function getBlueprintPath(classObj) {
     const path = pathByClass.get(classObj);
     if (!path) {

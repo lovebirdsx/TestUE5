@@ -12,7 +12,8 @@ export type TTsClassType = ITsClassType<UE.Object>;
 
 const tsClassToUeClassMap: Map<TTsClassType, UE.Class> = new Map();
 const ueClassToTsClassMap: Map<UE.Class, TTsClassType> = new Map();
-const pathByClass = new Map<UE.Class, string>();
+const pathByClass: Map<UE.Class, string> = new Map();
+const ueClassById: Map<number, UE.Class> = new Map();
 
 export function getUeClassByTsClass(tsClassType: TTsClassType): UE.Class {
     return tsClassToUeClassMap.get(tsClassType);
@@ -52,16 +53,26 @@ export function isType(obj: UE.Object, classType: TTsClassType): boolean {
     return classObj1 === classObj2;
 }
 
-export function regBlueprintType(path: string, classType: TTsClassType): void {
+export function regBlueprintType(id: number, path: string, classType: TTsClassType): void {
     const classObj = UE.Class.Load(path);
     if (!classObj) {
         error(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
 
+    const class0 = ueClassById.get(id);
+    if (class0) {
+        throw new Error(`id [${id}] is already reg by class [${class0.GetName()}]`);
+    }
+
+    ueClassById.set(id, classObj);
     pathByClass.set(classObj, path);
     tsClassToUeClassMap.set(classType, classObj);
     ueClassToTsClassMap.set(classObj, classType);
+}
+
+export function getBlueprintType(id: number): UE.Class {
+    return ueClassById.get(id);
 }
 
 export function getBlueprintPath(classObj: UE.Class): string {

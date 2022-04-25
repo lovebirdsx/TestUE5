@@ -31,6 +31,32 @@ const textListCsvFields = [
             RenderType: CsvLoader_1.ECsvCellRenderType.String,
         },
     },
+    {
+        ExportType: 'C',
+        Name: 'CameraBindTag',
+        Type: 'String',
+        Filter: '0',
+        Localization: '0',
+        Condition: '',
+        Default: '',
+        CnName: '镜头绑定Tag',
+        Meta: {
+            RenderType: CsvLoader_1.ECsvCellRenderType.String,
+        },
+    },
+    {
+        ExportType: 'C',
+        Name: 'HeadIconAsset',
+        Type: 'String',
+        Filter: '0',
+        Localization: '0',
+        Condition: '',
+        Default: '',
+        CnName: '头像资源',
+        Meta: {
+            RenderType: CsvLoader_1.ECsvCellRenderType.HeadIcon,
+        },
+    },
 ];
 class TalkerCsvLoader extends CsvLoader_1.CsvLoader {
     constructor() {

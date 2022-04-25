@@ -12,10 +12,9 @@ export class TestAssetSelector extends React.Component<unknown, IAssetSelectorPr
     public constructor(props: unknown) {
         super(props);
         this.state = {
-            ClassType: `Blueprint'/Game/Aki/Sequence/Manager/BP_SequenceData.BP_SequenceData'`,
-            Path: 'Aki/Sequence',
-            SelectedObjectPath:
-                '/Game/Aki/Sequence/Task_Seq/Area_ZD/MainTask/Main_ZD_0001/Base/Main_ZD_0001_001.Main_ZD_0001_001',
+            ClassType: `/Game/Test/CustomSequence/CustomSequence.CustomSequence_C`,
+            Path: 'Test/CustomSequence',
+            SelectedObjectPath: '/Game/Test/CustomSequence/Sequence1.Sequence1',
             OnObjectPathChanged: this.OnObjectPathChanged,
         };
     }

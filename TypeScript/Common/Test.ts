@@ -63,3 +63,15 @@ export function assertFlase(value: boolean, msg: string): void {
         throw new Error(`assert failed: \n${msg}\n: value is not false`);
     }
 }
+
+export function assertGt<T>(a: T, b: T, msg: string): void {
+    if (!(a > b)) {
+        throw new Error(`assert failed: \n${msg}\n: ${JSON.stringify(a)} > ${JSON.stringify(b)}`);
+    }
+}
+
+export function assertGe<T>(a: T, b: T, msg: string): void {
+    if (!(a >= b)) {
+        throw new Error(`assert failed: \n${msg}\n: ${JSON.stringify(a)} >= ${JSON.stringify(b)}`);
+    }
+}

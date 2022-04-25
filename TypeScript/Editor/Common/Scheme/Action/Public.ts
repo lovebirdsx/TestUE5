@@ -9,6 +9,7 @@ import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
 import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
+import { setHeadIconVisibleScheme } from './Talker';
 
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeState: changeStateScheme,
@@ -20,6 +21,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     PlaySequenceData: playSequenceDataScheme,
     PlayCustomSequence: playCustomSequenceScheme,
     SetCameraMode: setCameraModeScheme,
+    SetHeadIconVisible: setHeadIconVisibleScheme,
     SetFlowBoolOption: setFlowBoolOptionScheme,
     SetPlotMode: setPlotModeScheme,
     ShowCenterText: showCenterTextScheme,

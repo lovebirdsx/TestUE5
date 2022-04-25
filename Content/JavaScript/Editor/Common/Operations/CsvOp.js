@@ -14,7 +14,8 @@ class EditorCsvOp {
         (0, Log_1.log)(headers.join('\t'));
         csv.Rows.forEach((row) => {
             const values = csv.FiledTypes.map((field) => {
-                return row[field.Name].toString();
+                const value = row[field.Name];
+                return value ? value.toString() : '';
             });
             (0, Log_1.log)(values.join('\t'));
         });

@@ -82,6 +82,7 @@ export enum ECsvCellRenderType {
     FollowCell,
     Int,
     SequenceData,
+    HeadIcon,
     String,
 }
 

@@ -8,6 +8,7 @@ import {
     stringScheme,
 } from '../../../../Common/Type';
 import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
+import { headIconScheme } from '../Action/Talker';
 import { csvCellTypeScheme, csvFollowCellScheme } from './CsvCell';
 
 const csvSchemaMap: { [key in ECsvCellRenderType]: Scheme } = {
@@ -19,6 +20,7 @@ const csvSchemaMap: { [key in ECsvCellRenderType]: Scheme } = {
     [ECsvCellRenderType.CellType]: csvCellTypeScheme,
     [ECsvCellRenderType.FollowCell]: csvFollowCellScheme,
     [ECsvCellRenderType.SequenceData]: seqDataScheme,
+    [ECsvCellRenderType.HeadIcon]: headIconScheme,
 };
 
 /* eslint-disable spellcheck/spell-checker */

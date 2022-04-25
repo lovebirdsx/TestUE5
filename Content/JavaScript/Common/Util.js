@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNames = exports.getEnumValues = void 0;
+exports.loadClass = exports.getFieldCount = exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNames = exports.getEnumValues = void 0;
+const ue_1 = require("ue");
+const UE = require("ue");
 /* eslint-disable spellcheck/spell-checker */
 function getEnumValues(enumType) {
     const valueNames = Object.keys(enumType).filter((item) => !Number.isNaN(Number(item)));
@@ -86,4 +88,22 @@ function calHash(str) {
     return hash;
 }
 exports.calHash = calHash;
+function getFieldCount(obj) {
+    let count = 0;
+    for (const key in obj) {
+        if (key) {
+            count++;
+        }
+    }
+    return count;
+}
+exports.getFieldCount = getFieldCount;
+function loadClass(classNameOrPath) {
+    if (classNameOrPath.includes('/')) {
+        return ue_1.Class.Load(classNameOrPath);
+    }
+    const tsClassObj = UE[classNameOrPath];
+    return tsClassObj.StaticClass();
+}
+exports.loadClass = loadClass;
 //# sourceMappingURL=Util.js.map

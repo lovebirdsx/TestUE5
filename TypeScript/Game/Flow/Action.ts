@@ -12,6 +12,7 @@ export type TActionType =
     | 'PlaySequenceData'
     | 'SetCameraMode'
     | 'SetFlowBoolOption'
+    | 'SetHeadIconVisible'
     | 'SetPlotMode'
     | 'ShowCenterText'
     | 'ShowMessage'
@@ -118,6 +119,11 @@ export interface IShowMessage {
 
 export interface IJumpTalk {
     TalkId: number;
+}
+
+export interface ISetHeadIconVisible {
+    WhoId: number;
+    Visible: boolean;
 }
 
 export interface ITalkOption {

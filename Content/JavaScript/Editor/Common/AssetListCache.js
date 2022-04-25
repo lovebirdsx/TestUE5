@@ -4,6 +4,7 @@ exports.assetListCache = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
+const Util_1 = require("../../Common/Util");
 class AssetListCache {
     Items;
     constructor() {
@@ -23,7 +24,7 @@ class AssetListCache {
         if (cachedItem) {
             return cachedItem.Assets;
         }
-        const classObject = ue_1.EditorAssetLibrary.LoadBlueprintClass(className);
+        const classObject = (0, Util_1.loadClass)(className);
         if (className && !classObject) {
             (0, Log_1.error)(`LoadBlueprintClass failed: ${className}`);
         }

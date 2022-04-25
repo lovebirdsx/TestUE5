@@ -1,7 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EditorAssetLibrary, EditorOperations } from 'ue';
+import { EditorOperations } from 'ue';
 
 import { error, log } from '../../Common/Log';
+import { loadClass } from '../../Common/Util';
 
 export interface IAsset {
     Name: string;
@@ -40,7 +41,7 @@ class AssetListCache {
             return cachedItem.Assets;
         }
 
-        const classObject = EditorAssetLibrary.LoadBlueprintClass(className);
+        const classObject = loadClass(className);
         if (className && !classObject) {
             error(`LoadBlueprintClass failed: ${className}`);
         }

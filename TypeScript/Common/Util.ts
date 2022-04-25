@@ -1,3 +1,6 @@
+import { Class } from 'ue';
+import * as UE from 'ue';
+
 /* eslint-disable spellcheck/spell-checker */
 export function getEnumValues(enumType: Record<number, string>): number[] {
     const valueNames = Object.keys(enumType).filter((item) => !Number.isNaN(Number(item)));
@@ -98,4 +101,25 @@ export function calHash(str: string): number {
     }
 
     return hash;
+}
+
+export function getFieldCount<T>(obj: T): number {
+    let count = 0;
+    for (const key in obj) {
+        if (key) {
+            count++;
+        }
+    }
+    return count;
+}
+
+export function loadClass(classNameOrPath: string): Class {
+    if (classNameOrPath.includes('/')) {
+        return Class.Load(classNameOrPath);
+    }
+
+    const tsClassObj = (UE as Record<string, unknown>)[classNameOrPath] as {
+        StaticClass: () => Class;
+    };
+    return tsClassObj.StaticClass();
 }

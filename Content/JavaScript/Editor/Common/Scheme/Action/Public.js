@@ -18,6 +18,7 @@ const Sequence_1 = require("./Sequence");
 const ShowTalk_1 = require("./ShowTalk");
 const ShowText_1 = require("./ShowText");
 const State_1 = require("./State");
+const Talker_1 = require("./Talker");
 const objectSchemeMap = {
     ChangeState: State_1.changeStateScheme,
     ChangeRandomState: State_1.changeRandomStateScheme,
@@ -28,6 +29,7 @@ const objectSchemeMap = {
     PlaySequenceData: Sequence_1.playSequenceDataScheme,
     PlayCustomSequence: Sequence_1.playCustomSequenceScheme,
     SetCameraMode: PlotNode_1.setCameraModeScheme,
+    SetHeadIconVisible: Talker_1.setHeadIconVisibleScheme,
     SetFlowBoolOption: PlotNode_1.setFlowBoolOptionScheme,
     SetPlotMode: PlotNode_1.setPlotModeScheme,
     ShowCenterText: ShowText_1.showCenterTextScheme,

@@ -55,7 +55,8 @@ var ECsvCellRenderType;
     ECsvCellRenderType[ECsvCellRenderType["FollowCell"] = 4] = "FollowCell";
     ECsvCellRenderType[ECsvCellRenderType["Int"] = 5] = "Int";
     ECsvCellRenderType[ECsvCellRenderType["SequenceData"] = 6] = "SequenceData";
-    ECsvCellRenderType[ECsvCellRenderType["String"] = 7] = "String";
+    ECsvCellRenderType[ECsvCellRenderType["HeadIcon"] = 7] = "HeadIcon";
+    ECsvCellRenderType[ECsvCellRenderType["String"] = 8] = "String";
 })(ECsvCellRenderType = exports.ECsvCellRenderType || (exports.ECsvCellRenderType = {}));
 class GlobalCsv {
     Name;

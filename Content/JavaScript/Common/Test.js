@@ -1,7 +1,7 @@
 "use strict";
 /* eslint-disable spellcheck/spell-checker */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertFlase = exports.assertTrue = exports.assertNe = exports.assertEq = exports.test = exports.clearTestErrorRecords = exports.getTestErrorRecords = void 0;
+exports.assertGe = exports.assertGt = exports.assertFlase = exports.assertTrue = exports.assertNe = exports.assertEq = exports.test = exports.clearTestErrorRecords = exports.getTestErrorRecords = void 0;
 const Log_1 = require("./Log");
 const Util_1 = require("./Util");
 const errorRecords = [];
@@ -55,4 +55,16 @@ function assertFlase(value, msg) {
     }
 }
 exports.assertFlase = assertFlase;
+function assertGt(a, b, msg) {
+    if (!(a > b)) {
+        throw new Error(`assert failed: \n${msg}\n: ${JSON.stringify(a)} > ${JSON.stringify(b)}`);
+    }
+}
+exports.assertGt = assertGt;
+function assertGe(a, b, msg) {
+    if (!(a >= b)) {
+        throw new Error(`assert failed: \n${msg}\n: ${JSON.stringify(a)} >= ${JSON.stringify(b)}`);
+    }
+}
+exports.assertGe = assertGe;
 //# sourceMappingURL=Test.js.map

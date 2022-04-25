@@ -99,8 +99,8 @@ class CsvView extends React.Component {
         for (let i = 0; i < fieldTypes.length; i++) {
             const field = fieldTypes[i];
             const filter = filterTexts[i];
-            const value = row[field.Name].toString();
-            if (value && !value.includes(filter)) {
+            const value = row[field.Name];
+            if (value && !value.toString().includes(filter)) {
                 return false;
             }
         }
@@ -126,11 +126,11 @@ class CsvView extends React.Component {
                     React.createElement(CommonComponent_1.SlotText, { Text: row[field.Name].toString() })));
             }
             // 重复的字段提示红色
-            const value = row[field.Name].toString();
             let color = undefined;
             if (field.Filter === '1') {
                 const colValues = this.IndexColumes.get(field.Name);
-                if (colValues.find((e, id) => e === value && rowId !== id)) {
+                const value = row[field.Name];
+                if (value && colValues.find((e, id) => e === value && rowId !== id)) {
                     color = '#8B0000 dark red';
                 }
             }

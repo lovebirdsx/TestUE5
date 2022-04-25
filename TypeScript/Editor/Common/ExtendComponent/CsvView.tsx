@@ -142,9 +142,9 @@ export class CsvView extends React.Component<ICsvViewProps> {
         for (let i = 0; i < fieldTypes.length; i++) {
             const field = fieldTypes[i];
             const filter = filterTexts[i];
-            const value = row[field.Name].toString();
+            const value = row[field.Name];
 
-            if (value && !value.includes(filter)) {
+            if (value && !value.toString().includes(filter)) {
                 return false;
             }
         }
@@ -187,11 +187,11 @@ export class CsvView extends React.Component<ICsvViewProps> {
             }
 
             // 重复的字段提示红色
-            const value = row[field.Name].toString();
             let color: TColor = undefined;
             if (field.Filter === '1') {
                 const colValues = this.IndexColumes.get(field.Name);
-                if (colValues.find((e, id) => e === value && rowId !== id)) {
+                const value = row[field.Name];
+                if (value && colValues.find((e, id) => e === value && rowId !== id)) {
                     color = '#8B0000 dark red';
                 }
             }

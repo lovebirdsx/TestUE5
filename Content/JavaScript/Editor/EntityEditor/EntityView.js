@@ -16,11 +16,15 @@ class EntityView extends React.Component {
         LevelEditor_1.default.SelectActor(this.props.Entity);
         LevelEditor_1.default.FocusSelected();
     };
+    OnClickBtnFocusBlueprint = () => {
+        LevelEditor_1.default.FocusOnSelectedBlueprint(this.props.Entity);
+    };
     RenderPrefixElement() {
         const entity = this.props.Entity;
         return (React.createElement(react_umg_1.HorizontalBox, null,
             React.createElement(CommonComponent_1.SlotText, { Text: entity.GetName() }),
-            React.createElement(CommonComponent_1.Btn, { Text: '⊙', OnClick: this.OnClickBtnNav, Tip: '选中对应的Entity' })));
+            React.createElement(CommonComponent_1.Btn, { Text: '◉', OnClick: this.OnClickBtnNav, Tip: '在场景中选中对应的Entity' }),
+            React.createElement(CommonComponent_1.Btn, { Text: '⊙', OnClick: this.OnClickBtnFocusBlueprint, Tip: '浏览到Entity蓝图所在位置' })));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

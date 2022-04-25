@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.regBlueprintType = exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getTsClassByUeClass = exports.getUeClassByTsClass = void 0;
+exports.getAssetPath = exports.getBlueprintPath = exports.regBlueprintType = exports.isType = exports.isChildOf = exports.isChildOfClass = exports.getTsClassByUeClass = exports.getUeClassByTsClass = void 0;
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/prefer-function-type */
 const UE = require("ue");
 const Log_1 = require("./Log");
 const tsClassToUeClassMap = new Map();
 const ueClassToTsClassMap = new Map();
+const pathByClass = new Map();
 function getUeClassByTsClass(tsClassType) {
     return tsClassToUeClassMap.get(tsClassType);
 }
@@ -46,8 +47,26 @@ function regBlueprintType(path, classType) {
         (0, Log_1.error)(`Load class obj [${classType.name}] from [${path}] failed`);
         return;
     }
+    pathByClass.set(classObj, path);
     tsClassToUeClassMap.set(classType, classObj);
     ueClassToTsClassMap.set(classObj, classType);
 }
 exports.regBlueprintType = regBlueprintType;
+function getBlueprintPath(classObj) {
+    const path = pathByClass.get(classObj);
+    if (!path) {
+        (0, Log_1.error)(`Can not get blueprint path for TsClass [${classObj.GetName()}]`);
+    }
+    return path;
+}
+exports.getBlueprintPath = getBlueprintPath;
+function getAssetPath(classObj) {
+    const blueprintPath = getBlueprintPath(classObj);
+    if (!blueprintPath) {
+        return blueprintPath;
+    }
+    const assetPath = blueprintPath.substring(0, blueprintPath.length - 2);
+    return assetPath;
+}
+exports.getAssetPath = getAssetPath;
 //# sourceMappingURL=Class.js.map

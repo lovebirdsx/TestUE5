@@ -24,12 +24,21 @@ export class EntityView extends React.Component<IEntityViewProps> {
         LevelEditor.FocusSelected();
     };
 
+    private readonly OnClickBtnFocusBlueprint = (): void => {
+        LevelEditor.FocusOnSelectedBlueprint(this.props.Entity);
+    };
+
     private RenderPrefixElement(): JSX.Element {
         const entity = this.props.Entity;
         return (
             <HorizontalBox>
                 <SlotText Text={entity.GetName()} />
-                <Btn Text={'⊙'} OnClick={this.OnClickBtnNav} Tip={'选中对应的Entity'} />
+                <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
+                <Btn
+                    Text={'⊙'}
+                    OnClick={this.OnClickBtnFocusBlueprint}
+                    Tip={'浏览到Entity蓝图所在位置'}
+                />
             </HorizontalBox>
         );
     }

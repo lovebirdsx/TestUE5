@@ -11,8 +11,8 @@ export interface ITsClassType<T extends UE.Object> extends Function {
 export type TTsClassType = ITsClassType<UE.Object>;
 
 const tsClassToUeClassMap: Map<TTsClassType, UE.Class> = new Map();
-
 const ueClassToTsClassMap: Map<UE.Class, TTsClassType> = new Map();
+const pathByClass = new Map<UE.Class, string>();
 
 export function getUeClassByTsClass(tsClassType: TTsClassType): UE.Class {
     return tsClassToUeClassMap.get(tsClassType);
@@ -59,6 +59,25 @@ export function regBlueprintType(path: string, classType: TTsClassType): void {
         return;
     }
 
+    pathByClass.set(classObj, path);
     tsClassToUeClassMap.set(classType, classObj);
     ueClassToTsClassMap.set(classObj, classType);
+}
+
+export function getBlueprintPath(classObj: UE.Class): string {
+    const path = pathByClass.get(classObj);
+    if (!path) {
+        error(`Can not get blueprint path for TsClass [${classObj.GetName()}]`);
+    }
+    return path;
+}
+
+export function getAssetPath(classObj: UE.Class): string {
+    const blueprintPath = getBlueprintPath(classObj);
+    if (!blueprintPath) {
+        return blueprintPath;
+    }
+
+    const assetPath = blueprintPath.substring(0, blueprintPath.length - 2);
+    return assetPath;
 }

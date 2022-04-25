@@ -6,12 +6,12 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { log } from '../../../Common/Log';
 import { EActionFilter, TModifyType } from '../../../Common/Type';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
+import { Btn, EditorBox, Fold, SlotText, Text } from '../BaseComponent/CommonComponent';
+import { ContextBtn } from '../BaseComponent/ContextBtn';
 import { editorFlowOp } from '../Operations/Flow';
 import { actionRegistry } from '../Scheme/Action/Public';
 import { flowContext } from '../SchemeComponent/Context';
 import { Action } from './Action';
-import { Btn, EditorBox, Fold, SlotText, Text } from '../BaseComponent/CommonComponent';
-import { ContextBtn } from '../BaseComponent/ContextBtn';
 
 export interface IStateProps {
     State: IStateInfo;

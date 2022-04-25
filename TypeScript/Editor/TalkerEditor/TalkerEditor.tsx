@@ -11,11 +11,11 @@ import {
     TALKER_LIST_CSV_PATH,
     TalkerListOp,
 } from '../../Game/Common/Operations/TalkerList';
-import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, H1, H3 } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { Talker, talkerListContext } from './Talker';
 
 interface ITalkerEditorState {

@@ -6,12 +6,12 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Log_1 = require("../../../Common/Log");
+const CommonComponent_1 = require("../BaseComponent/CommonComponent");
+const ContextBtn_1 = require("../BaseComponent/ContextBtn");
 const Flow_1 = require("../Operations/Flow");
 const Public_1 = require("../Scheme/Action/Public");
 const Context_1 = require("../SchemeComponent/Context");
 const Action_1 = require("./Action");
-const CommonComponent_1 = require("../BaseComponent/CommonComponent");
-const ContextBtn_1 = require("../BaseComponent/ContextBtn");
 const ADD_ACTION_TIP = [
     '增加动作',
     '  动作',

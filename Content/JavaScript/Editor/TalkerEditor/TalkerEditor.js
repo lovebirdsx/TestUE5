@@ -8,11 +8,11 @@ const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
 const TalkerList_1 = require("../../Game/Common/Operations/TalkerList");
-const KeyCommands_1 = require("../Common/KeyCommands");
 const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const ContextBtn_1 = require("../Common/BaseComponent/ContextBtn");
 const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
+const KeyCommands_1 = require("../Common/KeyCommands");
 const Talker_1 = require("./Talker");
 class TalkerEditor extends React.Component {
     CommandHandles = [];

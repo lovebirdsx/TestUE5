@@ -9,12 +9,14 @@ import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import TsEntity from '../../Game/Entity/TsEntity';
+import { LEVEL_SAVE_PATH } from '../../Game/Serialize/LevelSerializer';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
+import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
@@ -222,6 +224,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         });
     }
 
+    private readonly Save = (): void => {
+        this.LevelEditor.Save();
+    };
+
+    private readonly OpenSavePath = (): void => {
+        openDirOfFile(LEVEL_SAVE_PATH);
+    };
+
     private readonly Undo = (): void => {
         if (!canUndo(this.state)) {
             return;
@@ -253,26 +263,33 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private RenderToolbar(): JSX.Element {
         return (
-            <HorizontalBox>
-                <Btn
-                    Text={'↻'}
-                    OnClick={this.Undo}
-                    Disabled={!canUndo(this.state)}
-                    Tip={`撤销 ${getCommandKeyDesc('Undo')}`}
-                />
-                <Text
-                    Text={this.GetUndoStateStr()}
-                    Tip={`回退记录,最大支持${ConfigFile.MaxHistory}个`}
-                />
-                <Btn
-                    Text={'↺'}
-                    OnClick={this.Redo}
-                    Disabled={!canRedo(this.state)}
-                    Tip={`重做 ${getCommandKeyDesc('Redo')}`}
-                />
-                <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
-                <Btn Text={'Test'} OnClick={this.Test} Tip={`测试`} />
-            </HorizontalBox>
+            <VerticalBox>
+                <HorizontalBox>
+                    <SlotText Text={LEVEL_SAVE_PATH} />
+                    <Btn Text={'保存'} OnClick={this.Save} Tip={`保存场景状态`} />
+                    <Btn Text={'目录'} OnClick={this.OpenSavePath} Tip={`打开地图文件所在位置`} />
+                </HorizontalBox>
+                <HorizontalBox>
+                    <Btn
+                        Text={'↻'}
+                        OnClick={this.Undo}
+                        Disabled={!canUndo(this.state)}
+                        Tip={`撤销 ${getCommandKeyDesc('Undo')}`}
+                    />
+                    <Text
+                        Text={this.GetUndoStateStr()}
+                        Tip={`回退记录,最大支持${ConfigFile.MaxHistory}个`}
+                    />
+                    <Btn
+                        Text={'↺'}
+                        OnClick={this.Redo}
+                        Disabled={!canRedo(this.state)}
+                        Tip={`重做 ${getCommandKeyDesc('Redo')}`}
+                    />
+                    <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
+                    <Btn Text={'Test'} OnClick={this.Test} Tip={`测试`} />
+                </HorizontalBox>
+            </VerticalBox>
         );
     }
 

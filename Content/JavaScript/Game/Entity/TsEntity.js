@@ -15,6 +15,7 @@ const Interface_1 = require("./Interface");
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 exports.entityComponentClasses = [];
 class TsEntity extends ue_1.Actor {
+    Guid;
     ComponentsStateJson;
     // @no-blueprint
     Entity;
@@ -52,6 +53,9 @@ class TsEntity extends ue_1.Actor {
         return Promise.resolve();
     }
 }
+__decorate([
+    (0, ue_1.edit_on_instance)()
+], TsEntity.prototype, "Guid", void 0);
 __decorate([
     (0, ue_1.edit_on_instance)()
 ], TsEntity.prototype, "ComponentsStateJson", void 0);

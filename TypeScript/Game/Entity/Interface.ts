@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 import { Class } from 'ue';
 
 import { TComponentClass } from '../../Common/Entity';
@@ -11,6 +12,7 @@ export interface ITsEntity {
     ComponentsStateJson: string;
     Interact: (player: ITsPlayer) => Promise<void>;
     Name: string;
+    Guid: string;
     GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
 }

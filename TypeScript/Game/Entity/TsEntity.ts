@@ -10,6 +10,9 @@ export const entityComponentClasses: TComponentClass[] = [];
 
 class TsEntity extends Actor implements ITsEntity {
     @edit_on_instance()
+    public Guid: string;
+
+    @edit_on_instance()
     public ComponentsStateJson: string;
 
     // @no-blueprint

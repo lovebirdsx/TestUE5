@@ -10,12 +10,14 @@ const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const TsEntity_1 = require("../../Game/Entity/TsEntity");
+const LevelSerializer_1 = require("../../Game/Serialize/LevelSerializer");
 const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
 const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
 const Public_1 = require("../Common/Scheme/Entity/Public");
+const Util_1 = require("../Common/Util");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
 const LevelEditor_1 = require("./LevelEditor");
@@ -173,6 +175,12 @@ class EntityEditor extends React.Component {
             };
         });
     }
+    Save = () => {
+        this.LevelEditor.Save();
+    };
+    OpenSavePath = () => {
+        (0, Util_1.openDirOfFile)(LevelSerializer_1.LEVEL_SAVE_PATH);
+    };
     Undo = () => {
         if (!canUndo(this.state)) {
             return;
@@ -196,12 +204,17 @@ class EntityEditor extends React.Component {
         return `${state.StepId + 1} / ${state.Histories.length}`;
     };
     RenderToolbar() {
-        return (React.createElement(react_umg_1.HorizontalBox, null,
-            React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
-            React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
-            React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` }),
-            React.createElement(CommonComponent_1.Btn, { Text: 'State', OnClick: this.Info, Tip: `输出状态` }),
-            React.createElement(CommonComponent_1.Btn, { Text: 'Test', OnClick: this.Test, Tip: `测试` })));
+        return (React.createElement(react_umg_1.VerticalBox, null,
+            React.createElement(react_umg_1.HorizontalBox, null,
+                React.createElement(CommonComponent_1.SlotText, { Text: LevelSerializer_1.LEVEL_SAVE_PATH }),
+                React.createElement(CommonComponent_1.Btn, { Text: '保存', OnClick: this.Save, Tip: `保存场景状态` }),
+                React.createElement(CommonComponent_1.Btn, { Text: '目录', OnClick: this.OpenSavePath, Tip: `打开地图文件所在位置` })),
+            React.createElement(react_umg_1.HorizontalBox, null,
+                React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
+                React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),
+                React.createElement(CommonComponent_1.Btn, { Text: '↺', OnClick: this.Redo, Disabled: !canRedo(this.state), Tip: `重做 ${(0, KeyCommands_1.getCommandKeyDesc)('Redo')}` }),
+                React.createElement(CommonComponent_1.Btn, { Text: 'State', OnClick: this.Info, Tip: `输出状态` }),
+                React.createElement(CommonComponent_1.Btn, { Text: 'Test', OnClick: this.Test, Tip: `测试` }))));
     }
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {

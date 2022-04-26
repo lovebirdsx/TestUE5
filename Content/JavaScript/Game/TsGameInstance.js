@@ -1,17 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ue_1 = require("ue");
-const Log_1 = require("../Common/Log");
-class TsGameInstance extends ue_1.GameInstance {
-    static Instance;
-    Constructor() {
-        TsGameInstance.Instance = this;
-    }
+const GameInstance_1 = require("./GameInstance");
+class TsGameInstance extends ue_1.DemoGameInstance {
+    // @no-blueprint
+    Instance;
     ReceiveInit() {
-        (0, Log_1.log)('TsGameInstance ReceiveInit');
+        this.Instance = new GameInstance_1.GameInstance();
+        this.Instance.Init();
+    }
+    ReceiveTick(deltaSeconds) {
+        this.Instance.Tick(deltaSeconds);
     }
     ReceiveShutdown() {
-        (0, Log_1.log)('TsGameInstance ReceiveShutdown');
+        this.Instance.Exit();
     }
 }
 exports.default = TsGameInstance;

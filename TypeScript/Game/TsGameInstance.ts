@@ -1,20 +1,22 @@
-import { GameInstance } from 'ue';
+import { DemoGameInstance } from 'ue';
 
-import { log } from '../Common/Log';
+import { GameInstance } from './GameInstance';
 
-class TsGameInstance extends GameInstance {
-    public static Instance: TsGameInstance;
-
-    public Constructor(): void {
-        TsGameInstance.Instance = this;
-    }
+class TsGameInstance extends DemoGameInstance {
+    // @no-blueprint
+    private Instance: GameInstance;
 
     public ReceiveInit(): void {
-        log('TsGameInstance ReceiveInit');
+        this.Instance = new GameInstance();
+        this.Instance.Init();
+    }
+
+    public ReceiveTick(deltaSeconds: number): void {
+        this.Instance.Tick(deltaSeconds);
     }
 
     public ReceiveShutdown(): void {
-        log('TsGameInstance ReceiveShutdown');
+        this.Instance.Exit();
     }
 }
 

@@ -23,6 +23,7 @@ const TestButton_1 = require("./TestButton");
 const TestContextBtn_1 = require("./TestContextBtn");
 const TestCsvView_1 = require("./TestCsvView");
 const TestListView_1 = require("./TestListView");
+const TestMap_1 = require("./TestMap");
 const TestMoveComponent_1 = require("./TestMoveComponent");
 const allTests = [
     { Name: 'testContainer', Fun: TestContainer_1.default },
@@ -76,6 +77,8 @@ class TestEditor extends React.Component {
             this.RenderUnitTestResults(),
             React.createElement(CommonComponent_1.H3, { Text: 'Test Logic' }),
             this.RenderTest(),
+            React.createElement(CommonComponent_1.H3, { Text: 'Test Map' }),
+            React.createElement(TestMap_1.TestMap, null),
             React.createElement(CommonComponent_1.H3, { Text: 'Test Button enabled' }),
             React.createElement(TestButton_1.TestButton, null),
             React.createElement(CommonComponent_1.H3, { Text: 'Test MoveComponent' }),

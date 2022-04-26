@@ -119,6 +119,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             Entity: entity,
             PureData: editorEntityRegistry.GenData(entity),
         };
+
+        // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
+        this.LastApplyEntityState = entityState;
+
         this.RecordEntityState(entityState, 'normal');
 
         entity.OnDestroyed.Remove(this.OnEntityDestory);

@@ -91,6 +91,7 @@ class EntityEditor extends React.Component {
             Entity: entity,
             PureData: Public_1.editorEntityRegistry.GenData(entity),
         };
+        this.LastApplyEntityState = entityState;
         this.RecordEntityState(entityState, 'normal');
         entity.OnDestroyed.Remove(this.OnEntityDestory);
         entity.OnDestroyed.Add(this.OnEntityDestory);

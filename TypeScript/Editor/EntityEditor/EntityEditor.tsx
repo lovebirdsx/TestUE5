@@ -13,10 +13,11 @@ import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
-import LevelEditor from '../Common/LevelEditor';
+import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
+import { LevelEditor } from './LevelEditor';
 
 interface IEntityState {
     Entity: TsEntity;
@@ -44,6 +45,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private DetectEditorPlayingHander: NodeJS.Timer;
 
+    private readonly LevelEditor: LevelEditor = new LevelEditor();
+
     public constructor(props: unknown) {
         super(props);
         const initEntityState = this.GenEntityStateBySelect();
@@ -52,7 +55,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             Entity: this.GetCurrentSelectEntity(),
             Histories: [initEntityState],
             StepId: 0,
-            IsEditorPlaying: LevelEditor.IsPlaying,
+            IsEditorPlaying: LevelEditorUtil.IsPlaying,
         };
         this.LastApplyEntityState = initEntityState;
     }
@@ -101,7 +104,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly OnSelectionChanged = (): void => {
-        if (LevelEditor.IsPlaying) {
+        if (LevelEditorUtil.IsPlaying) {
             return;
         }
 
@@ -121,7 +124,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly DetectEditorPlaying = (): void => {
-        const isEditorPlaying = LevelEditor.IsPlaying;
+        const isEditorPlaying = LevelEditorUtil.IsPlaying;
         if (isEditorPlaying !== this.state.IsEditorPlaying) {
             this.setState({
                 IsEditorPlaying: isEditorPlaying,
@@ -186,7 +189,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         const es = this.EntityState;
-        LevelEditor.SelectActor(es.Entity);
+        LevelEditorUtil.SelectActor(es.Entity);
 
         if (es === this.LastApplyEntityState || !es.Entity) {
             return;
@@ -240,7 +243,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly Test = (): void => {
-        log(`is playing = ${LevelEditor.IsPlaying}`);
+        log(`is playing = ${LevelEditorUtil.IsPlaying}`);
     };
 
     private readonly GetUndoStateStr = (): string => {

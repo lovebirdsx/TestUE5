@@ -7,17 +7,17 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const Interface_1 = require("../../Game/Entity/Interface");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
-const LevelEditor_1 = require("../Common/LevelEditor");
+const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
 const Public_1 = require("../Common/Scheme/Entity/Public");
 const Public_2 = require("../Common/SchemeComponent/Public");
 const ComponentsState_1 = require("./ComponentsState");
 class EntityView extends React.Component {
     OnClickBtnNav = () => {
-        LevelEditor_1.default.SelectActor(this.props.Entity);
-        LevelEditor_1.default.FocusSelected();
+        LevelEditorUtil_1.default.SelectActor(this.props.Entity);
+        LevelEditorUtil_1.default.FocusSelected();
     };
     OnClickBtnFocusBlueprint = () => {
-        LevelEditor_1.default.FocusOnSelectedBlueprint(this.props.Entity);
+        LevelEditorUtil_1.default.FocusOnSelectedBlueprint(this.props.Entity);
     };
     RenderPrefixElement() {
         const entity = this.props.Entity;

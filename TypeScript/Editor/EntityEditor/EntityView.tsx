@@ -7,7 +7,7 @@ import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { parseComponentsState } from '../../Game/Entity/Interface';
 import TsEntity from '../../Game/Entity/TsEntity';
 import { Btn, SlotText } from '../Common/BaseComponent/CommonComponent';
-import LevelEditor from '../Common/LevelEditor';
+import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { Obj } from '../Common/SchemeComponent/Public';
 import { ComponentsState } from './ComponentsState';
@@ -20,12 +20,12 @@ export interface IEntityViewProps {
 
 export class EntityView extends React.Component<IEntityViewProps> {
     private readonly OnClickBtnNav = (): void => {
-        LevelEditor.SelectActor(this.props.Entity);
-        LevelEditor.FocusSelected();
+        LevelEditorUtil.SelectActor(this.props.Entity);
+        LevelEditorUtil.FocusSelected();
     };
 
     private readonly OnClickBtnFocusBlueprint = (): void => {
-        LevelEditor.FocusOnSelectedBlueprint(this.props.Entity);
+        LevelEditorUtil.FocusOnSelectedBlueprint(this.props.Entity);
     };
 
     private RenderPrefixElement(): JSX.Element {

@@ -14,10 +14,11 @@ const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
-const LevelEditor_1 = require("../Common/LevelEditor");
+const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
 const Public_1 = require("../Common/Scheme/Entity/Public");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
+const LevelEditor_1 = require("./LevelEditor");
 function canUndo(state) {
     return state.StepId > 0 && state.Histories.length > 0;
 }
@@ -27,6 +28,7 @@ function canRedo(state) {
 class EntityEditor extends React.Component {
     LastApplyEntityState;
     DetectEditorPlayingHander;
+    LevelEditor = new LevelEditor_1.LevelEditor();
     constructor(props) {
         super(props);
         const initEntityState = this.GenEntityStateBySelect();
@@ -35,7 +37,7 @@ class EntityEditor extends React.Component {
             Entity: this.GetCurrentSelectEntity(),
             Histories: [initEntityState],
             StepId: 0,
-            IsEditorPlaying: LevelEditor_1.default.IsPlaying,
+            IsEditorPlaying: LevelEditorUtil_1.default.IsPlaying,
         };
         this.LastApplyEntityState = initEntityState;
     }
@@ -76,7 +78,7 @@ class EntityEditor extends React.Component {
         entity.OnDestroyed.Remove(this.OnEntityDestory);
     };
     OnSelectionChanged = () => {
-        if (LevelEditor_1.default.IsPlaying) {
+        if (LevelEditorUtil_1.default.IsPlaying) {
             return;
         }
         const entity = this.GetCurrentSelectEntity();
@@ -92,7 +94,7 @@ class EntityEditor extends React.Component {
         entity.OnDestroyed.Add(this.OnEntityDestory);
     };
     DetectEditorPlaying = () => {
-        const isEditorPlaying = LevelEditor_1.default.IsPlaying;
+        const isEditorPlaying = LevelEditorUtil_1.default.IsPlaying;
         if (isEditorPlaying !== this.state.IsEditorPlaying) {
             this.setState({
                 IsEditorPlaying: isEditorPlaying,
@@ -147,7 +149,7 @@ class EntityEditor extends React.Component {
             return;
         }
         const es = this.EntityState;
-        LevelEditor_1.default.SelectActor(es.Entity);
+        LevelEditorUtil_1.default.SelectActor(es.Entity);
         if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }
@@ -187,7 +189,7 @@ class EntityEditor extends React.Component {
         (0, Log_1.log)(JSON.stringify(this.state.Histories, null, 2));
     };
     Test = () => {
-        (0, Log_1.log)(`is playing = ${LevelEditor_1.default.IsPlaying}`);
+        (0, Log_1.log)(`is playing = ${LevelEditorUtil_1.default.IsPlaying}`);
     };
     GetUndoStateStr = () => {
         const { state } = this;

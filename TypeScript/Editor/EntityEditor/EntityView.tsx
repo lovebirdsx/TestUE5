@@ -4,9 +4,10 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { ObjectScheme, TModifyType } from '../../Common/Type';
+import { genGuid } from '../../Common/Util';
 import { parseComponentsState } from '../../Game/Entity/Interface';
 import TsEntity from '../../Game/Entity/TsEntity';
-import { Btn, SlotText } from '../Common/BaseComponent/CommonComponent';
+import { Btn, H3, SlotText } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { Obj } from '../Common/SchemeComponent/Public';
@@ -43,6 +44,22 @@ export class EntityView extends React.Component<IEntityViewProps> {
         );
     }
 
+    private readonly FixGuid = (): void => {
+        const newPureData = produce(this.props.PureData, (draft) => {
+            draft.Guid = genGuid();
+        });
+        this.props.OnModify(newPureData, 'normal');
+    };
+
+    private RenderGuid(): JSX.Element {
+        const guid = this.props.PureData.Guid;
+        if (guid) {
+            return <SlotText Text={`Guid: ${guid}`} />;
+        }
+
+        return <Btn Color="#FF0000 red" Text={'修复Guid'} OnClick={this.FixGuid} />;
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const props = this.props;
@@ -55,12 +72,17 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
         return (
             <VerticalBox>
+                <VerticalBox>
+                    <H3 Text={'Entity'} />
+                    {this.RenderGuid()}
+                </VerticalBox>
                 <Obj
                     PrefixElement={this.RenderPrefixElement()}
                     Value={pureData}
                     Scheme={scheme as ObjectScheme<TEntityPureData>}
                     OnModify={props.OnModify}
                 />
+                <H3 Text={'Components'} />
                 <ComponentsState
                     Value={componentsState}
                     ClassObjs={componentClassObjs}

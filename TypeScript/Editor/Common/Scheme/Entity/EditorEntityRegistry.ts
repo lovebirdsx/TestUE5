@@ -5,12 +5,14 @@ import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../..
 import { TComponentClass } from '../../../../Common/Entity';
 import { error } from '../../../../Common/Log';
 import { ObjectScheme } from '../../../../Common/Type';
-import { IComponentsState, ITsEntity } from '../../../../Game/Entity/Interface';
+import { IComponentsState } from '../../../../Game/Entity/Interface';
 import { entityRegistry } from '../../../../Game/Entity/Public';
+import TsEntity from '../../../../Game/Entity/TsEntity';
 import { componentRegistry } from '../Component/Index';
 
 export type TEntityPureData = Record<string, unknown> & {
     ComponentsStateJson: string;
+    Guid: string;
 };
 
 class EditorEntityRegistry {
@@ -61,10 +63,11 @@ class EditorEntityRegistry {
         return JSON.stringify(componentsState);
     }
 
-    public GenData<T extends ITsEntity>(obj: T): TEntityPureData {
+    public GenData<T extends TsEntity>(obj: T): TEntityPureData {
         const scheme = this.GetSchemeByUeClass(obj.GetClass());
         const result: TEntityPureData = {
             ComponentsStateJson: '',
+            Guid: obj.Guid,
         };
         if (!scheme) {
             return result;
@@ -77,7 +80,7 @@ class EditorEntityRegistry {
         return result;
     }
 
-    public ApplyData<T extends ITsEntity>(pureData: TEntityPureData, obj: T): void {
+    public ApplyData<T extends TsEntity>(pureData: TEntityPureData, obj: T): void {
         const classObj = obj.GetClass();
         const scheme = this.GetSchemeByUeClass(classObj);
         for (const fieldName in scheme.Fields) {
@@ -86,7 +89,11 @@ class EditorEntityRegistry {
             }
         }
         obj.ComponentsStateJson = pureData.ComponentsStateJson;
+        obj.Guid = pureData.Guid;
         Object.assign(obj, pureData);
+
+        // 让ue认为对象已经被修改
+        UE.EditorOperations.MarkPackageDirty(obj);
     }
 }
 

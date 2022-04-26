@@ -5,6 +5,7 @@ exports.ComponentsState = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
+const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const Index_1 = require("../Common/Scheme/Component/Index");
 const Public_1 = require("../Common/SchemeComponent/Basic/Public");
 class ComponentsState extends React.Component {
@@ -18,12 +19,14 @@ class ComponentsState extends React.Component {
             if (!value) {
                 value = scheme.CreateDefault();
             }
-            return (React.createElement(Public_1.Obj, { key: id, Value: value, Scheme: scheme, OnModify: (obj, type) => {
-                    const newComponentState = (0, immer_1.default)(this.props.Value, (draft) => {
-                        draft.Components[classObj.name] = obj;
-                    });
-                    this.props.OnModify(newComponentState, type);
-                } }));
+            return (React.createElement(react_umg_1.VerticalBox, { key: id },
+                React.createElement(CommonComponent_1.SlotText, { Text: classObj.name }),
+                React.createElement(Public_1.Obj, { Value: value, Scheme: scheme, OnModify: (obj, type) => {
+                        const newComponentState = (0, immer_1.default)(this.props.Value, (draft) => {
+                            draft.Components[classObj.name] = obj;
+                        });
+                        this.props.OnModify(newComponentState, type);
+                    } })));
         });
         return React.createElement(react_umg_1.VerticalBox, null, elements);
     }

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadClass = exports.getFieldCount = exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNames = exports.getEnumValues = void 0;
+exports.genGuid = exports.loadClass = exports.getFieldCount = exports.calHash = exports.deepEqualsIgnore = exports.deepEquals = exports.getEnumNames = exports.getEnumValues = void 0;
+/* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
 const UE = require("ue");
 /* eslint-disable spellcheck/spell-checker */
@@ -106,4 +107,8 @@ function loadClass(classNameOrPath) {
     return tsClassObj.StaticClass();
 }
 exports.loadClass = loadClass;
+function genGuid() {
+    return ue_1.KismetGuidLibrary.NewGuid().ToString();
+}
+exports.genGuid = genGuid;
 //# sourceMappingURL=Util.js.map

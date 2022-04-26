@@ -1,7 +1,7 @@
 ﻿{
   "Entities": [
     {
-      "Guid": "",
+      "Guid": "2AFD4CE84A6EE963CC4E3D85E3CC95CF",
       "PrefabId": 1,
       "Pos": [
         -1415.1586724009835,
@@ -17,7 +17,7 @@
       "Components": {}
     },
     {
-      "Guid": "",
+      "Guid": "D73AA8E842AFB325BF3AFAB6DFEC7CF8",
       "PrefabId": 2,
       "Pos": [
         -1160,

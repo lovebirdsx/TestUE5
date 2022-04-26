@@ -1,4 +1,5 @@
-import { Class } from 'ue';
+/* eslint-disable spellcheck/spell-checker */
+import { Class, KismetGuidLibrary } from 'ue';
 import * as UE from 'ue';
 
 /* eslint-disable spellcheck/spell-checker */
@@ -122,4 +123,8 @@ export function loadClass(classNameOrPath: string): Class {
         StaticClass: () => Class;
     };
     return tsClassObj.StaticClass();
+}
+
+export function genGuid(): string {
+    return KismetGuidLibrary.NewGuid().ToString();
 }

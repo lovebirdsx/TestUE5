@@ -85,3 +85,8 @@ UEditorEngine* UEditorOperations::GetEditorEngine()
 {
 	return GEditor;
 }
+
+bool UEditorOperations::MarkPackageDirty(UObject* Object)
+{
+	return Object->MarkPackageDirty();
+}

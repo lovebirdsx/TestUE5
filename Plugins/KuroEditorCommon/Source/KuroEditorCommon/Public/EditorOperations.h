@@ -67,5 +67,8 @@ public:
 	static void ExecuteLevelEditorCommand(FString Command);
 	
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
-	static UEditorEngine* GetEditorEngine();	
+	static UEditorEngine* GetEditorEngine();
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static bool MarkPackageDirty(UObject *Object);
 };

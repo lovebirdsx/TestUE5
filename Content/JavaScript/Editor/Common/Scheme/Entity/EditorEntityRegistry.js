@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.editorEntityRegistry = void 0;
+/* eslint-disable spellcheck/spell-checker */
+const UE = require("ue");
 const Class_1 = require("../../../../Common/Class");
 const Log_1 = require("../../../../Common/Log");
 const Public_1 = require("../../../../Game/Entity/Public");
@@ -48,6 +50,7 @@ class EditorEntityRegistry {
         const scheme = this.GetSchemeByUeClass(obj.GetClass());
         const result = {
             ComponentsStateJson: '',
+            Guid: obj.Guid,
         };
         if (!scheme) {
             return result;
@@ -67,7 +70,10 @@ class EditorEntityRegistry {
             }
         }
         obj.ComponentsStateJson = pureData.ComponentsStateJson;
+        obj.Guid = pureData.Guid;
         Object.assign(obj, pureData);
+        // 让ue认为对象已经被修改
+        UE.EditorOperations.MarkPackageDirty(obj);
     }
 }
 exports.editorEntityRegistry = new EditorEntityRegistry();

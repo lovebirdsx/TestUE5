@@ -6,6 +6,7 @@ import { VerticalBox } from 'react-umg';
 import { TComponentClass } from '../../Common/Entity';
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { IComponentsState } from '../../Game/Entity/Interface';
+import { SlotText } from '../Common/BaseComponent/CommonComponent';
 import { componentRegistry } from '../Common/Scheme/Component/Index';
 import { Obj } from '../Common/SchemeComponent/Basic/Public';
 
@@ -29,17 +30,19 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
             }
 
             return (
-                <Obj
-                    key={id}
-                    Value={value}
-                    Scheme={scheme as ObjectScheme<Record<string, unknown>>}
-                    OnModify={(obj, type): void => {
-                        const newComponentState = produce(this.props.Value, (draft) => {
-                            draft.Components[classObj.name] = obj as Record<string, unknown>;
-                        });
-                        this.props.OnModify(newComponentState, type);
-                    }}
-                />
+                <VerticalBox key={id}>
+                    <SlotText Text={classObj.name} />
+                    <Obj
+                        Value={value}
+                        Scheme={scheme as ObjectScheme<Record<string, unknown>>}
+                        OnModify={(obj, type): void => {
+                            const newComponentState = produce(this.props.Value, (draft) => {
+                                draft.Components[classObj.name] = obj as Record<string, unknown>;
+                            });
+                            this.props.OnModify(newComponentState, type);
+                        }}
+                    />
+                </VerticalBox>
             );
         });
 

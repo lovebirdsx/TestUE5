@@ -15,7 +15,7 @@ public:
 	
 	explicit UUMGRoot(const FObjectInitializer& ObjectInitializer);
 
-	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static UUMGRoot* CreateUmgRoot(UWorld* World);
 
 	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")

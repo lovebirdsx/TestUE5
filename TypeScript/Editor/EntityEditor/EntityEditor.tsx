@@ -17,7 +17,7 @@ import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { openDirOfFile } from '../Common/Util';
+import { openFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
@@ -233,8 +233,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         this.LevelEditor.Save();
     };
 
-    private readonly OpenSavePath = (): void => {
-        openDirOfFile(LEVEL_SAVE_PATH);
+    private readonly Open = (): void => {
+        openFile(LEVEL_SAVE_PATH);
     };
 
     private readonly Undo = (): void => {
@@ -272,7 +272,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 <HorizontalBox>
                     <SlotText Text={LEVEL_SAVE_PATH} />
                     <Btn Text={'保存'} OnClick={this.Save} Tip={`保存场景状态`} />
-                    <Btn Text={'目录'} OnClick={this.OpenSavePath} Tip={`打开地图文件所在位置`} />
+                    <Btn Text={'打开'} OnClick={this.Open} Tip={`打开地图配置文件`} />
                 </HorizontalBox>
                 <HorizontalBox>
                     <Btn

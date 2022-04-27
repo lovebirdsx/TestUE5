@@ -42,7 +42,7 @@ export class TsEntity extends Actor implements ITsEntity {
         const componentClasses = this.GetComponentClasses();
         componentClasses.forEach((componentClass) => {
             const component = entity.AddComponentC(componentClass);
-            const data = componentsState.Components[componentClass.name];
+            const data = componentsState[componentClass.name];
             if (data) {
                 Object.assign(component, data);
             }

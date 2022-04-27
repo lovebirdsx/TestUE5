@@ -14,6 +14,7 @@ exports.actionsScheme = (0, Type_1.createObjectScheme)({
 });
 exports.actionsJsonScheme = (0, Type_1.createStringScheme)({
     Name: 'ActionsJson',
+    IsJson: true,
     NewLine: true,
 });
 exports.triggerScheme = (0, Type_1.createObjectScheme)({

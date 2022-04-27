@@ -7,7 +7,7 @@ import { IProps, TModifyType } from '../../../../Common/Type';
 import { gameConfig } from '../../../../Game/Common/Config';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
-import { IPlayFlow, parsePlayFlow, parseTriggerActionsJson } from '../../../../Game/Flow/Action';
+import { IPlayFlow, ITriggerActions, parsePlayFlow } from '../../../../Game/Flow/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
 import { actionsScheme } from '../../../../Game/Scheme/Entity/TriggerScheme';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
@@ -177,8 +177,10 @@ export function RenderPlayFlowJson(props: IProps): JSX.Element {
     );
 }
 
+// ActionJson本来是Json字符串,但PureData中处理的时候实际上是该字符串被序列化之后的对象
+// 所以通过React渲染时,需要直接把其当成ITriggerActions来处理
 export function RenderActionJson(props: IProps): JSX.Element {
-    const actions = parseTriggerActionsJson(props.Value as string);
+    const actions = props.Value as ITriggerActions;
     const prefixElement = (
         <HorizontalBox>
             {props.PrefixElement}
@@ -187,7 +189,7 @@ export function RenderActionJson(props: IProps): JSX.Element {
                 Text={'Reset'}
                 Tip={'重置'}
                 OnClick={(): void => {
-                    props.OnModify('', 'normal');
+                    props.OnModify(actionsScheme.CreateDefault(), 'normal');
                 }}
             />
             <Btn
@@ -205,7 +207,7 @@ export function RenderActionJson(props: IProps): JSX.Element {
             Value={actions}
             Scheme={actionsScheme}
             OnModify={(obj: unknown, type: TModifyType): void => {
-                props.OnModify(JSON.stringify(obj), type);
+                props.OnModify(obj, type);
             }}
         />
     );

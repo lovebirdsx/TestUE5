@@ -10,16 +10,25 @@ function testEntityScheme() {
     (0, Test_1.test)('gen pure data', () => {
         const trigger = (0, ue_1.NewObject)((0, Class_1.getUeClassByTsClass)(TsTrigger_1.default));
         trigger.MaxTriggerTimes = 10;
-        trigger.TriggerActionsJson = 'Hello';
+        const triggerActions = {
+            Actions: [],
+        };
+        trigger.TriggerActionsJson = JSON.stringify(triggerActions);
+        trigger.ComponentsStateJson = '{}';
         const pureData = Public_1.entitySchemeRegistry.GenData(trigger);
         (0, Test_1.assertEq)(pureData.MaxTriggerTimes, trigger.MaxTriggerTimes, 'MaxTriggerTimes must equal');
-        (0, Test_1.assertEq)(pureData.TriggerActionsJson, trigger.TriggerActionsJson, 'TriggerActions must equal');
+        (0, Test_1.assertEq)(JSON.stringify(pureData.TriggerActionsJson), trigger.TriggerActionsJson, 'TriggerActions must equal');
         (0, Test_1.assertEq)(pureData.ActorHasTag, undefined, 'ActorHasTag must undefined');
+        (0, Test_1.assertEq)(pureData.TriggerActionsJson, triggerActions, 'Action content must equal');
     });
     (0, Test_1.test)('write pure data', () => {
         const trigger = (0, ue_1.NewObject)((0, Class_1.getUeClassByTsClass)(TsTrigger_1.default));
         trigger.MaxTriggerTimes = 10;
-        trigger.TriggerActionsJson = 'Hello';
+        const triggerActions = {
+            Actions: [],
+        };
+        trigger.TriggerActionsJson = JSON.stringify(triggerActions);
+        trigger.ComponentsStateJson = '{}';
         const pureData = Public_1.entitySchemeRegistry.GenData(trigger);
         pureData.MaxTriggerTimes = 11;
         Public_1.entitySchemeRegistry.ApplyData(pureData, trigger);

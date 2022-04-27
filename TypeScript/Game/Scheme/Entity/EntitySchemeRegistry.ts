@@ -4,11 +4,10 @@ import * as UE from 'ue';
 import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../../Common/Class';
 import { TComponentClass } from '../../../Common/Entity';
 import { error } from '../../../Common/Log';
-import { ObjectScheme } from '../../../Common/Type';
+import { ObjectScheme, StringScheme } from '../../../Common/Type';
 import { entityRegistry } from '../../Entity/EntityRegistry';
-import { IComponentsState, TEntityPureData } from '../../Entity/Interface';
+import { TComponentsState, TEntityPureData } from '../../Entity/Interface';
 import { TsEntity } from '../../Entity/Public';
-import { componentRegistry } from '../Component/Index';
 
 class EditorEntityRegistry {
     private readonly SchemeMap: Map<UE.Class, ObjectScheme<unknown>> = new Map();
@@ -46,32 +45,31 @@ class EditorEntityRegistry {
         return entityRegistry.GetComponents(tsClassObj);
     }
 
-    private GenComponentsStateJson(classObjs: TComponentClass[]): string {
-        const components: Record<string, Record<string, unknown>> = {};
-        classObjs.forEach((classObj) => {
-            const componentScheme = componentRegistry.GetScheme(classObj.name);
-            components[classObj.name] = componentScheme.CreateDefault() as Record<string, unknown>;
-        });
-        const componentsState: IComponentsState = {
-            Components: components,
-        };
-        return JSON.stringify(componentsState);
-    }
-
     public GenData<T extends TsEntity>(obj: T): TEntityPureData {
         const scheme = this.GetSchemeByUeClass(obj.GetClass());
-        const result: TEntityPureData = {
-            ComponentsStateJson: '',
-            Guid: obj.Guid,
-        };
         if (!scheme) {
-            return result;
+            throw new Error(`No scheme for ${obj ? obj.GetName() : 'undefined'}`);
         }
 
+        const result: TEntityPureData = {
+            // 转换为Object,方便查看序列化之后的字符串
+            ComponentsStateJson: JSON.parse(obj.ComponentsStateJson) as TComponentsState,
+            Guid: obj.Guid,
+        };
+
         for (const fieldName in scheme.Fields) {
-            result[fieldName] = obj[fieldName] as unknown;
+            const fieldScheme = scheme.Fields[fieldName] as StringScheme;
+            // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
+            if (fieldScheme.IsJson) {
+                const fileValue = obj[fieldName] as string;
+                if (fileValue) {
+                    result[fieldName] = JSON.parse(fileValue);
+                }
+            } else {
+                result[fieldName] = obj[fieldName] as unknown;
+            }
         }
-        result.ComponentsStateJson = obj.ComponentsStateJson;
+
         return result;
     }
 
@@ -82,8 +80,20 @@ class EditorEntityRegistry {
             if (pureData[fieldName] === undefined) {
                 error(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
             }
+
+            const fieldScheme = scheme.Fields[fieldName] as StringScheme;
+            // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
+            if (fieldScheme.IsJson) {
+                const fieldValue = pureData[fieldName];
+                obj[fieldName] = JSON.stringify(fieldValue, null, 2);
+            } else {
+                obj[fieldName] = pureData[fieldName];
+            }
         }
-        Object.assign(obj, pureData);
+        obj.Guid = pureData.Guid;
+
+        // pureData中存储的是对象,所以要转换一次
+        obj.ComponentsStateJson = JSON.stringify(pureData.ComponentsStateJson, null, 2);
 
         // 让ue认为对象已经被修改
         UE.EditorOperations.MarkPackageDirty(obj);

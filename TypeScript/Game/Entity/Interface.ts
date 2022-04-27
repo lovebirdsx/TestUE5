@@ -8,12 +8,23 @@ export interface IFlowComponent {
     InitState: IPlayFlow;
 }
 
-export interface ITsEntityData {
-    Guid: string;
-    ComponentsStateJson: string;
+export type TComponentsState = Record<string, Record<string, unknown>>;
+
+export function parseComponentsState(json: string): TComponentsState {
+    if (!json) {
+        return {};
+    }
+    return JSON.parse(json) as TComponentsState;
 }
 
-export interface ITsEntity extends ITsEntityData {
+export interface ITsEntityData {
+    Guid: string;
+    ComponentsStateJson: TComponentsState;
+}
+
+export interface ITsEntity {
+    Guid: string;
+    ComponentsStateJson: string;
     Name: string;
     Interact: (player: ITsPlayer) => Promise<void>;
     GetClass: () => Class;
@@ -29,17 +40,4 @@ export interface ITsTrigger {
 
 export interface ITsPlayer {
     Name: string;
-}
-
-export interface IComponentsState {
-    Components: Record<string, Record<string, unknown>>;
-}
-
-export function parseComponentsState(json: string): IComponentsState {
-    if (!json) {
-        return {
-            Components: {},
-        };
-    }
-    return JSON.parse(json) as IComponentsState;
 }

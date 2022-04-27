@@ -21,6 +21,7 @@ export const actionsScheme = createObjectScheme<ITriggerActions>({
 
 export const actionsJsonScheme = createStringScheme({
     Name: 'ActionsJson',
+    IsJson: true,
     NewLine: true,
 });
 

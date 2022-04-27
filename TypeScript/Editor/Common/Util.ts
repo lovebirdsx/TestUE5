@@ -13,6 +13,13 @@ export function openDirOfFile(filepath: string): void {
     PythonScriptLibrary.ExecutePythonCommand(command);
 }
 
+export function openFile(filepath: string): void {
+    const command = ['import os', `path = os.path.normpath('${filepath}')`, 'os.system(path)'].join(
+        '\r\n',
+    );
+    PythonScriptLibrary.ExecutePythonCommand(command);
+}
+
 export function sendEditorCommand(command: string): void {
     const pythonCommand = [
         'import socket',

@@ -305,6 +305,8 @@ export const intScheme = new IntScheme();
 export class StringScheme extends Scheme<string> {
     public RenderType: TElementRenderType = 'string';
 
+    public IsJson?: boolean;
+
     public CreateDefault(): string {
         return 'Empty';
     }

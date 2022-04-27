@@ -5,7 +5,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { genGuid } from '../../Common/Util';
-import { parseComponentsState, TEntityPureData } from '../../Game/Entity/Interface';
+import { TEntityPureData } from '../../Game/Entity/Interface';
 import { TsEntity } from '../../Game/Entity/Public';
 import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
@@ -68,7 +68,8 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const pureData = props.PureData;
         const scheme = entitySchemeRegistry.GetSchemeByEntity(entity);
 
-        const componentsState = parseComponentsState(pureData.ComponentsStateJson);
+        // pureData中ComponentsStateJson不是字符串,而是解析之后的数据
+        const componentsState = pureData.ComponentsStateJson;
         const componentClassObjs = entitySchemeRegistry.GetComponentClasses(entity);
 
         return (
@@ -89,7 +90,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     ClassObjs={componentClassObjs}
                     OnModify={(data, type): void => {
                         const newPureData = produce(pureData, (draft) => {
-                            draft.ComponentsStateJson = JSON.stringify(data);
+                            draft.ComponentsStateJson = data;
                         });
                         props.OnModify(newPureData, type);
                     }}

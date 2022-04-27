@@ -4,7 +4,7 @@ exports.cameraBindModeConfig = exports.plotModeConfig = exports.cameraModeConfig
 /* eslint-disable spellcheck/spell-checker */
 exports.FLOW_LIST_VERSION = 8;
 function parseTriggerActionsJson(json) {
-    if (!json) {
+    if (!json || typeof json !== 'string') {
         return {
             Actions: [],
         };

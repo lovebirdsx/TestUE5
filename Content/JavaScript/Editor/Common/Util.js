@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEditorCommand = exports.openDirOfFile = void 0;
+exports.sendEditorCommand = exports.openFile = exports.openDirOfFile = void 0;
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -14,6 +14,11 @@ function openDirOfFile(filepath) {
     ue_1.PythonScriptLibrary.ExecutePythonCommand(command);
 }
 exports.openDirOfFile = openDirOfFile;
+function openFile(filepath) {
+    const command = ['import os', `path = os.path.normpath('${filepath}')`, 'os.system(path)'].join('\r\n');
+    ue_1.PythonScriptLibrary.ExecutePythonCommand(command);
+}
+exports.openFile = openFile;
 function sendEditorCommand(command) {
     const pythonCommand = [
         'import socket',

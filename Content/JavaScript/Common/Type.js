@@ -224,6 +224,7 @@ exports.intScheme = new IntScheme();
 // ============================================================================
 class StringScheme extends Scheme {
     RenderType = 'string';
+    IsJson;
     CreateDefault() {
         return 'Empty';
     }

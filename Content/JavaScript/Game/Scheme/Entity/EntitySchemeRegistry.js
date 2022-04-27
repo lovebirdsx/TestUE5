@@ -6,7 +6,6 @@ const UE = require("ue");
 const Class_1 = require("../../../Common/Class");
 const Log_1 = require("../../../Common/Log");
 const EntityRegistry_1 = require("../../Entity/EntityRegistry");
-const Index_1 = require("../Component/Index");
 class EditorEntityRegistry {
     SchemeMap = new Map();
     RegScheme(classType, scheme) {
@@ -35,30 +34,29 @@ class EditorEntityRegistry {
         const tsClassObj = (0, Class_1.getTsClassByUeClass)(obj.GetClass());
         return EntityRegistry_1.entityRegistry.GetComponents(tsClassObj);
     }
-    GenComponentsStateJson(classObjs) {
-        const components = {};
-        classObjs.forEach((classObj) => {
-            const componentScheme = Index_1.componentRegistry.GetScheme(classObj.name);
-            components[classObj.name] = componentScheme.CreateDefault();
-        });
-        const componentsState = {
-            Components: components,
-        };
-        return JSON.stringify(componentsState);
-    }
     GenData(obj) {
         const scheme = this.GetSchemeByUeClass(obj.GetClass());
+        if (!scheme) {
+            throw new Error(`No scheme for ${obj ? obj.GetName() : 'undefined'}`);
+        }
         const result = {
-            ComponentsStateJson: '',
+            // 转换为Object,方便查看序列化之后的字符串
+            ComponentsStateJson: JSON.parse(obj.ComponentsStateJson),
             Guid: obj.Guid,
         };
-        if (!scheme) {
-            return result;
-        }
         for (const fieldName in scheme.Fields) {
-            result[fieldName] = obj[fieldName];
+            const fieldScheme = scheme.Fields[fieldName];
+            // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
+            if (fieldScheme.IsJson) {
+                const fileValue = obj[fieldName];
+                if (fileValue) {
+                    result[fieldName] = JSON.parse(fileValue);
+                }
+            }
+            else {
+                result[fieldName] = obj[fieldName];
+            }
         }
-        result.ComponentsStateJson = obj.ComponentsStateJson;
         return result;
     }
     ApplyData(pureData, obj) {
@@ -68,8 +66,19 @@ class EditorEntityRegistry {
             if (pureData[fieldName] === undefined) {
                 (0, Log_1.error)(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
             }
+            const fieldScheme = scheme.Fields[fieldName];
+            // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
+            if (fieldScheme.IsJson) {
+                const fieldValue = pureData[fieldName];
+                obj[fieldName] = JSON.stringify(fieldValue, null, 2);
+            }
+            else {
+                obj[fieldName] = pureData[fieldName];
+            }
         }
-        Object.assign(obj, pureData);
+        obj.Guid = pureData.Guid;
+        // pureData中存储的是对象,所以要转换一次
+        obj.ComponentsStateJson = JSON.stringify(pureData.ComponentsStateJson, null, 2);
         // 让ue认为对象已经被修改
         UE.EditorOperations.MarkPackageDirty(obj);
     }

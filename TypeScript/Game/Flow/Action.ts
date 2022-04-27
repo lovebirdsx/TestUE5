@@ -35,7 +35,7 @@ export interface ITriggerActions {
 }
 
 export function parseTriggerActionsJson(json: string): ITriggerActions {
-    if (!json) {
+    if (!json || typeof json !== 'string') {
         return {
             Actions: [],
         };

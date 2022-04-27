@@ -6,7 +6,6 @@ const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
 const Util_1 = require("../../Common/Util");
-const Interface_1 = require("../../Game/Entity/Interface");
 const Public_1 = require("../../Game/Scheme/Entity/Public");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
@@ -47,7 +46,8 @@ class EntityView extends React.Component {
         const entity = props.Entity;
         const pureData = props.PureData;
         const scheme = Public_1.entitySchemeRegistry.GetSchemeByEntity(entity);
-        const componentsState = (0, Interface_1.parseComponentsState)(pureData.ComponentsStateJson);
+        // pureData中ComponentsStateJson不是字符串,而是解析之后的数据
+        const componentsState = pureData.ComponentsStateJson;
         const componentClassObjs = Public_1.entitySchemeRegistry.GetComponentClasses(entity);
         return (React.createElement(react_umg_1.VerticalBox, null,
             React.createElement(react_umg_1.VerticalBox, null,
@@ -57,7 +57,7 @@ class EntityView extends React.Component {
             React.createElement(CommonComponent_1.H3, { Text: 'Components' }),
             React.createElement(ComponentsState_1.ComponentsState, { Value: componentsState, ClassObjs: componentClassObjs, OnModify: (data, type) => {
                     const newPureData = (0, immer_1.default)(pureData, (draft) => {
-                        draft.ComponentsStateJson = JSON.stringify(data);
+                        draft.ComponentsStateJson = data;
                     });
                     props.OnModify(newPureData, type);
                 } })));

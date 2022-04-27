@@ -12,7 +12,7 @@ class ComponentsState extends React.Component {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     render() {
         const classObjs = this.props.ClassObjs;
-        const components = this.props.Value.Components;
+        const components = this.props.Value;
         const elements = classObjs.map((classObj, id) => {
             const scheme = Index_1.componentRegistry.GetScheme(classObj.name);
             let value = components[classObj.name];
@@ -23,7 +23,7 @@ class ComponentsState extends React.Component {
                 React.createElement(CommonComponent_1.Text, { Text: classObj.name }),
                 React.createElement(Public_1.Obj, { Value: value, Scheme: scheme, OnModify: (obj, type) => {
                         const newComponentState = (0, immer_1.default)(this.props.Value, (draft) => {
-                            draft.Components[classObj.name] = obj;
+                            draft[classObj.name] = obj;
                         });
                         this.props.OnModify(newComponentState, type);
                     } })));

@@ -5,22 +5,22 @@ import { VerticalBox } from 'react-umg';
 
 import { TComponentClass } from '../../Common/Entity';
 import { ObjectScheme, TModifyType } from '../../Common/Type';
-import { IComponentsState } from '../../Game/Entity/Interface';
+import { TComponentsState } from '../../Game/Entity/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Index';
 import { Text } from '../Common/BaseComponent/CommonComponent';
 import { Obj } from '../Common/SchemeComponent/Basic/Public';
 
 export interface IComponentsStateProps {
-    Value: IComponentsState;
+    Value: TComponentsState;
     ClassObjs: TComponentClass[];
-    OnModify: (value: IComponentsState, type: TModifyType) => void;
+    OnModify: (value: TComponentsState, type: TModifyType) => void;
 }
 
 export class ComponentsState extends React.Component<IComponentsStateProps> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const classObjs = this.props.ClassObjs;
-        const components = this.props.Value.Components;
+        const components = this.props.Value;
 
         const elements = classObjs.map((classObj, id): JSX.Element => {
             const scheme = componentRegistry.GetScheme(classObj.name);
@@ -37,7 +37,7 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
                         Scheme={scheme as ObjectScheme<Record<string, unknown>>}
                         OnModify={(obj, type): void => {
                             const newComponentState = produce(this.props.Value, (draft) => {
-                                draft.Components[classObj.name] = obj as Record<string, unknown>;
+                                draft[classObj.name] = obj as Record<string, unknown>;
                             });
                             this.props.OnModify(newComponentState, type);
                         }}

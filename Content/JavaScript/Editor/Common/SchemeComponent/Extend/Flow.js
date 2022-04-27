@@ -105,19 +105,21 @@ function RenderPlayFlowJson(props) {
             } })));
 }
 exports.RenderPlayFlowJson = RenderPlayFlowJson;
+// ActionJson本来是Json字符串,但PureData中处理的时候实际上是该字符串被序列化之后的对象
+// 所以通过React渲染时,需要直接把其当成ITriggerActions来处理
 function RenderActionJson(props) {
-    const actions = (0, Action_1.parseTriggerActionsJson)(props.Value);
+    const actions = props.Value;
     const prefixElement = (React.createElement(react_umg_1.HorizontalBox, null,
         props.PrefixElement,
         React.createElement(CommonComponent_1.Text, { Text: 'TriggerActions' }),
         React.createElement(CommonComponent_1.Btn, { Text: 'Reset', Tip: '重置', OnClick: () => {
-                props.OnModify('', 'normal');
+                props.OnModify(TriggerScheme_1.actionsScheme.CreateDefault(), 'normal');
             } }),
         React.createElement(CommonComponent_1.Btn, { Text: 'Log', Tip: '输出动作Json', OnClick: () => {
                 (0, Log_1.log)(props.Value);
             } })));
     return (React.createElement(Any_1.Any, { PrefixElement: prefixElement, Value: actions, Scheme: TriggerScheme_1.actionsScheme, OnModify: (obj, type) => {
-            props.OnModify(JSON.stringify(obj), type);
+            props.OnModify(obj, type);
         } }));
 }
 exports.RenderActionJson = RenderActionJson;

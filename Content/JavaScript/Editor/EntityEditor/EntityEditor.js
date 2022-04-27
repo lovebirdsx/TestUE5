@@ -180,8 +180,8 @@ class EntityEditor extends React.Component {
     Save = () => {
         this.LevelEditor.Save();
     };
-    OpenSavePath = () => {
-        (0, Util_1.openDirOfFile)(LevelSerializer_1.LEVEL_SAVE_PATH);
+    Open = () => {
+        (0, Util_1.openFile)(LevelSerializer_1.LEVEL_SAVE_PATH);
     };
     Undo = () => {
         if (!canUndo(this.state)) {
@@ -210,7 +210,7 @@ class EntityEditor extends React.Component {
             React.createElement(react_umg_1.HorizontalBox, null,
                 React.createElement(CommonComponent_1.SlotText, { Text: LevelSerializer_1.LEVEL_SAVE_PATH }),
                 React.createElement(CommonComponent_1.Btn, { Text: '保存', OnClick: this.Save, Tip: `保存场景状态` }),
-                React.createElement(CommonComponent_1.Btn, { Text: '目录', OnClick: this.OpenSavePath, Tip: `打开地图文件所在位置` })),
+                React.createElement(CommonComponent_1.Btn, { Text: '打开', OnClick: this.Open, Tip: `打开地图配置文件` })),
             React.createElement(react_umg_1.HorizontalBox, null,
                 React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
                 React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),

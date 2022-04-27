@@ -46,17 +46,17 @@ function genScaleArray(vec: Vector): number[] {
     return vectorToArray(vec);
 }
 
-const defalutRotator = Rotator.MakeFromEuler(new Vector());
-const defalutScale = new Vector(1, 1, 1);
+const defaultRotator = Rotator.MakeFromEuler(new Vector());
+const defaultScale = new Vector(1, 1, 1);
 
 function genTransform(state: IEntityState): Transform {
-    let rotator: Rotator = defalutRotator;
+    let rotator: Rotator = defaultRotator;
     if (state.Rotation) {
         rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
     }
 
     const pos = arrayToVector(state.Pos);
-    const scale = state.Scale ? arrayToVector(state.Scale) : defalutScale;
+    const scale = state.Scale ? arrayToVector(state.Scale) : defaultScale;
 
     const transform = new Transform(rotator, pos, scale);
     return transform;

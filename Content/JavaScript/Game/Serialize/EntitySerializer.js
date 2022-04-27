@@ -22,15 +22,15 @@ function genScaleArray(vec) {
     }
     return vectorToArray(vec);
 }
-const defalutRotator = ue_1.Rotator.MakeFromEuler(new ue_1.Vector());
-const defalutScale = new ue_1.Vector(1, 1, 1);
+const defaultRotator = ue_1.Rotator.MakeFromEuler(new ue_1.Vector());
+const defaultScale = new ue_1.Vector(1, 1, 1);
 function genTransform(state) {
-    let rotator = defalutRotator;
+    let rotator = defaultRotator;
     if (state.Rotation) {
         rotator = ue_1.Rotator.MakeFromEuler(arrayToVector(state.Rotation));
     }
     const pos = arrayToVector(state.Pos);
-    const scale = state.Scale ? arrayToVector(state.Scale) : defalutScale;
+    const scale = state.Scale ? arrayToVector(state.Scale) : defaultScale;
     const transform = new ue_1.Transform(rotator, pos, scale);
     return transform;
 }

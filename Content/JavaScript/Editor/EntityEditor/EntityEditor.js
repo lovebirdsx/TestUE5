@@ -91,6 +91,7 @@ class EntityEditor extends React.Component {
             Entity: entity,
             PureData: Public_1.editorEntityRegistry.GenData(entity),
         };
+        // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
         this.LastApplyEntityState = entityState;
         this.RecordEntityState(entityState, 'normal');
         entity.OnDestroyed.Remove(this.OnEntityDestory);

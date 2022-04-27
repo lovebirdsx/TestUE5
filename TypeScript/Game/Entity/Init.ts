@@ -4,10 +4,6 @@ import TsEntity, { entityComponentClasses } from './TsEntity';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
 
-entityRegistry.Register(TsEntity, ...entityComponentClasses);
-entityRegistry.Register(TsNpc, ...npcComponentClasses);
-entityRegistry.Register(TsTrigger, ...triggerComponentClasses);
-
 export enum EBlueprintId {
     Entity,
     Npc,
@@ -28,11 +24,12 @@ function regEntity(id: EBlueprintId, tsClass: TTsClassType, dir?: string): void 
     regBlueprintType(id, path, tsClass);
 }
 
-regEntity(EBlueprintId.Entity, TsEntity);
-regEntity(EBlueprintId.Npc, TsNpc);
-regEntity(EBlueprintId.Trigger, TsTrigger);
+export function initEntity(): void {
+    entityRegistry.Register(TsEntity, ...entityComponentClasses);
+    entityRegistry.Register(TsNpc, ...npcComponentClasses);
+    entityRegistry.Register(TsTrigger, ...triggerComponentClasses);
 
-export * from './EntityRegistry';
-export * from './TsEntity';
-export * from './TsNpc';
-export * from './TsTrigger';
+    regEntity(EBlueprintId.Entity, TsEntity);
+    regEntity(EBlueprintId.Npc, TsNpc);
+    regEntity(EBlueprintId.Trigger, TsTrigger);
+}

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.npcComponentClasses = void 0;
+exports.TsNpc = exports.npcComponentClasses = void 0;
 const ActionRunnerComponent_1 = require("../Component/ActionRunnerComponent");
 const FlowComponent_1 = require("../Component/FlowComponent");
 const TalkComponent_1 = require("../Component/TalkComponent");
@@ -39,5 +39,6 @@ class TsNpc extends TsEntity_1.default {
         other.RemoveInteractor(this);
     }
 }
+exports.TsNpc = TsNpc;
 exports.default = TsNpc;
 //# sourceMappingURL=TsNpc.js.map

@@ -7,13 +7,13 @@ class EntityManager {
     LevelSerializer = new LevelSerializer_1.LevelSerializer();
     EntityMap = new Map();
     Entities = [];
-    Init() {
+    Init(world) {
         const levelState = this.LevelSerializer.Load();
         if (levelState.Player) {
             // todo
         }
         levelState.Entities.forEach((es) => {
-            const entity = EntitySerializer_1.entitySerializer.SpawnEntityByState(es);
+            const entity = EntitySerializer_1.entitySerializer.SpawnEntityByState(world, es);
             this.EntityMap.set(entity.Guid, entity);
             this.Entities.push(entity);
         });
@@ -21,7 +21,7 @@ class EntityManager {
     Exit() {
         //
     }
-    Update() {
+    Tick(deltaTime) {
         //
     }
 }

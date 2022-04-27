@@ -14,7 +14,7 @@ export const npcComponentClasses: TComponentClass[] = [
     ActionRunnerComponent,
 ];
 
-class TsNpc extends TsEntity {
+export class TsNpc extends TsEntity {
     // @no-blueprint
     public GetComponentClasses(): TComponentClass[] {
         return npcComponentClasses;

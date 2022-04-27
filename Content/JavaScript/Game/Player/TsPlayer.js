@@ -18,7 +18,7 @@ class TsPlayer extends ue_1.TestUE5Character {
         this.Movement = this.GetMovementComponent();
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];
-        (0, Init_1.globalInit)();
+        (0, Init_1.initCommon)();
     }
     get Name() {
         return this.GetName();

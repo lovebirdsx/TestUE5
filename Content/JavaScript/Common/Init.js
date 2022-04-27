@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globalInit = void 0;
+exports.initCommon = void 0;
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -26,8 +26,8 @@ function regAt() {
         });
     }
 }
-function globalInit() {
+function initCommon() {
     regAt();
 }
-exports.globalInit = globalInit;
+exports.initCommon = initCommon;
 //# sourceMappingURL=Init.js.map

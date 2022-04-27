@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 
-import { Vector } from 'ue';
+import { EditorActorSubsystem, EditorSubsystemBlueprintLibrary, Rotator, Vector, World } from 'ue';
 
-import { getBlueprintId } from '../../Common/Class';
+import { getBlueprintId, getBlueprintType } from '../../Common/Class';
 import TsEntity from '../Entity/TsEntity';
 import TsPlayer from '../Player/TsPlayer';
 
@@ -24,6 +24,10 @@ export interface IPlayerState {
 
 function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
+}
+
+function arrayToVector(array: number[]): Vector {
+    return new Vector(array[0], array[1], array[2]);
 }
 
 function genRotationArray(vec: Vector): number[] {
@@ -63,8 +67,24 @@ class EntitySerializer {
         };
     }
 
-    public SpawnEntityByState(state: IEntityState): TsEntity {
-        return undefined;
+    public SpawnEntityByState(world: World, state: IEntityState): TsEntity {
+        const actorEss = EditorSubsystemBlueprintLibrary.GetEditorSubsystem(
+            EditorActorSubsystem.StaticClass(),
+        ) as EditorActorSubsystem;
+        const actorClass = getBlueprintType(state.PrefabId);
+        let rotator: Rotator = undefined;
+        if (state.Rotation) {
+            rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
+        }
+        const entity = actorEss.SpawnActorFromClass(
+            actorClass,
+            arrayToVector(state.Pos),
+            rotator,
+        ) as TsEntity;
+        if (state.Scale) {
+            entity.SetActorScale3D(arrayToVector(state.Scale));
+        }
+        return entity;
     }
 }
 

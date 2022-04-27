@@ -1,4 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
+import { World } from 'ue';
+
 import TsEntity from '../Entity/TsEntity';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { LevelSerializer } from '../Serialize/LevelSerializer';
@@ -11,14 +13,14 @@ export class EntityManager implements IManager {
 
     private readonly Entities: TsEntity[] = [];
 
-    public Init(): void {
+    public Init(world: World): void {
         const levelState = this.LevelSerializer.Load();
         if (levelState.Player) {
             // todo
         }
 
         levelState.Entities.forEach((es) => {
-            const entity = entitySerializer.SpawnEntityByState(es);
+            const entity = entitySerializer.SpawnEntityByState(world, es);
             this.EntityMap.set(entity.Guid, entity);
             this.Entities.push(entity);
         });
@@ -28,7 +30,7 @@ export class EntityManager implements IManager {
         //
     }
 
-    public Update(): void {
+    public Tick(deltaTime: number): void {
         //
     }
 }

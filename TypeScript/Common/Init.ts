@@ -25,6 +25,6 @@ function regAt(): void {
     }
 }
 
-export function globalInit(): void {
+export function initCommon(): void {
     regAt();
 }

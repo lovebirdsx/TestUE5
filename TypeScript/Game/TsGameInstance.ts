@@ -8,7 +8,7 @@ class TsGameInstance extends DemoGameInstance {
 
     public ReceiveInit(): void {
         this.Instance = new GameInstance();
-        this.Instance.Init();
+        this.Instance.Init(this.GetWorld());
     }
 
     public ReceiveTick(deltaSeconds: number): void {

@@ -5,7 +5,7 @@ exports.editorEntityRegistry = void 0;
 const UE = require("ue");
 const Class_1 = require("../../../../Common/Class");
 const Log_1 = require("../../../../Common/Log");
-const Public_1 = require("../../../../Game/Entity/Public");
+const EntityRegistry_1 = require("../../../../Game/Entity/EntityRegistry");
 const Index_1 = require("../Component/Index");
 class EditorEntityRegistry {
     SchemeMap = new Map();
@@ -33,7 +33,7 @@ class EditorEntityRegistry {
     }
     GetComponentClasses(obj) {
         const tsClassObj = (0, Class_1.getTsClassByUeClass)(obj.GetClass());
-        return Public_1.entityRegistry.GetComponents(tsClassObj);
+        return EntityRegistry_1.entityRegistry.GetComponents(tsClassObj);
     }
     GenComponentsStateJson(classObjs) {
         const components = {};

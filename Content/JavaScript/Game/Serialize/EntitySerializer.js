@@ -2,9 +2,13 @@
 /* eslint-disable spellcheck/spell-checker */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.entitySerializer = void 0;
+const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 function vectorToArray(vec) {
     return [vec.X, vec.Y, vec.Z];
+}
+function arrayToVector(array) {
+    return new ue_1.Vector(array[0], array[1], array[2]);
 }
 function genRotationArray(vec) {
     if (vec.X === 0 && vec.Y === 0 && vec.Z === 0) {
@@ -37,8 +41,18 @@ class EntitySerializer {
             Rotation: genRotationArray(player.K2_GetActorRotation().Euler()),
         };
     }
-    SpawnEntityByState(state) {
-        return undefined;
+    SpawnEntityByState(world, state) {
+        const actorEss = ue_1.EditorSubsystemBlueprintLibrary.GetEditorSubsystem(ue_1.EditorActorSubsystem.StaticClass());
+        const actorClass = (0, Class_1.getBlueprintType)(state.PrefabId);
+        let rotator = undefined;
+        if (state.Rotation) {
+            rotator = ue_1.Rotator.MakeFromEuler(arrayToVector(state.Rotation));
+        }
+        const entity = actorEss.SpawnActorFromClass(actorClass, arrayToVector(state.Pos), rotator);
+        if (state.Scale) {
+            entity.SetActorScale3D(arrayToVector(state.Scale));
+        }
+        return entity;
     }
 }
 exports.entitySerializer = new EntitySerializer();

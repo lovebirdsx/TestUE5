@@ -8,6 +8,7 @@
             "name": "Attach Game",
             "port": 8080,
             "request": "attach",
+            "restart": true,
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -16,6 +17,7 @@
         {
             "name": "Attach Editor",
             "port": 8888,
+            "restart": true,
             "request": "attach",
             "skipFiles": [
                 "<node_internals>/**"

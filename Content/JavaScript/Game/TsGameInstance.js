@@ -7,7 +7,7 @@ class TsGameInstance extends ue_1.DemoGameInstance {
     Instance;
     ReceiveInit() {
         this.Instance = new GameInstance_1.GameInstance();
-        this.Instance.Init();
+        this.Instance.Init(this.GetWorld());
     }
     ReceiveTick(deltaSeconds) {
         this.Instance.Tick(deltaSeconds);

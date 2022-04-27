@@ -11,7 +11,7 @@ import TsEntity from './TsEntity';
 
 export const triggerComponentClasses: TComponentClass[] = [ActionRunnerComponent];
 
-class TsTrigger extends TsEntity implements ITsTrigger {
+export class TsTrigger extends TsEntity implements ITsTrigger {
     // @cpp: int
     @edit_on_instance()
     public MaxTriggerTimes: number;

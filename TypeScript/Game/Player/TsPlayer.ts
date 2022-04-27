@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { CharacterMovementComponent, TestUE5Character } from 'ue';
 
-import { globalInit } from '../../Common/Init';
+import { initCommon } from '../../Common/Init';
 import { error } from '../../Common/Log';
 import { ITsEntity, ITsPlayer } from '../Entity/Interface';
 
@@ -26,7 +26,7 @@ class TsPlayer extends TestUE5Character implements ITsPlayer {
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];
 
-        globalInit();
+        initCommon();
     }
 
     public get Name(): string {

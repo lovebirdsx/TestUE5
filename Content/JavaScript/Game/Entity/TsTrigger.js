@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.triggerComponentClasses = void 0;
+exports.TsTrigger = exports.triggerComponentClasses = void 0;
 /* eslint-disable no-void */
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
@@ -60,5 +60,6 @@ __decorate([
 __decorate([
     (0, ue_1.edit_on_instance)()
 ], TsTrigger.prototype, "TriggerActionsJson", void 0);
+exports.TsTrigger = TsTrigger;
 exports.default = TsTrigger;
 //# sourceMappingURL=TsTrigger.js.map

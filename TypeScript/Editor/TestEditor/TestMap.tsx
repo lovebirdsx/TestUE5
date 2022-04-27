@@ -5,7 +5,7 @@ import { Actor, EditorLevelLibrary, EditorOperations, GameplayStatics, NewArray,
 
 import { getUeClassByTsClass } from '../../Common/Class';
 import { log, warn } from '../../Common/Log';
-import TsEntity from '../../Game/Entity/TsEntity';
+import { TsEntity } from '../../Game/Entity/Public';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 
 export class TestMap extends React.Component {

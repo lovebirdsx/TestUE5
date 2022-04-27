@@ -6,7 +6,7 @@ const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const Util_1 = require("../../Common/Util");
-const TsEntity_1 = require("../../Game/Entity/TsEntity");
+const Public_1 = require("../../Game/Entity/Public");
 const LevelSerializer_1 = require("../../Game/Serialize/LevelSerializer");
 const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
 class LevelEditor {
@@ -26,7 +26,7 @@ class LevelEditor {
         (0, Log_1.log)('OnPreBeginPie');
     }
     CheckEntityInit(actor) {
-        if (!(0, Class_1.isChildOfClass)(actor, TsEntity_1.default)) {
+        if (!(0, Class_1.isChildOfClass)(actor, Public_1.TsEntity)) {
             return;
         }
         const entity = actor;

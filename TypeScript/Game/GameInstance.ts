@@ -1,12 +1,14 @@
 import { World } from 'ue';
 
 import { log } from '../Common/Log';
+import { initEntity } from './Entity/Public';
 import { EntityManager } from './Manager/EntityManager';
 
 export class GameInstance {
     private readonly EntityManager = new EntityManager();
 
     public Init(world: World): void {
+        initEntity();
         this.EntityManager.Init(world);
         log('GameInstance Init()');
     }

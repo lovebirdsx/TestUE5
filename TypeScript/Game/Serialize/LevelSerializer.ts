@@ -1,7 +1,7 @@
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { error, log } from '../../Common/Log';
-import TsEntity from '../Entity/TsEntity';
+import { TsEntity } from '../Entity/Public';
 import TsPlayer from '../Player/TsPlayer';
 import { entitySerializer, IEntityState, IPlayerState } from './EntitySerializer';
 

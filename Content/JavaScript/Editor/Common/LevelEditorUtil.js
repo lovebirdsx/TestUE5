@@ -5,7 +5,7 @@ const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const UeHelper_1 = require("../../Common/UeHelper");
-const TsEntity_1 = require("../../Game/Entity/TsEntity");
+const Public_1 = require("../../Game/Entity/Public");
 class LevelEditorUtil {
     static SelectActor(actor) {
         if (!actor) {
@@ -28,7 +28,7 @@ class LevelEditorUtil {
     }
     static GetAllEntities(world) {
         const actors = (0, ue_1.NewArray)(ue_1.Actor);
-        ue_1.GameplayStatics.GetAllActorsOfClass(world, (0, Class_1.getUeClassByTsClass)(TsEntity_1.default), (0, puerts_1.$ref)(actors));
+        ue_1.GameplayStatics.GetAllActorsOfClass(world, (0, Class_1.getUeClassByTsClass)(Public_1.TsEntity), (0, puerts_1.$ref)(actors));
         const result = [];
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);

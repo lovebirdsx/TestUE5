@@ -13,7 +13,7 @@ import {
 import { getAssetPath, getUeClassByTsClass } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
-import TsEntity from '../../Game/Entity/TsEntity';
+import { TsEntity } from '../../Game/Entity/Public';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): void {

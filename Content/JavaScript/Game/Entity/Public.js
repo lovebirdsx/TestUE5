@@ -1,4 +1,14 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initEntity = exports.EBlueprintId = void 0;
 const Class_1 = require("../../Common/Class");
@@ -23,13 +33,22 @@ function regEntity(id, tsClass, dir) {
     const path = makeTsClassPath(ENTITY_BASE_PATH, tsClass.name, dir);
     (0, Class_1.regBlueprintType)(id, path, tsClass);
 }
+let isInit = false;
 function initEntity() {
+    if (isInit) {
+        return;
+    }
     EntityRegistry_1.entityRegistry.Register(TsEntity_1.default, ...TsEntity_1.entityComponentClasses);
     EntityRegistry_1.entityRegistry.Register(TsNpc_1.default, ...TsNpc_1.npcComponentClasses);
     EntityRegistry_1.entityRegistry.Register(TsTrigger_1.default, ...TsTrigger_1.triggerComponentClasses);
     regEntity(EBlueprintId.Entity, TsEntity_1.default);
     regEntity(EBlueprintId.Npc, TsNpc_1.default);
     regEntity(EBlueprintId.Trigger, TsTrigger_1.default);
+    isInit = true;
 }
 exports.initEntity = initEntity;
-//# sourceMappingURL=Init.js.map
+initEntity();
+__exportStar(require("./TsEntity"), exports);
+__exportStar(require("./TsNpc"), exports);
+__exportStar(require("./TsTrigger"), exports);
+//# sourceMappingURL=Public.js.map

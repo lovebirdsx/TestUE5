@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Log_1 = require("../../Common/Log");
-const TsEntity_1 = require("../Entity/TsEntity");
+const Public_1 = require("../Entity/Public");
 // import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
 // import TsFlowComponent from '../Flow/TsFlowComponent';
-class TsTestGetTsComponent extends TsEntity_1.default {
+class TsTestGetTsComponent extends Public_1.TsEntity {
     ReceiveBeginPlay() {
         (0, Log_1.log)('TsTestGetTsComponent =====');
         // const actionRunner = this.GetComponent(TsActionRunnerComponent);

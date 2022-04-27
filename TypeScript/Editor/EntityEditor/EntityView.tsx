@@ -6,7 +6,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { genGuid } from '../../Common/Util';
 import { parseComponentsState } from '../../Game/Entity/Interface';
-import TsEntity from '../../Game/Entity/TsEntity';
+import { TsEntity } from '../../Game/Entity/Public';
 import { Btn, H3, SlotText } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';

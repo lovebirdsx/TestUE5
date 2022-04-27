@@ -22,6 +22,18 @@ function genScaleArray(vec) {
     }
     return vectorToArray(vec);
 }
+const defalutRotator = ue_1.Rotator.MakeFromEuler(new ue_1.Vector());
+const defalutScale = new ue_1.Vector(1, 1, 1);
+function genTransform(state) {
+    let rotator = defalutRotator;
+    if (state.Rotation) {
+        rotator = ue_1.Rotator.MakeFromEuler(arrayToVector(state.Rotation));
+    }
+    const pos = arrayToVector(state.Pos);
+    const scale = state.Scale ? arrayToVector(state.Scale) : defalutScale;
+    const transform = new ue_1.Transform(rotator, pos, scale);
+    return transform;
+}
 class EntitySerializer {
     GenEntityState(entity) {
         return {
@@ -42,16 +54,10 @@ class EntitySerializer {
         };
     }
     SpawnEntityByState(world, state) {
-        const actorEss = ue_1.EditorSubsystemBlueprintLibrary.GetEditorSubsystem(ue_1.EditorActorSubsystem.StaticClass());
         const actorClass = (0, Class_1.getBlueprintType)(state.PrefabId);
-        let rotator = undefined;
-        if (state.Rotation) {
-            rotator = ue_1.Rotator.MakeFromEuler(arrayToVector(state.Rotation));
-        }
-        const entity = actorEss.SpawnActorFromClass(actorClass, arrayToVector(state.Pos), rotator);
-        if (state.Scale) {
-            entity.SetActorScale3D(arrayToVector(state.Scale));
-        }
+        const transfrom = genTransform(state);
+        const entity = ue_1.GameplayStatics.BeginDeferredActorSpawnFromClass(world, actorClass, transfrom);
+        ue_1.GameplayStatics.FinishSpawningActor(entity, transfrom);
         return entity;
     }
 }

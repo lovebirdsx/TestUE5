@@ -7,7 +7,7 @@ const react_umg_1 = require("react-umg");
 const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
-const TsEntity_1 = require("../../Game/Entity/TsEntity");
+const Public_1 = require("../../Game/Entity/Public");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 class TestMap extends React.Component {
     constructor() {
@@ -40,7 +40,7 @@ class TestMap extends React.Component {
             return;
         }
         const actors = (0, ue_1.NewArray)(ue_1.Actor);
-        ue_1.GameplayStatics.GetAllActorsOfClass(world, (0, Class_1.getUeClassByTsClass)(TsEntity_1.default), (0, puerts_1.$ref)(actors));
+        ue_1.GameplayStatics.GetAllActorsOfClass(world, (0, Class_1.getUeClassByTsClass)(Public_1.TsEntity), (0, puerts_1.$ref)(actors));
         (0, Log_1.log)(`TsEntity count = ${actors.Num()}`);
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);

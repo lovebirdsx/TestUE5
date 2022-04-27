@@ -4,7 +4,7 @@ import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
-import TsEntity from '../../Game/Entity/TsEntity';
+import { TsEntity } from '../../Game/Entity/Public';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 

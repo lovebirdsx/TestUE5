@@ -5,7 +5,7 @@ import { Class, EditorOperations, NewObject, Texture2D } from 'ue';
 import { getUeClassByTsClass, isChildOf, isChildOfClass, isType } from '../../../Common/Class';
 import { assertEq, assertGt, assertTrue, test } from '../../../Common/Test';
 import { getFieldCount, loadClass } from '../../../Common/Util';
-import TsEntity from '../../../Game/Entity/TsEntity';
+import { TsEntity } from '../../../Game/Entity/Public';
 import TsTrigger from '../../../Game/Entity/TsTrigger';
 
 export default function testClass(): void {

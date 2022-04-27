@@ -7,7 +7,7 @@ import { error } from '../../../../Common/Log';
 import { ObjectScheme } from '../../../../Common/Type';
 import { entityRegistry } from '../../../../Game/Entity/EntityRegistry';
 import { IComponentsState } from '../../../../Game/Entity/Interface';
-import TsEntity from '../../../../Game/Entity/TsEntity';
+import { TsEntity } from '../../../../Game/Entity/Public';
 import { componentRegistry } from '../Component/Index';
 
 export type TEntityPureData = Record<string, unknown> & {

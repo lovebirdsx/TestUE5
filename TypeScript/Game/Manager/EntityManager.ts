@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { World } from 'ue';
 
-import TsEntity from '../Entity/TsEntity';
+import { TsEntity } from '../Entity/Public';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { LevelSerializer } from '../Serialize/LevelSerializer';
 import { IManager } from './Interface';

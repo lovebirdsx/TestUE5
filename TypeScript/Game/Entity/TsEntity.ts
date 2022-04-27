@@ -8,7 +8,7 @@ import { ITsEntity, ITsPlayer, parseComponentsState } from './Interface';
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 export const entityComponentClasses: TComponentClass[] = [];
 
-class TsEntity extends Actor implements ITsEntity {
+export class TsEntity extends Actor implements ITsEntity {
     @edit_on_instance()
     public Guid: string;
 

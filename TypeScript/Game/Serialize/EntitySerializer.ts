@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 
-import { EditorActorSubsystem, EditorSubsystemBlueprintLibrary, Rotator, Vector, World } from 'ue';
+import { GameplayStatics, Rotator, Transform, Vector, World } from 'ue';
 
 import { getBlueprintId, getBlueprintType } from '../../Common/Class';
-import TsEntity from '../Entity/TsEntity';
+import { TsEntity } from '../Entity/Public';
 import TsPlayer from '../Player/TsPlayer';
 
 export interface IEntityState {
@@ -46,6 +46,22 @@ function genScaleArray(vec: Vector): number[] {
     return vectorToArray(vec);
 }
 
+const defalutRotator = Rotator.MakeFromEuler(new Vector());
+const defalutScale = new Vector(1, 1, 1);
+
+function genTransform(state: IEntityState): Transform {
+    let rotator: Rotator = defalutRotator;
+    if (state.Rotation) {
+        rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
+    }
+
+    const pos = arrayToVector(state.Pos);
+    const scale = state.Scale ? arrayToVector(state.Scale) : defalutScale;
+
+    const transform = new Transform(rotator, pos, scale);
+    return transform;
+}
+
 class EntitySerializer {
     public GenEntityState(entity: TsEntity): IEntityState {
         return {
@@ -68,22 +84,14 @@ class EntitySerializer {
     }
 
     public SpawnEntityByState(world: World, state: IEntityState): TsEntity {
-        const actorEss = EditorSubsystemBlueprintLibrary.GetEditorSubsystem(
-            EditorActorSubsystem.StaticClass(),
-        ) as EditorActorSubsystem;
         const actorClass = getBlueprintType(state.PrefabId);
-        let rotator: Rotator = undefined;
-        if (state.Rotation) {
-            rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
-        }
-        const entity = actorEss.SpawnActorFromClass(
+        const transfrom = genTransform(state);
+        const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
+            world,
             actorClass,
-            arrayToVector(state.Pos),
-            rotator,
+            transfrom,
         ) as TsEntity;
-        if (state.Scale) {
-            entity.SetActorScale3D(arrayToVector(state.Scale));
-        }
+        GameplayStatics.FinishSpawningActor(entity, transfrom);
         return entity;
     }
 }

@@ -1,5 +1,5 @@
 import { log } from '../../Common/Log';
-import TsEntity from '../Entity/TsEntity';
+import { TsEntity } from '../Entity/Public';
 // import TsActionRunnerComponent from '../Flow/TsActionRunnerComponent';
 // import TsFlowComponent from '../Flow/TsFlowComponent';
 

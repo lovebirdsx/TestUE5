@@ -8,7 +8,7 @@ import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue'
 import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import TsEntity from '../../Game/Entity/TsEntity';
+import { TsEntity } from '../../Game/Entity/Public';
 import { LEVEL_SAVE_PATH } from '../../Game/Serialize/LevelSerializer';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';

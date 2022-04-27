@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.entityComponentClasses = void 0;
+exports.TsEntity = exports.entityComponentClasses = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
 const Entity_1 = require("../../Common/Entity");
@@ -59,5 +59,6 @@ __decorate([
 __decorate([
     (0, ue_1.edit_on_instance)()
 ], TsEntity.prototype, "ComponentsStateJson", void 0);
+exports.TsEntity = TsEntity;
 exports.default = TsEntity;
 //# sourceMappingURL=TsEntity.js.map

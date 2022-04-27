@@ -1,20 +1,20 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IPlayFlow, IShowTalk } from '../../../Game/Flow/Action';
-import { playFlowScheme } from '../Scheme/Action/Flow';
-import { jumpIdScheme } from '../Scheme/Action/JumpTalk';
-import { whoIdsScheme } from '../Scheme/Action/Sequence';
+import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
+import { jumpIdScheme } from '../../../Game/Scheme/Action/JumpTalk';
+import { whoIdsScheme } from '../../../Game/Scheme/Action/Sequence';
 import {
     showTalkScheme,
     talkerIdScheme,
     talkItemNameScheme,
     talkItemTextIdScheme,
     talkOptionTextIdScheme,
-} from '../Scheme/Action/ShowTalk';
-import { centerTextIdScheme } from '../Scheme/Action/ShowText';
-import { stateIdScheme } from '../Scheme/Action/State';
-import { csvFollowCellScheme } from '../Scheme/Csv/CsvCell';
-import { playFlowJsonScheme } from '../Scheme/Entity/NpcScheme';
-import { actionsJsonScheme } from '../Scheme/Entity/TriggerScheme';
+} from '../../../Game/Scheme/Action/ShowTalk';
+import { centerTextIdScheme } from '../../../Game/Scheme/Action/ShowText';
+import { stateIdScheme } from '../../../Game/Scheme/Action/State';
+import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
+import { playFlowJsonScheme } from '../../../Game/Scheme/Entity/NpcScheme';
+import { actionsJsonScheme } from '../../../Game/Scheme/Entity/TriggerScheme';
 import { RenderCsvFollowCell } from './Extend/Csv';
 import { RenderActionJson, RenderPlayFlow, RenderPlayFlowJson, RenderStateId } from './Extend/Flow';
 import { RenderWhoIdsScheme } from './Extend/Sequence';

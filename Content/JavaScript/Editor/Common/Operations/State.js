@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stateOp = void 0;
-const Public_1 = require("../Scheme/Action/Public");
+const Public_1 = require("../../../Game/Scheme/Action/Public");
 class StateOp {
     Check(state, errorMessages) {
         let errorCount = 0;

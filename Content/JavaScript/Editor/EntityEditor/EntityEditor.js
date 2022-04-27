@@ -10,13 +10,13 @@ const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const Public_1 = require("../../Game/Entity/Public");
+const Public_2 = require("../../Game/Scheme/Entity/Public");
 const LevelSerializer_1 = require("../../Game/Serialize/LevelSerializer");
 const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
 const KeyCommands_1 = require("../Common/KeyCommands");
 const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
-const Public_2 = require("../Common/Scheme/Entity/Public");
 const Util_1 = require("../Common/Util");
 const ConfigFile_1 = require("../FlowEditor/ConfigFile");
 const EntityView_1 = require("./EntityView");
@@ -48,7 +48,7 @@ class EntityEditor extends React.Component {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: Public_2.editorEntityRegistry.GenData(entity),
+                PureData: Public_2.entitySchemeRegistry.GenData(entity),
             };
         }
         return {
@@ -89,7 +89,7 @@ class EntityEditor extends React.Component {
         }
         const entityState = {
             Entity: entity,
-            PureData: Public_2.editorEntityRegistry.GenData(entity),
+            PureData: Public_2.entitySchemeRegistry.GenData(entity),
         };
         // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
         this.LastApplyEntityState = entityState;
@@ -157,7 +157,7 @@ class EntityEditor extends React.Component {
         if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }
-        Public_2.editorEntityRegistry.ApplyData(es.PureData, es.Entity);
+        Public_2.entitySchemeRegistry.ApplyData(es.PureData, es.Entity);
         this.LastApplyEntityState = es;
     }
     RenderEntity() {

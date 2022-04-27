@@ -5,7 +5,7 @@ import produce from 'immer';
 import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TCsvValueType } from '../../../Common/Type';
-import { csvScheme } from '../Scheme/Csv/CsvScheme';
+import { csvScheme } from '../../../Game/Scheme/Csv/CsvScheme';
 
 class EditorCsvOp {
     public Log(csv: ICsv): void {

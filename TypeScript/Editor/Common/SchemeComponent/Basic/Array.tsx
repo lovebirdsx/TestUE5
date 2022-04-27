@@ -3,11 +3,11 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { globalContexts } from '../../../../Common/GlobalContext';
 import { log } from '../../../../Common/Log';
 import { ArrayScheme, IProps, TModifyType } from '../../../../Common/Type';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
-import { globalContexts } from '../../GlobalContext';
 import { Any } from './Any';
 
 export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {

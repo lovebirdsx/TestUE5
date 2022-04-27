@@ -6,9 +6,9 @@ exports.Obj = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
+const GlobalContext_1 = require("../../../../Common/GlobalContext");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const ContextBtn_1 = require("../../BaseComponent/ContextBtn");
-const GlobalContext_1 = require("../../GlobalContext");
 const Any_1 = require("./Any");
 function getFoldFieldName(key) {
     return `_${key}Folded`;

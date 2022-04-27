@@ -4,10 +4,10 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { globalContexts } from '../../../../Common/GlobalContext';
 import { ArrayScheme, IProps, ObjectScheme, Scheme, TModifyType } from '../../../../Common/Type';
 import { Btn, Fold, SlotText, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
-import { globalContexts } from '../../GlobalContext';
 import { Any } from './Any';
 
 function getFoldFieldName(key: string): string {

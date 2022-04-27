@@ -5,10 +5,10 @@ exports.Array = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
+const GlobalContext_1 = require("../../../../Common/GlobalContext");
 const Log_1 = require("../../../../Common/Log");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
 const ContextBtn_1 = require("../../BaseComponent/ContextBtn");
-const GlobalContext_1 = require("../../GlobalContext");
 const Any_1 = require("./Any");
 class Array extends React.Component {
     ModifyByCb(cb, type = 'normal') {

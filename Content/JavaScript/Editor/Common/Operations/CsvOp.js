@@ -5,7 +5,7 @@ exports.editorCsvOp = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const immer_1 = require("immer");
 const Log_1 = require("../../../Common/Log");
-const CsvScheme_1 = require("../Scheme/Csv/CsvScheme");
+const CsvScheme_1 = require("../../../Game/Scheme/Csv/CsvScheme");
 class EditorCsvOp {
     Log(csv) {
         const headers = csv.FiledTypes.map((field) => {

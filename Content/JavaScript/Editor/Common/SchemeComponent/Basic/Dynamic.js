@@ -5,8 +5,8 @@ exports.Dynamic = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
+const Public_1 = require("../../../../Game/Scheme/Action/Public");
 const CommonComponent_1 = require("../../BaseComponent/CommonComponent");
-const Public_1 = require("../../Scheme/Action/Public");
 const Any_1 = require("./Any");
 class Dynamic extends React.Component {
     Select = (type) => {

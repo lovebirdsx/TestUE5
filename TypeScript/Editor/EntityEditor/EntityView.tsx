@@ -7,9 +7,9 @@ import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { genGuid } from '../../Common/Util';
 import { parseComponentsState } from '../../Game/Entity/Interface';
 import { TsEntity } from '../../Game/Entity/Public';
+import { entitySchemeRegistry, TEntityPureData } from '../../Game/Scheme/Entity/Public';
 import { Btn, H3, SlotText } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { Obj } from '../Common/SchemeComponent/Public';
 import { ComponentsState } from './ComponentsState';
 
@@ -65,10 +65,10 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const props = this.props;
         const entity = props.Entity;
         const pureData = props.PureData;
-        const scheme = editorEntityRegistry.GetSchemeByEntity(entity);
+        const scheme = entitySchemeRegistry.GetSchemeByEntity(entity);
 
         const componentsState = parseComponentsState(pureData.ComponentsStateJson);
-        const componentClassObjs = editorEntityRegistry.GetComponentClasses(entity);
+        const componentClassObjs = entitySchemeRegistry.GetComponentClasses(entity);
 
         return (
             <VerticalBox>

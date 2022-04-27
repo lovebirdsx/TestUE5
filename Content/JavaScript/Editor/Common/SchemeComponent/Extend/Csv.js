@@ -4,7 +4,7 @@ exports.RenderCsvFollowCell = void 0;
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable spellcheck/spell-checker */
 const React = require("react");
-const CsvCell_1 = require("../../Scheme/Csv/CsvCell");
+const CsvCell_1 = require("../../../../Game/Scheme/Csv/CsvCell");
 const Any_1 = require("../Basic/Any");
 const Context_1 = require("../Context");
 function RenderCsvFollowCell(props) {

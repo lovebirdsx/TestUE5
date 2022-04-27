@@ -7,9 +7,9 @@ const React = require("react");
 const react_umg_1 = require("react-umg");
 const Util_1 = require("../../Common/Util");
 const Interface_1 = require("../../Game/Entity/Interface");
+const Public_1 = require("../../Game/Scheme/Entity/Public");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
-const Public_1 = require("../Common/Scheme/Entity/Public");
 const Public_2 = require("../Common/SchemeComponent/Public");
 const ComponentsState_1 = require("./ComponentsState");
 class EntityView extends React.Component {
@@ -45,9 +45,9 @@ class EntityView extends React.Component {
         const props = this.props;
         const entity = props.Entity;
         const pureData = props.PureData;
-        const scheme = Public_1.editorEntityRegistry.GetSchemeByEntity(entity);
+        const scheme = Public_1.entitySchemeRegistry.GetSchemeByEntity(entity);
         const componentsState = (0, Interface_1.parseComponentsState)(pureData.ComponentsStateJson);
-        const componentClassObjs = Public_1.editorEntityRegistry.GetComponentClasses(entity);
+        const componentClassObjs = Public_1.entitySchemeRegistry.GetComponentClasses(entity);
         return (React.createElement(react_umg_1.VerticalBox, null,
             React.createElement(react_umg_1.VerticalBox, null,
                 React.createElement(CommonComponent_1.H3, { Text: 'Entity' }),

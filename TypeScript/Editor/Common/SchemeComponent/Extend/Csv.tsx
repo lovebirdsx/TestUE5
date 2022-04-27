@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { TCsvCellType } from '../../../../Common/CsvLoader';
 import { IProps, TCsvValueType } from '../../../../Common/Type';
-import { getCsvCellSchemeByType } from '../../Scheme/Csv/CsvCell';
+import { getCsvCellSchemeByType } from '../../../../Game/Scheme/Csv/CsvCell';
 import { Any } from '../Basic/Any';
 import { csvCellContext, ICsvCellContext } from '../Context';
 

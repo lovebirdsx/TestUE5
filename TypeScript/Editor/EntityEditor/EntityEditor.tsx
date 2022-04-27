@@ -9,13 +9,13 @@ import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { TsEntity } from '../../Game/Entity/Public';
+import { entitySchemeRegistry, TEntityPureData } from '../../Game/Scheme/Entity/Public';
 import { LEVEL_SAVE_PATH } from '../../Game/Serialize/LevelSerializer';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { editorEntityRegistry, TEntityPureData } from '../Common/Scheme/Entity/Public';
 import { openDirOfFile } from '../Common/Util';
 import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
@@ -67,7 +67,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: editorEntityRegistry.GenData(entity),
+                PureData: entitySchemeRegistry.GenData(entity),
             };
         }
 
@@ -117,7 +117,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         const entityState: IEntityState = {
             Entity: entity,
-            PureData: editorEntityRegistry.GenData(entity),
+            PureData: entitySchemeRegistry.GenData(entity),
         };
 
         // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
@@ -201,7 +201,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        editorEntityRegistry.ApplyData(es.PureData, es.Entity);
+        entitySchemeRegistry.ApplyData(es.PureData, es.Entity);
         this.LastApplyEntityState = es;
     }
 

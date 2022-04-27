@@ -4,7 +4,7 @@ import { NewObject } from 'ue';
 import { getUeClassByTsClass } from '../../Common/Class';
 import { assertEq, test } from '../../Common/Test';
 import TsTrigger from '../../Game/Entity/TsTrigger';
-import { editorEntityRegistry } from '../Common/Scheme/Entity/Public';
+import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 
 export default function testEntityScheme(): void {
     test('gen pure data', () => {
@@ -12,7 +12,7 @@ export default function testEntityScheme(): void {
         trigger.MaxTriggerTimes = 10;
         trigger.TriggerActionsJson = 'Hello';
 
-        const pureData = editorEntityRegistry.GenData(trigger);
+        const pureData = entitySchemeRegistry.GenData(trigger);
         assertEq(pureData.MaxTriggerTimes, trigger.MaxTriggerTimes, 'MaxTriggerTimes must equal');
         assertEq(
             pureData.TriggerActionsJson,
@@ -27,10 +27,10 @@ export default function testEntityScheme(): void {
         trigger.MaxTriggerTimes = 10;
         trigger.TriggerActionsJson = 'Hello';
 
-        const pureData = editorEntityRegistry.GenData(trigger);
+        const pureData = entitySchemeRegistry.GenData(trigger);
         pureData.MaxTriggerTimes = 11;
 
-        editorEntityRegistry.ApplyData(pureData, trigger);
+        entitySchemeRegistry.ApplyData(pureData, trigger);
         assertEq(trigger.MaxTriggerTimes, pureData.MaxTriggerTimes, 'MaxTriggerTimes must equal');
     });
 }

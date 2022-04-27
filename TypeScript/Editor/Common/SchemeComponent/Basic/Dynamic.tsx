@@ -6,9 +6,9 @@ import { HorizontalBox } from 'react-umg';
 
 import { IProps, TModifyType } from '../../../../Common/Type';
 import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
+import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
+import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
 import { Check, List, Text } from '../../BaseComponent/CommonComponent';
-import { ActionScheme } from '../../Scheme/Action/Action';
-import { actionRegistry } from '../../Scheme/Action/Public';
 import { Any } from './Any';
 
 export class Dynamic extends React.Component<IProps> {

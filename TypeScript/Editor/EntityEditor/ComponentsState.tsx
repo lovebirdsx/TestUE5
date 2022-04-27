@@ -6,8 +6,8 @@ import { VerticalBox } from 'react-umg';
 import { TComponentClass } from '../../Common/Entity';
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { IComponentsState } from '../../Game/Entity/Interface';
+import { componentRegistry } from '../../Game/Scheme/Component/Index';
 import { SlotText } from '../Common/BaseComponent/CommonComponent';
-import { componentRegistry } from '../Common/Scheme/Component/Index';
 import { Obj } from '../Common/SchemeComponent/Basic/Public';
 
 export interface IComponentsStateProps {

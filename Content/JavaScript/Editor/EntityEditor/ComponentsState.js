@@ -5,8 +5,8 @@ exports.ComponentsState = void 0;
 const immer_1 = require("immer");
 const React = require("react");
 const react_umg_1 = require("react-umg");
+const Index_1 = require("../../Game/Scheme/Component/Index");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
-const Index_1 = require("../Common/Scheme/Component/Index");
 const Public_1 = require("../Common/SchemeComponent/Basic/Public");
 class ComponentsState extends React.Component {
     // eslint-disable-next-line @typescript-eslint/naming-convention

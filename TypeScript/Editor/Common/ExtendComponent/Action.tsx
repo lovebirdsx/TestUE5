@@ -5,9 +5,9 @@ import { VerticalBox } from 'react-umg';
 
 import { EActionFilter, Scheme, TModifyType } from '../../../Common/Type';
 import { IActionInfo } from '../../../Game/Flow/Action';
+import { actionRegistry } from '../../../Game/Scheme/Action/Public';
 import { TAB_OFFSET } from '../BaseComponent/CommonComponent';
-import { ContextBtn } from '../BaseComponent/ContextBtn';
-import { actionRegistry } from '../Scheme/Action/Public';
+import * as ContextBtn from '../BaseComponent/ContextBtn';
 import { Dynamic } from '../SchemeComponent/Public';
 
 export interface IActionProps {
@@ -31,7 +31,7 @@ export class Action extends React.Component<IActionProps> {
                     Scheme={typeScheme}
                     OnModify={props.OnModify as (obj: unknown, type: TModifyType) => void}
                     PrefixElement={
-                        <ContextBtn
+                        <ContextBtn.ContextBtn
                             Commands={['上插', '下插', '移除', '上移', '下移']}
                             OnCommand={props.OnContextCommand}
                             Tip="针对当前动作项进行操作"

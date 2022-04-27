@@ -3,18 +3,17 @@
 import { GameplayStatics, Rotator, Transform, Vector, World } from 'ue';
 
 import { getBlueprintId, getBlueprintType } from '../../Common/Class';
+import { TEntityPureData } from '../Entity/Interface';
 import { TsEntity } from '../Entity/Public';
 import TsPlayer from '../Player/TsPlayer';
+import { entitySchemeRegistry } from '../Scheme/Entity/Public';
 
 export interface IEntityState {
-    Guid: string;
     PrefabId: number;
-    Name: string;
     Pos: number[];
     Rotation?: number[];
     Scale?: number[];
-    Fields: Record<string, unknown>;
-    Components: Record<string, unknown>;
+    PureData: TEntityPureData;
 }
 
 export interface IPlayerState {
@@ -65,14 +64,11 @@ function genTransform(state: IEntityState): Transform {
 class EntitySerializer {
     public GenEntityState(entity: TsEntity): IEntityState {
         return {
-            Guid: entity.Guid,
             PrefabId: getBlueprintId(entity.GetClass()),
-            Name: entity.Name,
             Pos: vectorToArray(entity.K2_GetActorLocation()),
             Rotation: genRotationArray(entity.K2_GetActorRotation().Euler()),
             Scale: genScaleArray(entity.GetActorScale3D()),
-            Fields: {},
-            Components: {},
+            PureData: entitySchemeRegistry.GenData(entity),
         };
     }
 
@@ -92,6 +88,7 @@ class EntitySerializer {
             transfrom,
         ) as TsEntity;
         GameplayStatics.FinishSpawningActor(entity, transfrom);
+        entitySchemeRegistry.ApplyData(state.PureData, entity);
         return entity;
     }
 }

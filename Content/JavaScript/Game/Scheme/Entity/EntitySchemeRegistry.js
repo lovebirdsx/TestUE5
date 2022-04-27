@@ -23,7 +23,7 @@ class EditorEntityRegistry {
     GetSchemeByUeClass(classObj) {
         const result = this.SchemeMap.get(classObj);
         if (!result) {
-            (0, Log_1.error)(`Can not find scheme for ue class obj ${classObj.GetName()}`);
+            throw new Error(`Can not find scheme for ue class obj ${classObj.GetName()}`);
         }
         return result;
     }
@@ -69,8 +69,6 @@ class EditorEntityRegistry {
                 (0, Log_1.error)(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
             }
         }
-        obj.ComponentsStateJson = pureData.ComponentsStateJson;
-        obj.Guid = pureData.Guid;
         Object.assign(obj, pureData);
         // 让ue认为对象已经被修改
         UE.EditorOperations.MarkPackageDirty(obj);

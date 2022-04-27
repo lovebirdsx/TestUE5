@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.entitySerializer = void 0;
 const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
+const Public_1 = require("../Scheme/Entity/Public");
 function vectorToArray(vec) {
     return [vec.X, vec.Y, vec.Z];
 }
@@ -37,14 +38,11 @@ function genTransform(state) {
 class EntitySerializer {
     GenEntityState(entity) {
         return {
-            Guid: entity.Guid,
             PrefabId: (0, Class_1.getBlueprintId)(entity.GetClass()),
-            Name: entity.Name,
             Pos: vectorToArray(entity.K2_GetActorLocation()),
             Rotation: genRotationArray(entity.K2_GetActorRotation().Euler()),
             Scale: genScaleArray(entity.GetActorScale3D()),
-            Fields: {},
-            Components: {},
+            PureData: Public_1.entitySchemeRegistry.GenData(entity),
         };
     }
     GenPlayerState(player) {
@@ -58,6 +56,7 @@ class EntitySerializer {
         const transfrom = genTransform(state);
         const entity = ue_1.GameplayStatics.BeginDeferredActorSpawnFromClass(world, actorClass, transfrom);
         ue_1.GameplayStatics.FinishSpawningActor(entity, transfrom);
+        Public_1.entitySchemeRegistry.ApplyData(state.PureData, entity);
         return entity;
     }
 }

@@ -6,14 +6,9 @@ import { TComponentClass } from '../../../Common/Entity';
 import { error } from '../../../Common/Log';
 import { ObjectScheme } from '../../../Common/Type';
 import { entityRegistry } from '../../Entity/EntityRegistry';
-import { IComponentsState } from '../../Entity/Interface';
+import { IComponentsState, TEntityPureData } from '../../Entity/Interface';
 import { TsEntity } from '../../Entity/Public';
 import { componentRegistry } from '../Component/Index';
-
-export type TEntityPureData = Record<string, unknown> & {
-    ComponentsStateJson: string;
-    Guid: string;
-};
 
 class EditorEntityRegistry {
     private readonly SchemeMap: Map<UE.Class, ObjectScheme<unknown>> = new Map();
@@ -36,7 +31,7 @@ class EditorEntityRegistry {
     ): ObjectScheme<Partial<T>> {
         const result = this.SchemeMap.get(classObj);
         if (!result) {
-            error(`Can not find scheme for ue class obj ${classObj.GetName()}`);
+            throw new Error(`Can not find scheme for ue class obj ${classObj.GetName()}`);
         }
         return result as ObjectScheme<Partial<T>>;
     }
@@ -88,8 +83,6 @@ class EditorEntityRegistry {
                 error(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
             }
         }
-        obj.ComponentsStateJson = pureData.ComponentsStateJson;
-        obj.Guid = pureData.Guid;
         Object.assign(obj, pureData);
 
         // 让ue认为对象已经被修改

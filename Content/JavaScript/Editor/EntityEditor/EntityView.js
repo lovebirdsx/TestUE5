@@ -22,8 +22,9 @@ class EntityView extends React.Component {
     };
     RenderPrefixElement() {
         const entity = this.props.Entity;
+        const scheme = Public_1.entitySchemeRegistry.GetSchemeByEntity(entity);
         return (React.createElement(react_umg_1.HorizontalBox, null,
-            React.createElement(CommonComponent_1.SlotText, { Text: entity.GetName() }),
+            React.createElement(CommonComponent_1.Text, { Text: scheme.Name }),
             React.createElement(CommonComponent_1.Btn, { Text: '◉', OnClick: this.OnClickBtnNav, Tip: '在场景中选中对应的Entity' }),
             React.createElement(CommonComponent_1.Btn, { Text: '⊙', OnClick: this.OnClickBtnFocusBlueprint, Tip: '浏览到Entity蓝图所在位置' })));
     }
@@ -36,7 +37,7 @@ class EntityView extends React.Component {
     RenderGuid() {
         const guid = this.props.PureData.Guid;
         if (guid) {
-            return React.createElement(CommonComponent_1.SlotText, { Text: `Guid: ${guid}` });
+            return React.createElement(CommonComponent_1.Text, { Text: `Guid: ${guid}` });
         }
         return React.createElement(CommonComponent_1.Btn, { Color: "#FF0000 red", Text: '修复Guid', OnClick: this.FixGuid });
     }

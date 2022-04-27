@@ -5,10 +5,10 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { genGuid } from '../../Common/Util';
-import { parseComponentsState } from '../../Game/Entity/Interface';
+import { parseComponentsState, TEntityPureData } from '../../Game/Entity/Interface';
 import { TsEntity } from '../../Game/Entity/Public';
-import { entitySchemeRegistry, TEntityPureData } from '../../Game/Scheme/Entity/Public';
-import { Btn, H3, SlotText } from '../Common/BaseComponent/CommonComponent';
+import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
+import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { Obj } from '../Common/SchemeComponent/Public';
 import { ComponentsState } from './ComponentsState';
@@ -31,9 +31,10 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
     private RenderPrefixElement(): JSX.Element {
         const entity = this.props.Entity;
+        const scheme = entitySchemeRegistry.GetSchemeByEntity(entity);
         return (
             <HorizontalBox>
-                <SlotText Text={entity.GetName()} />
+                <Text Text={scheme.Name} />
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
                 <Btn
                     Text={'⊙'}
@@ -54,7 +55,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
     private RenderGuid(): JSX.Element {
         const guid = this.props.PureData.Guid;
         if (guid) {
-            return <SlotText Text={`Guid: ${guid}`} />;
+            return <Text Text={`Guid: ${guid}`} />;
         }
 
         return <Btn Color="#FF0000 red" Text={'修复Guid'} OnClick={this.FixGuid} />;

@@ -7,7 +7,7 @@ import { TComponentClass } from '../../Common/Entity';
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { IComponentsState } from '../../Game/Entity/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Index';
-import { SlotText } from '../Common/BaseComponent/CommonComponent';
+import { Text } from '../Common/BaseComponent/CommonComponent';
 import { Obj } from '../Common/SchemeComponent/Basic/Public';
 
 export interface IComponentsStateProps {
@@ -31,7 +31,7 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
 
             return (
                 <VerticalBox key={id}>
-                    <SlotText Text={classObj.name} />
+                    <Text Text={classObj.name} />
                     <Obj
                         Value={value}
                         Scheme={scheme as ObjectScheme<Record<string, unknown>>}

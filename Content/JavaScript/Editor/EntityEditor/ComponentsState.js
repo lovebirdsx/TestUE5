@@ -20,7 +20,7 @@ class ComponentsState extends React.Component {
                 value = scheme.CreateDefault();
             }
             return (React.createElement(react_umg_1.VerticalBox, { key: id },
-                React.createElement(CommonComponent_1.SlotText, { Text: classObj.name }),
+                React.createElement(CommonComponent_1.Text, { Text: classObj.name }),
                 React.createElement(Public_1.Obj, { Value: value, Scheme: scheme, OnModify: (obj, type) => {
                         const newComponentState = (0, immer_1.default)(this.props.Value, (draft) => {
                             draft.Components[classObj.name] = obj;

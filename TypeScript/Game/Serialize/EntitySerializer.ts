@@ -3,6 +3,8 @@
 import { GameplayStatics, Rotator, Transform, Vector, World } from 'ue';
 
 import { getBlueprintId, getBlueprintType } from '../../Common/Class';
+import { error } from '../../Common/Log';
+import StateComponent from '../Component/StateComponent';
 import { TEntityPureData } from '../Entity/Interface';
 import { TsEntity } from '../Entity/Public';
 import TsPlayer from '../Player/TsPlayer';
@@ -14,6 +16,7 @@ export interface IEntityState {
     Rotation?: number[];
     Scale?: number[];
     PureData: TEntityPureData;
+    State?: Record<string, unknown>;
 }
 
 export interface IPlayerState {
@@ -61,6 +64,29 @@ function genTransform(state: IEntityState): Transform {
     return transform;
 }
 
+function genState(entity: TsEntity): Record<string, unknown> {
+    const stateComponent = entity.Entity.TryGetComponent(StateComponent);
+    if (!stateComponent) {
+        return undefined;
+    }
+
+    return stateComponent.GenSnapshot();
+}
+
+function applyState(entity: TsEntity, state: Record<string, unknown>): void {
+    if (state === undefined) {
+        return;
+    }
+
+    const stateComponent = entity.Entity.TryGetComponent(StateComponent);
+    if (!stateComponent) {
+        error(`apply state to ${entity.Name} but has not state component`);
+        return;
+    }
+
+    stateComponent.ApplySnapshot(state);
+}
+
 class EntitySerializer {
     public GenEntityState(entity: TsEntity): IEntityState {
         return {
@@ -69,6 +95,7 @@ class EntitySerializer {
             Rotation: genRotationArray(entity.K2_GetActorRotation().Euler()),
             Scale: genScaleArray(entity.GetActorScale3D()),
             PureData: entitySchemeRegistry.GenData(entity),
+            State: genState(entity),
         };
     }
 
@@ -89,6 +116,8 @@ class EntitySerializer {
         ) as TsEntity;
         GameplayStatics.FinishSpawningActor(entity, transfrom);
         entitySchemeRegistry.ApplyData(state.PureData, entity);
+        applyState(entity, state.State);
+
         return entity;
     }
 }

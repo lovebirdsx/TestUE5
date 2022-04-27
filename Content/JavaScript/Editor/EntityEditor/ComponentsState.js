@@ -14,6 +14,9 @@ class ComponentsState extends React.Component {
         const classObjs = this.props.ClassObjs;
         const components = this.props.Value;
         const elements = classObjs.map((classObj, id) => {
+            if (!Index_1.componentRegistry.HasScheme(classObj.name)) {
+                return undefined;
+            }
             const scheme = Index_1.componentRegistry.GetScheme(classObj.name);
             let value = components[classObj.name];
             if (!value) {

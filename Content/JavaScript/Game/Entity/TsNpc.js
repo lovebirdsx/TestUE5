@@ -3,10 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TsNpc = exports.npcComponentClasses = void 0;
 const ActionRunnerComponent_1 = require("../Component/ActionRunnerComponent");
 const FlowComponent_1 = require("../Component/FlowComponent");
+const StateComponent_1 = require("../Component/StateComponent");
 const TalkComponent_1 = require("../Component/TalkComponent");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsEntity_1 = require("./TsEntity");
 exports.npcComponentClasses = [
+    StateComponent_1.default,
     FlowComponent_1.FlowComponent,
     TalkComponent_1.TalkComponent,
     ActionRunnerComponent_1.ActionRunnerComponent,
@@ -18,8 +20,9 @@ class TsNpc extends TsEntity_1.default {
     }
     // @no-blueprint
     Flow;
-    ReceiveBeginPlay() {
-        super.ReceiveBeginPlay();
+    // @no-blueprint
+    Init() {
+        super.Init();
         this.Flow = this.Entity.GetComponent(FlowComponent_1.FlowComponent);
     }
     // @no-blueprint

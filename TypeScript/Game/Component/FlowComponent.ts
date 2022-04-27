@@ -11,6 +11,7 @@ import {
     IShowTalk,
 } from '../Flow/Action';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
+import StateComponent from './StateComponent';
 import { TalkComponent } from './TalkComponent';
 
 export class FlowComponent extends Component implements IFlowComponent {
@@ -24,6 +25,8 @@ export class FlowComponent extends Component implements IFlowComponent {
 
     private Handler: ActionRunnerHandler;
 
+    private State: StateComponent;
+
     private FlowInfo: IFlowInfo;
 
     private FlowListInfo: IFlowListInfo;
@@ -31,8 +34,9 @@ export class FlowComponent extends Component implements IFlowComponent {
     public OnInit(): void {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.Talk = this.Entity.GetComponent(TalkComponent);
+        this.State = this.Entity.GetComponent(StateComponent);
 
-        this.StateId = this.InitState.StateId;
+        this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
         this.FlowListInfo = flowListOp.LoadByName(this.InitState.FlowListName);
         this.FlowInfo = this.FlowListInfo.Flows.find((flow) => flow.Id === this.InitState.FlowId);
         this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
@@ -43,6 +47,7 @@ export class FlowComponent extends Component implements IFlowComponent {
     private ExecuteChangeState(actionInfo: IActionInfo): void {
         const changeState = actionInfo.Params as IChangeState;
         this.StateId = changeState.StateId;
+        this.State.SetState('StateId', this.StateId);
     }
 
     private ExecuteFinishState(actionInfo: IActionInfo): void {

@@ -13,6 +13,10 @@ export class EntityManager implements IManager {
 
     private readonly Entities: TsEntity[] = [];
 
+    private readonly EntitiesToSpawn: TsEntity[] = [];
+
+    private readonly EntitiesToDestroy: TsEntity[] = [];
+
     public Init(world: World): void {
         const levelState = this.LevelSerializer.Load();
         if (levelState.Player) {
@@ -23,6 +27,8 @@ export class EntityManager implements IManager {
             const entity = entitySerializer.SpawnEntityByState(world, es);
             this.EntityMap.set(entity.Guid, entity);
             this.Entities.push(entity);
+
+            this.EntitiesToSpawn.push(entity);
         });
     }
 
@@ -31,6 +37,27 @@ export class EntityManager implements IManager {
     }
 
     public Tick(deltaTime: number): void {
-        //
+        if (this.EntitiesToSpawn.length > 0) {
+            const entities = this.EntitiesToSpawn.splice(0, this.EntitiesToSpawn.length);
+            entities.forEach((entity) => {
+                entity.Init();
+            });
+
+            entities.forEach((entity) => {
+                entity.Start();
+            });
+        }
+
+        if (this.EntitiesToDestroy.length > 0) {
+            const entities = this.EntitiesToDestroy.splice(0, this.EntitiesToDestroy.length);
+
+            entities.forEach((entity) => {
+                entity.Destroy();
+            });
+
+            entities.forEach((entity) => {
+                entity.K2_DestroyActor();
+            });
+        }
     }
 }

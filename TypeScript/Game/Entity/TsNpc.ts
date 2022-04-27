@@ -4,11 +4,13 @@ import { Actor } from 'ue';
 import { TComponentClass } from '../../Common/Entity';
 import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
+import StateComponent from '../Component/StateComponent';
 import { TalkComponent } from '../Component/TalkComponent';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
 export const npcComponentClasses: TComponentClass[] = [
+    StateComponent,
     FlowComponent,
     TalkComponent,
     ActionRunnerComponent,
@@ -23,8 +25,9 @@ export class TsNpc extends TsEntity {
     // @no-blueprint
     private Flow: FlowComponent;
 
-    public ReceiveBeginPlay(): void {
-        super.ReceiveBeginPlay();
+    // @no-blueprint
+    public Init(): void {
+        super.Init();
         this.Flow = this.Entity.GetComponent(FlowComponent);
     }
 

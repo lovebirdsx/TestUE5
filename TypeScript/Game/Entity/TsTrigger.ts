@@ -4,12 +4,13 @@ import { Actor, edit_on_instance } from 'ue';
 import { TComponentClass } from '../../Common/Entity';
 import { log } from '../../Common/Log';
 import { ActionRunnerComponent, ActionRunnerHandler } from '../Component/ActionRunnerComponent';
+import StateComponent from '../Component/StateComponent';
 import { parseTriggerActionsJson } from '../Flow/Action';
 import TsPlayer from '../Player/TsPlayer';
 import { ITsTrigger } from './Interface';
 import TsEntity from './TsEntity';
 
-export const triggerComponentClasses: TComponentClass[] = [ActionRunnerComponent];
+export const triggerComponentClasses: TComponentClass[] = [StateComponent, ActionRunnerComponent];
 
 export class TsTrigger extends TsEntity implements ITsTrigger {
     // @cpp: int
@@ -29,22 +30,28 @@ export class TsTrigger extends TsEntity implements ITsTrigger {
     private Handler: ActionRunnerHandler;
 
     // @no-blueprint
+    private State: StateComponent;
+
+    // @no-blueprint
     public GetComponentClasses(): TComponentClass[] {
         return triggerComponentClasses;
     }
 
-    public ReceiveBeginPlay(): void {
-        super.ReceiveBeginPlay();
+    // @no-blueprint
+    public Init(): void {
+        super.Init();
         this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent);
+        this.State = this.Entity.GetComponent(StateComponent);
         this.Handler = this.ActonRunner.SpawnHandler(
             parseTriggerActionsJson(this.TriggerActionsJson).Actions,
         );
-        this.TriggerTimes = 0;
+        this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
     }
 
     // @no-blueprint
     private DoTrigger(): void {
         this.TriggerTimes++;
+        this.State.SetState('TriggerTimes', this.TriggerTimes);
         void this.Handler.Execute();
         log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }

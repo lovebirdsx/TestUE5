@@ -52,6 +52,15 @@ export class Entity {
         return undefined;
     }
 
+    public TryGetComponent<T extends Component>(classObj: TClass<T>): T {
+        for (const component of this.MyComponents) {
+            if (component instanceof classObj) {
+                return component;
+            }
+        }
+        return undefined;
+    }
+
     public RemoveComponent<T extends Component>(classObj: TClass<T>): void {
         for (let i = this.MyComponents.length - 1; i >= 0; i--) {
             const component = this.MyComponents[i];

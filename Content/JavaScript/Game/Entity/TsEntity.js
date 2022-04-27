@@ -22,12 +22,18 @@ class TsEntity extends ue_1.Actor {
     get Name() {
         return this.GetName();
     }
-    ReceiveBeginPlay() {
-        if (!this.Entity) {
-            this.Entity = this.GenEntity();
-            this.Entity.Init();
-            this.Entity.Start();
-        }
+    // @no-blueprint
+    Init() {
+        this.Entity = this.GenEntity();
+        this.Entity.Init();
+    }
+    // @no-blueprint
+    Start() {
+        this.Entity.Start();
+    }
+    // @no-blueprint
+    Destroy() {
+        this.Entity.Destroy();
     }
     // @no-blueprint
     GetComponentClasses() {

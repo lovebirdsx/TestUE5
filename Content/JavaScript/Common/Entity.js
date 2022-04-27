@@ -39,6 +39,14 @@ class Entity {
         (0, Log_1.error)(`Component ${classObj.name} not found on Entity ${this.constructor.name}`);
         return undefined;
     }
+    TryGetComponent(classObj) {
+        for (const component of this.MyComponents) {
+            if (component instanceof classObj) {
+                return component;
+            }
+        }
+        return undefined;
+    }
     RemoveComponent(classObj) {
         for (let i = this.MyComponents.length - 1; i >= 0; i--) {
             const component = this.MyComponents[i];

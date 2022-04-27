@@ -59,6 +59,10 @@ class EditorEntityRegistry {
 
         for (const fieldName in scheme.Fields) {
             const fieldScheme = scheme.Fields[fieldName] as StringScheme;
+            if (!fieldScheme) {
+                continue;
+            }
+
             // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
             if (fieldScheme.IsJson) {
                 const fileValue = obj[fieldName] as string;
@@ -77,11 +81,15 @@ class EditorEntityRegistry {
         const classObj = obj.GetClass();
         const scheme = this.GetSchemeByUeClass(classObj);
         for (const fieldName in scheme.Fields) {
+            const fieldScheme = scheme.Fields[fieldName] as StringScheme;
+            if (!fieldScheme) {
+                continue;
+            }
+
             if (pureData[fieldName] === undefined) {
                 error(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
             }
 
-            const fieldScheme = scheme.Fields[fieldName] as StringScheme;
             // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
             if (fieldScheme.IsJson) {
                 const fieldValue = pureData[fieldName];

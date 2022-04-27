@@ -11,10 +11,11 @@ exports.TsTrigger = exports.triggerComponentClasses = void 0;
 const ue_1 = require("ue");
 const Log_1 = require("../../Common/Log");
 const ActionRunnerComponent_1 = require("../Component/ActionRunnerComponent");
+const StateComponent_1 = require("../Component/StateComponent");
 const Action_1 = require("../Flow/Action");
 const TsPlayer_1 = require("../Player/TsPlayer");
 const TsEntity_1 = require("./TsEntity");
-exports.triggerComponentClasses = [ActionRunnerComponent_1.ActionRunnerComponent];
+exports.triggerComponentClasses = [StateComponent_1.default, ActionRunnerComponent_1.ActionRunnerComponent];
 class TsTrigger extends TsEntity_1.default {
     // @cpp: int
     MaxTriggerTimes;
@@ -26,18 +27,23 @@ class TsTrigger extends TsEntity_1.default {
     // @no-blueprint
     Handler;
     // @no-blueprint
+    State;
+    // @no-blueprint
     GetComponentClasses() {
         return exports.triggerComponentClasses;
     }
-    ReceiveBeginPlay() {
-        super.ReceiveBeginPlay();
+    // @no-blueprint
+    Init() {
+        super.Init();
         this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent_1.ActionRunnerComponent);
+        this.State = this.Entity.GetComponent(StateComponent_1.default);
         this.Handler = this.ActonRunner.SpawnHandler((0, Action_1.parseTriggerActionsJson)(this.TriggerActionsJson).Actions);
-        this.TriggerTimes = 0;
+        this.TriggerTimes = this.State.GetState('TriggerTimes') || 0;
     }
     // @no-blueprint
     DoTrigger() {
         this.TriggerTimes++;
+        this.State.SetState('TriggerTimes', this.TriggerTimes);
         void this.Handler.Execute();
         (0, Log_1.log)(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }

@@ -22,12 +22,20 @@ export class TsEntity extends Actor implements ITsEntity {
         return this.GetName();
     }
 
-    public ReceiveBeginPlay(): void {
-        if (!this.Entity) {
-            this.Entity = this.GenEntity();
-            this.Entity.Init();
-            this.Entity.Start();
-        }
+    // @no-blueprint
+    public Init(): void {
+        this.Entity = this.GenEntity();
+        this.Entity.Init();
+    }
+
+    // @no-blueprint
+    public Start(): void {
+        this.Entity.Start();
+    }
+
+    // @no-blueprint
+    public Destroy(): void {
+        this.Entity.Destroy();
     }
 
     // @no-blueprint

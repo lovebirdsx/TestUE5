@@ -29,6 +29,9 @@ export interface ITsEntity {
     Interact: (player: ITsPlayer) => Promise<void>;
     GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
+    Init: () => void;
+    Start: () => void;
+    Destroy: () => void;
 }
 
 export type TEntityPureData = ITsEntityData & Record<string, unknown>;

@@ -17,6 +17,9 @@ class ComponentRegistry {
         }
         return new classObj();
     }
+    HasScheme(type) {
+        return this.SchemeMap.has(type);
+    }
     GetScheme(type) {
         const scheme = this.SchemeMap.get(type);
         if (!scheme) {

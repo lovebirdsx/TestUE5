@@ -23,6 +23,10 @@ class ComponentRegistry {
         return new classObj();
     }
 
+    public HasScheme(type: string): boolean {
+        return this.SchemeMap.has(type);
+    }
+
     public GetScheme(type: string): TClassType<unknown> {
         const scheme = this.SchemeMap.get(type);
         if (!scheme) {

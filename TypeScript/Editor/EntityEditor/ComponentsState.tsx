@@ -23,6 +23,10 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
         const components = this.props.Value;
 
         const elements = classObjs.map((classObj, id): JSX.Element => {
+            if (!componentRegistry.HasScheme(classObj.name)) {
+                return undefined;
+            }
+
             const scheme = componentRegistry.GetScheme(classObj.name);
             let value = components[classObj.name];
             if (!value) {

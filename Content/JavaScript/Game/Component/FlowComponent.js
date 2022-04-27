@@ -5,6 +5,7 @@ const Entity_1 = require("../../Common/Entity");
 const Log_1 = require("../../Common/Log");
 const FlowList_1 = require("../Common/Operations/FlowList");
 const ActionRunnerComponent_1 = require("./ActionRunnerComponent");
+const StateComponent_1 = require("./StateComponent");
 const TalkComponent_1 = require("./TalkComponent");
 class FlowComponent extends Entity_1.Component {
     InitState;
@@ -12,12 +13,14 @@ class FlowComponent extends Entity_1.Component {
     ActionRunner;
     Talk;
     Handler;
+    State;
     FlowInfo;
     FlowListInfo;
     OnInit() {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent_1.ActionRunnerComponent);
         this.Talk = this.Entity.GetComponent(TalkComponent_1.TalkComponent);
-        this.StateId = this.InitState.StateId;
+        this.State = this.Entity.GetComponent(StateComponent_1.default);
+        this.StateId = this.State.GetState('StateId') || this.InitState.StateId;
         this.FlowListInfo = FlowList_1.flowListOp.LoadByName(this.InitState.FlowListName);
         this.FlowInfo = this.FlowListInfo.Flows.find((flow) => flow.Id === this.InitState.FlowId);
         this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
@@ -27,6 +30,7 @@ class FlowComponent extends Entity_1.Component {
     ExecuteChangeState(actionInfo) {
         const changeState = actionInfo.Params;
         this.StateId = changeState.StateId;
+        this.State.SetState('StateId', this.StateId);
     }
     ExecuteFinishState(actionInfo) {
         this.Handler.Stop();

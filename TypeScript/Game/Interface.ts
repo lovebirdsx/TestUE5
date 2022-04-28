@@ -71,11 +71,22 @@ export interface IGlobalActionsRunner {
     ExecuteOne: (action: IActionInfo) => Promise<void>;
 }
 
+export interface ITickable {
+    Name: string;
+    Tick: (deltaTime: number) => void;
+}
+
+export interface ITickManager {
+    AddTick: (tickable: ITickable) => void;
+    RemoveTick: (tickable: ITickable) => void;
+}
+
 export interface IGameContext {
     Player: ITsPlayer;
     PlayerController: PlayerController;
     World: World;
     EntityManager: IEntityMananger;
+    TickManager: ITickManager;
     GlobalActionsRunner: IGlobalActionsRunner;
 }
 

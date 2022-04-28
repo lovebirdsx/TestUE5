@@ -1,6 +1,9 @@
+/* eslint-disable no-void */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
+import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { TsEntity } from '../Entity/Public';
 import { IEntityMananger, IEntityState, IGameContext, ITsEntity } from '../Interface';
@@ -69,6 +72,8 @@ export class EntityManager implements IManager, IEntityMananger {
                 }
             });
 
+            this.EntitiesToDestroy.splice(0, this.EntitiesToDestroy.length);
+
             entities.forEach((entity) => {
                 entity.Destroy();
             });
@@ -80,9 +85,15 @@ export class EntityManager implements IManager, IEntityMananger {
 
         if (this.EntitiesToSpawn.length > 0) {
             const entities = this.EntitiesToSpawn.splice(0, this.EntitiesToSpawn.length);
-            this.Entities.push(...entities);
 
             entities.forEach((entity) => {
+                const exist = this.EntityMap.get(entity.Guid);
+                if (exist) {
+                    throw new Error(
+                        `Duplicate entity guid exist[${exist.Name}] add[${entity.Guid}] guid[${entity.Guid}]`,
+                    );
+                }
+                this.Entities.push(entity);
                 this.EntityMap.set(entity.Guid, entity);
             });
 
@@ -100,8 +111,13 @@ export class EntityManager implements IManager, IEntityMananger {
         this.EntitiesToDestroy.push(...(entities as TsEntity[]));
     }
 
-    public Load(): void {
+    private async LoadSync(): Promise<void> {
         this.RemoveEntity(...this.Entities);
+        await delay(0.1);
         this.Init(this.Context);
+    }
+
+    public Load(): void {
+        void this.LoadSync();
     }
 }

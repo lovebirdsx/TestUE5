@@ -279,14 +279,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return (
             <VerticalBox>
                 <HorizontalBox>
-                    <SlotText Text={LEVEL_SAVE_PATH} />
+                    <SlotText Text={'地图配置:'} Tip={LEVEL_SAVE_PATH} />
                     <Btn Text={'保存'} OnClick={this.SaveMap} Tip={`保存场景状态`} />
                     <Btn Text={'打开'} OnClick={this.OpenMapFile} Tip={`打开地图配置文件`} />
                 </HorizontalBox>
                 <HorizontalBox>
-                    <SlotText Text={STATE_SAVE_PATH} />
-                    <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={`打开游戏存储文件`} />
-                    <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={`删除游戏存储文件`} />
+                    <SlotText Text={'存档文件:'} Tip={STATE_SAVE_PATH} />
+                    <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={`打开游戏存档文件`} />
+                    <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={`删除游戏存档文件`} />
                 </HorizontalBox>
                 <HorizontalBox>
                     <Btn

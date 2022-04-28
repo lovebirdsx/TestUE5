@@ -1,8 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityManager = exports.STATE_SAVE_PATH = exports.LEVEL_SAVE_PATH = void 0;
+/* eslint-disable no-void */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
+const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Common/Log");
 const EntitySerializer_1 = require("../Serialize/EntitySerializer");
 const LevelSerializer_1 = require("../Serialize/LevelSerializer");
@@ -54,6 +57,7 @@ class EntityManager {
                     (0, Log_1.error)(`Remove no exist entity ${entity.Name}`);
                 }
             });
+            this.EntitiesToDestroy.splice(0, this.EntitiesToDestroy.length);
             entities.forEach((entity) => {
                 entity.Destroy();
             });
@@ -63,8 +67,12 @@ class EntityManager {
         }
         if (this.EntitiesToSpawn.length > 0) {
             const entities = this.EntitiesToSpawn.splice(0, this.EntitiesToSpawn.length);
-            this.Entities.push(...entities);
             entities.forEach((entity) => {
+                const exist = this.EntityMap.get(entity.Guid);
+                if (exist) {
+                    throw new Error(`Duplicate entity guid exist[${exist.Name}] add[${entity.Guid}] guid[${entity.Guid}]`);
+                }
+                this.Entities.push(entity);
                 this.EntityMap.set(entity.Guid, entity);
             });
             entities.forEach((entity) => {
@@ -78,9 +86,13 @@ class EntityManager {
     RemoveEntity(...entities) {
         this.EntitiesToDestroy.push(...entities);
     }
-    Load() {
+    async LoadSync() {
         this.RemoveEntity(...this.Entities);
+        await (0, Async_1.delay)(0.1);
         this.Init(this.Context);
+    }
+    Load() {
+        void this.LoadSync();
     }
 }
 exports.EntityManager = EntityManager;

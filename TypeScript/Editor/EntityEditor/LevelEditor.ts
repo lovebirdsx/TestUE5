@@ -4,8 +4,8 @@ import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
+import { gameConfig } from '../../Game/Common/Config';
 import { TsEntity } from '../../Game/Entity/Public';
-import { LEVEL_SAVE_PATH } from '../../Game/Manager/EntityManager';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 
@@ -20,9 +20,19 @@ export class LevelEditor {
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
     }
 
+    public GetMapDataPath(): string {
+        const world = EditorLevelLibrary.GetEditorWorld();
+        return gameConfig.GetCurrentMapDataPath(world);
+    }
+
+    public GetMapSavePath(): string {
+        const world = EditorLevelLibrary.GetEditorWorld();
+        return gameConfig.GetCurrentMapSavePath(world);
+    }
+
     public Save(): void {
         const entities = LevelEditorUtil.GetAllEntitiesByEditorWorld();
-        this.LevelSerializer.Save(entities, undefined, LEVEL_SAVE_PATH);
+        this.LevelSerializer.Save(entities, undefined, this.GetMapDataPath());
     }
 
     private OnPreBeginPie(): void {

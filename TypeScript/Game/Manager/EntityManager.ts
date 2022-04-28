@@ -1,18 +1,16 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { EFileRoot, MyFileHelper } from 'ue';
+import { MyFileHelper } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
+import { gameConfig } from '../Common/Config';
 import { TsEntity } from '../Entity/Public';
 import { IEntityMananger, IEntityState, IGameContext, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { ILevelState, LevelSerializer } from '../Serialize/LevelSerializer';
 import { IManager } from './Interface';
-
-export const LEVEL_SAVE_PATH = MyFileHelper.GetPath(EFileRoot.Content, 'Demo/Map.json');
-export const STATE_SAVE_PATH = MyFileHelper.GetPath(EFileRoot.Save, 'Demo.json');
 
 export class EntityManager implements IManager, IEntityMananger {
     private readonly LevelSerializer: LevelSerializer = new LevelSerializer();
@@ -31,10 +29,12 @@ export class EntityManager implements IManager, IEntityMananger {
         this.Context = context;
 
         let levelState: ILevelState = undefined;
-        if (MyFileHelper.Exist(STATE_SAVE_PATH)) {
-            levelState = this.LevelSerializer.Load(STATE_SAVE_PATH);
+        const mapSavePath = gameConfig.GetCurrentMapSavePath(context.World);
+        if (MyFileHelper.Exist(mapSavePath)) {
+            levelState = this.LevelSerializer.Load(mapSavePath);
         } else {
-            levelState = this.LevelSerializer.Load(LEVEL_SAVE_PATH);
+            const mapDataPath = gameConfig.GetCurrentMapDataPath(context.World);
+            levelState = this.LevelSerializer.Load(mapDataPath);
         }
 
         if (levelState.Player) {
@@ -104,7 +104,8 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     public Save(): void {
-        this.LevelSerializer.Save(this.Entities, this.Context.Player, STATE_SAVE_PATH);
+        const mapSavePath = gameConfig.GetCurrentMapSavePath(this.Context.World);
+        this.LevelSerializer.Save(this.Entities, this.Context.Player, mapSavePath);
     }
 
     public RemoveEntity(...entities: ITsEntity[]): void {

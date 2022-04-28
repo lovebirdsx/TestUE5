@@ -10,16 +10,24 @@ const Log_1 = require("../../Common/Log");
 class TsHud extends ue_1.HUD {
     // @no-blueprint
     UiTalkerDisplay;
+    // @no-blueprint
+    UiInteractDisplay;
     Constructor() {
         const classObj = UE.Class.Load('/Game/Demo/UI/UI_TalkDisplayer.UI_TalkDisplayer_C');
         this.UiTalkerDisplay = ue_1.UMGManager.CreateWidget(this.GetWorld(), classObj);
+        const interactObj = UE.Class.Load('/Game/Demo/UI/UI_Interact.UI_Interact_C');
+        this.UiInteractDisplay = ue_1.UMGManager.CreateWidget(this.GetWorld(), interactObj);
     }
     ReceiveBeginPlay() {
         this.UiTalkerDisplay.AddToViewport();
+        this.UiInteractDisplay.AddToViewport();
         // void this.Test();
     }
     get TalkerDisplay() {
         return this.UiTalkerDisplay;
+    }
+    get InteractDisplay() {
+        return this.UiInteractDisplay;
     }
     // @no-blueprint
     ShowOptions(optionTexts) {

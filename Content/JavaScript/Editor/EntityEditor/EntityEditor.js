@@ -10,7 +10,6 @@ const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const Public_1 = require("../../Game/Entity/Public");
-const EntityManager_1 = require("../../Game/Manager/EntityManager");
 const Public_2 = require("../../Game/Scheme/Entity/Public");
 const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
@@ -29,7 +28,6 @@ function canRedo(state) {
 }
 class EntityEditor extends React.Component {
     LastApplyEntityState;
-    DetectEditorPlayingHander;
     LevelEditor = new LevelEditor_1.LevelEditor();
     constructor(props) {
         super(props);
@@ -97,24 +95,31 @@ class EntityEditor extends React.Component {
         entity.OnDestroyed.Remove(this.OnEntityDestory);
         entity.OnDestroyed.Add(this.OnEntityDestory);
     };
-    DetectEditorPlaying = () => {
-        const isEditorPlaying = LevelEditorUtil_1.default.IsPlaying;
-        if (isEditorPlaying !== this.state.IsEditorPlaying) {
+    OnBeginPie = () => {
+        this.setState({
+            IsEditorPlaying: true,
+        });
+    };
+    OnEndPie = () => {
+        // 延迟一下再设定状态,否则React会报错
+        setTimeout(() => {
             this.setState({
-                IsEditorPlaying: isEditorPlaying,
+                IsEditorPlaying: false,
             });
-        }
+        }, 100);
     };
     // eslint-disable-next-line @typescript-eslint/naming-convention
     UNSAFE_componentWillMount() {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Add(this.OnSelectionChanged);
-        this.DetectEditorPlayingHander = setInterval(this.DetectEditorPlaying, 500);
+        editorEvent.OnBeginPie.Add(this.OnBeginPie);
+        editorEvent.OnEndPie.Add(this.OnEndPie);
     }
     ComponentWillUnmount() {
         const editorEvent = ue_1.EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
-        clearInterval(this.DetectEditorPlayingHander);
+        editorEvent.OnBeginPie.Remove(this.OnBeginPie);
+        editorEvent.OnEndPie.Remove(this.OnEndPie);
     }
     get EntityState() {
         return this.state.Histories[this.state.StepId];
@@ -181,14 +186,15 @@ class EntityEditor extends React.Component {
         this.LevelEditor.Save();
     };
     OpenMapFile = () => {
-        (0, Util_1.openFile)(EntityManager_1.LEVEL_SAVE_PATH);
+        (0, Util_1.openFile)(this.LevelEditor.GetMapDataPath());
     };
     OpenSavaFile = () => {
-        (0, Util_1.openFile)(EntityManager_1.STATE_SAVE_PATH);
+        (0, Util_1.openFile)(this.LevelEditor.GetMapSavePath());
     };
     RemoveSavaFile = () => {
-        ue_1.MyFileHelper.Remove(EntityManager_1.STATE_SAVE_PATH);
-        (0, Log_1.log)(`Remove file ${EntityManager_1.STATE_SAVE_PATH}`);
+        const path = this.LevelEditor.GetMapSavePath();
+        ue_1.MyFileHelper.Remove(path);
+        (0, Log_1.log)(`Remove file ${path}`);
     };
     Undo = () => {
         if (!canUndo(this.state)) {
@@ -213,13 +219,16 @@ class EntityEditor extends React.Component {
         return `${state.StepId + 1} / ${state.Histories.length}`;
     };
     RenderToolbar() {
+        if (this.state.IsEditorPlaying) {
+            return React.createElement(CommonComponent_1.SlotText, { Text: '游戏运行中,无法进行编辑' });
+        }
         return (React.createElement(react_umg_1.VerticalBox, null,
             React.createElement(react_umg_1.HorizontalBox, null,
-                React.createElement(CommonComponent_1.SlotText, { Text: '地图配置:', Tip: EntityManager_1.LEVEL_SAVE_PATH }),
+                React.createElement(CommonComponent_1.SlotText, { Text: '地图配置:', Tip: this.LevelEditor.GetMapDataPath() }),
                 React.createElement(CommonComponent_1.Btn, { Text: '保存', OnClick: this.SaveMap, Tip: `保存场景状态` }),
                 React.createElement(CommonComponent_1.Btn, { Text: '打开', OnClick: this.OpenMapFile, Tip: `打开地图配置文件` })),
             React.createElement(react_umg_1.HorizontalBox, null,
-                React.createElement(CommonComponent_1.SlotText, { Text: '存档文件:', Tip: EntityManager_1.STATE_SAVE_PATH }),
+                React.createElement(CommonComponent_1.SlotText, { Text: '存档文件:', Tip: this.LevelEditor.GetMapSavePath() }),
                 React.createElement(CommonComponent_1.Btn, { Text: '打开', OnClick: this.OpenSavaFile, Tip: `打开游戏存档文件` }),
                 React.createElement(CommonComponent_1.Btn, { Text: '删除', OnClick: this.RemoveSavaFile, Tip: `删除游戏存档文件` })),
             React.createElement(react_umg_1.HorizontalBox, null,

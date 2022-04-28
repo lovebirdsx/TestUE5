@@ -1,16 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EntityManager = exports.STATE_SAVE_PATH = exports.LEVEL_SAVE_PATH = void 0;
+exports.EntityManager = void 0;
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
 const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Common/Log");
+const Config_1 = require("../Common/Config");
 const EntitySerializer_1 = require("../Serialize/EntitySerializer");
 const LevelSerializer_1 = require("../Serialize/LevelSerializer");
-exports.LEVEL_SAVE_PATH = ue_1.MyFileHelper.GetPath(ue_1.EFileRoot.Content, 'Demo/Map.json');
-exports.STATE_SAVE_PATH = ue_1.MyFileHelper.GetPath(ue_1.EFileRoot.Save, 'Demo.json');
 class EntityManager {
     LevelSerializer = new LevelSerializer_1.LevelSerializer();
     EntityMap = new Map();
@@ -21,11 +20,13 @@ class EntityManager {
     Init(context) {
         this.Context = context;
         let levelState = undefined;
-        if (ue_1.MyFileHelper.Exist(exports.STATE_SAVE_PATH)) {
-            levelState = this.LevelSerializer.Load(exports.STATE_SAVE_PATH);
+        const mapSavePath = Config_1.gameConfig.GetCurrentMapSavePath(context.World);
+        if (ue_1.MyFileHelper.Exist(mapSavePath)) {
+            levelState = this.LevelSerializer.Load(mapSavePath);
         }
         else {
-            levelState = this.LevelSerializer.Load(exports.LEVEL_SAVE_PATH);
+            const mapDataPath = Config_1.gameConfig.GetCurrentMapDataPath(context.World);
+            levelState = this.LevelSerializer.Load(mapDataPath);
         }
         if (levelState.Player) {
             EntitySerializer_1.entitySerializer.ApplyPlayerState(this.Context.Player, levelState.Player);
@@ -81,7 +82,8 @@ class EntityManager {
         }
     }
     Save() {
-        this.LevelSerializer.Save(this.Entities, this.Context.Player, exports.STATE_SAVE_PATH);
+        const mapSavePath = Config_1.gameConfig.GetCurrentMapSavePath(this.Context.World);
+        this.LevelSerializer.Save(this.Entities, this.Context.Player, mapSavePath);
     }
     RemoveEntity(...entities) {
         this.EntitiesToDestroy.push(...entities);

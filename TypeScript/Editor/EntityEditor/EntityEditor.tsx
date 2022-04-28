@@ -10,7 +10,6 @@ import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { TsEntity } from '../../Game/Entity/Public';
 import { TEntityPureData } from '../../Game/Interface';
-import { LEVEL_SAVE_PATH, STATE_SAVE_PATH } from '../../Game/Manager/EntityManager';
 import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
@@ -45,8 +44,6 @@ function canRedo(state: IEntityEditorState): boolean {
 
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private LastApplyEntityState: IEntityState;
-
-    private DetectEditorPlayingHander: NodeJS.Timer;
 
     private readonly LevelEditor: LevelEditor = new LevelEditor();
 
@@ -130,28 +127,34 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         entity.OnDestroyed.Add(this.OnEntityDestory);
     };
 
-    private readonly DetectEditorPlaying = (): void => {
-        const isEditorPlaying = LevelEditorUtil.IsPlaying;
-        if (isEditorPlaying !== this.state.IsEditorPlaying) {
+    private readonly OnBeginPie = (): void => {
+        this.setState({
+            IsEditorPlaying: true,
+        });
+    };
+
+    private readonly OnEndPie = (): void => {
+        // 延迟一下再设定状态,否则React会报错
+        setTimeout(() => {
             this.setState({
-                IsEditorPlaying: isEditorPlaying,
+                IsEditorPlaying: false,
             });
-        }
+        }, 100);
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public UNSAFE_componentWillMount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Add(this.OnSelectionChanged);
-
-        this.DetectEditorPlayingHander = setInterval(this.DetectEditorPlaying, 500);
+        editorEvent.OnBeginPie.Add(this.OnBeginPie);
+        editorEvent.OnEndPie.Add(this.OnEndPie);
     }
 
     public ComponentWillUnmount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
-
-        clearInterval(this.DetectEditorPlayingHander);
+        editorEvent.OnBeginPie.Remove(this.OnBeginPie);
+        editorEvent.OnEndPie.Remove(this.OnEndPie);
     }
 
     private get EntityState(): IEntityState {
@@ -234,16 +237,17 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly OpenMapFile = (): void => {
-        openFile(LEVEL_SAVE_PATH);
+        openFile(this.LevelEditor.GetMapDataPath());
     };
 
     private readonly OpenSavaFile = (): void => {
-        openFile(STATE_SAVE_PATH);
+        openFile(this.LevelEditor.GetMapSavePath());
     };
 
     private readonly RemoveSavaFile = (): void => {
-        MyFileHelper.Remove(STATE_SAVE_PATH);
-        log(`Remove file ${STATE_SAVE_PATH}`);
+        const path = this.LevelEditor.GetMapSavePath();
+        MyFileHelper.Remove(path);
+        log(`Remove file ${path}`);
     };
 
     private readonly Undo = (): void => {
@@ -276,15 +280,19 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private RenderToolbar(): JSX.Element {
+        if (this.state.IsEditorPlaying) {
+            return <SlotText Text={'游戏运行中,无法进行编辑'} />;
+        }
+
         return (
             <VerticalBox>
                 <HorizontalBox>
-                    <SlotText Text={'地图配置:'} Tip={LEVEL_SAVE_PATH} />
+                    <SlotText Text={'地图配置:'} Tip={this.LevelEditor.GetMapDataPath()} />
                     <Btn Text={'保存'} OnClick={this.SaveMap} Tip={`保存场景状态`} />
                     <Btn Text={'打开'} OnClick={this.OpenMapFile} Tip={`打开地图配置文件`} />
                 </HorizontalBox>
                 <HorizontalBox>
-                    <SlotText Text={'存档文件:'} Tip={STATE_SAVE_PATH} />
+                    <SlotText Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
                     <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={`打开游戏存档文件`} />
                     <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={`删除游戏存档文件`} />
                 </HorizontalBox>

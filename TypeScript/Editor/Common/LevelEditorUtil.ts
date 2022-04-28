@@ -1,18 +1,16 @@
-import { $ref } from 'puerts';
 import {
     Actor,
     BuiltinString,
     EditorAssetLibrary,
     EditorLevelLibrary,
     EditorOperations,
-    GameplayStatics,
     NewArray,
-    World,
 } from 'ue';
 
-import { getAssetPath, getUeClassByTsClass } from '../../Common/Class';
+import { getAssetPath } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
+import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { TsEntity } from '../../Game/Entity/Public';
 
 class LevelEditorUtil {
@@ -39,17 +37,6 @@ class LevelEditorUtil {
         return EditorOperations.GetEditorEngine().PlayWorld !== undefined;
     }
 
-    public static GetAllEntities(world: World): TsEntity[] {
-        const actors = NewArray(Actor);
-        GameplayStatics.GetAllActorsOfClass(world, getUeClassByTsClass(TsEntity), $ref(actors));
-        const result: TsEntity[] = [];
-        for (let i = 0; i < actors.Num(); i++) {
-            const actor = actors.Get(i);
-            result.push(actor as TsEntity);
-        }
-        return result;
-    }
-
     public static GetAllEntitiesByEditorWorld(): TsEntity[] {
         const world = EditorLevelLibrary.GetEditorWorld();
         if (!world) {
@@ -57,7 +44,7 @@ class LevelEditorUtil {
             return [];
         }
 
-        return this.GetAllEntities(world);
+        return LevelUtil.GetAllEntities(world);
     }
 }
 

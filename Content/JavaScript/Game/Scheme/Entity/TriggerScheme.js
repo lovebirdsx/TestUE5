@@ -16,6 +16,12 @@ exports.actionsJsonScheme = (0, Type_1.createStringScheme)({
     Name: 'ActionsJson',
     IsJson: true,
     NewLine: true,
+    CreateDefault: () => {
+        const triggerActions = {
+            Actions: [],
+        };
+        return JSON.stringify(triggerActions, null, 2);
+    },
 });
 exports.triggerScheme = (0, Type_1.createObjectScheme)({
     Name: 'TsTrigger',

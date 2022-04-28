@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const puerts_1 = require("puerts");
 const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const UeHelper_1 = require("../../Common/UeHelper");
-const Public_1 = require("../../Game/Entity/Public");
+const LevelUtil_1 = require("../../Game/Common/LevelUtil");
 class LevelEditorUtil {
     static SelectActor(actor) {
         if (!actor) {
@@ -26,23 +25,13 @@ class LevelEditorUtil {
     static get IsPlaying() {
         return ue_1.EditorOperations.GetEditorEngine().PlayWorld !== undefined;
     }
-    static GetAllEntities(world) {
-        const actors = (0, ue_1.NewArray)(ue_1.Actor);
-        ue_1.GameplayStatics.GetAllActorsOfClass(world, (0, Class_1.getUeClassByTsClass)(Public_1.TsEntity), (0, puerts_1.$ref)(actors));
-        const result = [];
-        for (let i = 0; i < actors.Num(); i++) {
-            const actor = actors.Get(i);
-            result.push(actor);
-        }
-        return result;
-    }
     static GetAllEntitiesByEditorWorld() {
         const world = ue_1.EditorLevelLibrary.GetEditorWorld();
         if (!world) {
             (0, Log_1.error)('No editor world exist');
             return [];
         }
-        return this.GetAllEntities(world);
+        return LevelUtil_1.LevelUtil.GetAllEntities(world);
     }
 }
 exports.default = LevelEditorUtil;

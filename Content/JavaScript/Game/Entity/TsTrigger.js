@@ -39,6 +39,7 @@ class TsTrigger extends TsEntity_1.default {
         this.State = this.Entity.GetComponent(StateComponent_1.default);
         this.Handler = this.ActonRunner.SpawnHandler((0, Action_1.parseTriggerActionsJson)(this.TriggerActionsJson).Actions);
     }
+    // @no-blueprint
     Load() {
         super.Load();
         this.TriggerTimes = this.State.GetState('TriggerTimes') || 0;
@@ -51,13 +52,13 @@ class TsTrigger extends TsEntity_1.default {
         (0, Log_1.log)(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
     ReceiveActorBeginOverlap(other) {
+        if (!(other instanceof TsPlayer_1.default)) {
+            return;
+        }
         if (this.TriggerTimes >= this.MaxTriggerTimes) {
             return;
         }
         if (this.Handler.IsRunning) {
-            return;
-        }
-        if (!(other instanceof TsPlayer_1.default)) {
             return;
         }
         this.DoTrigger();

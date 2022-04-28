@@ -51,7 +51,9 @@ class EntitySchemeRegistry {
 
         const result: TEntityPureData = {
             // 转换为Object,方便查看序列化之后的字符串
-            ComponentsStateJson: JSON.parse(obj.ComponentsStateJson) as TComponentsState,
+            ComponentsStateJson: obj.ComponentsStateJson
+                ? (JSON.parse(obj.ComponentsStateJson) as TComponentsState)
+                : {},
             Guid: obj.Guid,
         };
 
@@ -63,10 +65,11 @@ class EntitySchemeRegistry {
 
             // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
             if (fieldScheme.IsJson) {
-                const fileValue = obj[fieldName] as string;
-                if (fileValue) {
-                    result[fieldName] = JSON.parse(fileValue);
+                let fileValue = obj[fieldName] as string;
+                if (!fileValue) {
+                    fileValue = fieldScheme.CreateDefault();
                 }
+                result[fieldName] = JSON.parse(fileValue);
             } else {
                 result[fieldName] = obj[fieldName] as unknown;
             }

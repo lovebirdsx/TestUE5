@@ -46,6 +46,7 @@ export class TsTrigger extends TsEntity implements ITsTrigger {
         );
     }
 
+    // @no-blueprint
     public Load(): void {
         super.Load();
         this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
@@ -60,15 +61,15 @@ export class TsTrigger extends TsEntity implements ITsTrigger {
     }
 
     public ReceiveActorBeginOverlap(other: Actor): void {
+        if (!(other instanceof TsPlayer)) {
+            return;
+        }
+
         if (this.TriggerTimes >= this.MaxTriggerTimes) {
             return;
         }
 
         if (this.Handler.IsRunning) {
-            return;
-        }
-
-        if (!(other instanceof TsPlayer)) {
             return;
         }
 

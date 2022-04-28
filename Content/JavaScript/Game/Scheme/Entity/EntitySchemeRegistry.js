@@ -41,7 +41,9 @@ class EntitySchemeRegistry {
         }
         const result = {
             // 转换为Object,方便查看序列化之后的字符串
-            ComponentsStateJson: JSON.parse(obj.ComponentsStateJson),
+            ComponentsStateJson: obj.ComponentsStateJson
+                ? JSON.parse(obj.ComponentsStateJson)
+                : {},
             Guid: obj.Guid,
         };
         for (const fieldName in scheme.Fields) {
@@ -51,10 +53,11 @@ class EntitySchemeRegistry {
             }
             // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
             if (fieldScheme.IsJson) {
-                const fileValue = obj[fieldName];
-                if (fileValue) {
-                    result[fieldName] = JSON.parse(fileValue);
+                let fileValue = obj[fieldName];
+                if (!fileValue) {
+                    fileValue = fieldScheme.CreateDefault();
                 }
+                result[fieldName] = JSON.parse(fileValue);
             }
             else {
                 result[fieldName] = obj[fieldName];

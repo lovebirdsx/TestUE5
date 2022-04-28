@@ -8,6 +8,7 @@ const ue_1 = require("ue");
 const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Common/Log");
 const Config_1 = require("../Common/Config");
+const LevelUtil_1 = require("../Common/LevelUtil");
 const EntitySerializer_1 = require("../Serialize/EntitySerializer");
 const LevelSerializer_1 = require("../Serialize/LevelSerializer");
 class EntityManager {
@@ -19,13 +20,37 @@ class EntityManager {
     Context;
     Init(context) {
         this.Context = context;
+        const levelSettings = context.World.K2_GetWorldSettings();
+        if (levelSettings.DisableCustomEntityLoad) {
+            this.InitAllExistEntites();
+        }
+        else {
+            this.RemoveAllExistEntites();
+            this.LoadState();
+        }
+    }
+    RemoveAllExistEntites() {
+        const entities = LevelUtil_1.LevelUtil.GetAllEntities(this.Context.World);
+        entities.forEach((entity) => {
+            entity.K2_DestroyActor();
+        });
+    }
+    InitAllExistEntites() {
+        const entities = LevelUtil_1.LevelUtil.GetAllEntities(this.Context.World);
+        entities.forEach((entity) => {
+            entity.Init(this.Context);
+            entity.Load();
+        });
+        this.EntitiesToSpawn.push(...entities);
+    }
+    LoadState() {
         let levelState = undefined;
-        const mapSavePath = Config_1.gameConfig.GetCurrentMapSavePath(context.World);
+        const mapSavePath = Config_1.gameConfig.GetCurrentMapSavePath(this.Context.World);
         if (ue_1.MyFileHelper.Exist(mapSavePath)) {
             levelState = this.LevelSerializer.Load(mapSavePath);
         }
         else {
-            const mapDataPath = Config_1.gameConfig.GetCurrentMapDataPath(context.World);
+            const mapDataPath = Config_1.gameConfig.GetCurrentMapDataPath(this.Context.World);
             levelState = this.LevelSerializer.Load(mapDataPath);
         }
         if (levelState.Player) {
@@ -91,7 +116,7 @@ class EntityManager {
     async LoadSync() {
         this.RemoveEntity(...this.Entities);
         await (0, Async_1.delay)(0.1);
-        this.Init(this.Context);
+        this.LoadState();
     }
     Load() {
         void this.LoadSync();

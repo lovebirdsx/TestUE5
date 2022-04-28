@@ -1,11 +1,12 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { MyFileHelper } from 'ue';
+import { DemoWorldSettings, MyFileHelper } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { gameConfig } from '../Common/Config';
+import { LevelUtil } from '../Common/LevelUtil';
 import { TsEntity } from '../Entity/Public';
 import { IEntityMananger, IEntityState, IGameContext, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
@@ -27,13 +28,38 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Init(context: IGameContext): void {
         this.Context = context;
+        const levelSettings = context.World.K2_GetWorldSettings() as DemoWorldSettings;
+        if (levelSettings.DisableCustomEntityLoad) {
+            this.InitAllExistEntites();
+        } else {
+            this.RemoveAllExistEntites();
+            this.LoadState();
+        }
+    }
 
+    private RemoveAllExistEntites(): void {
+        const entities = LevelUtil.GetAllEntities(this.Context.World);
+        entities.forEach((entity) => {
+            entity.K2_DestroyActor();
+        });
+    }
+
+    private InitAllExistEntites(): void {
+        const entities = LevelUtil.GetAllEntities(this.Context.World);
+        entities.forEach((entity) => {
+            entity.Init(this.Context);
+            entity.Load();
+        });
+        this.EntitiesToSpawn.push(...entities);
+    }
+
+    private LoadState(): void {
         let levelState: ILevelState = undefined;
-        const mapSavePath = gameConfig.GetCurrentMapSavePath(context.World);
+        const mapSavePath = gameConfig.GetCurrentMapSavePath(this.Context.World);
         if (MyFileHelper.Exist(mapSavePath)) {
             levelState = this.LevelSerializer.Load(mapSavePath);
         } else {
-            const mapDataPath = gameConfig.GetCurrentMapDataPath(context.World);
+            const mapDataPath = gameConfig.GetCurrentMapDataPath(this.Context.World);
             levelState = this.LevelSerializer.Load(mapDataPath);
         }
 
@@ -115,7 +141,7 @@ export class EntityManager implements IManager, IEntityMananger {
     private async LoadSync(): Promise<void> {
         this.RemoveEntity(...this.Entities);
         await delay(0.1);
-        this.Init(this.Context);
+        this.LoadState();
     }
 
     public Load(): void {

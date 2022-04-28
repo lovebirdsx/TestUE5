@@ -23,6 +23,12 @@ export const actionsJsonScheme = createStringScheme({
     Name: 'ActionsJson',
     IsJson: true,
     NewLine: true,
+    CreateDefault: () => {
+        const triggerActions: ITriggerActions = {
+            Actions: [],
+        };
+        return JSON.stringify(triggerActions, null, 2);
+    },
 });
 
 export const triggerScheme = createObjectScheme<ITsTrigger>({

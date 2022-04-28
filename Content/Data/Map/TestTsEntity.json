@@ -1,0 +1,103 @@
+﻿{
+  "Entities": [
+    {
+      "PrefabId": 1,
+      "Pos": [
+        -999.999999,
+        -0.000019419122176141828,
+        0
+      ],
+      "Rotation": [
+        0,
+        0,
+        -89.999999
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "FlowComponent": {
+            "InitState": {
+              "FlowListName": "流程_测试",
+              "FlowId": 4,
+              "StateId": 1
+            }
+          }
+        },
+        "Guid": "14340C7D47C4FA3FEE22B280A39EBCF8"
+      }
+    },
+    {
+      "PrefabId": 1,
+      "Pos": [
+        -429.9999990000001,
+        -0.00002894837664913817,
+        0
+      ],
+      "Rotation": [
+        0,
+        0,
+        -89.999999
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "FlowComponent": {
+            "InitState": {
+              "FlowListName": "流程_测试",
+              "FlowId": 3,
+              "StateId": 1
+            }
+          }
+        },
+        "Guid": "72BC7A1B40ADC4F96ACF7D8CF859F017"
+      }
+    },
+    {
+      "PrefabId": 1,
+      "Pos": [
+        180.00000133847732,
+        -0.00000900429704842054,
+        0
+      ],
+      "Rotation": [
+        0,
+        0,
+        -89.9999993028268
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "FlowComponent": {
+            "InitState": {
+              "FlowListName": "流程_测试",
+              "FlowId": 1,
+              "StateId": 1
+            }
+          }
+        },
+        "Guid": "A45C82A54F31921FCC0A29ABAE2A88D3"
+      }
+    },
+    {
+      "PrefabId": 2,
+      "Pos": [
+        775.0443434715271,
+        -31.215629825690257,
+        -0.49990276573345227
+      ],
+      "PureData": {
+        "ComponentsStateJson": {},
+        "Guid": "3E72481D4E37C346FB9120A89A5C525A",
+        "MaxTriggerTimes": 2,
+        "TriggerActionsJson": {
+          "Actions": [
+            {
+              "Name": "ShowMessage",
+              "Params": {
+                "Content": "Hello Message"
+              }
+            }
+          ],
+          "_ActionsFolded": false
+        }
+      }
+    }
+  ]
+}

@@ -43,6 +43,12 @@ FString UMyFileHelper::Read(const FString Path)
 	return Result;
 }
 
+bool UMyFileHelper::Exist(const FString Path)
+{
+	IPlatformFile& PlatformFile	 = FPlatformFileManager::Get().GetPlatformFile();
+	return PlatformFile.FileExists(*Path);
+}
+
 bool UMyFileHelper::Write(const FString Path, FString Content)
 {	
 	return FFileHelper::SaveStringToFile(Content, *Path, FFileHelper::EEncodingOptions::ForceUTF8);		

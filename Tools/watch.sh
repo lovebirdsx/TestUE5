@@ -1,4 +1,3 @@
-cd ..
 rm Content/JavaScript/Game -rf
 rm Content/JavaScript/Editor -rf
 rm Content/JavaScript/Common -rf

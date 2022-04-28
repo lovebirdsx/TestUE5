@@ -5,7 +5,6 @@
 import { error, log } from '../../Common/Log';
 import TsEntityComponent from '../Entity/TsEntityComponent';
 import { IActionInfo, parseTriggerActionsJson, TActionFun, TActionType } from './Action';
-import { globalActionsRunner } from './GlobalActionsRunner';
 
 export class ActionRunnerHandler {
     private MyIsRunning: boolean;
@@ -82,10 +81,10 @@ class TsActionRunnerComponent extends TsEntityComponent {
 
     // @no-blueprint
     public async ExecuteOne(action: IActionInfo): Promise<void> {
-        if (globalActionsRunner.ContainsAction(action.Name)) {
-            await globalActionsRunner.ExecuteOne(action);
-            return;
-        }
+        // if (globalActionsRunner.ContainsAction(action.Name)) {
+        //     await globalActionsRunner.ExecuteOne(action);
+        //     return;
+        // }
 
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {

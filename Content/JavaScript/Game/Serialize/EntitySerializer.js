@@ -38,6 +38,10 @@ function genTransform(state) {
     return transform;
 }
 function genState(entity) {
+    // 编辑器模式下, Entity是不存在的,故而没有必要生成其状态
+    if (entity.Entity === undefined) {
+        return undefined;
+    }
     const stateComponent = entity.Entity.TryGetComponent(StateComponent_1.default);
     if (!stateComponent) {
         return undefined;
@@ -66,20 +70,28 @@ class EntitySerializer {
             State: genState(entity),
         };
     }
+    SpawnEntityByState(context, state) {
+        const actorClass = (0, Class_1.getBlueprintType)(state.PrefabId);
+        const transfrom = genTransform(state);
+        const entity = ue_1.GameplayStatics.BeginDeferredActorSpawnFromClass(context.World, actorClass, transfrom);
+        ue_1.GameplayStatics.FinishSpawningActor(entity, transfrom);
+        Public_1.entitySchemeRegistry.ApplyData(state.PureData, entity);
+        entity.Init(context);
+        applyState(entity, state.State);
+        entity.Load();
+        return entity;
+    }
     GenPlayerState(player) {
         return {
             Pos: vectorToArray(player.K2_GetActorLocation()),
             Rotation: genRotationArray(player.K2_GetActorRotation().Euler()),
         };
     }
-    SpawnEntityByState(world, state) {
-        const actorClass = (0, Class_1.getBlueprintType)(state.PrefabId);
-        const transfrom = genTransform(state);
-        const entity = ue_1.GameplayStatics.BeginDeferredActorSpawnFromClass(world, actorClass, transfrom);
-        ue_1.GameplayStatics.FinishSpawningActor(entity, transfrom);
-        Public_1.entitySchemeRegistry.ApplyData(state.PureData, entity);
-        applyState(entity, state.State);
-        return entity;
+    ApplyPlayerState(player, state) {
+        const pos = arrayToVector(state.Pos);
+        player.K2_SetActorLocation(pos, false, undefined, false);
+        const rotator = ue_1.Rotator.MakeFromEuler(arrayToVector(state.Rotation));
+        player.K2_SetActorRotation(rotator, false);
     }
 }
 exports.entitySerializer = new EntitySerializer();

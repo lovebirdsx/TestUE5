@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Entity_1 = require("../../Common/Entity");
-class StateComponent extends Entity_1.Component {
+const Interface_1 = require("../Interface");
+class StateComponent extends Interface_1.Component {
     StateMap = new Map();
     GetState(key) {
         return this.StateMap.get(key);

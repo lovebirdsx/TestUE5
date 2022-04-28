@@ -1,20 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globalActionsRunner = void 0;
+exports.GlobalActionsRunner = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const Async_1 = require("../../Common/Async");
 const Log_1 = require("../../Common/Log");
 const UeHelper_1 = require("../../Common/UeHelper");
-const TsPlayer_1 = require("../Player/TsPlayer");
-const TsPlayerController_1 = require("../Player/TsPlayerController");
 class GlobalActionsRunner {
     ActionMap;
+    Context;
     constructor() {
         this.ActionMap = new Map();
         this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
         this.ActionMap.set('ShowMessage', this.ExecuteShowMessage.bind(this));
         this.ActionMap.set('SetFlowBoolOption', this.ExecuteSetFlowBoolOption.bind(this));
+    }
+    Init(context) {
+        this.Context = context;
+    }
+    Exit() {
+        //
     }
     ContainsAction(actionType) {
         return this.ActionMap.has(actionType);
@@ -60,14 +65,11 @@ class GlobalActionsRunner {
         const action = actionInfo.Params;
         switch (action.Option) {
             case 'DisableInput':
-                {
-                    const playerController = TsPlayerController_1.default.Instance;
-                    if (action.Value) {
-                        TsPlayer_1.default.Instance.DisableInput(playerController);
-                    }
-                    else {
-                        TsPlayer_1.default.Instance.EnableInput(playerController);
-                    }
+                if (action.Value) {
+                    this.Context.Player.DisableInput(this.Context.PlayerController);
+                }
+                else {
+                    this.Context.Player.EnableInput(this.Context.PlayerController);
                 }
                 break;
             default:
@@ -76,5 +78,5 @@ class GlobalActionsRunner {
         }
     }
 }
-exports.globalActionsRunner = new GlobalActionsRunner();
+exports.GlobalActionsRunner = GlobalActionsRunner;
 //# sourceMappingURL=GlobalActionsRunner.js.map

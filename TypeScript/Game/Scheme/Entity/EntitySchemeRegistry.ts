@@ -2,14 +2,12 @@
 import * as UE from 'ue';
 
 import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../../Common/Class';
-import { TComponentClass } from '../../../Common/Entity';
 import { error } from '../../../Common/Log';
 import { ObjectScheme, StringScheme } from '../../../Common/Type';
 import { entityRegistry } from '../../Entity/EntityRegistry';
-import { TComponentsState, TEntityPureData } from '../../Entity/Interface';
-import { TsEntity } from '../../Entity/Public';
+import { ITsEntity, TComponentClass, TComponentsState, TEntityPureData } from '../../Interface';
 
-class EditorEntityRegistry {
+class EntitySchemeRegistry {
     private readonly SchemeMap: Map<UE.Class, ObjectScheme<unknown>> = new Map();
 
     public RegScheme(classType: TTsClassType, scheme: ObjectScheme<unknown>): void {
@@ -45,7 +43,7 @@ class EditorEntityRegistry {
         return entityRegistry.GetComponents(tsClassObj);
     }
 
-    public GenData<T extends TsEntity>(obj: T): TEntityPureData {
+    public GenData<T extends ITsEntity>(obj: T): TEntityPureData {
         const scheme = this.GetSchemeByUeClass(obj.GetClass());
         if (!scheme) {
             throw new Error(`No scheme for ${obj ? obj.GetName() : 'undefined'}`);
@@ -77,7 +75,7 @@ class EditorEntityRegistry {
         return result;
     }
 
-    public ApplyData<T extends TsEntity>(pureData: TEntityPureData, obj: T): void {
+    public ApplyData<T extends ITsEntity>(pureData: TEntityPureData, obj: T): void {
         const classObj = obj.GetClass();
         const scheme = this.GetSchemeByUeClass(classObj);
         for (const fieldName in scheme.Fields) {
@@ -108,4 +106,4 @@ class EditorEntityRegistry {
     }
 }
 
-export const entitySchemeRegistry = new EditorEntityRegistry();
+export const entitySchemeRegistry = new EntitySchemeRegistry();

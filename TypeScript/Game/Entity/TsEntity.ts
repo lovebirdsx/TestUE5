@@ -1,9 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, edit_on_instance } from 'ue';
 
-import { Entity, TComponentClass } from '../../Common/Entity';
 import { error } from '../../Common/Log';
-import { ITsEntity, ITsPlayer, parseComponentsState } from './Interface';
+import {
+    Entity,
+    IGameContext,
+    ITsEntity,
+    ITsPlayer,
+    parseComponentsState,
+    TComponentClass,
+} from '../Interface';
 
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 export const entityComponentClasses: TComponentClass[] = [];
@@ -23,9 +29,14 @@ export class TsEntity extends Actor implements ITsEntity {
     }
 
     // @no-blueprint
-    public Init(): void {
-        this.Entity = this.GenEntity();
+    public Init(context: IGameContext): void {
+        this.Entity = this.GenEntity(context);
         this.Entity.Init();
+    }
+
+    // @no-blueprint
+    public Load(): void {
+        this.Entity.Load();
     }
 
     // @no-blueprint
@@ -44,8 +55,8 @@ export class TsEntity extends Actor implements ITsEntity {
     }
 
     // @no-blueprint
-    private GenEntity(): Entity {
-        const entity = new Entity(this.GetName());
+    private GenEntity(context: IGameContext): Entity {
+        const entity = new Entity(this.GetName(), context);
         const componentsState = parseComponentsState(this.ComponentsStateJson);
         const componentClasses = this.GetComponentClasses();
         componentClasses.forEach((componentClass) => {

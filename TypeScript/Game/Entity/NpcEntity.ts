@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Entity } from '../../Common/Entity';
 import { FlowComponent } from '../Component/FlowComponent';
+import { Entity } from '../Interface';
 
 export interface IInteractable {
     Interact: () => Promise<void>;

@@ -4,11 +4,9 @@ import { CharacterMovementComponent, TestUE5Character } from 'ue';
 
 import { initCommon } from '../../Common/Init';
 import { error } from '../../Common/Log';
-import { ITsEntity, ITsPlayer } from '../Entity/Interface';
+import { ITsEntity, ITsPlayer } from '../Interface';
 
 class TsPlayer extends TestUE5Character implements ITsPlayer {
-    public static Instance: TsPlayer;
-
     private Movement: CharacterMovementComponent;
 
     private InitSpeed: number;
@@ -20,8 +18,6 @@ class TsPlayer extends TestUE5Character implements ITsPlayer {
     private MyIsInteracting: boolean;
 
     public Constructor(): void {
-        TsPlayer.Instance = this;
-
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];

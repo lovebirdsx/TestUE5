@@ -1,5 +1,5 @@
 import { createObjectScheme } from '../../../Common/Type';
-import { IFlowComponent } from '../../Entity/Interface';
+import { IFlowComponent } from '../../Interface';
 import { playFlowScheme } from '../Action/Public';
 
 export const flowComponentScheme = createObjectScheme<IFlowComponent>({

@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ActionRunnerComponent = exports.ActionRunnerHandler = void 0;
-const Entity_1 = require("../../Common/Entity");
 const Log_1 = require("../../Common/Log");
-const GlobalActionsRunner_1 = require("../Flow/GlobalActionsRunner");
+const Interface_1 = require("../Interface");
 class ActionRunnerHandler {
     MyIsRunning;
     Actions;
@@ -39,7 +38,7 @@ class ActionRunnerHandler {
     }
 }
 exports.ActionRunnerHandler = ActionRunnerHandler;
-class ActionRunnerComponent extends Entity_1.Component {
+class ActionRunnerComponent extends Interface_1.Component {
     ActionMap = new Map();
     RegisterActionFun(name, fun) {
         if (this.ActionMap.has(name)) {
@@ -51,8 +50,9 @@ class ActionRunnerComponent extends Entity_1.Component {
         return new ActionRunnerHandler(actions, this);
     }
     async ExecuteOne(action) {
-        if (GlobalActionsRunner_1.globalActionsRunner.ContainsAction(action.Name)) {
-            await GlobalActionsRunner_1.globalActionsRunner.ExecuteOne(action);
+        const globalActionsRunner = this.Context.GlobalActionsRunner;
+        if (globalActionsRunner.ContainsAction(action.Name)) {
+            await globalActionsRunner.ExecuteOne(action);
             return;
         }
         const actionFun = this.ActionMap.get(action.Name);

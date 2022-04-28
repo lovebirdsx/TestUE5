@@ -3,15 +3,15 @@
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule } from 'ue';
+import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import { TEntityPureData } from '../../Game/Entity/Interface';
 import { TsEntity } from '../../Game/Entity/Public';
+import { TEntityPureData } from '../../Game/Interface';
+import { LEVEL_SAVE_PATH, STATE_SAVE_PATH } from '../../Game/Manager/EntityManager';
 import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
-import { LEVEL_SAVE_PATH } from '../../Game/Serialize/LevelSerializer';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
@@ -229,12 +229,21 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         });
     }
 
-    private readonly Save = (): void => {
+    private readonly SaveMap = (): void => {
         this.LevelEditor.Save();
     };
 
-    private readonly Open = (): void => {
+    private readonly OpenMapFile = (): void => {
         openFile(LEVEL_SAVE_PATH);
+    };
+
+    private readonly OpenSavaFile = (): void => {
+        openFile(STATE_SAVE_PATH);
+    };
+
+    private readonly RemoveSavaFile = (): void => {
+        MyFileHelper.Remove(STATE_SAVE_PATH);
+        log(`Remove file ${STATE_SAVE_PATH}`);
     };
 
     private readonly Undo = (): void => {
@@ -271,8 +280,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             <VerticalBox>
                 <HorizontalBox>
                     <SlotText Text={LEVEL_SAVE_PATH} />
-                    <Btn Text={'保存'} OnClick={this.Save} Tip={`保存场景状态`} />
-                    <Btn Text={'打开'} OnClick={this.Open} Tip={`打开地图配置文件`} />
+                    <Btn Text={'保存'} OnClick={this.SaveMap} Tip={`保存场景状态`} />
+                    <Btn Text={'打开'} OnClick={this.OpenMapFile} Tip={`打开地图配置文件`} />
+                </HorizontalBox>
+                <HorizontalBox>
+                    <SlotText Text={STATE_SAVE_PATH} />
+                    <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={`打开游戏存储文件`} />
+                    <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={`删除游戏存储文件`} />
                 </HorizontalBox>
                 <HorizontalBox>
                     <Btn

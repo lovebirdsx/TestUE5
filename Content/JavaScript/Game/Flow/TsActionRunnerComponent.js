@@ -8,7 +8,6 @@ exports.ActionRunnerHandler = void 0;
 const Log_1 = require("../../Common/Log");
 const TsEntityComponent_1 = require("../Entity/TsEntityComponent");
 const Action_1 = require("./Action");
-const GlobalActionsRunner_1 = require("./GlobalActionsRunner");
 class ActionRunnerHandler {
     MyIsRunning;
     Actions;
@@ -68,10 +67,10 @@ class TsActionRunnerComponent extends TsEntityComponent_1.default {
     }
     // @no-blueprint
     async ExecuteOne(action) {
-        if (GlobalActionsRunner_1.globalActionsRunner.ContainsAction(action.Name)) {
-            await GlobalActionsRunner_1.globalActionsRunner.ExecuteOne(action);
-            return;
-        }
+        // if (globalActionsRunner.ContainsAction(action.Name)) {
+        //     await globalActionsRunner.ExecuteOne(action);
+        //     return;
+        // }
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {
             (0, Log_1.error)(`No action for action type [${action.Name}]`);

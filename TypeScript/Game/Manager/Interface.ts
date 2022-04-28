@@ -1,7 +1,7 @@
-import { World } from 'ue';
+import { IGameContext } from '../Interface';
 
 export interface IManager {
-    Init: (world: World) => void;
+    Init: (context: IGameContext) => void;
     Exit: () => void;
     Update?: () => void;
 }

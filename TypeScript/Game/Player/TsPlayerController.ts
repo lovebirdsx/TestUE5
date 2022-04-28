@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { GameplayStatics, PlayerController } from 'ue';
 
+import { IGameContext } from '../Interface';
 import TsPlayer from './TSPlayer';
 
 class TsPlayerController extends PlayerController {
-    public static Instance: TsPlayerController;
-
     private MyPlayer: TsPlayer;
 
-    public Constructor(): void {
-        TsPlayerController.Instance = this;
-    }
+    // @no-blueprint
+    public Context: IGameContext;
 
     public ReceiveBeginPlay(): void {
         this.MyPlayer = GameplayStatics.GetPlayerCharacter(this.GetWorld(), 0) as TsPlayer;
@@ -30,6 +28,14 @@ class TsPlayerController extends PlayerController {
 
     public Interact(): void {
         this.MyPlayer.TryInteract();
+    }
+
+    public Load(): void {
+        this.Context.EntityManager.Load();
+    }
+
+    public Save(): void {
+        this.Context.EntityManager.Save();
     }
 }
 

@@ -21,8 +21,8 @@ class TsNpc extends TsEntity_1.default {
     // @no-blueprint
     Flow;
     // @no-blueprint
-    Init() {
-        super.Init();
+    Init(context) {
+        super.Init(context);
         this.Flow = this.Entity.GetComponent(FlowComponent_1.FlowComponent);
     }
     // @no-blueprint

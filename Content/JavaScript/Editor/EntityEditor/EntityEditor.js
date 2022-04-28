@@ -10,8 +10,8 @@ const ue_1 = require("ue");
 const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const Public_1 = require("../../Game/Entity/Public");
+const EntityManager_1 = require("../../Game/Manager/EntityManager");
 const Public_2 = require("../../Game/Scheme/Entity/Public");
-const LevelSerializer_1 = require("../../Game/Serialize/LevelSerializer");
 const Color_1 = require("../Common/BaseComponent/Color");
 const CommonComponent_1 = require("../Common/BaseComponent/CommonComponent");
 const ErrorBoundary_1 = require("../Common/BaseComponent/ErrorBoundary");
@@ -177,11 +177,18 @@ class EntityEditor extends React.Component {
             };
         });
     }
-    Save = () => {
+    SaveMap = () => {
         this.LevelEditor.Save();
     };
-    Open = () => {
-        (0, Util_1.openFile)(LevelSerializer_1.LEVEL_SAVE_PATH);
+    OpenMapFile = () => {
+        (0, Util_1.openFile)(EntityManager_1.LEVEL_SAVE_PATH);
+    };
+    OpenSavaFile = () => {
+        (0, Util_1.openFile)(EntityManager_1.STATE_SAVE_PATH);
+    };
+    RemoveSavaFile = () => {
+        ue_1.MyFileHelper.Remove(EntityManager_1.STATE_SAVE_PATH);
+        (0, Log_1.log)(`Remove file ${EntityManager_1.STATE_SAVE_PATH}`);
     };
     Undo = () => {
         if (!canUndo(this.state)) {
@@ -208,9 +215,13 @@ class EntityEditor extends React.Component {
     RenderToolbar() {
         return (React.createElement(react_umg_1.VerticalBox, null,
             React.createElement(react_umg_1.HorizontalBox, null,
-                React.createElement(CommonComponent_1.SlotText, { Text: LevelSerializer_1.LEVEL_SAVE_PATH }),
-                React.createElement(CommonComponent_1.Btn, { Text: '保存', OnClick: this.Save, Tip: `保存场景状态` }),
-                React.createElement(CommonComponent_1.Btn, { Text: '打开', OnClick: this.Open, Tip: `打开地图配置文件` })),
+                React.createElement(CommonComponent_1.SlotText, { Text: EntityManager_1.LEVEL_SAVE_PATH }),
+                React.createElement(CommonComponent_1.Btn, { Text: '保存', OnClick: this.SaveMap, Tip: `保存场景状态` }),
+                React.createElement(CommonComponent_1.Btn, { Text: '打开', OnClick: this.OpenMapFile, Tip: `打开地图配置文件` })),
+            React.createElement(react_umg_1.HorizontalBox, null,
+                React.createElement(CommonComponent_1.SlotText, { Text: EntityManager_1.STATE_SAVE_PATH }),
+                React.createElement(CommonComponent_1.Btn, { Text: '打开', OnClick: this.OpenSavaFile, Tip: `打开游戏存储文件` }),
+                React.createElement(CommonComponent_1.Btn, { Text: '删除', OnClick: this.RemoveSavaFile, Tip: `删除游戏存储文件` })),
             React.createElement(react_umg_1.HorizontalBox, null,
                 React.createElement(CommonComponent_1.Btn, { Text: '↻', OnClick: this.Undo, Disabled: !canUndo(this.state), Tip: `撤销 ${(0, KeyCommands_1.getCommandKeyDesc)('Undo')}` }),
                 React.createElement(CommonComponent_1.Text, { Text: this.GetUndoStateStr(), Tip: `回退记录,最大支持${ConfigFile_1.ConfigFile.MaxHistory}个` }),

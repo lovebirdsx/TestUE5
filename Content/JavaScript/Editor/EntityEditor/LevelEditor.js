@@ -7,6 +7,7 @@ const Class_1 = require("../../Common/Class");
 const Log_1 = require("../../Common/Log");
 const Util_1 = require("../../Common/Util");
 const Public_1 = require("../../Game/Entity/Public");
+const EntityManager_1 = require("../../Game/Manager/EntityManager");
 const LevelSerializer_1 = require("../../Game/Serialize/LevelSerializer");
 const LevelEditorUtil_1 = require("../Common/LevelEditorUtil");
 class LevelEditor {
@@ -20,7 +21,7 @@ class LevelEditor {
     }
     Save() {
         const entities = LevelEditorUtil_1.default.GetAllEntitiesByEditorWorld();
-        this.LevelSerializer.Save(entities);
+        this.LevelSerializer.Save(entities, undefined, EntityManager_1.LEVEL_SAVE_PATH);
     }
     OnPreBeginPie() {
         (0, Log_1.log)('OnPreBeginPie');

@@ -1,13 +1,12 @@
 /* eslint-disable no-void */
 import { Actor, edit_on_instance } from 'ue';
 
-import { TComponentClass } from '../../Common/Entity';
 import { log } from '../../Common/Log';
 import { ActionRunnerComponent, ActionRunnerHandler } from '../Component/ActionRunnerComponent';
 import StateComponent from '../Component/StateComponent';
 import { parseTriggerActionsJson } from '../Flow/Action';
+import { IGameContext, ITsTrigger, TComponentClass } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
-import { ITsTrigger } from './Interface';
 import TsEntity from './TsEntity';
 
 export const triggerComponentClasses: TComponentClass[] = [StateComponent, ActionRunnerComponent];
@@ -38,13 +37,17 @@ export class TsTrigger extends TsEntity implements ITsTrigger {
     }
 
     // @no-blueprint
-    public Init(): void {
-        super.Init();
+    public Init(context: IGameContext): void {
+        super.Init(context);
         this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.State = this.Entity.GetComponent(StateComponent);
         this.Handler = this.ActonRunner.SpawnHandler(
             parseTriggerActionsJson(this.TriggerActionsJson).Actions,
         );
+    }
+
+    public Load(): void {
+        super.Load();
         this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
     }
 

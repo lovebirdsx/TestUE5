@@ -9,9 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TsEntity = exports.entityComponentClasses = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
-const Entity_1 = require("../../Common/Entity");
 const Log_1 = require("../../Common/Log");
-const Interface_1 = require("./Interface");
+const Interface_1 = require("../Interface");
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 exports.entityComponentClasses = [];
 class TsEntity extends ue_1.Actor {
@@ -23,9 +22,13 @@ class TsEntity extends ue_1.Actor {
         return this.GetName();
     }
     // @no-blueprint
-    Init() {
-        this.Entity = this.GenEntity();
+    Init(context) {
+        this.Entity = this.GenEntity(context);
         this.Entity.Init();
+    }
+    // @no-blueprint
+    Load() {
+        this.Entity.Load();
     }
     // @no-blueprint
     Start() {
@@ -40,8 +43,8 @@ class TsEntity extends ue_1.Actor {
         return exports.entityComponentClasses;
     }
     // @no-blueprint
-    GenEntity() {
-        const entity = new Entity_1.Entity(this.GetName());
+    GenEntity(context) {
+        const entity = new Interface_1.Entity(this.GetName(), context);
         const componentsState = (0, Interface_1.parseComponentsState)(this.ComponentsStateJson);
         const componentClasses = this.GetComponentClasses();
         componentClasses.forEach((componentClass) => {

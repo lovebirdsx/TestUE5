@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FlowComponent = void 0;
-const Entity_1 = require("../../Common/Entity");
 const Log_1 = require("../../Common/Log");
 const FlowList_1 = require("../Common/Operations/FlowList");
+const Interface_1 = require("../Interface");
 const ActionRunnerComponent_1 = require("./ActionRunnerComponent");
 const StateComponent_1 = require("./StateComponent");
 const TalkComponent_1 = require("./TalkComponent");
-class FlowComponent extends Entity_1.Component {
+class FlowComponent extends Interface_1.Component {
     InitState;
     StateId;
     ActionRunner;
@@ -20,12 +20,14 @@ class FlowComponent extends Entity_1.Component {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent_1.ActionRunnerComponent);
         this.Talk = this.Entity.GetComponent(TalkComponent_1.TalkComponent);
         this.State = this.Entity.GetComponent(StateComponent_1.default);
-        this.StateId = this.State.GetState('StateId') || this.InitState.StateId;
         this.FlowListInfo = FlowList_1.flowListOp.LoadByName(this.InitState.FlowListName);
         this.FlowInfo = this.FlowListInfo.Flows.find((flow) => flow.Id === this.InitState.FlowId);
         this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
         this.ActionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
         this.ActionRunner.RegisterActionFun('ShowTalk', this.ExecuteShowTalk.bind(this));
+    }
+    OnLoad() {
+        this.StateId = this.State.GetState('StateId') || this.InitState.StateId;
     }
     ExecuteChangeState(actionInfo) {
         const changeState = actionInfo.Params;

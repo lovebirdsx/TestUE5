@@ -3,9 +3,8 @@ import produce from 'immer';
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { TComponentClass } from '../../Common/Entity';
 import { ObjectScheme, TModifyType } from '../../Common/Type';
-import { TComponentsState } from '../../Game/Entity/Interface';
+import { TComponentClass, TComponentsState } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Index';
 import { Text } from '../Common/BaseComponent/CommonComponent';
 import { Obj } from '../Common/SchemeComponent/Basic/Public';

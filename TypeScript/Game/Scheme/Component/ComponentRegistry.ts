@@ -1,8 +1,6 @@
-import { Component } from '../../../Common/Entity';
 import { error } from '../../../Common/Log';
 import { TClassType } from '../../../Common/Type';
-
-type TComponentClass = new () => Component;
+import { Component, TComponentClass } from '../../Interface';
 
 class ComponentRegistry {
     private readonly ClassMap = new Map<string, TComponentClass>();

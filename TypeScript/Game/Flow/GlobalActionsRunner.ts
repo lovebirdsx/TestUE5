@@ -2,8 +2,8 @@
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Common/Log';
 import { msgbox } from '../../Common/UeHelper';
-import TsPlayer from '../Player/TsPlayer';
-import TsPlayerController from '../Player/TsPlayerController';
+import { IGameContext, IGlobalActionsRunner } from '../Interface';
+import { IManager } from '../Manager/Interface';
 import {
     IActionInfo,
     ILog,
@@ -14,8 +14,10 @@ import {
     TActionType,
 } from './Action';
 
-class GlobalActionsRunner {
+export class GlobalActionsRunner implements IManager, IGlobalActionsRunner {
     private readonly ActionMap: Map<TActionType, TActionFun>;
+
+    private Context: IGameContext;
 
     public constructor() {
         this.ActionMap = new Map();
@@ -23,6 +25,14 @@ class GlobalActionsRunner {
         this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
         this.ActionMap.set('ShowMessage', this.ExecuteShowMessage.bind(this));
         this.ActionMap.set('SetFlowBoolOption', this.ExecuteSetFlowBoolOption.bind(this));
+    }
+
+    public Init(context: IGameContext): void {
+        this.Context = context;
+    }
+
+    public Exit(): void {
+        //
     }
 
     public ContainsAction(actionType: TActionType): boolean {
@@ -74,13 +84,10 @@ class GlobalActionsRunner {
         const action = actionInfo.Params as ISetFlowBoolOption;
         switch (action.Option) {
             case 'DisableInput':
-                {
-                    const playerController = TsPlayerController.Instance;
-                    if (action.Value) {
-                        TsPlayer.Instance.DisableInput(playerController);
-                    } else {
-                        TsPlayer.Instance.EnableInput(playerController);
-                    }
+                if (action.Value) {
+                    this.Context.Player.DisableInput(this.Context.PlayerController);
+                } else {
+                    this.Context.Player.EnableInput(this.Context.PlayerController);
                 }
                 break;
 
@@ -90,5 +97,3 @@ class GlobalActionsRunner {
         }
     }
 }
-
-export const globalActionsRunner = new GlobalActionsRunner();

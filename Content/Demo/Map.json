@@ -17,7 +17,7 @@
           "FlowComponent": {
             "InitState": {
               "FlowListName": "流程_测试",
-              "FlowId": 2,
+              "FlowId": 4,
               "StateId": 1
             }
           }
@@ -46,7 +46,7 @@
             {
               "Name": "ShowMessage",
               "Params": {
-                "Content": "你好世界！"
+                "Content": "你好呀！"
               }
             }
           ],

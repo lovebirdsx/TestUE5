@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TriggerEntity = void 0;
-const Entity_1 = require("../../Common/Entity");
 const ActionRunnerComponent_1 = require("../Component/ActionRunnerComponent");
-class TriggerEntity extends Entity_1.Entity {
+const Interface_1 = require("../Interface");
+class TriggerEntity extends Interface_1.Entity {
     MaxTriggerTimes;
     ActionInfos;
     ActionRunner;

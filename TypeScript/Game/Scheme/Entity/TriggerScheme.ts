@@ -5,8 +5,8 @@ import {
     createStringScheme,
     EActionFilter,
 } from '../../../Common/Type';
-import { ITsTrigger } from '../../Entity/Interface';
 import { ITriggerActions } from '../../Flow/Action';
+import { ITsTrigger } from '../../Interface';
 import { actionRegistry } from '../Action/Public';
 
 export const actionsScheme = createObjectScheme<ITriggerActions>({

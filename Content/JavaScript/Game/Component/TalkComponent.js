@@ -6,15 +6,14 @@ exports.TalkComponent = void 0;
 const puerts_1 = require("puerts");
 const ue_1 = require("ue");
 const Async_1 = require("../../Common/Async");
-const Entity_1 = require("../../Common/Entity");
 const Log_1 = require("../../Common/Log");
 const UeHelper_1 = require("../../Common/UeHelper");
 const CsvRegistry_1 = require("../Common/CsvConfig/CsvRegistry");
 const GlobalConfigCsv_1 = require("../Common/CsvConfig/GlobalConfigCsv");
 const TalkerList_1 = require("../Common/Operations/TalkerList");
-const TsPlayerController_1 = require("../Player/TsPlayerController");
+const Interface_1 = require("../Interface");
 const ActionRunnerComponent_1 = require("./ActionRunnerComponent");
-class TalkComponent extends Entity_1.Component {
+class TalkComponent extends Interface_1.Component {
     ActionRunner;
     IsShowing;
     FlowListInfo;
@@ -25,7 +24,7 @@ class TalkComponent extends Entity_1.Component {
     NextTalkId;
     OnInit() {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent_1.ActionRunnerComponent);
-        const playerController = TsPlayerController_1.default.Instance;
+        const playerController = this.Context.PlayerController;
         const tsHud = playerController.GetHUD();
         this.TalkerDisplay = tsHud.TalkerDisplay;
         this.ActionRunner.RegisterActionFun('FinishTalk', this.ExecuteFinishTalk.bind(this));

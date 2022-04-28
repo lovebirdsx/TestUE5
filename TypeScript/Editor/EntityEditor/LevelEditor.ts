@@ -5,6 +5,7 @@ import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
 import { TsEntity } from '../../Game/Entity/Public';
+import { LEVEL_SAVE_PATH } from '../../Game/Manager/EntityManager';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 
@@ -21,7 +22,7 @@ export class LevelEditor {
 
     public Save(): void {
         const entities = LevelEditorUtil.GetAllEntitiesByEditorWorld();
-        this.LevelSerializer.Save(entities);
+        this.LevelSerializer.Save(entities, undefined, LEVEL_SAVE_PATH);
     }
 
     private OnPreBeginPie(): void {

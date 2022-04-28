@@ -3,11 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const ue_1 = require("ue");
 class TsPlayerController extends ue_1.PlayerController {
-    static Instance;
     MyPlayer;
-    Constructor() {
-        TsPlayerController.Instance = this;
-    }
+    // @no-blueprint
+    Context;
     ReceiveBeginPlay() {
         this.MyPlayer = ue_1.GameplayStatics.GetPlayerCharacter(this.GetWorld(), 0);
     }
@@ -22,6 +20,12 @@ class TsPlayerController extends ue_1.PlayerController {
     }
     Interact() {
         this.MyPlayer.TryInteract();
+    }
+    Load() {
+        this.Context.EntityManager.Load();
+    }
+    Save() {
+        this.Context.EntityManager.Save();
     }
 }
 exports.default = TsPlayerController;

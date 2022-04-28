@@ -6,7 +6,6 @@ const ue_1 = require("ue");
 const Init_1 = require("../../Common/Init");
 const Log_1 = require("../../Common/Log");
 class TsPlayer extends ue_1.TestUE5Character {
-    static Instance;
     Movement;
     InitSpeed;
     // @no-blueprint
@@ -14,7 +13,6 @@ class TsPlayer extends ue_1.TestUE5Character {
     // @no-blueprint
     MyIsInteracting;
     Constructor() {
-        TsPlayer.Instance = this;
         this.Movement = this.GetMovementComponent();
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         this.Interacters = [];

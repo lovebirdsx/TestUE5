@@ -8,6 +8,12 @@
 - 在根目录下运行  `npm ci`
 - 在Content/Javascript/PuertsEditor下执行 `npm ci`
 
+## 指令
+
+- watch `npm run watch`
+- check `npm run check`
+- lint `npm run lint`
+
 ## 目录结构
 
 ### Plugins
@@ -41,14 +47,3 @@
 
 - 安装 Run on Save插件,注意作者为 `pucelle`
 - 在保存ts之后,可以执行对应的指令
-
-## 指令
-
-- 开启watch
-
-`cd Tools`
-`sh watch.sh`
-
-- 代码检查
-
-`sh Tools/check_all.sh`

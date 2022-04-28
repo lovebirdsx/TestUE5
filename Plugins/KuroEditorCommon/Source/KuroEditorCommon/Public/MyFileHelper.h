@@ -32,6 +32,9 @@ public:
 	static FString Read(FString Path);
 	
 	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
+	static bool Exist(FString Path);
+	
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static bool Write(FString Path, FString Content);
 	
 	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")

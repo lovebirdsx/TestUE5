@@ -1,11 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { TComponentClass } from '../../Common/Entity';
 import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
 import StateComponent from '../Component/StateComponent';
 import { TalkComponent } from '../Component/TalkComponent';
+import { IGameContext, TComponentClass } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
@@ -26,8 +26,8 @@ export class TsNpc extends TsEntity {
     private Flow: FlowComponent;
 
     // @no-blueprint
-    public Init(): void {
-        super.Init();
+    public Init(context: IGameContext): void {
+        super.Init(context);
         this.Flow = this.Entity.GetComponent(FlowComponent);
     }
 

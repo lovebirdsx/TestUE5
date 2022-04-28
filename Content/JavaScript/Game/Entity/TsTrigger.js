@@ -33,11 +33,14 @@ class TsTrigger extends TsEntity_1.default {
         return exports.triggerComponentClasses;
     }
     // @no-blueprint
-    Init() {
-        super.Init();
+    Init(context) {
+        super.Init(context);
         this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent_1.ActionRunnerComponent);
         this.State = this.Entity.GetComponent(StateComponent_1.default);
         this.Handler = this.ActonRunner.SpawnHandler((0, Action_1.parseTriggerActionsJson)(this.TriggerActionsJson).Actions);
+    }
+    Load() {
+        super.Load();
         this.TriggerTimes = this.State.GetState('TriggerTimes') || 0;
     }
     // @no-blueprint

@@ -4,15 +4,14 @@ import { $ref } from 'puerts';
 import { BuiltinText, Game } from 'ue';
 
 import { delay, delayByCondition, TCallback, waitCallback } from '../../Common/Async';
-import { Component } from '../../Common/Entity';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerListOp } from '../Common/Operations/TalkerList';
 import { IActionInfo, IFlowListInfo, IJumpTalk, IShowTalk, ITalkItem } from '../Flow/Action';
+import { Component } from '../Interface';
 import TsHud from '../Player/TsHud';
-import TsPlayerController from '../Player/TsPlayerController';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 
 export class TalkComponent extends Component {
@@ -35,7 +34,7 @@ export class TalkComponent extends Component {
     public OnInit(): void {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
 
-        const playerController = TsPlayerController.Instance;
+        const playerController = this.Context.PlayerController;
         const tsHud = playerController.GetHUD() as TsHud;
         this.TalkerDisplay = tsHud.TalkerDisplay;
 

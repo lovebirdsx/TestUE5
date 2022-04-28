@@ -6,7 +6,7 @@ const UE = require("ue");
 const Class_1 = require("../../../Common/Class");
 const Log_1 = require("../../../Common/Log");
 const EntityRegistry_1 = require("../../Entity/EntityRegistry");
-class EditorEntityRegistry {
+class EntitySchemeRegistry {
     SchemeMap = new Map();
     RegScheme(classType, scheme) {
         if (!scheme) {
@@ -89,5 +89,5 @@ class EditorEntityRegistry {
         UE.EditorOperations.MarkPackageDirty(obj);
     }
 }
-exports.entitySchemeRegistry = new EditorEntityRegistry();
+exports.entitySchemeRegistry = new EntitySchemeRegistry();
 //# sourceMappingURL=EntitySchemeRegistry.js.map

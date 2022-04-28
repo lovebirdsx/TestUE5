@@ -1,4 +1,4 @@
-import { Component } from '../../Common/Entity';
+import { Component } from '../Interface';
 
 class StateComponent extends Component {
     private readonly StateMap = new Map<string, unknown>();

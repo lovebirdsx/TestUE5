@@ -1,7 +1,6 @@
-import { Component } from '../../Common/Entity';
 import { error } from '../../Common/Log';
 import { IActionInfo, TActionFun, TActionType } from '../Flow/Action';
-import { globalActionsRunner } from '../Flow/GlobalActionsRunner';
+import { Component } from '../Interface';
 
 export class ActionRunnerHandler {
     private MyIsRunning: boolean;
@@ -62,6 +61,7 @@ export class ActionRunnerComponent extends Component {
     }
 
     public async ExecuteOne(action: IActionInfo): Promise<void> {
+        const globalActionsRunner = this.Context.GlobalActionsRunner;
         if (globalActionsRunner.ContainsAction(action.Name)) {
             await globalActionsRunner.ExecuteOne(action);
             return;

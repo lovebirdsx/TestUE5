@@ -3,10 +3,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as UE from 'ue';
 
-import { Component } from '../../Common/Entity';
 import { log } from '../../Common/Log';
+import { Component } from '../Interface';
 import TsHud from '../Player/TsHud';
-import TsPlayerController from '../Player/TsPlayerController';
 
 enum EBtnState {
     Up = 1,
@@ -19,7 +18,7 @@ export class InterActComponent extends Component {
     private BtnState: number;
 
     public OnInit(): void {
-        const playerController = TsPlayerController.Instance;
+        const playerController = this.Context.PlayerController;
         const tsHud = playerController.GetHUD() as TsHud;
         this.ChangeState(EBtnState.Down);
         this.InteractDisplay = tsHud.InteractDisplay;

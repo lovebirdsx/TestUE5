@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { TComponentClass } from '../../Common/Entity';
 import { InterActComponent } from '../Component/InterActComponent';
+import { IGameContext, TComponentClass } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
@@ -18,8 +18,9 @@ class TsSphereActor extends TsEntity {
 
     private InterAct: InterActComponent;
 
-    public ReceiveBeginPlay(): void {
-        super.ReceiveBeginPlay();
+    // @no-blueprint
+    public Init(context: IGameContext): void {
+        super.Init(context);
         this.InterAct = this.Entity.GetComponent(InterActComponent);
     }
 

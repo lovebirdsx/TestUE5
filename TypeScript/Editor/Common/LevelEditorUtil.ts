@@ -11,7 +11,7 @@ import { getAssetPath } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
-import { TsEntity } from '../../Game/Entity/Public';
+import { ITsEntity } from '../../Game/Interface';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): void {
@@ -37,7 +37,7 @@ class LevelEditorUtil {
         return EditorOperations.GetEditorEngine().PlayWorld !== undefined;
     }
 
-    public static GetAllEntitiesByEditorWorld(): TsEntity[] {
+    public static GetAllEntitiesByEditorWorld(): ITsEntity[] {
         const world = EditorLevelLibrary.GetEditorWorld();
         if (!world) {
             error('No editor world exist');

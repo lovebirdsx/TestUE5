@@ -6,6 +6,7 @@ import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/Config';
 import { TsEntity } from '../../Game/Entity/Public';
+import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 
@@ -44,7 +45,7 @@ export class LevelEditor {
             return;
         }
 
-        const entity = actor as TsEntity;
+        const entity = actor as ITsEntity;
         entity.Guid = genGuid();
     }
 

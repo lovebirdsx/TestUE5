@@ -7,7 +7,6 @@ import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { gameConfig } from '../Common/Config';
 import { LevelUtil } from '../Common/LevelUtil';
-import { TsEntity } from '../Entity/Public';
 import { IEntityMananger, IEntityState, IGameContext, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { ILevelState, LevelSerializer } from '../Serialize/LevelSerializer';
@@ -16,13 +15,13 @@ import { IManager } from './Interface';
 export class EntityManager implements IManager, IEntityMananger {
     private readonly LevelSerializer: LevelSerializer = new LevelSerializer();
 
-    private readonly EntityMap = new Map<string, TsEntity>();
+    private readonly EntityMap = new Map<string, ITsEntity>();
 
-    private readonly Entities: TsEntity[] = [];
+    private readonly Entities: ITsEntity[] = [];
 
-    private readonly EntitiesToSpawn: TsEntity[] = [];
+    private readonly EntitiesToSpawn: ITsEntity[] = [];
 
-    private readonly EntitiesToDestroy: TsEntity[] = [];
+    private readonly EntitiesToDestroy: ITsEntity[] = [];
 
     private Context: IGameContext;
 
@@ -85,7 +84,7 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Tick(deltaTime: number): void {
         if (this.EntitiesToDestroy.length > 0) {
-            const entities: TsEntity[] = [];
+            const entities: ITsEntity[] = [];
 
             this.EntitiesToDestroy.forEach((entity) => {
                 const index = this.Entities.indexOf(entity);
@@ -135,7 +134,7 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     public RemoveEntity(...entities: ITsEntity[]): void {
-        this.EntitiesToDestroy.push(...(entities as TsEntity[]));
+        this.EntitiesToDestroy.push(...entities);
     }
 
     private async LoadSync(): Promise<void> {

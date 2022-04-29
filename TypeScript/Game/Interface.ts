@@ -30,6 +30,7 @@ export interface ITsEntity extends Actor {
     GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
     Init: (context: IGameContext) => void;
+    Load: () => void;
     Start: () => void;
     Destroy: () => void;
 }

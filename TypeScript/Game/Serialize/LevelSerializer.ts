@@ -1,7 +1,6 @@
 import { MyFileHelper } from 'ue';
 
 import { error, log } from '../../Common/Log';
-import { TsEntity } from '../Entity/Public';
 import { IEntityState, IPlayerState, ITsEntity, ITsPlayer } from '../Interface';
 import { entitySerializer } from './EntitySerializer';
 
@@ -18,7 +17,7 @@ export class LevelSerializer {
         };
     }
 
-    public Save(entities: TsEntity[], player: ITsPlayer, path: string): void {
+    public Save(entities: ITsEntity[], player: ITsPlayer, path: string): void {
         const state = this.GenLevelState(entities, player);
         MyFileHelper.Write(path, JSON.stringify(state, undefined, 2));
         log(`Save level state to ${path} ok`);

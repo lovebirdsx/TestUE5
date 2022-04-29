@@ -8,8 +8,8 @@ import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule, MyFileHelp
 import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import { TsEntity } from '../../Game/Entity/Public';
-import { TEntityPureData } from '../../Game/Interface';
+import TsEntity from '../../Game/Entity/TsEntity';
+import { ITsEntity, TEntityPureData } from '../../Game/Interface';
 import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
@@ -22,13 +22,13 @@ import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
 
 interface IEntityState {
-    Entity: TsEntity;
+    Entity: ITsEntity;
     PureData: TEntityPureData;
 }
 
 interface IEntityEditorState {
     Name: string;
-    Entity: TsEntity;
+    Entity: ITsEntity;
     Histories: IEntityState[];
     StepId: number;
     IsEditorPlaying: boolean;
@@ -75,13 +75,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         };
     }
 
-    private GetCurrentSelectEntity(): TsEntity {
+    private GetCurrentSelectEntity(): ITsEntity {
         const actors = EditorLevelLibrary.GetSelectedLevelActors();
 
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
             if (isChildOfClass(actor, TsEntity)) {
-                return actor as TsEntity;
+                return actor as ITsEntity;
             }
         }
 

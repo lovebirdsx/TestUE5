@@ -3,9 +3,10 @@ import { Actor, GameplayStatics, NewArray, World } from 'ue';
 
 import { getUeClassByTsClass } from '../../Common/Class';
 import { TsEntity } from '../Entity/Public';
+import { ITsEntity } from '../Interface';
 
 export class LevelUtil {
-    public static GetAllEntities(world: World): TsEntity[] {
+    public static GetAllEntities(world: World): ITsEntity[] {
         const actors = NewArray(Actor);
         GameplayStatics.GetAllActorsOfClass(world, getUeClassByTsClass(TsEntity), $ref(actors));
         const result: TsEntity[] = [];

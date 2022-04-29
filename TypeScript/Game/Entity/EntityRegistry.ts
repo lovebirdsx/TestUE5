@@ -1,6 +1,10 @@
-import { TTsClassType } from '../../Common/Class';
+import { Actor } from 'ue';
+
+import { isChildOfClass, TTsClassType } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { TComponentClass } from '../Interface';
+import TsPlayer from '../Player/TsPlayer';
+import TsEntity from './TsEntity';
 
 class EntityRegistry {
     private readonly EntityMap = new Map<TTsClassType, TComponentClass[]>();
@@ -16,6 +20,10 @@ class EntityRegistry {
         }
         return result;
     }
+}
+
+export function isEntity(actor: Actor): boolean {
+    return isChildOfClass(actor, TsEntity) || isChildOfClass(actor, TsPlayer);
 }
 
 export const entityRegistry = new EntityRegistry();

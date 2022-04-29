@@ -22,81 +22,6 @@
             }
           }
         },
-        "Guid": "1BB43C564463DDDAD01B2DB71E1F3E67"
-      }
-    },
-    {
-      "PrefabId": 1,
-      "Pos": [
-        -1415.1586778284134,
-        -2414.817625,
-        100
-      ],
-      "Rotation": [
-        0,
-        0,
-        -179.999999
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_测试",
-              "FlowId": 4,
-              "StateId": 1
-            }
-          }
-        },
-        "Guid": "5E84DB4B4B086508CF24379408D608DB"
-      }
-    },
-    {
-      "PrefabId": 1,
-      "Pos": [
-        -1635.158678,
-        -2414.817628839725,
-        100
-      ],
-      "Rotation": [
-        0,
-        0,
-        -179.999999
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_测试",
-              "FlowId": 4,
-              "StateId": 1
-            }
-          }
-        },
-        "Guid": "3BF393DE40E8B2590A0A5F8FE1A4F7D1"
-      }
-    },
-    {
-      "PrefabId": 1,
-      "Pos": [
-        -1635.158671716814,
-        -2774.817629,
-        100
-      ],
-      "Rotation": [
-        0,
-        0,
-        -179.999999
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_测试",
-              "FlowId": 4,
-              "StateId": 1
-            }
-          }
-        },
         "Guid": "2AFD4CE84A6EE963CC4E3D85E3CC95CF"
       }
     },
@@ -121,7 +46,7 @@
             {
               "Name": "ShowMessage",
               "Params": {
-                "Content": "来一发?"
+                "Content": "你好呀！"
               }
             }
           ],

@@ -6,7 +6,7 @@ import { getBlueprintId, getBlueprintType } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import StateComponent from '../Component/StateComponent';
 import { TsEntity } from '../Entity/Public';
-import { IEntityState, IGameContext, IPlayerState, ITsEntity, ITsPlayer } from '../Interface';
+import { IEntityState, IGameContext, ITsEntity } from '../Interface';
 import { entitySchemeRegistry } from '../Scheme/Entity/Public';
 
 function vectorToArray(vec: Vector): number[] {
@@ -106,18 +106,11 @@ class EntitySerializer {
         return entity;
     }
 
-    public GenPlayerState(player: ITsPlayer): IPlayerState {
-        return {
-            Pos: vectorToArray(player.K2_GetActorLocation()),
-            Rotation: genRotationArray(player.K2_GetActorRotation().Euler()),
-        };
-    }
-
-    public ApplyPlayerState(player: ITsPlayer, state: IPlayerState): void {
-        const pos = arrayToVector(state.Pos);
-        player.K2_SetActorLocation(pos, false, undefined, false);
-        const rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
-        player.K2_SetActorRotation(rotator, false);
+    public ApplyPlayerState(context: IGameContext, player: ITsEntity, state: IEntityState): void {
+        entitySchemeRegistry.ApplyData(state.PureData, player);
+        player.Init(context);
+        applyState(player, state.State);
+        player.Load();
     }
 }
 

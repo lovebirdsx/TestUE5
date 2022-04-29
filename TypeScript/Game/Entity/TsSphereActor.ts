@@ -37,7 +37,7 @@ class TsSphereActor extends TsEntity {
         if (this.InterAct) {
             this.InterAct.ShowInteract();
         }
-        other.AddInteractor(this);
+        // other.AddInteractor(this);
     }
 
     public ReceiveActorEndOverlap(other: Actor): void {
@@ -47,7 +47,7 @@ class TsSphereActor extends TsEntity {
         if (this.InterAct) {
             this.InterAct.CloseInteract();
         }
-        other.RemoveInteractor(this);
+        // other.RemoveInteractor(this);
     }
 }
 

@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TsEntity = exports.entityComponentClasses = void 0;
 /* eslint-disable spellcheck/spell-checker */
 const ue_1 = require("ue");
-const Log_1 = require("../../Common/Log");
 const Interface_1 = require("../Interface");
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 exports.entityComponentClasses = [];
@@ -23,7 +22,7 @@ class TsEntity extends ue_1.Actor {
     }
     // @no-blueprint
     Init(context) {
-        this.Entity = this.GenEntity(context);
+        this.Entity = (0, Interface_1.genEntity)(this, context);
         this.Entity.Init();
     }
     // @no-blueprint
@@ -41,25 +40,6 @@ class TsEntity extends ue_1.Actor {
     // @no-blueprint
     GetComponentClasses() {
         return exports.entityComponentClasses;
-    }
-    // @no-blueprint
-    GenEntity(context) {
-        const entity = new Interface_1.Entity(this.GetName(), context);
-        const componentsState = (0, Interface_1.parseComponentsState)(this.ComponentsStateJson);
-        const componentClasses = this.GetComponentClasses();
-        componentClasses.forEach((componentClass) => {
-            const component = entity.AddComponentC(componentClass);
-            const data = componentsState[componentClass.name];
-            if (data) {
-                Object.assign(component, data);
-            }
-        });
-        return entity;
-    }
-    // @no-blueprint
-    async Interact(player) {
-        (0, Log_1.error)(`Interact is not implement for ${this.GetName()}`);
-        return Promise.resolve();
     }
 }
 __decorate([

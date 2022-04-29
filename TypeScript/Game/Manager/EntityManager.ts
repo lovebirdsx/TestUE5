@@ -62,8 +62,12 @@ export class EntityManager implements IManager, IEntityMananger {
             levelState = this.LevelSerializer.Load(mapDataPath);
         }
 
+        const player = this.Context.Player;
         if (levelState.Player) {
-            entitySerializer.ApplyPlayerState(this.Context.Player, levelState.Player);
+            entitySerializer.ApplyPlayerState(this.Context, player, levelState.Player);
+        } else {
+            player.Init(this.Context);
+            player.Load();
         }
 
         levelState.Entities.forEach((es) => {

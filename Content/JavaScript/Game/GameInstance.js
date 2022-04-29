@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GameInstance = void 0;
 const ue_1 = require("ue");
+const Init_1 = require("../Common/Init");
 const Log_1 = require("../Common/Log");
 const Public_1 = require("./Entity/Public");
 const GlobalActionsRunner_1 = require("./Flow/GlobalActionsRunner");
@@ -13,8 +14,8 @@ class GameInstance {
     TickManager = new TickManager_1.TickManager();
     GameContext;
     Init(world) {
-        // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
-        (0, Public_1.initEntity)();
+        (0, Init_1.initCommon)();
+        (0, Public_1.initEntity)(); // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
         this.GameContext = {
             World: world,
             Player: ue_1.GameplayStatics.GetPlayerPawn(world, 0),

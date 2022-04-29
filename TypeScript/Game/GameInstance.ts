@@ -1,5 +1,6 @@
 import { GameplayStatics, World } from 'ue';
 
+import { initCommon } from '../Common/Init';
 import { log } from '../Common/Log';
 import { initEntity } from './Entity/Public';
 import { GlobalActionsRunner } from './Flow/GlobalActionsRunner';
@@ -19,8 +20,8 @@ export class GameInstance {
     public GameContext: IGameContext;
 
     public Init(world: World): void {
-        // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
-        initEntity();
+        initCommon();
+        initEntity(); // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
 
         this.GameContext = {
             World: world,

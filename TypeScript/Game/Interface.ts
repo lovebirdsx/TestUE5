@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, Character, Class, PlayerController, World } from 'ue';
+import { Actor, Class, PlayerController, World } from 'ue';
 
 import { IActionInfo, IPlayFlow, TActionType } from './Flow/Action';
 
@@ -26,7 +26,6 @@ export interface ITsEntity extends Actor {
     ComponentsStateJson: string;
     Entity: Entity;
     Name: string;
-    Interact: (player: ITsPlayer) => Promise<void>;
     GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
     Init: (context: IGameContext) => void;
@@ -42,10 +41,6 @@ export interface ITsTrigger {
     TriggerActionsJson: string;
 }
 
-export interface ITsPlayer extends Character {
-    Name: string;
-}
-
 export interface IEntityState {
     PrefabId: number;
     Pos: number[];
@@ -53,11 +48,6 @@ export interface IEntityState {
     Scale?: number[];
     PureData: TEntityPureData;
     State?: Record<string, unknown>;
-}
-
-export interface IPlayerState {
-    Pos: number[];
-    Rotation?: number[];
 }
 
 export interface IEntityMananger {
@@ -83,7 +73,7 @@ export interface ITickManager {
 }
 
 export interface IGameContext {
-    Player: ITsPlayer;
+    Player: ITsEntity;
     PlayerController: PlayerController;
     World: World;
     EntityManager: IEntityMananger;
@@ -107,6 +97,10 @@ export abstract class Component {
     public OnStart(): void {}
 
     public OnDestroy(): void {}
+
+    public OnTriggerEnter?(other: Entity): void;
+
+    public OnTriggerExit?(other: Entity): void;
 }
 
 export type TComponentClass = new () => Component;
@@ -119,6 +113,10 @@ export class Entity {
     public readonly Name: string;
 
     public readonly Context: IGameContext;
+
+    private readonly TriggerEnterComponents: Component[] = [];
+
+    private readonly TriggerExitComponents: Component[] = [];
 
     public constructor(name: string, context: IGameContext) {
         this.Name = name;
@@ -133,6 +131,24 @@ export class Entity {
         this.MyComponents.push(component);
         component.Entity = this;
         component.Context = this.Context;
+        this.AccessOptionalCallback(component, true);
+    }
+
+    private AccessOptionalCallback(component: Component, isAdd: boolean): void {
+        if (component.OnTriggerEnter) {
+            if (isAdd) {
+                this.TriggerEnterComponents.push(component);
+            } else {
+                this.TriggerEnterComponents.splice(this.TriggerEnterComponents.indexOf(component));
+            }
+        }
+        if (component.OnTriggerExit) {
+            if (isAdd) {
+                this.TriggerExitComponents.push(component);
+            } else {
+                this.TriggerExitComponents.splice(this.TriggerExitComponents.indexOf(component));
+            }
+        }
     }
 
     public AddComponentC<T extends Component>(classObj: TClass<T>): T {
@@ -165,6 +181,7 @@ export class Entity {
             if (component instanceof classObj) {
                 component.Entity = null;
                 this.MyComponents.splice(i, 1);
+                this.AccessOptionalCallback(component, false);
                 break;
             }
         }
@@ -203,4 +220,37 @@ export class Entity {
             c.OnDestroy();
         });
     }
+
+    public OnTriggerEnter(other: Entity): void {
+        this.TriggerEnterComponents.forEach((component) => {
+            component.OnTriggerEnter(other);
+        });
+    }
+
+    public OnTriggerExit(other: Entity): void {
+        this.TriggerExitComponents.forEach((component) => {
+            component.OnTriggerExit(other);
+        });
+    }
+}
+
+export class InteractiveComponent extends Component {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    public async Interact(entity: Entity): Promise<void> {
+        throw new Error('Interact is not implement');
+    }
+}
+
+export function genEntity(tsEntity: ITsEntity, context: IGameContext): Entity {
+    const entity = new Entity(tsEntity.GetName(), context);
+    const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
+    const componentClasses = tsEntity.GetComponentClasses();
+    componentClasses.forEach((componentClass) => {
+        const component = entity.AddComponentC(componentClass);
+        const data = componentsState[componentClass.name];
+        if (data) {
+            Object.assign(component, data);
+        }
+    });
+    return entity;
 }

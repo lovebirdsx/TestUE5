@@ -3,10 +3,11 @@ import { Actor } from 'ue';
 
 import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
+import { NpcComponent } from '../Component/NpcComponent';
 import StateComponent from '../Component/StateComponent';
 import { TalkComponent } from '../Component/TalkComponent';
-import { IGameContext, TComponentClass } from '../Interface';
-import TsPlayer from '../Player/TsPlayer';
+import { ITsEntity, TComponentClass } from '../Interface';
+import { isEntity } from './EntityRegistry';
 import TsEntity from './TsEntity';
 
 export const npcComponentClasses: TComponentClass[] = [
@@ -14,6 +15,7 @@ export const npcComponentClasses: TComponentClass[] = [
     FlowComponent,
     TalkComponent,
     ActionRunnerComponent,
+    NpcComponent,
 ];
 
 export class TsNpc extends TsEntity {
@@ -22,34 +24,18 @@ export class TsNpc extends TsEntity {
         return npcComponentClasses;
     }
 
-    // @no-blueprint
-    private Flow: FlowComponent;
-
-    // @no-blueprint
-    public Init(context: IGameContext): void {
-        super.Init(context);
-        this.Flow = this.Entity.GetComponent(FlowComponent);
-    }
-
-    // @no-blueprint
-    public async Interact(player: TsPlayer): Promise<void> {
-        await this.Flow.Run();
-    }
-
     public ReceiveActorBeginOverlap(other: Actor): void {
-        if (!(other instanceof TsPlayer)) {
-            return;
+        if (isEntity(other)) {
+            const tsEntity = other as ITsEntity;
+            this.Entity.OnTriggerEnter(tsEntity.Entity);
         }
-
-        other.AddInteractor(this);
     }
 
     public ReceiveActorEndOverlap(other: Actor): void {
-        if (!(other instanceof TsPlayer)) {
-            return;
+        if (isEntity(other)) {
+            const tsEntity = other as ITsEntity;
+            this.Entity.OnTriggerExit(tsEntity.Entity);
         }
-
-        other.RemoveInteractor(this);
     }
 }
 

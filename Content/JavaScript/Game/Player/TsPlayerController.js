@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const ue_1 = require("ue");
+const PlayerComponent_1 = require("../Component/PlayerComponent");
 class TsPlayerController extends ue_1.PlayerController {
     MyPlayer;
     // @no-blueprint
@@ -19,7 +20,7 @@ class TsPlayerController extends ue_1.PlayerController {
         this.MyPlayer.ResetSpeed();
     }
     Interact() {
-        this.MyPlayer.TryInteract();
+        this.MyPlayer.Entity.GetComponent(PlayerComponent_1.default).TryInteract();
     }
     Load() {
         this.Context.EntityManager.Load();

@@ -3,43 +3,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TsNpc = exports.npcComponentClasses = void 0;
 const ActionRunnerComponent_1 = require("../Component/ActionRunnerComponent");
 const FlowComponent_1 = require("../Component/FlowComponent");
+const NpcComponent_1 = require("../Component/NpcComponent");
 const StateComponent_1 = require("../Component/StateComponent");
 const TalkComponent_1 = require("../Component/TalkComponent");
-const TsPlayer_1 = require("../Player/TsPlayer");
+const EntityRegistry_1 = require("./EntityRegistry");
 const TsEntity_1 = require("./TsEntity");
 exports.npcComponentClasses = [
     StateComponent_1.default,
     FlowComponent_1.FlowComponent,
     TalkComponent_1.TalkComponent,
     ActionRunnerComponent_1.ActionRunnerComponent,
+    NpcComponent_1.NpcComponent,
 ];
 class TsNpc extends TsEntity_1.default {
     // @no-blueprint
     GetComponentClasses() {
         return exports.npcComponentClasses;
     }
-    // @no-blueprint
-    Flow;
-    // @no-blueprint
-    Init(context) {
-        super.Init(context);
-        this.Flow = this.Entity.GetComponent(FlowComponent_1.FlowComponent);
-    }
-    // @no-blueprint
-    async Interact(player) {
-        await this.Flow.Run();
-    }
     ReceiveActorBeginOverlap(other) {
-        if (!(other instanceof TsPlayer_1.default)) {
-            return;
+        if ((0, EntityRegistry_1.isEntity)(other)) {
+            const tsEntity = other;
+            this.Entity.OnTriggerEnter(tsEntity.Entity);
         }
-        other.AddInteractor(this);
     }
     ReceiveActorEndOverlap(other) {
-        if (!(other instanceof TsPlayer_1.default)) {
-            return;
+        if ((0, EntityRegistry_1.isEntity)(other)) {
+            const tsEntity = other;
+            this.Entity.OnTriggerExit(tsEntity.Entity);
         }
-        other.RemoveInteractor(this);
     }
 }
 exports.TsNpc = TsNpc;

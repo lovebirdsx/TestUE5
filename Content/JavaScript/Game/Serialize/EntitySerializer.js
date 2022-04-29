@@ -81,17 +81,11 @@ class EntitySerializer {
         entity.Load();
         return entity;
     }
-    GenPlayerState(player) {
-        return {
-            Pos: vectorToArray(player.K2_GetActorLocation()),
-            Rotation: genRotationArray(player.K2_GetActorRotation().Euler()),
-        };
-    }
-    ApplyPlayerState(player, state) {
-        const pos = arrayToVector(state.Pos);
-        player.K2_SetActorLocation(pos, false, undefined, false);
-        const rotator = ue_1.Rotator.MakeFromEuler(arrayToVector(state.Rotation));
-        player.K2_SetActorRotation(rotator, false);
+    ApplyPlayerState(context, player, state) {
+        Public_1.entitySchemeRegistry.ApplyData(state.PureData, player);
+        player.Init(context);
+        applyState(player, state.State);
+        player.Load();
     }
 }
 exports.entitySerializer = new EntitySerializer();

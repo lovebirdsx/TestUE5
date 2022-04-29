@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { GameplayStatics, PlayerController } from 'ue';
 
+import PlayerComponent from '../Component/PlayerComponent';
 import { IGameContext } from '../Interface';
 import TsPlayer from './TSPlayer';
 
@@ -27,7 +28,7 @@ class TsPlayerController extends PlayerController {
     }
 
     public Interact(): void {
-        this.MyPlayer.TryInteract();
+        this.MyPlayer.Entity.GetComponent(PlayerComponent).TryInteract();
     }
 
     public Load(): void {

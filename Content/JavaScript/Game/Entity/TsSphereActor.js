@@ -29,7 +29,7 @@ class TsSphereActor extends TsEntity_1.default {
         if (this.InterAct) {
             this.InterAct.ShowInteract();
         }
-        other.AddInteractor(this);
+        // other.AddInteractor(this);
     }
     ReceiveActorEndOverlap(other) {
         if (!(other instanceof TsPlayer_1.default)) {
@@ -38,7 +38,7 @@ class TsSphereActor extends TsEntity_1.default {
         if (this.InterAct) {
             this.InterAct.CloseInteract();
         }
-        other.RemoveInteractor(this);
+        // other.RemoveInteractor(this);
     }
 }
 exports.default = TsSphereActor;

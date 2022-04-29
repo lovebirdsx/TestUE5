@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Entity = exports.Component = exports.parseComponentsState = void 0;
+exports.genEntity = exports.InteractiveComponent = exports.Entity = exports.Component = exports.parseComponentsState = void 0;
 function parseComponentsState(json) {
     if (!json) {
         return {};
@@ -24,6 +24,8 @@ class Entity {
     MyComponents = [];
     Name;
     Context;
+    TriggerEnterComponents = [];
+    TriggerExitComponents = [];
     constructor(name, context) {
         this.Name = name;
         this.Context = context;
@@ -35,6 +37,25 @@ class Entity {
         this.MyComponents.push(component);
         component.Entity = this;
         component.Context = this.Context;
+        this.AccessOptionalCallback(component, true);
+    }
+    AccessOptionalCallback(component, isAdd) {
+        if (component.OnTriggerEnter) {
+            if (isAdd) {
+                this.TriggerEnterComponents.push(component);
+            }
+            else {
+                this.TriggerEnterComponents.splice(this.TriggerEnterComponents.indexOf(component));
+            }
+        }
+        if (component.OnTriggerExit) {
+            if (isAdd) {
+                this.TriggerExitComponents.push(component);
+            }
+            else {
+                this.TriggerExitComponents.splice(this.TriggerExitComponents.indexOf(component));
+            }
+        }
     }
     AddComponentC(classObj) {
         const component = new classObj();
@@ -63,6 +84,7 @@ class Entity {
             if (component instanceof classObj) {
                 component.Entity = null;
                 this.MyComponents.splice(i, 1);
+                this.AccessOptionalCallback(component, false);
                 break;
             }
         }
@@ -95,6 +117,37 @@ class Entity {
             c.OnDestroy();
         });
     }
+    OnTriggerEnter(other) {
+        this.TriggerEnterComponents.forEach((component) => {
+            component.OnTriggerEnter(other);
+        });
+    }
+    OnTriggerExit(other) {
+        this.TriggerExitComponents.forEach((component) => {
+            component.OnTriggerExit(other);
+        });
+    }
 }
 exports.Entity = Entity;
+class InteractiveComponent extends Component {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    async Interact(entity) {
+        throw new Error('Interact is not implement');
+    }
+}
+exports.InteractiveComponent = InteractiveComponent;
+function genEntity(tsEntity, context) {
+    const entity = new Entity(tsEntity.GetName(), context);
+    const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
+    const componentClasses = tsEntity.GetComponentClasses();
+    componentClasses.forEach((componentClass) => {
+        const component = entity.AddComponentC(componentClass);
+        const data = componentsState[componentClass.name];
+        if (data) {
+            Object.assign(component, data);
+        }
+    });
+    return entity;
+}
+exports.genEntity = genEntity;
 //# sourceMappingURL=Interface.js.map

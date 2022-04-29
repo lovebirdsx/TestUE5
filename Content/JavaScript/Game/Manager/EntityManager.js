@@ -53,8 +53,13 @@ class EntityManager {
             const mapDataPath = Config_1.gameConfig.GetCurrentMapDataPath(this.Context.World);
             levelState = this.LevelSerializer.Load(mapDataPath);
         }
+        const player = this.Context.Player;
         if (levelState.Player) {
-            EntitySerializer_1.entitySerializer.ApplyPlayerState(this.Context.Player, levelState.Player);
+            EntitySerializer_1.entitySerializer.ApplyPlayerState(this.Context, player, levelState.Player);
+        }
+        else {
+            player.Init(this.Context);
+            player.Load();
         }
         levelState.Entities.forEach((es) => {
             this.SpawnEntity(es);

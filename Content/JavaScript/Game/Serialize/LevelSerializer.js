@@ -7,7 +7,7 @@ const EntitySerializer_1 = require("./EntitySerializer");
 class LevelSerializer {
     GenLevelState(entities, player) {
         return {
-            Player: player && EntitySerializer_1.entitySerializer.GenPlayerState(player),
+            Player: player && EntitySerializer_1.entitySerializer.GenEntityState(player),
             Entities: entities.map((e) => EntitySerializer_1.entitySerializer.GenEntityState(e)),
         };
     }

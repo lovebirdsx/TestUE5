@@ -1,36 +1,61 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { CharacterMovementComponent, TestUE5Character } from 'ue';
+import { CharacterMovementComponent, edit_on_instance, TestUE5Character } from 'ue';
 
-import { initCommon } from '../../Common/Init';
-import { error } from '../../Common/Log';
-import { ITsEntity, ITsPlayer } from '../Interface';
+import PlayerComponent from '../Component/PlayerComponent';
+import { Entity, genEntity, IGameContext, ITsEntity, TComponentClass } from '../Interface';
 
-class TsPlayer extends TestUE5Character implements ITsPlayer {
+export const playerComponentClasses: TComponentClass[] = [PlayerComponent];
+
+class TsPlayer extends TestUE5Character implements ITsEntity {
+    @edit_on_instance()
+    public Guid = 'unknown';
+
+    @edit_on_instance()
+    public ComponentsStateJson = '';
+
+    // @no-blueprint
+    public Entity: Entity;
+
+    // @no-blueprint
+    public GetComponentClasses(): TComponentClass[] {
+        return playerComponentClasses;
+    }
+
+    // @no-blueprint
+    public Init(context: IGameContext): void {
+        this.Entity = genEntity(this, context);
+        this.Entity.Init();
+    }
+
+    // @no-blueprint
+    public Load(): void {
+        this.Entity.Load();
+    }
+
+    // @no-blueprint
+    public Start(): void {
+        this.Entity.Start();
+    }
+
+    // @no-blueprint
+    public Destroy(): void {
+        this.Entity.Destroy();
+    }
+
+    // @no-blueprint
     private Movement: CharacterMovementComponent;
 
+    // @no-blueprint
     private InitSpeed: number;
 
-    // @no-blueprint
-    private Interacters: ITsEntity[];
-
-    // @no-blueprint
-    private MyIsInteracting: boolean;
-
-    public Constructor(): void {
+    public ReceiveBeginPlay(): void {
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
-        this.Interacters = [];
-
-        initCommon();
     }
 
     public get Name(): string {
         return this.GetName();
-    }
-
-    public get IsInteracting(): boolean {
-        return this.MyIsInteracting;
     }
 
     public get Speed(): number {
@@ -51,60 +76,6 @@ class TsPlayer extends TestUE5Character implements ITsPlayer {
     // @no-blueprint
     public ResetSpeed(): void {
         this.Speed = this.InitSpeed;
-    }
-
-    // @no-blueprint
-    public AddInteractor(interacter: ITsEntity): void {
-        const index = this.Interacters.indexOf(interacter);
-        if (index >= 0) {
-            error(`Add duplicate interacter [${interacter.Name}]`);
-            return;
-        }
-
-        this.Interacters.push(interacter);
-    }
-
-    // @no-blueprint
-    public RemoveInteractor(interacter: ITsEntity): void {
-        const index = this.Interacters.indexOf(interacter);
-        if (index < 0) {
-            error(`Remove not exist interactor [${interacter.Name}]`);
-            return;
-        }
-
-        this.Interacters.splice(index, 1);
-    }
-
-    public TryInteract(): boolean {
-        if (this.IsInteracting) {
-            return false;
-        }
-
-        if (this.Interacters.length <= 0) {
-            return false;
-        }
-
-        // eslint-disable-next-line no-void
-        void this.StartInteract(0);
-        return true;
-    }
-
-    // @no-blueprint
-    public async StartInteract(id: number): Promise<void> {
-        if (id >= this.Interacters.length) {
-            error(`Can not start interact with id [${id} >= ${this.Interacters.length}]`);
-            return;
-        }
-
-        if (this.IsInteracting) {
-            error(`Can not start iteract again`);
-            return;
-        }
-
-        const interactor = this.Interacters[id];
-        this.MyIsInteracting = true;
-        await interactor.Interact(this);
-        this.MyIsInteracting = false;
     }
 }
 

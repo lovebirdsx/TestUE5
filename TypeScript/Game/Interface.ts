@@ -1,10 +1,16 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Class, PlayerController, World } from 'ue';
 
-import { IActionInfo, IPlayFlow, TActionType } from './Flow/Action';
+import { getTsClassByUeClass } from '../Common/Class';
+import { IActionInfo, IPlayFlow, ITriggerActions, TActionType } from './Flow/Action';
 
 export interface IFlowComponent {
     InitState: IPlayFlow;
+}
+
+export interface ITriggerComponent {
+    MaxTriggerTimes: number;
+    TriggerActions: ITriggerActions;
 }
 
 export type TComponentsState = Record<string, Record<string, unknown>>;
@@ -32,6 +38,11 @@ export interface ITsEntity extends Actor {
     Load: () => void;
     Start: () => void;
     Destroy: () => void;
+}
+
+export function getEntityName(entity: ITsEntity): string {
+    const classObj = getTsClassByUeClass(entity.GetClass());
+    return classObj.name;
 }
 
 export type TEntityPureData = ITsEntityData & Record<string, unknown>;

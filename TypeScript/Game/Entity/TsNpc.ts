@@ -24,6 +24,8 @@ export class TsNpc extends TsEntity {
         return npcComponentClasses;
     }
 
+    public readonly Name: string = 'Npc';
+
     public ReceiveActorBeginOverlap(other: Actor): void {
         if (isEntity(other)) {
             const tsEntity = other as ITsEntity;

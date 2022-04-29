@@ -128,3 +128,16 @@ export function loadClass(classNameOrPath: string): Class {
 export function genGuid(): string {
     return KismetGuidLibrary.NewGuid().ToString();
 }
+
+export function stringifyWithOutUnderScore(value: unknown): string {
+    return JSON.stringify(
+        value,
+        (key: string, value: unknown): unknown => {
+            if (typeof key === 'string' && key.startsWith('_')) {
+                return undefined;
+            }
+            return value;
+        },
+        2,
+    );
+}

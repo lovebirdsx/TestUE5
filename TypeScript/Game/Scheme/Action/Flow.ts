@@ -31,4 +31,6 @@ export const playFlowScheme = createScheme<IPlayFlow>({
     Tip: '播放流程配置文件中的某个流程',
     RenderType: 'custom',
     CreateDefault: createDefaultPlayFlow,
+    NewLine: true,
+    ShowName: true,
 });

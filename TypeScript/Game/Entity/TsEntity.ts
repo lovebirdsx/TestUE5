@@ -1,7 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, edit_on_instance } from 'ue';
 
-import { Entity, genEntity, IGameContext, ITsEntity, TComponentClass } from '../Interface';
+import {
+    Entity,
+    genEntity,
+    getEntityName,
+    IGameContext,
+    ITsEntity,
+    TComponentClass,
+} from '../Interface';
 
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 export const entityComponentClasses: TComponentClass[] = [];
@@ -16,9 +23,7 @@ export class TsEntity extends Actor implements ITsEntity {
     // @no-blueprint
     public Entity: Entity;
 
-    public get Name(): string {
-        return this.GetName();
-    }
+    public readonly Name: string = 'Entity';
 
     // @no-blueprint
     public Init(context: IGameContext): void {
@@ -43,7 +48,7 @@ export class TsEntity extends Actor implements ITsEntity {
 
     // @no-blueprint
     public GetComponentClasses(): TComponentClass[] {
-        return entityComponentClasses;
+        throw new Error(`[${getEntityName(this)}]GetComponentClasses not implement`);
     }
 }
 

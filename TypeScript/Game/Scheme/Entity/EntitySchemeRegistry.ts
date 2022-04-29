@@ -3,7 +3,8 @@ import * as UE from 'ue';
 
 import { getTsClassByUeClass, getUeClassByTsClass, TTsClassType } from '../../../Common/Class';
 import { error } from '../../../Common/Log';
-import { ObjectScheme, StringScheme } from '../../../Common/Type';
+import { ObjectScheme } from '../../../Common/Type';
+import { stringifyWithOutUnderScore } from '../../../Common/Util';
 import { entityRegistry } from '../../Entity/EntityRegistry';
 import { ITsEntity, TComponentClass, TComponentsState, TEntityPureData } from '../../Interface';
 
@@ -33,22 +34,12 @@ class EntitySchemeRegistry {
         return result as ObjectScheme<Partial<T>>;
     }
 
-    public GetScheme<T extends TTsClassType>(classType: T): ObjectScheme<Partial<T>> {
-        const classObj = getUeClassByTsClass(classType);
-        return this.GetSchemeByUeClass<T>(classObj);
-    }
-
     public GetComponentClasses(obj: UE.Object): TComponentClass[] {
         const tsClassObj = getTsClassByUeClass(obj.GetClass());
         return entityRegistry.GetComponents(tsClassObj);
     }
 
     public GenData<T extends ITsEntity>(obj: T): TEntityPureData {
-        const scheme = this.GetSchemeByUeClass(obj.GetClass());
-        if (!scheme) {
-            throw new Error(`No scheme for ${obj ? obj.GetName() : 'undefined'}`);
-        }
-
         const result: TEntityPureData = {
             // 转换为Object,方便查看序列化之后的字符串
             ComponentsStateJson: obj.ComponentsStateJson
@@ -57,52 +48,14 @@ class EntitySchemeRegistry {
             Guid: obj.Guid,
         };
 
-        for (const fieldName in scheme.Fields) {
-            const fieldScheme = scheme.Fields[fieldName] as StringScheme;
-            if (!fieldScheme) {
-                continue;
-            }
-
-            // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
-            if (fieldScheme.IsJson) {
-                let fileValue = obj[fieldName] as string;
-                if (!fileValue) {
-                    fileValue = fieldScheme.CreateDefault();
-                }
-                result[fieldName] = JSON.parse(fileValue);
-            } else {
-                result[fieldName] = obj[fieldName] as unknown;
-            }
-        }
-
         return result;
     }
 
     public ApplyData<T extends ITsEntity>(pureData: TEntityPureData, obj: T): void {
-        const classObj = obj.GetClass();
-        const scheme = this.GetSchemeByUeClass(classObj);
-        for (const fieldName in scheme.Fields) {
-            const fieldScheme = scheme.Fields[fieldName] as StringScheme;
-            if (!fieldScheme) {
-                continue;
-            }
-
-            if (pureData[fieldName] === undefined) {
-                error(`pureData for [${classObj.GetName()}.${fieldName}] is undefined`);
-            }
-
-            // Json字段特殊处理,是为了方便查看和对比序列化之后的字符串
-            if (fieldScheme.IsJson) {
-                const fieldValue = pureData[fieldName];
-                obj[fieldName] = JSON.stringify(fieldValue, null, 2);
-            } else {
-                obj[fieldName] = pureData[fieldName];
-            }
-        }
         obj.Guid = pureData.Guid;
 
         // pureData中存储的是对象,所以要转换一次
-        obj.ComponentsStateJson = JSON.stringify(pureData.ComponentsStateJson, null, 2);
+        obj.ComponentsStateJson = stringifyWithOutUnderScore(pureData.ComponentsStateJson);
 
         // 让ue认为对象已经被修改
         UE.EditorOperations.MarkPackageDirty(obj);

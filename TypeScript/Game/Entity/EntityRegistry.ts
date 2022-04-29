@@ -26,4 +26,8 @@ export function isEntity(actor: Actor): boolean {
     return isChildOfClass(actor, TsEntity) || isChildOfClass(actor, TsPlayer);
 }
 
+export function isPlayer(actor: Actor): boolean {
+    return isChildOfClass(actor, TsPlayer);
+}
+
 export const entityRegistry = new EntityRegistry();

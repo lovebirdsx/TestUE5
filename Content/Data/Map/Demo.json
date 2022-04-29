@@ -38,20 +38,22 @@
         4.0000001192092896
       ],
       "PureData": {
-        "ComponentsStateJson": {},
-        "Guid": "39120BD2430A0B8CD8A864A3E4E3E9B3",
-        "MaxTriggerTimes": 1,
-        "TriggerActionsJson": {
-          "Actions": [
-            {
-              "Name": "ShowMessage",
-              "Params": {
-                "Content": "你好呀！"
-              }
+        "ComponentsStateJson": {
+          "TriggerComponent": {
+            "MaxTriggerTimes": 1,
+            "TriggerActions": {
+              "Actions": [
+                {
+                  "Name": "ShowMessage",
+                  "Params": {
+                    "Content": "Hello Message"
+                  }
+                }
+              ]
             }
-          ],
-          "_ActionsFolded": false
-        }
+          }
+        },
+        "Guid": "39120BD2430A0B8CD8A864A3E4E3E9B3"
       }
     }
   ]

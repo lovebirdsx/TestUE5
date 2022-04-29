@@ -3,17 +3,16 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { IProps, TModifyType } from '../../../../Common/Type';
+import { IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
 import { gameConfig } from '../../../../Game/Common/Config';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IPlayFlow, ITriggerActions, parsePlayFlow } from '../../../../Game/Flow/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
-import { actionsScheme } from '../../../../Game/Scheme/Entity/TriggerScheme';
 import { ConfigFile } from '../../../FlowEditor/ConfigFile';
 import { Btn, List, Text } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
-import { Any } from '../Basic/Any';
+import { Any, Obj } from '../Basic/Public';
 import { flowContext } from '../Context';
 
 const DEFAULT_STATE_ID = 1;
@@ -177,10 +176,11 @@ export function RenderPlayFlowJson(props: IProps): JSX.Element {
     );
 }
 
-// ActionJson本来是Json字符串,但PureData中处理的时候实际上是该字符串被序列化之后的对象
-// 所以通过React渲染时,需要直接把其当成ITriggerActions来处理
-export function RenderActionJson(props: IProps): JSX.Element {
-    const actions = props.Value as ITriggerActions;
+export function RenderTriggerActions(
+    props: IProps<ITriggerActions, ObjectScheme<ITriggerActions>>,
+): JSX.Element {
+    const actions = props.Value;
+    const scheme = props.Scheme;
     const prefixElement = (
         <HorizontalBox>
             {props.PrefixElement}
@@ -189,23 +189,23 @@ export function RenderActionJson(props: IProps): JSX.Element {
                 Text={'Reset'}
                 Tip={'重置'}
                 OnClick={(): void => {
-                    props.OnModify(actionsScheme.CreateDefault(), 'normal');
+                    props.OnModify(scheme.CreateDefault(), 'normal');
                 }}
             />
             <Btn
                 Text={'Log'}
                 Tip={'输出动作Json'}
                 OnClick={(): void => {
-                    log(props.Value as string);
+                    log(JSON.stringify(actions.Actions, null, 2));
                 }}
             />
         </HorizontalBox>
     );
     return (
-        <Any
+        <Obj
             PrefixElement={prefixElement}
             Value={actions}
-            Scheme={actionsScheme}
+            Scheme={scheme}
             OnModify={(obj: unknown, type: TModifyType): void => {
                 props.OnModify(obj, type);
             }}

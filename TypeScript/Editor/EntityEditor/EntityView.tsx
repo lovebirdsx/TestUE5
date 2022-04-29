@@ -5,7 +5,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { genGuid } from '../../Common/Util';
-import { ITsEntity, TEntityPureData } from '../../Game/Interface';
+import { getEntityName, ITsEntity, TEntityPureData } from '../../Game/Interface';
 import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
@@ -30,10 +30,9 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
     private RenderPrefixElement(): JSX.Element {
         const entity = this.props.Entity;
-        const scheme = entitySchemeRegistry.GetSchemeByEntity(entity);
         return (
             <HorizontalBox>
-                <Text Text={scheme.Name} />
+                <Text Text={getEntityName(entity)} />
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
                 <Btn
                     Text={'⊙'}

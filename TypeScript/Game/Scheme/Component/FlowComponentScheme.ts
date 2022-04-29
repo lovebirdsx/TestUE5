@@ -7,4 +7,5 @@ export const flowComponentScheme = createObjectScheme<IFlowComponent>({
     Fields: {
         InitState: playFlowScheme,
     },
+    NewLine: true,
 });

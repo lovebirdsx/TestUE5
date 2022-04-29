@@ -7,6 +7,7 @@
 - 右键TestUE5.uproject,生成工程文件后,使用Vs2019进行编译
 - 在根目录下运行  `npm ci`
 - 在Content/Javascript/PuertsEditor下执行 `npm ci`
+- 在根目录下运行 `tsc`
 
 ## 指令
 

@@ -34,8 +34,8 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
 
             return (
                 <VerticalBox key={id}>
-                    <Text Text={classObj.name} />
                     <Obj
+                        PrefixElement={<Text Text={classObj.name} />}
                         Value={value}
                         Scheme={scheme as ObjectScheme<Record<string, unknown>>}
                         OnModify={(obj, type): void => {

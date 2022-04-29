@@ -1,6 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { CharacterMovementComponent, edit_on_instance, TestUE5Character } from 'ue';
+import {
+    Actor,
+    CharacterMovementComponent,
+    edit_on_instance,
+    PhysicsHandleComponent,
+    PrimitiveComponent,
+    Rotator,
+    TestUE5Character,
+    Vector,
+} from 'ue';
 
 import PlayerComponent from '../Component/PlayerComponent';
 import { Entity, genEntity, IGameContext, ITsEntity, TComponentClass } from '../Interface';
@@ -8,6 +17,15 @@ import { Entity, genEntity, IGameContext, ITsEntity, TComponentClass } from '../
 export const playerComponentClasses: TComponentClass[] = [PlayerComponent];
 
 class TsPlayer extends TestUE5Character implements ITsEntity {
+    // @no-blueprint
+    private Movement: CharacterMovementComponent;
+
+    // @no-blueprint
+    private GrabHandle: PhysicsHandleComponent;
+
+    // @no-blueprint
+    private InitSpeed: number;
+
     @edit_on_instance()
     public Guid = 'unknown';
 
@@ -43,14 +61,9 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
         this.Entity.Destroy();
     }
 
-    // @no-blueprint
-    private Movement: CharacterMovementComponent;
-
-    // @no-blueprint
-    private InitSpeed: number;
-
     public ReceiveBeginPlay(): void {
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
+        this.GrabHandle = new PhysicsHandleComponent(this, this.Name);
         this.InitSpeed = this.Movement.MaxWalkSpeed;
     }
 
@@ -76,6 +89,29 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     // @no-blueprint
     public ResetSpeed(): void {
         this.Speed = this.InitSpeed;
+    }
+
+    public SetGrab(actor: Actor): void {
+        if (!actor) {
+            this.GrabHandle.ReleaseComponent();
+            return;
+        }
+        const components = actor.K2_GetComponentsByClass(PrimitiveComponent.StaticClass());
+        const component = components.Get(0) as PrimitiveComponent;
+        if (component) {
+            const actorLocation: Vector = component.K2_GetComponentLocation();
+            const actorRotation: Rotator = component.K2_GetComponentRotation();
+            this.GrabHandle.GrabComponentAtLocationWithRotation(
+                component,
+                ``,
+                actorLocation,
+                actorRotation,
+            );
+        }
+    }
+
+    public get Grab(): PhysicsHandleComponent {
+        return this.GrabHandle;
     }
 }
 

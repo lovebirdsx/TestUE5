@@ -4,7 +4,7 @@
 import { DemoWorldSettings, MyFileHelper } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { error } from '../../Common/Log';
+import { error, log } from '../../Common/Log';
 import { gameConfig } from '../Common/Config';
 import { LevelUtil } from '../Common/LevelUtil';
 import { IEntityMananger, IEntityState, IGameContext, ITsEntity } from '../Interface';
@@ -49,6 +49,12 @@ export class EntityManager implements IManager, IEntityMananger {
             entity.Init(this.Context);
             entity.Load();
         });
+
+        const playerEntity = this.Context.Player;
+        playerEntity.Init(this.Context);
+        playerEntity.Load();
+        entities.push(playerEntity);
+
         this.EntitiesToSpawn.push(...entities);
     }
 

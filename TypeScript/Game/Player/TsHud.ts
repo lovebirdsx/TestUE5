@@ -14,6 +14,8 @@ class TsHud extends HUD {
     // @no-blueprint
     private UiInteractDisplay: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
 
+    private Interacts: string[];
+
     public Constructor(): void {
         const classObj = UE.Class.Load('/Game/Demo/UI/UI_TalkDisplayer.UI_TalkDisplayer_C');
         this.UiTalkerDisplay = UMGManager.CreateWidget(
@@ -26,6 +28,8 @@ class TsHud extends HUD {
             this.GetWorld(),
             interactObj,
         ) as UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
+
+        this.Interacts = [];
     }
 
     public ReceiveBeginPlay(): void {
@@ -40,6 +44,26 @@ class TsHud extends HUD {
 
     public get InteractDisplay(): UE.Game.Demo.UI.UI_Interact.UI_Interact_C {
         return this.UiInteractDisplay;
+    }
+
+    public AddInteract(key: string): void {
+        const index = this.Interacts.indexOf(key);
+        if (index < 0) {
+            this.Interacts.push(key);
+            this.UiInteractDisplay.AddItem(key);
+            this.UiInteractDisplay.ShowAll();
+        }
+    }
+
+    public DelInteract(key: string): void {
+        const index = this.Interacts.indexOf(key);
+        if (index >= 0) {
+            this.Interacts.splice(index, 1);
+            this.UiInteractDisplay.DelItem(index);
+        }
+        if (this.Interacts.length <= 0) {
+            this.UiInteractDisplay.HideAll();
+        }
     }
 
     // @no-blueprint

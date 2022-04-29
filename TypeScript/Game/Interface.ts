@@ -114,12 +114,15 @@ export class Entity {
 
     public readonly Context: IGameContext;
 
+    public readonly Actor: Actor;
+
     private readonly TriggerEnterComponents: Component[] = [];
 
     private readonly TriggerExitComponents: Component[] = [];
 
-    public constructor(name: string, context: IGameContext) {
+    public constructor(name: string, actor: Actor, context: IGameContext) {
         this.Name = name;
+        this.Actor = actor;
         this.Context = context;
     }
 
@@ -242,7 +245,7 @@ export class InteractiveComponent extends Component {
 }
 
 export function genEntity(tsEntity: ITsEntity, context: IGameContext): Entity {
-    const entity = new Entity(tsEntity.GetName(), context);
+    const entity = new Entity(tsEntity.GetName(), tsEntity, context);
     const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {

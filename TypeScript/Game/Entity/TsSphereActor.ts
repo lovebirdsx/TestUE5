@@ -1,12 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { InterActComponent } from '../Component/InterActComponent';
-import { IGameContext, TComponentClass } from '../Interface';
-import TsPlayer from '../Player/TsPlayer';
+import { GrabComponent } from '../Component/GrabComponent';
+import { SphereComponent } from '../Component/SphereComponent';
+import { ITsEntity, TComponentClass } from '../Interface';
+import { isEntity } from './EntityRegistry';
 import TsEntity from './TsEntity';
 
-export const sphereComponentClasses: TComponentClass[] = [InterActComponent];
+export const sphereComponentClasses: TComponentClass[] = [SphereComponent, GrabComponent];
 
 class TsSphereActor extends TsEntity {
     // @no-blueprint
@@ -14,40 +15,18 @@ class TsSphereActor extends TsEntity {
         return sphereComponentClasses;
     }
 
-    // @no-blueprint
-
-    private InterAct: InterActComponent;
-
-    // @no-blueprint
-    public Init(context: IGameContext): void {
-        super.Init(context);
-        this.InterAct = this.Entity.GetComponent(InterActComponent);
-    }
-
-    // @no-blueprint
-    // eslint-disable-next-line @typescript-eslint/require-await
-    public async Interact(player: TsPlayer): Promise<void> {
-        this.InterAct.Run();
-    }
-
     public ReceiveActorBeginOverlap(other: Actor): void {
-        if (!(other instanceof TsPlayer)) {
-            return;
+        if (isEntity(other)) {
+            const tsEntity = other as ITsEntity;
+            this.Entity.OnTriggerEnter(tsEntity.Entity);
         }
-        if (this.InterAct) {
-            this.InterAct.ShowInteract();
-        }
-        // other.AddInteractor(this);
     }
 
     public ReceiveActorEndOverlap(other: Actor): void {
-        if (!(other instanceof TsPlayer)) {
-            return;
+        if (isEntity(other)) {
+            const tsEntity = other as ITsEntity;
+            this.Entity.OnTriggerExit(tsEntity.Entity);
         }
-        if (this.InterAct) {
-            this.InterAct.CloseInteract();
-        }
-        // other.RemoveInteractor(this);
     }
 }
 

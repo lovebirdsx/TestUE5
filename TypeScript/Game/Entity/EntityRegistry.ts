@@ -1,8 +1,10 @@
+/* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { isChildOfClass, TTsClassType } from '../../Common/Class';
+import { getTsClassByUeClass, isChildOfClass, TTsClassType } from '../../Common/Class';
 import { error } from '../../Common/Log';
-import { TComponentClass } from '../Interface';
+import { stringifyWithOutUnderScore } from '../../Common/Util';
+import { ITsEntity, TComponentClass, TComponentsState, TEntityPureData } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 import TsEntity from './TsEntity';
 
@@ -13,12 +15,36 @@ class EntityRegistry {
         this.EntityMap.set(entityClass, components);
     }
 
-    public GetComponents(entityClass: TTsClassType): TComponentClass[] {
+    public GetComponentClassesByTsClass(entityClass: TTsClassType): TComponentClass[] {
         const result = this.EntityMap.get(entityClass);
         if (!result) {
             error(`No components class for [${entityClass.name}]`);
         }
         return result;
+    }
+
+    public GetComponentClassesByActor(actor: Actor): TComponentClass[] {
+        const tsClassObj = getTsClassByUeClass(actor.GetClass());
+        return this.GetComponentClassesByTsClass(tsClassObj);
+    }
+
+    public GenData<T extends ITsEntity>(obj: T): TEntityPureData {
+        const result: TEntityPureData = {
+            // 转换为Object,方便查看序列化之后的字符串
+            ComponentsStateJson: obj.ComponentsStateJson
+                ? (JSON.parse(obj.ComponentsStateJson) as TComponentsState)
+                : {},
+            Guid: obj.Guid,
+        };
+
+        return result;
+    }
+
+    public ApplyData<T extends ITsEntity>(pureData: TEntityPureData, obj: T): void {
+        obj.Guid = pureData.Guid;
+
+        // pureData中存储的是对象,所以要转换一次
+        obj.ComponentsStateJson = stringifyWithOutUnderScore(pureData.ComponentsStateJson);
     }
 }
 

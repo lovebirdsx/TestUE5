@@ -3,13 +3,12 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { ObjectScheme, TModifyType } from '../../Common/Type';
+import { TModifyType } from '../../Common/Type';
 import { genGuid } from '../../Common/Util';
+import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { getEntityName, ITsEntity, TEntityPureData } from '../../Game/Interface';
-import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { Obj } from '../Common/SchemeComponent/Public';
 import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {
@@ -28,7 +27,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         LevelEditorUtil.FocusOnSelectedBlueprint(this.props.Entity);
     };
 
-    private RenderPrefixElement(): JSX.Element {
+    private RenderEntityInfo(): JSX.Element {
         const entity = this.props.Entity;
         return (
             <HorizontalBox>
@@ -64,24 +63,18 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const props = this.props;
         const entity = props.Entity;
         const pureData = props.PureData;
-        const scheme = entitySchemeRegistry.GetSchemeByEntity(entity);
 
         // pureData中ComponentsStateJson不是字符串,而是解析之后的数据
         const componentsState = pureData.ComponentsStateJson;
-        const componentClassObjs = entitySchemeRegistry.GetComponentClasses(entity);
+        const componentClassObjs = entityRegistry.GetComponentClassesByActor(entity);
 
         return (
             <VerticalBox>
                 <VerticalBox>
                     <H3 Text={'Entity'} />
                     {this.RenderGuid()}
+                    {this.RenderEntityInfo()}
                 </VerticalBox>
-                <Obj
-                    PrefixElement={this.RenderPrefixElement()}
-                    Value={pureData}
-                    Scheme={scheme as ObjectScheme<TEntityPureData>}
-                    OnModify={props.OnModify}
-                />
                 <H3 Text={'Components'} />
                 <ComponentsState
                     Value={componentsState}

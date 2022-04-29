@@ -5,9 +5,9 @@ import { GameplayStatics, Rotator, Transform, Vector } from 'ue';
 import { getBlueprintId, getBlueprintType } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import StateComponent from '../Component/StateComponent';
+import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
 import { IEntityState, IGameContext, ITsEntity } from '../Interface';
-import { entitySchemeRegistry } from '../Scheme/Entity/Public';
 
 function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
@@ -84,7 +84,7 @@ class EntitySerializer {
             Pos: vectorToArray(entity.K2_GetActorLocation()),
             Rotation: genRotationArray(entity.K2_GetActorRotation().Euler()),
             Scale: genScaleArray(entity.GetActorScale3D()),
-            PureData: entitySchemeRegistry.GenData(entity),
+            PureData: entityRegistry.GenData(entity),
             State: genState(entity),
         };
     }
@@ -98,7 +98,7 @@ class EntitySerializer {
             transfrom,
         ) as TsEntity;
         GameplayStatics.FinishSpawningActor(entity, transfrom);
-        entitySchemeRegistry.ApplyData(state.PureData, entity);
+        entityRegistry.ApplyData(state.PureData, entity);
         entity.Init(context);
         applyState(entity, state.State);
         entity.Load();
@@ -107,7 +107,7 @@ class EntitySerializer {
     }
 
     public ApplyPlayerState(context: IGameContext, player: ITsEntity, state: IEntityState): void {
-        entitySchemeRegistry.ApplyData(state.PureData, player);
+        entityRegistry.ApplyData(state.PureData, player);
         player.Init(context);
         applyState(player, state.State);
         player.Load();

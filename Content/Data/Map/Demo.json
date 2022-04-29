@@ -46,7 +46,7 @@
                 {
                   "Name": "ShowMessage",
                   "Params": {
-                    "Content": "Hello Message"
+                    "Content": "Hello!"
                   }
                 }
               ]

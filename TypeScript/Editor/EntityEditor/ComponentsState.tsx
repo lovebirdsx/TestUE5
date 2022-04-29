@@ -7,7 +7,7 @@ import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { TComponentClass, TComponentsState } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Index';
 import { Text } from '../Common/BaseComponent/CommonComponent';
-import { Obj } from '../Common/SchemeComponent/Basic/Public';
+import { Obj } from '../Common/SchemeComponent/Public';
 
 export interface IComponentsStateProps {
     Value: TComponentsState;

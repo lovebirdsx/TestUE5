@@ -8,9 +8,9 @@ import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule, MyFileHelp
 import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
+import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import TsEntity from '../../Game/Entity/TsEntity';
 import { ITsEntity, TEntityPureData } from '../../Game/Interface';
-import { entitySchemeRegistry } from '../../Game/Scheme/Entity/Public';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
@@ -65,7 +65,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: entitySchemeRegistry.GenData(entity),
+                PureData: entityRegistry.GenData(entity),
             };
         }
 
@@ -115,7 +115,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         const entityState: IEntityState = {
             Entity: entity,
-            PureData: entitySchemeRegistry.GenData(entity),
+            PureData: entityRegistry.GenData(entity),
         };
 
         // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
@@ -205,7 +205,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        entitySchemeRegistry.ApplyData(es.PureData, es.Entity);
+        entityRegistry.ApplyData(es.PureData, es.Entity);
+
+        // 让ue认为对象已经被修改
+        EditorOperations.MarkPackageDirty(es.Entity);
+
         this.LastApplyEntityState = es;
     }
 

@@ -1,6 +1,7 @@
 import { DemoGameInstance } from 'ue';
 
 import { GameInstance } from './GameInstance';
+import { gameContext } from './Interface';
 
 class TsGameInstance extends DemoGameInstance {
     // @no-blueprint
@@ -11,7 +12,8 @@ class TsGameInstance extends DemoGameInstance {
         // 譬如 Player, PlayerController
         if (!this.Instance) {
             this.Instance = new GameInstance();
-            this.Instance.Init(this.GetWorld());
+            gameContext.World = this.GetWorld();
+            this.Instance.Init();
         }
         this.Instance.Tick(deltaSeconds);
     }

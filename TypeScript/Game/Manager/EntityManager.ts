@@ -4,10 +4,10 @@
 import { DemoWorldSettings, MyFileHelper } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { error, log } from '../../Common/Log';
+import { error } from '../../Common/Log';
 import { gameConfig } from '../Common/Config';
 import { LevelUtil } from '../Common/LevelUtil';
-import { IEntityMananger, IEntityState, IGameContext, ITsEntity } from '../Interface';
+import { gameContext, IEntityMananger, IEntityState, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { ILevelState, LevelSerializer } from '../Serialize/LevelSerializer';
 import { IManager } from './Interface';
@@ -23,11 +23,12 @@ export class EntityManager implements IManager, IEntityMananger {
 
     private readonly EntitiesToDestroy: ITsEntity[] = [];
 
-    private Context: IGameContext;
+    public constructor() {
+        gameContext.EntityManager = this;
+    }
 
-    public Init(context: IGameContext): void {
-        this.Context = context;
-        const levelSettings = context.World.K2_GetWorldSettings() as DemoWorldSettings;
+    public Init(): void {
+        const levelSettings = gameContext.World.K2_GetWorldSettings() as DemoWorldSettings;
         if (levelSettings.DisableCustomEntityLoad) {
             this.InitAllExistEntites();
         } else {
@@ -37,21 +38,21 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     private RemoveAllExistEntites(): void {
-        const entities = LevelUtil.GetAllEntities(this.Context.World);
+        const entities = LevelUtil.GetAllEntities(gameContext.World);
         entities.forEach((entity) => {
             entity.K2_DestroyActor();
         });
     }
 
     private InitAllExistEntites(): void {
-        const entities = LevelUtil.GetAllEntities(this.Context.World);
+        const entities = LevelUtil.GetAllEntities(gameContext.World);
         entities.forEach((entity) => {
-            entity.Init(this.Context);
+            entity.Init();
             entity.Load();
         });
 
-        const playerEntity = this.Context.Player;
-        playerEntity.Init(this.Context);
+        const playerEntity = gameContext.Player;
+        playerEntity.Init();
         playerEntity.Load();
         entities.push(playerEntity);
 
@@ -60,19 +61,19 @@ export class EntityManager implements IManager, IEntityMananger {
 
     private LoadState(): void {
         let levelState: ILevelState = undefined;
-        const mapSavePath = gameConfig.GetCurrentMapSavePath(this.Context.World);
+        const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
         if (MyFileHelper.Exist(mapSavePath)) {
             levelState = this.LevelSerializer.Load(mapSavePath);
         } else {
-            const mapDataPath = gameConfig.GetCurrentMapDataPath(this.Context.World);
+            const mapDataPath = gameConfig.GetCurrentMapDataPath(gameContext.World);
             levelState = this.LevelSerializer.Load(mapDataPath);
         }
 
-        const player = this.Context.Player;
+        const player = gameContext.Player;
         if (levelState.Player) {
-            entitySerializer.ApplyPlayerState(this.Context, player, levelState.Player);
+            entitySerializer.ApplyPlayerState(player, levelState.Player);
         } else {
-            player.Init(this.Context);
+            player.Init();
             player.Load();
         }
 
@@ -82,7 +83,7 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     public SpawnEntity(state: IEntityState): ITsEntity {
-        const entity = entitySerializer.SpawnEntityByState(this.Context, state);
+        const entity = entitySerializer.SpawnEntityByState(state);
         this.EntitiesToSpawn.push(entity);
         return entity;
     }
@@ -139,8 +140,8 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     public Save(): void {
-        const mapSavePath = gameConfig.GetCurrentMapSavePath(this.Context.World);
-        this.LevelSerializer.Save(this.Entities, this.Context.Player, mapSavePath);
+        const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
+        this.LevelSerializer.Save(this.Entities, gameContext.Player, mapSavePath);
     }
 
     public RemoveEntity(...entities: ITsEntity[]): void {

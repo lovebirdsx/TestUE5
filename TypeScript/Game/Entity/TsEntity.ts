@@ -1,14 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, edit_on_instance } from 'ue';
 
-import {
-    Entity,
-    genEntity,
-    getEntityName,
-    IGameContext,
-    ITsEntity,
-    TComponentClass,
-} from '../Interface';
+import { Entity, genEntity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
 
 // 没有做成TsEntity的static成员变量，是因为Puerts不支持
 export const entityComponentClasses: TComponentClass[] = [];
@@ -26,8 +19,8 @@ export class TsEntity extends Actor implements ITsEntity {
     public readonly Name: string = 'Entity';
 
     // @no-blueprint
-    public Init(context: IGameContext): void {
-        this.Entity = genEntity(this, context);
+    public Init(): void {
+        this.Entity = genEntity(this);
         this.Entity.Init();
     }
 

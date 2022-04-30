@@ -7,7 +7,7 @@ import { error } from '../../Common/Log';
 import StateComponent from '../Component/StateComponent';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
-import { IEntityState, IGameContext, ITsEntity } from '../Interface';
+import { gameContext, IEntityState, ITsEntity } from '../Interface';
 
 function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
@@ -89,26 +89,26 @@ class EntitySerializer {
         };
     }
 
-    public SpawnEntityByState(context: IGameContext, state: IEntityState): TsEntity {
+    public SpawnEntityByState(state: IEntityState): TsEntity {
         const actorClass = getBlueprintType(state.PrefabId);
         const transfrom = genTransform(state);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
-            context.World,
+            gameContext.World,
             actorClass,
             transfrom,
         ) as TsEntity;
         GameplayStatics.FinishSpawningActor(entity, transfrom);
         entityRegistry.ApplyData(state.PureData, entity);
-        entity.Init(context);
+        entity.Init();
         applyState(entity, state.State);
         entity.Load();
 
         return entity;
     }
 
-    public ApplyPlayerState(context: IGameContext, player: ITsEntity, state: IEntityState): void {
+    public ApplyPlayerState(player: ITsEntity, state: IEntityState): void {
         entityRegistry.ApplyData(state.PureData, player);
-        player.Init(context);
+        player.Init();
         applyState(player, state.State);
         player.Load();
     }

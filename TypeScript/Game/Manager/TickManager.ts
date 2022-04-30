@@ -1,5 +1,5 @@
 import { error } from '../../Common/Log';
-import { IGameContext, ITickable, ITickManager } from '../Interface';
+import { gameContext, ITickable, ITickManager } from '../Interface';
 import { IManager } from './Interface';
 
 export class TickManager implements IManager, ITickManager {
@@ -10,6 +10,10 @@ export class TickManager implements IManager, ITickManager {
     private readonly AddQueue: ITickable[] = [];
 
     private readonly RemoveQueue: ITickable[] = [];
+
+    public constructor() {
+        gameContext.TickManager = this;
+    }
 
     public AddTick(tickable: ITickable): void {
         if (this.TickSet.has(tickable)) {
@@ -31,7 +35,7 @@ export class TickManager implements IManager, ITickManager {
         this.RemoveQueue.push(tickable);
     }
 
-    public Init(context: IGameContext): void {}
+    public Init(): void {}
 
     public Exit(): void {}
 

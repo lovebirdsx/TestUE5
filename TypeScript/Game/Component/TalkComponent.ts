@@ -10,7 +10,7 @@ import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerListOp } from '../Common/Operations/TalkerList';
 import { IActionInfo, IFlowListInfo, IJumpTalk, IShowTalk, ITalkItem } from '../Flow/Action';
-import { Component } from '../Interface';
+import { Component, gameContext } from '../Interface';
 import TsHud from '../Player/TsHud';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 
@@ -34,7 +34,7 @@ export class TalkComponent extends Component {
     public OnInit(): void {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
 
-        const playerController = this.Context.PlayerController;
+        const playerController = gameContext.PlayerController;
         const tsHud = playerController.GetHUD() as TsHud;
         this.TalkerDisplay = tsHud.TalkerDisplay;
 

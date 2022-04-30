@@ -2,16 +2,14 @@
 import { GameplayStatics, PlayerController } from 'ue';
 
 import PlayerComponent from '../Component/PlayerComponent';
-import { IGameContext } from '../Interface';
+import { gameContext } from '../Interface';
 import TsPlayer from './TSPlayer';
 
 class TsPlayerController extends PlayerController {
     private MyPlayer: TsPlayer;
 
-    // @no-blueprint
-    public Context: IGameContext;
-
     public ReceiveBeginPlay(): void {
+        gameContext.PlayerController = this;
         this.MyPlayer = GameplayStatics.GetPlayerCharacter(this.GetWorld(), 0) as TsPlayer;
     }
 
@@ -32,11 +30,11 @@ class TsPlayerController extends PlayerController {
     }
 
     public Load(): void {
-        this.Context.EntityManager.Load();
+        gameContext.EntityManager.Load();
     }
 
     public Save(): void {
-        this.Context.EntityManager.Save();
+        gameContext.EntityManager.Save();
     }
 }
 

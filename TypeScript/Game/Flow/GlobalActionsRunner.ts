@@ -2,7 +2,7 @@
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Common/Log';
 import { msgbox } from '../../Common/UeHelper';
-import { IGameContext, IGlobalActionsRunner } from '../Interface';
+import { gameContext, IGlobalActionsRunner } from '../Interface';
 import { IManager } from '../Manager/Interface';
 import {
     IActionInfo,
@@ -17,18 +17,18 @@ import {
 export class GlobalActionsRunner implements IManager, IGlobalActionsRunner {
     private readonly ActionMap: Map<TActionType, TActionFun>;
 
-    private Context: IGameContext;
-
     public constructor() {
         this.ActionMap = new Map();
         this.ActionMap.set('Log', this.ExecuteLog.bind(this));
         this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
         this.ActionMap.set('ShowMessage', this.ExecuteShowMessage.bind(this));
         this.ActionMap.set('SetFlowBoolOption', this.ExecuteSetFlowBoolOption.bind(this));
+
+        gameContext.GlobalActionsRunner = this;
     }
 
-    public Init(context: IGameContext): void {
-        this.Context = context;
+    public Init(): void {
+        //
     }
 
     public Exit(): void {
@@ -85,9 +85,9 @@ export class GlobalActionsRunner implements IManager, IGlobalActionsRunner {
         switch (action.Option) {
             case 'DisableInput':
                 if (action.Value) {
-                    this.Context.Player.DisableInput(this.Context.PlayerController);
+                    gameContext.Player.DisableInput(gameContext.PlayerController);
                 } else {
-                    this.Context.Player.EnableInput(this.Context.PlayerController);
+                    gameContext.Player.EnableInput(gameContext.PlayerController);
                 }
                 break;
 

@@ -12,7 +12,7 @@ import {
 } from 'ue';
 
 import PlayerComponent from '../Component/PlayerComponent';
-import { Entity, genEntity, IGameContext, ITsEntity, TComponentClass } from '../Interface';
+import { Entity, gameContext, genEntity, ITsEntity, TComponentClass } from '../Interface';
 
 export const playerComponentClasses: TComponentClass[] = [PlayerComponent];
 
@@ -41,8 +41,8 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     }
 
     // @no-blueprint
-    public Init(context: IGameContext): void {
-        this.Entity = genEntity(this, context);
+    public Init(): void {
+        this.Entity = genEntity(this);
         this.Entity.Init();
     }
 
@@ -65,6 +65,8 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
         this.GrabHandle = new PhysicsHandleComponent(this, this.Name);
         this.InitSpeed = this.Movement.MaxWalkSpeed;
+
+        gameContext.Player = this;
     }
 
     public get Name(): string {

@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Vector } from 'ue';
 
-import { Entity, InteractiveComponent } from '../Interface';
+import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
 import { GrabComponent, IGrabSetting } from './GrabComponent';
 import PlayerComponent from './PlayerComponent';
@@ -23,7 +23,7 @@ export class SphereComponent extends InteractiveComponent {
     }
 
     public GetPlayerHud(): TsHud {
-        const playerController = this.Context.PlayerController;
+        const playerController = gameContext.PlayerController;
         return playerController.GetHUD() as TsHud;
     }
 

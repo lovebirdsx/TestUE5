@@ -1,7 +1,5 @@
-import { IGameContext } from '../Interface';
-
 export interface IManager {
-    Init: (context: IGameContext) => void;
+    Init: () => void;
     Exit: () => void;
     Tick?: (deltaTime: number) => void;
 }

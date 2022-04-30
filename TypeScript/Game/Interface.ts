@@ -34,7 +34,7 @@ export interface ITsEntity extends Actor {
     Name: string;
     GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
-    Init: (context: IGameContext) => void;
+    Init: () => void;
     Load: () => void;
     Start: () => void;
     Destroy: () => void;
@@ -92,10 +92,17 @@ export interface IGameContext {
     GlobalActionsRunner: IGlobalActionsRunner;
 }
 
+export const gameContext: IGameContext = {
+    Player: undefined,
+    PlayerController: undefined,
+    World: undefined,
+    EntityManager: undefined,
+    TickManager: undefined,
+    GlobalActionsRunner: undefined,
+};
+
 export abstract class Component {
     public Entity: Entity;
-
-    public Context: IGameContext;
 
     public get Name(): string {
         return this.Entity.Name;
@@ -123,18 +130,15 @@ export class Entity {
 
     public readonly Name: string;
 
-    public readonly Context: IGameContext;
-
     public readonly Actor: Actor;
 
     private readonly TriggerEnterComponents: Component[] = [];
 
     private readonly TriggerExitComponents: Component[] = [];
 
-    public constructor(name: string, actor: Actor, context: IGameContext) {
+    public constructor(name: string, actor: Actor) {
         this.Name = name;
         this.Actor = actor;
-        this.Context = context;
     }
 
     public get Components(): Component[] {
@@ -144,7 +148,6 @@ export class Entity {
     public AddComponent(component: Component): void {
         this.MyComponents.push(component);
         component.Entity = this;
-        component.Context = this.Context;
         this.AccessOptionalCallback(component, true);
     }
 
@@ -255,8 +258,8 @@ export class InteractiveComponent extends Component {
     }
 }
 
-export function genEntity(tsEntity: ITsEntity, context: IGameContext): Entity {
-    const entity = new Entity(tsEntity.GetName(), tsEntity, context);
+export function genEntity(tsEntity: ITsEntity): Entity {
+    const entity = new Entity(tsEntity.GetName(), tsEntity);
     const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {

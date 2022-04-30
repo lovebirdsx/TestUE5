@@ -4,7 +4,7 @@
 import { Actor, Rotator, Vector } from 'ue';
 
 import { log } from '../../Common/Log';
-import { Component, ITickable } from '../Interface';
+import { Component, gameContext, ITickable } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 
 export interface IGrabSetting {
@@ -41,7 +41,7 @@ export class GrabComponent extends Component {
         log('set grab');
         this.GrabInfo.Actor = actor;
         this.GrabInfo.Setting = info;
-        const player = this.Context.Player as TsPlayer;
+        const player = gameContext.Player as TsPlayer;
         player.SetGrab(actor);
         this.GrabTick = {
             Name: player.Name + `Grab` + actor.GetName(),
@@ -49,14 +49,14 @@ export class GrabComponent extends Component {
                 this.UpdateGradPos();
             },
         };
-        this.Context.TickManager.AddTick(this.GrabTick);
+        gameContext.TickManager.AddTick(this.GrabTick);
     }
 
     public ReleaseGrab(): void {
-        this.Context.TickManager.RemoveTick(this.GrabTick);
+        gameContext.TickManager.RemoveTick(this.GrabTick);
         this.GrabInfo.Actor = null;
         this.GrabInfo.Setting = null;
-        const player = this.Context.Player as TsPlayer;
+        const player = gameContext.Player as TsPlayer;
         player.SetGrab(null);
     }
 
@@ -64,7 +64,7 @@ export class GrabComponent extends Component {
         if (this.GrabInfo.Actor === null) {
             return;
         }
-        const player = this.Context.Player as TsPlayer;
+        const player = gameContext.Player as TsPlayer;
         const grab = player.Grab;
         const component = grab.GetGrabbedComponent();
         if (component) {

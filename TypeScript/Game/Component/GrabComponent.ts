@@ -26,7 +26,7 @@ export class GrabComponent extends Component {
         this.GrabInfo = { Actor: null, Setting: setting };
     }
 
-    public OnLoad(): void {}
+    public OnLoadState(): void {}
 
     public OnStart(): void {}
 

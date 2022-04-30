@@ -35,7 +35,7 @@ export interface ITsEntity extends Actor {
     GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
     Init: () => void;
-    Load: () => void;
+    LoadState: () => void;
     Start: () => void;
     Destroy: () => void;
 }
@@ -110,7 +110,7 @@ export abstract class Component {
 
     public OnInit(): void {}
 
-    public OnLoad(): void {}
+    public OnLoadState(): void {}
 
     public OnStart(): void {}
 
@@ -220,9 +220,9 @@ export class Entity {
         });
     }
 
-    public Load(): void {
+    public LoadState(): void {
         this.Components.forEach((c) => {
-            c.OnLoad();
+            c.OnLoadState();
         });
     }
 

@@ -25,8 +25,8 @@ export class TsEntity extends Actor implements ITsEntity {
     }
 
     // @no-blueprint
-    public Load(): void {
-        this.Entity.Load();
+    public LoadState(): void {
+        this.Entity.LoadState();
     }
 
     // @no-blueprint

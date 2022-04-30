@@ -101,7 +101,7 @@ class EntitySerializer {
         entityRegistry.ApplyData(state.PureData, entity);
         entity.Init();
         applyState(entity, state.State);
-        entity.Load();
+        entity.LoadState();
 
         return entity;
     }
@@ -110,7 +110,7 @@ class EntitySerializer {
         entityRegistry.ApplyData(state.PureData, player);
         player.Init();
         applyState(player, state.State);
-        player.Load();
+        player.LoadState();
     }
 }
 

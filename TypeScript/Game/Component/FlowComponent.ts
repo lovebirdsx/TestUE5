@@ -42,7 +42,7 @@ export class FlowComponent extends Component implements IFlowComponent {
         this.ActionRunner.RegisterActionFun('ShowTalk', this.ExecuteShowTalk.bind(this));
     }
 
-    public OnLoad(): void {
+    public OnLoadState(): void {
         this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
     }
 

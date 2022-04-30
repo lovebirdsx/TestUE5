@@ -48,18 +48,18 @@ export class EntityManager implements IManager, IEntityMananger {
         const entities = LevelUtil.GetAllEntities(gameContext.World);
         entities.forEach((entity) => {
             entity.Init();
-            entity.Load();
+            entity.LoadState();
         });
 
         const playerEntity = gameContext.Player;
         playerEntity.Init();
-        playerEntity.Load();
+        playerEntity.LoadState();
         entities.push(playerEntity);
 
         this.EntitiesToSpawn.push(...entities);
     }
 
-    private LoadState(): void {
+    private LoadLevel(): ILevelState {
         let levelState: ILevelState = undefined;
         const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
         if (MyFileHelper.Exist(mapSavePath)) {
@@ -68,13 +68,18 @@ export class EntityManager implements IManager, IEntityMananger {
             const mapDataPath = gameConfig.GetCurrentMapDataPath(gameContext.World);
             levelState = this.LevelSerializer.Load(mapDataPath);
         }
+        return levelState;
+    }
+
+    private LoadState(): void {
+        const levelState = this.LoadLevel();
 
         const player = gameContext.Player;
         if (levelState.Player) {
             entitySerializer.ApplyPlayerState(player, levelState.Player);
         } else {
             player.Init();
-            player.Load();
+            player.LoadState();
         }
 
         levelState.Entities.forEach((es) => {

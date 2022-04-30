@@ -4,6 +4,7 @@ import { TActionType } from '../../Flow/Action';
 import { actionRegistry } from './ActionRegistry';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
+import { moveToPosScheme } from './Move';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
@@ -18,6 +19,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     FinishState: finishStateScheme,
     JumpTalk: jumpTalkScheme,
     Log: logScheme,
+    MoveToPos: moveToPosScheme,
     PlaySequenceData: playSequenceDataScheme,
     PlayCustomSequence: playCustomSequenceScheme,
     SetCameraMode: setCameraModeScheme,

@@ -8,6 +8,7 @@ export type TActionType =
     | 'FinishTalk'
     | 'JumpTalk'
     | 'Log'
+    | 'MoveToPos'
     | 'PlayCustomSequence'
     | 'PlaySequenceData'
     | 'SetCameraMode'
@@ -229,4 +230,14 @@ export type TCameraBindMode = keyof typeof cameraBindModeConfig;
 
 export interface IShowCenterText {
     TextId: number;
+}
+
+export interface IVector {
+    X: number;
+    Y: number;
+    Z: number;
+}
+
+export interface IMoveToPos {
+    Pos: IVector;
 }

@@ -24,6 +24,21 @@ class LevelEditorUtil {
         EditorLevelLibrary.SetSelectedLevelActors(actors);
     }
 
+    public static ClearSelect(): void {
+        EditorLevelLibrary.ClearActorSelectionSet();
+    }
+
+    public static IsSelect(actor: Actor): boolean {
+        const actors = EditorLevelLibrary.GetSelectedLevelActors();
+        for (let i = 0; i < actors.Num(); i++) {
+            const actor1 = actors.Get(i);
+            if (actor1 === actor) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static FocusSelected(): void {
         EditorOperations.ExecuteLevelEditorCommand('CAMERA ALIGN');
     }

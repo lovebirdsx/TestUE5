@@ -1,7 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IPlayFlow, IShowTalk, ITriggerActions } from '../../../Game/Flow/Action';
+import { IPlayFlow, IShowTalk, ITriggerActions, IVector } from '../../../Game/Flow/Action';
 import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
 import { jumpIdScheme } from '../../../Game/Scheme/Action/JumpTalk';
+import { posScheme } from '../../../Game/Scheme/Action/Move';
 import { whoIdsScheme } from '../../../Game/Scheme/Action/Sequence';
 import {
     showTalkScheme,
@@ -16,6 +17,7 @@ import { triggerActionsScheme } from '../../../Game/Scheme/Component/TriggerComp
 import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
 import { RenderCsvFollowCell } from './Extend/Csv';
 import { RenderPlayFlow, RenderStateId, RenderTriggerActions } from './Extend/Flow';
+import { Point } from './Extend/Point';
 import { RenderWhoIdsScheme } from './Extend/Sequence';
 import {
     RenderJumpTalkId,
@@ -37,6 +39,7 @@ renderRegistry.RegComponent<string>(csvFollowCellScheme, RenderCsvFollowCell);
 renderRegistry.RegComponent<ITriggerActions>(triggerActionsScheme, RenderTriggerActions);
 renderRegistry.RegObjComponent<IShowTalk>(showTalkScheme, RenderShowTalk);
 renderRegistry.RegComponent<IPlayFlow>(playFlowScheme, RenderPlayFlow);
+renderRegistry.RegComponent<IVector>(posScheme, Point);
 
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 

@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Class, KismetGuidLibrary } from 'ue';
+import { Class, KismetGuidLibrary, Vector } from 'ue';
 import * as UE from 'ue';
 
 /* eslint-disable spellcheck/spell-checker */
@@ -140,4 +140,11 @@ export function stringifyWithOutUnderScore(value: unknown): string {
         },
         2,
     );
+}
+
+export function alignVector(vec: Vector, len = 1): Vector {
+    const x = Math.floor(vec.X / len) * len;
+    const y = Math.floor(vec.Y / len) * len;
+    const z = Math.floor(vec.Z / len) * len;
+    return new Vector(x, y, z);
 }

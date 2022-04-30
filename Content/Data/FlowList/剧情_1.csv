@@ -9,7 +9,7 @@
 ,剧情_1,"{
   ""VersionNum"": 8,
   ""TextGenId"": 10,
-  ""FlowGenId"": 4,
+  ""FlowGenId"": 5,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -207,6 +207,29 @@
               ""Params"": {
                 ""Option"": ""DisableInput"",
                 ""Value"": false
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 4,
+      ""StateGenId"": 2,
+      ""Name"": ""剧情4"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""MoveToPos"",
+              ""Params"": {
+                ""Pos"": {
+                  ""X"": 364,
+                  ""Y"": -1000,
+                  ""Z"": 0
+                }
               }
             }
           ],

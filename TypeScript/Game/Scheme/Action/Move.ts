@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { createObjectScheme } from '../../../Common/Type';
+import { createFloatScheme, createObjectScheme } from '../../../Common/Type';
 import { IMoveToPos, IVector } from '../../Flow/Action';
 
 export const posScheme = createObjectScheme<IVector>({
@@ -14,10 +15,19 @@ export const posScheme = createObjectScheme<IVector>({
     Check: () => {
         return 0;
     },
+    ShowName: true,
+    Tip: '目标位置',
 });
 
 export const moveToPosScheme = createObjectScheme<IMoveToPos>({
     Fields: {
+        Timeout: createFloatScheme({
+            CreateDefault: () => 5,
+            ShowName: true,
+            Tip: '超时的间隔',
+        }),
         Pos: posScheme,
     },
+    Tip: '移动到目标点,超时则会取消移动',
+    Scheduled: true,
 });

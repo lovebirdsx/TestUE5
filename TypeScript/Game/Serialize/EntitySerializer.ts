@@ -1,12 +1,18 @@
 /* eslint-disable spellcheck/spell-checker */
 
-import { GameplayStatics, Rotator, Transform, Vector } from 'ue';
+import { Actor, Character, GameplayStatics, Rotator, Transform, Vector } from 'ue';
 
-import { getBlueprintId, getBlueprintType, getUeClassByTsClass } from '../../Common/Class';
+import {
+    getBlueprintId,
+    getBlueprintType,
+    getUeClassByTsClass,
+    isChildOfClass,
+} from '../../Common/Class';
 import { error } from '../../Common/Log';
 import StateComponent from '../Component/StateComponent';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
+import TsCharacterEntity from '../Entity/TsCharacterEntity';
 import { gameContext, IEntityState, ITsEntity } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 
@@ -98,6 +104,11 @@ class EntitySerializer {
             actorClass,
             transfrom,
         ) as TsEntity;
+
+        if (isChildOfClass(entity, TsCharacterEntity)) {
+            const character = entity as Actor as Character;
+            character.SpawnDefaultController();
+        }
 
         entityRegistry.ApplyData(state.PureData, entity);
         entity.Init();

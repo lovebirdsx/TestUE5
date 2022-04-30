@@ -7,21 +7,52 @@ export async function delay(time: number): Promise<void> {
     });
 }
 
-export async function delayByCondition(time: number, condtion: () => boolean): Promise<void> {
-    return new Promise((resolve): void => {
-        setTimeout(() => {
-            if (condtion()) {
-                resolve();
-            }
+export interface ICancleableDelay {
+    Promise: Promise<void>;
+    IsFinished: () => boolean;
+    Cancel: () => void;
+}
+
+export function createCancleableDelay(time: number): ICancleableDelay {
+    let id: unknown = undefined;
+    let finished = false;
+    const promise = new Promise<void>((resolve): void => {
+        id = setTimeout(() => {
+            finished = true;
+            resolve();
         }, time * MS_PER_SEC);
     });
+    return {
+        Promise: promise,
+        IsFinished: () => finished,
+        Cancel: (): void => {
+            if (!finished) {
+                clearTimeout(id as number);
+            }
+        },
+    };
+}
+
+export interface ISignal<T> {
+    Promise: Promise<T>;
+    Emit: (t?: T) => void;
+    IsEmit: () => boolean;
 }
 
 export type TCallback<T> = (t: T) => void;
-export async function waitCallback<T>(
-    setCallback: (resolve: TCallback<T>, reject: TCallback<T>) => void,
-): Promise<T> {
-    return new Promise<T>((resolve1, reject1) => {
-        setCallback(resolve1, reject1);
+
+export function createSignal<T>(): ISignal<T> {
+    let resolve: TCallback<T> = undefined;
+    let isEmit = false;
+    const promise = new Promise<T>((resolve0): void => {
+        resolve = resolve0;
     });
+    return {
+        Promise: promise,
+        Emit: (t?: T): void => {
+            isEmit = true;
+            resolve(t);
+        },
+        IsEmit: () => isEmit,
+    };
 }

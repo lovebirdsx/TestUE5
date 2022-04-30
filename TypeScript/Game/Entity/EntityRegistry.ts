@@ -6,6 +6,7 @@ import { error } from '../../Common/Log';
 import { stringifyWithOutUnderScore } from '../../Common/Util';
 import { ITsEntity, TComponentClass, TComponentsState, TEntityPureData } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
+import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
 
 class EntityRegistry {
@@ -49,7 +50,11 @@ class EntityRegistry {
 }
 
 export function isEntity(actor: Actor): boolean {
-    return isChildOfClass(actor, TsEntity) || isChildOfClass(actor, TsPlayer);
+    return (
+        isChildOfClass(actor, TsEntity) ||
+        isChildOfClass(actor, TsCharacterEntity) ||
+        isChildOfClass(actor, TsPlayer)
+    );
 }
 
 export function isPlayer(actor: Actor): boolean {

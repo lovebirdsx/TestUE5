@@ -51,31 +51,6 @@
       }
     },
     {
-      "PrefabId": 1,
-      "Pos": [
-        180.00000133847732,
-        -0.00000900429704842054,
-        0
-      ],
-      "Rotation": [
-        0,
-        0,
-        -89.9999993028268
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_测试",
-              "FlowId": 1,
-              "StateId": 1
-            }
-          }
-        },
-        "Guid": "A45C82A54F31921FCC0A29ABAE2A88D3"
-      }
-    },
-    {
       "PrefabId": 2,
       "Pos": [
         775.0443434715271,
@@ -99,6 +74,31 @@
           }
         },
         "Guid": "3E72481D4E37C346FB9120A89A5C525A"
+      }
+    },
+    {
+      "PrefabId": 6,
+      "Pos": [
+        175.04434450803416,
+        -10.124671335442219,
+        76.91806030273438
+      ],
+      "Rotation": [
+        0,
+        0,
+        -89.9999993028273
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "FlowComponent": {
+            "InitState": {
+              "FlowListName": "流程_移动测试",
+              "FlowId": 1,
+              "StateId": 1
+            }
+          }
+        },
+        "Guid": "52FCED1545834E6496CE9EA3F41ED1F6"
       }
     }
   ]

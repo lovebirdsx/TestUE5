@@ -4,7 +4,7 @@ import { $ref } from 'puerts';
 import { BuiltinText, HUD, UMGManager } from 'ue';
 import * as UE from 'ue';
 
-import { delay, TCallback, waitCallback } from '../../Common/Async';
+import { createSignal, delay } from '../../Common/Async';
 import { log } from '../../Common/Log';
 
 class TsHud extends HUD {
@@ -82,19 +82,16 @@ class TsHud extends HUD {
         await delay(1);
         this.UiTalkerDisplay.ShowSubtile('小红', '是呀，要出去玩一下吗？');
 
-        let resolve: TCallback<string> = undefined;
-        let optionText: string = undefined;
-
         await delay(1);
         this.ShowOptions(['选项1', '选项2']);
+
+        const selectSignal = createSignal<string>();
         this.UiTalkerDisplay.OptionSelected.Clear();
         this.UiTalkerDisplay.OptionSelected.Add((text) => {
-            resolve(text);
-            optionText = text;
+            selectSignal.Emit(text);
         });
-        await waitCallback<string>((resolve0): void => {
-            resolve = resolve0;
-        });
+
+        const optionText = await selectSignal.Promise;
         log(`你选择了[${optionText}]`);
         this.UiTalkerDisplay.HideOptions();
         await delay(1);

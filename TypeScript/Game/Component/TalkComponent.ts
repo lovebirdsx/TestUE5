@@ -3,7 +3,7 @@
 import { $ref } from 'puerts';
 import { BuiltinText, Game } from 'ue';
 
-import { delay, delayByCondition, TCallback, waitCallback } from '../../Common/Async';
+import { createCancleableDelay, createSignal, delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
@@ -54,26 +54,22 @@ export class TalkComponent extends Component {
         const waitTime = item.WaitTime || globalConfig.GetConfig('TalkJumpWaitTime');
         await delay(waitTime);
 
-        let skipCallback: TCallback<void> = undefined;
-        let isUserSkipTalk = false;
         this.TalkerDisplay.ShowSkipTip();
         this.TalkerDisplay.TalkSkipped.Clear();
-        this.TalkerDisplay.TalkSkipped.Add(() => {
-            isUserSkipTalk = true;
-            skipCallback();
-        });
 
         // 超时自动跳过
-        const waitPromise = delayByCondition(
-            globalConfig.GetConfig('TalkAutoJumpTime'),
-            () => !isUserSkipTalk,
-        );
+        const cancleableDelay = createCancleableDelay(globalConfig.GetConfig('TalkAutoJumpTime'));
 
         // 玩家点击
-        const clickPromise = waitCallback((resolve) => {
-            skipCallback = resolve;
+        const talkSkippedSignal = createSignal<never>();
+        this.TalkerDisplay.TalkSkipped.Add(() => {
+            talkSkippedSignal.Emit();
         });
-        await Promise.race([waitPromise, clickPromise]);
+
+        await Promise.race([cancleableDelay.Promise, talkSkippedSignal.Promise]);
+        if (talkSkippedSignal.IsEmit()) {
+            cancleableDelay.Cancel();
+        }
 
         if (item.Actions) {
             this.ActionsRunHandle = this.ActionRunner.SpawnHandler(item.Actions);
@@ -87,14 +83,12 @@ export class TalkComponent extends Component {
             this.TalkerDisplay.ShowOptions($ref(ueOptionTexts));
             this.TalkerDisplay.OptionSelected.Clear();
 
-            let selectOptionCallback: TCallback<string> = undefined;
+            const selectOptionSignal = createSignal<string>();
             this.TalkerDisplay.OptionSelected.Add((text) => {
-                selectOptionCallback(text);
+                selectOptionSignal.Emit(text);
             });
 
-            const selectOptionText = await waitCallback<string>((resolve) => {
-                selectOptionCallback = resolve;
-            });
+            const selectOptionText = await selectOptionSignal.Promise;
 
             const option = item.Options.find((op) => texts[op.TextId] === selectOptionText);
             this.ActionsRunHandle = this.ActionRunner.SpawnHandler(option.Actions);

@@ -1,44 +1,41 @@
-/* eslint-disable spellcheck/spell-checker */
-import { Character, edit_on_instance } from 'ue';
+import { Actor } from 'ue';
 
-import { Entity, genEntity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
+import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
+import { FlowComponent } from '../Component/FlowComponent';
+import MoveComponent from '../Component/MoveComponent';
+import { NpcComponent } from '../Component/NpcComponent';
+import StateComponent from '../Component/StateComponent';
+import { TalkComponent } from '../Component/TalkComponent';
+import { ITsEntity, TComponentClass } from '../Interface';
+import { isEntity } from './EntityRegistry';
+import TsCharacterEntity from './TsCharacterEntity';
 
-class TsAiNpc extends Character implements ITsEntity {
-    @edit_on_instance()
-    public Guid: string;
+export const aiNpcComponentClasses: TComponentClass[] = [
+    StateComponent,
+    FlowComponent,
+    TalkComponent,
+    ActionRunnerComponent,
+    MoveComponent,
+    NpcComponent,
+];
 
-    @edit_on_instance()
-    public ComponentsStateJson: string;
-
-    // @no-blueprint
-    public Entity: Entity;
-
-    public readonly Name: string = 'Entity';
-
-    // @no-blueprint
-    public Init(): void {
-        this.Entity = genEntity(this);
-        this.Entity.Init();
-    }
-
-    // @no-blueprint
-    public LoadState(): void {
-        this.Entity.LoadState();
-    }
-
-    // @no-blueprint
-    public Start(): void {
-        this.Entity.Start();
-    }
-
-    // @no-blueprint
-    public Destroy(): void {
-        this.Entity.Destroy();
-    }
-
-    // @no-blueprint
+class TsAiNpc extends TsCharacterEntity {
     public GetComponentClasses(): TComponentClass[] {
-        throw new Error(`[${getEntityName(this)}]GetComponentClasses not implement`);
+        return aiNpcComponentClasses;
+    }
+
+    public ReceiveActorBeginOverlap(other: Actor): void {
+        if (isEntity(other)) {
+            const tsEntity = other as ITsEntity;
+            this.Entity.OnTriggerEnter(tsEntity.Entity);
+        }
+    }
+
+    public ReceiveActorEndOverlap(other: Actor): void {
+        if (isEntity(other)) {
+            const tsEntity = other as ITsEntity;
+            this.Entity.OnTriggerExit(tsEntity.Entity);
+        }
     }
 }
 

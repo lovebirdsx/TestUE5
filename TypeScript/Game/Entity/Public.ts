@@ -1,7 +1,9 @@
 import { regBlueprintType, TTsClassType } from '../../Common/Class';
 import TsPlayer, { playerComponentClasses } from '../Player/TsPlayer';
 import { entityRegistry } from './EntityRegistry';
-import TsEntity, { entityComponentClasses } from './TsEntity';
+import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
+import TsCharacterEntity from './TsCharacterEntity';
+import TsEntity from './TsEntity';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
@@ -13,6 +15,8 @@ export enum EBlueprintId {
     Trigger = 2,
     Player = 3,
     TsSphereActor = 4,
+    CharacterEntity = 5,
+    AiNpc = 6,
 }
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
@@ -42,17 +46,26 @@ export function initEntity(): void {
         return;
     }
 
-    entityRegistry.Register(TsEntity, ...entityComponentClasses);
+    entityRegistry.Register(TsEntity);
+    entityRegistry.Register(TsCharacterEntity);
     entityRegistry.Register(TsNpc, ...npcComponentClasses);
     entityRegistry.Register(TsTrigger, ...triggerComponentClasses);
     entityRegistry.Register(TsPlayer, ...playerComponentClasses);
     entityRegistry.Register(TsSphereActor, ...sphereComponentClasses);
+    entityRegistry.Register(TsAiNpc, ...aiNpcComponentClasses);
 
+    // Player
+    regPlayer(EBlueprintId.Player, TsPlayer);
+
+    // Entity
     regEntity(EBlueprintId.Entity, TsEntity);
     regEntity(EBlueprintId.Npc, TsNpc);
     regEntity(EBlueprintId.Trigger, TsTrigger);
-    regPlayer(EBlueprintId.Player, TsPlayer);
     regEntity(EBlueprintId.TsSphereActor, TsSphereActor);
+
+    // Character Entity
+    regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
+    regEntity(EBlueprintId.AiNpc, TsAiNpc);
 
     isInit = true;
 }

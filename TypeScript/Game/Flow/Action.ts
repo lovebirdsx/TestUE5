@@ -1,3 +1,5 @@
+import { Vector } from 'ue';
+
 /* eslint-disable spellcheck/spell-checker */
 export const FLOW_LIST_VERSION = 8;
 
@@ -238,6 +240,11 @@ export interface IVector {
     Z: number;
 }
 
+export function toVector(iVec: IVector): Vector {
+    return new Vector(iVec.X, iVec.Y, iVec.Z);
+}
+
 export interface IMoveToPos {
+    Timeout: number;
     Pos: IVector;
 }

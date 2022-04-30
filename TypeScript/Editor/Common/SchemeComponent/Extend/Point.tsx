@@ -131,7 +131,11 @@ export class Point extends React.Component<IProps<IVector>, IPointState> {
     private RenderForNoTip(): JSX.Element {
         return (
             <HorizontalBox>
-                <Btn Text={'生成指示'} OnClick={this.GenTipActor} />
+                <Btn
+                    Text={'生成指示'}
+                    OnClick={this.GenTipActor}
+                    Tip={'在地图中生成目标点指示的Actor,调整完毕后记得要删除'}
+                />
                 <Btn
                     Text={'当前镜头'}
                     OnClick={this.SetToCurrentCamera}
@@ -162,6 +166,7 @@ export class Point extends React.Component<IProps<IVector>, IPointState> {
         }
         return (
             <HorizontalBox>
+                {this.props.PrefixElement}
                 <EditorBox Text={pos.X.toString()} OnChange={this.OnModifyX} Tip={'X'} />
                 <EditorBox Text={pos.Y.toString()} OnChange={this.OnModifyY} Tip={'Y'} />
                 <EditorBox Text={pos.Z.toString()} OnChange={this.OnModifyZ} Tip={'Z'} />

@@ -5,11 +5,9 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
-import { isChildOfClass } from '../../Common/Class';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import { entityRegistry } from '../../Game/Entity/EntityRegistry';
-import TsEntity from '../../Game/Entity/TsEntity';
+import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity, TEntityPureData } from '../../Game/Interface';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
@@ -80,7 +78,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
-            if (isChildOfClass(actor, TsEntity)) {
+            if (isEntity(actor)) {
                 return actor as ITsEntity;
             }
         }

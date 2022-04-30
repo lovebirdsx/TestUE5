@@ -32,7 +32,7 @@ export function Int(props: IProps<number>): JSX.Element {
             <EditorBox
                 Width={props.Scheme.Width}
                 Tip={props.Scheme.Tip}
-                Text={Math.floor(props.Value).toString()}
+                Text={props.Value ? Math.floor(props.Value).toString() : '0'}
                 OnChange={(text): void => {
                     props.OnModify(Math.floor(parseInt(text, 10)), 'normal');
                 }}
@@ -48,7 +48,7 @@ export function Float(props: IProps<number>): JSX.Element {
             {props.PrefixElement}
             <EditorBox
                 Width={props.Scheme.Width}
-                Text={props.Value.toString()}
+                Text={props.Value ? props.Value.toString() : '0'}
                 Tip={props.Scheme.Tip}
                 OnChange={(text): void => {
                     props.OnModify(parseFloat(text), 'normal');

@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, edit_on_instance } from 'ue';
+import { Character, edit_on_instance } from 'ue';
 
 import { Entity, genEntity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
 
-export class TsEntity extends Actor implements ITsEntity {
+class TsCharacterEntity extends Character implements ITsEntity {
     @edit_on_instance()
     public Guid: string;
 
@@ -42,4 +42,4 @@ export class TsEntity extends Actor implements ITsEntity {
     }
 }
 
-export default TsEntity;
+export default TsCharacterEntity;

@@ -1,12 +1,13 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { DemoWorldSettings, MyFileHelper } from 'ue';
+import { Actor, DemoWorldSettings, MyFileHelper, Pawn } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { gameConfig } from '../Common/Config';
 import { LevelUtil } from '../Common/LevelUtil';
+import { isPlayer } from '../Entity/EntityRegistry';
 import { gameContext, IEntityMananger, IEntityState, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { ILevelState, LevelSerializer } from '../Serialize/LevelSerializer';
@@ -29,9 +30,7 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Init(): void {
         const levelSettings = gameContext.World.K2_GetWorldSettings() as DemoWorldSettings;
-        if (levelSettings.DisableCustomEntityLoad) {
-            this.InitAllExistEntites();
-        } else {
+        if (!levelSettings.DisableCustomEntityLoad) {
             this.RemoveAllExistEntites();
             this.LoadState();
         }
@@ -44,47 +43,41 @@ export class EntityManager implements IManager, IEntityMananger {
         });
     }
 
-    private InitAllExistEntites(): void {
-        const entities = LevelUtil.GetAllEntities(gameContext.World);
-        entities.forEach((entity) => {
-            entity.Init();
-            entity.LoadState();
-        });
-
-        const playerEntity = gameContext.Player;
-        playerEntity.Init();
-        playerEntity.LoadState();
-        entities.push(playerEntity);
-
-        this.EntitiesToSpawn.push(...entities);
-    }
-
-    private LoadLevel(): ILevelState {
+    private LoadLevel(): [boolean, ILevelState] {
         let levelState: ILevelState = undefined;
         const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
+        let isFirstLoad = false;
         if (MyFileHelper.Exist(mapSavePath)) {
             levelState = this.LevelSerializer.Load(mapSavePath);
         } else {
             const mapDataPath = gameConfig.GetCurrentMapDataPath(gameContext.World);
             levelState = this.LevelSerializer.Load(mapDataPath);
+            isFirstLoad = true;
         }
-        return levelState;
+        return [isFirstLoad, levelState];
     }
 
     private LoadState(): void {
-        const levelState = this.LoadLevel();
+        const [isFirstLoad, levelState] = this.LoadLevel();
 
-        const player = gameContext.Player;
-        if (levelState.Player) {
-            entitySerializer.ApplyPlayerState(player, levelState.Player);
-        } else {
-            player.Init();
-            player.LoadState();
+        if (isFirstLoad) {
+            this.SpawnPlayer();
         }
 
         levelState.Entities.forEach((es) => {
             this.SpawnEntity(es);
         });
+    }
+
+    private SpawnPlayer(): ITsEntity {
+        if (gameContext.Player) {
+            throw new Error(`Player can only spawn by EntityManager`);
+        }
+
+        const player = entitySerializer.SpawnDefaultPlayer();
+        this.EntitiesToSpawn.push(player);
+
+        return player;
     }
 
     public SpawnEntity(state: IEntityState): ITsEntity {
@@ -139,6 +132,9 @@ export class EntityManager implements IManager, IEntityMananger {
             });
 
             entities.forEach((entity) => {
+                if (isPlayer(entity)) {
+                    gameContext.PlayerController.Possess(entity as Actor as Pawn);
+                }
                 entity.Start();
             });
         }
@@ -146,7 +142,7 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Save(): void {
         const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
-        this.LevelSerializer.Save(this.Entities, gameContext.Player, mapSavePath);
+        this.LevelSerializer.Save(this.Entities, mapSavePath);
     }
 
     public RemoveEntity(...entities: ITsEntity[]): void {

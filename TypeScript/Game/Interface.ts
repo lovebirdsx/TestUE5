@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, Class, PlayerController, World } from 'ue';
+import { Actor, Class, GameModeBase, PlayerController, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
 import { IActionInfo, IPlayFlow, ITriggerActions, TActionType } from './Flow/Action';
@@ -86,6 +86,7 @@ export interface ITickManager {
 export interface IGameContext {
     Player: ITsEntity;
     PlayerController: PlayerController;
+    GameMode: GameModeBase;
     World: World;
     EntityManager: IEntityMananger;
     TickManager: ITickManager;
@@ -95,6 +96,7 @@ export interface IGameContext {
 export const gameContext: IGameContext = {
     Player: undefined,
     PlayerController: undefined,
+    GameMode: undefined,
     World: undefined,
     EntityManager: undefined,
     TickManager: undefined,

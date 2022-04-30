@@ -25,7 +25,7 @@ export class TriggerComponent extends Component implements ITriggerComponent {
         this.Handler = this.ActonRunner.SpawnHandler(this.TriggerActions.Actions);
     }
 
-    public Load(): void {
+    public OnLoadState(): void {
         this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
     }
 

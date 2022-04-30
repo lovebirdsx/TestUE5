@@ -2,7 +2,6 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { isChildOfClass } from '../../Common/Class';
-import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/Config';
 import { TsEntity } from '../../Game/Entity/Public';
@@ -13,12 +12,18 @@ import LevelEditorUtil from '../Common/LevelEditorUtil';
 export class LevelEditor {
     private readonly LevelSerializer = new LevelSerializer();
 
+    private IsDirty = false;
+
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
         editorEvent.OnDuplicateActorsEnd.Add(this.OnDuplicateActorsEnd.bind(this));
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
+    }
+
+    public MarkDirty(): void {
+        this.IsDirty = true;
     }
 
     public GetMapDataPath(): string {
@@ -33,11 +38,14 @@ export class LevelEditor {
 
     public Save(): void {
         const entities = LevelEditorUtil.GetAllEntitiesByEditorWorld();
-        this.LevelSerializer.Save(entities, undefined, this.GetMapDataPath());
+        this.LevelSerializer.Save(entities, this.GetMapDataPath());
     }
 
     private OnPreBeginPie(): void {
-        log('OnPreBeginPie');
+        if (this.IsDirty) {
+            this.Save();
+            this.IsDirty = false;
+        }
     }
 
     private CheckEntityInit(actor: Actor): void {

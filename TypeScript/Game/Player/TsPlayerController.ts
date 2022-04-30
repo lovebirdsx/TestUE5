@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { GameplayStatics, PlayerController } from 'ue';
+import { PlayerController } from 'ue';
 
 import PlayerComponent from '../Component/PlayerComponent';
 import { gameContext } from '../Interface';
 import TsPlayer from './TSPlayer';
 
 class TsPlayerController extends PlayerController {
-    private MyPlayer: TsPlayer;
+    private get MyPlayer(): TsPlayer {
+        return gameContext.Player as TsPlayer;
+    }
 
     public ReceiveBeginPlay(): void {
         gameContext.PlayerController = this;
-        this.MyPlayer = GameplayStatics.GetPlayerCharacter(this.GetWorld(), 0) as TsPlayer;
     }
 
     public SpeedUp(): void {

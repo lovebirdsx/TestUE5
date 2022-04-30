@@ -2,12 +2,13 @@
 
 import { GameplayStatics, Rotator, Transform, Vector } from 'ue';
 
-import { getBlueprintId, getBlueprintType } from '../../Common/Class';
+import { getBlueprintId, getBlueprintType, getUeClassByTsClass } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import StateComponent from '../Component/StateComponent';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
 import { gameContext, IEntityState, ITsEntity } from '../Interface';
+import TsPlayer from '../Player/TsPlayer';
 
 function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
@@ -97,12 +98,27 @@ class EntitySerializer {
             actorClass,
             transfrom,
         ) as TsEntity;
-        GameplayStatics.FinishSpawningActor(entity, transfrom);
+
         entityRegistry.ApplyData(state.PureData, entity);
         entity.Init();
         applyState(entity, state.State);
         entity.LoadState();
 
+        GameplayStatics.FinishSpawningActor(entity, transfrom);
+
+        return entity;
+    }
+
+    public SpawnDefaultPlayer(): ITsEntity {
+        const startPosActor = gameContext.GameMode.ChoosePlayerStart(gameContext.PlayerController);
+        const transform = startPosActor.GetTransform();
+        const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
+            gameContext.World,
+            getUeClassByTsClass(TsPlayer),
+            transform,
+        ) as ITsEntity;
+        entity.Init();
+        GameplayStatics.FinishSpawningActor(entity, transform);
         return entity;
     }
 

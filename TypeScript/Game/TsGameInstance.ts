@@ -1,4 +1,4 @@
-import { DemoGameInstance } from 'ue';
+import { DemoGameInstance, GameplayStatics } from 'ue';
 
 import { GameInstance } from './GameInstance';
 import { gameContext } from './Interface';
@@ -13,6 +13,7 @@ class TsGameInstance extends DemoGameInstance {
         if (!this.Instance) {
             this.Instance = new GameInstance();
             gameContext.World = this.GetWorld();
+            gameContext.GameMode = GameplayStatics.GetGameMode(this.GetWorld());
             this.Instance.Init();
         }
         this.Instance.Tick(deltaSeconds);

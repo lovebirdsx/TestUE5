@@ -11,6 +11,7 @@ import {
     Vector,
 } from 'ue';
 
+import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
 import { Entity, gameContext, genEntity, ITsEntity, TComponentClass } from '../Interface';
 
@@ -26,7 +27,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     // @no-blueprint
     private InitSpeed: number;
 
-    @edit_on_instance()
+    // @no-blueprint
     public Guid = 'unknown';
 
     @edit_on_instance()
@@ -42,6 +43,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
 
     // @no-blueprint
     public Init(): void {
+        this.Guid = genGuid();
         this.Entity = genEntity(this);
         this.Entity.Init();
     }

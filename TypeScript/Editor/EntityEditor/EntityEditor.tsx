@@ -209,6 +209,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         // 让ue认为对象已经被修改
         EditorOperations.MarkPackageDirty(es.Entity);
+        this.LevelEditor.MarkDirty();
 
         this.LastApplyEntityState = es;
     }

@@ -83,20 +83,22 @@
         -0.49990276573345227
       ],
       "PureData": {
-        "ComponentsStateJson": {},
-        "Guid": "3E72481D4E37C346FB9120A89A5C525A",
-        "MaxTriggerTimes": 2,
-        "TriggerActionsJson": {
-          "Actions": [
-            {
-              "Name": "ShowMessage",
-              "Params": {
-                "Content": "Hello Message"
-              }
+        "ComponentsStateJson": {
+          "TriggerComponent": {
+            "MaxTriggerTimes": 1,
+            "TriggerActions": {
+              "Actions": [
+                {
+                  "Name": "ShowMessage",
+                  "Params": {
+                    "Content": "Hello World !"
+                  }
+                }
+              ]
             }
-          ],
-          "_ActionsFolded": false
-        }
+          }
+        },
+        "Guid": "3E72481D4E37C346FB9120A89A5C525A"
       }
     }
   ]

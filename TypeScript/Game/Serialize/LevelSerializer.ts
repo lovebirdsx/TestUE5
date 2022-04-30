@@ -5,20 +5,18 @@ import { IEntityState, ITsEntity } from '../Interface';
 import { entitySerializer } from './EntitySerializer';
 
 export interface ILevelState {
-    Player: IEntityState;
     Entities: IEntityState[];
 }
 
 export class LevelSerializer {
-    public GenLevelState(entities: ITsEntity[], player: ITsEntity): ILevelState {
+    public GenLevelState(entities: ITsEntity[]): ILevelState {
         return {
-            Player: player && entitySerializer.GenEntityState(player),
             Entities: entities.map((e) => entitySerializer.GenEntityState(e)),
         };
     }
 
-    public Save(entities: ITsEntity[], player: ITsEntity, path: string): void {
-        const state = this.GenLevelState(entities, player);
+    public Save(entities: ITsEntity[], path: string): void {
+        const state = this.GenLevelState(entities);
         MyFileHelper.Write(path, JSON.stringify(state, undefined, 2));
         log(`Save level state to ${path} ok`);
     }
@@ -28,7 +26,6 @@ export class LevelSerializer {
         if (!content) {
             error(`No level exist at ${path}`);
             return {
-                Player: undefined,
                 Entities: [],
             };
         }

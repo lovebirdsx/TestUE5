@@ -215,7 +215,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
             const fieldTypeData = (objectType.Fields as Record<string, unknown>)[
                 fieldKey
             ] as Scheme;
-            if (fieldValue !== undefined) {
+            if (!(fieldTypeData.Optional && fieldValue === undefined)) {
                 newLine.push(
                     <HorizontalBox key={id}>
                         {fieldTypeData.ShowName && (

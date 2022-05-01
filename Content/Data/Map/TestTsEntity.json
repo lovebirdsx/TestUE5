@@ -95,7 +95,8 @@
               "FlowListName": "流程_移动测试",
               "FlowId": 1,
               "StateId": 1
-            }
+            },
+            "AutoRun": true
           }
         },
         "Guid": "52FCED1545834E6496CE9EA3F41ED1F6"

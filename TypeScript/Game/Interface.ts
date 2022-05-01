@@ -6,6 +6,7 @@ import { IActionInfo, IPlayFlow, ITriggerActions, TActionType } from './Flow/Act
 
 export interface IFlowComponent {
     InitState: IPlayFlow;
+    AutoRun: boolean;
 }
 
 export interface ITriggerComponent {

@@ -1,3 +1,4 @@
+/* eslint-disable no-void */
 import { error, log } from '../../Common/Log';
 import { flowListOp } from '../Common/Operations/FlowList';
 import {
@@ -15,6 +16,8 @@ import { TalkComponent } from './TalkComponent';
 
 export class FlowComponent extends Component implements IFlowComponent {
     public InitState: IPlayFlow;
+
+    public AutoRun: boolean;
 
     private StateId: number;
 
@@ -46,6 +49,12 @@ export class FlowComponent extends Component implements IFlowComponent {
         this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
     }
 
+    public OnStart(): void {
+        if (this.AutoRun) {
+            void this.Run();
+        }
+    }
+
     private ExecuteChangeState(actionInfo: IActionInfo): void {
         const changeState = actionInfo.Params as IChangeState;
         this.StateId = changeState.StateId;
@@ -60,6 +69,10 @@ export class FlowComponent extends Component implements IFlowComponent {
     private async ExecuteShowTalk(actionInfo: IActionInfo): Promise<void> {
         const showTalk = actionInfo.Params as IShowTalk;
         await this.Talk.Show(this.FlowListInfo, showTalk);
+    }
+
+    public get IsRunning(): boolean {
+        return this.Handler !== undefined;
     }
 
     public async Run(): Promise<void> {

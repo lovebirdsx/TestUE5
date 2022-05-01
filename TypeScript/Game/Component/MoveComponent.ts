@@ -9,7 +9,7 @@ import {
 
 import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
 import { warn } from '../../Common/Log';
-import { IActionInfo, IMoveToPos, toVector } from '../Flow/Action';
+import { IActionInfo, IFaceToPos, IMoveToPos, toVector } from '../Flow/Action';
 import { Component } from '../Interface';
 import { ActionRunnerComponent } from './ActionRunnerComponent';
 
@@ -25,6 +25,7 @@ class MoveComponent extends Component {
     public OnInit(): void {
         this.Runner = this.Entity.GetComponent(ActionRunnerComponent);
         this.Runner.RegisterActionFun('MoveToPos', this.ExecuteMoveToPos.bind(this));
+        this.Runner.RegisterActionFun('FaceToPos', this.ExecuteFaceToPos.bind(this));
         this.Controller = (this.Entity.Actor as Character).Controller as AIController;
         this.Controller.ReceiveMoveCompleted.Add(this.OnMoveCompleted);
     }
@@ -71,6 +72,16 @@ class MoveComponent extends Component {
         }
 
         this.IsMoving = false;
+    }
+
+    private ExecuteFaceToPos(actionInfo: IActionInfo): void {
+        const action = actionInfo.Params as IFaceToPos;
+        const actor = this.Entity.Actor;
+        const from = actor.K2_GetActorLocation();
+        const to = toVector(action.Pos);
+        const dir = to.op_Subtraction(from);
+        dir.Z = 0;
+        actor.K2_SetActorRotation(dir.Rotation(), false);
     }
 }
 

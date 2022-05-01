@@ -5,7 +5,7 @@ import { actionRegistry } from './ActionRegistry';
 import { invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
-import { moveToPosScheme } from './Move';
+import { faceToPosScheme, moveToPosScheme } from './Move';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
@@ -16,6 +16,7 @@ import { setHeadIconVisibleScheme } from './Talker';
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeState: changeStateScheme,
     ChangeRandomState: changeRandomStateScheme,
+    FaceToPos: faceToPosScheme,
     FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
     JumpTalk: jumpTalkScheme,

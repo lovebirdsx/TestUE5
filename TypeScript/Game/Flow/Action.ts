@@ -6,6 +6,7 @@ export const FLOW_LIST_VERSION = 8;
 export type TActionType =
     | 'ChangeRandomState'
     | 'ChangeState'
+    | 'FaceToPos'
     | 'FinishState'
     | 'FinishTalk'
     | 'Invoke'
@@ -252,5 +253,9 @@ export function toVector(iVec: IVector): Vector {
 
 export interface IMoveToPos {
     Timeout: number;
+    Pos: IVector;
+}
+
+export interface IFaceToPos {
     Pos: IVector;
 }

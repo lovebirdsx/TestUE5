@@ -79,6 +79,22 @@
                       }
                     }
                   }
+                },
+                {
+                  "Name": "Invoke",
+                  "Params": {
+                    "Who": "E3F3318C46EE433C0B8F3EA3E282ED9C",
+                    "ActionInfo": {
+                      "Name": "FaceToPos",
+                      "Params": {
+                        "Pos": {
+                          "X": 1081,
+                          "Y": -1152,
+                          "Z": -1
+                        }
+                      }
+                    }
+                  }
                 }
               ]
             }

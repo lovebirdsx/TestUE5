@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { allActionFilters, createFloatScheme, createObjectScheme } from '../../../Common/Type';
-import { IMoveToPos, IVector } from '../../Flow/Action';
+import { IFaceToPos, IMoveToPos, IVector } from '../../Flow/Action';
 
 export const posScheme = createObjectScheme<IVector>({
     Fields: {
@@ -30,5 +30,13 @@ export const moveToPosScheme = createObjectScheme<IMoveToPos>({
     },
     Tip: '移动到目标点,超时则会取消移动',
     Scheduled: true,
+    Filters: allActionFilters,
+});
+
+export const faceToPosScheme = createObjectScheme<IFaceToPos>({
+    Fields: {
+        Pos: posScheme,
+    },
+    Tip: '朝向目标点',
     Filters: allActionFilters,
 });

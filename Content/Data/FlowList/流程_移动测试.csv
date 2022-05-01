@@ -35,6 +35,12 @@
               ""Params"": {
                 ""StateId"": 2
               }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
+              }
             }
           ],
           ""Id"": 1
@@ -57,6 +63,12 @@
               ""Name"": ""ChangeState"",
               ""Params"": {
                 ""StateId"": 1
+              }
+            },
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 1
               }
             }
           ],

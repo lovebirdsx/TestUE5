@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
 import { error, log } from '../../Common/Log';
 import { flowListOp } from '../Common/Operations/FlowList';
@@ -9,15 +10,17 @@ import {
     IPlayFlow,
     IShowTalk,
 } from '../Flow/Action';
-import { Component, IFlowComponent } from '../Interface';
+import { Component, gameContext, IFlowComponent, ITickable } from '../Interface';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 import StateComponent from './StateComponent';
 import { TalkComponent } from './TalkComponent';
 
-export class FlowComponent extends Component implements IFlowComponent {
-    public InitState: IPlayFlow;
+export class FlowComponent extends Component implements IFlowComponent, ITickable {
+    public readonly InitState: IPlayFlow;
 
-    public AutoRun: boolean;
+    public readonly AutoRun: boolean;
+
+    public readonly Continuable: boolean;
 
     private StateId: number;
 
@@ -45,6 +48,14 @@ export class FlowComponent extends Component implements IFlowComponent {
         this.ActionRunner.RegisterActionFun('ShowTalk', this.ExecuteShowTalk.bind(this));
     }
 
+    public Tick(deltaTime: number): void {
+        if (this.Continuable) {
+            if (!this.IsRunning) {
+                void this.Run();
+            }
+        }
+    }
+
     public OnLoadState(): void {
         this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
     }
@@ -52,6 +63,16 @@ export class FlowComponent extends Component implements IFlowComponent {
     public OnStart(): void {
         if (this.AutoRun) {
             void this.Run();
+        }
+
+        if (this.Continuable) {
+            gameContext.TickManager.AddTick(this);
+        }
+    }
+
+    public OnDestroy(): void {
+        if (this.Continuable) {
+            gameContext.TickManager.RemoveTick(this);
         }
     }
 

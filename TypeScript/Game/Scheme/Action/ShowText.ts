@@ -14,5 +14,5 @@ export const showCenterTextScheme = createObjectScheme<IShowCenterText>({
         TextId: centerTextIdScheme,
     },
     Scheduled: true,
-    Filters: actionFilterExcept(EActionFilter.Trigger),
+    Filters: actionFilterExcept(EActionFilter.Trigger, EActionFilter.Invoke),
 });

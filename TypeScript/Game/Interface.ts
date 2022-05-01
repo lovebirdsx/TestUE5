@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, Class, GameModeBase, PlayerController, World } from 'ue';
+import { Actor, GameModeBase, PlayerController, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
 import { IActionInfo, IPlayFlow, ITriggerActions, TActionType } from './Flow/Action';
@@ -33,8 +33,6 @@ export interface ITsEntity extends Actor {
     Guid: string;
     ComponentsStateJson: string;
     Entity: Entity;
-    Name: string;
-    GetClass: () => Class;
     GetComponentClasses: () => TComponentClass[];
     Init: () => void;
     LoadState: () => void;
@@ -66,6 +64,7 @@ export interface IEntityState {
 export interface IEntityMananger {
     SpawnEntity: (state: IEntityState) => ITsEntity;
     RemoveEntity: (...entities: ITsEntity[]) => void;
+    GetEntity: (guid: string) => ITsEntity;
     Load: () => void;
     Save: () => void;
 }

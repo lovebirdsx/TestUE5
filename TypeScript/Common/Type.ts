@@ -9,6 +9,7 @@ export type TElementRenderType =
     | 'csvIndexValue'
     | 'custom'
     | 'dynamic'
+    | 'entityId'
     | 'enum'
     | 'float'
     | 'int'
@@ -122,6 +123,7 @@ export enum EActionFilter {
     FlowList, // 在flowlist中执行
     Trigger, // 在trigger中执行
     Talk, // 在ShowTalk中执行
+    Invoke, // 在Invoke中执行
 }
 
 export const allActionFilters = getEnumValues(EActionFilter);
@@ -129,6 +131,7 @@ export function actionFilterExcept(...args: EActionFilter[]): EActionFilter[] {
     const result = allActionFilters.filter((filter) => !args.includes(filter));
     return result;
 }
+export const actionFilterExcpetInvoke = actionFilterExcept(EActionFilter.Invoke);
 
 export type TObjectFields<T> = { [K in keyof T]: Scheme<T[K]> };
 
@@ -176,7 +179,7 @@ export function createArrayScheme<T>(
 export class ObjectScheme<T> extends Scheme<T> {
     public RenderType: TElementRenderType = 'object';
 
-    public Filters: EActionFilter[] = allActionFilters;
+    public Filters: EActionFilter[] = actionFilterExcpetInvoke;
 
     public Fields: TObjectFields<T>;
 

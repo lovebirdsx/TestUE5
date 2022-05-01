@@ -8,6 +8,7 @@ export type TActionType =
     | 'ChangeState'
     | 'FinishState'
     | 'FinishTalk'
+    | 'Invoke'
     | 'JumpTalk'
     | 'Log'
     | 'MoveToPos'
@@ -29,6 +30,11 @@ export interface IActionInfo {
     Name: TActionType;
     Async?: boolean;
     Params: unknown;
+}
+
+export interface IInvoke {
+    Who: string;
+    ActionInfo: IActionInfo;
 }
 
 export interface ITriggerActions {

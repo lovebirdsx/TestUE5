@@ -13,8 +13,6 @@ export class TsEntity extends Actor implements ITsEntity {
     // @no-blueprint
     public Entity: Entity;
 
-    public readonly Name: string = 'Entity';
-
     // @no-blueprint
     public Init(): void {
         this.Entity = genEntity(this);

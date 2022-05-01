@@ -64,9 +64,20 @@
             "TriggerActions": {
               "Actions": [
                 {
-                  "Name": "ShowMessage",
+                  "Name": "Invoke",
                   "Params": {
-                    "Content": "Hello World !"
+                    "Who": "E3F3318C46EE433C0B8F3EA3E282ED9C",
+                    "ActionInfo": {
+                      "Name": "MoveToPos",
+                      "Params": {
+                        "Timeout": 10,
+                        "Pos": {
+                          "X": 1082,
+                          "Y": -1407,
+                          "Z": -1
+                        }
+                      }
+                    }
                   }
                 }
               ]
@@ -101,6 +112,33 @@
           }
         },
         "Guid": "52FCED1545834E6496CE9EA3F41ED1F6"
+      }
+    },
+    {
+      "PrefabId": 6,
+      "Pos": [
+        1177.6524034425345,
+        -48.758787230631526,
+        91.49996931054574
+      ],
+      "Rotation": [
+        0,
+        0,
+        -89.999999
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "FlowComponent": {
+            "InitState": {
+              "FlowListName": "流程_移动测试",
+              "FlowId": 2,
+              "StateId": 1
+            },
+            "AutoRun": false,
+            "Continuable": false
+          }
+        },
+        "Guid": "E3F3318C46EE433C0B8F3EA3E282ED9C"
       }
     }
   ]

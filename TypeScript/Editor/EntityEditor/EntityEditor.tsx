@@ -3,14 +3,14 @@
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import { Actor, EditorLevelLibrary, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
+import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
+import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity, TEntityPureData } from '../../Game/Interface';
 import { formatColor } from '../Common/BaseComponent/Color';
-import { Btn, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
+import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
@@ -43,6 +43,8 @@ function canRedo(state: IEntityEditorState): boolean {
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private LastApplyEntityState: IEntityState;
 
+    private IsLocked: boolean;
+
     private readonly LevelEditor: LevelEditor = new LevelEditor();
 
     public constructor(props: unknown) {
@@ -50,7 +52,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         const initEntityState = this.GenEntityStateBySelect();
         this.state = {
             Name: 'Hello Entity Editor',
-            Entity: this.GetCurrentSelectEntity(),
+            Entity: LevelEditorUtil.GetSelectedEntity(),
             Histories: [initEntityState],
             StepId: 0,
             IsEditorPlaying: LevelEditorUtil.IsPlaying,
@@ -59,7 +61,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private GenEntityStateBySelect(): IEntityState {
-        const entity = this.GetCurrentSelectEntity();
+        const entity = LevelEditorUtil.GetSelectedEntity();
         if (entity) {
             return {
                 Entity: entity,
@@ -71,19 +73,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             Entity: undefined,
             PureData: undefined,
         };
-    }
-
-    private GetCurrentSelectEntity(): ITsEntity {
-        const actors = EditorLevelLibrary.GetSelectedLevelActors();
-
-        for (let i = 0; i < actors.Num(); i++) {
-            const actor = actors.Get(i);
-            if (isEntity(actor)) {
-                return actor as ITsEntity;
-            }
-        }
-
-        return undefined;
     }
 
     private readonly OnEntityDestory = (entity: Actor): void => {
@@ -106,7 +95,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        const entity = this.GetCurrentSelectEntity();
+        if (this.IsLocked) {
+            return;
+        }
+
+        const entity = LevelEditorUtil.GetSelectedEntity();
         if (!entity || entity === this.EntityState.Entity) {
             return;
         }
@@ -315,6 +308,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         OnClick={this.Redo}
                         Disabled={!canRedo(this.state)}
                         Tip={`重做 ${getCommandKeyDesc('Redo')}`}
+                    />
+                    <Text Text={'锁定'} />
+                    <Check
+                        UnChecked={!this.IsLocked}
+                        OnChecked={(checked: boolean): void => {
+                            this.IsLocked = checked;
+                        }}
+                        Tip={'锁定后,选择其它Entity将不会改变当前编辑的Entity'}
                     />
                     <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
                     <Btn Text={'Test'} OnClick={this.Test} Tip={`测试`} />

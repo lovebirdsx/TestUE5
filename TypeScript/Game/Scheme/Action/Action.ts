@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EActionFilter, Scheme, TElementRenderType } from '../../../Common/Type';
 import { IActionInfo, IJumpTalk, ILog, IShowTalk } from '../../Flow/Action';
+import { moveToPosScheme } from './Move';
 
 export class ActionScheme extends Scheme<IActionInfo> {
     public RenderType: TElementRenderType = 'dynamic';

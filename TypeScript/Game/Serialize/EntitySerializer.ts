@@ -77,7 +77,7 @@ function applyState(entity: ITsEntity, state: Record<string, unknown>): void {
 
     const stateComponent = entity.Entity.TryGetComponent(StateComponent);
     if (!stateComponent) {
-        error(`apply state to ${entity.Name} but has not state component`);
+        error(`apply state to ${entity.GetName()} but has not state component`);
         return;
     }
 

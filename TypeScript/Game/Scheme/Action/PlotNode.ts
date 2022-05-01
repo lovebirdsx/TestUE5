@@ -25,7 +25,7 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>({
         Value: booleanHideNameScheme,
     },
     Tip: '设定和剧情播放相关的控制变量',
-    Filters: actionFilterExcept(EActionFilter.Trigger),
+    Filters: actionFilterExcept(EActionFilter.Trigger, EActionFilter.Invoke),
 });
 
 export const setCameraModeScheme = createObjectScheme<ISetCameraMode>({

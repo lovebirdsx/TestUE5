@@ -6,6 +6,7 @@ import { AssetScheme, EnumScheme, IProps } from '../../../../Common/Type';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { TColor } from '../../BaseComponent/Color';
 import { Check, EditorBox } from '../../BaseComponent/CommonComponent';
+import { EntitySelector } from '../../BaseComponent/EntitySelector';
 import { FilterableList } from '../../BaseComponent/FilterableList';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -108,5 +109,17 @@ export function Asset(props: IProps<string, AssetScheme>): JSX.Element {
                 }}
             />
         </HorizontalBox>
+    );
+}
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export function EntityId(props: IProps<string>): JSX.Element {
+    return (
+        <EntitySelector
+            Guid={props.Value}
+            OnEntityChanged={(guid): void => {
+                props.OnModify(guid, 'normal');
+            }}
+        />
     );
 }

@@ -9,7 +9,7 @@
 ,流程_移动测试,"{
   ""VersionNum"": 8,
   ""TextGenId"": 2,
-  ""FlowGenId"": 2,
+  ""FlowGenId"": 3,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -73,6 +73,18 @@
             }
           ],
           ""Id"": 2
+        }
+      ]
+    },
+    {
+      ""Id"": 2,
+      ""StateGenId"": 2,
+      ""Name"": ""空状态"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [],
+          ""Id"": 1
         }
       ]
     }

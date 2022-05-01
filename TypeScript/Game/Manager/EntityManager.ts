@@ -36,6 +36,10 @@ export class EntityManager implements IManager, IEntityMananger {
         }
     }
 
+    public GetEntity(guid: string): ITsEntity {
+        return this.EntityMap.get(guid);
+    }
+
     private RemoveAllExistEntites(): void {
         const entities = LevelUtil.GetAllEntities(gameContext.World);
         entities.forEach((entity) => {
@@ -102,7 +106,7 @@ export class EntityManager implements IManager, IEntityMananger {
                     this.EntityMap.delete(entity.Guid);
                     entities.push(entity);
                 } else {
-                    error(`Remove no exist entity ${entity.Name}`);
+                    error(`Remove no exist entity ${entity.GetName()}`);
                 }
             });
 
@@ -124,7 +128,9 @@ export class EntityManager implements IManager, IEntityMananger {
                 const exist = this.EntityMap.get(entity.Guid);
                 if (exist) {
                     throw new Error(
-                        `Duplicate entity guid exist[${exist.Name}] add[${entity.Guid}] guid[${entity.Guid}]`,
+                        `Duplicate entity guid exist[${exist.GetName()}] add[${entity.Guid}] guid[${
+                            entity.Guid
+                        }]`,
                     );
                 }
                 this.Entities.push(entity);

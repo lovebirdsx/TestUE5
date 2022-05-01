@@ -1,10 +1,12 @@
+/* eslint-disable no-void */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
-import { isChildOfClass } from '../../Common/Class';
+import { delay } from '../../Common/Async';
 import { genGuid } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/Config';
-import { TsEntity } from '../../Game/Entity/Public';
+import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
@@ -49,7 +51,7 @@ export class LevelEditor {
     }
 
     private CheckEntityInit(actor: Actor): void {
-        if (!isChildOfClass(actor, TsEntity)) {
+        if (!isEntity(actor)) {
             return;
         }
 
@@ -57,7 +59,10 @@ export class LevelEditor {
         entity.Guid = genGuid();
     }
 
-    private InitForNewActors(): void {
+    private async InitForNewActors(): Promise<void> {
+        // UE回调的时候,当前选择的并不是最新创建的Actor,所以需要延时一下处理
+        await delay(0.2);
+
         const actors = EditorLevelLibrary.GetSelectedLevelActors();
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
@@ -66,11 +71,11 @@ export class LevelEditor {
     }
 
     private OnDuplicateActorsEnd(): void {
-        this.InitForNewActors();
+        void this.InitForNewActors();
     }
 
     private OnEditPasteActorsEnd(): void {
-        this.InitForNewActors();
+        void this.InitForNewActors();
     }
 
     private OnNewActorsDropped(actors: TArray<Actor>): void {

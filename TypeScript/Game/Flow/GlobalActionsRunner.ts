@@ -2,10 +2,12 @@
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Common/Log';
 import { msgbox } from '../../Common/UeHelper';
+import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { gameContext, IGlobalActionsRunner } from '../Interface';
 import { IManager } from '../Manager/Interface';
 import {
     IActionInfo,
+    IInvoke,
     ILog,
     ISetFlowBoolOption,
     IShowMessage,
@@ -23,6 +25,7 @@ export class GlobalActionsRunner implements IManager, IGlobalActionsRunner {
         this.ActionMap.set('Wait', this.ExecuteWait.bind(this));
         this.ActionMap.set('ShowMessage', this.ExecuteShowMessage.bind(this));
         this.ActionMap.set('SetFlowBoolOption', this.ExecuteSetFlowBoolOption.bind(this));
+        this.ActionMap.set('Invoke', this.ExecuteInvoke.bind(this));
 
         gameContext.GlobalActionsRunner = this;
     }
@@ -95,5 +98,21 @@ export class GlobalActionsRunner implements IManager, IGlobalActionsRunner {
                 error(`Unsupported option type ${action.Option}`);
                 break;
         }
+    }
+
+    private async ExecuteInvoke(actionInfo: IActionInfo): Promise<void> {
+        const action = actionInfo.Params as IInvoke;
+        const tsEntity = gameContext.EntityManager.GetEntity(action.Who);
+        if (tsEntity === undefined) {
+            error(
+                `Can not invoke ${JSON.stringify(action.ActionInfo)} no exist entity guid:${
+                    action.Who
+                }`,
+            );
+            return;
+        }
+
+        const actionRunner = tsEntity.Entity.GetComponent(ActionRunnerComponent);
+        await actionRunner.ExecuteOne(action.ActionInfo);
     }
 }

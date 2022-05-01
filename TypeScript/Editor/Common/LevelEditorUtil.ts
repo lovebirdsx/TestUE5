@@ -11,6 +11,7 @@ import { getAssetPath } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
+import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 
 class LevelEditorUtil {
@@ -60,6 +61,19 @@ class LevelEditorUtil {
         }
 
         return LevelUtil.GetAllEntities(world);
+    }
+
+    public static GetSelectedEntity(): ITsEntity {
+        const actors = EditorLevelLibrary.GetSelectedLevelActors();
+
+        for (let i = 0; i < actors.Num(); i++) {
+            const actor = actors.Get(i);
+            if (isEntity(actor)) {
+                return actor as ITsEntity;
+            }
+        }
+
+        return undefined;
     }
 }
 

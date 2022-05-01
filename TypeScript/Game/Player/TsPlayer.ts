@@ -65,14 +65,10 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
 
     public ReceiveBeginPlay(): void {
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
-        this.GrabHandle = new PhysicsHandleComponent(this, this.Name);
+        this.GrabHandle = new PhysicsHandleComponent(this, this.GetName());
         this.InitSpeed = this.Movement.MaxWalkSpeed;
 
         gameContext.Player = this;
-    }
-
-    public get Name(): string {
-        return this.GetName();
     }
 
     public get Speed(): number {

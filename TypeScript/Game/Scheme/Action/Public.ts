@@ -2,6 +2,7 @@
 import { ObjectScheme } from '../../../Common/Type';
 import { TActionType } from '../../Flow/Action';
 import { actionRegistry } from './ActionRegistry';
+import { invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
 import { moveToPosScheme } from './Move';
@@ -18,6 +19,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
     JumpTalk: jumpTalkScheme,
+    Invoke: invokeScheme,
     Log: logScheme,
     MoveToPos: moveToPosScheme,
     PlaySequenceData: playSequenceDataScheme,

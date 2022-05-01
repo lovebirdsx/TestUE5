@@ -44,7 +44,7 @@ export class GrabComponent extends Component {
         const player = gameContext.Player as TsPlayer;
         player.SetGrab(actor);
         this.GrabTick = {
-            Name: player.Name + `Grab` + actor.GetName(),
+            Name: player.GetName() + `Grab` + actor.GetName(),
             Tick: (): void => {
                 this.UpdateGradPos();
             },

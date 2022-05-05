@@ -6,6 +6,7 @@ import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
+import TsSpring, { springComponentClasses } from './TsSpring';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
 
 // 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
@@ -17,6 +18,7 @@ export enum EBlueprintId {
     TsSphereActor = 4,
     CharacterEntity = 5,
     AiNpc = 6,
+    Spring = 7,
 }
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
@@ -53,6 +55,7 @@ export function initEntity(): void {
     entityRegistry.Register(TsPlayer, ...playerComponentClasses);
     entityRegistry.Register(TsSphereActor, ...sphereComponentClasses);
     entityRegistry.Register(TsAiNpc, ...aiNpcComponentClasses);
+    entityRegistry.Register(TsSpring, ...springComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -62,6 +65,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Npc, TsNpc);
     regEntity(EBlueprintId.Trigger, TsTrigger);
     regEntity(EBlueprintId.TsSphereActor, TsSphereActor);
+    regEntity(EBlueprintId.Spring, TsSpring);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -75,4 +79,5 @@ initEntity();
 export * from './TsEntity';
 export * from './TsNpc';
 export * from './TsSphereActor';
+export * from './TsSpring';
 export * from './TsTrigger';

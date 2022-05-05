@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor } from 'ue';
+import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
 import { SpringComponent } from '../Component/SpringComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
@@ -25,6 +25,24 @@ class TsSpring extends TsEntity {
         if (isEntity(other)) {
             const tsEntity = other as ITsEntity;
             this.Entity.OnTriggerExit(tsEntity.Entity);
+        }
+    }
+
+    public ReceiveHit(
+        myComp: PrimitiveComponent,
+        other: Actor,
+        otherComp: PrimitiveComponent,
+        bSelfMoved: boolean,
+        hitLocation: Vector,
+        hitNormal: Vector,
+        normalImpulse: Vector,
+        hit: HitResult,
+    ): void {
+        if (isEntity(other)) {
+            const springcomponent = this.Entity.TryGetComponent(SpringComponent);
+            if (springcomponent) {
+                springcomponent.EventHit(myComp, otherComp, normalImpulse);
+            }
         }
     }
 }

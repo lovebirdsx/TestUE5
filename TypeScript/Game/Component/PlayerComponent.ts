@@ -7,6 +7,8 @@ class PlayerComponent extends Component {
 
     private MyIsInteracting: boolean;
 
+    private InteractingActer: Entity;
+
     public AddInteractor(interacter: Entity): void {
         const index = this.Interacters.indexOf(interacter);
         if (index >= 0) {
@@ -33,6 +35,10 @@ class PlayerComponent extends Component {
 
     public TryInteract(): boolean {
         if (this.IsInteracting) {
+            // 开始进入交互的actor，即使退出触发范围了还能交互
+            if (this.InteractingActer) {
+                this.InteractingActer.GetComponent(InteractiveComponent).Interacting(this.Entity);
+            }
             return false;
         }
 
@@ -52,13 +58,14 @@ class PlayerComponent extends Component {
         }
 
         if (this.IsInteracting) {
-            error(`Can not start iteract again`);
             return;
         }
 
         const interactor = this.Interacters[id];
         this.MyIsInteracting = true;
+        this.InteractingActer = interactor;
         await interactor.GetComponent(InteractiveComponent).Interact(this.Entity);
+        this.InteractingActer = null;
         this.MyIsInteracting = false;
     }
 }

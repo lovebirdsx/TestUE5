@@ -259,6 +259,8 @@ export class InteractiveComponent extends Component {
     public async Interact(entity: Entity): Promise<void> {
         throw new Error('Interact is not implement');
     }
+
+    public Interacting(entity: Entity): void {}
 }
 
 export function genEntity(tsEntity: ITsEntity): Entity {

@@ -8,8 +8,10 @@ import {
     PrimitiveComponent,
     Rotator,
     TestUE5Character,
+    Transform,
     Vector,
 } from 'ue';
+import { log } from '../../Common/Log';
 
 import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
@@ -65,9 +67,14 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
 
     public ReceiveBeginPlay(): void {
         this.Movement = this.GetMovementComponent() as CharacterMovementComponent;
-        this.GrabHandle = new PhysicsHandleComponent(this, this.GetName());
+        this.GrabHandle = this.AddComponentByClass(
+            PhysicsHandleComponent.StaticClass(),
+            false,
+            new Transform(),
+            false,
+        ) as PhysicsHandleComponent;
+        this.GrabHandle.bInterpolateTarget = false;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
-
         gameContext.Player = this;
     }
 
@@ -92,18 +99,23 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     }
 
     public SetGrab(actor: Actor): void {
-        if (!actor) {
+        if (!actor || actor === null) {
             this.GrabHandle.ReleaseComponent();
             return;
         }
-        const components = actor.K2_GetComponentsByClass(PrimitiveComponent.StaticClass());
-        const component = components.Get(0) as PrimitiveComponent;
+        const component = actor.GetComponentByClass(
+            PrimitiveComponent.StaticClass(),
+        ) as PrimitiveComponent;
+        this.GrabHandle.SetInterpolationSpeed(500);
+        log(
+            `SetGrabSetGrab ${this.GrabHandle.bInterpolateTarget}, ${this.GrabHandle.InterpolationSpeed}`,
+        );
         if (component) {
             const actorLocation: Vector = component.K2_GetComponentLocation();
             const actorRotation: Rotator = component.K2_GetComponentRotation();
             this.GrabHandle.GrabComponentAtLocationWithRotation(
                 component,
-                ``,
+                null,
                 actorLocation,
                 actorRotation,
             );

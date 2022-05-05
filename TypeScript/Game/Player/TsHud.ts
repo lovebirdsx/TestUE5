@@ -14,6 +14,8 @@ class TsHud extends HUD {
     // @no-blueprint
     private UiInteractDisplay: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
 
+    private IsInteracting: boolean;
+
     private Interacts: string[];
 
     public Constructor(): void {
@@ -30,6 +32,7 @@ class TsHud extends HUD {
         ) as UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
 
         this.Interacts = [];
+        this.IsInteracting = false;
     }
 
     public ReceiveBeginPlay(): void {
@@ -51,7 +54,9 @@ class TsHud extends HUD {
         if (index < 0) {
             this.Interacts.push(key);
             this.UiInteractDisplay.AddItem(key);
-            this.UiInteractDisplay.ShowAll();
+            if (!this.IsInteracting) {
+                this.UiInteractDisplay.ShowAll();
+            }
         }
     }
 
@@ -64,6 +69,16 @@ class TsHud extends HUD {
         if (this.Interacts.length <= 0) {
             this.UiInteractDisplay.HideAll();
         }
+    }
+
+    public ShowInteract(): void {
+        this.IsInteracting = false;
+        this.UiInteractDisplay.ShowAll();
+    }
+
+    public HideInteract(): void {
+        this.IsInteracting = true;
+        this.UiInteractDisplay.HideAll();
     }
 
     // @no-blueprint

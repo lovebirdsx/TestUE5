@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Vector } from 'ue';
+import * as UE from 'ue';
+import { Game, UMGManager, Vector } from 'ue';
 
+import { createSignal, ISignal } from '../../Common/Async';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
 import { GrabComponent, IGrabSetting } from './GrabComponent';
@@ -17,9 +20,14 @@ export class SphereComponent extends InteractiveComponent {
 
     private State: number;
 
+    private InteractSignal: ISignal<never>;
+
+    private InteractUi: Game.Demo.UI.UI_Sphere.UI_Sphere_C;
+
     public OnInit(): void {
         this.State = EState.Down;
         this.Grab = this.Entity.GetComponent(GrabComponent);
+        this.InteractSignal = null;
     }
 
     public GetPlayerHud(): TsHud {
@@ -60,21 +68,46 @@ export class SphereComponent extends InteractiveComponent {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     public async Interact(other: Entity): Promise<void> {
-        const x = 10;
-        switch (this.State) {
-            case EState.Up:
-                this.Grab.ReleaseGrab();
-                this.State = EState.Down;
-                break;
-            case EState.Down:
-                this.Grab.Grab(this.Entity.Actor, {
-                    Position: new Vector(x, x, x),
-                } as IGrabSetting);
-                this.State = EState.Up;
-                break;
+        if (this.State === EState.Down) {
+            // TODO scheme 设置
+            this.Grab.Grab(this.Entity.Actor, {
+                GrabPosition: new Vector(10, 0, 200),
+                ThrowDir: new Vector(0, 0, 500),
+                ThrowSpeed: 300,
+            } as IGrabSetting);
+            this.State = EState.Up;
+            await this.Execute();
+            this.State = EState.Down;
+            this.Grab.ReleaseGrab();
         }
-        // TODO change UI state
+    }
+
+    public Interacting(entity: Entity): void {
+        if (this.InteractSignal !== null) {
+            this.InteractSignal.Emit();
+        }
+    }
+
+    public async Execute(): Promise<void> {
+        const tsHud = this.GetPlayerHud();
+        tsHud.HideInteract();
+
+        const classObj = UE.Class.Load('/Game/Demo/UI/UI_Sphere.UI_Sphere_C');
+        this.InteractUi = UMGManager.CreateWidget(
+            tsHud.GetWorld(),
+            classObj,
+        ) as UE.Game.Demo.UI.UI_Sphere.UI_Sphere_C;
+        this.InteractUi.SetBtnTitle(`放下`);
+        this.InteractUi.AddToViewport();
+
+        // 等待取消
+        this.InteractSignal = createSignal<never>();
+        await Promise.all([this.InteractSignal.Promise]);
+
+        this.InteractUi.RemoveFromViewport();
+        this.InteractUi = null;
+        tsHud.ShowInteract();
+        this.InteractSignal = null;
     }
 }

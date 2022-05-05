@@ -4,9 +4,12 @@ import { entityRegistry } from './EntityRegistry';
 import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
+import TsMoveMesh, { moveMeshComponentClasses } from './TsMoveMesh';
 import TsNpc, { npcComponentClasses } from './TsNpc';
+import TsRotator, { rotatorComponentClasses } from './TsRotator';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
 import TsSpring, { springComponentClasses } from './TsSpring';
+import TsTrample, { trampleComponentClasses } from './TsTrample';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
 
 // 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
@@ -19,6 +22,9 @@ export enum EBlueprintId {
     CharacterEntity = 5,
     AiNpc = 6,
     Spring = 7,
+    Rotator = 8,
+    Trample = 9,
+    MoveMesh = 10,
 }
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
@@ -56,6 +62,9 @@ export function initEntity(): void {
     entityRegistry.Register(TsSphereActor, ...sphereComponentClasses);
     entityRegistry.Register(TsAiNpc, ...aiNpcComponentClasses);
     entityRegistry.Register(TsSpring, ...springComponentClasses);
+    entityRegistry.Register(TsRotator, ...rotatorComponentClasses);
+    entityRegistry.Register(TsTrample, ...trampleComponentClasses);
+    entityRegistry.Register(TsMoveMesh, ...moveMeshComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -66,6 +75,9 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Trigger, TsTrigger);
     regEntity(EBlueprintId.TsSphereActor, TsSphereActor);
     regEntity(EBlueprintId.Spring, TsSpring);
+    regEntity(EBlueprintId.Rotator, TsRotator);
+    regEntity(EBlueprintId.Trample, TsTrample);
+    regEntity(EBlueprintId.MoveMesh, TsMoveMesh);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -77,7 +89,10 @@ export function initEntity(): void {
 initEntity();
 
 export * from './TsEntity';
+export * from './TsMoveMesh';
 export * from './TsNpc';
+export * from './TsRotator';
 export * from './TsSphereActor';
 export * from './TsSpring';
+export * from './TsTrample';
 export * from './TsTrigger';

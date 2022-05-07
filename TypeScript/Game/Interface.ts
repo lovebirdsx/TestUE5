@@ -2,6 +2,7 @@
 import { Actor, GameModeBase, PlayerController, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
+import { Event } from '../Common/Util';
 import { IActionInfo, IPlayFlow, ITriggerActions, TActionType } from './Flow/Action';
 
 export interface IFlowComponent {
@@ -52,19 +53,38 @@ export interface ITsTrigger {
     TriggerActionsJson: string;
 }
 
-export interface IEntityState {
+export interface IEntityData {
     PrefabId: number;
     Pos: number[];
     Rotation?: number[];
     Scale?: number[];
-    PureData: TEntityPureData;
-    State?: Record<string, unknown>;
+    PureData?: TEntityPureData;
+}
+
+export type TEntityState = Record<string, unknown>;
+
+export interface ISavedEntityState extends TEntityState {
+    Id: string;
+    Deleted: boolean;
 }
 
 export interface IEntityMananger {
-    SpawnEntity: (state: IEntityState) => ITsEntity;
+    EntityAdded: Event<ITsEntity>;
+    EntityRemoved: Event<ITsEntity>;
+    EntityRegistered: Event<ITsEntity>;
+    EntityDeregistered: Event<ITsEntity>;
+    RegisterEntity: (entity: ITsEntity) => boolean;
+    UnregisterEntity: (entity: ITsEntity) => boolean;
+    SpawnEntity: (state: IEntityData) => ITsEntity;
     RemoveEntity: (...entities: ITsEntity[]) => void;
     GetEntity: (guid: string) => ITsEntity;
+    GetAllEntites: () => ITsEntity[];
+}
+
+export interface IStateManager {
+    GetState: (id: string) => ISavedEntityState;
+    SetState: (id: string, state: TEntityState) => void;
+    DeleteState: (id: string) => void;
     Load: () => void;
     Save: () => void;
 }
@@ -82,6 +102,12 @@ export interface ITickable {
 export interface ITickManager {
     AddTick: (tickable: ITickable) => void;
     RemoveTick: (tickable: ITickable) => void;
+    AddDelayCall: (call: () => void) => void;
+}
+
+export interface IGameController {
+    LoadGame: () => void;
+    SaveGame: () => void;
 }
 
 export interface IGameContext {
@@ -92,9 +118,12 @@ export interface IGameContext {
     EntityManager: IEntityMananger;
     TickManager: ITickManager;
     GlobalActionsRunner: IGlobalActionsRunner;
+    StateManager: IStateManager;
+    GameController: IGameController;
 }
 
 export const gameContext: IGameContext = {
+    GameController: undefined,
     Player: undefined,
     PlayerController: undefined,
     GameMode: undefined,
@@ -102,6 +131,7 @@ export const gameContext: IGameContext = {
     EntityManager: undefined,
     TickManager: undefined,
     GlobalActionsRunner: undefined,
+    StateManager: undefined,
 };
 
 export abstract class Component {
@@ -261,18 +291,4 @@ export class InteractiveComponent extends Component {
     }
 
     public Interacting(entity: Entity): void {}
-}
-
-export function genEntity(tsEntity: ITsEntity): Entity {
-    const entity = new Entity(tsEntity.GetName(), tsEntity);
-    const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
-    const componentClasses = tsEntity.GetComponentClasses();
-    componentClasses.forEach((componentClass) => {
-        const component = entity.AddComponentC(componentClass);
-        const data = componentsState[componentClass.name];
-        if (data) {
-            Object.assign(component, data);
-        }
-    });
-    return entity;
 }

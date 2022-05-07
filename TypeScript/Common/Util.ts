@@ -2,6 +2,8 @@
 import { Class, KismetGuidLibrary, Vector } from 'ue';
 import * as UE from 'ue';
 
+import { error } from './Log';
+
 /* eslint-disable spellcheck/spell-checker */
 export function getEnumValues(enumType: Record<number, string>): number[] {
     const valueNames = Object.keys(enumType).filter((item) => !Number.isNaN(Number(item)));
@@ -147,4 +149,35 @@ export function alignVector(vec: Vector, len = 1): Vector {
     const y = Math.floor(vec.Y / len) * len;
     const z = Math.floor(vec.Z / len) * len;
     return new Vector(x, y, z);
+}
+
+export type TCallBack<T1, T2, T3> = (arg1?: T1, arg2?: T2, arg3?: T3) => void;
+
+export class Event<T1 = unknown, T2 = unknown, T3 = unknown> {
+    private readonly Callbacks: TCallBack<T1, T2, T3>[] = [];
+
+    private readonly Name: string;
+
+    public constructor(name: string) {
+        this.Name = name;
+    }
+
+    public AddCallback(cb: TCallBack<T1, T2, T3>): void {
+        this.Callbacks.push(cb);
+    }
+
+    public RemoveCallBack(cb: TCallBack<T1, T2, T3>): void {
+        const index = this.Callbacks.indexOf(cb);
+        if (index >= 0) {
+            this.Callbacks.splice(index, 1);
+        } else {
+            error(`Remove no exist callback for Event ${this.Name}`);
+        }
+    }
+
+    public Invoke(arg1?: T1, arg2?: T2, arg3?: T3): void {
+        this.Callbacks.forEach((cb) => {
+            cb(arg1, arg2, arg3);
+        });
+    }
 }

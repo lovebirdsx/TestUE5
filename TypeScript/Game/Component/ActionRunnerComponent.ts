@@ -23,7 +23,7 @@ export class ActionRunnerHandler {
         this.MyIsRunning = false;
     }
 
-    public async Execute(): Promise<void> {
+    public async Execute(actionId?: number, actionFinishCb?: (id: number) => void): Promise<void> {
         if (this.IsRunning) {
             error(`${this.Runner.Name} can not run actions again`);
             return;
@@ -33,10 +33,13 @@ export class ActionRunnerHandler {
 
         const actions = this.Actions;
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
-        for (let i = 0; i < actions.length; i++) {
+        for (let i = actionId || 0; i < actions.length; i++) {
             const action = actions[i];
             // eslint-disable-next-line no-await-in-loop
             await this.Runner.ExecuteOne(action);
+            if (actionFinishCb) {
+                actionFinishCb(i);
+            }
             if (!this.IsRunning) {
                 break;
             }

@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IPlayFlow, IShowTalk, ITriggerActions, IVector } from '../../../Game/Flow/Action';
+import { IPlayFlow, IShowTalk, ITriggerActions, IVectorInfo } from '../../../Game/Flow/Action';
 import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
 import { jumpIdScheme } from '../../../Game/Scheme/Action/JumpTalk';
 import { posScheme } from '../../../Game/Scheme/Action/Move';
@@ -39,7 +39,7 @@ renderRegistry.RegComponent<string>(csvFollowCellScheme, RenderCsvFollowCell);
 renderRegistry.RegComponent<ITriggerActions>(triggerActionsScheme, RenderTriggerActions);
 renderRegistry.RegObjComponent<IShowTalk>(showTalkScheme, RenderShowTalk);
 renderRegistry.RegComponent<IPlayFlow>(playFlowScheme, RenderPlayFlow);
-renderRegistry.RegComponent<IVector>(posScheme, Point);
+renderRegistry.RegComponent<IVectorInfo>(posScheme, Point);
 
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 

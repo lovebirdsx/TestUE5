@@ -12,11 +12,14 @@ import { warn } from '../../Common/Log';
 import { IActionInfo, IFaceToPos, IMoveToPos, toVector } from '../Flow/Action';
 import { Component } from '../Interface';
 import { ActionRunnerComponent } from './ActionRunnerComponent';
+import StateComponent from './StateComponent';
 
 class MoveComponent extends Component {
     private Runner: ActionRunnerComponent;
 
     private Controller: AIController;
+
+    private State: StateComponent;
 
     private MoveFinishSignal: ISignal<void>;
 
@@ -24,13 +27,23 @@ class MoveComponent extends Component {
 
     public OnInit(): void {
         this.Runner = this.Entity.GetComponent(ActionRunnerComponent);
+        this.State = this.Entity.GetComponent(StateComponent);
         this.Runner.RegisterActionFun('MoveToPos', this.ExecuteMoveToPos.bind(this));
         this.Runner.RegisterActionFun('FaceToPos', this.ExecuteFaceToPos.bind(this));
         this.Controller = (this.Entity.Actor as Character).Controller as AIController;
         this.Controller.ReceiveMoveCompleted.Add(this.OnMoveCompleted);
     }
 
+    public OnLoadState(): void {
+        this.State.ApplyPosition();
+        this.State.ApplyRotation();
+    }
+
     public OnDestroy(): void {
+        if (this.IsMoving) {
+            this.Controller.StopMovement();
+            this.IsMoving = false;
+        }
         this.Controller.ReceiveMoveCompleted.Remove(this.OnMoveCompleted);
     }
 
@@ -41,6 +54,7 @@ class MoveComponent extends Component {
         if (this.MoveFinishSignal) {
             this.MoveFinishSignal.Emit();
         }
+        this.State.RecordPosition();
     };
 
     private async ExecuteMoveToPos(actionInfo: IActionInfo): Promise<void> {
@@ -82,6 +96,8 @@ class MoveComponent extends Component {
         const dir = to.op_Subtraction(from);
         dir.Z = 0;
         actor.K2_SetActorRotation(dir.Rotation(), false);
+
+        this.State.RecordRotation();
     }
 }
 

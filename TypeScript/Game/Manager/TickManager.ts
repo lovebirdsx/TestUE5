@@ -11,6 +11,8 @@ export class TickManager implements IManager, ITickManager {
 
     private readonly RemoveQueue: ITickable[] = [];
 
+    private readonly DelayCalls: (() => void)[] = [];
+
     public constructor() {
         gameContext.TickManager = this;
     }
@@ -35,6 +37,10 @@ export class TickManager implements IManager, ITickManager {
         this.RemoveQueue.push(tickable);
     }
 
+    public AddDelayCall(call: () => void): void {
+        this.DelayCalls.push(call);
+    }
+
     public Init(): void {}
 
     public Exit(): void {}
@@ -47,6 +53,13 @@ export class TickManager implements IManager, ITickManager {
         if (this.RemoveQueue.length > 0) {
             this.RemoveQueue.forEach((tick) => {
                 this.TickList.splice(this.TickList.indexOf(tick), 1);
+            });
+        }
+
+        if (this.DelayCalls.length > 0) {
+            const calls = this.DelayCalls.splice(0);
+            calls.forEach((call) => {
+                call();
             });
         }
 

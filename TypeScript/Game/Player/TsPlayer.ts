@@ -11,11 +11,12 @@ import {
     Transform,
     Vector,
 } from 'ue';
-import { log } from '../../Common/Log';
 
+import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
-import { Entity, gameContext, genEntity, ITsEntity, TComponentClass } from '../Interface';
+import { deInitTsEntity, initTsEntity } from '../Entity/Common';
+import { Entity, gameContext, ITsEntity, TComponentClass } from '../Interface';
 
 export const playerComponentClasses: TComponentClass[] = [PlayerComponent];
 
@@ -46,8 +47,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     // @no-blueprint
     public Init(): void {
         this.Guid = genGuid();
-        this.Entity = genEntity(this);
-        this.Entity.Init();
+        initTsEntity(this);
     }
 
     // @no-blueprint
@@ -62,7 +62,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
 
     // @no-blueprint
     public Destroy(): void {
-        this.Entity.Destroy();
+        deInitTsEntity(this);
     }
 
     public ReceiveBeginPlay(): void {
@@ -76,6 +76,8 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
         this.GrabHandle.bInterpolateTarget = false;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         gameContext.Player = this;
+
+        this.Init();
     }
 
     public get Speed(): number {

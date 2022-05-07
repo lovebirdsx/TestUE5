@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { allActionFilters, createFloatScheme, createObjectScheme } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPos, IVector } from '../../Flow/Action';
+import { IFaceToPos, IMoveToPos, IVectorInfo } from '../../Flow/Action';
 
-export const posScheme = createObjectScheme<IVector>({
+export const posScheme = createObjectScheme<IVectorInfo>({
     Fields: {
         X: undefined,
         Y: undefined,

@@ -33,13 +33,14 @@ export class TalkComponent extends Component {
 
     public OnInit(): void {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
+        this.ActionRunner.RegisterActionFun('FinishTalk', this.ExecuteFinishTalk.bind(this));
+        this.ActionRunner.RegisterActionFun('JumpTalk', this.ExecuteJumpTalk.bind(this));
+    }
 
+    public OnStart(): void {
         const playerController = gameContext.PlayerController;
         const tsHud = playerController.GetHUD() as TsHud;
         this.TalkerDisplay = tsHud.TalkerDisplay;
-
-        this.ActionRunner.RegisterActionFun('FinishTalk', this.ExecuteFinishTalk.bind(this));
-        this.ActionRunner.RegisterActionFun('JumpTalk', this.ExecuteJumpTalk.bind(this));
     }
 
     private async ShowTalkItem(item: ITalkItem): Promise<void> {

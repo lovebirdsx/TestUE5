@@ -26,6 +26,7 @@ import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent'
 import testClass from '../UnitTest/Game/TestClass';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';
+import testEvent from '../UnitTest/TestEvent';
 import { testOpenFileDialog, testSaveFileDialog } from './FileDialog';
 import { TestAssetSelector } from './TestAssetSelector';
 import { TestButton } from './TestButton';
@@ -46,6 +47,7 @@ interface ITestEditorState {
 }
 
 const allTests: ITest[] = [
+    { Name: 'testEvent', Fun: testEvent },
     { Name: 'testContainer', Fun: testContainer },
     { Name: 'testImmer', Fun: testImmer },
     { Name: 'testFile', Fun: testFile },

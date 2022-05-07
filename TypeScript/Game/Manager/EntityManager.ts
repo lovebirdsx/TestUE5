@@ -1,19 +1,27 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, DemoWorldSettings, MyFileHelper, Pawn } from 'ue';
+import { Actor, MyFileHelper, Pawn } from 'ue';
 
-import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
+import { Event } from '../../Common/Util';
 import { gameConfig } from '../Common/Config';
 import { LevelUtil } from '../Common/LevelUtil';
 import { isPlayer } from '../Entity/EntityRegistry';
-import { gameContext, IEntityMananger, IEntityState, ITsEntity } from '../Interface';
+import { gameContext, IEntityData, IEntityMananger, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { ILevelState, LevelSerializer } from '../Serialize/LevelSerializer';
 import { IManager } from './Interface';
 
 export class EntityManager implements IManager, IEntityMananger {
+    public readonly EntityAdded = new Event<ITsEntity>('EntityAdded');
+
+    public readonly EntityRemoved = new Event<ITsEntity>('EntityRemoved');
+
+    public readonly EntityRegistered = new Event<ITsEntity>('EntityRegistered');
+
+    public readonly EntityDeregistered = new Event<ITsEntity>('EntityDeregistered');
+
     private readonly LevelSerializer: LevelSerializer = new LevelSerializer();
 
     private readonly EntityMap = new Map<string, ITsEntity>();
@@ -28,16 +36,14 @@ export class EntityManager implements IManager, IEntityMananger {
         gameContext.EntityManager = this;
     }
 
-    public Init(): void {
-        const levelSettings = gameContext.World.K2_GetWorldSettings() as DemoWorldSettings;
-        if (!levelSettings.DisableCustomEntityLoad) {
-            this.RemoveAllExistEntites();
-            this.LoadState();
-        }
-    }
+    public Init(): void {}
 
     public GetEntity(guid: string): ITsEntity {
         return this.EntityMap.get(guid);
+    }
+
+    public GetAllEntites(): ITsEntity[] {
+        return this.Entities;
     }
 
     private RemoveAllExistEntites(): void {
@@ -84,14 +90,42 @@ export class EntityManager implements IManager, IEntityMananger {
         return player;
     }
 
-    public SpawnEntity(state: IEntityState): ITsEntity {
+    public SpawnEntity(state: IEntityData): ITsEntity {
         const entity = entitySerializer.SpawnEntityByState(state);
         this.EntitiesToSpawn.push(entity);
         return entity;
     }
 
+    public RegisterEntity(entity: ITsEntity): boolean {
+        const exist = this.EntityMap.get(entity.Guid);
+        if (exist) {
+            error(
+                `Duplicate entity guid exist[${exist.GetName()}] add[${entity.Guid}] guid[${
+                    entity.Guid
+                }]`,
+            );
+            return false;
+        }
+        this.Entities.push(entity);
+        this.EntityMap.set(entity.Guid, entity);
+        this.EntityRegistered.Invoke(entity);
+        return true;
+    }
+
+    public UnregisterEntity(entity: ITsEntity): boolean {
+        const index = this.Entities.indexOf(entity);
+        if (index >= 0) {
+            this.Entities.splice(index, 1);
+            this.EntityMap.delete(entity.Guid);
+            this.EntityDeregistered.Invoke(entity);
+            return true;
+        }
+
+        error(`Remove no exist entity ${entity.GetName()}`);
+        return false;
+    }
+
     public Exit(): void {
-        this.Save();
         this.RemoveEntity(...this.Entities);
     }
 
@@ -100,13 +134,9 @@ export class EntityManager implements IManager, IEntityMananger {
             const entities: ITsEntity[] = [];
 
             this.EntitiesToDestroy.forEach((entity) => {
-                const index = this.Entities.indexOf(entity);
-                if (index >= 0) {
-                    this.Entities.splice(index, 1);
-                    this.EntityMap.delete(entity.Guid);
+                if (this.UnregisterEntity(entity)) {
                     entities.push(entity);
-                } else {
-                    error(`Remove no exist entity ${entity.GetName()}`);
+                    this.EntityRemoved.Invoke(entity);
                 }
             });
 
@@ -125,16 +155,8 @@ export class EntityManager implements IManager, IEntityMananger {
             const entities = this.EntitiesToSpawn.splice(0, this.EntitiesToSpawn.length);
 
             entities.forEach((entity) => {
-                const exist = this.EntityMap.get(entity.Guid);
-                if (exist) {
-                    throw new Error(
-                        `Duplicate entity guid exist[${exist.GetName()}] add[${entity.Guid}] guid[${
-                            entity.Guid
-                        }]`,
-                    );
-                }
-                this.Entities.push(entity);
-                this.EntityMap.set(entity.Guid, entity);
+                this.RegisterEntity(entity);
+                this.EntityAdded.Invoke(entity);
             });
 
             entities.forEach((entity) => {
@@ -146,22 +168,7 @@ export class EntityManager implements IManager, IEntityMananger {
         }
     }
 
-    public Save(): void {
-        const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
-        this.LevelSerializer.Save(this.Entities, mapSavePath);
-    }
-
     public RemoveEntity(...entities: ITsEntity[]): void {
         this.EntitiesToDestroy.push(...entities);
-    }
-
-    private async LoadSync(): Promise<void> {
-        this.RemoveEntity(...this.Entities);
-        await delay(0.1);
-        this.LoadState();
-    }
-
-    public Load(): void {
-        void this.LoadSync();
     }
 }

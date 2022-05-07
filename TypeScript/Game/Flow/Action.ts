@@ -241,21 +241,29 @@ export interface IShowCenterText {
     TextId: number;
 }
 
-export interface IVector {
+export interface IVectorInfo {
     X: number;
     Y: number;
     Z: number;
 }
 
-export function toVector(iVec: IVector): Vector {
+export function toVector(iVec: IVectorInfo): Vector {
     return new Vector(iVec.X, iVec.Y, iVec.Z);
+}
+
+export function toVectorInfo(vec: Vector): IVectorInfo {
+    return {
+        X: vec.X,
+        Y: vec.Y,
+        Z: vec.Z,
+    };
 }
 
 export interface IMoveToPos {
     Timeout: number;
-    Pos: IVector;
+    Pos: IVectorInfo;
 }
 
 export interface IFaceToPos {
-    Pos: IVector;
+    Pos: IVectorInfo;
 }

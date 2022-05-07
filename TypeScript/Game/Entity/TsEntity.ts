@@ -1,7 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, edit_on_instance } from 'ue';
 
-import { Entity, genEntity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
+import { Entity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
+import { deInitTsEntity, initTsEntity } from './Common';
 
 export class TsEntity extends Actor implements ITsEntity {
     @edit_on_instance()
@@ -13,10 +14,13 @@ export class TsEntity extends Actor implements ITsEntity {
     // @no-blueprint
     public Entity: Entity;
 
+    public ReceiveBeginPlay(): void {
+        this.Init();
+    }
+
     // @no-blueprint
     public Init(): void {
-        this.Entity = genEntity(this);
-        this.Entity.Init();
+        initTsEntity(this);
     }
 
     // @no-blueprint
@@ -31,7 +35,7 @@ export class TsEntity extends Actor implements ITsEntity {
 
     // @no-blueprint
     public Destroy(): void {
-        this.Entity.Destroy();
+        deInitTsEntity(this);
     }
 
     // @no-blueprint

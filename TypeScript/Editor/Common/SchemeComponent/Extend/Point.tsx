@@ -16,7 +16,7 @@ import {
 
 import { IProps } from '../../../../Common/Type';
 import { alignVector } from '../../../../Common/Util';
-import { IVector } from '../../../../Game/Flow/Action';
+import { IVectorInfo } from '../../../../Game/Flow/Action';
 import { Btn, EditorBox } from '../../BaseComponent/CommonComponent';
 import LevelEditorUtil from '../../LevelEditorUtil';
 
@@ -24,8 +24,8 @@ interface IPointState {
     TipActor: Actor;
 }
 
-export class Point extends React.Component<IProps<IVector>, IPointState> {
-    public constructor(props: IProps<IVector>) {
+export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
+    public constructor(props: IProps<IVectorInfo>) {
         super(props);
         this.state = {
             TipActor: undefined,
@@ -114,7 +114,7 @@ export class Point extends React.Component<IProps<IVector>, IPointState> {
         if (this.state.TipActor) {
             this.state.TipActor.K2_SetActorLocation(vec, false, undefined, false);
         }
-        const pos: IVector = { X: vecAligned.X, Y: vecAligned.Y, Z: vecAligned.Z };
+        const pos: IVectorInfo = { X: vecAligned.X, Y: vecAligned.Y, Z: vecAligned.Z };
         this.props.OnModify(pos, 'normal');
     }
 

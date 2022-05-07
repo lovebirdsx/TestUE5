@@ -24,6 +24,8 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
 
     private StateId: number;
 
+    private ActionId: number;
+
     private ActionRunner: ActionRunnerComponent;
 
     private Talk: TalkComponent;
@@ -58,6 +60,7 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
 
     public OnLoadState(): void {
         this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
+        this.ActionId = this.State.GetState<number>('ActionId') || 0;
     }
 
     public OnStart(): void {
@@ -73,6 +76,11 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
     public OnDestroy(): void {
         if (this.Continuable) {
             gameContext.TickManager.RemoveTick(this);
+        }
+
+        if (this.IsRunning) {
+            this.Handler.Stop();
+            this.Handler = undefined;
         }
     }
 
@@ -111,7 +119,12 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
         log(`[${this.Name}][${this.FlowInfo.Name}] to state [${state.Name}]`);
 
         this.Handler = this.ActionRunner.SpawnHandler(state.Actions);
-        await this.Handler.Execute();
+        await this.Handler.Execute(this.ActionId, (actionId: number) => {
+            this.State.SetState('ActionId', actionId);
+            this.ActionId = actionId;
+        });
         this.Handler = undefined;
+        this.ActionId = 0;
+        this.State.SetState('ActionId', undefined);
     }
 }

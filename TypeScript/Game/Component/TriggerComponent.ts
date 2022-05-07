@@ -19,6 +19,8 @@ export class TriggerComponent extends Component implements ITriggerComponent {
 
     private State: StateComponent;
 
+    private ActionId: number;
+
     public OnInit(): void {
         this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.State = this.Entity.GetComponent(StateComponent);
@@ -27,12 +29,20 @@ export class TriggerComponent extends Component implements ITriggerComponent {
 
     public OnLoadState(): void {
         this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
+        this.ActionId = this.State.GetState<number>('ActionId') || 0;
     }
 
-    private DoTrigger(): void {
+    private async DoTrigger(): Promise<void> {
         this.TriggerTimes++;
         this.State.SetState('TriggerTimes', this.TriggerTimes);
-        void this.Handler.Execute();
+        await this.Handler.Execute(this.ActionId, (actionId: number) => {
+            this.ActionId = actionId;
+            this.State.SetState('ActionId', actionId);
+        });
+
+        this.ActionId = 0;
+        this.State.SetState('ActionId', undefined);
+
         log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }
 
@@ -50,6 +60,6 @@ export class TriggerComponent extends Component implements ITriggerComponent {
             return;
         }
 
-        this.DoTrigger();
+        void this.DoTrigger();
     }
 }

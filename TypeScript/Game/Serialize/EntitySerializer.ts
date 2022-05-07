@@ -13,7 +13,7 @@ import StateComponent from '../Component/StateComponent';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
 import TsCharacterEntity from '../Entity/TsCharacterEntity';
-import { gameContext, IEntityState, ITsEntity } from '../Interface';
+import { gameContext, IEntityData, ITsEntity } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 
 function vectorToArray(vec: Vector): number[] {
@@ -43,7 +43,7 @@ function genScaleArray(vec: Vector): number[] {
 const defaultRotator = Rotator.MakeFromEuler(new Vector());
 const defaultScale = new Vector(1, 1, 1);
 
-function genTransform(state: IEntityState): Transform {
+function genTransform(state: IEntityData): Transform {
     let rotator: Rotator = defaultRotator;
     if (state.Rotation) {
         rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
@@ -54,20 +54,6 @@ function genTransform(state: IEntityState): Transform {
 
     const transform = new Transform(rotator, pos, scale);
     return transform;
-}
-
-function genState(entity: ITsEntity): Record<string, unknown> {
-    // 编辑器模式下, Entity是不存在的,故而没有必要生成其状态
-    if (entity.Entity === undefined) {
-        return undefined;
-    }
-
-    const stateComponent = entity.Entity.TryGetComponent(StateComponent);
-    if (!stateComponent) {
-        return undefined;
-    }
-
-    return stateComponent.GenSnapshot();
 }
 
 function applyState(entity: ITsEntity, state: Record<string, unknown>): void {
@@ -85,18 +71,17 @@ function applyState(entity: ITsEntity, state: Record<string, unknown>): void {
 }
 
 class EntitySerializer {
-    public GenEntityState(entity: ITsEntity): IEntityState {
+    public GenEntityState(entity: ITsEntity): IEntityData {
         return {
             PrefabId: getBlueprintId(entity.GetClass()),
             Pos: vectorToArray(entity.K2_GetActorLocation()),
             Rotation: genRotationArray(entity.K2_GetActorRotation().Euler()),
             Scale: genScaleArray(entity.GetActorScale3D()),
             PureData: entityRegistry.GenData(entity),
-            State: genState(entity),
         };
     }
 
-    public SpawnEntityByState(state: IEntityState): TsEntity {
+    public SpawnEntityByState(state: IEntityData): TsEntity {
         const actorClass = getBlueprintType(state.PrefabId);
         const transfrom = genTransform(state);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
@@ -112,7 +97,7 @@ class EntitySerializer {
 
         entityRegistry.ApplyData(state.PureData, entity);
         entity.Init();
-        applyState(entity, state.State);
+        applyState(entity, undefined);
         entity.LoadState();
 
         GameplayStatics.FinishSpawningActor(entity, transfrom);
@@ -133,10 +118,10 @@ class EntitySerializer {
         return entity;
     }
 
-    public ApplyPlayerState(player: ITsEntity, state: IEntityState): void {
+    public ApplyPlayerState(player: ITsEntity, state: IEntityData): void {
         entityRegistry.ApplyData(state.PureData, player);
         player.Init();
-        applyState(player, state.State);
+        applyState(player, undefined);
         player.LoadState();
     }
 }

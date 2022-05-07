@@ -1,11 +1,11 @@
 import { MyFileHelper } from 'ue';
 
 import { error, log } from '../../Common/Log';
-import { IEntityState, ITsEntity } from '../Interface';
+import { IEntityData, ITsEntity } from '../Interface';
 import { entitySerializer } from './EntitySerializer';
 
 export interface ILevelState {
-    Entities: IEntityState[];
+    Entities: IEntityData[];
 }
 
 export class LevelSerializer {

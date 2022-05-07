@@ -84,11 +84,12 @@ export function Enum(props: IProps<string, EnumScheme<string>>): JSX.Element {
         <HorizontalBox>
             <FilterableList
                 Width={props.Scheme.Width}
-                Items={scheme.Names}
-                Selected={props.Value}
+                Items={scheme.CnNames}
+                Selected={scheme.GetCnNameByName(props.Value)}
                 Tip={scheme.Config[props.Value]}
                 OnSelectChanged={(item): void => {
-                    props.OnModify(item, 'normal');
+                    const name = scheme.GetNameByCnName(item);
+                    props.OnModify(name, 'normal');
                 }}
             />
         </HorizontalBox>

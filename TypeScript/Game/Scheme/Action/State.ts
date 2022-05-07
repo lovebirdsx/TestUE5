@@ -8,6 +8,7 @@ import {
 import { IChangeRandomState, IChangeState } from '../../Flow/Action';
 
 export const finishStateScheme = createObjectScheme({
+    CnName: '结束状态',
     Filters: [EActionFilter.FlowList],
     Tip: '结束状态,后续的动作将不被执行',
 });
@@ -20,6 +21,7 @@ export const stateIdScheme = createIntScheme({
 });
 
 export const changeStateScheme = createObjectScheme<IChangeState>({
+    CnName: '改变状态',
     Name: 'ChangeState',
     Fields: {
         StateId: stateIdScheme,
@@ -30,6 +32,7 @@ export const changeStateScheme = createObjectScheme<IChangeState>({
 
 export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>({
     Name: 'ChangeRandomState',
+    CnName: '随机改变状态',
     Fields: {
         StateIds: createArrayScheme({
             Element: stateIdScheme,

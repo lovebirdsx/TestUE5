@@ -175,7 +175,10 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
             return (
                 <HorizontalBox key={fieldKey}>
                     {fieldTypeData.ShowName && (
-                        <Text Text={`${fieldKey}:`} Tip={fieldTypeData.Tip || fieldKey} />
+                        <Text
+                            Text={`${fieldTypeData.CnName}:`}
+                            Tip={fieldTypeData.Tip || fieldKey}
+                        />
                     )}
                     {this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)}
                 </HorizontalBox>
@@ -219,7 +222,10 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
                 newLine.push(
                     <HorizontalBox key={id}>
                         {fieldTypeData.ShowName && (
-                            <Text Text={`${fieldKey}:`} Tip={fieldTypeData.Tip || fieldKey} />
+                            <Text
+                                Text={`${fieldTypeData.CnName}:`}
+                                Tip={fieldTypeData.Tip || fieldKey}
+                            />
                         )}
                         {this.RenderFieldValue(fieldKey, fieldValue, fieldTypeData)}
                     </HorizontalBox>,

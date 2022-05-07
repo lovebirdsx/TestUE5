@@ -75,11 +75,11 @@ export class EntityView extends React.Component<IEntityViewProps> {
         return (
             <VerticalBox>
                 <VerticalBox>
-                    <H3 Text={'Entity'} />
+                    <H3 Text={'实体信息'} />
                     {this.RenderGuid()}
                     {this.RenderEntityInfo()}
                 </VerticalBox>
-                <H3 Text={'Components'} />
+                <H3 Text={'组件列表'} />
                 <ComponentsState
                     Value={componentsState}
                     ClassObjs={componentClassObjs}

@@ -5,6 +5,7 @@ import { IJumpTalk } from '../../Flow/Action';
 export const jumpIdScheme = createIntScheme();
 
 export const jumpTalkScheme = createObjectScheme<IJumpTalk>({
+    CnName: '跳转对话',
     Name: 'JumpTalk',
     Fields: {
         TalkId: jumpIdScheme,
@@ -14,6 +15,7 @@ export const jumpTalkScheme = createObjectScheme<IJumpTalk>({
 });
 
 export const finishTalkScheme = createObjectScheme<Record<string, undefined>>({
+    CnName: '结束对话',
     Name: 'FinishTalk',
     Filters: [EActionFilter.Talk],
     Tip: '结束当前对话,跳到ShowTalk之后的动作执行',

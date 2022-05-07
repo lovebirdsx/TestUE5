@@ -184,16 +184,16 @@ export function RenderTriggerActions(
     const prefixElement = (
         <HorizontalBox>
             {props.PrefixElement}
-            <Text Text={'TriggerActions'} />
+            <Text Text={'动作列表'} />
             <Btn
-                Text={'Reset'}
+                Text={'重置'}
                 Tip={'重置'}
                 OnClick={(): void => {
                     props.OnModify(scheme.CreateDefault(), 'normal');
                 }}
             />
             <Btn
-                Text={'Log'}
+                Text={'输出'}
                 Tip={'输出动作Json'}
                 OnClick={(): void => {
                     log(JSON.stringify(actions.Actions, null, 2));

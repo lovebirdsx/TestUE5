@@ -35,6 +35,8 @@ export type TFixResult = 'canNotFixed' | 'fixed' | 'nothing';
 export class Scheme<T = unknown> {
     public Name = 'Scheme';
 
+    public CnName = '空';
+
     public RenderType: TElementRenderType = 'string';
 
     public CreateDefault(): T {
@@ -87,6 +89,14 @@ function getEnumNames(config: Record<string, string>): string[] {
     return names;
 }
 
+function getEnumCnNames(config: Record<string, string>): string[] {
+    const cnNames = [] as string[];
+    for (const key in config) {
+        cnNames.push(config[key]);
+    }
+    return cnNames;
+}
+
 export class EnumScheme<T extends string> extends Scheme<T> {
     public Name = 'EnumScheme';
 
@@ -96,11 +106,30 @@ export class EnumScheme<T extends string> extends Scheme<T> {
 
     private MyNames: string[];
 
+    private MyCnNames: string[];
+
     public get Names(): string[] {
         if (!this.MyNames) {
             this.MyNames = getEnumNames(this.Config);
         }
         return this.MyNames;
+    }
+
+    public get CnNames(): string[] {
+        if (!this.MyCnNames) {
+            this.MyCnNames = getEnumCnNames(this.Config);
+        }
+        return this.MyCnNames;
+    }
+
+    public GetNameByCnName(cnName: string): string {
+        const index = this.CnNames.indexOf(cnName);
+        return this.Names[index];
+    }
+
+    public GetCnNameByName(name: string): string {
+        const index = this.Names.indexOf(name);
+        return this.CnNames[index];
     }
 
     public CreateDefault(): T {

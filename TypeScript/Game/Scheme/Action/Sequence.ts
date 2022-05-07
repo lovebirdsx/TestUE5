@@ -19,6 +19,7 @@ export const seqDataScheme = createAssetScheme({
 });
 
 export const playSequenceDataScheme = createObjectScheme<IPlaySequenceData>({
+    CnName: '播放SequenceData',
     Name: 'PlaySequenceData',
     Fields: {
         Path: seqDataScheme,
@@ -34,6 +35,7 @@ export const whoIdsScheme = createScheme<number[]>({
 });
 
 export const playCustomSequenceScheme = createObjectScheme<IPlayCustomSequence>({
+    CnName: '播放自定义Sequence',
     Name: 'PlayCustomSequence',
     Fields: {
         CustomSeqId: customSeqIdScheme,

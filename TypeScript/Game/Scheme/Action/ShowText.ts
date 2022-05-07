@@ -9,6 +9,7 @@ export const centerTextIdScheme = createTextIdScheme('在屏幕上显示点啥�
 });
 
 export const showCenterTextScheme = createObjectScheme<IShowCenterText>({
+    CnName: '显示中间文本',
     Name: 'ShowCenterText',
     Fields: {
         TextId: centerTextIdScheme,

@@ -212,12 +212,12 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private RenderEntity(): JSX.Element {
         if (this.state.IsEditorPlaying) {
-            return <SlotText Text={'Editor is playing'} />;
+            return <SlotText Text={'编辑器正在运行,无法进行编辑'} />;
         }
 
         const es = this.EntityState;
         if (!es.Entity) {
-            return <SlotText Text={'select entity to modify'} />;
+            return <SlotText Text={'请选择需要编辑的实体'} />;
         }
 
         return (
@@ -322,8 +322,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         }}
                         Tip={'锁定后,选择其它Entity将不会改变当前编辑的Entity'}
                     />
-                    <Btn Text={'State'} OnClick={this.Info} Tip={`输出状态`} />
-                    <Btn Text={'Test'} OnClick={this.Test} Tip={`测试`} />
+                    <Btn Text={'状态'} OnClick={this.Info} Tip={`输出状态`} />
+                    <Btn Text={'测试'} OnClick={this.Test} Tip={`测试`} />
                 </HorizontalBox>
             </VerticalBox>
         );

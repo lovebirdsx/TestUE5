@@ -267,6 +267,7 @@ export const talkItemScheme = createObjectScheme<ITalkItem>({
 });
 
 export const showTalkScheme = createObjectScheme<IShowTalk>({
+    CnName: '显示对话',
     Name: 'ShowTalk',
     Fields: {
         TalkItems: createArrayScheme<ITalkItem>({
@@ -315,6 +316,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>({
 
 export const showOptionScheme = createObjectScheme<IShowOption>({
     Name: 'ShowOption',
+    CnName: '显示对话选项',
     Fields: {
         TextId: talkOptionTextIdScheme,
     },

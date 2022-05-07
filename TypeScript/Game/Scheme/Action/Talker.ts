@@ -11,6 +11,7 @@ export const headIconScheme = createAssetScheme({
 });
 
 export const setHeadIconVisibleScheme = createObjectScheme<ISetHeadIconVisible>({
+    CnName: '设定头像是否可见',
     Fields: {
         WhoId: talkerIdScheme,
         Visible: createBooleanScheme({

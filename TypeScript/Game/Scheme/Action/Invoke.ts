@@ -5,11 +5,13 @@ import { createActionScheme } from './Action';
 import { moveToPosScheme } from './Move';
 
 export const entityIdScheme = createStringScheme({
+    CnName: '目标',
     RenderType: 'entityId',
     ShowName: true,
 });
 
 export const invokeScheme = createObjectScheme<IInvoke>({
+    CnName: '调用方法',
     Fields: {
         Who: entityIdScheme,
         ActionInfo: createActionScheme({
@@ -29,6 +31,7 @@ export const invokeScheme = createObjectScheme<IInvoke>({
 
 export const destroyScheme = createObjectScheme<Record<string, undefined>>({
     Name: 'Destroy',
+    CnName: '销毁',
     Filters: [EActionFilter.Invoke, EActionFilter.Trigger, EActionFilter.FlowList],
     Tip: '销毁对象',
 });

@@ -16,6 +16,7 @@ import {
 } from '../../Flow/Action';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>({
+    CnName: '设定剧情控制变量',
     Name: 'SetFlowBoolOption',
     Fields: {
         Option: createEnumScheme({
@@ -29,6 +30,7 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>({
 });
 
 export const setCameraModeScheme = createObjectScheme<ISetCameraMode>({
+    CnName: '设定相机模式',
     Name: 'SetCameraMode',
     Fields: {
         Mode: createEnumScheme({
@@ -40,6 +42,7 @@ export const setCameraModeScheme = createObjectScheme<ISetCameraMode>({
 });
 
 export const setPlotModeScheme = createObjectScheme<ISetPlotMode>({
+    CnName: '设定剧情模式',
     Name: 'SetPlotMode',
     Fields: {
         Mode: createEnumScheme({

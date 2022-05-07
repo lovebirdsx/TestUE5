@@ -24,6 +24,7 @@ export const triggerComponentScheme = createObjectScheme<ITriggerComponent>({
     Name: 'TriggerComponent',
     Fields: {
         MaxTriggerTimes: createIntScheme({
+            CnName: '触发次数',
             ShowName: true,
             Tip: '最大触发次数',
             NewLine: true,

@@ -14,27 +14,33 @@ export type TObjectSchemeMap = { [key in TActionType]: ObjectScheme<unknown> };
 class ActionRegistry {
     private ObjectSchemeMap: TObjectSchemeMap;
 
-    private ActionNamesByfilter: Map<EActionFilter, TActionType[]>;
+    private readonly ActionNamesByfilter: Map<EActionFilter, TActionType[]> = new Map();
+
+    private readonly ActionCnNamesByfilter: Map<EActionFilter, string[]> = new Map();
+
+    private readonly ActionNameByCnName: Map<string, TActionType> = new Map();
 
     private AcitonObjectSchemeMap: Map<EActionFilter, ActionScheme>;
 
-    private CreateActionNamesByfilter(
-        actionSchemeMap: TObjectSchemeMap,
-    ): Map<EActionFilter, TActionType[]> {
-        const map = new Map<EActionFilter, TActionType[]>();
+    private InitBySchemeMap(actionSchemeMap: TObjectSchemeMap): void {
         for (const typeName in actionSchemeMap) {
             const typeData = (actionSchemeMap as Record<string, ObjectScheme<unknown>>)[typeName];
+            this.ActionNameByCnName.set(typeData.CnName, typeName as TActionType);
             typeData.Filters.forEach((filter) => {
-                let names = map.get(filter);
+                let names = this.ActionNamesByfilter.get(filter);
+                let cnNames = this.ActionCnNamesByfilter.get(filter);
                 if (!names) {
                     names = [];
-                    map.set(filter, names);
+                    this.ActionNamesByfilter.set(filter, names);
+
+                    cnNames = [];
+                    this.ActionCnNamesByfilter.set(filter, cnNames);
                 }
 
                 names.push(typeName as TActionType);
+                cnNames.push(typeData.CnName);
             });
         }
-        return map;
     }
 
     private CreateDynamicObjectSchemeMap(): Map<EActionFilter, ActionScheme> {
@@ -47,7 +53,7 @@ class ActionRegistry {
 
     public SetupObjectMap(objectSchemeMap: TObjectSchemeMap): void {
         this.ObjectSchemeMap = objectSchemeMap;
-        this.ActionNamesByfilter = this.CreateActionNamesByfilter(objectSchemeMap);
+        this.InitBySchemeMap(objectSchemeMap);
         this.AcitonObjectSchemeMap = this.CreateDynamicObjectSchemeMap();
     }
 
@@ -57,6 +63,10 @@ class ActionRegistry {
             error(`No action scheme for ${name}`);
         }
         return as;
+    }
+
+    public GetActionTypeByCnName(cnName: string): TActionType {
+        return this.ActionNameByCnName.get(cnName);
     }
 
     public SpawnAction(name: TActionType): IActionInfo {
@@ -78,6 +88,10 @@ class ActionRegistry {
 
     public GetActionNames(filter: EActionFilter): TActionType[] {
         return this.ActionNamesByfilter.get(filter);
+    }
+
+    public GetActionCnNames(filter: EActionFilter): string[] {
+        return this.ActionCnNamesByfilter.get(filter);
     }
 
     public FixAction(action: IActionInfo, objectFilter?: EActionFilter): TFixResult {

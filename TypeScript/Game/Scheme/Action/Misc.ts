@@ -8,6 +8,7 @@ import {
 import { ILog, IShowMessage, IWait, logLeveConfig } from '../../Flow/Action';
 
 export const logScheme = createObjectScheme<ILog>({
+    CnName: '输出',
     Name: 'Log',
     Fields: {
         Level: createEnumScheme({
@@ -25,6 +26,7 @@ export const logScheme = createObjectScheme<ILog>({
 
 export const showMssageScheme = createObjectScheme<IShowMessage>({
     Name: 'ShowMessage',
+    CnName: '显示消息',
     Fields: {
         Content: createStringScheme({
             CreateDefault: () => 'Hello Message',
@@ -36,6 +38,7 @@ export const showMssageScheme = createObjectScheme<IShowMessage>({
 });
 
 export const waitScheme = createObjectScheme<IWait>({
+    CnName: '等待',
     Name: 'Wait',
     Fields: {
         Time: createIntScheme({

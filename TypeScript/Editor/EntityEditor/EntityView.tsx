@@ -4,7 +4,6 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { TModifyType } from '../../Common/Type';
-import { genGuid } from '../../Common/Util';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity, TEntityPureData } from '../../Game/Interface';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
@@ -44,7 +43,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
     private readonly FixGuid = (): void => {
         const newPureData = produce(this.props.PureData, (draft) => {
-            draft.Guid = genGuid();
+            draft.Guid = this.props.Entity.ActorGuid.ToString();
         });
         this.props.OnModify(newPureData, 'normal');
     };
@@ -52,7 +51,12 @@ export class EntityView extends React.Component<IEntityViewProps> {
     private RenderGuid(): JSX.Element {
         const guid = this.props.PureData.Guid;
         if (guid) {
-            return <Text Text={`Guid: ${guid}`} />;
+            return (
+                <HorizontalBox>
+                    <Text Text={`Guid: ${guid}`} />
+                    <Btn Text={`修复`} OnClick={this.FixGuid} />
+                </HorizontalBox>
+            );
         }
 
         return <Btn Color="#FF0000 red" Text={'修复Guid'} OnClick={this.FixGuid} />;

@@ -131,22 +131,14 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Tick(deltaTime: number): void {
         if (this.EntitiesToDestroy.length > 0) {
-            const entities: ITsEntity[] = [];
-
-            this.EntitiesToDestroy.forEach((entity) => {
-                if (this.UnregisterEntity(entity)) {
-                    entities.push(entity);
-                    this.EntityRemoved.Invoke(entity);
-                }
-            });
-
-            this.EntitiesToDestroy.splice(0, this.EntitiesToDestroy.length);
+            const entities = this.EntitiesToDestroy.splice(0, this.EntitiesToDestroy.length);
 
             entities.forEach((entity) => {
                 entity.Destroy();
             });
 
             entities.forEach((entity) => {
+                this.EntityRemoved.Invoke(entity);
                 entity.K2_DestroyActor();
             });
         }
@@ -155,7 +147,6 @@ export class EntityManager implements IManager, IEntityMananger {
             const entities = this.EntitiesToSpawn.splice(0, this.EntitiesToSpawn.length);
 
             entities.forEach((entity) => {
-                this.RegisterEntity(entity);
                 this.EntityAdded.Invoke(entity);
             });
 

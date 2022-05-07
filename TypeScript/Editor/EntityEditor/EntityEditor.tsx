@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
+import { MS_PER_SEC } from '../../Common/Async';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
@@ -91,31 +92,35 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly OnSelectionChanged = (): void => {
-        if (LevelEditorUtil.IsPlaying) {
-            return;
-        }
+        // 不是马上执行,而延迟一下,是为了避免以下情况:
+        // 拷贝粘贴Actor时,此时的Selection还没有转移到新的Actor身上
+        setTimeout(() => {
+            if (LevelEditorUtil.IsPlaying) {
+                return;
+            }
 
-        if (this.IsLocked) {
-            return;
-        }
+            if (this.IsLocked) {
+                return;
+            }
 
-        const entity = LevelEditorUtil.GetSelectedEntity();
-        if (!entity || entity === this.EntityState.Entity) {
-            return;
-        }
+            const entity = LevelEditorUtil.GetSelectedEntity();
+            if (!entity || entity === this.EntityState.Entity) {
+                return;
+            }
 
-        const entityState: IEntityState = {
-            Entity: entity,
-            PureData: entityRegistry.GenData(entity),
-        };
+            const entityState: IEntityState = {
+                Entity: entity,
+                PureData: entityRegistry.GenData(entity),
+            };
 
-        // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
-        this.LastApplyEntityState = entityState;
+            // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
+            this.LastApplyEntityState = entityState;
 
-        this.RecordEntityState(entityState, 'normal');
+            this.RecordEntityState(entityState, 'normal');
 
-        entity.OnDestroyed.Remove(this.OnEntityDestory);
-        entity.OnDestroyed.Add(this.OnEntityDestory);
+            entity.OnDestroyed.Remove(this.OnEntityDestory);
+            entity.OnDestroyed.Add(this.OnEntityDestory);
+        }, MS_PER_SEC * 0.2);
     };
 
     private readonly OnBeginPie = (): void => {

@@ -22,7 +22,7 @@
             }
           }
         },
-        "Guid": "14340C7D47C4FA3FEE22B280A39EBCF8"
+        "Guid": "A9B3A468458D8223AB46CA994E5B40C4"
       }
     },
     {
@@ -47,7 +47,7 @@
             }
           }
         },
-        "Guid": "72BC7A1B40ADC4F96ACF7D8CF859F017"
+        "Guid": "00D1D8F74D338145257C4598A50E2CC7"
       }
     },
     {
@@ -100,7 +100,43 @@
             }
           }
         },
-        "Guid": "3E72481D4E37C346FB9120A89A5C525A"
+        "Guid": "5FFE2980463AB13F26CA258BDD7BEEED"
+      }
+    },
+    {
+      "PrefabId": 2,
+      "Pos": [
+        1455.044343,
+        -31.21563,
+        -0.499903
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "TriggerComponent": {
+            "MaxTriggerTimes": 1,
+            "TriggerActions": {
+              "Actions": [
+                {
+                  "Name": "Wait",
+                  "Params": {
+                    "Time": 1
+                  }
+                },
+                {
+                  "Name": "Invoke",
+                  "Params": {
+                    "Who": "3454C42740E745D749B6FEA1070D7258",
+                    "ActionInfo": {
+                      "Name": "Destroy",
+                      "Params": {}
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "Guid": "BB6B8A114544126E63FC02AA327C871F"
       }
     },
     {
@@ -127,14 +163,14 @@
             "Continuable": true
           }
         },
-        "Guid": "52FCED1545834E6496CE9EA3F41ED1F6"
+        "Guid": "0F8E57A44E5C601E0789959062F909E1"
       }
     },
     {
       "PrefabId": 6,
       "Pos": [
-        1177.6524034425345,
-        -48.758787230631526,
+        927.6524064095945,
+        -218.75879159395484,
         91.49996931054574
       ],
       "Rotation": [
@@ -154,7 +190,34 @@
             "Continuable": false
           }
         },
-        "Guid": "E3F3318C46EE433C0B8F3EA3E282ED9C"
+        "Guid": "95179F584CAB6556478FE4A64085CEEE"
+      }
+    },
+    {
+      "PrefabId": 6,
+      "Pos": [
+        1677.6524060000002,
+        -218.75877891003063,
+        91.499969
+      ],
+      "Rotation": [
+        0,
+        0,
+        -89.999999
+      ],
+      "PureData": {
+        "ComponentsStateJson": {
+          "FlowComponent": {
+            "InitState": {
+              "FlowListName": "流程_移动测试",
+              "FlowId": 2,
+              "StateId": 1
+            },
+            "AutoRun": false,
+            "Continuable": false
+          }
+        },
+        "Guid": "3454C42740E745D749B6FEA1070D7258"
       }
     }
   ]

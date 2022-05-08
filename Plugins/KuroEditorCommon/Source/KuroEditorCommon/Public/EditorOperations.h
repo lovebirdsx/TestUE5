@@ -70,5 +70,23 @@ public:
 	static UEditorEngine* GetEditorEngine();
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
-	static bool MarkPackageDirty(UObject *Object);
+	static bool MarkPackageDirty(UObject *Object);	
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static FString ReadConfig(FString Key);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static bool ReadBoolConfig(FString Key);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static float ReadNumberConfig(FString Key);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static void WriteConfig(FString Key, FString Value);	
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static void WriteBoolConfig(FString Key, bool Value);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static void WriteNumberConfig(FString Key, float Value);
 };

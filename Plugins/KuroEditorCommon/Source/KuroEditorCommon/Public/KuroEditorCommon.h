@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "EditorEvent.h"
 #include "JsEnv.h"
+#include "JsonConfig.h"
 #include "ReactUMGStarter.h"
+
+using namespace UE;
 
 DECLARE_LOG_CATEGORY_EXTERN(KuroEditorCommon, Log, All);
 class FKuroEditorCommonModule : public IModuleInterface
@@ -27,9 +30,14 @@ public:
 
 	UEditorEvent* GetEditorEvent() { return EditorEvent; };
 
+	FJsonConfig* GetJsonConfig() { return JsonConfig; }
+
+	void SaveJsonConfig();
+
 private:
 	void StopAllJsEnv();	
 	TArray<TSharedPtr<puerts::FJsEnv>> JsEnvs;
 	bool bWaitJSDebug = false;
 	UEditorEvent *EditorEvent = nullptr;
+	FJsonConfig *JsonConfig = nullptr;
 };

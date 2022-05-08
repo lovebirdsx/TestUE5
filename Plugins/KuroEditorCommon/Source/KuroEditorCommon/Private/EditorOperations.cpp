@@ -90,3 +90,48 @@ bool UEditorOperations::MarkPackageDirty(UObject* Object)
 {
 	return Object->MarkPackageDirty();
 }
+
+FString UEditorOperations::ReadConfig(const FString Key)
+{
+	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
+	FString OutValue;
+	JsonConfig->TryGetString(ToCStr(Key), OutValue);
+	return OutValue;
+}
+
+bool UEditorOperations::ReadBoolConfig(FString Key)
+{
+	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
+	bool OutValue;
+	JsonConfig->TryGetBool(ToCStr(Key), OutValue);
+	return OutValue;
+}
+
+float UEditorOperations::ReadNumberConfig(FString Key)
+{
+	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
+	float OutValue;
+	JsonConfig->TryGetNumber(ToCStr(Key), OutValue);
+	return OutValue;
+}
+
+void UEditorOperations::WriteConfig(const FString Key, const FString Value)
+{
+	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
+	JsonConfig->SetString(ToCStr(Key), Value);
+	FKuroEditorCommonModule::GetInstance()->SaveJsonConfig();
+}
+
+void UEditorOperations::WriteBoolConfig(const FString Key, const bool Value)
+{
+	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
+	JsonConfig->SetBool(ToCStr(Key), Value);
+	FKuroEditorCommonModule::GetInstance()->SaveJsonConfig();
+}
+
+void UEditorOperations::WriteNumberConfig(const FString Key, const float Value)
+{
+	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
+	JsonConfig->SetNumber(ToCStr(Key), Value);
+	FKuroEditorCommonModule::GetInstance()->SaveJsonConfig();
+}

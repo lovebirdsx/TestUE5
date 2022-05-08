@@ -1,10 +1,13 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "KuroEditorCommon.h"
+#include "MyFileHelper.h"
 
 DEFINE_LOG_CATEGORY(KuroEditorCommon);
 
 #define LOCTEXT_NAMESPACE "FKuroEditorCommonModule"
+
+#define JSON_CONFIG_PATH "EditorSave.json"
 
 static FKuroEditorCommonModule* Instance;
 
@@ -17,6 +20,9 @@ void FKuroEditorCommonModule::StartupModule()
 	// 参考：https://unrealcommunity.wiki/revisions/6175e2e765f766208636d16f
 	EditorEvent->AddToRoot();
 	Instance = this;
+
+	JsonConfig = new UE::FJsonConfig();
+	JsonConfig->LoadFromFile(UMyFileHelper::GetPath(EFileRoot::Save, JSON_CONFIG_PATH));
 }
 
 void FKuroEditorCommonModule::ShutdownModule()
@@ -24,7 +30,9 @@ void FKuroEditorCommonModule::ShutdownModule()
 	StopAllJsEnv();
 	EditorEvent->Deinitialize();
 	EditorEvent->RemoveFromRoot();
-	Instance = nullptr;	
+	Instance = nullptr;
+
+	delete JsonConfig;	 
 }
 
 FKuroEditorCommonModule* FKuroEditorCommonModule::GetInstance()
@@ -63,6 +71,11 @@ void FKuroEditorCommonModule::SetIfWaitJSDebug(const bool bValue)
 bool FKuroEditorCommonModule::GetIfWaitJSDebug()
 {
 	return bWaitJSDebug;
+}
+
+void FKuroEditorCommonModule::SaveJsonConfig()
+{
+	JsonConfig->SaveToFile(UMyFileHelper::GetPath(EFileRoot::Save, JSON_CONFIG_PATH));
 }
 
 void FKuroEditorCommonModule::StopAllJsEnv()

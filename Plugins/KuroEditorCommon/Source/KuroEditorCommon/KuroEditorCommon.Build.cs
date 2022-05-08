@@ -43,6 +43,8 @@ public class KuroEditorCommon : ModuleRules
 				"Blutility",
 				"UnrealEd",
 				"LevelEditor",
+				"Json",
+				"EditorConfig",
 				"UMGEditor",
 				"JsEnv",
 				"DesktopPlatform",

@@ -102,7 +102,7 @@ FString UEditorOperations::ReadConfig(const FString Key)
 bool UEditorOperations::ReadBoolConfig(FString Key)
 {
 	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
-	bool OutValue;
+	bool OutValue = false;
 	JsonConfig->TryGetBool(ToCStr(Key), OutValue);
 	return OutValue;
 }
@@ -110,7 +110,7 @@ bool UEditorOperations::ReadBoolConfig(FString Key)
 float UEditorOperations::ReadNumberConfig(FString Key)
 {
 	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
-	float OutValue;
+	float OutValue = 0;
 	JsonConfig->TryGetNumber(ToCStr(Key), OutValue);
 	return OutValue;
 }

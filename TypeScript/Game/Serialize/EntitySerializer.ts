@@ -2,19 +2,11 @@
 
 import { Actor, Character, GameplayStatics, Rotator, Transform, Vector } from 'ue';
 
-import {
-    getBlueprintId,
-    getBlueprintType,
-    getUeClassByTsClass,
-    isChildOfClass,
-} from '../../Common/Class';
-import { error } from '../../Common/Log';
-import StateComponent from '../Component/StateComponent';
+import { getBlueprintType, isChildOfClass } from '../../Common/Class';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
 import TsCharacterEntity from '../Entity/TsCharacterEntity';
-import { gameContext, IEntityData, ITsEntity } from '../Interface';
-import TsPlayer from '../Player/TsPlayer';
+import { gameContext, IEntityData, IEntitySnapshot, ITsEntity } from '../Interface';
 
 function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
@@ -43,10 +35,10 @@ function genScaleArray(vec: Vector): number[] {
 const defaultRotator = Rotator.MakeFromEuler(new Vector());
 const defaultScale = new Vector(1, 1, 1);
 
-function genTransform(state: IEntityData): Transform {
+function genTransform(state: IEntitySnapshot): Transform {
     let rotator: Rotator = defaultRotator;
-    if (state.Rotation) {
-        rotator = Rotator.MakeFromEuler(arrayToVector(state.Rotation));
+    if (state.Rot) {
+        rotator = Rotator.MakeFromEuler(arrayToVector(state.Rot));
     }
 
     const pos = arrayToVector(state.Pos);
@@ -56,38 +48,27 @@ function genTransform(state: IEntityData): Transform {
     return transform;
 }
 
-function applyState(entity: ITsEntity, state: Record<string, unknown>): void {
-    if (state === undefined) {
-        return;
-    }
-
-    const stateComponent = entity.Entity.TryGetComponent(StateComponent);
-    if (!stateComponent) {
-        error(`apply state to ${entity.GetName()} but has not state component`);
-        return;
-    }
-
-    stateComponent.ApplySnapshot(state);
-}
-
 class EntitySerializer {
-    public GenEntityState(entity: ITsEntity): IEntityData {
+    public GenTsEntitySnapshot(entity: ITsEntity): IEntitySnapshot {
         return {
-            PrefabId: getBlueprintId(entity.GetClass()),
+            ...entityRegistry.GenData(entity),
             Pos: vectorToArray(entity.K2_GetActorLocation()),
-            Rotation: genRotationArray(entity.K2_GetActorRotation().Euler()),
+            Rot: genRotationArray(entity.K2_GetActorRotation().Euler()),
             Scale: genScaleArray(entity.GetActorScale3D()),
-            PureData: entityRegistry.GenData(entity),
         };
     }
 
-    public SpawnEntityByState(state: IEntityData): TsEntity {
+    public SpawnEntityBySnapshot(snapshot: IEntitySnapshot): TsEntity {
+        const transform = genTransform(snapshot);
+        return this.SpawnEntityByData(snapshot, transform);
+    }
+
+    public SpawnEntityByData(state: IEntityData, transform: Transform): TsEntity {
         const actorClass = getBlueprintType(state.PrefabId);
-        const transfrom = genTransform(state);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
             gameContext.World,
             actorClass,
-            transfrom,
+            transform,
         ) as TsEntity;
 
         if (isChildOfClass(entity, TsCharacterEntity)) {
@@ -95,34 +76,12 @@ class EntitySerializer {
             character.SpawnDefaultController();
         }
 
-        entityRegistry.ApplyData(state.PureData, entity);
+        entityRegistry.ApplyData(state, entity);
         entity.Init();
-        applyState(entity, undefined);
-        entity.LoadState();
 
-        GameplayStatics.FinishSpawningActor(entity, transfrom);
-
-        return entity;
-    }
-
-    public SpawnDefaultPlayer(): ITsEntity {
-        const startPosActor = gameContext.GameMode.ChoosePlayerStart(gameContext.PlayerController);
-        const transform = startPosActor.GetTransform();
-        const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
-            gameContext.World,
-            getUeClassByTsClass(TsPlayer),
-            transform,
-        ) as ITsEntity;
-        entity.Init();
         GameplayStatics.FinishSpawningActor(entity, transform);
-        return entity;
-    }
 
-    public ApplyPlayerState(player: ITsEntity, state: IEntityData): void {
-        entityRegistry.ApplyData(state.PureData, player);
-        player.Init();
-        applyState(player, undefined);
-        player.LoadState();
+        return entity;
     }
 }
 

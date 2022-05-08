@@ -11,7 +11,7 @@ export interface ILevelState {
 export class LevelSerializer {
     public GenLevelState(entities: ITsEntity[]): ILevelState {
         return {
-            Entities: entities.map((e) => entitySerializer.GenEntityState(e)),
+            Entities: entities.map((e) => entitySerializer.GenTsEntitySnapshot(e)),
         };
     }
 

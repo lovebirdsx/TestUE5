@@ -1,16 +1,13 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, MyFileHelper, Pawn } from 'ue';
+import { Actor, Pawn, Transform } from 'ue';
 
 import { error } from '../../Common/Log';
 import { Event } from '../../Common/Util';
-import { gameConfig } from '../Common/Config';
-import { LevelUtil } from '../Common/LevelUtil';
 import { isPlayer } from '../Entity/EntityRegistry';
-import { gameContext, IEntityData, IEntityMananger, ITsEntity } from '../Interface';
+import { gameContext, IEntityMananger, IEntityData, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
-import { ILevelState, LevelSerializer } from '../Serialize/LevelSerializer';
 import { IManager } from './Interface';
 
 export class EntityManager implements IManager, IEntityMananger {
@@ -21,8 +18,6 @@ export class EntityManager implements IManager, IEntityMananger {
     public readonly EntityRegistered = new Event<ITsEntity>('EntityRegistered');
 
     public readonly EntityDeregistered = new Event<ITsEntity>('EntityDeregistered');
-
-    private readonly LevelSerializer: LevelSerializer = new LevelSerializer();
 
     private readonly EntityMap = new Map<string, ITsEntity>();
 
@@ -46,52 +41,8 @@ export class EntityManager implements IManager, IEntityMananger {
         return this.Entities;
     }
 
-    private RemoveAllExistEntites(): void {
-        const entities = LevelUtil.GetAllEntities(gameContext.World);
-        entities.forEach((entity) => {
-            entity.K2_DestroyActor();
-        });
-    }
-
-    private LoadLevel(): [boolean, ILevelState] {
-        let levelState: ILevelState = undefined;
-        const mapSavePath = gameConfig.GetCurrentMapSavePath(gameContext.World);
-        let isFirstLoad = false;
-        if (MyFileHelper.Exist(mapSavePath)) {
-            levelState = this.LevelSerializer.Load(mapSavePath);
-        } else {
-            const mapDataPath = gameConfig.GetCurrentMapDataPath(gameContext.World);
-            levelState = this.LevelSerializer.Load(mapDataPath);
-            isFirstLoad = true;
-        }
-        return [isFirstLoad, levelState];
-    }
-
-    private LoadState(): void {
-        const [isFirstLoad, levelState] = this.LoadLevel();
-
-        if (isFirstLoad) {
-            this.SpawnPlayer();
-        }
-
-        levelState.Entities.forEach((es) => {
-            this.SpawnEntity(es);
-        });
-    }
-
-    private SpawnPlayer(): ITsEntity {
-        if (gameContext.Player) {
-            throw new Error(`Player can only spawn by EntityManager`);
-        }
-
-        const player = entitySerializer.SpawnDefaultPlayer();
-        this.EntitiesToSpawn.push(player);
-
-        return player;
-    }
-
-    public SpawnEntity(state: IEntityData): ITsEntity {
-        const entity = entitySerializer.SpawnEntityByState(state);
+    public SpawnEntity(data: IEntityData, transform: Transform): ITsEntity {
+        const entity = entitySerializer.SpawnEntityByData(data, transform);
         this.EntitiesToSpawn.push(entity);
         return entity;
     }

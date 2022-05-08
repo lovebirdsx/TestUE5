@@ -9,7 +9,7 @@ import { MS_PER_SEC } from '../../Common/Async';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
-import { ITsEntity, TEntityPureData } from '../../Game/Interface';
+import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
@@ -22,7 +22,7 @@ import { LevelEditor } from './LevelEditor';
 
 interface IEntityState {
     Entity: ITsEntity;
-    PureData: TEntityPureData;
+    Data: IEntityData;
 }
 
 interface IEntityEditorState {
@@ -66,13 +66,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         if (entity) {
             return {
                 Entity: entity,
-                PureData: entityRegistry.GenData(entity),
+                Data: entityRegistry.GenData(entity),
             };
         }
 
         return {
             Entity: undefined,
-            PureData: undefined,
+            Data: undefined,
         };
     }
 
@@ -82,7 +82,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 state.Histories.forEach((entityState, id) => {
                     if (entityState.Entity === entity) {
                         draft.Histories[id].Entity = null;
-                        draft.Histories[id].PureData = null;
+                        draft.Histories[id].Data = null;
                     }
                 });
             });
@@ -110,7 +110,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
             const entityState: IEntityState = {
                 Entity: entity,
-                PureData: entityRegistry.GenData(entity),
+                Data: entityRegistry.GenData(entity),
             };
 
             // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
@@ -180,11 +180,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         });
     }
 
-    private readonly OnEntityModify = (data: TEntityPureData, type: TModifyType): void => {
+    private readonly OnEntityModify = (data: IEntityData, type: TModifyType): void => {
         const es = this.EntityState;
         const newState: IEntityState = {
             Entity: es.Entity,
-            PureData: data,
+            Data: data,
         };
         this.RecordEntityState(newState, type);
     };
@@ -201,7 +201,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        entityRegistry.ApplyData(es.PureData, es.Entity);
+        entityRegistry.ApplyData(es.Data, es.Entity);
 
         // 让ue认为对象已经被修改
         EditorOperations.MarkPackageDirty(es.Entity);
@@ -220,9 +220,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return <SlotText Text={'请选择需要编辑的实体'} />;
         }
 
-        return (
-            <EntityView Entity={es.Entity} PureData={es.PureData} OnModify={this.OnEntityModify} />
-        );
+        return <EntityView Entity={es.Entity} Data={es.Data} OnModify={this.OnEntityModify} />;
     }
 
     private SetStep(newStepId: number): void {

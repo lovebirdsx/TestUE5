@@ -5,15 +5,15 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { TModifyType } from '../../Common/Type';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
-import { ITsEntity, TEntityPureData } from '../../Game/Interface';
+import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {
     Entity: ITsEntity;
-    PureData: TEntityPureData;
-    OnModify: (data: TEntityPureData, type: TModifyType) => void;
+    Data: IEntityData;
+    OnModify: (data: IEntityData, type: TModifyType) => void;
 }
 
 export class EntityView extends React.Component<IEntityViewProps> {
@@ -42,14 +42,14 @@ export class EntityView extends React.Component<IEntityViewProps> {
     }
 
     private readonly FixGuid = (): void => {
-        const newPureData = produce(this.props.PureData, (draft) => {
+        const newPureData = produce(this.props.Data, (draft) => {
             draft.Guid = this.props.Entity.ActorGuid.ToString();
         });
         this.props.OnModify(newPureData, 'normal');
     };
 
     private RenderGuid(): JSX.Element {
-        const guid = this.props.PureData.Guid;
+        const guid = this.props.Data.Guid;
         if (guid) {
             return (
                 <HorizontalBox>
@@ -66,10 +66,8 @@ export class EntityView extends React.Component<IEntityViewProps> {
     public render(): JSX.Element {
         const props = this.props;
         const entity = props.Entity;
-        const pureData = props.PureData;
-
-        // pureData中ComponentsStateJson不是字符串,而是解析之后的数据
-        const componentsState = pureData.ComponentsStateJson;
+        const data = props.Data;
+        const componentsState = data.ComponentsState;
         const componentClassObjs = entityRegistry.GetComponentClassesByActor(entity);
 
         return (
@@ -83,11 +81,11 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 <ComponentsState
                     Value={componentsState}
                     ClassObjs={componentClassObjs}
-                    OnModify={(data, type): void => {
-                        const newPureData = produce(pureData, (draft) => {
-                            draft.ComponentsStateJson = data;
+                    OnModify={(componentState, type): void => {
+                        const newData = produce(data, (draft) => {
+                            draft.ComponentsState = componentState;
                         });
-                        props.OnModify(newPureData, type);
+                        props.OnModify(newData, type);
                     }}
                 />
             </VerticalBox>

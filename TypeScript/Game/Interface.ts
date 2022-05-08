@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, GameModeBase, PlayerController, World } from 'ue';
+import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
 import { Event } from '../Common/Util';
@@ -25,9 +25,16 @@ export function parseComponentsState(json: string): TComponentsState {
     return JSON.parse(json) as TComponentsState;
 }
 
-export interface ITsEntityData {
+export interface IEntityData {
+    PrefabId: number;
     Guid: string;
-    ComponentsStateJson: TComponentsState;
+    ComponentsState: TComponentsState;
+}
+
+export interface IEntitySnapshot extends IEntityData {
+    Pos: number[];
+    Rot?: number[];
+    Scale?: number[];
 }
 
 export interface ITsEntity extends Actor {
@@ -46,19 +53,9 @@ export function getEntityName(entity: ITsEntity): string {
     return classObj.name;
 }
 
-export type TEntityPureData = ITsEntityData & Record<string, unknown>;
-
 export interface ITsTrigger {
     MaxTriggerTimes: number;
     TriggerActionsJson: string;
-}
-
-export interface IEntityData {
-    PrefabId: number;
-    Pos: number[];
-    Rotation?: number[];
-    Scale?: number[];
-    PureData?: TEntityPureData;
 }
 
 export type TEntityState = Record<string, unknown>;
@@ -75,7 +72,7 @@ export interface IEntityMananger {
     EntityDeregistered: Event<ITsEntity>;
     RegisterEntity: (entity: ITsEntity) => boolean;
     UnregisterEntity: (entity: ITsEntity) => boolean;
-    SpawnEntity: (state: IEntityData) => ITsEntity;
+    SpawnEntity: (data: IEntityData, transform: Transform) => ITsEntity;
     RemoveEntity: (...entities: ITsEntity[]) => void;
     GetEntity: (guid: string) => ITsEntity;
     GetAllEntites: () => ITsEntity[];

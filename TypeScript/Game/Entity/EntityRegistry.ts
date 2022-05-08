@@ -1,10 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { getTsClassByUeClass, isChildOfClass, TTsClassType } from '../../Common/Class';
+import {
+    getBlueprintId,
+    getTsClassByUeClass,
+    isChildOfClass,
+    TTsClassType,
+} from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { stringifyWithOutUnderScore } from '../../Common/Util';
-import { ITsEntity, TComponentClass, TComponentsState, TEntityPureData } from '../Interface';
+import { IEntityData, ITsEntity, parseComponentsState, TComponentClass } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
@@ -29,23 +34,17 @@ class EntityRegistry {
         return this.GetComponentClassesByTsClass(tsClassObj);
     }
 
-    public GenData<T extends ITsEntity>(obj: T): TEntityPureData {
-        const result: TEntityPureData = {
-            // 转换为Object,方便查看序列化之后的字符串
-            ComponentsStateJson: obj.ComponentsStateJson
-                ? (JSON.parse(obj.ComponentsStateJson) as TComponentsState)
-                : {},
+    public GenData<T extends ITsEntity>(obj: T): IEntityData {
+        return {
+            PrefabId: getBlueprintId(obj.GetClass()),
             Guid: obj.Guid,
+            ComponentsState: parseComponentsState(obj.ComponentsStateJson),
         };
-
-        return result;
     }
 
-    public ApplyData<T extends ITsEntity>(pureData: TEntityPureData, obj: T): void {
-        obj.Guid = pureData.Guid;
-
-        // pureData中存储的是对象,所以要转换一次
-        obj.ComponentsStateJson = stringifyWithOutUnderScore(pureData.ComponentsStateJson);
+    public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): void {
+        obj.Guid = data.Guid;
+        obj.ComponentsStateJson = stringifyWithOutUnderScore(data.ComponentsState);
     }
 }
 

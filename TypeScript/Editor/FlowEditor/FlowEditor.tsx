@@ -26,7 +26,7 @@ import { FlowList } from '../Common/ExtendComponent/FlowList';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { openDirOfFile } from '../Common/Util';
-import { ConfigFile } from './ConfigFile';
+import { configFile } from '../../Common/ConfigFile';
 import { TalkListTool } from './TalkListTool';
 
 interface IFlowEditorState {
@@ -46,8 +46,6 @@ function canRedo(state: IFlowEditorState): boolean {
 }
 
 export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
-    private ConfigFile: ConfigFile;
-
     private readonly CommandHandles: number[] = [];
 
     private AutoSaveHander: NodeJS.Timer;
@@ -60,10 +58,6 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
 
     public constructor(props: unknown) {
         super(props);
-
-        this.ConfigFile = new ConfigFile();
-        this.ConfigFile.Load();
-
         this.state = this.LoadState();
     }
 
@@ -97,7 +91,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         if (!this.NeedSave()) {
             return;
         }
-        if (this.TimeSecond - this.LastModifyTime < ConfigFile.AutoSaveInterval) {
+        if (this.TimeSecond - this.LastModifyTime < configFile.AutoSaveInterval) {
             return;
         }
         if (this.FlowList === this.LastSaveFailState) {
@@ -146,15 +140,15 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     private LoadState(path?: string): IFlowEditorState {
         // 保存编辑器配置
         if (path) {
-            this.ConfigFile.FlowConfigPath = path;
-            this.ConfigFile.Save();
+            configFile.FlowConfigPath = path;
+            configFile.Save();
         }
 
         // 加载剧情配置
         let flowListConfig: IFlowListInfo = undefined;
         let openError: string = undefined;
         try {
-            flowListConfig = flowListOp.Load(this.ConfigFile.FlowConfigPath);
+            flowListConfig = flowListOp.Load(configFile.FlowConfigPath);
         } catch (e: unknown) {
             let errorStr: string = undefined;
             if (typeof e === 'string') {
@@ -162,14 +156,14 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             } else if (e instanceof Error) {
                 errorStr = e.message;
             }
-            openError = `打开配置文件出错(流程配置文件不是Text_开头的文件哟!)\n\n[${this.ConfigFile.FlowConfigPath}]\n${errorStr}`;
+            openError = `打开配置文件出错(流程配置文件不是Text_开头的文件哟!)\n\n[${configFile.FlowConfigPath}]\n${errorStr}`;
         }
 
         return {
             Histories: [flowListConfig],
             StepId: 0,
             Saved: flowListConfig,
-            IsDevelop: this.ConfigFile.IsDevelop,
+            IsDevelop: configFile.IsDevelop,
             OpenError: openError,
         };
     }
@@ -179,7 +173,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     }
 
     private readonly OpenFlowListConfigDir = (): void => {
-        openDirOfFile(this.ConfigFile.FlowConfigPath);
+        openDirOfFile(configFile.FlowConfigPath);
     };
 
     private CheckSave(): boolean {
@@ -199,7 +193,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     }
 
     private readonly OpenByDialog = (): void => {
-        const openPath = openLoadCsvFileDialog(this.ConfigFile.FlowConfigPath);
+        const openPath = openLoadCsvFileDialog(configFile.FlowConfigPath);
         if (!openPath) {
             return;
         }
@@ -208,7 +202,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             return;
         }
 
-        if (openPath !== this.ConfigFile.FlowConfigPath) {
+        if (openPath !== configFile.FlowConfigPath) {
             this.Open(openPath);
         }
     };
@@ -229,7 +223,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             return;
         }
 
-        this.ConfigFile.Save();
+        configFile.Save();
 
         // 此处不能直接使用this.flowList,因为会修改其内容
         // React修改state中的内容,只能在setState中进行
@@ -240,7 +234,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             }
         });
 
-        editorFlowListOp.Save(flowListToSave, this.ConfigFile.FlowConfigPath);
+        editorFlowListOp.Save(flowListToSave, configFile.FlowConfigPath);
 
         this.setState({
             Saved: this.FlowList,
@@ -252,13 +246,13 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     }
 
     private readonly SaveByDialog = (): void => {
-        const openPath = openSaveCsvFileDialog(this.ConfigFile.FlowConfigPath);
+        const openPath = openSaveCsvFileDialog(configFile.FlowConfigPath);
         if (!openPath) {
             return;
         }
 
-        if (openPath !== this.ConfigFile.FlowConfigPath) {
-            this.ConfigFile.FlowConfigPath = openPath;
+        if (openPath !== configFile.FlowConfigPath) {
+            configFile.FlowConfigPath = openPath;
             this.Save();
             this.Open(openPath);
         } else {
@@ -273,9 +267,9 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     ): void {
         draft.Histories.splice(state.StepId + 1);
         draft.Histories.push(flowConfig);
-        if (draft.Histories.length > ConfigFile.MaxHistory) {
+        if (draft.Histories.length > configFile.MaxHistory) {
             draft.Histories.shift();
-            draft.StepId = ConfigFile.MaxHistory - 1;
+            draft.StepId = configFile.MaxHistory - 1;
         } else {
             draft.StepId = state.StepId + 1;
         }
@@ -312,26 +306,26 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     };
 
     private readonly Export = (): void => {
-        const path = openSaveCsvFileDialog(this.ConfigFile.CsvExportPath);
+        const path = openSaveCsvFileDialog(configFile.CsvExportPath);
         if (!path) {
             return;
         }
 
-        this.ConfigFile.CsvExportPath = path;
-        this.ConfigFile.Save();
+        configFile.CsvExportPath = path;
+        configFile.Save();
 
         TalkListTool.Export(this.FlowList, path);
         log(`Export flowlist to ${path} succeed`);
     };
 
     private readonly Import = (): void => {
-        const path = openLoadCsvFileDialog(this.ConfigFile.CsvImportPath);
+        const path = openLoadCsvFileDialog(configFile.CsvImportPath);
         if (!path) {
             return;
         }
 
-        this.ConfigFile.CsvImportPath = path;
-        this.ConfigFile.Save();
+        configFile.CsvImportPath = path;
+        configFile.Save();
 
         let listInfo: IFlowListInfo = null;
         try {
@@ -385,10 +379,10 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
     };
 
     private readonly ToggleDevelop = (): void => {
-        this.ConfigFile.IsDevelop = !this.ConfigFile.IsDevelop;
-        this.ConfigFile.Save();
+        configFile.IsDevelop = !configFile.IsDevelop;
+        configFile.Save();
         this.setState({
-            IsDevelop: this.ConfigFile.IsDevelop,
+            IsDevelop: configFile.IsDevelop,
         });
     };
 
@@ -433,9 +427,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                         {/* <Text text={`编辑器配置路径: ${cfg.ConfigFile.savePath}`}></Text> */}
                         <HorizontalBox>
                             <SlotText
-                                Text={`${this.NeedSave() ? '*' : ''}${
-                                    this.ConfigFile.FlowConfigPath
-                                }`}
+                                Text={`${this.NeedSave() ? '*' : ''}${configFile.FlowConfigPath}`}
                                 Tip="当前打开的剧情配置文件路径(相对于Content目录)"
                             />
                             <Btn
@@ -473,7 +465,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                             />
                             <Text
                                 Text={this.GetUndoStateStr()}
-                                Tip={`回退记录,最大支持${ConfigFile.MaxHistory}个`}
+                                Tip={`回退记录,最大支持${configFile.MaxHistory}个`}
                             />
                             <Btn
                                 Text={'↺'}

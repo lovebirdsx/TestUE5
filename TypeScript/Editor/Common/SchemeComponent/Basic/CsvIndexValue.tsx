@@ -5,13 +5,11 @@ import { HorizontalBox } from 'react-umg';
 import { csvOp } from '../../../../Common/CsvOp';
 import { CsvIndexValueScheme, IProps, TCsvValueType } from '../../../../Common/Type';
 import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
-import { ConfigFile } from '../../../FlowEditor/ConfigFile';
+import { configFile } from '../../../../Common/ConfigFile';
 import { Btn, List } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
 
 function openCsvEditor(csvName: string): void {
-    const configFile = new ConfigFile();
-    configFile.Load();
     configFile.CsvName = csvName;
     configFile.Save();
 

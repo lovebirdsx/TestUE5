@@ -28,7 +28,7 @@ import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { CsvView } from '../Common/ExtendComponent/CsvView';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { openDirOfFile } from '../Common/Util';
-import { ConfigFile } from '../FlowEditor/ConfigFile';
+import { configFile } from '../../Common/ConfigFile';
 
 interface ICsvState {
     Name: ECsvName;
@@ -51,8 +51,6 @@ function canRedo(state: ICsvEditorState): boolean {
 }
 
 export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
-    private readonly ConfigFile: ConfigFile;
-
     private readonly CommandHandles: number[] = [];
 
     private AutoSaveHander: NodeJS.Timer;
@@ -63,15 +61,11 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
 
     public constructor(props: unknown) {
         super(props);
-
-        this.ConfigFile = new ConfigFile();
-        this.ConfigFile.Load();
-
         this.state = this.LoadInitState();
     }
 
     private LoadInitState(): ICsvEditorState {
-        const name = this.ConfigFile.CsvName;
+        const name = configFile.CsvName;
         const csv = csvRegistry.Load(name as ECsvName);
         const csvState: ICsvState = {
             Name: name as ECsvName,
@@ -102,7 +96,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             return;
         }
 
-        if (this.TimeSecond - this.LastModifyTime < ConfigFile.AutoSaveInterval) {
+        if (this.TimeSecond - this.LastModifyTime < configFile.AutoSaveInterval) {
             return;
         }
 
@@ -148,7 +142,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             draft.Histories.push(csvState);
             draft.StepId++;
 
-            if (draft.Histories.length > ConfigFile.MaxHistory) {
+            if (draft.Histories.length > configFile.MaxHistory) {
                 draft.Histories.shift();
                 draft.StepId--;
             }
@@ -265,7 +259,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                 />
                 <Text
                     Text={this.GetUndoStateStr()}
-                    Tip={`回退记录,最大支持${ConfigFile.MaxHistory}个`}
+                    Tip={`回退记录,最大支持${configFile.MaxHistory}个`}
                 />
                 <Btn
                     Text={'↺'}
@@ -303,8 +297,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         };
         this.RecordCsvState(newCsvState, true);
 
-        this.ConfigFile.CsvName = name;
-        this.ConfigFile.Save();
+        configFile.CsvName = name;
+        configFile.Save();
     }
 
     private RenderAllCsvEntries(): JSX.Element {

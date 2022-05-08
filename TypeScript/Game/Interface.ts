@@ -25,10 +25,20 @@ export function parseComponentsState(json: string): TComponentsState {
     return JSON.parse(json) as TComponentsState;
 }
 
-export interface IEntityData {
+export interface IEntityTemplate {
     PrefabId: number;
-    Guid: string;
     ComponentsState: TComponentsState;
+}
+
+export interface IEntityData extends IEntityTemplate {
+    Guid: string;
+}
+
+export function entityDataToTemplate(data: IEntityData): IEntityTemplate {
+    return {
+        PrefabId: data.PrefabId,
+        ComponentsState: data.ComponentsState,
+    };
 }
 
 export interface IEntitySnapshot extends IEntityData {

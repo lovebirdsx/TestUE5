@@ -3,9 +3,18 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { configFile } from '../../Common/ConfigFile';
+import { warn } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
+import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
+import { readJsonObj, writeJsonObj } from '../../Common/Util';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
-import { IEntityData, ITsEntity } from '../../Game/Interface';
+import {
+    entityDataToTemplate,
+    IEntityData,
+    IEntityTemplate,
+    ITsEntity,
+} from '../../Game/Interface';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { ComponentsState } from './ComponentsState';
@@ -26,6 +35,51 @@ export class EntityView extends React.Component<IEntityViewProps> {
         LevelEditorUtil.FocusOnSelectedBlueprint(this.props.Entity);
     };
 
+    private readonly OnClickSaveTemplate = (): void => {
+        const path = openSaveJsonFileDialog(configFile.LastEntityTemplatePath);
+        if (path) {
+            configFile.LastEntityTemplatePath = path;
+            writeJsonObj(entityDataToTemplate(this.props.Data), path);
+        }
+    };
+
+    private readonly OnClickLoadTemplate = (): void => {
+        const path = openLoadJsonFileDialog(configFile.LastEntityTemplatePath);
+        if (!path) {
+            return;
+        }
+
+        const template = readJsonObj<IEntityTemplate>(path);
+        if (!template) {
+            return;
+        }
+
+        let componentsState = template.ComponentsState;
+        if (template.PrefabId !== this.props.Data.PrefabId) {
+            // 如果两者的实体类型不一样,那么只取模板中共同的Component配置
+            const componentsStateNew = Object.assign({}, this.props.Data.ComponentsState);
+            let modifyCount = 0;
+            for (const key in componentsState) {
+                if (componentsStateNew[key]) {
+                    componentsStateNew[key] = componentsState[key];
+                    modifyCount++;
+                }
+            }
+            if (modifyCount <= 0) {
+                warn(`模板中不存在当前实体相关的组件配置`);
+                return;
+            }
+            componentsState = componentsStateNew;
+        }
+
+        const newData = produce(this.props.Data, (draft) => {
+            draft.ComponentsState = componentsState;
+        });
+
+        configFile.LastEntityTemplatePath = path;
+        this.props.OnModify(newData, 'normal');
+    };
+
     private RenderEntityInfo(): JSX.Element {
         const entity = this.props.Entity;
         return (
@@ -37,6 +91,8 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     OnClick={this.OnClickBtnFocusBlueprint}
                     Tip={'浏览到Entity蓝图所在位置'}
                 />
+                <Btn Text={'另存为模板'} OnClick={this.OnClickSaveTemplate} />
+                <Btn Text={'读取模板'} OnClick={this.OnClickLoadTemplate} />
             </HorizontalBox>
         );
     }

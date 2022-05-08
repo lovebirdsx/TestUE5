@@ -6,6 +6,7 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
+import { configFile } from '../../Common/ConfigFile';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
@@ -16,7 +17,6 @@ import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { openFile } from '../Common/Util';
-import { ConfigFile } from '../FlowEditor/ConfigFile';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
 
@@ -44,8 +44,6 @@ function canRedo(state: IEntityEditorState): boolean {
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private LastApplyEntityState: IEntityState;
 
-    private IsLocked: boolean;
-
     private readonly LevelEditor: LevelEditor = new LevelEditor();
 
     public constructor(props: unknown) {
@@ -59,6 +57,15 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             IsEditorPlaying: LevelEditorUtil.IsPlaying,
         };
         this.LastApplyEntityState = initEntityState;
+    }
+
+    private get IsLocked(): boolean {
+        return configFile.IsEntityEditorLocked;
+    }
+
+    private set IsLocked(value: boolean) {
+        configFile.IsEntityEditorLocked = value;
+        configFile.Save();
     }
 
     private GenEntityStateBySelect(): IEntityState {
@@ -168,7 +175,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     draft.Histories.push(entityState);
                     draft.StepId++;
 
-                    if (draft.Histories.length > ConfigFile.MaxHistory) {
+                    if (draft.Histories.length > configFile.MaxHistory) {
                         draft.Histories.shift();
                         draft.StepId--;
                     }
@@ -304,7 +311,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     />
                     <Text
                         Text={this.GetUndoStateStr()}
-                        Tip={`回退记录,最大支持${ConfigFile.MaxHistory}个`}
+                        Tip={`回退记录,最大支持${configFile.MaxHistory}个`}
                     />
                     <Btn
                         Text={'↺'}

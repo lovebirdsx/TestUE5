@@ -1,0 +1,45 @@
+﻿{
+  "PrefabId": 2,
+  "ComponentsState": {
+    "TriggerComponent": {
+      "MaxTriggerTimes": 1,
+      "TriggerActions": {
+        "Actions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "95179F584CAB6556478FE4A64085CEEE",
+              "ActionInfo": {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 10,
+                  "Pos": {
+                    "X": 1082,
+                    "Y": -1407,
+                    "Z": -1
+                  }
+                }
+              }
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "95179F584CAB6556478FE4A64085CEEE",
+              "ActionInfo": {
+                "Name": "FaceToPos",
+                "Params": {
+                  "Pos": {
+                    "X": 1081,
+                    "Y": -1152,
+                    "Z": -1
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

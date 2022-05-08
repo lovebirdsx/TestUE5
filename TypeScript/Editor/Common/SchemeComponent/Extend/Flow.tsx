@@ -9,7 +9,7 @@ import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IPlayFlow, ITriggerActions, parsePlayFlow } from '../../../../Game/Flow/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
-import { ConfigFile } from '../../../FlowEditor/ConfigFile';
+import { configFile } from '../../../../Common/ConfigFile';
 import { Btn, List, Text } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';
@@ -45,8 +45,6 @@ export function RenderStateId(props: IProps<number>): JSX.Element {
 }
 
 function openFlowEditor(flowName: string): void {
-    const configFile = new ConfigFile();
-    configFile.Load();
     configFile.FlowConfigPath = flowListOp.GetPath(flowName);
     configFile.Save();
 

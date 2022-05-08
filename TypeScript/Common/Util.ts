@@ -181,3 +181,15 @@ export class Event<T1 = unknown, T2 = unknown, T3 = unknown> {
         });
     }
 }
+
+export function readJsonObj<T>(path: string, defalut?: T): T {
+    const content = UE.MyFileHelper.Read(path);
+    if (content) {
+        return JSON.parse(content) as T;
+    }
+    return defalut ? defalut : undefined;
+}
+
+export function writeJsonObj(obj: unknown, path: string): void {
+    UE.MyFileHelper.Write(path, stringifyWithOutUnderScore(obj));
+}

@@ -10,6 +10,7 @@ import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from 
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
+import { spawnScheme } from './Spawn';
 import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
 import { setHeadIconVisibleScheme } from './Talker';
 
@@ -34,6 +35,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ShowMessage: showMssageScheme,
     ShowOption: showOptionScheme,
     ShowTalk: showTalkScheme,
+    Spawn: spawnScheme,
     Wait: waitScheme,
 };
 

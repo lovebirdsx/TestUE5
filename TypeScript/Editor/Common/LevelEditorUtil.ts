@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 import {
     Actor,
     BuiltinString,
@@ -7,11 +8,13 @@ import {
     NewArray,
 } from 'ue';
 
-import { getAssetPath } from '../../Common/Class';
+import { getAssetPath, getBlueprintType } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
+import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
+import { ITransform, toRotation, toVector } from '../../Game/Flow/Action';
 import { ITsEntity } from '../../Game/Interface';
 
 class LevelEditorUtil {
@@ -74,6 +77,22 @@ class LevelEditorUtil {
         }
 
         return undefined;
+    }
+
+    public static SpawnEntity(guid: string, iTransform: ITransform): ITsEntity {
+        const template = EntityTemplateOp.GetTemplateByGuid(guid);
+        if (!template) {
+            error(`生成Entity失败:无法找到Guid为[${guid}]的模板配置`);
+            return undefined;
+        }
+
+        const entity = EditorLevelLibrary.SpawnActorFromClass(
+            getBlueprintType(template.PrefabId),
+            toVector(iTransform.Pos),
+            toRotation(iTransform.Rot),
+        ) as ITsEntity;
+
+        return entity;
     }
 }
 

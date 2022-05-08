@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
@@ -7,9 +8,9 @@ import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { TColor } from '../../BaseComponent/Color';
 import { Check, EditorBox } from '../../BaseComponent/CommonComponent';
 import { EntitySelector } from '../../BaseComponent/EntitySelector';
+import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';
 import { FilterableList } from '../../BaseComponent/FilterableList';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Bool(props: IProps<boolean>): JSX.Element {
     return (
         <HorizontalBox>
@@ -25,7 +26,6 @@ export function Bool(props: IProps<boolean>): JSX.Element {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Int(props: IProps<number>): JSX.Element {
     return (
         <HorizontalBox>
@@ -42,7 +42,6 @@ export function Int(props: IProps<number>): JSX.Element {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Float(props: IProps<number>): JSX.Element {
     return (
         <HorizontalBox>
@@ -59,7 +58,6 @@ export function Float(props: IProps<number>): JSX.Element {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function String(props: IProps<string> & { Color?: TColor }): JSX.Element {
     return (
         <HorizontalBox>
@@ -77,7 +75,6 @@ export function String(props: IProps<string> & { Color?: TColor }): JSX.Element 
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Enum(props: IProps<string, EnumScheme<string>>): JSX.Element {
     const scheme = props.Scheme;
     return (
@@ -96,7 +93,6 @@ export function Enum(props: IProps<string, EnumScheme<string>>): JSX.Element {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Asset(props: IProps<string, AssetScheme>): JSX.Element {
     const scheme = props.Scheme;
     return (
@@ -113,12 +109,22 @@ export function Asset(props: IProps<string, AssetScheme>): JSX.Element {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function EntityId(props: IProps<string>): JSX.Element {
     return (
         <EntitySelector
             Guid={props.Value}
             OnEntityChanged={(guid): void => {
+                props.OnModify(guid, 'normal');
+            }}
+        />
+    );
+}
+
+export function EntityTemplateId(props: IProps<string>): JSX.Element {
+    return (
+        <EntityTemplateSelector
+            Guid={props.Value}
+            OnModify={(guid): void => {
                 props.OnModify(guid, 'normal');
             }}
         />

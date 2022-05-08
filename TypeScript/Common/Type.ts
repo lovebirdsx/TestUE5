@@ -10,6 +10,7 @@ export type TElementRenderType =
     | 'custom'
     | 'dynamic'
     | 'entityId'
+    | 'entityTemplateId'
     | 'enum'
     | 'float'
     | 'int'

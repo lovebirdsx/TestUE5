@@ -16,16 +16,16 @@ import {
 
 import { IProps } from '../../../../Common/Type';
 import { alignVector } from '../../../../Common/Util';
-import { IVectorInfo } from '../../../../Game/Flow/Action';
-import { Btn, EditorBox } from '../../BaseComponent/CommonComponent';
+import { ISpawn, IVectorInfo } from '../../../../Game/Flow/Action';
+import { Btn } from '../../BaseComponent/CommonComponent';
 import LevelEditorUtil from '../../LevelEditorUtil';
 
 interface IPointState {
     TipActor: Actor;
 }
 
-export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
-    public constructor(props: IProps<IVectorInfo>) {
+export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
+    public constructor(props: IProps<ISpawn>) {
         super(props);
         this.state = {
             TipActor: undefined,
@@ -35,39 +35,40 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public componentWillUnmount(): void {
         if (this.state.TipActor) {
-            EditorLevelLibrary.DestroyActor(this.state.TipActor);
+            this.state.TipActor.K2_DestroyActor();
         }
     }
 
     private readonly OnModifyX = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
+        const newPos = Object.assign({}, this.props.Value.Transform.Pos);
         newPos.X = parseFloat(text);
         this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
     };
 
     private readonly OnModifyY = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
+        const newPos = Object.assign({}, this.props.Value.Transform.Pos);
         newPos.Y = parseFloat(text);
         this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
     };
 
     private readonly OnModifyZ = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
+        const newPos = Object.assign({}, this.props.Value.Transform.Pos);
         newPos.Z = parseFloat(text);
         this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
     };
 
-    private GenTipActorAtPos(vec: Vector): void {
-        const actor = EditorLevelLibrary.SpawnActorFromClass(Actor.StaticClass(), vec);
-        this.setState({
-            TipActor: actor,
-        });
+    private GenTipEntity(): void {
+        const spawn = this.props.Value;
+        const entity = LevelEditorUtil.SpawnEntity(spawn.TemplateGuid, spawn.Transform);
+        if (entity) {
+            this.setState({
+                TipActor: entity,
+            });
+        }
     }
 
     private readonly GenTipActor = (): void => {
-        const pos = this.props.Value;
-        const location = new Vector(pos.X, pos.Y, pos.Z);
-        this.GenTipActorAtPos(location);
+        this.GenTipEntity();
     };
 
     private readonly RemoveTipActor = (): void => {
@@ -104,7 +105,7 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
 
         const pos = ok ? hitResult.ImpactPoint : cameraPos;
         if (!this.state.TipActor) {
-            this.GenTipActorAtPos(pos);
+            this.GenTipEntity();
         }
 
         this.SetPosition(pos);
@@ -158,19 +159,19 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        const pos = this.props.Value;
+        // const pos = this.props.Value;
         if (this.state.TipActor) {
-            const vecPos = new Vector(pos.X, pos.Y, pos.Z);
-            this.state.TipActor.K2_SetActorLocation(vecPos, false, undefined, false);
-            LevelEditorUtil.SelectActor(this.state.TipActor);
-            LevelEditorUtil.FocusSelected();
+            // const vecPos = new Vector(pos.X, pos.Y, pos.Z);
+            // this.state.TipActor.K2_SetActorLocation(vecPos, false, undefined, false);
+            // LevelEditorUtil.SelectActor(this.state.TipActor);
+            // LevelEditorUtil.FocusSelected();
         }
         return (
             <HorizontalBox>
                 {this.props.PrefixElement}
-                <EditorBox Text={pos.X.toString()} OnChange={this.OnModifyX} Tip={'X'} />
+                {/* <EditorBox Text={pos.X.toString()} OnChange={this.OnModifyX} Tip={'X'} />
                 <EditorBox Text={pos.Y.toString()} OnChange={this.OnModifyY} Tip={'Y'} />
-                <EditorBox Text={pos.Z.toString()} OnChange={this.OnModifyZ} Tip={'Z'} />
+                <EditorBox Text={pos.Z.toString()} OnChange={this.OnModifyZ} Tip={'Z'} /> */}
                 {this.state.TipActor ? this.RenderForTip() : this.RenderForNoTip()}
             </HorizontalBox>
         );

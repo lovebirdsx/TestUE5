@@ -29,31 +29,56 @@ function getEntityTemplateFiles(): string[] {
 export class EntityTemplateOp {
     public static readonly Names: string[] = [];
 
-    private static readonly NameMap: Map<string, IEntityTemplate> = new Map();
+    public static readonly NameByGuid: Map<string, string> = new Map();
+
+    public static readonly GuidByName: Map<string, string> = new Map();
 
     private static readonly GuidMap: Map<string, IEntityTemplate> = new Map();
 
     public static RefreshTemplates(): void {
         this.Names.splice(0);
-        this.NameMap.clear();
         this.GuidMap.clear();
+        this.NameByGuid.clear();
+        this.GuidByName.clear();
 
         const files = getEntityTemplateFiles();
         files.forEach((file) => {
-            const name = getFileNameWithOutExt(file);
-            this.Names.push(name);
             const template = this.Load(file);
-            this.NameMap.set(template.Guid, template);
-            this.GuidMap.set(name, template);
-        });
-    }
 
-    public static GetTemplateByName(name: string): IEntityTemplate {
-        return this.NameMap.get(name);
+            const name = getFileNameWithOutExt(file);
+            const guid = template.Guid;
+            this.Names.push(name);
+
+            if (this.GuidMap.has(guid)) {
+                const prevName = this.NameByGuid.get(guid);
+                throw new Error(`Duplicate template guid [${prevName}] [${name}] guid: ${guid}`);
+            }
+            this.GuidMap.set(guid, template);
+            this.NameByGuid.set(guid, name);
+            this.GuidByName.set(name, guid);
+        });
     }
 
     public static GetTemplateByGuid(guid: string): IEntityTemplate {
         return this.GuidMap.get(guid);
+    }
+
+    public static GetNameByGuid(guid: string): string {
+        return this.NameByGuid.get(guid);
+    }
+
+    public static GetGuidByName(name: string): string {
+        return this.GuidByName.get(name);
+    }
+
+    public static GetPath(guid: string): string {
+        const dir = gameConfig.EntityTemplateDir;
+        const name = this.GetNameByGuid(guid);
+        return `${dir}/${name}.json`;
+    }
+
+    public static GenDefaultGuid(): string {
+        return this.GetGuidByName(this.Names[0]);
     }
 
     public static Gen(data: IEntityData, guid?: string): IEntityTemplate {
@@ -109,3 +134,5 @@ export class EntityTemplateOp {
         return newData;
     }
 }
+
+EntityTemplateOp.RefreshTemplates();

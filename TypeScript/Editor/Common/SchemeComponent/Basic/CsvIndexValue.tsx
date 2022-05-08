@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { configFile } from '../../../../Common/ConfigFile';
 import { csvOp } from '../../../../Common/CsvOp';
 import { CsvIndexValueScheme, IProps, TCsvValueType } from '../../../../Common/Type';
 import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
-import { configFile } from '../../../../Common/ConfigFile';
 import { Btn, List } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
 

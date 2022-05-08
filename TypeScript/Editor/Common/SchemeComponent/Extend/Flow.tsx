@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { configFile } from '../../../../Common/ConfigFile';
 import { log } from '../../../../Common/Log';
 import { IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
 import { gameConfig } from '../../../../Game/Common/Config';
@@ -9,7 +10,6 @@ import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IPlayFlow, ITriggerActions, parsePlayFlow } from '../../../../Game/Flow/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
-import { configFile } from '../../../../Common/ConfigFile';
 import { Btn, List, Text } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';

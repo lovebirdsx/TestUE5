@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
+import { configFile } from '../../Common/ConfigFile';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import {
@@ -26,7 +27,6 @@ import { FlowList } from '../Common/ExtendComponent/FlowList';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { openDirOfFile } from '../Common/Util';
-import { configFile } from '../../Common/ConfigFile';
 import { TalkListTool } from './TalkListTool';
 
 interface IFlowEditorState {

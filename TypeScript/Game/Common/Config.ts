@@ -4,6 +4,10 @@ function getFlowListDir(): string {
     return MyFileHelper.GetPath(EFileRoot.Content, 'Data/FlowList');
 }
 
+function getEntityTemplateDir(): string {
+    return MyFileHelper.GetPath(EFileRoot.Content, 'Data/Template');
+}
+
 class GameConfig {
     public readonly FlowListDir = getFlowListDir();
 
@@ -12,6 +16,8 @@ class GameConfig {
     public readonly LevelDataDir = MyFileHelper.GetPath(EFileRoot.Content, 'Data/Map');
 
     public readonly LevelSaveDir = MyFileHelper.GetPath(EFileRoot.Save, 'Map');
+
+    public readonly EntityTemplateDir = getEntityTemplateDir();
 
     public GetCurrentMapDataPath(world: World): string {
         const settings = world.K2_GetWorldSettings() as DemoWorldSettings;

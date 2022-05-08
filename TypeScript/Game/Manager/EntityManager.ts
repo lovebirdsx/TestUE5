@@ -6,7 +6,7 @@ import { Actor, Pawn, Transform } from 'ue';
 import { error } from '../../Common/Log';
 import { Event } from '../../Common/Util';
 import { isPlayer } from '../Entity/EntityRegistry';
-import { gameContext, IEntityMananger, IEntityData, ITsEntity } from '../Interface';
+import { gameContext, IEntityData, IEntityMananger, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { IManager } from './Interface';
 

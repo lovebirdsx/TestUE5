@@ -13,7 +13,7 @@ import {
     talkOptionTextIdScheme,
 } from '../../../Game/Scheme/Action/ShowTalk';
 import { centerTextIdScheme } from '../../../Game/Scheme/Action/ShowText';
-import { spawnScheme } from '../../../Game/Scheme/Action/Spawn';
+import { spawnChildScheme } from '../../../Game/Scheme/Action/Spawn';
 import { stateIdScheme } from '../../../Game/Scheme/Action/State';
 import { triggerActionsScheme } from '../../../Game/Scheme/Component/TriggerComponentSheme';
 import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
@@ -43,7 +43,7 @@ renderRegistry.RegComponent<ITriggerActions>(triggerActionsScheme, RenderTrigger
 renderRegistry.RegObjComponent<IShowTalk>(showTalkScheme, RenderShowTalk);
 renderRegistry.RegComponent<IPlayFlow>(playFlowScheme, RenderPlayFlow);
 renderRegistry.RegComponent<IVectorInfo>(posScheme, Point);
-renderRegistry.RegComponent<ISpawn>(spawnScheme, Spawn);
+renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
 
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 

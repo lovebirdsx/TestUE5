@@ -24,12 +24,18 @@ const transformScheme = createObjectScheme<ITransform>({
     },
 });
 
-export const spawnScheme = createObjectScheme<ISpawn>({
-    CnName: '生成实体',
+export const spawnChildScheme = createObjectScheme<ISpawn>({
+    CnName: '生成子实体',
     Tip: '在对应的位置,生成模板中包含的实体',
     Fields: {
         TemplateGuid: templateGuidScheme,
         Transform: transformScheme,
     },
+    Filters: actionFilterExcept(EActionFilter.Invoke),
+});
+
+export const destroyAllChildScheme = createObjectScheme({
+    CnName: '移除所有子实体',
+    Tip: '移除所有由当前实体生成的子实体',
     Filters: actionFilterExcept(EActionFilter.Invoke),
 });

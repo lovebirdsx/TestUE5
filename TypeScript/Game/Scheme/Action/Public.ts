@@ -10,7 +10,7 @@ import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from 
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
-import { spawnScheme } from './Spawn';
+import { destroyAllChildScheme, spawnChildScheme } from './Spawn';
 import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
 import { setHeadIconVisibleScheme } from './Talker';
 
@@ -18,6 +18,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeState: changeStateScheme,
     ChangeRandomState: changeRandomStateScheme,
     Destroy: destroyScheme,
+    DestroyAllChild: destroyAllChildScheme,
     FaceToPos: faceToPosScheme,
     FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
@@ -35,7 +36,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ShowMessage: showMssageScheme,
     ShowOption: showOptionScheme,
     ShowTalk: showTalkScheme,
-    Spawn: spawnScheme,
+    SpawnChild: spawnChildScheme,
     Wait: waitScheme,
 };
 

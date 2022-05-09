@@ -7,6 +7,7 @@ export type TActionType =
     | 'ChangeRandomState'
     | 'ChangeState'
     | 'Destroy'
+    | 'DestroyAllChild'
     | 'FaceToPos'
     | 'FinishState'
     | 'FinishTalk'
@@ -24,7 +25,7 @@ export type TActionType =
     | 'ShowMessage'
     | 'ShowOption'
     | 'ShowTalk'
-    | 'Spawn'
+    | 'SpawnChild'
     | 'Wait';
 
 export type TActionFun = (action: IActionInfo) => unknown;

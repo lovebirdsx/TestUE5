@@ -16,6 +16,7 @@ export default function testTextListCsv(): void {
                     FlowListId: 'test',
                     Id: i + 1,
                     Text: `文本${i + 1}`,
+                    Sound: '',
                 });
             }
             const csv = new TextListCsvLoader();
@@ -40,6 +41,7 @@ export function writeTextListCsv(path: string): void {
             FlowListId: 'test',
             Id: i + 1,
             Text: `文本${i + 1}`,
+            Sound: '',
         });
     }
     const csv = new TextListCsvLoader();

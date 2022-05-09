@@ -10,7 +10,9 @@ import {
 } from '../../../../Game/Common/Operations/FlowList';
 import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
 import { IShowTalk } from '../../../../Game/Flow/Action';
-import { DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
+import { DEFAULT_SOUND_PATH, soundScheme } from '../../../../Game/Scheme/Action/ShowTalk';
+import { AssetSelector } from '../../BaseComponent/AssetSelector';
+import { Btn, DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
 import { Obj, String } from '../Basic/Public';
 import { showTalkContext } from '../Context';
@@ -40,20 +42,63 @@ export function RenderJumpTalkId(props: IProps<number>): JSX.Element {
 }
 
 export function RenderTextId(props: IProps<number>): JSX.Element {
+    const textId = props.Value;
+    const textConfig = flowListContext.Get().Texts[textId];
+
+    function RenderSound(): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Btn
+                    Text={'C'}
+                    Tip={'移除声音'}
+                    OnClick={(): void => {
+                        flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
+                            flowListOp.ModifySound(to, textId, '');
+                        });
+                    }}
+                />
+                <AssetSelector
+                    SelectedObjectPath={textConfig.Sound}
+                    Path={soundScheme.SearchPath}
+                    ClassType={soundScheme.ClassPath}
+                    OnObjectPathChanged={(path: string): void => {
+                        flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
+                            flowListOp.ModifySound(to, textId, path);
+                        });
+                    }}
+                />
+            </HorizontalBox>
+        );
+    }
+
+    function RenderNoSound(): JSX.Element {
+        return (
+            <Btn
+                Text={'+声音'}
+                Tip={'添加声音'}
+                OnClick={function (): void {
+                    flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
+                        flowListOp.ModifySound(to, textId, DEFAULT_SOUND_PATH);
+                    });
+                }}
+            />
+        );
+    }
+
     return (
         <HorizontalBox>
             {props.PrefixElement}
             <EditorBox
                 Width={props.Scheme.Width}
-                Text={flowListContext.Get().Texts[props.Value]}
+                Text={textConfig.Text}
                 OnChange={(text): void => {
                     flowListContext.Modify(EFlowListAction.ModifyText, (from, to) => {
-                        const textId = props.Value;
                         flowListOp.ModifyText(to, textId, text);
                     });
                 }}
                 Tip={props.Scheme.Tip}
             />
+            {textConfig.Sound ? RenderSound() : RenderNoSound()}
         </HorizontalBox>
     );
 }

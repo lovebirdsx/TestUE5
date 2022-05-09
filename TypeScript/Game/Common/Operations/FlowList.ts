@@ -6,7 +6,7 @@ import { getDir, getFileName, getFileNameWithOutExt } from '../../../Common/File
 import { error, log, warn } from '../../../Common/Log';
 import { errorbox, toTsArray } from '../../../Common/UeHelper';
 import { calHash } from '../../../Common/Util';
-import { FLOW_LIST_VERSION, IFlowInfo, IFlowListInfo } from '../../Flow/Action';
+import { FLOW_LIST_VERSION, IFlowInfo, IFlowListInfo, ITextConfig } from '../../Flow/Action';
 import { gameConfig } from '../Config';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
@@ -127,10 +127,13 @@ class FlowListOp {
         const csv = new TextListCsvLoader();
         const rows = csv.Load(csvPath);
 
-        const texts = {} as Record<number, string>;
+        const texts = {} as Record<number, ITextConfig>;
         if (rows) {
             rows.forEach((row) => {
-                texts[row.Id] = row.Text;
+                texts[row.Id] = {
+                    Text: row.Text,
+                    Sound: row.Sound,
+                };
             });
             log(`load text csv from: ${csvPath}`);
         } else {
@@ -173,13 +176,17 @@ class FlowListOp {
             return flowList.TextGenId;
         }
         const textId = flowList.TextGenId;
-        flowList.Texts[textId] = text;
+        flowList.Texts[textId] = { Text: text, Sound: '' };
         flowList.TextGenId++;
         return textId;
     }
 
     public ModifyText(flowList: IFlowListInfo, textId: number, text: string): void {
-        flowList.Texts[textId] = text;
+        flowList.Texts[textId].Text = text;
+    }
+
+    public ModifySound(flowList: IFlowListInfo, textId: number, sound: string): void {
+        flowList.Texts[textId].Sound = sound;
     }
 }
 

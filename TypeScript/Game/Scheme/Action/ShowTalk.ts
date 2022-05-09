@@ -3,6 +3,7 @@
 import { globalContexts } from '../../../Common/GlobalContext';
 import {
     createArrayScheme,
+    createAssetScheme,
     createBooleanScheme,
     createFloatScheme,
     createIntScheme,
@@ -65,6 +66,15 @@ export const talkerIdScheme = createIntScheme({
         const { Talkers: talkers } = TalkerListOp.Get();
         return talkers.length > 0 ? talkers[0].Id : 1;
     },
+});
+
+export const DEFAULT_SOUND_PATH = '/Game/Sound/Sound1.Sound1';
+
+export const soundScheme = createAssetScheme({
+    Name: 'Sound',
+    CreateDefault: () => DEFAULT_SOUND_PATH,
+    SearchPath: 'Sound',
+    ClassPath: 'SoundCue',
 });
 
 export const talkItemTextIdScheme = createTextIdScheme('说点什么吧', {

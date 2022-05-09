@@ -7,6 +7,7 @@ export interface TextRow extends TCsvRowBase {
     FlowListId: string;
     Id: number;
     Text: string;
+    Sound: string;
 }
 
 const textListCsvFields: ICsvFieldEx[] = [
@@ -49,6 +50,16 @@ const textListCsvFields: ICsvFieldEx[] = [
         Condition: '',
         Default: '',
         CnName: '文本内容',
+    },
+    {
+        ExportType: 'C',
+        Name: 'Sound',
+        Type: 'String',
+        Filter: '0',
+        Localization: '0',
+        Condition: '',
+        Default: '',
+        CnName: '声音',
     },
 ];
 

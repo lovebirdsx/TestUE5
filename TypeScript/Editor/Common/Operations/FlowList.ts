@@ -179,11 +179,13 @@ class EditorFlowListOp {
         const keyBase = flowListOp.GenTextKey(flowListId);
         for (const key in flowList.Texts) {
             const id = parseInt(key, 10);
+            const text = flowList.Texts[key];
             rows.push({
                 Key: keyBase + BigInt(id),
                 FlowListId: flowListId,
                 Id: id,
-                Text: flowList.Texts[key],
+                Text: text.Text,
+                Sound: text.Sound,
             });
         }
 

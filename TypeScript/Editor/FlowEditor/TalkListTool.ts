@@ -163,7 +163,7 @@ export class TalkListCsvFile {
                             Flow: flow.Name,
                             State: state.Name,
                             TalkType: '独立选项',
-                            OptionContent: flowList.Texts[showOption.TextId],
+                            OptionContent: flowList.Texts[showOption.TextId].Text,
                         });
                     } else if (action.Name === 'ShowTalk') {
                         const showTalk = action.Params as IShowTalk;
@@ -174,7 +174,7 @@ export class TalkListCsvFile {
                                 TalkId: item.Name,
                                 TalkType: '对话',
                                 Who: TalkerListOp.GetName(TalkerListOp.Get(), item.WhoId),
-                                TalkContent: flowList.Texts[item.TextId],
+                                TalkContent: flowList.Texts[item.TextId].Text,
                             });
 
                             if (item.Options) {
@@ -183,7 +183,7 @@ export class TalkListCsvFile {
                                         Flow: flow.Name,
                                         State: state.Name,
                                         TalkType: '对话选项',
-                                        OptionContent: flowList.Texts[option.TextId],
+                                        OptionContent: flowList.Texts[option.TextId].Text,
                                     });
                                 });
                             }

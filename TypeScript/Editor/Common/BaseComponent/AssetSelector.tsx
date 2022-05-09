@@ -34,9 +34,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
         const props = this.props;
         const assets = assetListCache.LoadAssets(props.Path, props.ClassType);
         const selected = assets.find((assetData: IAsset) => assetData.Name === name);
-        if (selected) {
-            this.props.OnObjectPathChanged(selected.Path);
-        }
+        this.props.OnObjectPathChanged(selected ? selected.Path : '');
     };
 
     private readonly OnClickBtnNav = (): void => {

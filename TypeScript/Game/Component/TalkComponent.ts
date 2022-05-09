@@ -48,7 +48,7 @@ export class TalkComponent extends Component {
         const texts = this.FlowListInfo.Texts;
         const content = texts[item.TextId];
 
-        this.TalkerDisplay.ShowSubtile(who, content);
+        this.TalkerDisplay.ShowSubtile(who, content.Text);
 
         // 等待固定时间
         const globalConfig = csvRegistry.GetCsv(GlobalConfigCsv);
@@ -79,7 +79,7 @@ export class TalkComponent extends Component {
 
         // 选项
         if (item.Options && this.IsShowing && !this.NeedJumpTalk) {
-            const optionTexts = item.Options.map((op) => texts[op.TextId]);
+            const optionTexts = item.Options.map((op) => texts[op.TextId].Text);
             const ueOptionTexts = toUeArray(optionTexts, BuiltinText);
             this.TalkerDisplay.ShowOptions($ref(ueOptionTexts));
             this.TalkerDisplay.OptionSelected.Clear();
@@ -91,7 +91,7 @@ export class TalkComponent extends Component {
 
             const selectOptionText = await selectOptionSignal.Promise;
 
-            const option = item.Options.find((op) => texts[op.TextId] === selectOptionText);
+            const option = item.Options.find((op) => texts[op.TextId].Text === selectOptionText);
             this.ActionsRunHandle = this.ActionRunner.SpawnHandler(option.Actions);
             await this.ActionsRunHandle.Execute();
         }

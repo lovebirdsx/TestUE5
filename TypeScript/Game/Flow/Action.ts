@@ -105,11 +105,16 @@ export function parsePlayFlow(json: string): IPlayFlow {
     return JSON.parse(json) as IPlayFlow;
 }
 
+export interface ITextConfig {
+    Text: string;
+    Sound: string;
+}
+
 export interface IFlowListInfo {
     VersionNum: number;
     FlowGenId: number;
     TextGenId: number;
-    Texts: Record<number, string>;
+    Texts: Record<number, ITextConfig>;
     Flows: IFlowInfo[];
 }
 

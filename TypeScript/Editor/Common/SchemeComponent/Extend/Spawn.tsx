@@ -3,7 +3,7 @@
 import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
-import { EditorLevelLibrary, Vector } from 'ue';
+import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
 import {
     defalutRot,
@@ -60,6 +60,8 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public componentWillUnmount(): void {
         if (this.state.TipEntity) {
+            EditorOperations.GetEditorEvent().OnActorMoved.Remove(this.OnTipEntityMoved);
+
             tempEntities.Remove(this.state.TipEntity);
             EditorLevelLibrary.DestroyActor(this.state.TipEntity);
         }
@@ -119,6 +121,12 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
         this.SetScale(toVector(newScale));
     };
 
+    private readonly OnTipEntityMoved = (actor: Actor): void => {
+        setTimeout(() => {
+            this.UpdataTransform();
+        }, 0.1);
+    };
+
     private GenTipEntity(): void {
         const spawn = this.props.Value;
         const entity = LevelEditorUtil.SpawnEntity(spawn.TemplateGuid, spawn.Transform);
@@ -127,6 +135,10 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
             this.setState({
                 TipEntity: entity,
             });
+            EditorOperations.GetEditorEvent().OnActorMoved.Add(this.OnTipEntityMoved);
+
+            LevelEditorUtil.SelectActor(entity);
+            LevelEditorUtil.FocusSelected();
         }
     }
 
@@ -140,6 +152,8 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
             if (LevelEditorUtil.IsSelect(entity)) {
                 LevelEditorUtil.ClearSelect();
             }
+
+            EditorOperations.GetEditorEvent().OnActorMoved.Remove(this.OnTipEntityMoved);
 
             this.setState({
                 TipEntity: undefined,
@@ -324,8 +338,6 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
         const transform = this.props.Value.Transform;
         if (tipEntity) {
             LevelEditorUtil.SetEntityTransform(tipEntity, transform);
-            LevelEditorUtil.SelectActor(tipEntity);
-            LevelEditorUtil.FocusSelected();
         }
         return (
             <VerticalBox>

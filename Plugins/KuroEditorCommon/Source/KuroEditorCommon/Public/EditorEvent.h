@@ -77,6 +77,10 @@ public:
 
 	void Deinitialize();
 
+	void LaterInitialize();
+	
+	void LaterDeinitialize();
+
 private:
 	void OnLevelSelectionChanged(UObject* InObject);
 	void OnPreBeginPieOccured(bool bSimulating);
@@ -98,4 +102,6 @@ private:
 	void OnDeleteActorsEndOccurd();
 	void OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors);
 	void OnActorMovedOccued(AActor* Actor);
+
+	bool bLaterInitOk = false;
 };

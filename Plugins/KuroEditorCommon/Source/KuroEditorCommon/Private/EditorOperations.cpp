@@ -73,6 +73,7 @@ TArray<FAssetData> UEditorOperations::LoadAssetDataFromPath(const FString& Path,
 UEditorEvent* UEditorOperations::GetEditorEvent()
 {
 	const auto Result = FKuroEditorCommonModule::GetInstance()->GetEditorEvent();
+	Result->LaterInitialize();
 	return Result;
 }
 

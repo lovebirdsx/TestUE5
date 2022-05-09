@@ -32,16 +32,24 @@ export class TriggerComponent extends Component implements ITriggerComponent {
         this.ActionId = this.State.GetState<number>('ActionId') || 0;
     }
 
+    public OnStart(): void {
+        // 继续执行上次没有执行完毕的Actor
+        if (this.TriggerTimes < this.MaxTriggerTimes && this.ActionId) {
+            void this.DoTrigger();
+        }
+    }
+
     private async DoTrigger(): Promise<void> {
-        this.TriggerTimes++;
-        this.State.SetState('TriggerTimes', this.TriggerTimes);
-        await this.Handler.Execute(this.ActionId, (actionId: number) => {
+        await this.Handler.Execute(this.ActionId + 1, (actionId: number) => {
             this.ActionId = actionId;
             this.State.SetState('ActionId', actionId);
         });
 
         this.ActionId = 0;
         this.State.SetState('ActionId', undefined);
+
+        this.TriggerTimes++;
+        this.State.SetState('TriggerTimes', this.TriggerTimes);
 
         log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
     }

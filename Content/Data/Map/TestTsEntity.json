@@ -150,7 +150,7 @@
     },
     {
       "PrefabId": 2,
-      "Guid": "BB6B8A114544126E63FC02AA327C871F",
+      "Guid": "96B9C2914DCF1DB857B75C8B7881FE73",
       "ComponentsState": {
         "TriggerComponent": {
           "MaxTriggerTimes": 1,
@@ -186,6 +186,80 @@
       "Pos": [
         1465.044343,
         1138.7843699999999,
+        -0.499903
+      ]
+    },
+    {
+      "PrefabId": 2,
+      "Guid": "FCE05A124214ED10FD8EA18C0EAEB44D",
+      "ComponentsState": {
+        "TriggerComponent": {
+          "MaxTriggerTimes": 1,
+          "TriggerActions": {
+            "Actions": [
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "SpawnChild",
+                "Params": {
+                  "TemplateGuid": "B13AFF12452A0054A80F02A8E70191A5",
+                  "Transform": {
+                    "Pos": {
+                      "X": 1092,
+                      "Y": 582,
+                      "Z": 87
+                    },
+                    "Rot": {
+                      "Z": -91
+                    },
+                    "Scale": {}
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "SpawnChild",
+                "Params": {
+                  "TemplateGuid": "B13AFF12452A0054A80F02A8E70191A5",
+                  "Transform": {
+                    "Pos": {
+                      "X": 527,
+                      "Y": 581,
+                      "Z": 87
+                    },
+                    "Rot": {
+                      "Z": -90
+                    },
+                    "Scale": {}
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5
+                }
+              },
+              {
+                "Name": "DestroyAllChild",
+                "Params": {}
+              }
+            ]
+          }
+        }
+      },
+      "Pos": [
+        745.044343,
+        1148.78437,
         -0.499903
       ]
     },

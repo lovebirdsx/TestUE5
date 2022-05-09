@@ -1626,6 +1626,7 @@ declare module "react-umg" {
         WaitDebugKey?: string;
         DisableCommandServiceKey?: string;
         EditorToRestartKey?: string;
+        IsInitFinished?: boolean;
     }
 
     class EditorMap_C extends React.Component<EditorMap_CProps> {

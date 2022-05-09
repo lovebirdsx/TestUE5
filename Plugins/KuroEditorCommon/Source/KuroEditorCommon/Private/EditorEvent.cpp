@@ -25,14 +25,38 @@ void UEditorEvent::Initialize()
 	FEditorDelegates::OnDeleteActorsBegin.AddUObject(this, &UEditorEvent::OnDeleteActorsBeginOccurd);
 	FEditorDelegates::OnDeleteActorsEnd.AddUObject(this, &UEditorEvent::OnDeleteActorsEndOccurd);
 	FEditorDelegates::OnNewActorsDropped.AddUObject(this, &UEditorEvent::OnNewActorsDroppedOccurd);
-
-	GEngine->OnActorMoved().AddRaw(this, &UEditorEvent::OnActorMovedOccued);
 	
 	UE_LOG(KuroEditorCommon, Display, TEXT("UEditorEvent Initialize OK"));
 }
 
+void UEditorEvent::LaterInitialize()
+{
+	if (bLaterInitOk)
+		return;
+
+	if (!GEngine)
+		return;
+	
+	GEngine->OnActorMoved().AddUObject(this, &UEditorEvent::OnActorMovedOccued);
+	bLaterInitOk = true;
+}
+
+void UEditorEvent::LaterDeinitialize()
+{
+	if (!bLaterInitOk)
+		return;
+
+	if (!GEngine)
+		return;
+
+	GEngine->OnActorMoved().RemoveAll(this);
+	bLaterInitOk = false;
+}
+
 void UEditorEvent::Deinitialize()
 {
+	LaterDeinitialize();
+	
 	USelection::SelectionChangedEvent.RemoveAll(this);
 	FEditorDelegates::PreBeginPIE.RemoveAll(this);
 	FEditorDelegates::BeginPIE.RemoveAll(this);
@@ -51,9 +75,7 @@ void UEditorEvent::Deinitialize()
 	FEditorDelegates::OnDuplicateActorsEnd.RemoveAll(this);
 	FEditorDelegates::OnDeleteActorsBegin.RemoveAll(this);
 	FEditorDelegates::OnDeleteActorsEnd.RemoveAll(this);
-	FEditorDelegates::OnNewActorsDropped.RemoveAll(this);
-
-	GEngine->OnActorMoved().RemoveAll(this);
+	FEditorDelegates::OnNewActorsDropped.RemoveAll(this);	
 }
 
 void UEditorEvent::OnLevelSelectionChanged(UObject* InObject)

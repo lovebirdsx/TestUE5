@@ -211,8 +211,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         const es = this.EntityState;
-        LevelEditorUtil.SelectActor(es.Entity);
-
         if (es === this.LastApplyEntityState || !es.Entity) {
             return;
         }

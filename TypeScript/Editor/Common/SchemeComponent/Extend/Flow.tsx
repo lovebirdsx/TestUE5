@@ -205,7 +205,7 @@ export function RenderTriggerActions(
             Value={actions}
             Scheme={scheme}
             OnModify={(obj: unknown, type: TModifyType): void => {
-                props.OnModify(obj, type);
+                props.OnModify(obj as ITriggerActions, type);
             }}
         />
     );

@@ -8,8 +8,9 @@ import {
 } from 'ue';
 
 import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
+import { toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
-import { IActionInfo, IFaceToPos, IMoveToPos, toVector } from '../Flow/Action';
+import { IActionInfo, IFaceToPos, IMoveToPos } from '../Flow/Action';
 import { Component } from '../Interface';
 import { ActionRunnerComponent } from './ActionRunnerComponent';
 import StateComponent from './StateComponent';

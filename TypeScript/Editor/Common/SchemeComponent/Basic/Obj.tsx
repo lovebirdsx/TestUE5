@@ -16,7 +16,7 @@ function getFoldFieldName(key: string): string {
 
 const FOLD_KEY = '_folded';
 
-export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IProps<T, TScheme>> {
+export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
     private ModifyKv(
         key: string,
         value: unknown,
@@ -33,7 +33,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
                 draft[FOLD_KEY] = false;
             }
         });
-        this.props.OnModify(newObj, type);
+        this.props.OnModify(newObj as T, type);
     }
 
     private readonly OnFoldChange = (isFolded: boolean): void => {
@@ -41,7 +41,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
         const newValue = produce(value as Record<string, unknown>, (draft) => {
             draft[FOLD_KEY] = isFolded;
         });
-        this.props.OnModify(newValue, 'fold');
+        this.props.OnModify(newValue as T, 'fold');
     };
 
     private OnArrayFieldFoldChange(key: string, isFolded: boolean): void {

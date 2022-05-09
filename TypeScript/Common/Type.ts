@@ -23,7 +23,7 @@ export interface IProps<T = unknown, TScheme extends Scheme<T> = Scheme<T>> {
     Value: T;
     Owner?: unknown;
     Scheme: TScheme;
-    OnModify: (obj: unknown, type: TModifyType) => void;
+    OnModify: (obj: T, type: TModifyType) => void;
     PrefixElement?: JSX.Element;
     IsFolded?: boolean;
     OnFoldChange?: (folded: boolean) => void;

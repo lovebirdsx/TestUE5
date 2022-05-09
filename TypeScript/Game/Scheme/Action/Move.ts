@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
+import { IVectorInfo } from '../../../Common/Interface';
 import { allActionFilters, createFloatScheme, createObjectScheme } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPos, IVectorInfo } from '../../Flow/Action';
+import { IFaceToPos, IMoveToPos } from '../../Flow/Action';
 
 export const posScheme = createObjectScheme<IVectorInfo>({
     CnName: '位置',

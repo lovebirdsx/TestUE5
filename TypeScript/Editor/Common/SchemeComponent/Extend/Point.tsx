@@ -1,22 +1,12 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { $ref } from 'puerts';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
-import {
-    Actor,
-    EditorLevelLibrary,
-    EDrawDebugTrace,
-    ETraceTypeQuery,
-    HitResult,
-    KismetSystemLibrary,
-    Rotator,
-    Vector,
-} from 'ue';
+import { Actor, EditorLevelLibrary, Vector } from 'ue';
 
+import { IVectorInfo, toVectorInfo } from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
 import { alignVector } from '../../../../Common/Util';
-import { IVectorInfo } from '../../../../Game/Flow/Action';
 import {
     Btn,
     DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
@@ -88,25 +78,7 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     };
 
     private readonly SetToCurrentCamera = (): void => {
-        const cameraPos = new Vector();
-        const rotator = new Rotator();
-        EditorLevelLibrary.GetLevelViewportCameraInfo($ref(cameraPos), $ref(rotator));
-        const dir = rotator.Quaternion().GetForwardVector();
-        const endPos = cameraPos.op_Addition(dir.op_Multiply(100 * 100));
-        const hitResult = new HitResult();
-        const ok = KismetSystemLibrary.LineTraceSingle(
-            EditorLevelLibrary.GetEditorWorld(),
-            cameraPos,
-            endPos,
-            ETraceTypeQuery.Camera,
-            false,
-            undefined,
-            EDrawDebugTrace.ForDuration,
-            $ref(hitResult),
-            true,
-        );
-
-        const pos = ok ? hitResult.ImpactPoint : cameraPos;
+        const pos = LevelEditorUtil.GetCameraHitPos();
         if (!this.state.TipActor) {
             this.GenTipActorAtPos(pos);
         }
@@ -115,12 +87,11 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     };
 
     private SetPosition(vec: Vector): void {
-        const vecAligned = alignVector(vec);
+        alignVector(vec);
         if (this.state.TipActor) {
             this.state.TipActor.K2_SetActorLocation(vec, false, undefined, false);
         }
-        const pos: IVectorInfo = { X: vecAligned.X, Y: vecAligned.Y, Z: vecAligned.Z };
-        this.props.OnModify(pos, 'normal');
+        this.props.OnModify(toVectorInfo(vec), 'normal');
     }
 
     private readonly UpPosition = (): void => {

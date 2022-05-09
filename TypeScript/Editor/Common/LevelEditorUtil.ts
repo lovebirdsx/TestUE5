@@ -1,20 +1,29 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
+import { $ref } from 'puerts';
 import {
     Actor,
     BuiltinString,
     EditorAssetLibrary,
     EditorLevelLibrary,
     EditorOperations,
+    EDrawDebugTrace,
+    ETraceTypeQuery,
+    HitResult,
+    KismetSystemLibrary,
     NewArray,
+    Rotator,
+    Vector,
 } from 'ue';
 
 import { getAssetPath, getBlueprintType } from '../../Common/Class';
+import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
-import { ITransform, toRotation, toVector } from '../../Game/Flow/Action';
+import TsEntity from '../../Game/Entity/TsEntity';
 import { ITsEntity } from '../../Game/Interface';
 
 class LevelEditorUtil {
@@ -93,6 +102,32 @@ class LevelEditorUtil {
         ) as ITsEntity;
 
         return entity;
+    }
+
+    public static SetEntityTransform(entity: TsEntity, transform: ITransform): void {
+        entity.K2_SetActorTransform(toTransform(transform), false, undefined, false);
+    }
+
+    public static GetCameraHitPos(): Vector {
+        const cameraPos = new Vector();
+        const rotator = new Rotator();
+        EditorLevelLibrary.GetLevelViewportCameraInfo($ref(cameraPos), $ref(rotator));
+        const dir = rotator.Quaternion().GetForwardVector();
+        const endPos = cameraPos.op_Addition(dir.op_Multiply(100 * 100));
+        const hitResult = new HitResult();
+        const ok = KismetSystemLibrary.LineTraceSingle(
+            EditorLevelLibrary.GetEditorWorld(),
+            cameraPos,
+            endPos,
+            ETraceTypeQuery.Camera,
+            false,
+            undefined,
+            EDrawDebugTrace.ForDuration,
+            $ref(hitResult),
+            true,
+        );
+
+        return ok ? hitResult.ImpactPoint : cameraPos;
     }
 }
 

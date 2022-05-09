@@ -12,6 +12,7 @@ export const entityIdScheme = createStringScheme({
 
 export const invokeScheme = createObjectScheme<IInvoke>({
     CnName: '调用方法',
+    Tip: '让选定实体执行相关动作',
     Fields: {
         Who: entityIdScheme,
         ActionInfo: createActionScheme({

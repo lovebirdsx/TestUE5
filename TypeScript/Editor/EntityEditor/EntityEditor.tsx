@@ -19,6 +19,7 @@ import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { openFile } from '../Common/Util';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
+import { tempEntities } from './TempEntities';
 
 interface IEntityState {
     Entity: ITsEntity;
@@ -66,6 +67,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private set IsLocked(value: boolean) {
         configFile.IsEntityEditorLocked = value;
         configFile.Save();
+
+        if (!value) {
+            this.OnSelectionChanged();
+        }
     }
 
     private GenEntityStateBySelect(): IEntityState {
@@ -106,12 +111,16 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 return;
             }
 
-            if (this.IsLocked) {
+            if (this.IsLocked && this.EntityState.Entity !== undefined) {
                 return;
             }
 
             const entity = LevelEditorUtil.GetSelectedEntity();
             if (!entity || entity === this.EntityState.Entity) {
+                return;
+            }
+
+            if (tempEntities.Contains(entity)) {
                 return;
             }
 

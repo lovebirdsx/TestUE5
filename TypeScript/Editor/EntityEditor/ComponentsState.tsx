@@ -40,7 +40,7 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
                         Scheme={scheme as ObjectScheme<Record<string, unknown>>}
                         OnModify={(obj, type): void => {
                             const newComponentState = produce(this.props.Value, (draft) => {
-                                draft[classObj.name] = obj as Record<string, unknown>;
+                                draft[classObj.name] = obj;
                             });
                             this.props.OnModify(newComponentState, type);
                         }}

@@ -1,6 +1,6 @@
-import { Rotator, Vector } from 'ue';
-
 /* eslint-disable spellcheck/spell-checker */
+import { ITransform, IVectorInfo } from '../../Common/Interface';
+
 export const FLOW_LIST_VERSION = 8;
 
 export type TActionType =
@@ -243,24 +243,6 @@ export interface IShowCenterText {
     TextId: number;
 }
 
-export interface IVectorInfo {
-    X: number;
-    Y: number;
-    Z: number;
-}
-
-export function toVector(iVec: IVectorInfo): Vector {
-    return new Vector(iVec.X, iVec.Y, iVec.Z);
-}
-
-export function toVectorInfo(vec: Vector): IVectorInfo {
-    return {
-        X: vec.X,
-        Y: vec.Y,
-        Z: vec.Z,
-    };
-}
-
 export interface IMoveToPos {
     Timeout: number;
     Pos: IVectorInfo;
@@ -268,22 +250,6 @@ export interface IMoveToPos {
 
 export interface IFaceToPos {
     Pos: IVectorInfo;
-}
-
-export interface ITransform {
-    Pos: IVectorInfo;
-    Rot?: IVectorInfo;
-    Scale?: IVectorInfo;
-}
-
-const defalutRot: IVectorInfo = { X: 0, Y: 0, Z: 0 };
-export function toRotation(rot: IVectorInfo): Rotator {
-    return Rotator.MakeFromEuler(toVector(rot || defalutRot));
-}
-
-const defalutScale: IVectorInfo = { X: 1, Y: 1, Z: 1 };
-export function toScale(scale: IVectorInfo): Vector {
-    return toVector(scale || defalutScale);
 }
 
 export interface ISpawn {

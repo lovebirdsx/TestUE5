@@ -1,7 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Class, KismetGuidLibrary, Vector } from 'ue';
+import { Class, KismetGuidLibrary } from 'ue';
 import * as UE from 'ue';
 
+import { IVectorInfo } from './Interface';
 import { error } from './Log';
 
 /* eslint-disable spellcheck/spell-checker */
@@ -144,11 +145,22 @@ export function stringifyWithOutUnderScore(value: unknown): string {
     );
 }
 
-export function alignVector(vec: Vector, len = 1): Vector {
-    const x = Math.floor(vec.X / len) * len;
-    const y = Math.floor(vec.Y / len) * len;
-    const z = Math.floor(vec.Z / len) * len;
-    return new Vector(x, y, z);
+export function alignVector(vec: IVectorInfo, len = 1): void {
+    if (!vec) {
+        return;
+    }
+
+    if (vec.X) {
+        vec.X = Math.floor(vec.X / len) * len;
+    }
+
+    if (vec.Y) {
+        vec.Y = Math.floor(vec.Y / len) * len;
+    }
+
+    if (vec.Z) {
+        vec.Z = Math.floor(vec.Z / len) * len;
+    }
 }
 
 export type TCallBack<T1, T2, T3> = (arg1?: T1, arg2?: T2, arg3?: T3) => void;

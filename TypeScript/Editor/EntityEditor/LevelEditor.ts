@@ -9,6 +9,7 @@ import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { tempEntities } from './TempEntities';
 
 export class LevelEditor {
     private readonly LevelSerializer = new LevelSerializer();
@@ -55,6 +56,10 @@ export class LevelEditor {
         }
 
         const entity = actor as ITsEntity;
+        if (tempEntities.Contains(entity)) {
+            return;
+        }
+
         entity.Guid = actor.ActorGuid.ToString();
     }
 

@@ -1,68 +1,131 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { $ref } from 'puerts';
+import produce from 'immer';
 import * as React from 'react';
-import { HorizontalBox } from 'react-umg';
-import {
-    Actor,
-    EditorLevelLibrary,
-    EDrawDebugTrace,
-    ETraceTypeQuery,
-    HitResult,
-    KismetSystemLibrary,
-    Rotator,
-    Vector,
-} from 'ue';
+import { HorizontalBox, VerticalBox } from 'react-umg';
+import { EditorLevelLibrary, Vector } from 'ue';
 
+import {
+    defalutRot,
+    defalutScale,
+    defaultVec,
+    IVectorInfo,
+    toScaleInfo,
+    toTransformInfo,
+    toVector,
+    toVectorInfo,
+} from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
-import { alignVector } from '../../../../Common/Util';
-import { ISpawn, IVectorInfo } from '../../../../Game/Flow/Action';
-import { Btn } from '../../BaseComponent/CommonComponent';
+import { alignVector, deepEquals } from '../../../../Common/Util';
+import { ISpawn } from '../../../../Game/Flow/Action';
+import { ITsEntity } from '../../../../Game/Interface';
+import { tempEntities } from '../../../EntityEditor/TempEntities';
+import {
+    Btn,
+    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
+    EditorBox,
+    Fold,
+    TAB_OFFSET,
+    Text,
+} from '../../BaseComponent/CommonComponent';
+import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';
 import LevelEditorUtil from '../../LevelEditorUtil';
 
 interface IPointState {
-    TipActor: Actor;
+    TipEntity: ITsEntity;
+    IsFolded: boolean;
+}
+
+function parsePosValue(text: string): number {
+    return parseInt(text, 10);
+}
+
+function parseRotValue(text: string): number {
+    return parseInt(text, 10);
+}
+
+function parseScaleValue(text: string): number {
+    return parseFloat(text);
 }
 
 export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
     public constructor(props: IProps<ISpawn>) {
         super(props);
         this.state = {
-            TipActor: undefined,
+            TipEntity: undefined,
+            IsFolded: false,
         };
     }
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public componentWillUnmount(): void {
-        if (this.state.TipActor) {
-            this.state.TipActor.K2_DestroyActor();
+        if (this.state.TipEntity) {
+            tempEntities.Remove(this.state.TipEntity);
+            EditorLevelLibrary.DestroyActor(this.state.TipEntity);
         }
     }
 
-    private readonly OnModifyX = (text: string): void => {
+    private readonly ModifyPosX = (value: number): void => {
         const newPos = Object.assign({}, this.props.Value.Transform.Pos);
-        newPos.X = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        newPos.X = value;
+        this.SetPosition(toVector(newPos));
     };
 
-    private readonly OnModifyY = (text: string): void => {
+    private readonly ModifyPosY = (value: number): void => {
         const newPos = Object.assign({}, this.props.Value.Transform.Pos);
-        newPos.Y = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        newPos.Y = value;
+        this.SetPosition(toVector(newPos));
     };
 
-    private readonly OnModifyZ = (text: string): void => {
+    private readonly ModifyPosZ = (value: number): void => {
         const newPos = Object.assign({}, this.props.Value.Transform.Pos);
-        newPos.Z = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        newPos.Z = value;
+        this.SetPosition(toVector(newPos));
+    };
+
+    private readonly ModifyRotX = (value: number): void => {
+        const newRot = Object.assign({}, this.props.Value.Transform.Rot);
+        newRot.X = value;
+        this.SetRotation(toVector(newRot));
+    };
+
+    private readonly ModifyRotY = (value: number): void => {
+        const newRot = Object.assign({}, this.props.Value.Transform.Rot);
+        newRot.Y = value;
+        this.SetRotation(toVector(newRot));
+    };
+
+    private readonly ModifyRotZ = (value: number): void => {
+        const newRot = Object.assign({}, this.props.Value.Transform.Rot);
+        newRot.Z = value;
+        this.SetRotation(toVector(newRot));
+    };
+
+    private readonly ModifyScaleX = (value: number): void => {
+        const newScale = Object.assign({}, this.props.Value.Transform.Scale);
+        newScale.X = value;
+        this.SetScale(toVector(newScale));
+    };
+
+    private readonly ModifyScaleY = (value: number): void => {
+        const newScale = Object.assign({}, this.props.Value.Transform.Scale);
+        newScale.Y = value;
+        this.SetScale(toVector(newScale));
+    };
+
+    private readonly ModifyScaleZ = (value: number): void => {
+        const newScale = Object.assign({}, this.props.Value.Transform.Scale);
+        newScale.Z = value;
+        this.SetScale(toVector(newScale));
     };
 
     private GenTipEntity(): void {
         const spawn = this.props.Value;
         const entity = LevelEditorUtil.SpawnEntity(spawn.TemplateGuid, spawn.Transform);
         if (entity) {
+            tempEntities.Add(entity);
             this.setState({
-                TipActor: entity,
+                TipEntity: entity,
             });
         }
     }
@@ -72,39 +135,23 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
     };
 
     private readonly RemoveTipActor = (): void => {
-        const actor = this.state.TipActor;
-        if (actor) {
-            if (LevelEditorUtil.IsSelect(actor)) {
+        const entity = this.state.TipEntity;
+        if (entity) {
+            if (LevelEditorUtil.IsSelect(entity)) {
                 LevelEditorUtil.ClearSelect();
             }
-            actor.K2_DestroyActor();
+
             this.setState({
-                TipActor: undefined,
+                TipEntity: undefined,
             });
+
+            entity.K2_DestroyActor();
         }
     };
 
     private readonly SetToCurrentCamera = (): void => {
-        const cameraPos = new Vector();
-        const rotator = new Rotator();
-        EditorLevelLibrary.GetLevelViewportCameraInfo($ref(cameraPos), $ref(rotator));
-        const dir = rotator.Quaternion().GetForwardVector();
-        const endPos = cameraPos.op_Addition(dir.op_Multiply(100 * 100));
-        const hitResult = new HitResult();
-        const ok = KismetSystemLibrary.LineTraceSingle(
-            EditorLevelLibrary.GetEditorWorld(),
-            cameraPos,
-            endPos,
-            ETraceTypeQuery.Camera,
-            false,
-            undefined,
-            EDrawDebugTrace.ForDuration,
-            $ref(hitResult),
-            true,
-        );
-
-        const pos = ok ? hitResult.ImpactPoint : cameraPos;
-        if (!this.state.TipActor) {
+        const pos = LevelEditorUtil.GetCameraHitPos();
+        if (!this.state.TipEntity) {
             this.GenTipEntity();
         }
 
@@ -112,21 +159,47 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
     };
 
     private SetPosition(vec: Vector): void {
-        const vecAligned = alignVector(vec);
-        if (this.state.TipActor) {
-            this.state.TipActor.K2_SetActorLocation(vec, false, undefined, false);
-        }
-        const pos: IVectorInfo = { X: vecAligned.X, Y: vecAligned.Y, Z: vecAligned.Z };
-        this.props.OnModify(pos, 'normal');
+        alignVector(vec);
+        const newValue = produce(this.props.Value, (draft) => {
+            draft.Transform.Pos = toVectorInfo(vec);
+        });
+        this.props.OnModify(newValue, 'normal');
     }
 
-    private readonly UpPosition = (): void => {
-        const pos = this.state.TipActor.K2_GetActorLocation();
-        this.SetPosition(pos);
+    private SetRotation(rot: Vector): void {
+        alignVector(rot);
+        const newValue = produce(this.props.Value, (draft) => {
+            draft.Transform.Rot = toVectorInfo(rot, defalutRot);
+        });
+        this.props.OnModify(newValue, 'normal');
+    }
+
+    private SetScale(scale: Vector): void {
+        alignVector(scale, 0.05);
+        const newValue = produce(this.props.Value, (draft) => {
+            draft.Transform.Scale = toScaleInfo(scale);
+        });
+        this.props.OnModify(newValue, 'normal');
+    }
+
+    private readonly UpdataTransform = (): void => {
+        const transform = toTransformInfo(this.state.TipEntity.GetTransform());
+        alignVector(transform.Pos);
+        alignVector(transform.Rot);
+        alignVector(transform.Scale, 0.05);
+
+        if (deepEquals(transform, this.props.Value.Transform)) {
+            return;
+        }
+
+        const newValue = produce(this.props.Value, (draft) => {
+            draft.Transform = transform;
+        });
+        this.props.OnModify(newValue, 'normal');
     };
 
     private readonly OnClickBtnNav = (): void => {
-        LevelEditorUtil.SelectActor(this.state.TipActor);
+        LevelEditorUtil.SelectActor(this.state.TipEntity);
         LevelEditorUtil.FocusSelected();
     };
 
@@ -136,12 +209,12 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
                 <Btn
                     Text={'生成指示'}
                     OnClick={this.GenTipActor}
-                    Tip={'在地图中生成目标点指示的Actor,调整完毕后记得要删除'}
+                    Tip={'在地图中生成目标指示的实体,调整完毕后记得要删除'}
                 />
                 <Btn
                     Text={'当前镜头'}
                     OnClick={this.SetToCurrentCamera}
-                    Tip={'将位置设定到当前镜头位置'}
+                    Tip={'将提示实体的位置生成到当前镜头位置'}
                 />
             </HorizontalBox>
         );
@@ -150,30 +223,133 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
     private RenderForTip(): JSX.Element {
         return (
             <HorizontalBox>
-                <Btn Text={'移除指示'} OnClick={this.RemoveTipActor} />
-                <Btn Text={'更新位置'} OnClick={this.UpPosition} />
+                <Btn
+                    Text={'移除指示'}
+                    OnClick={this.RemoveTipActor}
+                    Tip={'移除用提提示的实体对象'}
+                />
+                <Btn
+                    Text={'更新变换'}
+                    OnClick={this.UpdataTransform}
+                    Tip={'以提示实体的变换来更新'}
+                />
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中提示点'} />
             </HorizontalBox>
         );
     }
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    public render(): JSX.Element {
-        // const pos = this.props.Value;
-        if (this.state.TipActor) {
-            // const vecPos = new Vector(pos.X, pos.Y, pos.Z);
-            // this.state.TipActor.K2_SetActorLocation(vecPos, false, undefined, false);
-            // LevelEditorUtil.SelectActor(this.state.TipActor);
-            // LevelEditorUtil.FocusSelected();
-        }
+    private RenderNumber(
+        value: number,
+        formatFun: (text: string) => number,
+        modifyCallBack: (v: number) => void,
+    ): JSX.Element {
+        return (
+            <EditorBox
+                Text={value.toString()}
+                Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
+                OnChange={(text): void => {
+                    const newValue = formatFun(text);
+                    if (newValue !== value) {
+                        modifyCallBack(newValue);
+                    }
+                }}
+            />
+        );
+    }
+
+    private readonly ResetPos = (): void => {
+        this.SetPosition(toVector(defaultVec));
+    };
+
+    private readonly ResetRotation = (): void => {
+        this.SetRotation(toVector(defalutRot));
+    };
+
+    private readonly ResetScale = (): void => {
+        this.SetScale(toVector(defalutScale));
+    };
+
+    private RenderPosition(pos: IVectorInfo): JSX.Element {
         return (
             <HorizontalBox>
-                {this.props.PrefixElement}
-                {/* <EditorBox Text={pos.X.toString()} OnChange={this.OnModifyX} Tip={'X'} />
-                <EditorBox Text={pos.Y.toString()} OnChange={this.OnModifyY} Tip={'Y'} />
-                <EditorBox Text={pos.Z.toString()} OnChange={this.OnModifyZ} Tip={'Z'} /> */}
-                {this.state.TipActor ? this.RenderForTip() : this.RenderForNoTip()}
+                <Text Text={'位置:'} />
+                {this.RenderNumber(pos.X || 0, parsePosValue, this.ModifyPosX)}
+                {this.RenderNumber(pos.Y || 0, parsePosValue, this.ModifyPosY)}
+                {this.RenderNumber(pos.Z || 0, parsePosValue, this.ModifyPosZ)}
+                <Btn Text={'重置'} OnClick={this.ResetPos} />
             </HorizontalBox>
+        );
+    }
+
+    private RenderRotation(rot: IVectorInfo): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Text Text={'旋转:'} />
+                {this.RenderNumber(rot.X || 0, parseRotValue, this.ModifyRotX)}
+                {this.RenderNumber(rot.Y || 0, parseRotValue, this.ModifyRotY)}
+                {this.RenderNumber(rot.Z || 0, parseRotValue, this.ModifyRotZ)}
+                <Btn Text={'重置'} OnClick={this.ResetRotation} />
+            </HorizontalBox>
+        );
+    }
+
+    private RenderScale(scale: IVectorInfo): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Text Text={'放缩:'} />
+                {this.RenderNumber(scale.X || 1, parseScaleValue, this.ModifyScaleX)}
+                {this.RenderNumber(scale.Y || 1, parseScaleValue, this.ModifyScaleY)}
+                {this.RenderNumber(scale.Z || 1, parseScaleValue, this.ModifyScaleZ)}
+                <Btn Text={'重置'} OnClick={this.ResetScale} />
+            </HorizontalBox>
+        );
+    }
+
+    private readonly OnFoldChange = (): void => {
+        this.setState({
+            IsFolded: !this.state.IsFolded,
+        });
+    };
+
+    private readonly OnModifyTemplateGuid = (newGuid: string): void => {
+        const newValue = produce(this.props.Value, (draft) => {
+            draft.TemplateGuid = newGuid;
+        });
+        this.props.OnModify(newValue, 'normal');
+    };
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public render(): JSX.Element {
+        const tipEntity = this.state.TipEntity;
+        const transform = this.props.Value.Transform;
+        if (tipEntity) {
+            LevelEditorUtil.SetEntityTransform(tipEntity, transform);
+            LevelEditorUtil.SelectActor(tipEntity);
+            LevelEditorUtil.FocusSelected();
+        }
+        return (
+            <VerticalBox>
+                <HorizontalBox>
+                    <Fold
+                        IsFold={this.state.IsFolded}
+                        IsFull={true}
+                        OnChanged={this.OnFoldChange}
+                    />
+                    {this.props.PrefixElement}
+                    <EntityTemplateSelector
+                        Guid={this.props.Value.TemplateGuid}
+                        OnModify={this.OnModifyTemplateGuid}
+                    />
+                </HorizontalBox>
+                {!this.state.IsFolded && (
+                    <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+                        {this.state.TipEntity ? this.RenderForTip() : this.RenderForNoTip()}
+                        {this.RenderPosition(transform.Pos || defaultVec)}
+                        {this.RenderRotation(transform.Rot || defalutRot)}
+                        {this.RenderScale(transform.Scale || defalutScale)}
+                    </VerticalBox>
+                )}
+            </VerticalBox>
         );
     }
 }

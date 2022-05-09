@@ -23,6 +23,7 @@ export class EntityTemplateSelector extends React.Component<IEntityTemplateSelec
         return (
             <HorizontalBox>
                 <FilterableList
+                    Tip={'实体模板名字'}
                     Items={EntityTemplateOp.Names}
                     Selected={EntityTemplateOp.GetNameByGuid(this.props.Guid)}
                     OnSelectChanged={(name: string): void => {

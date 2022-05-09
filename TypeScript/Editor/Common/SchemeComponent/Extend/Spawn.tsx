@@ -5,6 +5,7 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
+import { MS_PER_SEC } from '../../../../Common/Async';
 import {
     defalutRot,
     defalutScale,
@@ -122,9 +123,13 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
     };
 
     private readonly OnTipEntityMoved = (actor: Actor): void => {
+        if (this.state.TipEntity !== actor) {
+            return;
+        }
+
         setTimeout(() => {
             this.UpdataTransform();
-        }, 0.1);
+        }, MS_PER_SEC * 0.1);
     };
 
     private GenTipEntity(): void {

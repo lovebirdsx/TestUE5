@@ -2,9 +2,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
-import { Actor, EditorLevelLibrary, Vector } from 'ue';
+import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
-import { IVectorInfo, toVectorInfo } from '../../../../Common/Interface';
+import { MS_PER_SEC } from '../../../../Common/Async';
+import { IVectorInfo, toVector, toVectorInfo } from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
 import { alignVector } from '../../../../Common/Util';
 import {
@@ -30,6 +31,7 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     public componentWillUnmount(): void {
         if (this.state.TipActor) {
             EditorLevelLibrary.DestroyActor(this.state.TipActor);
+            EditorOperations.GetEditorEvent().OnActorMoved.Remove(this.OnActorMoved);
         }
     }
 
@@ -51,11 +53,24 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
         this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
     };
 
+    private readonly OnActorMoved = (actor: Actor): void => {
+        if (actor !== this.state.TipActor) {
+            return;
+        }
+
+        setTimeout(() => {
+            this.UpPosition();
+        }, MS_PER_SEC * 0.1);
+    };
+
     private GenTipActorAtPos(vec: Vector): void {
         const actor = EditorLevelLibrary.SpawnActorFromClass(Actor.StaticClass(), vec);
         this.setState({
             TipActor: actor,
         });
+        LevelEditorUtil.SelectActor(actor);
+        LevelEditorUtil.FocusSelected();
+        EditorOperations.GetEditorEvent().OnActorMoved.Add(this.OnActorMoved);
     }
 
     private readonly GenTipActor = (): void => {
@@ -67,6 +82,8 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     private readonly RemoveTipActor = (): void => {
         const actor = this.state.TipActor;
         if (actor) {
+            EditorOperations.GetEditorEvent().OnActorMoved.Remove(this.OnActorMoved);
+
             if (LevelEditorUtil.IsSelect(actor)) {
                 LevelEditorUtil.ClearSelect();
             }
@@ -135,10 +152,7 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     public render(): JSX.Element {
         const pos = this.props.Value;
         if (this.state.TipActor) {
-            const vecPos = new Vector(pos.X, pos.Y, pos.Z);
-            this.state.TipActor.K2_SetActorLocation(vecPos, false, undefined, false);
-            LevelEditorUtil.SelectActor(this.state.TipActor);
-            LevelEditorUtil.FocusSelected();
+            this.state.TipActor.K2_SetActorLocation(toVector(pos), false, undefined, false);
         }
         return (
             <HorizontalBox>

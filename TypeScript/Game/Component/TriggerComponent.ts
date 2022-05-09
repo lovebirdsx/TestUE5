@@ -40,8 +40,8 @@ export class TriggerComponent extends Component implements ITriggerComponent {
     }
 
     private async DoTrigger(): Promise<void> {
-        await this.Handler.Execute(this.ActionId + 1, (actionId: number) => {
-            this.ActionId = actionId;
+        await this.Handler.Execute(this.ActionId, (actionId: number) => {
+            this.ActionId = actionId + 1;
             this.State.SetState('ActionId', actionId);
         });
 

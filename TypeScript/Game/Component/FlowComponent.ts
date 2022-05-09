@@ -119,9 +119,9 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
         log(`[${this.Name}][${this.FlowInfo.Name}] to state [${state.Name}]`);
 
         this.Handler = this.ActionRunner.SpawnHandler(state.Actions);
-        await this.Handler.Execute(this.ActionId + 1, (actionId: number) => {
+        await this.Handler.Execute(this.ActionId, (actionId: number) => {
             this.State.SetState('ActionId', actionId);
-            this.ActionId = actionId;
+            this.ActionId = actionId + 1;
         });
         this.Handler = undefined;
         this.ActionId = 0;

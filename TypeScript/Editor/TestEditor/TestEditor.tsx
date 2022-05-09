@@ -24,6 +24,7 @@ import testTextListCsv, {
 import { ReactUMG } from '../../react-umg/react-umg';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
 import testClass from '../UnitTest/Game/TestClass';
+import testTickManager from '../UnitTest/Game/TestTickManager';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';
 import testEvent from '../UnitTest/TestEvent';
@@ -52,6 +53,7 @@ const allTests: ITest[] = [
     { Name: 'testImmer', Fun: testImmer },
     { Name: 'testFile', Fun: testFile },
     { Name: 'testClass', Fun: testClass },
+    { Name: 'testTickManager', Fun: testTickManager },
     { Name: 'testEntityScheme', Fun: testEntityScheme },
     { Name: 'testCsvParser', Fun: testCsvParser },
     { Name: 'testTalkListTool', Fun: testTalkListTool },

@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 import { error } from '../../Common/Log';
 import { gameContext, ITickable, ITickManager } from '../Interface';
 import { IManager } from './Interface';
@@ -15,6 +16,10 @@ export class TickManager implements IManager, ITickManager {
 
     public constructor() {
         gameContext.TickManager = this;
+    }
+
+    public get TickCount(): number {
+        return this.TickList.length;
     }
 
     public AddTick(tickable: ITickable): void {
@@ -47,11 +52,12 @@ export class TickManager implements IManager, ITickManager {
 
     public Tick(deltaTime: number): void {
         if (this.AddQueue.length > 0) {
-            this.TickList.push(...this.AddQueue);
+            this.TickList.push(...this.AddQueue.splice(0));
         }
 
         if (this.RemoveQueue.length > 0) {
-            this.RemoveQueue.forEach((tick) => {
+            const tickables = this.RemoveQueue.splice(0);
+            tickables.forEach((tick) => {
                 this.TickList.splice(this.TickList.indexOf(tick), 1);
             });
         }

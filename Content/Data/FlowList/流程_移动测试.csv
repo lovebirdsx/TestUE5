@@ -9,7 +9,7 @@
 ,流程_移动测试,"{
   ""VersionNum"": 8,
   ""TextGenId"": 2,
-  ""FlowGenId"": 3,
+  ""FlowGenId"": 4,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -84,6 +84,29 @@
         {
           ""Name"": ""状态1"",
           ""Actions"": [],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 3,
+      ""StateGenId"": 2,
+      ""Name"": ""自动销毁"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""Wait"",
+              ""Params"": {
+                ""Time"": 10
+              }
+            },
+            {
+              ""Name"": ""Destroy"",
+              ""Params"": {}
+            }
+          ],
           ""Id"": 1
         }
       ]

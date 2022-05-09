@@ -45,7 +45,9 @@ class MoveComponent extends Component {
             this.Controller.StopMovement();
             this.IsMoving = false;
         }
-        this.Controller.ReceiveMoveCompleted.Remove(this.OnMoveCompleted);
+
+        // 在Destroy时,Controller的UE对象已经被销毁,所以以下调用会报异常
+        // this.Controller.ReceiveMoveCompleted.Remove(this.OnMoveCompleted);
     }
 
     private readonly OnMoveCompleted = (

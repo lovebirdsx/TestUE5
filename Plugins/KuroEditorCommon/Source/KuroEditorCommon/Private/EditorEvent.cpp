@@ -25,6 +25,9 @@ void UEditorEvent::Initialize()
 	FEditorDelegates::OnDeleteActorsBegin.AddUObject(this, &UEditorEvent::OnDeleteActorsBeginOccurd);
 	FEditorDelegates::OnDeleteActorsEnd.AddUObject(this, &UEditorEvent::OnDeleteActorsEndOccurd);
 	FEditorDelegates::OnNewActorsDropped.AddUObject(this, &UEditorEvent::OnNewActorsDroppedOccurd);
+
+	GEngine->OnActorMoved().AddRaw(this, &UEditorEvent::OnActorMovedOccued);
+	
 	UE_LOG(KuroEditorCommon, Display, TEXT("UEditorEvent Initialize OK"));
 }
 
@@ -49,6 +52,8 @@ void UEditorEvent::Deinitialize()
 	FEditorDelegates::OnDeleteActorsBegin.RemoveAll(this);
 	FEditorDelegates::OnDeleteActorsEnd.RemoveAll(this);
 	FEditorDelegates::OnNewActorsDropped.RemoveAll(this);
+
+	GEngine->OnActorMoved().RemoveAll(this);
 }
 
 void UEditorEvent::OnLevelSelectionChanged(UObject* InObject)
@@ -132,4 +137,9 @@ void UEditorEvent::OnDeleteActorsEndOccurd() {
 
 void UEditorEvent::OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors) {
 	OnNewActorsDropped.Broadcast(Actors);
+}
+
+void UEditorEvent::OnActorMovedOccued(AActor* Actor)
+{
+	OnActorMoved.Broadcast(Actor);
 }

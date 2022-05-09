@@ -80,6 +80,10 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
         this.Init();
     }
 
+    public ReceiveEndPlay(): void {
+        this.Destroy();
+    }
+
     public get Speed(): number {
         return this.Movement.MaxWalkSpeed;
     }

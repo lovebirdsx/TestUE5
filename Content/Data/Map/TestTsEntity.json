@@ -2,223 +2,267 @@
   "Entities": [
     {
       "PrefabId": 1,
+      "Guid": "A9B3A468458D8223AB46CA994E5B40C4",
+      "ComponentsState": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_测试",
+            "FlowId": 4,
+            "StateId": 1
+          }
+        }
+      },
       "Pos": [
         -999.999999,
         -0.000019419122176141828,
         0
       ],
-      "Rotation": [
+      "Rot": [
         0,
         0,
         -89.999999
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_测试",
-              "FlowId": 4,
-              "StateId": 1
-            }
-          }
-        },
-        "Guid": "A9B3A468458D8223AB46CA994E5B40C4"
-      }
+      ]
     },
     {
       "PrefabId": 1,
+      "Guid": "00D1D8F74D338145257C4598A50E2CC7",
+      "ComponentsState": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_测试",
+            "FlowId": 3,
+            "StateId": 1
+          }
+        }
+      },
       "Pos": [
         -429.9999990000001,
         -0.00002894837664913817,
         0
       ],
-      "Rotation": [
+      "Rot": [
         0,
         0,
         -89.999999
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_测试",
-              "FlowId": 3,
-              "StateId": 1
-            }
-          }
-        },
-        "Guid": "00D1D8F74D338145257C4598A50E2CC7"
-      }
+      ]
     },
     {
       "PrefabId": 2,
-      "Pos": [
-        775.0443434715271,
-        -31.215629825690257,
-        -0.49990276573345227
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "TriggerComponent": {
-            "MaxTriggerTimes": 1,
-            "TriggerActions": {
-              "Actions": [
-                {
-                  "Name": "Invoke",
-                  "Params": {
-                    "Who": "E3F3318C46EE433C0B8F3EA3E282ED9C",
-                    "ActionInfo": {
-                      "Name": "MoveToPos",
-                      "Params": {
-                        "Timeout": 10,
-                        "Pos": {
-                          "X": 1082,
-                          "Y": -1407,
-                          "Z": -1
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "Name": "Invoke",
-                  "Params": {
-                    "Who": "E3F3318C46EE433C0B8F3EA3E282ED9C",
-                    "ActionInfo": {
-                      "Name": "FaceToPos",
-                      "Params": {
-                        "Pos": {
-                          "X": 1081,
-                          "Y": -1152,
-                          "Z": -1
-                        }
-                      }
-                    }
+      "Guid": "BB6B8A114544126E63FC02AA327C871F",
+      "ComponentsState": {
+        "TriggerComponent": {
+          "MaxTriggerTimes": 1,
+          "TriggerActions": {
+            "Actions": [
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "Invoke",
+                "Params": {
+                  "Who": "3454C42740E745D749B6FEA1070D7258",
+                  "ActionInfo": {
+                    "Name": "Destroy",
+                    "Params": {}
                   }
                 }
-              ]
-            }
+              }
+            ]
           }
-        },
-        "Guid": "5FFE2980463AB13F26CA258BDD7BEEED"
-      }
-    },
-    {
-      "PrefabId": 2,
+        }
+      },
       "Pos": [
         1455.044343,
         -31.21563,
         -0.499903
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "TriggerComponent": {
-            "MaxTriggerTimes": 1,
-            "TriggerActions": {
-              "Actions": [
-                {
-                  "Name": "Wait",
-                  "Params": {
-                    "Time": 1
-                  }
-                },
-                {
-                  "Name": "Invoke",
-                  "Params": {
-                    "Who": "3454C42740E745D749B6FEA1070D7258",
-                    "ActionInfo": {
-                      "Name": "Destroy",
-                      "Params": {}
+      ]
+    },
+    {
+      "PrefabId": 2,
+      "Guid": "5FFE2980463AB13F26CA258BDD7BEEED",
+      "ComponentsState": {
+        "TriggerComponent": {
+          "MaxTriggerTimes": 1,
+          "TriggerActions": {
+            "Actions": [
+              {
+                "Name": "Invoke",
+                "Params": {
+                  "Who": "95179F584CAB6556478FE4A64085CEEE",
+                  "ActionInfo": {
+                    "Name": "MoveToPos",
+                    "Params": {
+                      "Timeout": 10,
+                      "Pos": {
+                        "X": 1082,
+                        "Y": -1407,
+                        "Z": -1
+                      }
                     }
                   }
                 }
-              ]
-            }
+              },
+              {
+                "Name": "Invoke",
+                "Params": {
+                  "Who": "95179F584CAB6556478FE4A64085CEEE",
+                  "ActionInfo": {
+                    "Name": "FaceToPos",
+                    "Params": {
+                      "Pos": {
+                        "X": 1081,
+                        "Y": -1152,
+                        "Z": -1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "Name": "SpawnChild",
+                "Params": {
+                  "TemplateGuid": "0B98C77D45CF767B37234BBFC019848E",
+                  "Transform": {
+                    "Pos": {
+                      "X": 760,
+                      "Y": -819,
+                      "Z": 87
+                    },
+                    "Rot": {
+                      "Z": -91
+                    },
+                    "Scale": {}
+                  }
+                }
+              }
+            ]
           }
-        },
-        "Guid": "BB6B8A114544126E63FC02AA327C871F"
-      }
-    },
-    {
-      "PrefabId": 6,
+        }
+      },
       "Pos": [
-        175.04434450803416,
-        -10.124671335442219,
-        76.91806030273438
-      ],
-      "Rotation": [
-        0,
-        0,
-        -89.9999993028273
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_移动测试",
-              "FlowId": 1,
-              "StateId": 1
-            },
-            "AutoRun": true,
-            "Continuable": true
-          }
-        },
-        "Guid": "0F8E57A44E5C601E0789959062F909E1"
-      }
+        775.0443434715271,
+        -31.215629825690257,
+        -0.49990276573345227
+      ]
     },
     {
-      "PrefabId": 6,
+      "PrefabId": 2,
+      "Guid": "BB6B8A114544126E63FC02AA327C871F",
+      "ComponentsState": {
+        "TriggerComponent": {
+          "MaxTriggerTimes": 1,
+          "TriggerActions": {
+            "Actions": [
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "SpawnChild",
+                "Params": {
+                  "TemplateGuid": "0B98C77D45CF767B37234BBFC019848E",
+                  "Transform": {
+                    "Pos": {
+                      "X": 1375,
+                      "Y": 642,
+                      "Z": 87
+                    },
+                    "Rot": {
+                      "Z": -90
+                    },
+                    "Scale": {}
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
       "Pos": [
-        927.6524064095945,
-        -218.75879159395484,
-        91.49996931054574
-      ],
-      "Rotation": [
-        0,
-        0,
-        -89.999999
-      ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_移动测试",
-              "FlowId": 2,
-              "StateId": 1
-            },
-            "AutoRun": false,
-            "Continuable": false
-          }
-        },
-        "Guid": "95179F584CAB6556478FE4A64085CEEE"
-      }
+        1465.044343,
+        1138.7843699999999,
+        -0.499903
+      ]
     },
     {
       "PrefabId": 6,
+      "Guid": "3454C42740E745D749B6FEA1070D7258",
+      "ComponentsState": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_移动测试",
+            "FlowId": 2,
+            "StateId": 1
+          },
+          "AutoRun": false,
+          "Continuable": false
+        }
+      },
       "Pos": [
         1677.6524060000002,
         -218.75877891003063,
         91.499969
       ],
-      "Rotation": [
+      "Rot": [
         0,
         0,
         -89.999999
+      ]
+    },
+    {
+      "PrefabId": 6,
+      "Guid": "0F8E57A44E5C601E0789959062F909E1",
+      "ComponentsState": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_移动测试",
+            "FlowId": 1,
+            "StateId": 1
+          },
+          "AutoRun": true,
+          "Continuable": true
+        }
+      },
+      "Pos": [
+        175.04434450803416,
+        -10.124671335442219,
+        76.91806030273438
       ],
-      "PureData": {
-        "ComponentsStateJson": {
-          "FlowComponent": {
-            "InitState": {
-              "FlowListName": "流程_移动测试",
-              "FlowId": 2,
-              "StateId": 1
-            },
-            "AutoRun": false,
-            "Continuable": false
-          }
-        },
-        "Guid": "3454C42740E745D749B6FEA1070D7258"
-      }
+      "Rot": [
+        0,
+        0,
+        -89.9999993028273
+      ]
+    },
+    {
+      "PrefabId": 6,
+      "Guid": "95179F584CAB6556478FE4A64085CEEE",
+      "ComponentsState": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_移动测试",
+            "FlowId": 2,
+            "StateId": 1
+          },
+          "AutoRun": false,
+          "Continuable": false
+        }
+      },
+      "Pos": [
+        927.6524064095945,
+        -218.75879159395484,
+        91.49996931054574
+      ],
+      "Rot": [
+        0,
+        0,
+        -89.999999
+      ]
     }
   ]
 }

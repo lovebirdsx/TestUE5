@@ -18,6 +18,10 @@ export class TsEntity extends Actor implements ITsEntity {
         this.Init();
     }
 
+    public ReceiveEndPlay(): void {
+        this.Destroy();
+    }
+
     // @no-blueprint
     public Init(): void {
         initTsEntity(this);

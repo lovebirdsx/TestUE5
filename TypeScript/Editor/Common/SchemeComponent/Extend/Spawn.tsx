@@ -233,7 +233,7 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
                     OnClick={this.UpdataTransform}
                     Tip={'以提示实体的变换来更新'}
                 />
-                <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中提示点'} />
+                <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中提示实体'} />
             </HorizontalBox>
         );
     }

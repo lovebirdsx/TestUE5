@@ -77,7 +77,6 @@ class EntitySerializer {
         }
 
         entityRegistry.ApplyData(state, entity);
-        entity.Init();
 
         GameplayStatics.FinishSpawningActor(entity, transform);
 

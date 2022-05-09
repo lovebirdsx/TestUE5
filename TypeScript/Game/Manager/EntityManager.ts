@@ -1,11 +1,10 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, Pawn, Transform } from 'ue';
+import { Transform } from 'ue';
 
-import { error } from '../../Common/Log';
+import { error, log } from '../../Common/Log';
 import { Event } from '../../Common/Util';
-import { isPlayer } from '../Entity/EntityRegistry';
 import { gameContext, IEntityData, IEntityMananger, ITsEntity } from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { IManager } from './Interface';
@@ -44,18 +43,25 @@ export class EntityManager implements IManager, IEntityMananger {
     public SpawnEntity(data: IEntityData, transform: Transform): ITsEntity {
         const entity = entitySerializer.SpawnEntityByData(data, transform);
         this.EntitiesToSpawn.push(entity);
+        log(`Spawn entity ${entity.GetName()} [${entity.Guid}]`);
         return entity;
+    }
+
+    public RemoveEntity(...entities: ITsEntity[]): void {
+        this.EntitiesToDestroy.push(...entities);
+        entities.forEach((entity) => {
+            log(`Remove entity ${entity.GetName()} [${entity.Guid}]`);
+        });
     }
 
     public RegisterEntity(entity: ITsEntity): boolean {
         const exist = this.EntityMap.get(entity.Guid);
         if (exist) {
-            error(
+            throw new Error(
                 `Duplicate entity guid exist[${exist.GetName()}] add[${entity.Guid}] guid[${
                     entity.Guid
                 }]`,
             );
-            return false;
         }
         this.Entities.push(entity);
         this.EntityMap.set(entity.Guid, entity);
@@ -82,11 +88,7 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Tick(deltaTime: number): void {
         if (this.EntitiesToDestroy.length > 0) {
-            const entities = this.EntitiesToDestroy.splice(0, this.EntitiesToDestroy.length);
-
-            entities.forEach((entity) => {
-                entity.Destroy();
-            });
+            const entities = this.EntitiesToDestroy.splice(0);
 
             entities.forEach((entity) => {
                 this.EntityRemoved.Invoke(entity);
@@ -95,22 +97,10 @@ export class EntityManager implements IManager, IEntityMananger {
         }
 
         if (this.EntitiesToSpawn.length > 0) {
-            const entities = this.EntitiesToSpawn.splice(0, this.EntitiesToSpawn.length);
-
+            const entities = this.EntitiesToSpawn.splice(0);
             entities.forEach((entity) => {
                 this.EntityAdded.Invoke(entity);
             });
-
-            entities.forEach((entity) => {
-                if (isPlayer(entity)) {
-                    gameContext.PlayerController.Possess(entity as Actor as Pawn);
-                }
-                entity.Start();
-            });
         }
-    }
-
-    public RemoveEntity(...entities: ITsEntity[]): void {
-        this.EntitiesToDestroy.push(...entities);
     }
 }

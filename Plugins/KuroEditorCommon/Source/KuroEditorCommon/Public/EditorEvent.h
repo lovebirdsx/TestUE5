@@ -11,6 +11,7 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEvent0);
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPieEvent, bool, Value);
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNewActorsDropped, const TArray<AActor*>&, Actors);	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEvent, const AActor*, Actor);	
 
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnSelectionChanged;
@@ -68,6 +69,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnPieEvent OnResumePie;
+
+	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FActorEvent	OnActorMoved;
 	
 	void Initialize();
 
@@ -93,4 +97,5 @@ private:
 	void OnDeleteActorsBeginOccurd();
 	void OnDeleteActorsEndOccurd();
 	void OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors);
+	void OnActorMovedOccued(AActor* Actor);
 };

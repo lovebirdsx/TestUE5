@@ -82,10 +82,13 @@ export class EntityView extends React.Component<IEntityViewProps> {
     private RenderGuid(): JSX.Element {
         const guid = this.props.Data.Guid;
         if (guid) {
+            const needFixGuid = guid !== this.props.Entity.ActorGuid.ToString();
             return (
                 <HorizontalBox>
                     <Text Text={`Guid: ${guid}`} />
-                    <Btn Text={`修复`} OnClick={this.FixGuid} />
+                    {needFixGuid && (
+                        <Btn Text={`修复`} Color={'#8B0000 dark red'} OnClick={this.FixGuid} />
+                    )}
                 </HorizontalBox>
             );
         }

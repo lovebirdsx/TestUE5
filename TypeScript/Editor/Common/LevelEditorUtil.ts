@@ -23,7 +23,6 @@ import { toUeArray } from '../../Common/UeHelper';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
-import TsEntity from '../../Game/Entity/TsEntity';
 import { ITsEntity } from '../../Game/Interface';
 
 class LevelEditorUtil {
@@ -104,7 +103,7 @@ class LevelEditorUtil {
         return entity;
     }
 
-    public static SetEntityTransform(entity: TsEntity, transform: ITransform): void {
+    public static SetEntityTransform(entity: ITsEntity, transform: ITransform): void {
         entity.K2_SetActorTransform(toTransform(transform), false, undefined, false);
     }
 

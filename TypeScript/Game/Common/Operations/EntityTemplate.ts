@@ -63,6 +63,15 @@ export class EntityTemplateOp {
         return this.GuidMap.get(guid);
     }
 
+    public static GenEntityData(templateGuid: string, entityGuid?: string): IEntityData {
+        const template = this.GetTemplateByGuid(templateGuid);
+        return {
+            Guid: entityGuid || genGuid(),
+            ComponentsState: template.ComponentsState,
+            PrefabId: template.PrefabId,
+        };
+    }
+
     public static GetNameByGuid(guid: string): string {
         return this.NameByGuid.get(guid);
     }

@@ -299,11 +299,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         return (
             <VerticalBox>
-                <HorizontalBox>
+                {/* <HorizontalBox>
                     <SlotText Text={'地图配置:'} Tip={this.LevelEditor.GetMapDataPath()} />
                     <Btn Text={'保存'} OnClick={this.SaveMap} Tip={`保存场景状态`} />
                     <Btn Text={'打开'} OnClick={this.OpenMapFile} Tip={`打开地图配置文件`} />
-                </HorizontalBox>
+                </HorizontalBox> */}
                 <HorizontalBox>
                     <SlotText Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
                     <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={`打开游戏存档文件`} />

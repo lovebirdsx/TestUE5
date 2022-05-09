@@ -9,8 +9,15 @@ import {
 } from '../../Common/Class';
 import { error } from '../../Common/Log';
 import { stringifyWithOutUnderScore } from '../../Common/Util';
-import { IEntityData, ITsEntity, parseComponentsState, TComponentClass } from '../Interface';
+import {
+    IEntityData,
+    ITsEntity,
+    parseComponentsState,
+    TComponentClass,
+    TComponentsState,
+} from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
+import { componentRegistry } from '../Scheme/Component/Index';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
 
@@ -34,11 +41,25 @@ class EntityRegistry {
         return this.GetComponentClassesByTsClass(tsClassObj);
     }
 
+    private GenComponentsState(obj: ITsEntity): TComponentsState {
+        const state = parseComponentsState(obj.ComponentsStateJson);
+        const classObjs = this.GetComponentClassesByActor(obj);
+        Object.keys(state).forEach((key) => {
+            const classObj = classObjs.find((obj) => obj.name === key);
+            if (classObj === undefined || !componentRegistry.HasScheme(key)) {
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                delete state[key];
+            }
+        });
+
+        return state;
+    }
+
     public GenData<T extends ITsEntity>(obj: T): IEntityData {
         return {
             PrefabId: getBlueprintId(obj.GetClass()),
             Guid: obj.Guid,
-            ComponentsState: parseComponentsState(obj.ComponentsStateJson),
+            ComponentsState: this.GenComponentsState(obj),
         };
     }
 

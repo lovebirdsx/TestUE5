@@ -17,7 +17,11 @@ import {
 import { IProps } from '../../../../Common/Type';
 import { alignVector } from '../../../../Common/Util';
 import { IVectorInfo } from '../../../../Game/Flow/Action';
-import { Btn, EditorBox } from '../../BaseComponent/CommonComponent';
+import {
+    Btn,
+    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
+    EditorBox,
+} from '../../BaseComponent/CommonComponent';
 import LevelEditorUtil from '../../LevelEditorUtil';
 
 interface IPointState {
@@ -168,9 +172,24 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
         return (
             <HorizontalBox>
                 {this.props.PrefixElement}
-                <EditorBox Text={pos.X.toString()} OnChange={this.OnModifyX} Tip={'X'} />
-                <EditorBox Text={pos.Y.toString()} OnChange={this.OnModifyY} Tip={'Y'} />
-                <EditorBox Text={pos.Z.toString()} OnChange={this.OnModifyZ} Tip={'Z'} />
+                <EditorBox
+                    Text={pos.X.toString()}
+                    Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
+                    OnChange={this.OnModifyX}
+                    Tip={'X'}
+                />
+                <EditorBox
+                    Text={pos.Y.toString()}
+                    Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
+                    OnChange={this.OnModifyY}
+                    Tip={'Y'}
+                />
+                <EditorBox
+                    Text={pos.Z.toString()}
+                    Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
+                    OnChange={this.OnModifyZ}
+                    Tip={'Z'}
+                />
                 {this.state.TipActor ? this.RenderForTip() : this.RenderForNoTip()}
             </HorizontalBox>
         );

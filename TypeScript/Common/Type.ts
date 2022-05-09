@@ -230,6 +230,8 @@ export class ObjectScheme<T> extends Scheme<T> {
 
     public Scheduled?: boolean;
 
+    public NoIndent?: boolean;
+
     public static FixByFields<T>(fields: TObjectFields<T>, value: T): TFixResult {
         let fixCount = 0;
         for (const key in fields) {

@@ -234,6 +234,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
         });
 
         const isFold = objValue[FOLD_KEY] as boolean;
+        const xIndent = objectType.NoIndent ? 0 : TAB_OFFSET;
         return (
             <VerticalBox>
                 <HorizontalBox>
@@ -256,7 +257,7 @@ export class Obj<T, TScheme extends ObjectScheme<T>> extends React.Component<IPr
                         />
                     )}
                 </HorizontalBox>
-                <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+                <VerticalBox RenderTransform={{ Translation: { X: xIndent } }}>
                     {!isFold && newLine}
                 </VerticalBox>
             </VerticalBox>

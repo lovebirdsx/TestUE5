@@ -18,6 +18,7 @@ export const triggerActionsScheme = createObjectScheme<ITriggerActions>({
         }),
     },
     NewLine: true,
+    NoIndent: true,
 });
 
 export const triggerComponentScheme = createObjectScheme<ITriggerComponent>({
@@ -32,4 +33,5 @@ export const triggerComponentScheme = createObjectScheme<ITriggerComponent>({
         TriggerActions: triggerActionsScheme,
     },
     ShowName: true,
+    NoIndent: true,
 });

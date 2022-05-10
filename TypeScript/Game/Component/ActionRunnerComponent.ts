@@ -72,7 +72,7 @@ export class ActionRunnerComponent extends Component {
 
         const actionFun = this.ActionMap.get(action.Name);
         if (!actionFun) {
-            error(`No action for action type [${action.Name}]`);
+            error(`[${this.Name}] No action for action type [${action.Name}]`);
             return;
         }
 

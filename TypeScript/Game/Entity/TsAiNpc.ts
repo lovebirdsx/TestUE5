@@ -1,6 +1,8 @@
+/* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
 import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
+import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
 import MoveComponent from '../Component/MoveComponent';
 import { NpcComponent } from '../Component/NpcComponent';
@@ -17,6 +19,7 @@ export const aiNpcComponentClasses: TComponentClass[] = [
     ActionRunnerComponent,
     MoveComponent,
     NpcComponent,
+    EntitySpawnerComponent,
 ];
 
 class TsAiNpc extends TsCharacterEntity {

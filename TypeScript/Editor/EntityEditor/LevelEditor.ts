@@ -18,7 +18,7 @@ export class LevelEditor {
 
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
-        editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
+        // editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
         editorEvent.OnDuplicateActorsEnd.Add(this.OnDuplicateActorsEnd.bind(this));
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));

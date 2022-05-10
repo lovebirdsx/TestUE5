@@ -2,6 +2,7 @@
 import { Actor } from 'ue';
 
 import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
+import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
 import { NpcComponent } from '../Component/NpcComponent';
 import StateComponent from '../Component/StateComponent';
@@ -16,6 +17,7 @@ export const npcComponentClasses: TComponentClass[] = [
     TalkComponent,
     ActionRunnerComponent,
     NpcComponent,
+    EntitySpawnerComponent,
 ];
 
 export class TsNpc extends TsEntity {

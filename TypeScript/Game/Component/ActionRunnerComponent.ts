@@ -1,6 +1,6 @@
 import { error } from '../../Common/Log';
 import { IActionInfo, TActionFun, TActionType } from '../Flow/Action';
-import { Component, gameContext, ITsEntity } from '../Interface';
+import { Component, gameContext } from '../Interface';
 
 export class ActionRunnerHandler {
     private MyIsRunning: boolean;
@@ -51,14 +51,6 @@ export class ActionRunnerHandler {
 
 export class ActionRunnerComponent extends Component {
     private readonly ActionMap = new Map<TActionType, TActionFun>();
-
-    public OnInit(): void {
-        this.RegisterActionFun('Destroy', this.ExecuteDestroy.bind(this));
-    }
-
-    private ExecuteDestroy(actionInfo: IActionInfo): void {
-        gameContext.EntityManager.RemoveEntity(this.Entity.Actor as ITsEntity);
-    }
 
     public RegisterActionFun(name: TActionType, fun: TActionFun): void {
         if (this.ActionMap.has(name)) {

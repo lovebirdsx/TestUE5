@@ -244,6 +244,7 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
             <HorizontalBox>
                 <Btn
                     Text={'移除指示'}
+                    Color={'#1E90FF dodger blue'}
                     OnClick={this.RemoveTipActor}
                     Tip={'移除用提提示的实体对象'}
                 />

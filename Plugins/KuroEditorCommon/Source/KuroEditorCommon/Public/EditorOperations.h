@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "EditorEvent.h"
+#include "DesktopPlatformModule.h"
 #include "Components/PanelWidget.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GenericPlatform/GenericPlatformMisc.h"
@@ -89,4 +90,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static void WriteNumberConfig(FString Key, float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	static bool OpenFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
+
+	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	static bool SaveFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
 };

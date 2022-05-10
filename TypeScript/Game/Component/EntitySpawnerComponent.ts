@@ -25,6 +25,7 @@ export class EntitySpawnerComponent extends Component {
         const actionRunner = this.Entity.GetComponent(ActionRunnerComponent);
         actionRunner.RegisterActionFun('SpawnChild', this.ExcuteSpawnChild.bind(this));
         actionRunner.RegisterActionFun('DestroyAllChild', this.ExcuteDestroyAllChild.bind(this));
+        actionRunner.RegisterActionFun('Destroy', this.ExecuteDestroy.bind(this));
 
         this.State = this.Entity.GetComponent(StateComponent);
 
@@ -51,32 +52,28 @@ export class EntitySpawnerComponent extends Component {
         }
     };
 
+    private SpawnChild(
+        templateGuid: string,
+        transform: ITransform,
+        entityGuid?: string,
+    ): ITsEntity {
+        const entityData = EntityTemplateOp.GenEntityData(templateGuid, entityGuid);
+        const entity = gameContext.EntityManager.SpawnEntity(entityData, toTransform(transform));
+        this.Children.add(entity);
+        return entity;
+    }
+
     public OnLoadState(): void {
         this.SpawnRecord = this.State.GetState(SPAWN_RECORD) || [];
 
         this.SpawnRecord.forEach((record) => {
-            const entityData = EntityTemplateOp.GenEntityData(
-                record.TemplateGuid,
-                record.EntityGuid,
-            );
-
-            const entity = gameContext.EntityManager.SpawnEntity(
-                entityData,
-                toTransform(record.Transform),
-            );
-            this.Children.add(entity);
+            this.SpawnChild(record.TemplateGuid, record.Transform, record.EntityGuid);
         });
     }
 
     private ExcuteSpawnChild(actionInfo: IActionInfo): void {
         const action = actionInfo.Params as ISpawn;
-        const entityData = EntityTemplateOp.GenEntityData(action.TemplateGuid);
-        const entity = gameContext.EntityManager.SpawnEntity(
-            entityData,
-            toTransform(action.Transform),
-        );
-
-        this.Children.add(entity);
+        const entity = this.SpawnChild(action.TemplateGuid, action.Transform);
         this.SpawnRecord.push({
             TemplateGuid: action.TemplateGuid,
             Transform: action.Transform,
@@ -85,11 +82,16 @@ export class EntitySpawnerComponent extends Component {
         this.State.SetState(SPAWN_RECORD, this.SpawnRecord);
     }
 
-    private ExcuteDestroyAllChild(actionInfo: IActionInfo): void {
+    private ExcuteDestroyAllChild(): void {
         gameContext.EntityManager.RemoveEntity(...this.Children);
 
         this.Children.clear();
         this.SpawnRecord.splice(0);
         this.State.SetState(SPAWN_RECORD, undefined);
+    }
+
+    private ExecuteDestroy(actionInfo: IActionInfo): void {
+        gameContext.EntityManager.RemoveEntity(this.Entity.Actor as ITsEntity);
+        this.ExcuteDestroyAllChild();
     }
 }

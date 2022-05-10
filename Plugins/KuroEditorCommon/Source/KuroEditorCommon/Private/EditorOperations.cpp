@@ -2,6 +2,7 @@
 
 #include "KuroEditorCommon.h"
 #include "DesktopPlatformModule.h"
+#include "EditorDirectories.h"
 #include "LevelEditorActions.h"
 #include "OutputLogModule.h"
 #include "Engine/ObjectLibrary.h"
@@ -135,4 +136,61 @@ void UEditorOperations::WriteNumberConfig(const FString Key, const float Value)
 	const auto JsonConfig = FKuroEditorCommonModule::GetInstance()->GetJsonConfig();
 	JsonConfig->SetNumber(ToCStr(Key), Value);
 	FKuroEditorCommonModule::GetInstance()->SaveJsonConfig();
+}
+
+bool UEditorOperations::OpenFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes,
+	TArray<FString>& OutFilenames)
+{
+	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
+	const void* ParentWindowWindowHandle = FSlateApplication::Get().FindBestParentWindowHandleForDialogs(nullptr);
+	int32 FilterIndex;
+
+	const auto OpenDir = DefaultFilePath.IsEmpty() ? FEditorDirectories::Get().GetLastDirectory(ELastDirectory::GENERIC_OPEN) : FPaths::GetPath(DefaultFilePath);
+	const auto OpenFile = FPaths::GetCleanFilename(DefaultFilePath);
+	
+	const bool bOK = DesktopPlatform->OpenFileDialog(
+		ParentWindowWindowHandle,
+		DialogTitle,
+		OpenDir,
+		OpenFile, // Default file
+		FileTypes, // Filter
+		EFileDialogFlags::None,
+		OutFilenames,
+		FilterIndex);
+
+	if (bOK && OutFilenames.Num() > 0)
+	{
+		const auto Dir = FPaths::GetPath(OutFilenames[0]);
+		FEditorDirectories::Get().SetLastDirectory(ELastDirectory::GENERIC_OPEN, Dir);		
+	}
+	
+	return bOK;
+}
+
+// FileTypes eg. Layer .raw files|*.raw|Layer .r8 files|*.r8|All files|*.*
+bool UEditorOperations::SaveFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames)
+{
+	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
+	const void* ParentWindowWindowHandle = FSlateApplication::Get().FindBestParentWindowHandleForDialogs(nullptr);
+
+	const auto OpenDir = DefaultFilePath.IsEmpty() ? FEditorDirectories::Get().GetLastDirectory(ELastDirectory::GENERIC_SAVE) : FPaths::GetPath(DefaultFilePath);
+	const auto OpenFile = FPaths::GetCleanFilename(DefaultFilePath);
+	
+	const bool bOK = DesktopPlatform->SaveFileDialog(
+		ParentWindowWindowHandle,
+		DialogTitle,
+		OpenDir,
+		OpenFile,
+		FileTypes,
+		EFileDialogFlags::None,
+		OutFilenames
+	);
+
+	if (bOK && OutFilenames.Num() > 0)
+	{
+		const auto Dir = FPaths::GetPath(OutFilenames[0]);
+		FEditorDirectories::Get().SetLastDirectory(ELastDirectory::GENERIC_SAVE, Dir);		
+	}
+
+	return bOK;
 }

@@ -25,6 +25,10 @@
 		{
 			"Name": "Puerts",
 			"Enabled": true
+		},
+		{
+			"Name": "KuroGameCommon",
+			"Enabled": true
 		}
 	]
 }

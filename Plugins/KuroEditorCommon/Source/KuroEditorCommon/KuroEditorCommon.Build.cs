@@ -49,6 +49,7 @@ public class KuroEditorCommon : ModuleRules
 				"JsEnv",
 				"DesktopPlatform",
 				"OutputLog",
+				"KuroGameCommon",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

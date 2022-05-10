@@ -33,7 +33,12 @@ export function toUeArray<TR extends SupportedContainerKVType, T extends Contain
 export function openLoadJsonFileDialog(defaultFile: string): string | undefined {
     const filesRef = $ref(NewArray(BuiltinString));
     if (
-        MyFileHelper.OpenFileDialog('Open Json File', defaultFile, 'Json File | *.json', filesRef)
+        EditorOperations.OpenFileDialog(
+            'Open Json File',
+            defaultFile,
+            'Json File | *.json',
+            filesRef,
+        )
     ) {
         return MyFileHelper.GetAbsolutePath($unref(filesRef).Get(0));
     }
@@ -43,7 +48,7 @@ export function openLoadJsonFileDialog(defaultFile: string): string | undefined 
 export function openSaveJsonFileDialog(defaultFile: string): string | undefined {
     const filesRef = $ref(NewArray(BuiltinString));
     if (
-        MyFileHelper.SaveFileDialog(
+        EditorOperations.SaveFileDialog(
             'Select Json File To Save',
             defaultFile,
             'Json File | *.json',
@@ -57,7 +62,9 @@ export function openSaveJsonFileDialog(defaultFile: string): string | undefined 
 
 export function openLoadCsvFileDialog(defaultFile: string): string | undefined {
     const filesRef = $ref(NewArray(BuiltinString));
-    if (MyFileHelper.OpenFileDialog('Open CSV File', defaultFile, 'CSV File | *.csv', filesRef)) {
+    if (
+        EditorOperations.OpenFileDialog('Open CSV File', defaultFile, 'CSV File | *.csv', filesRef)
+    ) {
         return MyFileHelper.GetAbsolutePath($unref(filesRef).Get(0));
     }
     return undefined;
@@ -66,7 +73,7 @@ export function openLoadCsvFileDialog(defaultFile: string): string | undefined {
 export function openSaveCsvFileDialog(defaultFile: string): string | undefined {
     const filesRef = $ref(NewArray(BuiltinString));
     if (
-        MyFileHelper.SaveFileDialog(
+        EditorOperations.SaveFileDialog(
             'Select CSV File To Save',
             defaultFile,
             'CSV File | *.csv',

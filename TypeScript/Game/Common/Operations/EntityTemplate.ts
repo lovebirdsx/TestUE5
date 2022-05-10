@@ -7,7 +7,7 @@ import { getFileNameWithOutExt } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
 import { toTsArray } from '../../../Common/UeHelper';
 import { deepEquals, genGuid, readJsonObj, writeJsonObj } from '../../../Common/Util';
-import { IEntityData, TComponentsState } from '../../Interface';
+import { IEntityData, TComponentClass, TComponentsState } from '../../Interface';
 import { gameConfig } from '../Config';
 
 export interface IEntityTemplate {
@@ -110,7 +110,11 @@ export class EntityTemplateOp {
 
     // 将Template中的数据写入EntityData中,如果数据一样,则返回传入的data
     // 否则构造一个新的IEntityData
-    public static ProduceEntityData(template: IEntityTemplate, data: IEntityData): IEntityData {
+    public static ProduceEntityData(
+        template: IEntityTemplate,
+        componentClasses: TComponentClass[],
+        data: IEntityData,
+    ): IEntityData {
         const componentsState = template.ComponentsState;
 
         // 取模板中共同的Component配置
@@ -118,7 +122,7 @@ export class EntityTemplateOp {
         let modifyCount = 0;
         let sameComponentCount = 0;
         for (const key in componentsState) {
-            if (componentsStateNew[key]) {
+            if (componentsStateNew[key] || componentClasses.find((c) => c.name === key)) {
                 sameComponentCount++;
                 if (!deepEquals(componentsStateNew[key], componentsState[key])) {
                     componentsStateNew[key] = componentsState[key];

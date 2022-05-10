@@ -33,6 +33,10 @@ export class EntitySpawnerComponent extends Component {
     }
 
     public OnDestroy(): void {
+        // 销毁的时候, 自动移除构造的子Entity
+        // 但子Entity的记录还在, 下次流送的时候依然能够恢复
+        gameContext.EntityManager.RemoveEntity(...this.Children);
+
         gameContext.EntityManager.EntityRemoved.RemoveCallBack(this.OnEntityRemoed);
     }
 

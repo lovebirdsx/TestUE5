@@ -97,9 +97,22 @@
           ""Name"": ""状态1"",
           ""Actions"": [
             {
+              ""Name"": ""Log"",
+              ""Params"": {
+                ""Level"": ""Info"",
+                ""Content"": ""10秒后自动移除""
+              }
+            },
+            {
               ""Name"": ""Wait"",
               ""Params"": {
                 ""Time"": 10
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 1
               }
             },
             {

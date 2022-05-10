@@ -49,7 +49,11 @@ export class EntityView extends React.Component<IEntityViewProps> {
         }
 
         configFile.LastEntityTemplatePath = path;
-        const newData = EntityTemplateOp.ProduceEntityData(template, this.props.Data);
+        const newData = EntityTemplateOp.ProduceEntityData(
+            template,
+            entityRegistry.GetComponentClassesByActor(this.props.Entity),
+            this.props.Data,
+        );
         if (newData !== this.props.Data) {
             this.props.OnModify(newData, 'normal');
         }

@@ -54,7 +54,19 @@ export function isType(obj: UE.Object, classType: TTsClassType): boolean {
     return classObj1 === classObj2;
 }
 
-export function regBlueprintType(id: number, path: string, classType: TTsClassType): void {
+/**
+ * 注册蓝图类型:
+ * id 每一个蓝图类型的唯一id, 主要用于序列化
+ * path 蓝图的路径, 类似于 `/Game/Blueprints/ExtendedEntity/BP_AiNpcFemale1.BP_AiNpcFemale1_C`
+ * classType 蓝图对应的TsClass类型, 有两种, 一种是本体, 一种是继承
+ * isOrigin 表示TsClass是否为本体
+ **/
+export function regBlueprintType(
+    id: number,
+    path: string,
+    classType: TTsClassType,
+    isOrigin: boolean,
+): void {
     const classObj = UE.Class.Load(path);
     if (!classObj) {
         error(`Load class obj [${classType.name}] from [${path}] failed`);
@@ -72,10 +84,14 @@ export function regBlueprintType(id: number, path: string, classType: TTsClassTy
     }
 
     ueClassById.set(id, classObj);
-    pathByClass.set(classObj, path);
-    tsClassToUeClassMap.set(classType, classObj);
-    ueClassToTsClassMap.set(classObj, classType);
     idByUeClass.set(classObj, id);
+
+    pathByClass.set(classObj, path);
+    ueClassToTsClassMap.set(classObj, classType);
+
+    if (isOrigin) {
+        tsClassToUeClassMap.set(classType, classObj);
+    }
 }
 
 export function getBlueprintType(id: number): UE.Class {

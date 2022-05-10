@@ -25,6 +25,9 @@ export enum EBlueprintId {
     Rotator = 8,
     Trample = 9,
     MoveMesh = 10,
+
+    // ExtendedEntity
+    AiNpcFemale1 = 1001,
 }
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
@@ -39,12 +42,23 @@ const PLAYER_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Player/';
 
 function regEntity(id: EBlueprintId, tsClass: TTsClassType, dir?: string): void {
     const path = makeTsClassPath(ENTITY_BASE_PATH, tsClass.name, dir);
-    regBlueprintType(id, path, tsClass);
+    regBlueprintType(id, path, tsClass, true);
 }
 
 function regPlayer(id: EBlueprintId, tsClass: TTsClassType, dir?: string): void {
     const path = makeTsClassPath(PLAYER_BASE_PATH, tsClass.name, dir);
-    regBlueprintType(id, path, tsClass);
+    regBlueprintType(id, path, tsClass, true);
+}
+
+const ENTITY_EXTENDED_PATH = '/Game/Blueprints/ExtendedEntity/';
+function regExtendedEntity(
+    id: EBlueprintId,
+    name: string,
+    tsClass: TTsClassType,
+    dir?: string,
+): void {
+    const path = makeTsClassPath(ENTITY_EXTENDED_PATH, name, dir);
+    regBlueprintType(id, path, tsClass, false);
 }
 
 let isInit = false;
@@ -54,6 +68,7 @@ export function initEntity(): void {
         return;
     }
 
+    // Components
     entityRegistry.Register(TsEntity);
     entityRegistry.Register(TsCharacterEntity);
     entityRegistry.Register(TsNpc, ...npcComponentClasses);
@@ -82,6 +97,9 @@ export function initEntity(): void {
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
     regEntity(EBlueprintId.AiNpc, TsAiNpc);
+
+    // ExtendedEntity
+    regExtendedEntity(EBlueprintId.AiNpcFemale1, 'BP_AiNpcFemale1', TsAiNpc);
 
     isInit = true;
 }

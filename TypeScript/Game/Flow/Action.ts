@@ -25,6 +25,7 @@ export type TActionType =
     | 'ShowMessage'
     | 'ShowOption'
     | 'ShowTalk'
+    | 'SimpleMove'
     | 'SpawnChild'
     | 'Wait';
 
@@ -261,4 +262,10 @@ export interface IFaceToPos {
 export interface ISpawn {
     TemplateGuid: string;
     Transform: ITransform;
+}
+
+export interface ISimpleMove {
+    Who: string;
+    UseTime: number;
+    Pos: IVectorInfo;
 }

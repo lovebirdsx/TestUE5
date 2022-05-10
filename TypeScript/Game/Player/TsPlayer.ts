@@ -12,7 +12,6 @@ import {
     Vector,
 } from 'ue';
 
-import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
 import { deInitTsEntity, initTsEntity } from '../Entity/Common';
@@ -73,7 +72,6 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
             new Transform(),
             false,
         ) as PhysicsHandleComponent;
-        this.GrabHandle.bInterpolateTarget = false;
         this.InitSpeed = this.Movement.MaxWalkSpeed;
         gameContext.Player = this;
 
@@ -112,10 +110,6 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
         const component = actor.GetComponentByClass(
             PrimitiveComponent.StaticClass(),
         ) as PrimitiveComponent;
-        this.GrabHandle.SetInterpolationSpeed(500);
-        log(
-            `SetGrabSetGrab ${this.GrabHandle.bInterpolateTarget}, ${this.GrabHandle.InterpolationSpeed}`,
-        );
         if (component) {
             const actorLocation: Vector = component.K2_GetComponentLocation();
             const actorRotation: Rotator = component.K2_GetComponentRotation();
@@ -125,6 +119,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
                 actorLocation,
                 actorRotation,
             );
+            //component.SetAllPhysicsLinearVelocity(new Vector(1, 1, 1));
         }
     }
 

@@ -15,7 +15,9 @@ export type TElementRenderType =
     | 'float'
     | 'int'
     | 'object'
-    | 'string';
+    | 'string'
+    | 'text'
+    | 'vector';
 
 export type TModifyType = 'fold' | 'normal';
 
@@ -154,6 +156,7 @@ export enum EActionFilter {
     Trigger, // 在trigger中执行
     Talk, // 在ShowTalk中执行
     Invoke, // 在Invoke中执行
+    Trample,
 }
 
 export const allActionFilters = getEnumValues(EActionFilter);
@@ -474,3 +477,64 @@ export function createCsvIndexValueScheme<T extends TCsvValueType>(
     Object.assign(scheme, type);
     return scheme;
 }
+
+// ============================================================================
+export interface IVectorType {
+    X: number;
+    Y: number;
+    Z: number;
+}
+
+export class VectorScheme extends Scheme<IVectorType> {
+    public RenderType: TElementRenderType = 'vector';
+
+    public CreateDefault(): IVectorType {
+        return {
+            X: 0,
+            Y: 0,
+            Z: 0,
+        };
+    }
+}
+
+export function createVectorScheme(
+    type: Omit<Partial<VectorScheme>, 'fix' | 'renderType'>,
+): VectorScheme {
+    const scheme = new VectorScheme();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
+}
+
+export const vectorScheme = createVectorScheme({
+    Name: 'Vector',
+});
+
+// ============================================================================
+
+export class TextScheme extends Scheme<string> {
+    public RenderType: TElementRenderType = 'text';
+
+    public IsJson?: boolean;
+
+    public CreateDefault(): string {
+        return '';
+    }
+}
+
+export function createTextScheme(
+    type: Omit<Partial<TextScheme>, 'fix' | 'renderType'>,
+): TextScheme {
+    const scheme = new TextScheme();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
+}
+
+export const textScheme = createTextScheme({
+    Name: 'Text',
+});
+
+// ============================================================================

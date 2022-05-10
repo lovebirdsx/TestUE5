@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { IVectorInfo } from '../../../Common/Interface';
-import { allActionFilters, createFloatScheme, createObjectScheme } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPos } from '../../Flow/Action';
+import {
+    allActionFilters,
+    createFloatScheme,
+    createObjectScheme,
+    createStringScheme,
+} from '../../../Common/Type';
+import { IFaceToPos, IMoveToPos, ISimpleMove } from '../../Flow/Action';
 
 export const posScheme = createObjectScheme<IVectorInfo>({
     CnName: '位置',
@@ -45,5 +50,27 @@ export const faceToPosScheme = createObjectScheme<IFaceToPos>({
         Pos: posScheme,
     },
     Tip: '朝向目标点',
+    Filters: allActionFilters,
+});
+
+export const simpleMoveScheme = createObjectScheme<ISimpleMove>({
+    CnName: '简单移动',
+    Fields: {
+        Who: createStringScheme({
+            CnName: '目标',
+            RenderType: 'entityId',
+            CreateDefault: () => '',
+            ShowName: true,
+            NewLine: true,
+        }),
+        UseTime: createFloatScheme({
+            CnName: '移动时间',
+            CreateDefault: () => 1,
+            ShowName: true,
+            NewLine: true,
+        }),
+        Pos: posScheme,
+    },
+    Tip: '移动到目标点',
     Filters: allActionFilters,
 });

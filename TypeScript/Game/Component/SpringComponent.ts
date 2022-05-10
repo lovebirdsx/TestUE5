@@ -1,9 +1,13 @@
 import { PrimitiveComponent, Vector } from 'ue';
 
+import { IVectorType } from '../../Common/Type';
 import { InteractiveComponent } from '../Interface';
+import { ISpringComponent } from '../Scheme/Component/SpringComponentScheme';
 
-export class SpringComponent extends InteractiveComponent {
-    public OnInit(): void {}
+export class SpringComponent extends InteractiveComponent implements ISpringComponent {
+    public SpringDir: IVectorType;
+
+    public SpringPow: number;
 
     public EventHit(
         myComp: PrimitiveComponent,
@@ -11,9 +15,9 @@ export class SpringComponent extends InteractiveComponent {
         normalImpulse: Vector,
     ): void {
         if (otherComp.IsSimulatingPhysics()) {
-            // TODO scheme 设置反弹方向 力度， 打印看数值为上万，单位应该是百分位
-            const impulse = normalImpulse.op_Multiply(10);
-            otherComp.AddImpulse(impulse);
+            // 物体要开启模拟物理 和 碰撞命中
+            const impulseDir = new Vector(this.SpringDir.X, this.SpringDir.Y, this.SpringDir.Z);
+            otherComp.AddImpulse(impulseDir.op_Multiply(this.SpringPow));
         }
     }
 }

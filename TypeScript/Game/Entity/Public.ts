@@ -4,7 +4,6 @@ import { entityRegistry } from './EntityRegistry';
 import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
-import TsMoveMesh, { moveMeshComponentClasses } from './TsMoveMesh';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsRotator, { rotatorComponentClasses } from './TsRotator';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
@@ -24,7 +23,6 @@ export enum EBlueprintId {
     Spring = 7,
     Rotator = 8,
     Trample = 9,
-    MoveMesh = 10,
 
     // ExtendedEntity
     AiNpcFemale1 = 1001,
@@ -79,7 +77,6 @@ export function initEntity(): void {
     entityRegistry.Register(TsSpring, ...springComponentClasses);
     entityRegistry.Register(TsRotator, ...rotatorComponentClasses);
     entityRegistry.Register(TsTrample, ...trampleComponentClasses);
-    entityRegistry.Register(TsMoveMesh, ...moveMeshComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -92,7 +89,6 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Spring, TsSpring);
     regEntity(EBlueprintId.Rotator, TsRotator);
     regEntity(EBlueprintId.Trample, TsTrample);
-    regEntity(EBlueprintId.MoveMesh, TsMoveMesh);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -107,7 +103,6 @@ export function initEntity(): void {
 initEntity();
 
 export * from './TsEntity';
-export * from './TsMoveMesh';
 export * from './TsNpc';
 export * from './TsRotator';
 export * from './TsSphereActor';

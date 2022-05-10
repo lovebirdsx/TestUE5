@@ -5,7 +5,7 @@ import { actionRegistry } from './ActionRegistry';
 import { destroyScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
-import { faceToPosScheme, moveToPosScheme } from './Move';
+import { faceToPosScheme, moveToPosScheme, simpleMoveScheme } from './Move';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
@@ -38,6 +38,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ShowTalk: showTalkScheme,
     SpawnChild: spawnChildScheme,
     Wait: waitScheme,
+    SimpleMove: simpleMoveScheme,
 };
 
 actionRegistry.SetupObjectMap(objectSchemeMap);

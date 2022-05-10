@@ -100,6 +100,7 @@ export interface ITickManager {
     AddTick: (tickable: ITickable) => void;
     RemoveTick: (tickable: ITickable) => void;
     AddDelayCall: (call: () => void) => void;
+    HasTick: (tickable: ITickable) => boolean;
 }
 
 export interface IGameController {

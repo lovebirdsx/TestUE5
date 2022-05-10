@@ -58,3 +58,8 @@ export const triggerActionScheme = createActionScheme({
     Name: 'TriggerAction',
     Filter: EActionFilter.Trigger,
 });
+
+export const trampleActionScheme = createActionScheme({
+    Name: 'TrampleAction',
+    Filter: EActionFilter.Trample,
+});

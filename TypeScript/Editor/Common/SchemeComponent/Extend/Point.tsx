@@ -150,7 +150,7 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        const pos = this.props.Value;
+        const pos = toVector(this.props.Value);
         if (this.state.TipActor) {
             this.state.TipActor.K2_SetActorLocation(toVector(pos), false, undefined, false);
         }

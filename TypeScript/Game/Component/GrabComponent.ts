@@ -1,96 +1,80 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, PrimitiveComponent, Rotator, Vector } from 'ue';
+import { Actor, KismetMathLibrary, PrimitiveComponent, Rotator, Vector } from 'ue';
 
+import { IVectorType } from '../../Common/Type';
 import { Component, gameContext, ITickable } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
+import { IGrabComponent } from '../Scheme/Component/GrabComponentScheme';
 
-export interface IGrabSetting {
-    GrabPosition: Vector;
-    ThrowDir: Vector;
-    ThrowSpeed: number;
-}
+export class GrabComponent extends Component implements IGrabComponent, ITickable {
+    public GrabPos: IVectorType;
 
-export interface IGrabInfo {
-    Actor: Actor;
-    Setting: IGrabSetting;
-}
+    public ThrowHight: number;
 
-export class GrabComponent extends Component {
-    private GrabInfo: IGrabInfo;
+    public ThrowPow: number;
 
-    private GrabTick: ITickable;
+    private GrabActor: Actor;
 
     public OnInit(): void {
-        this.GrabInfo = {
-            Actor: null,
-            Setting: {
-                GrabPosition: new Vector(0, 0, 0),
-                ThrowDir: new Vector(0, 0, 0),
-                ThrowSpeed: 300,
-            },
-        };
+        this.GrabActor = null;
     }
 
     public OnLoadState(): void {}
 
     public OnStart(): void {}
 
-    public OnDestroy(): void {
-        this.ReleaseGrab();
-    }
+    public OnDestroy(): void {}
 
-    public Grab(actor: Actor, info: IGrabSetting): void {
-        if (this.GrabInfo.Actor !== null) {
-            this.ReleaseGrab();
+    public Grab(actor: Actor): void {
+        if (this.GrabActor !== null) {
+            this.CleanGrab();
         }
-        this.GrabInfo.Actor = actor;
-        this.GrabInfo.Setting = info;
+        this.GrabActor = actor;
         const player = gameContext.Player as TsPlayer;
         player.SetGrab(actor);
-        this.GrabTick = {
-            Name: player.GetName() + `Grab` + actor.GetName(),
-            Tick: (): void => {
-                this.UpdateGradPos();
-            },
-        };
-        gameContext.TickManager.AddTick(this.GrabTick);
+        gameContext.TickManager.AddTick(this);
+    }
+
+    public CleanGrab(): void {
+        gameContext.TickManager.RemoveTick(this);
+        this.GrabActor = null;
+        const player = gameContext.Player as TsPlayer;
+        player.SetGrab(null);
     }
 
     public ReleaseGrab(): void {
-        if (this.GrabInfo.Actor !== null) {
-            gameContext.TickManager.RemoveTick(this.GrabTick);
-            const component = this.GrabInfo.Actor.GetComponentByClass(
+        if (this.GrabActor) {
+            const component = this.GrabActor.GetComponentByClass(
                 PrimitiveComponent.StaticClass(),
             ) as PrimitiveComponent;
             const player = gameContext.Player as TsPlayer;
-            // const offset = this.GrabInfo.Setting.ThrowDir;
-            const speed = this.GrabInfo.Setting.ThrowSpeed;
-            // TODO scheme 设置
             const forward = player
                 .GetActorForwardVector()
-                .op_Multiply(speed)
-                .op_Addition(new Vector(0, 0, 800));
+                .op_Multiply(this.ThrowPow)
+                .op_Addition(new Vector(0, 0, this.ThrowHight));
             component.SetAllPhysicsLinearVelocity(forward);
-            this.GrabInfo.Actor = null;
-            this.GrabInfo.Setting = null;
-            player.SetGrab(null);
         }
+        this.CleanGrab();
+    }
+
+    public Tick(deltaTime: number): void {
+        this.UpdateGradPos();
     }
 
     public UpdateGradPos(): void {
-        if (this.GrabInfo.Actor === null) {
+        if (this.GrabActor === null) {
             return;
         }
         const player = gameContext.Player as TsPlayer;
         const grab = player.Grab;
         const component = grab.GetGrabbedComponent();
         if (component) {
-            const playerVector: Vector = player.K2_GetActorLocation();
-            // TODO scheme 设置
-            const forward = player.GetActorForwardVector().op_Multiply(300);
-            // const offset = this.GrabInfo.Setting.GrabPosition;
-            const vector = playerVector.op_Addition(forward);
+            const transform = player.GetTransform();
+            const vector = KismetMathLibrary.TransformLocation(
+                transform,
+                new Vector(this.GrabPos.X, this.GrabPos.Y, this.GrabPos.Z),
+            );
             const rotation: Rotator = player.K2_GetActorRotation();
             grab.SetTargetLocationAndRotation(vector, rotation);
         }

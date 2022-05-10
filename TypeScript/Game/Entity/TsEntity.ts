@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, edit_on_instance } from 'ue';
 
-import { Entity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
+import { Entity, ITsEntity, TComponentClass } from '../Interface';
 import { deInitTsEntity, initTsEntity } from './Common';
 
 export class TsEntity extends Actor implements ITsEntity {
@@ -44,7 +44,7 @@ export class TsEntity extends Actor implements ITsEntity {
 
     // @no-blueprint
     public GetComponentClasses(): TComponentClass[] {
-        throw new Error(`[${getEntityName(this)}]GetComponentClasses not implement`);
+        return [];
     }
 }
 

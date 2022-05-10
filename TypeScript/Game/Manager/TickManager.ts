@@ -22,6 +22,13 @@ export class TickManager implements IManager, ITickManager {
         return this.TickList.length;
     }
 
+    public HasTick(tickable: ITickable): boolean {
+        if (this.TickSet.has(tickable)) {
+            return true;
+        }
+        return false;
+    }
+
     public AddTick(tickable: ITickable): void {
         if (this.TickSet.has(tickable)) {
             throw new Error(`Add duplicate tick ${tickable.Name}`);

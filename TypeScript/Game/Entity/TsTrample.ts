@@ -1,12 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor } from 'ue';
+import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
+import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { TrampleComponent } from '../Component/TrampleComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
 import { isEntity } from './EntityRegistry';
 import TsEntity from './TsEntity';
 
-export const trampleComponentClasses: TComponentClass[] = [TrampleComponent];
+export const trampleComponentClasses: TComponentClass[] = [TrampleComponent, ActionRunnerComponent];
 
 class TsTrample extends TsEntity {
     // @no-blueprint
@@ -25,6 +26,24 @@ class TsTrample extends TsEntity {
         if (isEntity(other)) {
             const tsEntity = other as ITsEntity;
             this.Entity.OnTriggerExit(tsEntity.Entity);
+        }
+    }
+
+    public ReceiveHit(
+        myComp: PrimitiveComponent,
+        other: Actor,
+        otherComp: PrimitiveComponent,
+        bSelfMoved: boolean,
+        hitLocation: Vector,
+        hitNormal: Vector,
+        normalImpulse: Vector,
+        hit: HitResult,
+    ): void {
+        if (isEntity(other)) {
+            const tramplecomponent = this.Entity.TryGetComponent(TrampleComponent);
+            if (tramplecomponent) {
+                tramplecomponent.EventHit(myComp, otherComp, normalImpulse);
+            }
         }
     }
 }

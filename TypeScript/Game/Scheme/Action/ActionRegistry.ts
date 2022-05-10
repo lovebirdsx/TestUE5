@@ -6,6 +6,7 @@ import {
     ActionScheme,
     flowListActionScheme,
     talkActionScheme,
+    trampleActionScheme,
     triggerActionScheme,
 } from './Action';
 
@@ -48,6 +49,7 @@ class ActionRegistry {
         result.set(EActionFilter.FlowList, flowListActionScheme);
         result.set(EActionFilter.Talk, talkActionScheme);
         result.set(EActionFilter.Trigger, triggerActionScheme);
+        result.set(EActionFilter.Trample, trampleActionScheme);
         return result;
     }
 

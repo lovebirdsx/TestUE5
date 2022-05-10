@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import * as UE from 'ue';
-import { Game, UMGManager, Vector } from 'ue';
+import { Game, UMGManager } from 'ue';
 
 import { createSignal, ISignal } from '../../Common/Async';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
-import { GrabComponent, IGrabSetting } from './GrabComponent';
+import { GrabComponent } from './GrabComponent';
 import PlayerComponent from './PlayerComponent';
 
 enum EState {
@@ -40,16 +40,6 @@ export class SphereComponent extends InteractiveComponent {
         return this.Entity.Name;
     }
 
-    public EnterInteract(): void {
-        const tsHud = this.GetPlayerHud();
-        tsHud.AddInteract(this.GetInteractContent());
-    }
-
-    public CloseInteract(): void {
-        const tsHud = this.GetPlayerHud();
-        tsHud.DelInteract(this.GetInteractContent());
-    }
-
     public OnTriggerEnter(other: Entity): void {
         const player = other.TryGetComponent(PlayerComponent);
         if (player) {
@@ -71,11 +61,7 @@ export class SphereComponent extends InteractiveComponent {
     public async Interact(other: Entity): Promise<void> {
         if (this.State === EState.Down) {
             // TODO scheme 设置
-            this.Grab.Grab(this.Entity.Actor, {
-                GrabPosition: new Vector(10, 0, 200),
-                ThrowDir: new Vector(0, 0, 500),
-                ThrowSpeed: 300,
-            } as IGrabSetting);
+            this.Grab.Grab(this.Entity.Actor);
             this.State = EState.Up;
             await this.Execute();
             this.State = EState.Down;

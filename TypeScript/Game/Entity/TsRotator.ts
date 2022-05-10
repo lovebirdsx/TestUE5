@@ -27,6 +27,28 @@ class TsRotator extends TsEntity {
             this.Entity.OnTriggerExit(tsEntity.Entity);
         }
     }
+
+    public Jump(): void {}
+
+    public SpeedUp(): void {}
+
+    public SpeedDown(): void {}
+
+    public ResetSpeed(): void {}
+
+    public RotateX(val: number): void {
+        const component = this.Entity.TryGetComponent(RotatorComponent);
+        if (component) {
+            component.RotateX(val);
+        }
+    }
+
+    public RotateY(val: number): void {
+        const component = this.Entity.TryGetComponent(RotatorComponent);
+        if (component) {
+            component.RotateY(val);
+        }
+    }
 }
 
 export default TsRotator;

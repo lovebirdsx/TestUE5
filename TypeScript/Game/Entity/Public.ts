@@ -26,9 +26,13 @@ export enum EBlueprintId {
     Trample = 9,
 
     // ExtendedEntity
-    AiNpcFemale1 = 1001,
-    AiNpcMale1 = 1002,
+    AiNpcGuard1 = 1001,
+    AiNpcGuard2 = 1002,
     AiNpcAj = 1003,
+    AiNpcMother = 1004,
+    AiNpcVillageHead = 1005,
+    AiNpcVillage1 = 1006,
+    AiNpcVillage2 = 1007,
 }
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
@@ -98,9 +102,13 @@ export function initEntity(): void {
     regEntity(EBlueprintId.AiNpc, TsAiNpc);
 
     // ExtendedEntity
-    regExtendedEntity(EBlueprintId.AiNpcFemale1, 'BP_AiNpcFemale1', TsAiNpc);
-    regExtendedEntity(EBlueprintId.AiNpcMale1, 'BP_AiNpcMale1', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcGuard1, 'BP_AiNpcGuard1', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcGuard2, 'BP_AiNpcGuard2', TsAiNpc);
     regExtendedEntity(EBlueprintId.AiNpcAj, 'BP_AiNpcAj', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcMother, 'BP_AiNpcMother', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcVillageHead, 'BP_AiNpcVillageHead', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcVillage1, 'BP_AiNpcVillage1', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcVillage2, 'BP_AiNpcVillage2', TsAiNpc);
 
     isInit = true;
 }

@@ -9,6 +9,19 @@
 ,流程_1,"{
   ""VersionNum"": 8,
   ""TextGenId"": 1,
-  ""FlowGenId"": 1,
-  ""Flows"": []
+  ""FlowGenId"": 2,
+  ""Flows"": [
+    {
+      ""Id"": 1,
+      ""StateGenId"": 2,
+      ""Name"": ""剧情1"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [],
+          ""Id"": 1
+        }
+      ]
+    }
+  ]
 }"

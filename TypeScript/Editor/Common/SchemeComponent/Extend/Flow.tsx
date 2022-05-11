@@ -74,8 +74,8 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
         const flowList = flowListOp.LoadByName(playFlow.FlowListName);
         const flowNames = flowListOp.GetFlowNames(flowList);
         const flow = flowList.Flows.find((flow) => flow.Id === playFlow.FlowId);
-        const stateNames = flowOp.GetStateNames(flow);
-        const state = flowOp.GetState(flow, playFlow.StateId);
+        const stateNames = flow ? flowOp.GetStateNames(flow) : [];
+        const state = flow ? flowOp.GetState(flow, playFlow.StateId) : undefined;
         return (
             <HorizontalBox>
                 {props.PrefixElement}

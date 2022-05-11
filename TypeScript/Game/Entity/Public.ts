@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 import { regBlueprintType, TTsClassType } from '../../Common/Class';
 import TsPlayer, { playerComponentClasses } from '../Player/TsPlayer';
 import { entityRegistry } from './EntityRegistry';

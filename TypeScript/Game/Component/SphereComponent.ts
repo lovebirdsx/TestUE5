@@ -20,7 +20,7 @@ export class SphereComponent extends InteractiveComponent {
 
     private State: number;
 
-    private InteractSignal: ISignal<never>;
+    private InteractSignal: ISignal<boolean>;
 
     private InteractUi: Game.Demo.UI.UI_Sphere.UI_Sphere_C;
 
@@ -71,7 +71,7 @@ export class SphereComponent extends InteractiveComponent {
 
     public Interacting(entity: Entity): void {
         if (this.InteractSignal !== null) {
-            this.InteractSignal.Emit();
+            this.InteractSignal.Emit(true);
         }
     }
 

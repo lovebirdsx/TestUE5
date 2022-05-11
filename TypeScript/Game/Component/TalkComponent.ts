@@ -62,9 +62,9 @@ export class TalkComponent extends Component {
         const cancleableDelay = createCancleableDelay(globalConfig.GetConfig('TalkAutoJumpTime'));
 
         // 玩家点击
-        const talkSkippedSignal = createSignal<never>();
+        const talkSkippedSignal = createSignal<boolean>();
         this.TalkerDisplay.TalkSkipped.Add(() => {
-            talkSkippedSignal.Emit();
+            talkSkippedSignal.Emit(true);
         });
 
         await Promise.race([cancleableDelay.Promise, talkSkippedSignal.Promise]);

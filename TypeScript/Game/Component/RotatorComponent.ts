@@ -22,7 +22,7 @@ import { IRotatorComponent } from '../Scheme/Component/RotatorComponentScheme';
 import PlayerComponent from './PlayerComponent';
 
 export class RotatorComponent extends InteractiveComponent implements IRotatorComponent {
-    private InteractSignal: ISignal<never>;
+    private InteractSignal: ISignal<boolean>;
 
     private InteractUi: Game.Demo.UI.UI_Rotator.UI_Rotator_C;
 
@@ -69,7 +69,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public Interacting(entity: Entity): void {
         if (this.InteractSignal !== null) {
-            this.InteractSignal.Emit();
+            this.InteractSignal.Emit(true);
         }
     }
 

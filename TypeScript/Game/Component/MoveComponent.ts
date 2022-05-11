@@ -11,18 +11,20 @@ import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async
 import { toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
 import { IActionInfo, IFaceToPos, IMoveToPos } from '../Flow/Action';
-import { Component } from '../Interface';
+import { Component, DEFAULT_INIT_SPEED, IMoveComponent } from '../Interface';
 import { ActionRunnerComponent } from './ActionRunnerComponent';
 import StateComponent from './StateComponent';
 
-class MoveComponent extends Component {
+class MoveComponent extends Component implements IMoveComponent {
+    public InitSpeed: number = DEFAULT_INIT_SPEED;
+
     private Runner: ActionRunnerComponent;
 
     private Controller: AIController;
 
     private State: StateComponent;
 
-    private MoveFinishSignal: ISignal<void>;
+    private MoveFinishSignal: ISignal<boolean>;
 
     private IsMoving = false;
 
@@ -31,7 +33,10 @@ class MoveComponent extends Component {
         this.State = this.Entity.GetComponent(StateComponent);
         this.Runner.RegisterActionFun('MoveToPos', this.ExecuteMoveToPos.bind(this));
         this.Runner.RegisterActionFun('FaceToPos', this.ExecuteFaceToPos.bind(this));
-        this.Controller = (this.Entity.Actor as Character).Controller as AIController;
+
+        const character = this.Entity.Actor as Character;
+        this.Controller = character.Controller as AIController;
+        character.CharacterMovement.MaxWalkSpeed = this.InitSpeed;
         this.Controller.ReceiveMoveCompleted.Add(this.OnMoveCompleted);
     }
 
@@ -41,13 +46,12 @@ class MoveComponent extends Component {
     }
 
     public OnDestroy(): void {
+        // 在Destroy时,Controller的UE对象已经被销毁
+        // 所以不能在此引用Controller对象
         if (this.IsMoving) {
-            this.Controller.StopMovement();
-            this.IsMoving = false;
+            // 确保等待中的回调都被正常处理
+            this.MoveFinishSignal.Emit(false);
         }
-
-        // 在Destroy时,Controller的UE对象已经被销毁,所以以下调用会报异常
-        // this.Controller.ReceiveMoveCompleted.Remove(this.OnMoveCompleted);
     }
 
     private readonly OnMoveCompleted = (
@@ -55,7 +59,7 @@ class MoveComponent extends Component {
         result: EPathFollowingResult,
     ): void => {
         if (this.MoveFinishSignal) {
-            this.MoveFinishSignal.Emit();
+            this.MoveFinishSignal.Emit(true);
         }
         this.State.RecordPosition();
     };
@@ -78,7 +82,7 @@ class MoveComponent extends Component {
         const moveDelay = createCancleableDelay(action.Timeout);
 
         // 等待移动完毕
-        this.MoveFinishSignal = createSignal();
+        this.MoveFinishSignal = createSignal<boolean>();
         await Promise.race([moveDelay.Promise, this.MoveFinishSignal.Promise]);
 
         if (this.MoveFinishSignal.IsEmit()) {

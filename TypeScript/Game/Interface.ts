@@ -16,6 +16,12 @@ export interface ITriggerComponent {
     TriggerActions: ITriggerActions;
 }
 
+export const DEFAULT_INIT_SPEED = 500;
+
+export interface IMoveComponent {
+    InitSpeed?: number;
+}
+
 export type TComponentsState = Record<string, Record<string, unknown>>;
 
 export function parseComponentsState(json: string): TComponentsState {

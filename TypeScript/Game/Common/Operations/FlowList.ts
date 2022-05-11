@@ -125,7 +125,7 @@ class FlowListOp {
     public LoadTextList(flowList: IFlowListInfo, path: string): void {
         const csvPath = this.GetTextListPath(path);
         const csv = new TextListCsvLoader();
-        const rows = csv.Load(csvPath);
+        const rows = csv.TryLoad(csvPath);
 
         const texts = {} as Record<number, ITextConfig>;
         if (rows) {
@@ -135,7 +135,9 @@ class FlowListOp {
                     Sound: row.Sound,
                 };
             });
-            log(`load text csv from: ${csvPath}`);
+            if (rows.length > 0) {
+                log(`load text csv from: ${csvPath}`);
+            }
         } else {
             warn(`load text csv failed: ${csvPath}`);
         }

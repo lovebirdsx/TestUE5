@@ -35,8 +35,9 @@ export function createCancleableDelay(time: number): ICancleableDelay {
 
 export interface ISignal<T> {
     Promise: Promise<T>;
-    Emit: (t?: T) => void;
+    Emit: (t: T) => void;
     IsEmit: () => boolean;
+    Result: () => T;
 }
 
 export type TCallback<T> = (t: T) => void;
@@ -44,15 +45,18 @@ export type TCallback<T> = (t: T) => void;
 export function createSignal<T>(): ISignal<T> {
     let resolve: TCallback<T> = undefined;
     let isEmit = false;
+    let result: T = undefined;
     const promise = new Promise<T>((resolve0): void => {
         resolve = resolve0;
     });
     return {
         Promise: promise,
-        Emit: (t?: T): void => {
+        Emit: (t: T): void => {
             isEmit = true;
+            result = t;
             resolve(t);
         },
         IsEmit: () => isEmit,
+        Result: () => result,
     };
 }

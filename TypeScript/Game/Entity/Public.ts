@@ -26,6 +26,8 @@ export enum EBlueprintId {
 
     // ExtendedEntity
     AiNpcFemale1 = 1001,
+    AiNpcMale1 = 1002,
+    AiNpcAj = 1003,
 }
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
@@ -96,6 +98,8 @@ export function initEntity(): void {
 
     // ExtendedEntity
     regExtendedEntity(EBlueprintId.AiNpcFemale1, 'BP_AiNpcFemale1', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcMale1, 'BP_AiNpcMale1', TsAiNpc);
+    regExtendedEntity(EBlueprintId.AiNpcAj, 'BP_AiNpcAj', TsAiNpc);
 
     isInit = true;
 }

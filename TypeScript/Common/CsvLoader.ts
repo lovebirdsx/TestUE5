@@ -311,6 +311,11 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
         return this.Parse(content);
     }
 
+    public TryLoad(path: string): TCsvRow[] {
+        const content = MyFileHelper.Read(path);
+        return content ? this.Parse(content) : [];
+    }
+
     public LoadOne(path: string): TCsvRow {
         const content = MyFileHelper.Read(path);
         if (!content) {

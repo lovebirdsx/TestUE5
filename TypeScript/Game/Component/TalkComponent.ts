@@ -92,8 +92,10 @@ export class TalkComponent extends Component {
             const selectOptionText = await selectOptionSignal.Promise;
 
             const option = item.Options.find((op) => texts[op.TextId].Text === selectOptionText);
-            this.ActionsRunHandle = this.ActionRunner.SpawnHandler(option.Actions);
-            await this.ActionsRunHandle.Execute();
+            if (option.Actions) {
+                this.ActionsRunHandle = this.ActionRunner.SpawnHandler(option.Actions);
+                await this.ActionsRunHandle.Execute();
+            }
         }
 
         this.TalkerDisplay.HideAll();
@@ -110,6 +112,9 @@ export class TalkComponent extends Component {
         this.FlowListInfo = flowListInfo;
         this.ShowTalkInfo = showTalk;
         let currentTalkId = 0;
+
+        gameContext.Player.DisableInput(gameContext.PlayerController);
+
         while (currentTalkId < items.length && this.IsShowing) {
             if (currentTalkId > 0) {
                 await delay(csvRegistry.GetCsv(GlobalConfigCsv).GetConfig('TalkShowInterval'));
@@ -121,6 +126,8 @@ export class TalkComponent extends Component {
                 currentTalkId = this.NextTalkId;
             }
         }
+
+        gameContext.Player.EnableInput(gameContext.PlayerController);
         this.IsShowing = false;
     }
 

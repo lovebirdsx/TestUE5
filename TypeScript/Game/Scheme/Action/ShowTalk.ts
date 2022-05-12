@@ -54,6 +54,8 @@ export const talkOptionScheme = createObjectScheme<ITalkOption>({
         Actions: createArrayScheme({
             Element: talkActionScheme,
             NewLine: true,
+            ArraySimplify: true,
+            Optional: true,
             Tip: '选项动作',
         }),
     },
@@ -238,7 +240,9 @@ function checkTalkItem(showTalk: IShowTalk, item: ITalkItem, message: string[]):
     }
     if (item.Options) {
         item.Options.forEach((option) => {
-            errorCount += checkJumpTalk(option.Actions, alltalkIds, message);
+            if (option.Actions) {
+                errorCount += checkJumpTalk(option.Actions, alltalkIds, message);
+            }
         });
     }
 

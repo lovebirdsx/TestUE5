@@ -129,13 +129,6 @@
           ""Name"": ""状态1"",
           ""Actions"": [
             {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": true
-              }
-            },
-            {
               ""Name"": ""ShowTalk"",
               ""Params"": {
                 ""TalkItems"": [
@@ -201,13 +194,6 @@
                   }
                 ]
               }
-            },
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": false
-              }
             }
           ],
           ""Id"": 1
@@ -222,13 +208,6 @@
         {
           ""Name"": ""初始"",
           ""Actions"": [
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": true
-              }
-            },
             {
               ""Name"": ""ShowTalk"",
               ""Params"": {
@@ -312,13 +291,6 @@
           ""Name"": ""去火星"",
           ""Actions"": [
             {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": true
-              }
-            },
-            {
               ""Name"": ""ShowTalk"",
               ""Params"": {
                 ""TalkItems"": [
@@ -381,13 +353,6 @@
           ""Name"": ""去月球"",
           ""Actions"": [
             {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": true
-              }
-            },
-            {
               ""Name"": ""ShowTalk"",
               ""Params"": {
                 ""TalkItems"": [
@@ -434,13 +399,6 @@
                     ]
                   }
                 ]
-              }
-            },
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": false
               }
             }
           ],
@@ -510,13 +468,6 @@
                     ]
                   }
                 ]
-              }
-            },
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": false
               }
             }
           ],

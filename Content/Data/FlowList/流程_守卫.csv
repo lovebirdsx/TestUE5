@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,流程_守卫,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 5,
-  ""FlowGenId"": 2,
+  ""TextGenId"": 18,
+  ""FlowGenId"": 3,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -67,6 +67,92 @@
                           }
                         ]
                       }
+                    ],
+                    ""Actions"": []
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 2,
+      ""StateGenId"": 3,
+      ""Name"": ""守卫2"",
+      ""States"": [
+        {
+          ""Name"": ""初次相遇"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 4,
+                    ""TextId"": 5,
+                    ""Options"": [
+                      {
+                        ""TextId"": 6,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 7
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 4,
+                    ""TextId"": 8
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 4,
+                    ""TextId"": 9,
+                    ""Options"": [
+                      {
+                        ""TextId"": 10
+                      },
+                      {
+                        ""TextId"": 11,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 3,
+                    ""Name"": ""对话4"",
+                    ""WhoId"": 4,
+                    ""TextId"": 12,
+                    ""Options"": [
+                      {
+                        ""TextId"": 13,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -74,6 +160,45 @@
             }
           ],
           ""Id"": 1
+        },
+        {
+          ""Name"": ""相遇后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 4,
+                    ""TextId"": 14,
+                    ""Options"": [
+                      {
+                        ""TextId"": 15,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 16
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 4,
+                    ""TextId"": 17
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 2
         }
       ]
     }

@@ -86,14 +86,6 @@ export class GlobalActionsRunner implements IManager, IGlobalActionsRunner {
     private ExecuteSetFlowBoolOption(actionInfo: IActionInfo): void {
         const action = actionInfo.Params as ISetFlowBoolOption;
         switch (action.Option) {
-            case 'DisableInput':
-                if (action.Value) {
-                    gameContext.Player.DisableInput(gameContext.PlayerController);
-                } else {
-                    gameContext.Player.EnableInput(gameContext.PlayerController);
-                }
-                break;
-
             default:
                 error(`Unsupported option type ${action.Option}`);
                 break;

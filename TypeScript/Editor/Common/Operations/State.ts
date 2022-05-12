@@ -36,7 +36,9 @@ class StateOp {
                     }
                     if (talkItem.Options) {
                         talkItem.Options.forEach((option) => {
-                            option.Actions.forEach(actionCb);
+                            if (option.Actions) {
+                                option.Actions.forEach(actionCb);
+                            }
                         });
                     }
                 });

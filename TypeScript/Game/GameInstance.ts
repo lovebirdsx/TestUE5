@@ -4,9 +4,11 @@ import { log } from '../Common/Log';
 import { initEntity } from './Entity/Public';
 import { GlobalActionsRunner } from './Flow/GlobalActionsRunner';
 import { GameController } from './GameController';
+import { gameContext } from './Interface';
 import { EntityManager } from './Manager/EntityManager';
 import { StateManager } from './Manager/StateManager';
 import { TickManager } from './Manager/TickManager';
+import { TweenManager } from './Manager/TweenManager';
 
 export class GameInstance {
     private readonly EntityManager = new EntityManager();
@@ -15,6 +17,8 @@ export class GameInstance {
 
     private readonly TickManager = new TickManager();
 
+    private readonly TweenManager = new TweenManager();
+
     private readonly StateManager = new StateManager();
 
     private readonly GameController = new GameController();
@@ -22,6 +26,8 @@ export class GameInstance {
     public Init(): void {
         initCommon();
         initEntity(); // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
+
+        gameContext.TweenManager = this.TweenManager;
 
         this.TickManager.Init();
         this.StateManager.Init();
@@ -45,6 +51,7 @@ export class GameInstance {
 
     public Tick(deltaTime: number): void {
         this.TickManager.Tick(deltaTime);
+        this.TweenManager.Tick(deltaTime);
         this.EntityManager.Tick(deltaTime);
     }
 }

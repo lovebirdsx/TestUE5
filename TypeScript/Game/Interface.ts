@@ -4,6 +4,7 @@ import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 import { getTsClassByUeClass } from '../Common/Class';
 import { Event } from '../Common/Util';
 import { IActionInfo, IPlayFlow, ITriggerActions, TActionType, TActorState } from './Flow/Action';
+import { TweenManager } from './Manager/TweenManager';
 
 // 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
 export enum EBlueprintId {
@@ -156,6 +157,7 @@ export interface IGameContext {
     GlobalActionsRunner: IGlobalActionsRunner;
     StateManager: IStateManager;
     GameController: IGameController;
+    TweenManager: TweenManager;
 }
 
 export const gameContext: IGameContext = {
@@ -168,6 +170,7 @@ export const gameContext: IGameContext = {
     TickManager: undefined,
     GlobalActionsRunner: undefined,
     StateManager: undefined,
+    TweenManager: undefined,
 };
 
 export abstract class Component {

@@ -116,6 +116,10 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
     }
 
     public async Run(): Promise<void> {
+        if (!this.InitState) {
+            return;
+        }
+
         if (this.Handler) {
             error(`${this.Name} Can not run again`);
             return;

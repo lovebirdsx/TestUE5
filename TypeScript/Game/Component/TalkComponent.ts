@@ -1,11 +1,12 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable spellcheck/spell-checker */
 import { $ref } from 'puerts';
-import { BuiltinText, Game } from 'ue';
+import { BuiltinText, Game, Rotator } from 'ue';
 
 import { createCancleableDelay, createSignal, delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
+import { calUpRotatorByPoints } from '../../Common/Util';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerListOp } from '../Common/Operations/TalkerList';
@@ -30,6 +31,8 @@ export class TalkComponent extends Component {
     private NeedJumpTalk: boolean;
 
     private NextTalkId: number;
+
+    private RotatorBeforeTalk: Rotator;
 
     public OnInit(): void {
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
@@ -101,6 +104,21 @@ export class TalkComponent extends Component {
         this.TalkerDisplay.HideAll();
     }
 
+    private async FaceToPlayer(): Promise<void> {
+        const player = gameContext.Player;
+        const self = this.Entity.Actor;
+        const targetRotator = calUpRotatorByPoints(
+            self.K2_GetActorLocation(),
+            player.K2_GetActorLocation(),
+        );
+        await gameContext.TweenManager.RotatoToByZ(self, targetRotator, 0.5);
+    }
+
+    private async RestoreRotation(): Promise<void> {
+        const self = this.Entity.Actor;
+        await gameContext.TweenManager.RotatoToByZ(self, this.RotatorBeforeTalk, 0.5);
+    }
+
     public async Show(flowListInfo: IFlowListInfo, showTalk: IShowTalk): Promise<void> {
         if (this.IsShowing) {
             error(`${this.Name} Can not show talk again`);
@@ -108,12 +126,15 @@ export class TalkComponent extends Component {
         }
 
         const items = showTalk.TalkItems;
+        this.RotatorBeforeTalk = this.Entity.Actor.K2_GetActorRotation();
         this.IsShowing = true;
         this.FlowListInfo = flowListInfo;
         this.ShowTalkInfo = showTalk;
         let currentTalkId = 0;
 
         gameContext.Player.DisableInput(gameContext.PlayerController);
+
+        await this.FaceToPlayer();
 
         while (currentTalkId < items.length && this.IsShowing) {
             if (currentTalkId > 0) {
@@ -128,6 +149,9 @@ export class TalkComponent extends Component {
         }
 
         gameContext.Player.EnableInput(gameContext.PlayerController);
+
+        await this.RestoreRotation();
+
         this.IsShowing = false;
     }
 

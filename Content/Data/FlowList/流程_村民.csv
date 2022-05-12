@@ -1,0 +1,41 @@
+﻿客户端/服务端 使用,C,C
+字段名,Id,Json
+字段数据类型,String,String
+该字段是否用于条件筛选,1,0
+是否导出多语言,0,0
+条件检查,notEmpty && unique,
+默认值,,
+#,Id,Json字符串
+,流程_村民,"{
+  ""VersionNum"": 8,
+  ""TextGenId"": 2,
+  ""FlowGenId"": 2,
+  ""Flows"": [
+    {
+      ""Id"": 1,
+      ""StateGenId"": 2,
+      ""Name"": ""村民1"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 6,
+                    ""TextId"": 1
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    }
+  ]
+}"

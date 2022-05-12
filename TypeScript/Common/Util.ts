@@ -163,6 +163,12 @@ export function alignVector(vec: IVectorInfo, len = 1): void {
     }
 }
 
+export function calUpRotatorByPoints(from: UE.Vector, to: UE.Vector): UE.Rotator {
+    const dir = to.op_Subtraction(from);
+    dir.Z = 0;
+    return dir.Rotation();
+}
+
 export type TCallBack<T1, T2, T3> = (arg1?: T1, arg2?: T2, arg3?: T3) => void;
 
 export class Event<T1 = unknown, T2 = unknown, T3 = unknown> {

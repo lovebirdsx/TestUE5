@@ -6,9 +6,10 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
-import { configFile } from '../../Common/ConfigFile';
+import { editorConfig } from '../../Common/EditorConfig';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
+import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { formatColor } from '../Common/BaseComponent/Color';
@@ -61,16 +62,25 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private get IsLocked(): boolean {
-        return configFile.IsEntityEditorLocked;
+        return editorConfig.IsEntityEditorLocked;
     }
 
     private set IsLocked(value: boolean) {
-        configFile.IsEntityEditorLocked = value;
-        configFile.Save();
+        editorConfig.IsEntityEditorLocked = value;
+        editorConfig.Save();
 
         if (!value) {
             this.OnSelectionChanged();
         }
+    }
+
+    private get IsSaveWhileExitPie(): boolean {
+        return gameConfig.IsSaveWhileExitPie;
+    }
+
+    private set IsSaveWhileExitPie(value: boolean) {
+        gameConfig.IsSaveWhileExitPie = value;
+        gameConfig.Save();
     }
 
     private GenEntityStateBySelect(): IEntityState {
@@ -184,7 +194,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     draft.Histories.push(entityState);
                     draft.StepId++;
 
-                    if (draft.Histories.length > configFile.MaxHistory) {
+                    if (draft.Histories.length > editorConfig.MaxHistory) {
                         draft.Histories.shift();
                         draft.StepId--;
                     }
@@ -318,7 +328,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     />
                     <Text
                         Text={this.GetUndoStateStr()}
-                        Tip={`回退记录,最大支持${configFile.MaxHistory}个`}
+                        Tip={`回退记录,最大支持${editorConfig.MaxHistory}个`}
                     />
                     <Btn
                         Text={'↺'}
@@ -326,13 +336,21 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         Disabled={!canRedo(this.state)}
                         Tip={`重做 ${getCommandKeyDesc('Redo')}`}
                     />
-                    <Text Text={'锁定'} />
+                    <Text Text={'锁定'} Tip={'锁定后,选择其它Entity将不会改变当前编辑的Entity'} />
                     <Check
                         UnChecked={!this.IsLocked}
                         OnChecked={(checked: boolean): void => {
                             this.IsLocked = checked;
                         }}
                         Tip={'锁定后,选择其它Entity将不会改变当前编辑的Entity'}
+                    />
+                    <Text Text={'自动保存'} Tip={'退出Pie时,是否自动保存游戏'} />
+                    <Check
+                        UnChecked={!this.IsSaveWhileExitPie}
+                        OnChecked={(checked: boolean): void => {
+                            this.IsSaveWhileExitPie = checked;
+                        }}
+                        Tip={'退出Pie时,是否自动保存游戏'}
                     />
                     <Btn Text={'状态'} OnClick={this.Info} Tip={`输出状态`} />
                     <Btn Text={'测试'} OnClick={this.Test} Tip={`测试`} />

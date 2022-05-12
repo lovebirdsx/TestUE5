@@ -1,4 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
+import { EditorOperations } from 'ue';
+
+import { isEditor } from '../Common/Util';
+import { gameConfig } from './Common/GameConfig';
 import StateComponent from './Component/StateComponent';
 import { loadTsEntity } from './Entity/Common';
 import { gameContext, IGameController, ITsEntity } from './Interface';
@@ -6,6 +10,14 @@ import { gameContext, IGameController, ITsEntity } from './Interface';
 export class GameController implements IGameController {
     public constructor() {
         gameContext.GameController = this;
+
+        if (isEditor()) {
+            if (gameConfig.IsSaveWhileExitPie) {
+                EditorOperations.GetEditorEvent().OnEndPie.Add(() => {
+                    this.SaveGame();
+                });
+            }
+        }
     }
 
     public LoadGame(): void {

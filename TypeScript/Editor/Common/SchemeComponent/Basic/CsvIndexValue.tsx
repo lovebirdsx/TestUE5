@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { configFile } from '../../../../Common/ConfigFile';
+import { editorConfig } from '../../../../Common/EditorConfig';
 import { csvOp } from '../../../../Common/CsvOp';
 import { CsvIndexValueScheme, IProps, TCsvValueType } from '../../../../Common/Type';
 import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
@@ -10,8 +10,8 @@ import { Btn, List } from '../../BaseComponent/CommonComponent';
 import { sendEditorCommand } from '../../Util';
 
 function openCsvEditor(csvName: string): void {
-    configFile.CsvName = csvName;
-    configFile.Save();
+    editorConfig.CsvName = csvName;
+    editorConfig.Save();
 
     sendEditorCommand('RestartCsvEditor');
 }

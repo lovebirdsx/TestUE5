@@ -4,7 +4,7 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { gameConfig } from '../../Game/Common/Config';
+import { GameConfig } from '../../Game/Common/GameConfig';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
@@ -30,12 +30,12 @@ export class LevelEditor {
 
     public GetMapDataPath(): string {
         const world = EditorLevelLibrary.GetEditorWorld();
-        return gameConfig.GetCurrentMapDataPath(world);
+        return GameConfig.GetCurrentMapDataPath(world);
     }
 
     public GetMapSavePath(): string {
         const world = EditorLevelLibrary.GetEditorWorld();
-        return gameConfig.GetCurrentMapSavePath(world);
+        return GameConfig.GetCurrentMapSavePath(world);
     }
 
     public Save(): void {

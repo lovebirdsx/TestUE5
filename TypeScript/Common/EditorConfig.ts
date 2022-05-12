@@ -2,16 +2,14 @@
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { log } from './Log';
+import { writeJsonConfig } from './Util';
 
 function getDefaultFlowListPath(): string {
     return MyFileHelper.GetPath(EFileRoot.Save, 'Editor/DefaultFlowList.csv');
 }
 
-class ConfigFile {
-    public static readonly SavePath = MyFileHelper.GetPath(
-        EFileRoot.Save,
-        'Editor/FlowEditorConfig.json',
-    );
+class EditorConfig {
+    public static readonly SavePath = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Config.json');
 
     // 剧情配置文件
     public FlowConfigPath: string;
@@ -56,7 +54,7 @@ class ConfigFile {
     }
 
     private Load(): void {
-        const content = MyFileHelper.Read(ConfigFile.SavePath);
+        const content = MyFileHelper.Read(EditorConfig.SavePath);
         if (content) {
             const obj = JSON.parse(content) as object;
             Object.assign(this, obj);
@@ -70,13 +68,12 @@ class ConfigFile {
             this.CsvName = '对话人';
         }
 
-        log(`Load FlowEditor config: ${ConfigFile.SavePath}`);
+        log(`Load EditorConfig: ${EditorConfig.SavePath}`);
     }
 
     public Save(): void {
-        const tabSize = 2;
-        MyFileHelper.Write(ConfigFile.SavePath, JSON.stringify(this, null, tabSize));
+        writeJsonConfig(this, EditorConfig.SavePath);
     }
 }
 
-export const configFile = new ConfigFile();
+export const editorConfig = new EditorConfig();

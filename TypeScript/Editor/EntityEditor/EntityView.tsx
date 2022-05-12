@@ -3,7 +3,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { configFile } from '../../Common/ConfigFile';
+import { editorConfig } from '../../Common/EditorConfig';
 import { TModifyType } from '../../Common/Type';
 import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
@@ -30,15 +30,15 @@ export class EntityView extends React.Component<IEntityViewProps> {
     };
 
     private readonly OnClickSaveTemplate = (): void => {
-        const path = openSaveJsonFileDialog(configFile.LastEntityTemplatePath);
+        const path = openSaveJsonFileDialog(editorConfig.LastEntityTemplatePath);
         if (path) {
-            configFile.LastEntityTemplatePath = path;
+            editorConfig.LastEntityTemplatePath = path;
             EntityTemplateOp.Save(this.props.Data, path);
         }
     };
 
     private readonly OnClickLoadTemplate = (): void => {
-        const path = openLoadJsonFileDialog(configFile.LastEntityTemplatePath);
+        const path = openLoadJsonFileDialog(editorConfig.LastEntityTemplatePath);
         if (!path) {
             return;
         }
@@ -48,7 +48,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
             return;
         }
 
-        configFile.LastEntityTemplatePath = path;
+        editorConfig.LastEntityTemplatePath = path;
         const newData = EntityTemplateOp.ProduceEntityData(
             template,
             entityRegistry.GetComponentClassesByActor(this.props.Entity),

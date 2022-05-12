@@ -2,7 +2,7 @@
 import { MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
-import { gameConfig } from '../Common/Config';
+import { GameConfig } from '../Common/GameConfig';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
 import { IManager } from './Interface';
 
@@ -18,7 +18,7 @@ export class StateManager implements IManager, IStateManager {
     }
 
     private get SavePath(): string {
-        return gameConfig.GetCurrentMapSavePath(gameContext.World);
+        return GameConfig.GetCurrentMapSavePath(gameContext.World);
     }
 
     public Init(): void {

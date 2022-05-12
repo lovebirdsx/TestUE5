@@ -8,7 +8,7 @@ import { warn } from '../../../Common/Log';
 import { toTsArray } from '../../../Common/UeHelper';
 import { deepEquals, genGuid, readJsonObj, writeJsonObj } from '../../../Common/Util';
 import { IEntityData, TComponentClass, TComponentsState } from '../../Interface';
-import { gameConfig } from '../Config';
+import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
     Guid: string;
@@ -17,7 +17,7 @@ export interface IEntityTemplate {
 }
 
 function getEntityTemplateFiles(): string[] {
-    const dir = gameConfig.EntityTemplateDir;
+    const dir = GameConfig.EntityTemplateDir;
     const array = NewArray(BuiltinString);
     MyFileHelper.FindFiles($ref(array), dir, 'json');
     const files = toTsArray(array);
@@ -81,7 +81,7 @@ export class EntityTemplateOp {
     }
 
     public static GetPath(guid: string): string {
-        const dir = gameConfig.EntityTemplateDir;
+        const dir = GameConfig.EntityTemplateDir;
         const name = this.GetNameByGuid(guid);
         return `${dir}/${name}.json`;
     }

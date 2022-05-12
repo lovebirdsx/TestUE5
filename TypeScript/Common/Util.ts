@@ -205,3 +205,11 @@ export function readJsonObj<T>(path: string, defalut?: T): T {
 export function writeJsonObj(obj: unknown, path: string): void {
     UE.MyFileHelper.Write(path, stringifyWithOutUnderScore(obj));
 }
+
+export function writeJsonConfig(obj: unknown, path: string): void {
+    UE.MyFileHelper.Write(path, JSON.stringify(obj, undefined, 2));
+}
+
+export function isEditor(): boolean {
+    return UE.EditorOperations !== undefined;
+}

@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { configFile } from '../../../../Common/ConfigFile';
+import { editorConfig } from '../../../../Common/EditorConfig';
 import { log } from '../../../../Common/Log';
 import { IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
-import { gameConfig } from '../../../../Game/Common/Config';
+import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IPlayFlow, ITriggerActions, parsePlayFlow } from '../../../../Game/Flow/Action';
@@ -45,8 +45,8 @@ export function RenderStateId(props: IProps<number>): JSX.Element {
 }
 
 function openFlowEditor(flowName: string): void {
-    configFile.FlowConfigPath = flowListOp.GetPath(flowName);
-    configFile.Save();
+    editorConfig.FlowConfigPath = flowListOp.GetPath(flowName);
+    editorConfig.Save();
 
     sendEditorCommand('RestartFlowEditor');
 }
@@ -133,7 +133,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
         <HorizontalBox>
             {props.PrefixElement}
             <Text
-                Text={`目录:[${gameConfig.FlowListDir}]\n不存在流程配置文件(前缀为[${gameConfig.FlowListPrefix}])`}
+                Text={`目录:[${GameConfig.FlowListDir}]\n不存在流程配置文件(前缀为[${GameConfig.FlowListPrefix}])`}
             />
         </HorizontalBox>
     );

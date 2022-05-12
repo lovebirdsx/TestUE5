@@ -12,7 +12,7 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { configFile } from '../../Common/ConfigFile';
+import { editorConfig } from '../../Common/EditorConfig';
 import { ICsv } from '../../Common/CsvLoader';
 import { log } from '../../Common/Log';
 import { ECsvName } from '../../Common/Type';
@@ -65,7 +65,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
     }
 
     private LoadInitState(): ICsvEditorState {
-        const name = configFile.CsvName;
+        const name = editorConfig.CsvName;
         const csv = csvRegistry.Load(name as ECsvName);
         const csvState: ICsvState = {
             Name: name as ECsvName,
@@ -96,7 +96,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             return;
         }
 
-        if (this.TimeSecond - this.LastModifyTime < configFile.AutoSaveInterval) {
+        if (this.TimeSecond - this.LastModifyTime < editorConfig.AutoSaveInterval) {
             return;
         }
 
@@ -142,7 +142,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             draft.Histories.push(csvState);
             draft.StepId++;
 
-            if (draft.Histories.length > configFile.MaxHistory) {
+            if (draft.Histories.length > editorConfig.MaxHistory) {
                 draft.Histories.shift();
                 draft.StepId--;
             }
@@ -259,7 +259,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                 />
                 <Text
                     Text={this.GetUndoStateStr()}
-                    Tip={`回退记录,最大支持${configFile.MaxHistory}个`}
+                    Tip={`回退记录,最大支持${editorConfig.MaxHistory}个`}
                 />
                 <Btn
                     Text={'↺'}
@@ -297,8 +297,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         };
         this.RecordCsvState(newCsvState, true);
 
-        configFile.CsvName = name;
-        configFile.Save();
+        editorConfig.CsvName = name;
+        editorConfig.Save();
     }
 
     private RenderAllCsvEntries(): JSX.Element {

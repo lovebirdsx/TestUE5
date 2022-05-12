@@ -5,6 +5,7 @@ export const FLOW_LIST_VERSION = 8;
 
 export type TActionType =
     | 'ChangeActorState'
+    | 'ChangeBehaviorState'
     | 'ChangeRandomState'
     | 'ChangeState'
     | 'Destroy'

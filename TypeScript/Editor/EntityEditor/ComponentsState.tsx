@@ -3,11 +3,11 @@ import produce from 'immer';
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { ObjectScheme, TModifyType } from '../../Common/Type';
+import { TModifyType } from '../../Common/Type';
 import { TComponentClass, TComponentsState } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Public';
 import { Text } from '../Common/BaseComponent/CommonComponent';
-import { Obj } from '../Common/SchemeComponent/Public';
+import { Any } from '../Common/SchemeComponent/Public';
 
 export interface IComponentsStateProps {
     Value: TComponentsState;
@@ -34,13 +34,13 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
 
             return (
                 <VerticalBox key={id}>
-                    <Obj
+                    <Any
                         PrefixElement={<Text Text={classObj.name} />}
                         Value={value}
-                        Scheme={scheme as ObjectScheme<Record<string, unknown>>}
+                        Scheme={scheme}
                         OnModify={(obj, type): void => {
                             const newComponentState = produce(this.props.Value, (draft) => {
-                                draft[classObj.name] = obj;
+                                draft[classObj.name] = obj as Record<string, unknown>;
                             });
                             this.props.OnModify(newComponentState, type);
                         }}

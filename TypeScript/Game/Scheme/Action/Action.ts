@@ -63,3 +63,8 @@ export const trampleActionScheme = createActionScheme({
     Name: 'TrampleAction',
     Filter: EActionFilter.Trample,
 });
+
+export const behaviorFlowActionScheme = createActionScheme({
+    Name: 'BehaviorFlowAction',
+    Filter: EActionFilter.BehaviorFlow,
+});

@@ -4,6 +4,7 @@ import { EActionFilter, ObjectScheme, TFixResult } from '../../../Common/Type';
 import { IActionInfo, TActionType } from '../../Flow/Action';
 import {
     ActionScheme,
+    behaviorFlowActionScheme,
     flowListActionScheme,
     talkActionScheme,
     trampleActionScheme,
@@ -50,6 +51,7 @@ class ActionRegistry {
         result.set(EActionFilter.Talk, talkActionScheme);
         result.set(EActionFilter.Trigger, triggerActionScheme);
         result.set(EActionFilter.Trample, trampleActionScheme);
+        result.set(EActionFilter.BehaviorFlow, behaviorFlowActionScheme);
         return result;
     }
 

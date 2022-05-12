@@ -6,7 +6,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { log } from '../../../Common/Log';
 import { EActionFilter, TModifyType } from '../../../Common/Type';
 import { IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { Btn, EditorBox, Fold, TAB_OFFSET, Text } from '../BaseComponent/CommonComponent';
+import { Btn, EditorBox, Fold, TAB_OFFSET } from '../BaseComponent/CommonComponent';
 import { editorFlowOp } from '../Operations/Flow';
 import { flowContext } from '../SchemeComponent/Context';
 import { State } from './State';
@@ -15,6 +15,7 @@ export interface IFlowProps {
     Flow: IFlowInfo;
     IsDuplicate?: boolean;
     PrefixElement?: JSX.Element;
+    HideName?: boolean;
     ObjectFilter: EActionFilter;
     OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
@@ -153,28 +154,31 @@ export class Flow extends React.Component<IFlowProps> {
         }
         return (
             <VerticalBox>
-                <HorizontalBox>
-                    <Fold
-                        IsFold={flow._folded}
-                        IsFull={flow.States.length > 0}
-                        OnChanged={this.ChangeFold}
-                    />
-                    {this.props.PrefixElement}
-                    <Text
-                        Text={'●'}
-                        Color={this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'}
-                    />
-                    <EditorBox
-                        Text={flow.Name}
-                        OnChange={this.ChangeName}
-                        Tip="剧情名字"
-                        Width={100}
-                    />
-                    <Btn Text={'✚状态'} OnClick={this.AddState} Tip={ADD_STATE_TIP} />
-                </HorizontalBox>
-                <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
-                    <flowContext.Provider value={flow}>{nodes}</flowContext.Provider>
-                </VerticalBox>
+                <flowContext.Provider value={flow}>
+                    <HorizontalBox>
+                        <Fold
+                            IsFold={flow._folded}
+                            IsFull={flow.States.length > 0}
+                            OnChanged={this.ChangeFold}
+                        />
+                        {this.props.PrefixElement}
+                        {!this.props.HideName && (
+                            <EditorBox
+                                Text={flow.Name}
+                                OnChange={this.ChangeName}
+                                Color={
+                                    this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'
+                                }
+                                Tip="剧情名字"
+                                Width={100}
+                            />
+                        )}
+                        <Btn Text={'✚状态'} OnClick={this.AddState} Tip={ADD_STATE_TIP} />
+                    </HorizontalBox>
+                    <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+                        {nodes}
+                    </VerticalBox>
+                </flowContext.Provider>
             </VerticalBox>
         );
     }

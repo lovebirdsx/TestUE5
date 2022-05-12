@@ -2,6 +2,7 @@
 import { Actor } from 'ue';
 
 import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
+import { BehaviorFlowComponent } from '../Component/BehaviorFlowComponent';
 import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
 import MoveComponent from '../Component/MoveComponent';
@@ -14,6 +15,7 @@ import TsCharacterEntity from './TsCharacterEntity';
 
 export const aiNpcComponentClasses: TComponentClass[] = [
     StateComponent,
+    BehaviorFlowComponent,
     FlowComponent,
     TalkComponent,
     ActionRunnerComponent,

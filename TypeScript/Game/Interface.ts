@@ -3,7 +3,14 @@ import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
 import { Event } from '../Common/Util';
-import { IActionInfo, IPlayFlow, ITriggerActions, TActionType, TActorState } from './Flow/Action';
+import {
+    IActionInfo,
+    IFlowInfo,
+    IPlayFlow,
+    ITriggerActions,
+    TActionType,
+    TActorState,
+} from './Flow/Action';
 import { TweenManager } from './Manager/TweenManager';
 
 // 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
@@ -32,6 +39,13 @@ export enum EBlueprintId {
 
     // Component
     ActorStateComponent = 10001,
+}
+
+export interface IBehaviorFlowComponent {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    _folded?: boolean;
+    InitStateId: number;
+    FlowInfo: IFlowInfo;
 }
 
 export interface IFlowComponent {

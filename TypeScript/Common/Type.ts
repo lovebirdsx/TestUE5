@@ -157,6 +157,7 @@ export enum EActionFilter {
     Talk, // 在ShowTalk中执行
     Invoke, // 在Invoke中执行
     Trample,
+    BehaviorFlow,
 }
 
 export const allActionFilters = getEnumValues(EActionFilter);

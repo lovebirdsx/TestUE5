@@ -21,6 +21,7 @@ import { setHeadIconVisibleScheme } from './Talker';
 
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeActorState: changeActorStateScheme,
+    ChangeBehaviorState: changeStateScheme,
     ChangeState: changeStateScheme,
     ChangeRandomState: changeRandomStateScheme,
     Destroy: destroyScheme,

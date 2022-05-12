@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createBooleanScheme, createObjectScheme } from '../../../Common/Type';
-import { IFlowComponent } from '../../Interface';
+import { IBehaviorFlowComponent, IFlowComponent } from '../../Interface';
 import { playFlowScheme } from '../Action/Public';
 
 export const flowComponentScheme = createObjectScheme<IFlowComponent>({
@@ -20,5 +20,15 @@ export const flowComponentScheme = createObjectScheme<IFlowComponent>({
             Tip: '当前状态结束后,是否继续执行后续的状态',
         }),
     },
+    NewLine: true,
+});
+
+export const behaviorFlowComponentScheme = createObjectScheme<IBehaviorFlowComponent>({
+    Name: 'BehaviorFlowComponent',
+    Fields: {
+        InitStateId: undefined,
+        FlowInfo: undefined,
+    },
+    CreateDefault: () => undefined,
     NewLine: true,
 });

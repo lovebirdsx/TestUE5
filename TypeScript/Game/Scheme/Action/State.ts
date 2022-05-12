@@ -1,11 +1,17 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
     createArrayScheme,
+    createEnumScheme,
     createIntScheme,
     createObjectScheme,
     EActionFilter,
 } from '../../../Common/Type';
-import { IChangeRandomState, IChangeState } from '../../Flow/Action';
+import {
+    actorStateConfig,
+    IChangeActorState,
+    IChangeRandomState,
+    IChangeState,
+} from '../../Flow/Action';
 
 export const finishStateScheme = createObjectScheme({
     CnName: '结束状态',
@@ -40,4 +46,16 @@ export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>({
     },
     Filters: [EActionFilter.FlowList],
     Tip: '随机选择一个状态进行跳转',
+});
+
+export const changeActorStateScheme = createObjectScheme<IChangeActorState>({
+    Name: 'ChangeActorState',
+    CnName: '改变Actor状态',
+    Fields: {
+        State: createEnumScheme({
+            Config: actorStateConfig,
+        }),
+    },
+    Filters: [EActionFilter.Trigger, EActionFilter.Invoke],
+    Tip: '让目标Actor改变状态',
 });

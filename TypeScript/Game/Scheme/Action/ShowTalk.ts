@@ -53,7 +53,7 @@ export const talkOptionScheme = createObjectScheme<ITalkOption>({
         TextId: talkOptionTextIdScheme,
         Actions: createArrayScheme({
             Element: talkActionScheme,
-            NewLine: false,
+            NewLine: true,
             Tip: '选项动作',
         }),
     },

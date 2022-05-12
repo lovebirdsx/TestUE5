@@ -5,7 +5,7 @@ import { VerticalBox } from 'react-umg';
 
 import { ObjectScheme, TModifyType } from '../../Common/Type';
 import { TComponentClass, TComponentsState } from '../../Game/Interface';
-import { componentRegistry } from '../../Game/Scheme/Component/Index';
+import { componentRegistry } from '../../Game/Scheme/Component/Public';
 import { Text } from '../Common/BaseComponent/CommonComponent';
 import { Obj } from '../Common/SchemeComponent/Public';
 

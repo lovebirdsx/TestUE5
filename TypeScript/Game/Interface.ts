@@ -3,7 +3,35 @@ import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
 import { Event } from '../Common/Util';
-import { IActionInfo, IPlayFlow, ITriggerActions, TActionType } from './Flow/Action';
+import { IActionInfo, IPlayFlow, ITriggerActions, TActionType, TActorState } from './Flow/Action';
+
+// 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
+export enum EBlueprintId {
+    Entity = 0,
+    Npc = 1,
+    Trigger = 2,
+    Player = 3,
+    TsSphereActor = 4,
+    CharacterEntity = 5,
+    AiNpc = 6,
+    Spring = 7,
+    Rotator = 8,
+    Trample = 9,
+    StateEntity = 10,
+
+    // ExtendedEntity
+    AiNpcGuard1 = 1001,
+    AiNpcGuard2 = 1002,
+    AiNpcAj = 1003,
+    AiNpcMother = 1004,
+    AiNpcVillageHead = 1005,
+    AiNpcVillage1 = 1006,
+    AiNpcVillage2 = 1007,
+    Gate = 1008,
+
+    // Component
+    ActorStateComponent = 10001,
+}
 
 export interface IFlowComponent {
     InitState: IPlayFlow;
@@ -20,6 +48,10 @@ export const DEFAULT_INIT_SPEED = 500;
 
 export interface IMoveComponent {
     InitSpeed?: number;
+}
+
+export interface IActorStateComponent {
+    State: TActorState;
 }
 
 export type TComponentsState = Record<string, Record<string, unknown>>;

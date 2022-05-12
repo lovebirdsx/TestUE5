@@ -11,10 +11,16 @@ import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
 import { destroyAllChildScheme, spawnChildScheme } from './Spawn';
-import { changeRandomStateScheme, changeStateScheme, finishStateScheme } from './State';
+import {
+    changeActorStateScheme,
+    changeRandomStateScheme,
+    changeStateScheme,
+    finishStateScheme,
+} from './State';
 import { setHeadIconVisibleScheme } from './Talker';
 
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
+    ChangeActorState: changeActorStateScheme,
     ChangeState: changeStateScheme,
     ChangeRandomState: changeRandomStateScheme,
     Destroy: destroyScheme,

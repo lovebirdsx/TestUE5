@@ -9,6 +9,7 @@ export interface ITsClassType<T extends UE.Object> extends Function {
 }
 
 export type TTsClassType = ITsClassType<UE.Object>;
+export type TActorComponentClassType = ITsClassType<UE.ActorComponent>;
 
 const tsClassToUeClassMap: Map<TTsClassType, UE.Class> = new Map();
 const ueClassToTsClassMap: Map<UE.Class, TTsClassType> = new Map();
@@ -94,7 +95,7 @@ export function regBlueprintType(
     }
 }
 
-export function getBlueprintType(id: number): UE.Class {
+export function getBlueprintClass(id: number): UE.Class {
     return ueClassById.get(id);
 }
 

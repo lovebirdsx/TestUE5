@@ -4,6 +4,7 @@ import { ITransform, IVectorInfo } from '../../Common/Interface';
 export const FLOW_LIST_VERSION = 8;
 
 export type TActionType =
+    | 'ChangeActorState'
     | 'ChangeRandomState'
     | 'ChangeState'
     | 'Destroy'
@@ -268,4 +269,16 @@ export interface ISimpleMove {
     Who: string;
     UseTime: number;
     Pos: IVectorInfo;
+}
+
+export const actorStateConfig = {
+    Idle: '待机',
+    Open: '打开',
+    Close: '关闭',
+};
+
+export type TActorState = keyof typeof actorStateConfig;
+
+export interface IChangeActorState {
+    State: TActorState;
 }

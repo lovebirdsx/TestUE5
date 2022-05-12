@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
+import * as UE from 'ue';
+
 import { regBlueprintType, TTsClassType } from '../../Common/Class';
+import { EBlueprintId } from '../Interface';
 import TsPlayer, { playerComponentClasses } from '../Player/TsPlayer';
 import { entityRegistry } from './EntityRegistry';
 import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
@@ -9,31 +13,9 @@ import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsRotator, { rotatorComponentClasses } from './TsRotator';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
 import TsSpring, { springComponentClasses } from './TsSpring';
+import TsStateEntity, { stateEntityComponentClasses } from './TsStateEntity';
 import TsTrample, { trampleComponentClasses } from './TsTrample';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
-
-// 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
-export enum EBlueprintId {
-    Entity = 0,
-    Npc = 1,
-    Trigger = 2,
-    Player = 3,
-    TsSphereActor = 4,
-    CharacterEntity = 5,
-    AiNpc = 6,
-    Spring = 7,
-    Rotator = 8,
-    Trample = 9,
-
-    // ExtendedEntity
-    AiNpcGuard1 = 1001,
-    AiNpcGuard2 = 1002,
-    AiNpcAj = 1003,
-    AiNpcMother = 1004,
-    AiNpcVillageHead = 1005,
-    AiNpcVillage1 = 1006,
-    AiNpcVillage2 = 1007,
-}
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
     if (dir) {
@@ -66,6 +48,12 @@ function regExtendedEntity(
     regBlueprintType(id, path, tsClass, false);
 }
 
+const ACTOR_COMPONET_PATH = '/Game/Blueprints/Component/';
+function regActorComponent(id: EBlueprintId, name: string, dir?: string): void {
+    const path = makeTsClassPath(ACTOR_COMPONET_PATH, name, dir);
+    regBlueprintType(id, path, UE.ActorComponent, false);
+}
+
 let isInit = false;
 
 export function initEntity(): void {
@@ -84,6 +72,7 @@ export function initEntity(): void {
     entityRegistry.Register(TsSpring, ...springComponentClasses);
     entityRegistry.Register(TsRotator, ...rotatorComponentClasses);
     entityRegistry.Register(TsTrample, ...trampleComponentClasses);
+    entityRegistry.Register(TsStateEntity, ...stateEntityComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -96,6 +85,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Spring, TsSpring);
     regEntity(EBlueprintId.Rotator, TsRotator);
     regEntity(EBlueprintId.Trample, TsTrample);
+    regEntity(EBlueprintId.StateEntity, TsStateEntity);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -109,6 +99,10 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.AiNpcVillageHead, 'BP_AiNpcVillageHead', TsAiNpc);
     regExtendedEntity(EBlueprintId.AiNpcVillage1, 'BP_AiNpcVillage1', TsAiNpc);
     regExtendedEntity(EBlueprintId.AiNpcVillage2, 'BP_AiNpcVillage2', TsAiNpc);
+    regExtendedEntity(EBlueprintId.Gate, 'BP_Gate', TsStateEntity);
+
+    // ActorComponent
+    regActorComponent(EBlueprintId.ActorStateComponent, 'BP_StateComponent');
 
     isInit = true;
 }

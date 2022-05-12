@@ -39,10 +39,13 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
     private FlowListInfo: IFlowListInfo;
 
     public OnInit(): void {
+        if (!this.InitState) {
+            return;
+        }
+
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.Talk = this.Entity.GetComponent(TalkComponent);
         this.State = this.Entity.GetComponent(StateComponent);
-
         this.FlowListInfo = flowListOp.LoadByName(this.InitState.FlowListName);
         this.FlowInfo = this.FlowListInfo.Flows.find((flow) => flow.Id === this.InitState.FlowId);
         this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
@@ -59,11 +62,19 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
     }
 
     public OnLoadState(): void {
+        if (!this.InitState) {
+            return;
+        }
+
         this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
         this.ActionId = this.State.GetState<number>('ActionId') || 0;
     }
 
     public OnStart(): void {
+        if (!this.InitState) {
+            return;
+        }
+
         if (this.AutoRun) {
             void this.Run();
         }

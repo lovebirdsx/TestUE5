@@ -2,7 +2,7 @@
 
 import { Actor, Character, GameplayStatics, Transform, Vector } from 'ue';
 
-import { getBlueprintType, isChildOfClass } from '../../Common/Class';
+import { getBlueprintClass, isChildOfClass } from '../../Common/Class';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { TsEntity } from '../Entity/Public';
 import TsCharacterEntity from '../Entity/TsCharacterEntity';
@@ -39,7 +39,7 @@ class EntitySerializer {
     }
 
     public SpawnEntityByData(state: IEntityData, transform: Transform): TsEntity {
-        const actorClass = getBlueprintType(state.PrefabId);
+        const actorClass = getBlueprintClass(state.PrefabId);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
             gameContext.World,
             actorClass,

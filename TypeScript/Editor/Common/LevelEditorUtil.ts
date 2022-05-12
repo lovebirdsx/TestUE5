@@ -16,7 +16,7 @@ import {
     Vector,
 } from 'ue';
 
-import { getAssetPath, getBlueprintType } from '../../Common/Class';
+import { getAssetPath, getBlueprintClass } from '../../Common/Class';
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
@@ -95,7 +95,7 @@ class LevelEditorUtil {
         }
 
         const entity = EditorLevelLibrary.SpawnActorFromClass(
-            getBlueprintType(template.PrefabId),
+            getBlueprintClass(template.PrefabId),
             toVector(iTransform.Pos),
             toRotation(iTransform.Rot),
         ) as ITsEntity;

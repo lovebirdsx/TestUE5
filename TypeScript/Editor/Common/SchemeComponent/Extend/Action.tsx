@@ -3,12 +3,12 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { EActionFilter, Scheme, TModifyType } from '../../../Common/Type';
-import { IActionInfo } from '../../../Game/Flow/Action';
-import { actionRegistry } from '../../../Game/Scheme/Action/Public';
-import { TAB_OFFSET } from '../BaseComponent/CommonComponent';
-import * as ContextBtn from '../BaseComponent/ContextBtn';
-import { Dynamic } from '../SchemeComponent/Public';
+import { EActionFilter, Scheme, TModifyType } from '../../../../Common/Type';
+import { IActionInfo } from '../../../../Game/Flow/Action';
+import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
+import { TAB_OFFSET } from '../../BaseComponent/CommonComponent';
+import * as ContextBtn from '../../BaseComponent/ContextBtn';
+import { Dynamic } from '../Basic/Public';
 
 export interface IActionProps {
     Action: IActionInfo;

@@ -1,267 +1,185 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import produce from 'immer';
+/* eslint-disable spellcheck/spell-checker */
+import { produce } from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { editorConfig } from '../../../../Common/EditorConfig';
 import { log } from '../../../../Common/Log';
-import { EActionFilter, IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
-import { GameConfig } from '../../../../Game/Common/GameConfig';
-import { flowOp } from '../../../../Game/Common/Operations/Flow';
-import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
-import {
-    IPlayFlow,
-    ITriggerActions,
-    parseFlowInfo,
-    parsePlayFlow,
-} from '../../../../Game/Flow/Action';
-import { IBehaviorFlowComponent } from '../../../../Game/Interface';
-import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
-import { Btn, Fold, List, Text } from '../../BaseComponent/CommonComponent';
-import { Flow } from '../../ExtendComponent/Flow';
-import { sendEditorCommand } from '../../Util';
-import { Any, Obj } from '../Basic/Public';
+import { EActionFilter, TModifyType } from '../../../../Common/Type';
+import { IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
+import { Btn, EditorBox, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
+import { editorFlowOp } from '../../Operations/Flow';
 import { flowContext } from '../Context';
+import { State } from './State';
 
-const DEFAULT_STATE_ID = 1;
-
-export function RenderStateId(props: IProps<number>): JSX.Element {
-    return (
-        <flowContext.Consumer>
-            {(value): JSX.Element => {
-                const stateNames = value.States.map((e) => e.Name);
-                const selectedState = value.States.find((e) => e.Id === props.Value);
-                return (
-                    <HorizontalBox>
-                        {props.PrefixElement}
-                        <List
-                            Items={stateNames}
-                            Selected={selectedState ? selectedState.Name : ''}
-                            Tip="目标状态"
-                            OnSelectChanged={(selectedStateName): void => {
-                                const state = value.States.find(
-                                    (e) => e.Name === selectedStateName,
-                                );
-                                props.OnModify(state ? state.Id : DEFAULT_STATE_ID, 'normal');
-                            }}
-                        />
-                    </HorizontalBox>
-                );
-            }}
-        </flowContext.Consumer>
-    );
+export interface IFlowProps {
+    Flow: IFlowInfo;
+    IsDuplicate?: boolean;
+    PrefixElement?: JSX.Element;
+    HideName?: boolean;
+    ObjectFilter: EActionFilter;
+    OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
 
-function openFlowEditor(flowName: string): void {
-    editorConfig.FlowConfigPath = flowListOp.GetPath(flowName);
-    editorConfig.Save();
+const ADD_STATE_TIP = [
+    '增加状态',
+    '  状态',
+    '    一个剧情由多个状态组成',
+    '    一个状态可以包含多个动作',
+    '  状态执行顺序',
+    '    剧情播放时,根据其指定的状态id进入对应状态',
+    '    若状态中的动作包含了状态跳转动作,则跳转到对应的状态',
+    '    若状态中的动作执行了[finishState],则状态执行结束',
+    '    若状态中的动作全部执行完毕,则状态也执行结束',
+    '    状态执行结束后,控制权将交回给外部',
+].join('\n');
 
-    sendEditorCommand('RestartFlowEditor');
-}
-
-export function RenderPlayFlow(props: IProps): JSX.Element {
-    const playFlow = props.Value as IPlayFlow;
-    if (flowListOp.Names.length > 0) {
-        if (!flowListOp.Names.includes(playFlow.FlowListName)) {
-            return (
-                <HorizontalBox>
-                    {props.PrefixElement}
-                    <List
-                        Items={flowListOp.Names}
-                        Selected={playFlow.FlowListName}
-                        OnSelectChanged={function (flowListName: string): void {
-                            const newPlayFlow = createDefaultPlayFlowFor(flowListName);
-                            props.OnModify(newPlayFlow, 'normal');
-                        }}
-                        Tip={`选择剧情文件`}
-                    />
-                </HorizontalBox>
-            );
+export class Flow extends React.Component<IFlowProps> {
+    private Modify(cb: (from: IFlowInfo, to: IFlowInfo) => void, type: TModifyType): void {
+        const { Flow: flow } = this.props;
+        const newFlow = produce(flow, (draft) => {
+            cb(flow, draft);
+        });
+        if (flow !== newFlow) {
+            this.props.OnModify(newFlow, type);
         }
-
-        const flowList = flowListOp.LoadByName(playFlow.FlowListName);
-        const flowNames = flowListOp.GetFlowNames(flowList);
-        const flow = flowList.Flows.find((flow) => flow.Id === playFlow.FlowId);
-        const stateNames = flow ? flowOp.GetStateNames(flow) : [];
-        const state = flow ? flowOp.GetState(flow, playFlow.StateId) : undefined;
-        return (
-            <HorizontalBox>
-                {props.PrefixElement}
-                <List
-                    Items={flowListOp.Names}
-                    Selected={playFlow.FlowListName}
-                    OnSelectChanged={function (flowListName: string): void {
-                        const newPlayFlow = createDefaultPlayFlowFor(flowListName);
-                        props.OnModify(newPlayFlow, 'normal');
-                    }}
-                    Tip={`选择剧情文件`}
-                />
-                <List
-                    Items={flowNames}
-                    Selected={flow ? flow.Name : ''}
-                    OnSelectChanged={function (flowName: string): void {
-                        const newFlow = flowList.Flows.find((flow) => flow.Name === flowName);
-                        const newState =
-                            newFlow && newFlow.States.length > 0 ? newFlow.States[0] : null;
-                        const newPlayFlow: IPlayFlow = {
-                            FlowListName: playFlow.FlowListName,
-                            FlowId: newFlow ? newFlow.Id : 0,
-                            StateId: newState ? newState.Id : 0,
-                        };
-                        props.OnModify(newPlayFlow, 'normal');
-                    }}
-                    Tip={`选择剧情`}
-                />
-                <List
-                    Items={stateNames}
-                    Selected={state ? state.Name : ''}
-                    OnSelectChanged={function (stateName: string): void {
-                        const newState = flow.States.find((state) => state.Name === stateName);
-                        const newPlayFlow: IPlayFlow = {
-                            FlowListName: playFlow.FlowListName,
-                            FlowId: playFlow.FlowId,
-                            StateId: newState ? newState.Id : 0,
-                        };
-                        props.OnModify(newPlayFlow, 'normal');
-                    }}
-                    Tip={`选择状态`}
-                />
-                <Btn
-                    Text={'⊙'}
-                    OnClick={(): void => {
-                        openFlowEditor(playFlow.FlowListName);
-                    }}
-                    Tip={'打开流程配置'}
-                />
-            </HorizontalBox>
-        );
     }
 
-    return (
-        <HorizontalBox>
-            {props.PrefixElement}
-            <Text
-                Text={`目录:[${GameConfig.FlowListDir}]\n不存在流程配置文件(前缀为[${GameConfig.FlowListPrefix}])`}
-            />
-        </HorizontalBox>
-    );
-}
+    private readonly ChangeFold = (): void => {
+        this.Modify((from, to) => {
+            to._folded = !from._folded;
+        }, 'fold');
+    };
 
-export function RenderPlayFlowJson(props: IProps): JSX.Element {
-    const playFlow = parsePlayFlow(props.Value as string);
-    const prefixElement = (
-        <HorizontalBox>
-            {props.PrefixElement}
-            <Btn
-                Text={'R'}
-                OnClick={(): void => {
-                    props.OnModify('', 'normal');
-                }}
-            />
-            <Btn
-                Text={'P'}
-                OnClick={(): void => {
-                    log(props.Value as string);
-                }}
-            />
-        </HorizontalBox>
-    );
+    private readonly ChangeName = (name: string): void => {
+        this.Modify((from, to) => {
+            to.Name = name;
+        }, 'normal');
+    };
 
-    // 注意下面只能用Any来渲染,Obj不能正确处理自定义Render的情况
-    return (
-        <VerticalBox>
-            {prefixElement}
-            <Any
-                Value={playFlow}
-                Scheme={playFlowScheme}
-                OnModify={(newFlow, type): void => {
-                    props.OnModify(JSON.stringify(newFlow), type);
-                }}
-            />
-        </VerticalBox>
-    );
-}
+    private readonly AddState = (): void => {
+        this.Modify((from, to) => {
+            to.StateGenId = from.StateGenId + 1;
+            to._folded = false;
+            to.States.push(editorFlowOp.CreateState(from));
+        }, 'normal');
+    };
 
-export function RenderTriggerActions(
-    props: IProps<ITriggerActions, ObjectScheme<ITriggerActions>>,
-): JSX.Element {
-    const actions = props.Value;
-    const scheme = props.Scheme;
-    const prefixElement = (
-        <HorizontalBox>
-            {props.PrefixElement}
-            <Text Text={'动作列表'} />
-            <Btn
-                Text={'重置'}
-                Tip={'重置'}
-                OnClick={(): void => {
-                    props.OnModify(scheme.CreateDefault(), 'normal');
-                }}
-            />
-            <Btn
-                Text={'输出'}
-                Tip={'输出动作Json'}
-                OnClick={(): void => {
-                    log(JSON.stringify(actions.Actions, null, 2));
-                }}
-            />
-        </HorizontalBox>
-    );
-    return (
-        <Obj
-            PrefixElement={prefixElement}
-            Value={actions}
-            Scheme={scheme}
-            OnModify={(obj: unknown, type: TModifyType): void => {
-                props.OnModify(obj as ITriggerActions, type);
-            }}
-        />
-    );
-}
+    private readonly InsertState = (id: number): void => {
+        this.Modify((from, to) => {
+            to.States.splice(id + 1, 0, editorFlowOp.CreateState(from));
+        }, 'normal');
+    };
 
-export function RenderBehaviorFlow(
-    props: IProps<IBehaviorFlowComponent, ObjectScheme<IBehaviorFlowComponent>>,
-): JSX.Element {
-    const value = props.Value ? props.Value : { InitStateId: 0, FlowInfo: parseFlowInfo('') };
-    return (
-        <VerticalBox>
-            <HorizontalBox>
-                <Fold
-                    IsFold={value._folded}
-                    IsFull={true}
-                    OnChanged={(folded): void => {
-                        const newValue = produce(value, (draft) => {
-                            draft._folded = folded;
-                        });
-                        props.OnModify(newValue, 'fold');
-                    }}
-                />
-                {props.PrefixElement}
-            </HorizontalBox>
-            {!value._folded && (
-                <Flow
-                    PrefixElement={RenderStateId({
-                        PrefixElement: <Text Text={'初始状态:'} />,
-                        Value: value.InitStateId,
-                        OnModify: (stateId, type) => {
-                            const newValue = produce(value, (draft) => {
-                                draft.InitStateId = stateId;
-                            });
-                            props.OnModify(newValue, type);
-                        },
-                        Scheme: undefined,
-                    })}
-                    HideName={true}
-                    Flow={value.FlowInfo}
-                    ObjectFilter={EActionFilter.BehaviorFlow}
-                    OnModify={(flow, type): void => {
-                        const newValue = produce(value, (draft) => {
-                            draft.FlowInfo = flow;
-                        });
-                        props.OnModify(newValue, type);
-                    }}
-                />
-            )}
-        </VerticalBox>
-    );
+    private readonly MoveState = (id: number, isUp: boolean): void => {
+        this.Modify((from, to) => {
+            const toStates = to.States;
+            const fromStates = from.States;
+            if (isUp) {
+                if (id > 0) {
+                    toStates[id - 1] = fromStates[id];
+                    toStates[id] = fromStates[id - 1];
+                } else {
+                    log(`can not move state ${fromStates[id].Name} up`);
+                }
+            } else {
+                // eslint-disable-next-line no-lonely-if
+                if (id < fromStates.length - 1) {
+                    toStates[id + 1] = fromStates[id];
+                    toStates[id] = fromStates[id + 1];
+                } else {
+                    log(`can not move state ${fromStates[id].Name} down`);
+                }
+            }
+        }, 'normal');
+    };
+
+    private readonly RemoveState = (id: number): void => {
+        this.Modify((from, to) => {
+            to.States.splice(id, 1);
+        }, 'normal');
+    };
+
+    private readonly ModifyState = (id: number, state: IStateInfo, type: TModifyType): void => {
+        this.Modify((from, to) => {
+            to.States[id] = state;
+        }, type);
+    };
+
+    private OnContextCommand(id: number, cmd: string): void {
+        switch (cmd) {
+            case '上插':
+                this.InsertState(id);
+                break;
+            case '下插':
+                this.InsertState(id + 1);
+                break;
+            case '移除':
+                this.RemoveState(id);
+                break;
+            case '上移':
+                this.MoveState(id, true);
+                break;
+            case '下移':
+                this.MoveState(id, false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public render(): JSX.Element {
+        const { Flow: flow } = this.props;
+        let nodes: JSX.Element[] = [];
+        if (!flow._folded) {
+            const { States: states } = flow;
+            nodes = states.map((state, id) => {
+                return (
+                    <State
+                        key={id}
+                        IsDuplicate={
+                            states.find((e) => e !== state && e.Name === state.Name) !== undefined
+                        }
+                        ObjectFilter={this.props.ObjectFilter}
+                        State={state}
+                        OnModify={(newConfig, type): void => {
+                            this.ModifyState(id, newConfig, type);
+                        }}
+                        OnContextCommand={(cmd): void => {
+                            this.OnContextCommand(id, cmd);
+                        }}
+                    />
+                );
+            });
+        }
+        return (
+            <VerticalBox>
+                <flowContext.Provider value={flow}>
+                    <HorizontalBox>
+                        <Fold
+                            IsFold={flow._folded}
+                            IsFull={flow.States.length > 0}
+                            OnChanged={this.ChangeFold}
+                        />
+                        {this.props.PrefixElement}
+                        {!this.props.HideName && (
+                            <EditorBox
+                                Text={flow.Name}
+                                OnChange={this.ChangeName}
+                                Color={
+                                    this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'
+                                }
+                                Tip="剧情名字"
+                                Width={100}
+                            />
+                        )}
+                        <Btn Text={'✚状态'} OnClick={this.AddState} Tip={ADD_STATE_TIP} />
+                    </HorizontalBox>
+                    <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+                        {nodes}
+                    </VerticalBox>
+                </flowContext.Provider>
+            </VerticalBox>
+        );
+    }
 }

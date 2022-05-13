@@ -25,7 +25,7 @@ import {
     RenderPlayFlow,
     RenderStateId,
     RenderTriggerActions,
-} from './Extend/Flow';
+} from './Extend/FlowExtend';
 import { Point } from './Extend/Point';
 import { RenderWhoIdsScheme } from './Extend/Sequence';
 import { Spawn } from './Extend/Spawn';
@@ -59,3 +59,4 @@ renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 
 export * from './Basic/Public';
+export * from './Extend/FlowList';

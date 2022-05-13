@@ -7,10 +7,10 @@ import { error, log, warn } from '../../../Common/Log';
 import { errorbox, toTsArray } from '../../../Common/UeHelper';
 import { calHash } from '../../../Common/Util';
 import { FLOW_LIST_VERSION, IFlowInfo, IFlowListInfo, ITextConfig } from '../../Flow/Action';
-import { GameConfig } from '../GameConfig';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
 import { Context, createEditorContext } from '../EditorContext';
+import { GameConfig } from '../GameConfig';
 
 export enum EFlowListAction {
     GenText,

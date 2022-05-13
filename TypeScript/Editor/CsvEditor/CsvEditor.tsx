@@ -12,8 +12,8 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { editorConfig } from '../../Common/EditorConfig';
 import { ICsv } from '../../Common/CsvLoader';
+import { editorConfig } from '../../Common/EditorConfig';
 import { log } from '../../Common/Log';
 import { ECsvName } from '../../Common/Type';
 import { csvRegistry } from '../../Game/Common/CsvConfig/CsvRegistry';
@@ -25,8 +25,8 @@ import {
     SlotText,
     Text,
 } from '../Common/BaseComponent/CommonComponent';
+import { CsvView } from '../Common/BaseComponent/CsvView';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
-import { CsvView } from '../Common/ExtendComponent/CsvView';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { openDirOfFile } from '../Common/Util';
 

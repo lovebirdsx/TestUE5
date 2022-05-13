@@ -7,7 +7,7 @@ import {
     EActionFilter,
 } from '../../../Common/Type';
 import { IActionInfo } from '../../Flow/Action';
-import { actionRegistry } from '../Action/ActionRegistry';
+import { actionRegistry } from '../Action/Public';
 
 export interface ITrampleActions {
     Name: string;

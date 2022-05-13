@@ -3,15 +3,15 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { log } from '../../../Common/Log';
-import { EActionFilter, TModifyType } from '../../../Common/Type';
-import { IActionInfo, IFlowInfo, IStateInfo } from '../../../Game/Flow/Action';
-import { actionRegistry } from '../../../Game/Scheme/Action/Public';
-import { Btn, EditorBox, Fold, SlotText, Text } from '../BaseComponent/CommonComponent';
-import { ContextBtn } from '../BaseComponent/ContextBtn';
-import { editorFlowOp } from '../Operations/Flow';
-import { flowContext } from '../SchemeComponent/Context';
-import { Action } from './Action';
+import { log } from '../../../../Common/Log';
+import { EActionFilter, TModifyType } from '../../../../Common/Type';
+import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
+import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
+import { Btn, EditorBox, Fold, SlotText, Text } from '../../BaseComponent/CommonComponent';
+import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { editorFlowOp } from '../../Operations/Flow';
+import { flowContext } from '../../SchemeComponent/Context';
+import { Action } from '../../SchemeComponent/Extend/Action';
 
 export interface IStateProps {
     State: IStateInfo;

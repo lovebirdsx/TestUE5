@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { editorConfig } from '../../../../Common/EditorConfig';
 import { csvOp } from '../../../../Common/CsvOp';
+import { editorConfig } from '../../../../Common/EditorConfig';
 import { CsvIndexValueScheme, IProps, TCsvValueType } from '../../../../Common/Type';
 import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { Btn, List } from '../../BaseComponent/CommonComponent';

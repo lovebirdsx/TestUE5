@@ -5,7 +5,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 
 import { ICsv } from '../../Common/CsvLoader';
 import { TalkerCsvLoader } from '../../Game/Common/CsvConfig/TalkerCsv';
-import { CsvView } from '../Common/ExtendComponent/CsvView';
+import { CsvView } from '../Common/BaseComponent/CsvView';
 import { editorCsvOp } from '../Common/Operations/CsvOp';
 
 const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';

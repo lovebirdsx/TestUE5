@@ -23,9 +23,9 @@ import { IFlowListInfo } from '../../Game/Flow/Action';
 import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
-import { FlowList } from '../Common/ExtendComponent/FlowList';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
+import { FlowList } from '../Common/SchemeComponent/Public';
 import { openDirOfFile } from '../Common/Util';
 import { TalkListTool } from './TalkListTool';
 

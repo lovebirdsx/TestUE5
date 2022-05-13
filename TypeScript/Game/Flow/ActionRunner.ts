@@ -4,7 +4,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable spellcheck/spell-checker */
-import { delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
 import { Entity } from '../Interface';
 import { IActionInfo, TActionType } from './Action';
@@ -129,7 +128,7 @@ export class ActionRunner {
         return this.MyIsRunning;
     }
 
-    public async Stop(): Promise<void> {
+    public Stop(): void {
         if (!this.CurrAction) {
             return;
         }
@@ -145,9 +144,6 @@ export class ActionRunner {
         if (this.CurrAction.IsStoppable) {
             this.MyIsInterrupt = true;
             this.CurrAction.Stop();
-            while (this.MyIsRunning) {
-                await delay(0.1);
-            }
         } else {
             error(
                 `Runner can not be stop because ${this.CurrAction.constructor.name} can not stopped`,

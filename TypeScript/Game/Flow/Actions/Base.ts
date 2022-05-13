@@ -1,7 +1,7 @@
 /* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import { createCancleableDelay, ICancleableDelay } from '../../../Common/Async';
+import { createSignal, ISignal, MS_PER_SEC } from '../../../Common/Async';
 import { error, log, warn } from '../../../Common/Log';
 import { msgbox } from '../../../Common/UeHelper';
 import { Entity, gameContext } from '../../Interface';
@@ -38,17 +38,25 @@ export class WaitAction extends Action<IWait> {
         return true;
     }
 
-    private Delay: ICancleableDelay | undefined = undefined;
+    private Signal: ISignal<void>;
+
+    private TimeoutHandle: unknown;
 
     public async ExecuteSync(): Promise<void> {
-        this.Delay = createCancleableDelay(this.Data.Time);
-        await this.Delay.Promise;
+        this.Signal = createSignal();
+
+        this.TimeoutHandle = setTimeout(() => {
+            this.Signal.Emit();
+        }, this.Data.Time * MS_PER_SEC);
+
+        await this.Signal.Promise;
+        this.Signal = undefined;
     }
 
     public Stop(): void {
-        if (this.Delay) {
-            this.Delay.Cancel();
-            this.Delay = undefined;
+        if (this.Signal) {
+            clearTimeout(this.TimeoutHandle as number);
+            this.Signal.Emit();
         }
     }
 }

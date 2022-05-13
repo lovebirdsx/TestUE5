@@ -51,7 +51,7 @@ export class FlowComponent extends Component implements IFlowComponent {
 
     public OnDestroy(): void {
         if (this.IsRunning) {
-            void this.Runner.Stop();
+            this.Runner.Stop();
             this.Runner = undefined;
         }
     }
@@ -62,7 +62,7 @@ export class FlowComponent extends Component implements IFlowComponent {
     }
 
     public FinishState(): void {
-        void this.Runner.Stop();
+        this.Runner.Stop();
         this.Runner = undefined;
     }
 
@@ -90,7 +90,7 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
-        await this.BehaviorFlow.SetPaused(true);
+        this.BehaviorFlow.SetPaused(true);
 
         this.Runner = new ActionRunner('Flow', this.Entity, state.Actions);
         await this.Runner.Execute(this.ActionId, (actionId: number) => {
@@ -103,7 +103,7 @@ export class FlowComponent extends Component implements IFlowComponent {
             this.StateComponent.SetState('ActionId', undefined);
         }
 
-        await this.BehaviorFlow.SetPaused(false);
+        this.BehaviorFlow.SetPaused(false);
 
         this.Runner = undefined;
     }

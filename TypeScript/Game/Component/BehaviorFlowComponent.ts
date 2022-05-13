@@ -2,12 +2,10 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
-import { delay } from '../../Common/Async';
-import { error, log } from '../../Common/Log';
+import { error } from '../../Common/Log';
 import { IFlowInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext, IBehaviorFlowComponent, ITickable } from '../Interface';
-import MoveComponent from './MoveComponent';
 import StateComponent from './StateComponent';
 
 export class BehaviorFlowComponent extends Component implements IBehaviorFlowComponent, ITickable {
@@ -16,8 +14,6 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
     public readonly FlowInfo: IFlowInfo;
 
     private ActionId: number;
-
-    private MoveComponent: MoveComponent;
 
     private Runner: ActionRunner;
 
@@ -34,7 +30,6 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
             return;
         }
 
-        this.MoveComponent = this.Entity.GetComponent(MoveComponent);
         this.State = this.Entity.GetComponent(StateComponent);
 
         gameContext.TickManager.AddTick(this);
@@ -63,7 +58,7 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         gameContext.TickManager.RemoveTick(this);
 
         if (this.IsRunning) {
-            void this.Runner.Stop();
+            this.Runner.Stop();
             this.Runner = undefined;
         }
     }
@@ -81,7 +76,7 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         return this.MyIsPaused;
     }
 
-    public async SetPaused(isPaused: boolean): Promise<void> {
+    public SetPaused(isPaused: boolean): void {
         if (!this.IsConfigValid) {
             return;
         }
@@ -93,15 +88,7 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
 
         this.MyIsPaused = isPaused;
         if (isPaused) {
-            log('before await this.Runner.Stop();');
-            await this.Runner.Stop();
-            log('after await this.Runner.Stop();');
-
-            // 确保Run的同步执行已经完毕
-            while (this.Runner) {
-                await delay(0.1);
-            }
-            log('after while');
+            this.Runner.Stop();
         }
     }
 

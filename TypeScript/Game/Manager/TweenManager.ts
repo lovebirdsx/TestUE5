@@ -2,6 +2,7 @@
 import { Actor, Rotator, Vector } from 'ue';
 
 import { createSignal } from '../../Common/Async';
+import { clampAnge } from '../../Common/Util';
 
 type TEvaluate<T> = (from: T, to: T, time: number) => T;
 type TCallBack<T> = (value: T) => void;
@@ -125,8 +126,16 @@ export class TweenManager {
 
     public async RotatoToByZ(actor: Actor, rotator: Rotator, maxTime: number): Promise<void> {
         const signer = createSignal();
-        const from = actor.K2_GetActorRotation().Euler().Z;
-        const to = rotator.Euler().Z;
+        const from = clampAnge(actor.K2_GetActorRotation().Euler().Z);
+        let to = clampAnge(rotator.Euler().Z);
+        const delta = Math.abs(to - from);
+        if (delta > 180) {
+            if (to > from) {
+                to = to - 360;
+            } else {
+                to = to + 360;
+            }
+        }
         const time = (Math.abs(to - from) / 180) * maxTime;
         this.AddNumberTween(
             from,

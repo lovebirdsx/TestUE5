@@ -169,6 +169,14 @@ export function calUpRotatorByPoints(from: UE.Vector, to: UE.Vector): UE.Rotator
     return dir.Rotation();
 }
 
+export function clampAnge(angle: number): number {
+    let newAgnel = angle % 360;
+    if (newAgnel < 0) {
+        newAgnel += 360;
+    }
+    return newAgnel;
+}
+
 export type TCallBack<T1, T2, T3> = (arg1?: T1, arg2?: T2, arg3?: T3) => void;
 
 export class Event<T1 = unknown, T2 = unknown, T3 = unknown> {

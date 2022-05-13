@@ -50,8 +50,6 @@ export interface IBehaviorFlowComponent {
 
 export interface IFlowComponent {
     InitState: IPlayFlow;
-    AutoRun: boolean;
-    Continuable: boolean;
 }
 
 export interface ITriggerComponent {

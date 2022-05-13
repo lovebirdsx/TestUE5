@@ -10,17 +10,13 @@ import {
     IPlayFlow,
     IShowTalk,
 } from '../Flow/Action';
-import { Component, gameContext, IFlowComponent, ITickable } from '../Interface';
+import { Component, IFlowComponent } from '../Interface';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 import StateComponent from './StateComponent';
 import { TalkComponent } from './TalkComponent';
 
-export class FlowComponent extends Component implements IFlowComponent, ITickable {
+export class FlowComponent extends Component implements IFlowComponent {
     public readonly InitState: IPlayFlow;
-
-    public readonly AutoRun: boolean;
-
-    public readonly Continuable: boolean;
 
     private StateId: number;
 
@@ -53,14 +49,6 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
         this.ActionRunner.RegisterActionFun('ShowTalk', this.ExecuteShowTalk.bind(this));
     }
 
-    public Tick(deltaTime: number): void {
-        if (this.Continuable) {
-            if (!this.IsRunning) {
-                void this.Run();
-            }
-        }
-    }
-
     public OnLoadState(): void {
         if (!this.InitState) {
             return;
@@ -70,25 +58,7 @@ export class FlowComponent extends Component implements IFlowComponent, ITickabl
         this.ActionId = this.State.GetState<number>('ActionId') || 0;
     }
 
-    public OnStart(): void {
-        if (!this.InitState) {
-            return;
-        }
-
-        if (this.AutoRun) {
-            void this.Run();
-        }
-
-        if (this.Continuable) {
-            gameContext.TickManager.AddTick(this);
-        }
-    }
-
     public OnDestroy(): void {
-        if (this.Continuable) {
-            gameContext.TickManager.RemoveTick(this);
-        }
-
         if (this.IsRunning) {
             this.Handler.Stop();
             this.Handler = undefined;

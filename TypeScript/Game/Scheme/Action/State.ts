@@ -36,6 +36,16 @@ export const changeStateScheme = createObjectScheme<IChangeState>({
     Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
 });
 
+export const changeBehaviorStateScheme = createObjectScheme<IChangeState>({
+    CnName: '改变Behaivor状态',
+    Name: 'ChangeBehaviorState',
+    Fields: {
+        StateId: stateIdScheme,
+    },
+    Filters: [EActionFilter.BehaviorFlow],
+    Tip: '改变行为状态, 实体将从该状态继续执行动作',
+});
+
 export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>({
     Name: 'ChangeRandomState',
     CnName: '随机改变状态',

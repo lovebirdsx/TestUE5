@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import {
     AIController,
@@ -7,7 +8,7 @@ import {
     EPathFollowingResult,
 } from 'ue';
 
-import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
+import { createCancleableDelay, createSignal, delay, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
 import { IActionInfo, IFaceToPos, IMoveToPos } from '../Flow/Action';
@@ -63,6 +64,18 @@ class MoveComponent extends Component implements IMoveComponent {
         }
         this.State.RecordPosition();
     };
+
+    public async StopMove(): Promise<void> {
+        if (!this.IsMoving) {
+            return;
+        }
+
+        this.Controller.StopMovement();
+        while (this.IsMoving) {
+            // eslint-disable-next-line no-await-in-loop
+            await delay(0.1);
+        }
+    }
 
     private async ExecuteMoveToPos(actionInfo: IActionInfo): Promise<void> {
         if (this.IsMoving) {

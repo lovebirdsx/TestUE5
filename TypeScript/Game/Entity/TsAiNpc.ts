@@ -15,8 +15,8 @@ import TsCharacterEntity from './TsCharacterEntity';
 
 export const aiNpcComponentClasses: TComponentClass[] = [
     StateComponent,
-    BehaviorFlowComponent,
     FlowComponent,
+    BehaviorFlowComponent,
     TalkComponent,
     ActionRunnerComponent,
     MoveComponent,

@@ -12,6 +12,7 @@ import {
 } from '../Flow/Action';
 import { Component, IFlowComponent } from '../Interface';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
+import { BehaviorFlowComponent } from './BehaviorFlowComponent';
 import StateComponent from './StateComponent';
 import { TalkComponent } from './TalkComponent';
 
@@ -25,6 +26,8 @@ export class FlowComponent extends Component implements IFlowComponent {
     private ActionRunner: ActionRunnerComponent;
 
     private Talk: TalkComponent;
+
+    private BehaviorFlow: BehaviorFlowComponent;
 
     private Handler: ActionRunnerHandler;
 
@@ -40,6 +43,7 @@ export class FlowComponent extends Component implements IFlowComponent {
         }
 
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
+        this.BehaviorFlow = this.Entity.GetComponent(BehaviorFlowComponent);
         this.Talk = this.Entity.GetComponent(TalkComponent);
         this.State = this.Entity.GetComponent(StateComponent);
         this.FlowListInfo = flowListOp.LoadByName(this.InitState.FlowListName);
@@ -101,6 +105,8 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
+        await this.BehaviorFlow.SetPaused(true);
+
         // log(`[${this.Name}][${this.FlowInfo.Name}] to state [${state.Name}]`);
 
         this.Handler = this.ActionRunner.SpawnHandler(state.Actions);
@@ -108,6 +114,9 @@ export class FlowComponent extends Component implements IFlowComponent {
             this.State.SetState('ActionId', actionId);
             this.ActionId = actionId + 1;
         });
+
+        await this.BehaviorFlow.SetPaused(false);
+
         this.Handler = undefined;
         this.ActionId = 0;
         this.State.SetState('ActionId', undefined);

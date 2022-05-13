@@ -1,9 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
-import { error } from '../../Common/Log';
+import { error, log } from '../../Common/Log';
 import { IActionInfo, IChangeState, IFlowInfo } from '../Flow/Action';
 import { Component, gameContext, IBehaviorFlowComponent, ITickable } from '../Interface';
 import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
+import MoveComponent from './MoveComponent';
 import StateComponent from './StateComponent';
 
 export class BehaviorFlowComponent extends Component implements IBehaviorFlowComponent, ITickable {
@@ -15,9 +16,13 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
 
     private ActionRunner: ActionRunnerComponent;
 
+    private MoveComponent: MoveComponent;
+
     private Handler: ActionRunnerHandler;
 
     private State: StateComponent;
+
+    private MyIsPaused = false;
 
     public OnInit(): void {
         if (!this.FlowInfo) {
@@ -25,15 +30,19 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         }
 
         this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
+        this.MoveComponent = this.Entity.GetComponent(MoveComponent);
         this.State = this.Entity.GetComponent(StateComponent);
         this.ActionRunner.RegisterActionFun(
             'ChangeBehaviorState',
             this.ExecuteChangeBehaviorState.bind(this),
         );
+
+        gameContext.TickManager.AddTick(this);
     }
 
     public Tick(deltaTime: number): void {
-        if (!this.IsRunning) {
+        if (!this.IsPaused && !this.IsRunning) {
+            log(`Run .................`);
             void this.Run();
         }
     }
@@ -70,12 +79,30 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         return this.Handler !== undefined;
     }
 
+    public get IsPaused(): boolean {
+        return this.MyIsPaused;
+    }
+
+    public async SetPaused(isPaused: boolean): Promise<void> {
+        if (this.MyIsPaused === isPaused) {
+            error(`${this.Name} no set pause state to ${isPaused} twice`);
+            return;
+        }
+
+        this.MyIsPaused = isPaused;
+        if (isPaused) {
+            await this.MoveComponent.StopMove();
+            this.Handler.Stop();
+            this.Handler = undefined;
+        }
+    }
+
     public async Run(): Promise<void> {
         if (!this.FlowInfo) {
             return;
         }
 
-        if (this.Handler) {
+        if (this.Handler !== undefined) {
             error(`${this.Name} Can not run again`);
             return;
         }

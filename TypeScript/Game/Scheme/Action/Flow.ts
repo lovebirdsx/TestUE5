@@ -27,7 +27,7 @@ function createDefaultPlayFlow(): IPlayFlow {
 }
 
 export const playFlowScheme = createScheme<IPlayFlow>({
-    CnName: '播放流程',
+    CnName: '流程配置',
     Name: 'PlayFlow',
     Tip: '播放流程配置文件中的某个流程',
     RenderType: 'custom',

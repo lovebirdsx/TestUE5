@@ -13,6 +13,7 @@ import { showCenterTextScheme } from './ShowText';
 import { destroyAllChildScheme, spawnChildScheme } from './Spawn';
 import {
     changeActorStateScheme,
+    changeBehaviorStateScheme,
     changeRandomStateScheme,
     changeStateScheme,
     finishStateScheme,
@@ -21,7 +22,7 @@ import { setHeadIconVisibleScheme } from './Talker';
 
 const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeActorState: changeActorStateScheme,
-    ChangeBehaviorState: changeStateScheme,
+    ChangeBehaviorState: changeBehaviorStateScheme,
     ChangeState: changeStateScheme,
     ChangeRandomState: changeRandomStateScheme,
     Destroy: destroyScheme,

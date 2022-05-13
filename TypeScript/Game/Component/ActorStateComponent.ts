@@ -3,9 +3,8 @@ import { Game } from 'ue';
 import BP_StateComponent = Game.Blueprints.Component.BP_StateComponent.BP_StateComponent_C;
 
 import { getBlueprintClass } from '../../Common/Class';
-import { IActionInfo, IChangeActorState, TActorState } from '../Flow/Action';
+import { TActorState } from '../Flow/Action';
 import { Component, EBlueprintId, IActorStateComponent } from '../Interface';
-import { ActionRunnerComponent } from './ActionRunnerComponent';
 import StateComponent from './StateComponent';
 
 const ACTOR_STATE_KEY = 'ActorState';
@@ -33,18 +32,14 @@ class ActorStateComponent extends Component implements IActorStateComponent {
         this.ActorStateComponent = this.Entity.Actor.GetComponentByClass(
             getBlueprintClass(EBlueprintId.ActorStateComponent),
         ) as BP_StateComponent;
-
-        const actionRunner = this.Entity.GetComponent(ActionRunnerComponent);
-        actionRunner.RegisterActionFun('ChangeActorState', this.ExecuteChangeActorState.bind(this));
     }
 
     public OnLoadState(): void {
         this.ActorStateComponent.Set(ACTOR_STATE_KEY, this.State);
     }
 
-    private ExecuteChangeActorState(actionInfo: IActionInfo): void {
-        const action = actionInfo.Params as IChangeActorState;
-        this.State = action.State;
+    public ChangeActorState(state: TActorState): void {
+        this.State = state;
     }
 }
 

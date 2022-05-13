@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
+import { BehaviorFlowComponent } from '../Component/BehaviorFlowComponent';
 import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
 import { NpcComponent } from '../Component/NpcComponent';
@@ -14,8 +14,8 @@ import TsEntity from './TsEntity';
 export const npcComponentClasses: TComponentClass[] = [
     StateComponent,
     FlowComponent,
+    BehaviorFlowComponent,
     TalkComponent,
-    ActionRunnerComponent,
     NpcComponent,
     EntitySpawnerComponent,
 ];

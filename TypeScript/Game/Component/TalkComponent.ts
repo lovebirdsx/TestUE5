@@ -10,14 +10,12 @@ import { calUpRotatorByPoints } from '../../Common/Util';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerListOp } from '../Common/Operations/TalkerList';
-import { IActionInfo, IFlowListInfo, IJumpTalk, IShowTalk, ITalkItem } from '../Flow/Action';
+import { IFlowListInfo, IShowTalk, ITalkItem } from '../Flow/Action';
+import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext } from '../Interface';
 import TsHud from '../Player/TsHud';
-import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 
 export class TalkComponent extends Component {
-    private ActionRunner: ActionRunnerComponent;
-
     private IsShowing: boolean;
 
     private FlowListInfo: IFlowListInfo;
@@ -26,19 +24,13 @@ export class TalkComponent extends Component {
 
     private TalkerDisplay: Game.Demo.UI.UI_TalkDisplayer.UI_TalkDisplayer_C;
 
-    private ActionsRunHandle: ActionRunnerHandler;
-
     private NeedJumpTalk: boolean;
 
     private NextTalkId: number;
 
     private RotatorBeforeTalk: Rotator;
 
-    public OnInit(): void {
-        this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
-        this.ActionRunner.RegisterActionFun('FinishTalk', this.ExecuteFinishTalk.bind(this));
-        this.ActionRunner.RegisterActionFun('JumpTalk', this.ExecuteJumpTalk.bind(this));
-    }
+    private ActionRunner: ActionRunner;
 
     public OnStart(): void {
         const playerController = gameContext.PlayerController;
@@ -76,8 +68,8 @@ export class TalkComponent extends Component {
         }
 
         if (item.Actions) {
-            this.ActionsRunHandle = this.ActionRunner.SpawnHandler(item.Actions);
-            await this.ActionsRunHandle.Execute();
+            this.ActionRunner = new ActionRunner('TalkActions', this.Entity, item.Actions);
+            await this.ActionRunner.Execute();
         }
 
         // 选项
@@ -96,8 +88,8 @@ export class TalkComponent extends Component {
 
             const option = item.Options.find((op) => texts[op.TextId].Text === selectOptionText);
             if (option.Actions) {
-                this.ActionsRunHandle = this.ActionRunner.SpawnHandler(option.Actions);
-                await this.ActionsRunHandle.Execute();
+                this.ActionRunner = new ActionRunner('OptionActions', this.Entity, option.Actions);
+                await this.ActionRunner.Execute();
             }
         }
 
@@ -155,16 +147,15 @@ export class TalkComponent extends Component {
         this.IsShowing = false;
     }
 
-    private ExecuteFinishTalk(actionInfo: IActionInfo): void {
+    public FinishTalk(): void {
         this.IsShowing = false;
-        if (this.ActionsRunHandle) {
-            this.ActionsRunHandle.Stop();
+        if (this.ActionRunner) {
+            this.ActionRunner.Stop();
         }
     }
 
-    private ExecuteJumpTalk(actionInfo: IActionInfo): void {
-        const action = actionInfo.Params as IJumpTalk;
+    public JumpTalk(talkId: number): void {
         this.NeedJumpTalk = true;
-        this.NextTalkId = this.ShowTalkInfo.TalkItems.findIndex((e) => e.Id === action.TalkId);
+        this.NextTalkId = this.ShowTalkInfo.TalkItems.findIndex((e) => e.Id === talkId);
     }
 }

@@ -8,18 +8,16 @@ import {
     EPathFollowingResult,
 } from 'ue';
 
-import { createCancleableDelay, createSignal, delay, ISignal } from '../../Common/Async';
+import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
-import { IActionInfo, IFaceToPos, IMoveToPos } from '../Flow/Action';
-import { Component, DEFAULT_INIT_SPEED, IMoveComponent } from '../Interface';
-import { ActionRunnerComponent } from './ActionRunnerComponent';
+import { calUpRotatorByPoints } from '../../Common/Util';
+import { IFaceToPos, IMoveToPos } from '../Flow/Action';
+import { Component, DEFAULT_INIT_SPEED, gameContext, IMoveComponent } from '../Interface';
 import StateComponent from './StateComponent';
 
 class MoveComponent extends Component implements IMoveComponent {
     public InitSpeed: number = DEFAULT_INIT_SPEED;
-
-    private Runner: ActionRunnerComponent;
 
     private Controller: AIController;
 
@@ -30,10 +28,7 @@ class MoveComponent extends Component implements IMoveComponent {
     private IsMoving = false;
 
     public OnInit(): void {
-        this.Runner = this.Entity.GetComponent(ActionRunnerComponent);
         this.State = this.Entity.GetComponent(StateComponent);
-        this.Runner.RegisterActionFun('MoveToPos', this.ExecuteMoveToPos.bind(this));
-        this.Runner.RegisterActionFun('FaceToPos', this.ExecuteFaceToPos.bind(this));
 
         const character = this.Entity.Actor as Character;
         this.Controller = character.Controller as AIController;
@@ -65,24 +60,19 @@ class MoveComponent extends Component implements IMoveComponent {
         this.State.RecordPosition();
     };
 
-    public async StopMove(): Promise<void> {
+    public StopMove(): void {
         if (!this.IsMoving) {
             return;
         }
 
         this.Controller.StopMovement();
-        while (this.IsMoving) {
-            // eslint-disable-next-line no-await-in-loop
-            await delay(0.1);
-        }
     }
 
-    private async ExecuteMoveToPos(actionInfo: IActionInfo): Promise<void> {
+    public async MoveToPos(action: IMoveToPos): Promise<void> {
         if (this.IsMoving) {
             throw new Error(`[${this.Name}] can not move again while already in move`);
         }
 
-        const action = actionInfo.Params as IMoveToPos;
         const result = this.Controller.MoveToLocation(toVector(action.Pos));
         if (result !== EPathFollowingRequestResult.RequestSuccessful) {
             warn(`[${this.Name}] Move to ${JSON.stringify(action.Pos)} failed : [${result}]`);
@@ -108,16 +98,13 @@ class MoveComponent extends Component implements IMoveComponent {
         this.IsMoving = false;
     }
 
-    private ExecuteFaceToPos(actionInfo: IActionInfo): void {
-        const action = actionInfo.Params as IFaceToPos;
-        const actor = this.Entity.Actor;
-        const from = actor.K2_GetActorLocation();
-        const to = toVector(action.Pos);
-        const dir = to.op_Subtraction(from);
-        dir.Z = 0;
-        actor.K2_SetActorRotation(dir.Rotation(), false);
-
-        this.State.RecordRotation();
+    public async FaceToPos(action: IFaceToPos): Promise<void> {
+        const self = this.Entity.Actor;
+        const targetRotator = calUpRotatorByPoints(
+            self.K2_GetActorLocation(),
+            toVector(action.Pos),
+        );
+        await gameContext.TweenManager.RotatoToByZ(self, targetRotator, 0.5);
     }
 }
 

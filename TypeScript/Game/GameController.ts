@@ -37,8 +37,8 @@ export class GameController implements IGameController {
         }
     }
 
-    private DeleteEntityState(entity: ITsEntity): void {
-        gameContext.StateManager.DeleteState(entity.Guid);
+    private DeleteEntityState(guid: string): void {
+        gameContext.StateManager.DeleteState(guid);
     }
 
     public SaveGame(): void {

@@ -276,13 +276,6 @@
                   }
                 ]
               }
-            },
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": false
-              }
             }
           ],
           ""Id"": 1
@@ -337,13 +330,6 @@
                     ]
                   }
                 ]
-              }
-            },
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": false
               }
             }
           ],
@@ -407,13 +393,6 @@
         {
           ""Name"": ""结束"",
           ""Actions"": [
-            {
-              ""Name"": ""SetFlowBoolOption"",
-              ""Params"": {
-                ""Option"": ""DisableInput"",
-                ""Value"": true
-              }
-            },
             {
               ""Name"": ""ShowTalk"",
               ""Params"": {

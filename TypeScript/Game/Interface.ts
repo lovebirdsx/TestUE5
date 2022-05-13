@@ -118,7 +118,7 @@ export interface ISavedEntityState extends TEntityState {
 
 export interface IEntityMananger {
     EntityAdded: Event<ITsEntity>;
-    EntityRemoved: Event<ITsEntity>;
+    EntityRemoved: Event<string>;
     EntityRegistered: Event<ITsEntity>;
     EntityDeregistered: Event<ITsEntity>;
     RegisterEntity: (entity: ITsEntity) => boolean;

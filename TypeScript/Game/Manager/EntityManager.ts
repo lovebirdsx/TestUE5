@@ -12,7 +12,7 @@ import { IManager } from './Interface';
 export class EntityManager implements IManager, IEntityMananger {
     public readonly EntityAdded = new Event<ITsEntity>('EntityAdded');
 
-    public readonly EntityRemoved = new Event<ITsEntity>('EntityRemoved');
+    public readonly EntityRemoved = new Event<string>('EntityRemoved');
 
     public readonly EntityRegistered = new Event<ITsEntity>('EntityRegistered');
 
@@ -91,8 +91,9 @@ export class EntityManager implements IManager, IEntityMananger {
             const entities = this.EntitiesToDestroy.splice(0);
 
             entities.forEach((entity) => {
-                this.EntityRemoved.Invoke(entity);
+                const guid = entity.Guid;
                 entity.K2_DestroyActor();
+                this.EntityRemoved.Invoke(guid);
             });
         }
 

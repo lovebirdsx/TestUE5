@@ -2,16 +2,9 @@
 /* eslint-disable no-void */
 import { error } from '../../Common/Log';
 import { flowListOp } from '../Common/Operations/FlowList';
-import {
-    IActionInfo,
-    IChangeState,
-    IFlowInfo,
-    IFlowListInfo,
-    IPlayFlow,
-    IShowTalk,
-} from '../Flow/Action';
+import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../Flow/Action';
+import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, IFlowComponent } from '../Interface';
-import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';
 import StateComponent from './StateComponent';
 import { TalkComponent } from './TalkComponent';
@@ -23,15 +16,13 @@ export class FlowComponent extends Component implements IFlowComponent {
 
     private ActionId: number;
 
-    private ActionRunner: ActionRunnerComponent;
+    private Runner: ActionRunner;
 
-    private Talk: TalkComponent;
+    private TalkComponent: TalkComponent;
 
     private BehaviorFlow: BehaviorFlowComponent;
 
-    private Handler: ActionRunnerHandler;
-
-    private State: StateComponent;
+    private StateComponent: StateComponent;
 
     private FlowInfo: IFlowInfo;
 
@@ -42,15 +33,11 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
-        this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.BehaviorFlow = this.Entity.GetComponent(BehaviorFlowComponent);
-        this.Talk = this.Entity.GetComponent(TalkComponent);
-        this.State = this.Entity.GetComponent(StateComponent);
+        this.TalkComponent = this.Entity.GetComponent(TalkComponent);
+        this.StateComponent = this.Entity.GetComponent(StateComponent);
         this.FlowListInfo = flowListOp.LoadByName(this.InitState.FlowListName);
         this.FlowInfo = this.FlowListInfo.Flows.find((flow) => flow.Id === this.InitState.FlowId);
-        this.ActionRunner.RegisterActionFun('ChangeState', this.ExecuteChangeState.bind(this));
-        this.ActionRunner.RegisterActionFun('FinishState', this.ExecuteFinishState.bind(this));
-        this.ActionRunner.RegisterActionFun('ShowTalk', this.ExecuteShowTalk.bind(this));
     }
 
     public OnLoadState(): void {
@@ -58,35 +45,33 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
-        this.StateId = this.State.GetState<number>('StateId') || this.InitState.StateId;
-        this.ActionId = this.State.GetState<number>('ActionId') || 0;
+        this.StateId = this.StateComponent.GetState<number>('StateId') || this.InitState.StateId;
+        this.ActionId = this.StateComponent.GetState<number>('ActionId') || 0;
     }
 
     public OnDestroy(): void {
         if (this.IsRunning) {
-            this.Handler.Stop();
-            this.Handler = undefined;
+            void this.Runner.Stop();
+            this.Runner = undefined;
         }
     }
 
-    private ExecuteChangeState(actionInfo: IActionInfo): void {
-        const changeState = actionInfo.Params as IChangeState;
-        this.StateId = changeState.StateId;
-        this.State.SetState('StateId', this.StateId);
+    public ChangeState(stateId: number): void {
+        this.StateId = stateId;
+        this.StateComponent.SetState('StateId', this.StateId);
     }
 
-    private ExecuteFinishState(actionInfo: IActionInfo): void {
-        this.Handler.Stop();
-        this.Handler = undefined;
+    public FinishState(): void {
+        void this.Runner.Stop();
+        this.Runner = undefined;
     }
 
-    private async ExecuteShowTalk(actionInfo: IActionInfo): Promise<void> {
-        const showTalk = actionInfo.Params as IShowTalk;
-        await this.Talk.Show(this.FlowListInfo, showTalk);
+    public async ShowTalk(data: IShowTalk): Promise<void> {
+        await this.TalkComponent.Show(this.FlowListInfo, data);
     }
 
     public get IsRunning(): boolean {
-        return this.Handler !== undefined;
+        return this.Runner !== undefined;
     }
 
     public async Run(): Promise<void> {
@@ -94,7 +79,7 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
-        if (this.Handler) {
+        if (this.Runner) {
             error(`${this.Name} Can not run again`);
             return;
         }
@@ -107,18 +92,19 @@ export class FlowComponent extends Component implements IFlowComponent {
 
         await this.BehaviorFlow.SetPaused(true);
 
-        // log(`[${this.Name}][${this.FlowInfo.Name}] to state [${state.Name}]`);
-
-        this.Handler = this.ActionRunner.SpawnHandler(state.Actions);
-        await this.Handler.Execute(this.ActionId, (actionId: number) => {
-            this.State.SetState('ActionId', actionId);
+        this.Runner = new ActionRunner('Flow', this.Entity, state.Actions);
+        await this.Runner.Execute(this.ActionId, (actionId: number) => {
             this.ActionId = actionId + 1;
+            this.StateComponent.SetState('ActionId', this.ActionId);
         });
+
+        if (!this.Runner.IsInterrupt) {
+            this.ActionId = 0;
+            this.StateComponent.SetState('ActionId', undefined);
+        }
 
         await this.BehaviorFlow.SetPaused(false);
 
-        this.Handler = undefined;
-        this.ActionId = 0;
-        this.State.SetState('ActionId', undefined);
+        this.Runner = undefined;
     }
 }

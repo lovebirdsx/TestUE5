@@ -14,9 +14,9 @@ import {
 import { toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
 import { IActionInfo, ISimpleMove } from '../Flow/Action';
+import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, InteractiveComponent, ITickable } from '../Interface';
 import { ITrampleActions, ITrampleComponent } from '../Scheme/Component/TrampleComponentScheme';
-import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 
 interface ISimpleMoveInfo {
     Who: Actor;
@@ -34,17 +34,13 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
 
     private InteractingList: Guid[];
 
-    private ActionRunner: ActionRunnerComponent;
-
-    private Handler: ActionRunnerHandler;
+    private Runner: ActionRunner;
 
     private MoveInfo: ISimpleMoveInfo;
 
     public OnInit(): void {
-        this.ActionRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.IsDisposable = false;
         this.InteractingList = [];
-        this.ActionRunner.RegisterActionFun('SimpleMove', this.ExecuteMoveToPos.bind(this));
     }
 
     public OnStart(): void {
@@ -61,14 +57,14 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
     ): void {}
 
     private async DoTrigger(): Promise<void> {
-        await this.Handler.Execute();
+        await this.Runner.Execute();
     }
 
     public RunActions(actions: IActionInfo[]): void {
-        if (this.Handler?.IsRunning) {
-            this.Handler.Stop();
+        if (this.Runner?.IsRunning) {
+            this.Runner.Stop();
         }
-        this.Handler = this.ActionRunner.SpawnHandler(actions);
+        this.Runner = new ActionRunner('Trample', this.Entity, actions);
         void this.DoTrigger();
     }
 
@@ -107,8 +103,7 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
         }
     }
 
-    public ExecuteMoveToPos(actionInfo: IActionInfo): void {
-        const action = actionInfo.Params as ISimpleMove;
+    public SimpleMove(action: ISimpleMove): void {
         const tsEntity = gameContext.EntityManager.GetEntity(action.Who);
         if (!tsEntity) {
             error(`没选定对象`);

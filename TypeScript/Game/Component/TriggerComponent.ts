@@ -1,8 +1,8 @@
 /* eslint-disable no-void */
 import { log } from '../../Common/Log';
 import { ITriggerActions } from '../Flow/Action';
+import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, Entity, ITriggerComponent } from '../Interface';
-import { ActionRunnerComponent, ActionRunnerHandler } from './ActionRunnerComponent';
 import PlayerComponent from './PlayerComponent';
 import StateComponent from './StateComponent';
 
@@ -13,18 +13,14 @@ export class TriggerComponent extends Component implements ITriggerComponent {
 
     private TriggerTimes = 0;
 
-    private ActonRunner: ActionRunnerComponent;
-
-    private Handler: ActionRunnerHandler;
+    private Runner: ActionRunner;
 
     private State: StateComponent;
 
     private ActionId: number;
 
     public OnInit(): void {
-        this.ActonRunner = this.Entity.GetComponent(ActionRunnerComponent);
         this.State = this.Entity.GetComponent(StateComponent);
-        this.Handler = this.ActonRunner.SpawnHandler(this.TriggerActions.Actions);
     }
 
     public OnLoadState(): void {
@@ -40,7 +36,11 @@ export class TriggerComponent extends Component implements ITriggerComponent {
     }
 
     private async DoTrigger(): Promise<void> {
-        await this.Handler.Execute(this.ActionId, (actionId: number) => {
+        if (!this.Runner) {
+            this.Runner = new ActionRunner('Trigger', this.Entity, this.TriggerActions.Actions);
+        }
+
+        await this.Runner.Execute(this.ActionId, (actionId: number) => {
             this.ActionId = actionId + 1;
             this.State.SetState('ActionId', actionId);
         });
@@ -64,7 +64,7 @@ export class TriggerComponent extends Component implements ITriggerComponent {
             return;
         }
 
-        if (this.Handler.IsRunning) {
+        if (this.Runner?.IsRunning) {
             return;
         }
 

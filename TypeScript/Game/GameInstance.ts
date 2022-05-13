@@ -3,6 +3,7 @@ import { initCommon } from '../Common/Init';
 import { log } from '../Common/Log';
 import { initEntity } from './Entity/Public';
 import { GlobalActionsRunner } from './Flow/GlobalActionsRunner';
+import { initFlow } from './Flow/Public';
 import { GameController } from './GameController';
 import { gameContext } from './Interface';
 import { EntityManager } from './Manager/EntityManager';
@@ -25,6 +26,7 @@ export class GameInstance {
 
     public Init(): void {
         initCommon();
+        initFlow();
         initEntity(); // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
 
         gameContext.TweenManager = this.TweenManager;

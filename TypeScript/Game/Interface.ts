@@ -57,7 +57,7 @@ export interface ITriggerComponent {
     TriggerActions: ITriggerActions;
 }
 
-export const DEFAULT_INIT_SPEED = 500;
+export const DEFAULT_INIT_SPEED = 150;
 
 export interface IMoveComponent {
     InitSpeed?: number;

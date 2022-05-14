@@ -69,14 +69,13 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
             TipActor: actor,
         });
         LevelEditorUtil.SelectActor(actor);
-        LevelEditorUtil.FocusSelected();
+        // LevelEditorUtil.FocusSelected();
         EditorOperations.GetEditorEvent().OnActorMoved.Add(this.OnActorMoved);
     }
 
     private readonly GenTipActor = (): void => {
         const pos = this.props.Value;
-        const location = new Vector(pos.X, pos.Y, pos.Z);
-        this.GenTipActorAtPos(location);
+        this.GenTipActorAtPos(toVector(pos));
     };
 
     private readonly RemoveTipActor = (): void => {

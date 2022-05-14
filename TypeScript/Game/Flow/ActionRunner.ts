@@ -4,7 +4,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable spellcheck/spell-checker */
-import { error } from '../../Common/Log';
+import { warn } from '../../Common/Log';
 import { Entity } from '../Interface';
 import { IActionInfo, TActionType } from './Action';
 
@@ -141,13 +141,11 @@ export class ActionRunner {
             return;
         }
 
+        this.MyIsInterrupt = true;
         if (this.CurrAction.IsStoppable) {
-            this.MyIsInterrupt = true;
             this.CurrAction.Stop();
         } else {
-            error(
-                `Runner can not be stop because ${this.CurrAction.constructor.name} can not stopped`,
-            );
+            warn(`Runner can not stop because ${this.CurrAction.constructor.name} can not stopped`);
         }
     }
 }

@@ -84,7 +84,7 @@ class EditorFlowOp {
                         });
                     }
                 });
-            } else if (action.Name === 'ChangeState') {
+            } else if (action.Name === 'ChangeState' || action.Name === 'ChangeBehaviorState') {
                 const changeState = action.Params as IChangeState;
                 const state = flow.States.find((e) => e.Id === changeState.StateId);
                 if (state && !result.includes(state.Name)) {

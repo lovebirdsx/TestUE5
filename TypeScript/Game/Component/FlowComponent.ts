@@ -50,10 +50,12 @@ export class FlowComponent extends Component implements IFlowComponent {
     }
 
     public OnDestroy(): void {
-        if (this.IsRunning) {
-            this.Runner.Stop();
-            this.Runner = undefined;
-        }
+        // 不能在此处停止Runner, 因为调用OnDestroy时, UE的相关组件已经失效了
+        // 而Runner中的Stop, 会访问到相关的组件(譬如CharacterMoveComponent)
+        // if (this.IsRunning) {
+        //     this.Runner.Stop();
+        //     this.Runner = undefined;
+        // }
     }
 
     public ChangeState(stateId: number): void {

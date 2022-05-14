@@ -8,8 +8,13 @@ function getDefaultFlowListPath(): string {
     return MyFileHelper.GetPath(EFileRoot.Save, 'Editor/DefaultFlowList.csv');
 }
 
-class EditorConfig {
+export class EditorConfig {
     public static readonly SavePath = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Config.json');
+
+    public static readonly LastEntityStateSavePath = MyFileHelper.GetPath(
+        EFileRoot.Save,
+        'Editor/LastEntity.json',
+    );
 
     // 剧情配置文件
     public FlowConfigPath: string;

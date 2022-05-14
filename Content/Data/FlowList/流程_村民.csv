@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,流程_村民,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 2,
-  ""FlowGenId"": 2,
+  ""TextGenId"": 6,
+  ""FlowGenId"": 6,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -28,6 +28,110 @@
                     ""Name"": ""对话1"",
                     ""WhoId"": 6,
                     ""TextId"": 1
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 2,
+      ""StateGenId"": 2,
+      ""Name"": ""村民2"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 7,
+                    ""TextId"": 2
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 3,
+      ""StateGenId"": 2,
+      ""Name"": ""村民3"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 8,
+                    ""TextId"": 3
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 4,
+      ""StateGenId"": 2,
+      ""Name"": ""村民4"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 9,
+                    ""TextId"": 4
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 5,
+      ""StateGenId"": 2,
+      ""Name"": ""村民5"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 10,
+                    ""TextId"": 5
                   }
                 ]
               }

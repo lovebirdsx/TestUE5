@@ -5,15 +5,15 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
 import { IProps, TModifyType } from '../../../../Common/Type';
-import { IActionInfo } from '../../../../Game/Flow/Action';
+import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
 import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
 import { Check, List, Text } from '../../BaseComponent/CommonComponent';
 import { Any } from './Any';
 
 export class Dynamic extends React.Component<IProps> {
-    private readonly Select = (cnName: string): void => {
-        const action = actionRegistry.SpawnAction(actionRegistry.GetActionTypeByCnName(cnName));
+    private readonly Select = (name: string): void => {
+        const action = actionRegistry.SpawnAction(name as TActionType);
         this.props.OnModify(action, 'normal');
     };
 
@@ -50,8 +50,8 @@ export class Dynamic extends React.Component<IProps> {
                     <HorizontalBox>
                         {prefixElement}
                         <List
-                            Items={actionRegistry.GetActionCnNames(dynamicType.Filter)}
-                            Selected={actionTypeData.CnName}
+                            Items={actionRegistry.GetActionNames(dynamicType.Filter)}
+                            Selected={action.Name}
                             OnSelectChanged={this.Select}
                             Tip={actionTypeData.Tip}
                         />

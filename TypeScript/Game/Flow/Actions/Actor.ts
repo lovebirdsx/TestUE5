@@ -34,6 +34,10 @@ export class FaceToPosAction extends Action<IFaceToPos> {
         return true;
     }
 
+    public get IsStoppable(): boolean {
+        return false;
+    }
+
     public async ExecuteSync(): Promise<void> {
         const moveComponent = this.Entity.GetComponent(MoveComponent);
         await moveComponent.FaceToPos(this.Data);

@@ -32,7 +32,7 @@ export const moveToPosScheme = createObjectScheme<IMoveToPos>({
     Fields: {
         Timeout: createFloatScheme({
             CnName: '超时间隔',
-            CreateDefault: () => 5,
+            CreateDefault: () => 20,
             ShowName: true,
             Tip: '超时的间隔',
             NewLine: true,

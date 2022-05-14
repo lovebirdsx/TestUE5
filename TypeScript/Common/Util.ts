@@ -132,11 +132,11 @@ export function genGuid(): string {
     return KismetGuidLibrary.NewGuid().ToString();
 }
 
-export function stringifyWithOutUnderScore(value: unknown): string {
+export function stringify(value: unknown, filterUnderScore?: boolean): string {
     return JSON.stringify(
         value,
         (key: string, value: unknown): unknown => {
-            if (typeof key === 'string' && key.startsWith('_')) {
+            if (filterUnderScore && typeof key === 'string' && key.startsWith('_')) {
                 return undefined;
             }
             return value;
@@ -217,7 +217,7 @@ export function readJsonObj<T>(path: string, defalut?: T): T {
 }
 
 export function writeJsonObj(obj: unknown, path: string): void {
-    UE.MyFileHelper.Write(path, stringifyWithOutUnderScore(obj));
+    UE.MyFileHelper.Write(path, stringify(obj));
 }
 
 export function writeJsonConfig(obj: unknown, path: string): void {

@@ -8,7 +8,7 @@ import {
     TTsClassType,
 } from '../../Common/Class';
 import { error } from '../../Common/Log';
-import { stringifyWithOutUnderScore } from '../../Common/Util';
+import { stringify } from '../../Common/Util';
 import {
     IEntityData,
     ITsEntity,
@@ -65,7 +65,7 @@ class EntityRegistry {
 
     public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): void {
         obj.Guid = data.Guid;
-        obj.ComponentsStateJson = stringifyWithOutUnderScore(data.ComponentsState);
+        obj.ComponentsStateJson = stringify(data.ComponentsState);
     }
 }
 

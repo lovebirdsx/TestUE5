@@ -4,8 +4,11 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
+import { EditorConfig } from '../../Common/EditorConfig';
+import { log } from '../../Common/Log';
 import { GameConfig } from '../../Game/Common/GameConfig';
-import { isEntity } from '../../Game/Entity/EntityRegistry';
+import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
+import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
@@ -18,7 +21,7 @@ export class LevelEditor {
 
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
-        // editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
+        editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
         editorEvent.OnDuplicateActorsEnd.Add(this.OnDuplicateActorsEnd.bind(this));
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
@@ -43,11 +46,19 @@ export class LevelEditor {
         this.LevelSerializer.Save(entities, this.GetMapDataPath());
     }
 
-    private OnPreBeginPie(): void {
-        if (this.IsDirty) {
-            this.Save();
-            this.IsDirty = false;
+    public SaveCurrentEntity(): void {
+        const entity = LevelEditorUtil.GetSelectedEntity();
+        if (!entity) {
+            return;
         }
+
+        const entityData = entityRegistry.GenData(entity);
+        EntityTemplateOp.Save(entityData, EditorConfig.LastEntityStateSavePath);
+        log(`Last entity state save to ${EditorConfig.LastEntityStateSavePath}`);
+    }
+
+    private OnPreBeginPie(): void {
+        this.SaveCurrentEntity();
     }
 
     private CheckEntityInit(actor: Actor): void {

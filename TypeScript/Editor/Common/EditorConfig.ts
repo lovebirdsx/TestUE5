@@ -3,6 +3,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
 import { writeJsonConfig } from '../../Common/Util';
+import { IPlayFlow } from '../../Game/Flow/Action';
 import { IEntityRecords } from './Interface';
 
 function getDefaultFlowListPath(): string {
@@ -19,6 +20,8 @@ export class EditorConfig {
 
     // 剧情配置文件
     public FlowConfigPath: string = getDefaultFlowListPath();
+
+    public LastPlayFlow: IPlayFlow;
 
     // CSV导入和导出文件
     public CsvExportPath: string;

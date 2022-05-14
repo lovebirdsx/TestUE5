@@ -106,6 +106,18 @@
                             }
                           }
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""4C2A044640531EB7D2302C9004ED1E12"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 4
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -161,7 +173,7 @@
           ""Id"": 1
         },
         {
-          ""Name"": ""接取任务后"",
+          ""Name"": ""接取村长任务后"",
           ""Actions"": [
             {
               ""Name"": ""ShowTalk"",
@@ -197,6 +209,18 @@
                         ""Name"": ""ChangeState"",
                         ""Params"": {
                           ""StateId"": 3
+                        }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""4C2A044640531EB7D2302C9004ED1E12"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
                         }
                       }
                     ]

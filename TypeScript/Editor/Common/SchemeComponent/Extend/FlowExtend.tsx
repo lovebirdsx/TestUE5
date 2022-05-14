@@ -96,8 +96,9 @@ export function RenderStateId(props: IProps<number>): JSX.Element {
     );
 }
 
-function openFlowEditor(flowName: string): void {
-    editorConfig.FlowConfigPath = flowListOp.GetPath(flowName);
+function openFlowEditor(playFlow: IPlayFlow): void {
+    editorConfig.FlowConfigPath = flowListOp.GetPath(playFlow.FlowListName);
+    editorConfig.LastPlayFlow = playFlow;
     editorConfig.Save();
 
     sendEditorCommand('RestartFlowEditor');
@@ -173,7 +174,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
                 <Btn
                     Text={'⊙'}
                     OnClick={(): void => {
-                        openFlowEditor(playFlow.FlowListName);
+                        openFlowEditor(playFlow);
                     }}
                     Tip={'打开流程配置'}
                 />

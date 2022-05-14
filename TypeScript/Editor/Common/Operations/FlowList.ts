@@ -11,6 +11,7 @@ import {
     FLOW_LIST_VERSION,
     IActionInfo,
     IFlowListInfo,
+    IPlayFlow,
     IShowCenterText,
     IShowOption,
     IShowTalk,
@@ -265,6 +266,19 @@ class EditorFlowListOp {
         });
 
         return idsToRemove.length;
+    }
+
+    public FoldForPlayFlow(flowList: IFlowListInfo, playFlow: IPlayFlow): void {
+        const flowId = playFlow.FlowId;
+        const stateId = playFlow.StateId;
+        flowList.Flows.forEach((flow) => {
+            flow._folded = flow.Id !== flowId;
+            if (flow.Id === flowId) {
+                flow.States.forEach((state) => {
+                    state._folded = state.Id !== stateId;
+                });
+            }
+        });
     }
 }
 

@@ -159,6 +159,13 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
             openError = `打开配置文件出错(流程配置文件不是Text_开头的文件哟!)\n\n[${editorConfig.FlowConfigPath}]\n${errorStr}`;
         }
 
+        // 如果有PlayFlow, 则折叠相应的flow和state
+        if (editorConfig.LastPlayFlow) {
+            editorFlowListOp.FoldForPlayFlow(flowListConfig, editorConfig.LastPlayFlow);
+            editorConfig.LastPlayFlow = undefined;
+            editorConfig.Save();
+        }
+
         return {
             Histories: [flowListConfig],
             StepId: 0,

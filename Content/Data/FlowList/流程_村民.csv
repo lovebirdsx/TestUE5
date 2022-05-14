@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_村民,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 22,
+  ""TextGenId"": 29,
   ""FlowGenId"": 6,
   ""Flows"": [
     {
@@ -295,11 +295,11 @@
     },
     {
       ""Id"": 6,
-      ""StateGenId"": 2,
+      ""StateGenId"": 4,
       ""Name"": ""水池女2"",
       ""States"": [
         {
-          ""Name"": ""状态1"",
+          ""Name"": ""普通状态"",
           ""Actions"": [
             {
               ""Name"": ""ShowTalk"",
@@ -316,6 +316,91 @@
             }
           ],
           ""Id"": 1
+        },
+        {
+          ""Name"": ""接受找小孩的任务后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 15,
+                    ""TextId"": 22,
+                    ""Options"": [
+                      {
+                        ""TextId"": 23,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 0
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 27,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 2
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 15,
+                    ""TextId"": 24,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""FinishTalk"",
+                        ""Params"": {}
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 15,
+                    ""TextId"": 25,
+                    ""Options"": [
+                      {
+                        ""TextId"": 26
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 2
+        },
+        {
+          ""Name"": ""玩家找到小孩后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 15,
+                    ""TextId"": 28
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
         }
       ]
     }

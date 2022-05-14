@@ -234,6 +234,18 @@
                             }
                           }
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""1CC80C3F4234AC5ED3EF5C944053E5D0"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        }
                       }
                     ]
                   }

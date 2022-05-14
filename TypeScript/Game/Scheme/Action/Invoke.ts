@@ -1,5 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
+import { EditorLevelLibrary } from 'ue';
+
 import { createObjectScheme, createStringScheme, EActionFilter } from '../../../Common/Type';
+import { LevelUtil } from '../../Common/LevelUtil';
 import { IActionInfo, IInvoke } from '../../Flow/Action';
 import { createActionScheme } from './Action';
 import { moveToPosScheme } from './Move';
@@ -7,6 +10,13 @@ import { moveToPosScheme } from './Move';
 export const entityIdScheme = createStringScheme({
     CnName: '目标',
     RenderType: 'entityId',
+    CreateDefault: () => {
+        // 本来Game是不可以访问Editor模块的代码的
+        // 但是此处为了确保EntityId的合法, 必须要这样处理
+        const world = EditorLevelLibrary.GetEditorWorld();
+        const entities = LevelUtil.GetAllEntities(world);
+        return entities.length > 0 ? entities[0].Guid : 'empty';
+    },
     ShowName: true,
 });
 

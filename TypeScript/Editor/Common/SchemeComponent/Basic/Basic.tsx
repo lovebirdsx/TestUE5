@@ -64,6 +64,7 @@ export function String(props: IProps<string> & { Color?: TColor }): JSX.Element 
             {props.PrefixElement}
             <EditorBox
                 Width={props.Scheme.Width}
+                MaxWidth={props.Scheme.MaxWidth}
                 Text={props.Value}
                 OnChange={(text): void => {
                     props.OnModify(text, 'normal');

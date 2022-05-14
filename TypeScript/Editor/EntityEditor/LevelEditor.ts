@@ -4,13 +4,13 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { EditorConfig } from '../../Common/EditorConfig';
 import { log } from '../../Common/Log';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
+import { EditorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { tempEntities } from './TempEntities';
 

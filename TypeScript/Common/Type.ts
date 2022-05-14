@@ -66,6 +66,8 @@ export class Scheme<T = unknown> {
 
     public Width?: number; // 显示的宽度
 
+    public MaxWidth?: number; // 显示的最大宽度
+
     public Tip?: string; // 提示文字
 }
 
@@ -217,6 +219,10 @@ export class ObjectScheme<T> extends Scheme<T> {
 
     public Fields: TObjectFields<T>;
 
+    public Scheduled?: boolean;
+
+    public NoIndent?: boolean;
+
     public static CreateByFields<T>(fields: TObjectFields<T>): T {
         const fieldArray = [];
         for (const key in fields) {
@@ -231,10 +237,6 @@ export class ObjectScheme<T> extends Scheme<T> {
     public CreateDefault(): T {
         return ObjectScheme.CreateByFields<T>(this.Fields);
     }
-
-    public Scheduled?: boolean;
-
-    public NoIndent?: boolean;
 
     public static FixByFields<T>(fields: TObjectFields<T>, value: T): TFixResult {
         let fixCount = 0;

@@ -3,7 +3,6 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { editorConfig } from '../../../../Common/EditorConfig';
 import { log } from '../../../../Common/Log';
 import { EActionFilter, IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
 import { GameConfig } from '../../../../Game/Common/GameConfig';
@@ -18,6 +17,7 @@ import {
 import { IBehaviorFlowComponent } from '../../../../Game/Interface';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
 import { Btn, Fold, List, Text } from '../../BaseComponent/CommonComponent';
+import { editorConfig } from '../../EditorConfig';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';
 import { flowContext } from '../Context';

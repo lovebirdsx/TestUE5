@@ -6,18 +6,21 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
-import { editorConfig } from '../../Common/EditorConfig';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
+import { msgbox } from '../../Common/UeHelper';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { formatColor } from '../Common/BaseComponent/Color';
-import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
+import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { editorConfig } from '../Common/EditorConfig';
+import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { openFile } from '../Common/Util';
+import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
 import { tempEntities } from './TempEntities';
@@ -33,6 +36,9 @@ interface IEntityEditorState {
     Histories: IEntityState[];
     StepId: number;
     IsEditorPlaying: boolean;
+    ShowExtended: boolean;
+    GuidFilter: string;
+    EntityRecords: IEntityRecords;
 }
 
 function canUndo(state: IEntityEditorState): boolean {
@@ -57,6 +63,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             Histories: [initEntityState],
             StepId: 0,
             IsEditorPlaying: LevelEditorUtil.IsPlaying,
+            ShowExtended: editorConfig.IsEntityEditorShowExtendToolBar,
+            GuidFilter: editorConfig.GuidFilter,
+            EntityRecords: editorConfig.EntityRecords,
         };
         this.LastApplyEntityState = initEntityState;
     }
@@ -302,6 +311,51 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return `${state.StepId + 1} / ${state.Histories.length}`;
     };
 
+    private readonly FocusOnSearch = (): void => {
+        const entity = LevelEditorUtil.FindFirstEntityByGuidFilter(this.state.GuidFilter);
+        if (!entity) {
+            msgbox(`没有找到Guid中包含字符串为${this.state.GuidFilter}的实体`);
+        } else {
+            LevelEditorUtil.Focus(entity);
+        }
+    };
+
+    private RenderSearchEntity(): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Text Text={'Guid'} />
+                <EditorBox
+                    Text={this.state.GuidFilter}
+                    OnChange={(text): void => {
+                        this.setState({ GuidFilter: text });
+                        editorConfig.GuidFilter = text;
+                        editorConfig.Save();
+                        this.FocusOnSearch();
+                    }}
+                />
+                <Btn Text={'查找'} OnClick={this.FocusOnSearch} />
+            </HorizontalBox>
+        );
+    }
+
+    private RenderExtendToolbar(): JSX.Element {
+        return (
+            <VerticalBox>
+                <EntityRecords
+                    PrefixElement={this.RenderSearchEntity()}
+                    Records={this.state.EntityRecords}
+                    OnModify={(records, type): void => {
+                        this.setState({
+                            EntityRecords: records,
+                        });
+                        editorConfig.EntityRecords = records;
+                        editorConfig.Save();
+                    }}
+                />
+            </VerticalBox>
+        );
+    }
+
     private RenderToolbar(): JSX.Element {
         if (this.state.IsEditorPlaying) {
             return <SlotText Text={'游戏运行中,无法进行编辑'} />;
@@ -354,7 +408,18 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     />
                     <Btn Text={'状态'} OnClick={this.Info} Tip={`输出状态`} />
                     <Btn Text={'测试'} OnClick={this.Test} Tip={`测试`} />
+                    <Text Text={'扩展栏'} Tip={'是否显示扩展工具栏'} />
+                    <Check
+                        UnChecked={!this.state.ShowExtended}
+                        OnChecked={(checked: boolean): void => {
+                            this.setState({ ShowExtended: checked });
+                            editorConfig.IsEntityEditorShowExtendToolBar = checked;
+                            editorConfig.Save();
+                        }}
+                        Tip={'是否显示扩展工具栏'}
+                    />
                 </HorizontalBox>
+                {this.state.ShowExtended && this.RenderExtendToolbar()}
             </VerticalBox>
         );
     }

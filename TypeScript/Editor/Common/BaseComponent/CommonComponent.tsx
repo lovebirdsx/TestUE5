@@ -36,6 +36,7 @@ const DEFAULT_FONT_SIZE = 10;
 export const DEFAULT_TEXT_COLOR: TColor = '#FFFFFF white';
 export const DEFAULT_EDIT_TEXT_COLOR: TColor = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_WIDTH = 80;
+const DEFAULT_EDIT_MAX_WIDTH = 300;
 export const DEFUALT_NUMBER_EDIT_TEXT_WIDTH = 40;
 
 // export const DEFAULT_LIST_BACK_COLOR: TColor = '#101010 very dark';
@@ -206,6 +207,7 @@ export function EditorBox(props: {
     OnChange: (text: string) => void;
     Color?: TColor;
     Width?: number;
+    MaxWidth?: number;
     Size?: number;
     Slot?: unknown;
     Tip?: string;
@@ -215,6 +217,8 @@ export function EditorBox(props: {
         <SizeBox
             bOverride_MinDesiredWidth={true}
             MinDesiredWidth={props.Width || DEFAULT_EDIT_TEXT_WIDTH}
+            bOverride_MaxDesiredWidth={true}
+            MaxDesiredWidth={props.MaxWidth || DEFAULT_EDIT_MAX_WIDTH}
         >
             <EditableTextBox
                 Text={props.Text}

@@ -60,3 +60,4 @@ renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 
 export * from './Basic/Public';
 export * from './Extend/FlowList';
+export * from './RenderRegistry';

@@ -26,14 +26,15 @@ import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 
 class LevelEditorUtil {
-    public static SelectActor(actor: Actor): void {
+    public static SelectActor(actor: Actor): boolean {
         if (!actor) {
             EditorLevelLibrary.ClearActorSelectionSet();
-            return;
+            return false;
         }
         const actors = NewArray(Actor);
         actors.Add(actor);
         EditorLevelLibrary.SetSelectedLevelActors(actors);
+        return true;
     }
 
     public static ClearSelect(): void {
@@ -55,6 +56,12 @@ class LevelEditorUtil {
         EditorOperations.ExecuteLevelEditorCommand('CAMERA ALIGN');
     }
 
+    public static Focus(actor: Actor): void {
+        if (this.SelectActor(actor)) {
+            this.FocusSelected();
+        }
+    }
+
     public static FocusOnSelectedBlueprint(actor: Actor): void {
         const path = getAssetPath(actor.GetClass());
         EditorAssetLibrary.SyncBrowserToObjects(toUeArray([path], BuiltinString));
@@ -72,6 +79,11 @@ class LevelEditorUtil {
         }
 
         return LevelUtil.GetAllEntities(world);
+    }
+
+    public static FindFirstEntityByGuidFilter(filter: string): ITsEntity {
+        const entities = this.GetAllEntitiesByEditorWorld();
+        return entities.find((entity) => entity.Guid.includes(filter));
     }
 
     public static GetSelectedEntity(): ITsEntity {

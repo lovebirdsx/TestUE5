@@ -3,13 +3,13 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { editorConfig } from '../../Common/EditorConfig';
 import { TModifyType } from '../../Common/Type';
 import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
+import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { ComponentsState } from './ComponentsState';
 

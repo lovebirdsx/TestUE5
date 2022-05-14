@@ -1,8 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { log } from './Log';
-import { writeJsonConfig } from './Util';
+import { log } from '../../Common/Log';
+import { writeJsonConfig } from '../../Common/Util';
+import { IEntityRecords } from './Interface';
 
 function getDefaultFlowListPath(): string {
     return MyFileHelper.GetPath(EFileRoot.Save, 'Editor/DefaultFlowList.csv');
@@ -17,7 +18,7 @@ export class EditorConfig {
     );
 
     // 剧情配置文件
-    public FlowConfigPath: string;
+    public FlowConfigPath: string = getDefaultFlowListPath();
 
     // CSV导入和导出文件
     public CsvExportPath: string;
@@ -25,13 +26,22 @@ export class EditorConfig {
     public CsvImportPath: string;
 
     // 上一次打开的Csv文件路径
-    public CsvName: string;
+    public CsvName = '对话人';
 
     // 上一次打开的EntityTemplate文件路径
     private MyLastEntityTemplatePath: string;
 
     // EntityEditor是否被锁定
     public IsEntityEditorLocked: boolean;
+
+    // EntityEditor中Guid过滤字符串
+    public GuidFilter: string;
+
+    // EntityEditor中是否显示扩展工具栏
+    public IsEntityEditorShowExtendToolBar: boolean;
+
+    // EntityEditor中的编辑记录
+    public EntityRecords: IEntityRecords = { Records: [] };
 
     public IsDevelop: boolean;
 
@@ -63,14 +73,6 @@ export class EditorConfig {
         if (content) {
             const obj = JSON.parse(content) as object;
             Object.assign(this, obj);
-        }
-
-        if (!this.FlowConfigPath) {
-            this.FlowConfigPath = getDefaultFlowListPath();
-        }
-
-        if (!this.CsvName) {
-            this.CsvName = '对话人';
         }
 
         log(`Load EditorConfig: ${EditorConfig.SavePath}`);

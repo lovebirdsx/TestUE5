@@ -3,6 +3,7 @@ import { MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
 import { GameConfig } from '../Common/GameConfig';
+import { IActionInfo } from '../Flow/Action';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
 import { IManager } from './Interface';
 
@@ -45,6 +46,26 @@ export class StateManager implements IManager, IStateManager {
             ...state,
         };
         this.EntityById.set(id, saveEntityState);
+    }
+
+    public PushDelayAction(id: string, actionInfo: IActionInfo): void {
+        let state = this.EntityById.get(id);
+        if (!state) {
+            state = {
+                Id: id,
+                Deleted: false,
+                DelayActions: [],
+            };
+        }
+
+        if (!state.DelayActions) {
+            state.DelayActions = [];
+        }
+
+        state.DelayActions.push(actionInfo);
+        this.EntityById.set(id, state);
+
+        log(`Push delay action ${JSON.stringify(actionInfo)} to ${id}`);
     }
 
     public DeleteState(id: string): void {

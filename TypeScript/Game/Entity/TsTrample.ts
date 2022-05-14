@@ -1,13 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
-import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { TrampleComponent } from '../Component/TrampleComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
 import { isEntity } from './EntityRegistry';
 import TsEntity from './TsEntity';
 
-export const trampleComponentClasses: TComponentClass[] = [TrampleComponent, ActionRunnerComponent];
+export const trampleComponentClasses: TComponentClass[] = [TrampleComponent];
 
 class TsTrample extends TsEntity {
     // @no-blueprint

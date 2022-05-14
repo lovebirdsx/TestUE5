@@ -62,34 +62,49 @@ export class WaitAction extends Action<IWait> {
 }
 
 export class InvokeAction extends Action<IInvoke> {
-    private readonly Action: Action;
+    private MyAction: Action;
 
-    public constructor(entity: Entity, info: IInvoke) {
-        super(entity, info);
+    private readonly Invoke: IInvoke;
 
-        const tsEntity = gameContext.EntityManager.GetEntity(info.Who);
-        if (tsEntity === undefined) {
-            throw new Error(
-                `Can not invoke ${JSON.stringify(info.ActionInfo)} no exist entity guid: ${
-                    info.Who
-                }`,
+    // 将MyAction的构造延迟, 可以避免一些不必要的问题
+    private get Action(): Action {
+        if (!this.MyAction) {
+            const invoke = this.Invoke;
+            const tsEntity = gameContext.EntityManager.GetEntity(invoke.Who);
+            this.MyAction = actionRegistry.SpawnAction(
+                invoke.ActionInfo.Name,
+                tsEntity ? tsEntity.Entity : undefined,
+                invoke.ActionInfo.Params,
             );
+            this.IsAsync = invoke.ActionInfo.Async;
         }
+        return this.MyAction;
+    }
 
-        this.Action = actionRegistry.SpawnAction(
-            info.ActionInfo.Name,
-            tsEntity.Entity,
-            info.ActionInfo.Params,
-        );
-        this.IsAsync = info.ActionInfo.Async;
+    public constructor(entity: Entity, invoke: IInvoke) {
+        super(entity, invoke);
+
+        this.Invoke = invoke;
     }
 
     public async ExecuteSync(): Promise<void> {
-        await this.Action.ExecuteSync();
+        const action = this.Action;
+        if (!action.Entity) {
+            // 如果此时Entity不存在, 则将action压入对应Actor的待执行Action序列中
+            gameContext.StateManager.PushDelayAction(this.Invoke.Who, this.Invoke.ActionInfo);
+        } else {
+            await action.ExecuteSync();
+        }
     }
 
     public Execute(): void {
-        this.Action.Execute();
+        const action = this.Action;
+        if (!action.Entity) {
+            // 如果此时Entity不存在, 则将action压入对应Actor的待执行Action序列中
+            gameContext.StateManager.PushDelayAction(this.Invoke.Who, this.Invoke.ActionInfo);
+        } else {
+            action.Execute();
+        }
     }
 
     public get IsStoppable(): boolean {

@@ -14,9 +14,9 @@ import { warn } from '../../Common/Log';
 import { calUpRotatorByPoints } from '../../Common/Util';
 import { IFaceToPos, IMoveToPos } from '../Flow/Action';
 import { Component, DEFAULT_INIT_SPEED, gameContext, IMoveComponent } from '../Interface';
-import StateComponent from './StateComponent';
+import { StateComponent } from './StateComponent';
 
-class MoveComponent extends Component implements IMoveComponent {
+export class MoveComponent extends Component implements IMoveComponent {
     public InitSpeed: number = DEFAULT_INIT_SPEED;
 
     private Controller: AIController;
@@ -107,5 +107,3 @@ class MoveComponent extends Component implements IMoveComponent {
         await gameContext.TweenManager.RotatoToByZ(self, targetRotator, 0.5);
     }
 }
-
-export default MoveComponent;

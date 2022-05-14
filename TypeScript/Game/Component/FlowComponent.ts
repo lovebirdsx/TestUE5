@@ -6,7 +6,7 @@ import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, IFlowComponent } from '../Interface';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';
-import StateComponent from './StateComponent';
+import { StateComponent } from './StateComponent';
 import { TalkComponent } from './TalkComponent';
 
 export class FlowComponent extends Component implements IFlowComponent {

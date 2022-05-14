@@ -1,6 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-
-import StateComponent from '../Component/StateComponent';
+import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity, parseComponentsState } from '../Interface';
 
 export function initTsEntity(tsEntity: ITsEntity): void {

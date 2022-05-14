@@ -6,7 +6,7 @@ import { error } from '../../Common/Log';
 import { IFlowInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext, IBehaviorFlowComponent, ITickable } from '../Interface';
-import StateComponent from './StateComponent';
+import { StateComponent } from './StateComponent';
 
 export class BehaviorFlowComponent extends Component implements IBehaviorFlowComponent, ITickable {
     public InitStateId: number;

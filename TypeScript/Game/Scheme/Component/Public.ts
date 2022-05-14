@@ -1,8 +1,8 @@
-import ActorStateComponent from '../../Component/ActorStateComponent';
+import { ActorStateComponent } from '../../Component/ActorStateComponent';
 import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
 import { FlowComponent } from '../../Component/FlowComponent';
 import { GrabComponent } from '../../Component/GrabComponent';
-import MoveComponent from '../../Component/MoveComponent';
+import { MoveComponent } from '../../Component/MoveComponent';
 import { RotatorComponent } from '../../Component/RotatorComponent';
 import { SpringComponent } from '../../Component/SpringComponent';
 import { TrampleComponent } from '../../Component/TrampleComponent';

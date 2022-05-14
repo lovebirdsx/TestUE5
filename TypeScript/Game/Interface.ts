@@ -114,6 +114,7 @@ export type TEntityState = Record<string, unknown>;
 export interface ISavedEntityState extends TEntityState {
     Id: string;
     Deleted: boolean;
+    DelayActions?: IActionInfo[];
 }
 
 export interface IEntityMananger {
@@ -132,6 +133,7 @@ export interface IEntityMananger {
 export interface IStateManager {
     GetState: (id: string) => ISavedEntityState;
     SetState: (id: string, state: TEntityState) => void;
+    PushDelayAction: (id: string, actionInfo: IActionInfo) => void;
     DeleteState: (id: string) => void;
     Load: () => void;
     Save: () => void;

@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import ActorStateComponent from '../../Component/ActorStateComponent';
-import MoveComponent from '../../Component/MoveComponent';
+import { ActorStateComponent } from '../../Component/ActorStateComponent';
+import { MoveComponent } from '../../Component/MoveComponent';
 import { TrampleComponent } from '../../Component/TrampleComponent';
 import { IChangeActorState, IFaceToPos, IMoveToPos, ISimpleMove } from '../Action';
 import { Action } from '../ActionRunner';

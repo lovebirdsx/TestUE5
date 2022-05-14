@@ -2,7 +2,6 @@
 import { initCommon } from '../Common/Init';
 import { log } from '../Common/Log';
 import { initEntity } from './Entity/Public';
-import { GlobalActionsRunner } from './Flow/GlobalActionsRunner';
 import { initFlow } from './Flow/Public';
 import { GameController } from './GameController';
 import { gameContext } from './Interface';
@@ -13,8 +12,6 @@ import { TweenManager } from './Manager/TweenManager';
 
 export class GameInstance {
     private readonly EntityManager = new EntityManager();
-
-    private readonly GlobalActionsRunner = new GlobalActionsRunner();
 
     private readonly TickManager = new TickManager();
 
@@ -33,7 +30,6 @@ export class GameInstance {
 
         this.TickManager.Init();
         this.StateManager.Init();
-        this.GlobalActionsRunner.Init();
         this.EntityManager.Init();
 
         log('GameInstance Init()');
@@ -45,7 +41,6 @@ export class GameInstance {
         this.GameController.Exit();
 
         this.EntityManager.Exit();
-        this.GlobalActionsRunner.Exit();
         this.StateManager.Exit();
         this.TickManager.Exit();
         log('GameInstance Exit()');

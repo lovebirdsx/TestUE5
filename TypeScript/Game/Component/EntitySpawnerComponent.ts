@@ -3,15 +3,13 @@ import { ITransform, toTransform } from '../../Common/Interface';
 import { EntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { ISpawn } from '../Flow/Action';
 import { Component, gameContext, ITsEntity } from '../Interface';
-import StateComponent from './StateComponent';
+import { StateComponent } from './StateComponent';
 
 interface IEntitySpawnRecord {
     TemplateGuid: string;
     EntityGuid: string;
     Transform: ITransform;
 }
-
-const SPAWN_RECORD = 'SpawnRecord';
 
 export class EntitySpawnerComponent extends Component {
     private State: StateComponent;
@@ -48,7 +46,7 @@ export class EntitySpawnerComponent extends Component {
         );
 
         if (this.SpawnRecord.length <= 0) {
-            this.State.SetState(SPAWN_RECORD, undefined);
+            this.State.SetState('SpawnRecord', undefined);
         }
     };
 
@@ -64,7 +62,7 @@ export class EntitySpawnerComponent extends Component {
     }
 
     public OnLoadState(): void {
-        this.SpawnRecord = this.State.GetState(SPAWN_RECORD) || [];
+        this.SpawnRecord = this.State.GetState('SpawnRecord') || [];
 
         this.SpawnRecord.forEach((record) => {
             this.SpawnChild(record.TemplateGuid, record.Transform, record.EntityGuid);
@@ -78,7 +76,7 @@ export class EntitySpawnerComponent extends Component {
             Transform: action.Transform,
             EntityGuid: entity.Guid,
         });
-        this.State.SetState(SPAWN_RECORD, this.SpawnRecord);
+        this.State.SetState('SpawnRecord', this.SpawnRecord);
     }
 
     public DestroyAllChild(): void {
@@ -88,7 +86,7 @@ export class EntitySpawnerComponent extends Component {
 
         this.Children.clear();
         this.SpawnRecord.splice(0);
-        this.State.SetState(SPAWN_RECORD, undefined);
+        this.State.SetState('SpawnRecord', undefined);
     }
 
     public Destroy(): void {

@@ -4,7 +4,7 @@ import { ITriggerActions } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, Entity, ITriggerComponent } from '../Interface';
 import PlayerComponent from './PlayerComponent';
-import StateComponent from './StateComponent';
+import { StateComponent } from './StateComponent';
 
 export class TriggerComponent extends Component implements ITriggerComponent {
     public MaxTriggerTimes: number;

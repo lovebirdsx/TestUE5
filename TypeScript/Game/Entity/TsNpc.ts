@@ -5,7 +5,7 @@ import { BehaviorFlowComponent } from '../Component/BehaviorFlowComponent';
 import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
 import { NpcComponent } from '../Component/NpcComponent';
-import StateComponent from '../Component/StateComponent';
+import { StateComponent } from '../Component/StateComponent';
 import { TalkComponent } from '../Component/TalkComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
 import { isEntity } from './EntityRegistry';

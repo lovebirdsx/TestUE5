@@ -3,7 +3,7 @@ import { EditorOperations } from 'ue';
 
 import { isEditor } from '../Common/Util';
 import { gameConfig } from './Common/GameConfig';
-import StateComponent from './Component/StateComponent';
+import { StateComponent } from './Component/StateComponent';
 import { loadTsEntity } from './Entity/Common';
 import { gameContext, IGameController, ITsEntity } from './Interface';
 

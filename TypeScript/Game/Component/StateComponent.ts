@@ -1,7 +1,22 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Rotator, Vector } from 'ue';
 
+import { warn } from '../../Common/Log';
+import { IActionInfo } from '../Flow/Action';
+import { actionRegistry } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
+
+export type TEntityStateId =
+    | 'ActionId'
+    | 'ActorState'
+    | 'BehaviorActionId'
+    | 'BehaviorStateId'
+    | 'DelayActions'
+    | 'Pos'
+    | 'Rot'
+    | 'SpawnRecord'
+    | 'StateId'
+    | 'TriggerTimes';
 
 function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
@@ -19,20 +34,44 @@ function genRotationArray(vec: Vector): number[] {
     return vectorToArray(vec);
 }
 
-class StateComponent extends Component {
-    private readonly StateMap = new Map<string, unknown>();
+export class StateComponent extends Component {
+    private readonly StateMap = new Map<TEntityStateId, unknown>();
 
-    public GetState<T>(key: string): T {
+    public OnStart(): void {
+        const delayActions = this.GetDelayActions();
+        if (!delayActions) {
+            return;
+        }
+
+        delayActions.forEach((info) => {
+            const action = actionRegistry.SpawnAction(info.Name, this.Entity, info.Params);
+            if (action.IsSchedulable) {
+                warn(`Ignore dealy action ${info.Name} for ${this.Name}`);
+            } else {
+                action.Execute();
+            }
+        });
+    }
+
+    public GetState<T>(key: TEntityStateId): T {
         return this.StateMap.get(key) as T;
     }
 
     // 如果value为undefined,则表示删除对应的key状态
-    public SetState<T>(key: string, value: T): void {
+    public SetState<T>(key: TEntityStateId, value: T): void {
         if (value !== undefined) {
             this.StateMap.set(key, value);
         } else {
             this.StateMap.delete(key);
         }
+    }
+
+    public GetDelayActions(): IActionInfo[] {
+        return this.StateMap.get('DelayActions') as IActionInfo[];
+    }
+
+    public ClearDelayActions(): void {
+        this.StateMap.delete('DelayActions');
     }
 
     public RecordPosition(): void {
@@ -71,9 +110,7 @@ class StateComponent extends Component {
     public ApplySnapshot(snapshot: Record<string, unknown>): void {
         this.StateMap.clear();
         Object.entries(snapshot).forEach(([key, value]) => {
-            this.StateMap.set(key, value);
+            this.StateMap.set(key as TEntityStateId, value);
         });
     }
 }
-
-export default StateComponent;

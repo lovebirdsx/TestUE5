@@ -1,13 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { ActionRunnerComponent } from '../Component/ActionRunnerComponent';
 import { BehaviorFlowComponent } from '../Component/BehaviorFlowComponent';
 import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { FlowComponent } from '../Component/FlowComponent';
-import MoveComponent from '../Component/MoveComponent';
+import { MoveComponent } from '../Component/MoveComponent';
 import { NpcComponent } from '../Component/NpcComponent';
-import StateComponent from '../Component/StateComponent';
+import { StateComponent } from '../Component/StateComponent';
 import { TalkComponent } from '../Component/TalkComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
 import { isEntity } from './EntityRegistry';
@@ -18,7 +17,6 @@ export const aiNpcComponentClasses: TComponentClass[] = [
     FlowComponent,
     BehaviorFlowComponent,
     TalkComponent,
-    ActionRunnerComponent,
     MoveComponent,
     NpcComponent,
     EntitySpawnerComponent,

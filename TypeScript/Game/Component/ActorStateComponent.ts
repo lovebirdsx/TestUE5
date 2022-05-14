@@ -5,24 +5,23 @@ import BP_StateComponent = Game.Blueprints.Component.BP_StateComponent.BP_StateC
 import { getBlueprintClass } from '../../Common/Class';
 import { TActorState } from '../Flow/Action';
 import { Component, EBlueprintId, IActorStateComponent } from '../Interface';
-import StateComponent from './StateComponent';
+import { StateComponent } from './StateComponent';
 
-const ACTOR_STATE_KEY = 'ActorState';
 const DEFAULT_ACTOR_STATE: TActorState = 'Idle';
 
-class ActorStateComponent extends Component implements IActorStateComponent {
+export class ActorStateComponent extends Component implements IActorStateComponent {
     private ActorStateComponent: BP_StateComponent;
 
     private StateComponent: StateComponent;
 
     public get State(): TActorState {
-        return this.StateComponent.GetState(ACTOR_STATE_KEY) || DEFAULT_ACTOR_STATE;
+        return this.StateComponent.GetState('ActorState') || DEFAULT_ACTOR_STATE;
     }
 
     public set State(state: TActorState) {
-        this.ActorStateComponent.Change(ACTOR_STATE_KEY, state);
+        this.ActorStateComponent.Change('ActorState', state);
         this.StateComponent.SetState(
-            ACTOR_STATE_KEY,
+            'ActorState',
             state !== DEFAULT_ACTOR_STATE ? state : undefined,
         );
     }
@@ -35,12 +34,10 @@ class ActorStateComponent extends Component implements IActorStateComponent {
     }
 
     public OnLoadState(): void {
-        this.ActorStateComponent.Set(ACTOR_STATE_KEY, this.State);
+        this.ActorStateComponent.Set('ActorState', this.State);
     }
 
     public ChangeActorState(state: TActorState): void {
         this.State = state;
     }
 }
-
-export default ActorStateComponent;

@@ -60,18 +60,19 @@ export class EntityView extends React.Component<IEntityViewProps> {
     };
 
     private RenderEntityInfo(): JSX.Element {
-        const entity = this.props.Entity;
+        // const entity = this.props.Entity;
         return (
             <HorizontalBox>
-                <Text Text={entity.GetName()} />
+                {/* <Text Text={entity.GetName()} /> */}
+                {this.RenderGuid()}
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
                 <Btn
                     Text={'⊙'}
                     OnClick={this.OnClickBtnFocusBlueprint}
                     Tip={'浏览到Entity蓝图所在位置'}
                 />
-                <Btn Text={'另存为模板'} OnClick={this.OnClickSaveTemplate} />
-                <Btn Text={'读取模板'} OnClick={this.OnClickLoadTemplate} />
+                <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
+                <Btn Text={'L'} Tip={'从模板读取'} OnClick={this.OnClickLoadTemplate} />
             </HorizontalBox>
         );
     }
@@ -112,7 +113,6 @@ export class EntityView extends React.Component<IEntityViewProps> {
             <VerticalBox>
                 <VerticalBox>
                     <H3 Text={'实体信息'} />
-                    {this.RenderGuid()}
                     {this.RenderEntityInfo()}
                 </VerticalBox>
                 <H3 Text={'组件列表'} />

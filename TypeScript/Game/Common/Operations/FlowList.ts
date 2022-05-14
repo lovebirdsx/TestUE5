@@ -168,6 +168,10 @@ class FlowListOp {
         return flow !== undefined ? flow.Id : 0;
     }
 
+    public GetFlow(flowList: IFlowListInfo, flowId: number): IFlowInfo {
+        return flowList.Flows.find((flow) => flow.Id === flowId);
+    }
+
     public GenTextKey(name: string): bigint {
         return BigInt(calHash(name) * MAX_TEXT_ID);
     }

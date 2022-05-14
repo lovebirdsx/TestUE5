@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 import {
@@ -112,7 +113,6 @@ export const H2_SIZE = H3_SIZE + 2;
 export const H1_SIZE = H2_SIZE + 2;
 export const HEADING_COLOR: TColor = '#1E90FF dodger blue';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Text(props: {
     Text: string;
     Size?: number;
@@ -134,27 +134,26 @@ export function Text(props: {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+export function ErrorText(props: { Text: string }): JSX.Element {
+    return <Text {...props} Color={'#8B0000 dark red'} />;
+}
+
 export function SlotText(props: { Text: string; Tip?: string; Slot?: unknown }): JSX.Element {
     return <Text {...props} Color={HEADING_COLOR} />;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function H1(props: { Text: string; Tip?: string }): JSX.Element {
     return <Text {...props} Size={H1_SIZE} Color={HEADING_COLOR}></Text>;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function H2(props: { Text: string; Tip?: string }): JSX.Element {
     return <Text {...props} Size={H2_SIZE} Color={HEADING_COLOR}></Text>;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function H3(props: { Text: string; Tip?: string }): JSX.Element {
     return <Text {...props} Size={H3_SIZE} Color={HEADING_COLOR}></Text>;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Btn(props: {
     Text: string;
     TextSize?: number;
@@ -201,7 +200,6 @@ export function Btn(props: {
 }
 
 // 设定EditableTextBox的颜色无效,是unreal本身存在bug: https://issues.unrealengine.com/issue/UE-37829
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function EditorBox(props: {
     Text: string;
     OnChange: (text: string) => void;
@@ -231,7 +229,6 @@ export function EditorBox(props: {
                     BackgroundImageFocused: defalutHoverBrush,
                     BackgroundImageHovered: defalutHoverBrush,
                     Padding: { Top: 0, Bottom: 0 },
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     VScrollBarPadding: { Top: 0, Bottom: 0 },
                 }}
                 Slot={props.Slot || defalutSlot}
@@ -247,7 +244,6 @@ export function EditorBox(props: {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Check(props: {
     UnChecked?: boolean;
     OnChecked: (checked: boolean) => void;
@@ -264,7 +260,6 @@ export function Check(props: {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function Fold(props: {
     IsFold?: boolean;
     IsFull?: boolean;
@@ -331,7 +326,6 @@ const defalutListRowStyle: TableRowStyle = {
     TextColor: defaultTintTextColor,
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export function List(props: IListProps): JSX.Element {
     const arrayItems = toUeArray(props.Items, BuiltinString);
     return (

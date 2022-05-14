@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 12,
-  ""FlowGenId"": 3,
+  ""TextGenId"": 18,
+  ""FlowGenId"": 4,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -94,6 +94,18 @@
                         ""Params"": {
                           ""StateId"": 2
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""E32696674CF6D874598B34A29C141D24"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -121,6 +133,98 @@
             }
           ],
           ""Id"": 2
+        }
+      ]
+    },
+    {
+      ""Id"": 3,
+      ""StateGenId"": 4,
+      ""Name"": ""王大妈"",
+      ""States"": [
+        {
+          ""Name"": ""未接取村长任务前"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 13,
+                    ""TextId"": 12
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        },
+        {
+          ""Name"": ""接取任务后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 13,
+                    ""TextId"": 13,
+                    ""Options"": [
+                      {
+                        ""TextId"": 14,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 15
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 13,
+                    ""TextId"": 16,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 3
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 2
+        },
+        {
+          ""Name"": ""玩家答应找二狗后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 13,
+                    ""TextId"": 17
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
         }
       ]
     }

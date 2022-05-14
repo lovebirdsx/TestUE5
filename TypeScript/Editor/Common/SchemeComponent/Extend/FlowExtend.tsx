@@ -8,7 +8,10 @@ import { EActionFilter, IProps, ObjectScheme, TModifyType } from '../../../../Co
 import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
+import { FlowComponent } from '../../../../Game/Component/FlowComponent';
 import {
+    IFlowInfo,
+    IInvoke,
     IPlayFlow,
     ITriggerActions,
     parseFlowInfo,
@@ -16,36 +19,77 @@ import {
 } from '../../../../Game/Flow/Action';
 import { IBehaviorFlowComponent } from '../../../../Game/Interface';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
-import { Btn, Fold, List, Text } from '../../BaseComponent/CommonComponent';
+import { Btn, ErrorText, Fold, List, Text } from '../../BaseComponent/CommonComponent';
 import { editorConfig } from '../../EditorConfig';
+import LevelEditorUtil from '../../LevelEditorUtil';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';
-import { flowContext } from '../Context';
+import { flowContext, invokeContext } from '../Context';
 import { Flow } from './Flow';
 
 const DEFAULT_STATE_ID = 1;
 
+function renderStateIdForFlow(flowInfo: IFlowInfo, props: IProps<number>): JSX.Element {
+    const stateNames = flowInfo.States.map((e) => e.Name);
+    const selectedState = flowInfo.States.find((e) => e.Id === props.Value);
+    return (
+        <HorizontalBox>
+            {props.PrefixElement}
+            <List
+                Items={stateNames}
+                Selected={selectedState ? selectedState.Name : ''}
+                Tip="目标状态"
+                OnSelectChanged={(selectedStateName): void => {
+                    const state = flowInfo.States.find((e) => e.Name === selectedStateName);
+                    props.OnModify(state ? state.Id : DEFAULT_STATE_ID, 'normal');
+                }}
+            />
+        </HorizontalBox>
+    );
+}
+
+function renderStateIdForInvoke(invoke: IInvoke, props: IProps<number>): JSX.Element {
+    const entity = LevelEditorUtil.GetEntity(invoke.Who);
+    if (!entity) {
+        return <ErrorText Text={`找不到实体: ${invoke.Who}`} />;
+    }
+
+    const flowComponent = LevelEditorUtil.GetEntityComponentData(entity, FlowComponent);
+    if (!flowComponent) {
+        return <ErrorText Text={`对应实体不存在FlowComponent配置`} />;
+    }
+
+    const initState = flowComponent.InitState;
+    if (!initState) {
+        return <ErrorText Text={`实体没有配置流程`} />;
+    }
+
+    const flowList = flowListOp.LoadByName(initState.FlowListName);
+    if (!flowList) {
+        return <ErrorText Text={`找不到流程配置: ${initState.FlowListName}`} />;
+    }
+    const flowInfo = flowListOp.GetFlow(flowList, initState.FlowId);
+    if (!flowInfo) {
+        return <ErrorText Text={`流程id[${initState.FlowId}]不存在`} />;
+    }
+
+    return renderStateIdForFlow(flowInfo, props);
+}
+
+// ChangeState可能在Invoke中被调用, 所以要处理该情况
 export function RenderStateId(props: IProps<number>): JSX.Element {
     return (
         <flowContext.Consumer>
             {(value): JSX.Element => {
-                const stateNames = value.States.map((e) => e.Name);
-                const selectedState = value.States.find((e) => e.Id === props.Value);
                 return (
-                    <HorizontalBox>
-                        {props.PrefixElement}
-                        <List
-                            Items={stateNames}
-                            Selected={selectedState ? selectedState.Name : ''}
-                            Tip="目标状态"
-                            OnSelectChanged={(selectedStateName): void => {
-                                const state = value.States.find(
-                                    (e) => e.Name === selectedStateName,
-                                );
-                                props.OnModify(state ? state.Id : DEFAULT_STATE_ID, 'normal');
-                            }}
-                        />
-                    </HorizontalBox>
+                    <invokeContext.Consumer>
+                        {(invoke): JSX.Element => {
+                            if (invoke === undefined) {
+                                return renderStateIdForFlow(value, props);
+                            }
+                            return renderStateIdForInvoke(invoke, props);
+                        }}
+                    </invokeContext.Consumer>
                 );
             }}
         </flowContext.Consumer>
@@ -263,5 +307,13 @@ export function RenderBehaviorFlow(
                 />
             )}
         </VerticalBox>
+    );
+}
+
+export function RenderInvoke(props: IProps<IInvoke, ObjectScheme<IInvoke>>): JSX.Element {
+    return (
+        <invokeContext.Provider value={props.Value}>
+            <Obj {...props} />
+        </invokeContext.Provider>
     );
 }

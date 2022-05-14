@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import { ICsv } from '../../../Common/CsvLoader';
-import { IFlowInfo, IShowTalk } from '../../../Game/Flow/Action';
+import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Flow/Action';
 
 export const flowContext = React.createContext<IFlowInfo>(undefined);
 
@@ -15,3 +15,5 @@ export interface ICsvCellContext {
 export const csvCellContext = React.createContext<ICsvCellContext>(undefined);
 
 export const showTalkContext = React.createContext<IShowTalk>(undefined);
+
+export const invokeContext = React.createContext<IInvoke>(undefined);

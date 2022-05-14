@@ -23,7 +23,7 @@ import { toUeArray } from '../../Common/UeHelper';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
-import { ITsEntity } from '../../Game/Interface';
+import { Component, ITsEntity, parseComponentsState } from '../../Game/Interface';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): boolean {
@@ -84,6 +84,19 @@ class LevelEditorUtil {
     public static FindFirstEntityByGuidFilter(filter: string): ITsEntity {
         const entities = this.GetAllEntitiesByEditorWorld();
         return entities.find((entity) => entity.Guid.includes(filter));
+    }
+
+    public static GetEntity(guid: string): ITsEntity {
+        const entities = this.GetAllEntitiesByEditorWorld();
+        return entities.find((entity) => entity.Guid === guid);
+    }
+
+    public static GetEntityComponentData<T extends Component>(
+        entity: ITsEntity,
+        componentClass: new () => T,
+    ): T {
+        const componentsState = parseComponentsState(entity.ComponentsStateJson);
+        return componentsState[componentClass.name] as T;
     }
 
     public static GetSelectedEntity(): ITsEntity {

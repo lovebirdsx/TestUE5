@@ -1,7 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { PythonScriptLibrary } from 'ue';
+import { EFileRoot, MyFileHelper, PythonScriptLibrary } from 'ue';
+
+import { readJsonObj, writeJsonConfig } from '../../Common/Util';
 
 export function openDirOfFile(filepath: string): void {
     const command = [
@@ -28,4 +30,31 @@ export function sendEditorCommand(command: string): void {
     ].join('\r\n');
 
     PythonScriptLibrary.ExecutePythonCommand(pythonCommand);
+}
+
+interface IClipBoard {
+    DataMap: Record<string, unknown>;
+}
+
+const CLIP_BOARD_SAVE_PATH = MyFileHelper.GetPath(EFileRoot.Save, 'ClipBoard.json');
+const defalutClipBoard: IClipBoard = { DataMap: {} };
+
+function saveClipBoard(clipBoard: IClipBoard): void {
+    writeJsonConfig(clipBoard, CLIP_BOARD_SAVE_PATH);
+}
+
+function loadClipBoard(): IClipBoard {
+    return readJsonObj(CLIP_BOARD_SAVE_PATH, defalutClipBoard);
+}
+
+export function copyObject(type: string, obj: unknown): void {
+    const clipBoard = loadClipBoard();
+    clipBoard.DataMap[type] = obj;
+    saveClipBoard(clipBoard);
+}
+
+export function pasteObject<T>(type: string): T {
+    const clipBoard = loadClipBoard();
+    const data = clipBoard.DataMap[type];
+    return data as T;
 }

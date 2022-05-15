@@ -8,6 +8,7 @@ import { EActionFilter, TModifyType } from '../../../../Common/Type';
 import { IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
 import { Btn, EditorBox, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { editorFlowOp } from '../../Operations/Flow';
+import { copyObject, pasteObject } from '../../Util';
 import { flowContext } from '../Context';
 import { State } from './State';
 
@@ -107,6 +108,16 @@ export class Flow extends React.Component<IFlowProps> {
 
     private OnContextCommand(id: number, cmd: string): void {
         switch (cmd) {
+            case '拷贝':
+                copyObject('StateInfo', this.props.Flow.States[id]);
+                break;
+            case '粘贴': {
+                const stateInfo = pasteObject<IStateInfo>('StateInfo');
+                if (stateInfo) {
+                    this.ModifyState(id, stateInfo, 'normal');
+                }
+                break;
+            }
             case '上插':
                 this.InsertState(id);
                 break;

@@ -2,8 +2,8 @@ import { $ref } from 'puerts';
 import { Actor, GameplayStatics, NewArray, World } from 'ue';
 
 import { getUeClassByTsClass } from '../../Common/Class';
-import { TsEntity } from '../Entity/Public';
-import TsCharacterEntity from '../Entity/TsCharacterEntity';
+import { TsCharacterEntity } from '../Entity/TsCharacterEntity';
+import { TsEntity } from '../Entity/TsEntity';
 import { ITsEntity } from '../Interface';
 
 export class LevelUtil {

@@ -4,7 +4,7 @@ import { Character, edit_on_instance } from 'ue';
 import { Entity, getEntityName, ITsEntity, TComponentClass } from '../Interface';
 import { deInitTsEntity, initTsEntity } from './Common';
 
-class TsCharacterEntity extends Character implements ITsEntity {
+export class TsCharacterEntity extends Character implements ITsEntity {
     @edit_on_instance()
     public Guid: string;
 

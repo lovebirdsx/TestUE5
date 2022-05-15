@@ -9,7 +9,7 @@
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
   ""TextGenId"": 18,
-  ""FlowGenId"": 4,
+  ""FlowGenId"": 5,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -273,6 +273,18 @@
             }
           ],
           ""Id"": 3
+        }
+      ]
+    },
+    {
+      ""Id"": 4,
+      ""StateGenId"": 2,
+      ""Name"": ""流浪汉"",
+      ""States"": [
+        {
+          ""Name"": ""找村长前"",
+          ""Actions"": [],
+          ""Id"": 1
         }
       ]
     }

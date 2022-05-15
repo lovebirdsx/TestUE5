@@ -17,6 +17,7 @@ import {
 
 import { createSignal, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
+import { log } from '../../Common/Log';
 import { IVectorType } from '../../Common/Type';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
@@ -59,7 +60,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public GetInteractContent(): string {
         // todo 改成从编写interact的json中读取
-        return `操作控制台`;
+        return `E`;
     }
 
     public OnTriggerEnter(other: Entity): void {
@@ -159,6 +160,21 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         this.InteractSignal = null;
     }
 
+    public GetRotator(map: number): Rotator {
+        let rotator = new Rotator(0, 0, 0);
+        switch (map) {
+            case 1:
+                rotator = new Rotator(1, 0, 0);
+                break;
+            case 2:
+                rotator = new Rotator(0, 0, 1);
+                break;
+            default:
+                break;
+        }
+        return rotator;
+    }
+
     public RotateX(val: number): void {
         if (!val) {
             return;
@@ -166,7 +182,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
             const speed = (this.RotatorSpeed.X * val) / 100;
-            const rotator = new Rotator(0, 0, speed);
+            const rotator = this.GetRotator(this.RotationMapping.X).op_Multiply(speed);
             entity.K2_AddActorWorldRotation(rotator, false, null, false);
             this.WakeRigidBodies();
             if (this.IsRotatorSelf) {
@@ -182,7 +198,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
             const speed = (this.RotatorSpeed.Y * val) / 100;
-            const rotator = new Rotator(speed, 0, 0);
+            const rotator = this.GetRotator(this.RotationMapping.Y).op_Multiply(speed);
             entity.K2_AddActorWorldRotation(rotator, false, null, false);
             this.WakeRigidBodies();
             if (this.IsRotatorSelf) {
@@ -197,8 +213,8 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         }
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
-            const speed = (this.RotatorSpeed.Y * val) / 100;
-            const rotator = new Rotator(0, speed, 0);
+            const speed = (this.RotatorSpeed.Z * val) / 100;
+            const rotator = this.GetRotator(this.RotationMapping.Z).op_Multiply(speed);
             entity.K2_AddActorWorldRotation(rotator, false, null, false);
             this.WakeRigidBodies();
             if (this.IsRotatorSelf) {
@@ -219,8 +235,14 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
                     const component = actor.GetComponentByClass(
                         StaticMeshComponent.StaticClass(),
                     ) as StaticMeshComponent;
-                    if (component) {
+                    if (component?.IsSimulatingPhysics()) {
                         component.WakeAllRigidBodies();
+                        // 调整球的手感
+                        const upSpeed = component.GetPhysicsLinearVelocity();
+                        log(`upSpeed.Z ${upSpeed.X}, ${upSpeed.Y}, ${upSpeed.Z}`);
+                        if (upSpeed.Z > 0) {
+                            component.AddImpulse(new Vector(0, 0, -20));
+                        }
                     }
                 }
             }

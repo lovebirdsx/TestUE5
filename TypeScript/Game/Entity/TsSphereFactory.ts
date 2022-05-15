@@ -2,15 +2,18 @@
 import { Actor } from 'ue';
 
 import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
+import { EventComponent } from '../Component/EventComponent';
 import { SphereFactoryComponent } from '../Component/SphereFactoryComponent';
-import { InteractiveComponent, ITsEntity, TComponentClass } from '../Interface';
+import { StateComponent } from '../Component/StateComponent';
+import { ITsEntity, TComponentClass } from '../Interface';
 import { isEntity } from './EntityRegistry';
 import TsEntity from './TsEntity';
 
 export const sphereFactoryComponentClasses: TComponentClass[] = [
     SphereFactoryComponent,
     EntitySpawnerComponent,
-    InteractiveComponent,
+    EventComponent,
+    StateComponent,
 ];
 
 class TsSphereFactory extends TsEntity {

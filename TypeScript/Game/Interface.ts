@@ -30,7 +30,6 @@ export enum EBlueprintId {
     SphereFactory = 11,
     GameMode = 12,
     Lamp = 13,
-    Simple = 14,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,

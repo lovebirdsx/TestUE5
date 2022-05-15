@@ -17,18 +17,20 @@ export class GameModeComponent extends Component implements IGameModeComponent {
 
     private State: StateComponent;
 
+    private Event: EventComponent;
+
     private StateId = 1;
 
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
-        const event = this.Entity.GetComponent(EventComponent);
+        this.Event = this.Entity.GetComponent(EventComponent);
         const call: IInteractCall = {
             Name: 'GameModeComponent',
             CallBack: (action: IInteract) => {
                 this.Activate(action);
             },
         };
-        event.RegistryInteract(call);
+        this.Event.RegistryInteract(call);
         for (const state of this.StateInfo) {
             this.StateMap.set(state.StateId, state);
         }
@@ -59,10 +61,12 @@ export class GameModeComponent extends Component implements IGameModeComponent {
 
     public RestartPlayerPos(): void {
         const info = this.StateMap.get(this.StateId);
-        const pos = toVector(info.RestartPos);
-        const player = gameContext.Player;
-        if (player) {
-            player.K2_SetActorLocation(pos, false, null, false);
+        if (info) {
+            const pos = toVector(info.RestartPos);
+            const player = gameContext.Player;
+            if (player) {
+                player.K2_SetActorLocation(pos, false, null, false);
+            }
         }
     }
 }

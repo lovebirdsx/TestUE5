@@ -36,21 +36,21 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     }
 
     private readonly OnModifyX = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
+        const newPos = toVector(this.props.Value);
         newPos.X = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        this.SetPosition(newPos);
     };
 
     private readonly OnModifyY = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
+        const newPos = toVector(this.props.Value);
         newPos.Y = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        this.SetPosition(newPos);
     };
 
     private readonly OnModifyZ = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
+        const newPos = toVector(this.props.Value);
         newPos.Z = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        this.SetPosition(newPos);
     };
 
     private readonly OnActorMoved = (actor: Actor): void => {

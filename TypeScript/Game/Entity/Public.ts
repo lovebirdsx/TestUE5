@@ -13,7 +13,6 @@ import TsGameMode, { gameModeComponentClasses } from './TsGameMode';
 import TsLamp, { lampComponentClasses } from './TsLamp';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsRotator, { rotatorComponentClasses } from './TsRotator';
-import TsSimple, { simpleComponentClasses } from './TsSimple';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
 import TsSphereFactory, { sphereFactoryComponentClasses } from './TsSphereFactory';
 import TsSpring, { springComponentClasses } from './TsSpring';
@@ -80,7 +79,6 @@ export function initEntity(): void {
     entityRegistry.Register(TsSphereFactory, ...sphereFactoryComponentClasses);
     entityRegistry.Register(TsGameMode, ...gameModeComponentClasses);
     entityRegistry.Register(TsLamp, ...lampComponentClasses);
-    entityRegistry.Register(TsSimple, ...simpleComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -97,7 +95,6 @@ export function initEntity(): void {
     regEntity(EBlueprintId.SphereFactory, TsSphereFactory);
     regEntity(EBlueprintId.GameMode, TsGameMode);
     regEntity(EBlueprintId.Lamp, TsLamp);
-    regEntity(EBlueprintId.Simple, TsSimple);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -129,7 +126,6 @@ export * from './TsGameMode';
 export * from './TsLamp';
 export * from './TsNpc';
 export * from './TsRotator';
-export * from './TsSimple';
 export * from './TsSphereActor';
 export * from './TsSphereFactory';
 export * from './TsSpring';

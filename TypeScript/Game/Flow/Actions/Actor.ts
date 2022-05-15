@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
+import { log } from '../../../Common/Log';
 import { ActorStateComponent } from '../../Component/ActorStateComponent';
 import { EventComponent } from '../../Component/EventComponent';
 import { MoveComponent } from '../../Component/MoveComponent';
@@ -47,14 +48,19 @@ export class FaceToPosAction extends Action<IFaceToPos> {
 
 export class SimpleMoveAction extends Action<ISimpleMove> {
     public Execute(): void {
-        const simpleComponent = this.Entity.GetComponent(SimpleComponent);
-        simpleComponent.SimpleMove(this.Data);
+        const simpleComponent = this.Entity.TryGetComponent(SimpleComponent);
+        if (simpleComponent) {
+            simpleComponent.SimpleMove(this.Data);
+        }
     }
 }
 
 export class Activation extends Action<IInteract> {
     public Execute(): void {
-        const eventComponent = this.Entity.GetComponent(EventComponent);
-        eventComponent.Activate(this.Data);
+        const eventComponent = this.Entity.TryGetComponent(EventComponent);
+        log(`111111EventComponent ${this.Entity.Actor.GetName()}`);
+        if (eventComponent) {
+            eventComponent.Activate(this.Data);
+        }
     }
 }

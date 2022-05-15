@@ -29,7 +29,6 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
     private TriggerTimes = 0;
 
     public OnInit(): void {
-        this.IsDisposable = false;
         this.InteractingList = [];
     }
 

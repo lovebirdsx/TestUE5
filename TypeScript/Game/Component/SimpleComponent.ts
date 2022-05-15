@@ -2,7 +2,7 @@
 import { Actor, Vector } from "ue";
 
 import { toVector } from '../../Common/Interface';
-import { error } from '../../Common/Log';
+import { error, log } from '../../Common/Log';
 import { ISimpleMove } from '../Flow/Action';
 import { Component, gameContext, ITickable } from '../Interface';
 
@@ -17,6 +17,7 @@ export class SimpleComponent extends Component implements ITickable {
     private MoveInfo: ISimpleMoveInfo;
 
     public SimpleMove(action: ISimpleMove): void {
+        log(`SimpleMove ${action.Who}`);
         const tsEntity = gameContext.EntityManager.GetEntity(action.Who);
         if (!tsEntity) {
             error(`没选定对象`);

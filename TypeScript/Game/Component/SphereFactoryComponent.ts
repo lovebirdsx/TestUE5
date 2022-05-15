@@ -5,17 +5,22 @@ import { createSignal, ISignal } from '../../Common/Async';
 import { toTransformInfo } from '../../Common/Interface';
 import { IVectorType } from '../../Common/Type';
 import { IInteract, ISpawn } from '../Flow/Action';
-import { Component, Entity, gameContext, IInteractCall } from '../Interface';
+import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import { ISphereFactoryComponent } from '../Scheme/Component/SphereFactoryScheme';
 import { EntitySpawnerComponent, ICallBack } from './EntitySpawnerComponent';
 import { EventComponent } from './EventComponent';
 
-export class SphereFactoryComponent extends Component implements ISphereFactoryComponent {
+export class SphereFactoryComponent
+    extends InteractiveComponent
+    implements ISphereFactoryComponent
+{
     public SphereLocation: IVectorType; // 用自己位置
 
     public SphereGuid: string;
 
     private EntitySpawn: EntitySpawnerComponent;
+
+    private Event: EventComponent;
 
     private InteractSignal: ISignal<boolean>;
 
@@ -29,14 +34,14 @@ export class SphereFactoryComponent extends Component implements ISphereFactoryC
             },
         };
         this.EntitySpawn.RegistryDestroy(call);
-        const event = this.Entity.GetComponent(EventComponent);
+        this.Event = this.Entity.GetComponent(EventComponent);
         const interactCall: IInteractCall = {
-            Name: 'GameModeComponent',
+            Name: 'SphereFactoryComponent',
             CallBack: (action: IInteract) => {
                 this.Activate(action);
             },
         };
-        event.RegistryInteract(interactCall);
+        this.Event.RegistryInteract(interactCall);
     }
 
     public CreateSphere(): void {

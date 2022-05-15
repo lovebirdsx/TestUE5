@@ -92,7 +92,10 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
-        this.BehaviorFlow.SetPaused(true);
+        const prevBehaviorPaused = this.BehaviorFlow.IsPaused;
+        if (!prevBehaviorPaused) {
+            this.BehaviorFlow.IsPaused = true;
+        }
 
         this.Runner = new ActionRunner('Flow', this.Entity, state.Actions);
         await this.Runner.Execute(this.ActionId, (actionId: number) => {
@@ -105,7 +108,9 @@ export class FlowComponent extends Component implements IFlowComponent {
             this.StateComponent.SetState('ActionId', undefined);
         }
 
-        this.BehaviorFlow.SetPaused(false);
+        if (!prevBehaviorPaused) {
+            this.BehaviorFlow.IsPaused = false;
+        }
 
         this.Runner = undefined;
     }

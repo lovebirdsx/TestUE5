@@ -3,7 +3,13 @@
 import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
 import { FlowComponent } from '../../Component/FlowComponent';
 import { TalkComponent } from '../../Component/TalkComponent';
-import { IChangeState, IJumpTalk, IShowTalk } from '../Action';
+import {
+    IChangeState,
+    IJumpTalk,
+    IChangeBehaviorState,
+    ISetBehaviorPaused,
+    IShowTalk,
+} from '../Action';
 import { Action } from '../ActionRunner';
 
 export class ChangeStateAction extends Action<IChangeState> {
@@ -49,9 +55,19 @@ export class FinishTalkAction extends Action<undefined> {
     }
 }
 
-export class ChangeBehaviorStateAction extends Action<IChangeState> {
+export class ChangeBehaviorStateAction extends Action<IChangeBehaviorState> {
     public Execute(): void {
         const behaviorFlowComponent = this.Entity.GetComponent(BehaviorFlowComponent);
         behaviorFlowComponent.ChangeBehaviorState(this.Data.StateId);
+        if (this.Data.IsInstant) {
+            behaviorFlowComponent.StopCurrentState();
+        }
+    }
+}
+
+export class SetBehaviorPausedAction extends Action<ISetBehaviorPaused> {
+    public Execute(): void {
+        const behaviorFlowComponent = this.Entity.GetComponent(BehaviorFlowComponent);
+        behaviorFlowComponent.IsPaused = this.Data.IsPaused;
     }
 }

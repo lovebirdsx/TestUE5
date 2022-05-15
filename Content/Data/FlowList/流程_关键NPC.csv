@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 18,
+  ""TextGenId"": 19,
   ""FlowGenId"": 5,
   ""Flows"": [
     {
@@ -283,7 +283,21 @@
       ""States"": [
         {
           ""Name"": ""找村长前"",
-          ""Actions"": [],
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 18
+                  }
+                ]
+              }
+            }
+          ],
           ""Id"": 1
         }
       ]

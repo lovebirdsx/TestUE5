@@ -19,6 +19,7 @@ export type TActionType =
     | 'MoveToPos'
     | 'PlayCustomSequence'
     | 'PlaySequenceData'
+    | 'SetBehaviorIsPaused'
     | 'SetCameraMode'
     | 'SetFlowBoolOption'
     | 'SetHeadIconVisible'
@@ -173,6 +174,15 @@ export interface IShowOption {
 
 export interface IChangeState {
     StateId: number;
+}
+
+export interface IChangeBehaviorState {
+    StateId: number;
+    IsInstant?: boolean;
+}
+
+export interface ISetBehaviorPaused {
+    IsPaused: boolean;
 }
 
 export interface IChangeRandomState {

@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
     createArrayScheme,
+    createBooleanScheme,
     createEnumScheme,
     createIntScheme,
     createObjectScheme,
@@ -9,8 +10,10 @@ import {
 import {
     actorStateConfig,
     IChangeActorState,
+    IChangeBehaviorState,
     IChangeRandomState,
     IChangeState,
+    ISetBehaviorPaused,
 } from '../../Flow/Action';
 
 export const finishStateScheme = createObjectScheme({
@@ -36,14 +39,31 @@ export const changeStateScheme = createObjectScheme<IChangeState>({
     Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
 });
 
-export const changeBehaviorStateScheme = createObjectScheme<IChangeState>({
+export const changeBehaviorStateScheme = createObjectScheme<IChangeBehaviorState>({
     CnName: '改变Behaivor状态',
     Name: 'ChangeBehaviorState',
     Fields: {
         StateId: stateIdScheme,
+        IsInstant: createBooleanScheme({
+            Optional: true,
+            Tip: '是否立即执行, 如果立即执行, 则将停止当前状态, 马上执行下一状态',
+        }),
     },
-    Filters: [EActionFilter.BehaviorFlow],
+    Filters: [EActionFilter.BehaviorFlow, EActionFilter.Invoke],
     Tip: '改变行为状态, 实体将从该状态继续执行动作',
+});
+
+export const setBehaviorIsPausedScheme = createObjectScheme<ISetBehaviorPaused>({
+    CnName: '设定Behaivor是否暂停',
+    Name: 'SetBehaviorIsPaused',
+    Fields: {
+        IsPaused: createBooleanScheme({
+            Optional: true,
+            Tip: '是否暂停',
+        }),
+    },
+    Filters: [EActionFilter.BehaviorFlow, EActionFilter.Invoke],
+    Tip: '设定是否暂停Behavior的执行',
 });
 
 export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>({

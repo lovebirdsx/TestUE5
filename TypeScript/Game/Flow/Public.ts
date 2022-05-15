@@ -13,6 +13,7 @@ import {
     FinishStateAction,
     FinishTalkAction,
     JumpTalkAction,
+    SetBehaviorPausedAction,
     ShowTalkAction,
 } from './Actions/Flow';
 import { DestroyAction, DestroyAllChildAction, SpawnChildAction } from './Actions/Spawn';
@@ -36,6 +37,7 @@ export function initFlow(): void {
     actionRegistry.Register('JumpTalk', JumpTalkAction);
     actionRegistry.Register('Log', LogAction);
     actionRegistry.Register('MoveToPos', MoveToPosAction);
+    actionRegistry.Register('SetBehaviorIsPaused', SetBehaviorPausedAction);
     actionRegistry.Register('ShowMessage', ShowMessageAction);
     actionRegistry.Register('ShowTalk', ShowTalkAction);
     actionRegistry.Register('SimpleMove', SimpleMoveAction);

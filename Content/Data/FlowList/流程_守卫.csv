@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_守卫,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 19,
+  ""TextGenId"": 21,
   ""FlowGenId"": 3,
   ""Flows"": [
     {
@@ -61,6 +61,40 @@
                                 ""Name"": ""ChangeActorState"",
                                 ""Params"": {
                                   ""State"": ""Close""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 19,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""ECB537B44F4ABB0C85E12A87F118592F"",
+                              ""ActionInfo"": {
+                                ""Name"": ""SetBehaviorIsPaused"",
+                                ""Params"": {
+                                  ""IsPaused"": true
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 20,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""ECB537B44F4ABB0C85E12A87F118592F"",
+                              ""ActionInfo"": {
+                                ""Name"": ""SetBehaviorIsPaused"",
+                                ""Params"": {
+                                  ""IsPaused"": false
                                 }
                               }
                             }

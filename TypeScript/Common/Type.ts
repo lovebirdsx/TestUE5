@@ -402,7 +402,7 @@ export class BooleanScheme extends Scheme<boolean> {
 }
 
 export function createBooleanScheme(
-    type: Omit<Partial<BooleanScheme>, 'fix' | 'renderType'>,
+    type?: Omit<Partial<BooleanScheme>, 'fix' | 'renderType'>,
 ): BooleanScheme {
     const scheme = new BooleanScheme();
     if (type) {

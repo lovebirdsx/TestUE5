@@ -17,6 +17,7 @@ import {
     changeRandomStateScheme,
     changeStateScheme,
     finishStateScheme,
+    setBehaviorIsPausedScheme,
 } from './State';
 import { setHeadIconVisibleScheme } from './Talker';
 
@@ -36,6 +37,7 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     MoveToPos: moveToPosScheme,
     PlaySequenceData: playSequenceDataScheme,
     PlayCustomSequence: playCustomSequenceScheme,
+    SetBehaviorIsPaused: setBehaviorIsPausedScheme,
     SetCameraMode: setCameraModeScheme,
     SetHeadIconVisible: setHeadIconVisibleScheme,
     SetFlowBoolOption: setFlowBoolOptionScheme,

@@ -3,7 +3,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
 import { error } from '../../Common/Log';
-import { IFlowInfo } from '../Flow/Action';
+import { IFlowInfo, IChangeBehaviorState } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext, IBehaviorFlowComponent, ITickable } from '../Interface';
 import { StateComponent } from './StateComponent';
@@ -20,6 +20,8 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
     private State: StateComponent;
 
     private MyIsPaused = false;
+
+    private NextStateId = -1;
 
     private get IsConfigValid(): boolean {
         return this.FlowInfo && this.FlowInfo.States.length > 0;
@@ -47,7 +49,9 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         }
 
         this.InitStateId = this.State.GetState<number>('BehaviorStateId') || 0;
+        this.NextStateId = this.State.GetState<number>('BehaviorNextStateId') || -1;
         this.ActionId = this.State.GetState<number>('BehaviorActionId') || 0;
+        this.MyIsPaused = this.State.GetState<boolean>('IsBehaviorPaused') || false;
     }
 
     public OnDestroy(): void {
@@ -74,11 +78,17 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         return this.Runner !== undefined;
     }
 
+    public StopCurrentState(): void {
+        if (this.Runner.IsRunning) {
+            this.Runner.Stop();
+        }
+    }
+
     public get IsPaused(): boolean {
         return this.MyIsPaused;
     }
 
-    public SetPaused(isPaused: boolean): void {
+    public set IsPaused(isPaused: boolean) {
         if (!this.IsConfigValid) {
             return;
         }
@@ -89,9 +99,23 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         }
 
         this.MyIsPaused = isPaused;
+        this.State.SetState('IsBehaviorPaused', isPaused ? true : undefined);
         if (isPaused) {
             this.Runner.Stop();
         }
+    }
+
+    public SetNextState(data: IChangeBehaviorState): void {
+        if (data.IsInstant) {
+            if (this.IsRunning) {
+                this.Runner.Stop();
+            } else if (this.MyIsPaused) {
+                this.IsPaused = false;
+            }
+        }
+
+        this.NextStateId = data.StateId;
+        this.State.SetState('BehaviorNextStateId', this.NextStateId);
     }
 
     public async Run(): Promise<void> {
@@ -102,6 +126,12 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         if (this.Runner !== undefined) {
             error(`${this.Name} Can not run again`);
             return;
+        }
+
+        if (this.NextStateId >= 0) {
+            this.ChangeBehaviorState(this.NextStateId);
+            this.NextStateId = -1;
+            this.State.SetState('BehaviorNextStateId', undefined);
         }
 
         const state = this.FlowInfo.States.find((state0) => state0.Id === this.InitStateId);

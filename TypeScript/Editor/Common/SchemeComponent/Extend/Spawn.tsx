@@ -23,6 +23,7 @@ import { ITsEntity } from '../../../../Game/Interface';
 import { tempEntities } from '../../../EntityEditor/TempEntities';
 import {
     Btn,
+    COLOR_LEVEL1,
     DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
     EditorBox,
     Fold,
@@ -244,7 +245,7 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
             <HorizontalBox>
                 <Btn
                     Text={'移除指示'}
-                    Color={'#1E90FF dodger blue'}
+                    Color={COLOR_LEVEL1}
                     OnClick={this.RemoveTipActor}
                     Tip={'移除用提提示的实体对象'}
                 />

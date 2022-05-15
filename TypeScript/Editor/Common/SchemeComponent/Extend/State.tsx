@@ -7,7 +7,7 @@ import { log } from '../../../../Common/Log';
 import { EActionFilter, TModifyType } from '../../../../Common/Type';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
 import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
-import { Btn, EditorBox, Fold, SlotText, Text } from '../../BaseComponent/CommonComponent';
+import { Btn, COLOR_LEVEL2, EditorBox, Fold, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { editorFlowOp } from '../../Operations/Flow';
 import { flowContext } from '../../SchemeComponent/Context';
@@ -150,7 +150,11 @@ export class State extends React.Component<IStateProps> {
         const statesFormated = states.map((state) => `➔[${state}]`);
         return (
             states.length > 0 && (
-                <SlotText Text={statesFormated.toString()} Tip={'当前状态有可能跳转的状态'} />
+                <Text
+                    Text={statesFormated.toString()}
+                    Color={COLOR_LEVEL2}
+                    Tip={'当前状态有可能跳转的状态'}
+                />
             )
         );
     }
@@ -185,7 +189,12 @@ export class State extends React.Component<IStateProps> {
                         Text={'●'}
                         Color={this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'}
                     />
-                    <EditorBox Text={state.Name} OnChange={this.ChangeName} Tip="状态名字" />
+                    <EditorBox
+                        Text={state.Name}
+                        OnChange={this.ChangeName}
+                        Color={COLOR_LEVEL2}
+                        Tip="状态名字"
+                    />
                     <ContextBtn
                         Commands={['拷贝', '粘贴', '上插', '下插', '移除', '上移', '下移']}
                         OnCommand={this.props.OnContextCommand}

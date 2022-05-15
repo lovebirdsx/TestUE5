@@ -1,23 +1,24 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { IVectorInfo } from '../../../Common/Interface';
+import { IPosA } from '../../../Common/Interface';
 import {
     allActionFilters,
     createFloatScheme,
     createObjectScheme,
     createStringScheme,
 } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPos, ISimpleMove } from '../../Flow/Action';
+import { IFaceToPos, IMoveToPosA, ISetPosA, ISimpleMove } from '../../Flow/Action';
 
-export const posScheme = createObjectScheme<IVectorInfo>({
+export const posScheme = createObjectScheme<IPosA>({
     CnName: '位置',
     Fields: {
         X: undefined,
         Y: undefined,
         Z: undefined,
+        A: undefined,
     },
     CreateDefault: () => {
-        return { X: 0, Y: 0, Z: 0 };
+        return { X: 0, Y: 0, Z: 0, A: 0 };
     },
     Check: () => {
         return 0;
@@ -27,7 +28,16 @@ export const posScheme = createObjectScheme<IVectorInfo>({
     Tip: '目标位置',
 });
 
-export const moveToPosScheme = createObjectScheme<IMoveToPos>({
+export const setPosScheme = createObjectScheme<ISetPosA>({
+    CnName: '设定位置',
+    Fields: {
+        Pos: posScheme,
+    },
+    Tip: '将实体设定到目标位置',
+    Filters: allActionFilters,
+});
+
+export const moveToPosScheme = createObjectScheme<IMoveToPosA>({
     CnName: '移动到目标点',
     Fields: {
         Timeout: createFloatScheme({

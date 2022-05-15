@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable spellcheck/spell-checker */
 import { $ref } from 'puerts';
-import { BuiltinText, Game, Rotator } from 'ue';
+import { BuiltinText, Game } from 'ue';
 
 import { createCancleableDelay, createSignal, delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
@@ -28,7 +28,7 @@ export class TalkComponent extends Component {
 
     private NextTalkId: number;
 
-    private RotatorBeforeTalk: Rotator;
+    private AngleBeforTalk: number;
 
     private ActionRunner: ActionRunner;
 
@@ -103,12 +103,12 @@ export class TalkComponent extends Component {
             self.K2_GetActorLocation(),
             player.K2_GetActorLocation(),
         );
-        await gameContext.TweenManager.RotatoToByZ(self, targetRotator, 0.5);
+        await gameContext.TweenManager.RotatoToByZ(self, targetRotator.Euler().Z, 0.5);
     }
 
     private async RestoreRotation(): Promise<void> {
         const self = this.Entity.Actor;
-        await gameContext.TweenManager.RotatoToByZ(self, this.RotatorBeforeTalk, 0.5);
+        await gameContext.TweenManager.RotatoToByZ(self, this.AngleBeforTalk, 0.5);
     }
 
     public async Show(flowListInfo: IFlowListInfo, showTalk: IShowTalk): Promise<void> {
@@ -118,7 +118,7 @@ export class TalkComponent extends Component {
         }
 
         const items = showTalk.TalkItems;
-        this.RotatorBeforeTalk = this.Entity.Actor.K2_GetActorRotation();
+        this.AngleBeforTalk = this.Entity.Actor.K2_GetActorRotation().Euler().Z;
         this.IsShowing = true;
         this.FlowListInfo = flowListInfo;
         this.ShowTalkInfo = showTalk;

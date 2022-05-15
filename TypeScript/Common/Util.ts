@@ -2,7 +2,7 @@
 import { Class, KismetGuidLibrary } from 'ue';
 import * as UE from 'ue';
 
-import { IVectorInfo } from './Interface';
+import { IPosA, IVectorInfo } from './Interface';
 import { error } from './Log';
 
 /* eslint-disable spellcheck/spell-checker */
@@ -145,6 +145,10 @@ export function stringify(value: unknown, filterUnderScore?: boolean): string {
     );
 }
 
+export function alignNumber(value: number, len = 1): number {
+    return Math.floor(value / len) * len;
+}
+
 export function alignVector(vec: IVectorInfo, len = 1): void {
     if (!vec) {
         return;
@@ -161,6 +165,11 @@ export function alignVector(vec: IVectorInfo, len = 1): void {
     if (vec.Z) {
         vec.Z = Math.floor(vec.Z / len) * len;
     }
+}
+
+export function alignPosA(posA: IPosA, len = 1): void {
+    alignVector(posA);
+    posA.A = alignNumber(posA.A);
 }
 
 export function calUpRotatorByPoints(from: UE.Vector, to: UE.Vector): UE.Rotator {

@@ -4,9 +4,9 @@ import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
 import { FlowComponent } from '../../Component/FlowComponent';
 import { TalkComponent } from '../../Component/TalkComponent';
 import {
+    IChangeBehaviorState,
     IChangeState,
     IJumpTalk,
-    IChangeBehaviorState,
     ISetBehaviorPaused,
     IShowTalk,
 } from '../Action';

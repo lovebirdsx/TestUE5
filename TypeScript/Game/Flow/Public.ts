@@ -4,6 +4,7 @@ import {
     ChangeActorStateAction,
     FaceToPosAction,
     MoveToPosAction,
+    SetPosAction,
     SimpleMoveAction,
 } from './Actions/Actor';
 import { InvokeAction, LogAction, ShowMessageAction, WaitAction } from './Actions/Base';
@@ -43,5 +44,6 @@ export function initFlow(): void {
     actionRegistry.Register('SimpleMove', SimpleMoveAction);
     actionRegistry.Register('SpawnChild', SpawnChildAction);
     actionRegistry.Register('Wait', WaitAction);
+    actionRegistry.Register('SetPos', SetPosAction);
     isInit = true;
 }

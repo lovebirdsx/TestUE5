@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Quat, Rotator, Transform, Vector } from 'ue';
 
 /* eslint-disable spellcheck/spell-checker */
@@ -82,5 +83,35 @@ export function toTransformInfo(transform: Transform): ITransform {
         Pos: toVectorInfo(transform.GetLocation()),
         Rot: toRotationInfoQuat(transform.GetRotation()),
         Scale: toScale(transform.GetScale3D()),
+    };
+}
+
+// 包含位置和Z轴旋转角度的数据结构
+export interface IPosA extends IVectorInfo {
+    A?: number; // Z轴的旋转角度
+}
+
+export const defalutPosA: IPosA = { X: 0, Y: 0, Z: 0, A: 0 };
+
+export function toPosA(vec: Vector, angle: number | undefined): IPosA {
+    return {
+        ...toVectorInfo(vec),
+        A: angle,
+    };
+}
+
+export function angleToRotation(angle: number): Rotator {
+    return Rotator.MakeFromEuler(new Vector(0, 0, angle));
+}
+
+export function posaToTransform(posA: IPosA): Transform {
+    posA = posA || defalutPosA;
+    return new Transform(angleToRotation(posA.A || 0), toVector(posA), toVector(defalutScale));
+}
+
+export function transformToPosA(transfom: Transform): IPosA {
+    return {
+        ...toVectorInfo(transfom.GetLocation()),
+        A: transfom.GetRotation().Euler().Z,
     };
 }

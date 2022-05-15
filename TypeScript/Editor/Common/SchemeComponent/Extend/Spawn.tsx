@@ -343,7 +343,7 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
         const tipEntity = this.state.TipEntity;
         const transform = this.props.Value.Transform;
         if (tipEntity) {
-            LevelEditorUtil.SetEntityTransform(tipEntity, transform);
+            LevelEditorUtil.SetITransform(tipEntity, transform);
         }
         return (
             <VerticalBox>

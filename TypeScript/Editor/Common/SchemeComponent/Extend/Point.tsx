@@ -5,9 +5,17 @@ import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
 import { MS_PER_SEC } from '../../../../Common/Async';
-import { IVectorInfo, toVector, toVectorInfo } from '../../../../Common/Interface';
+import {
+    defalutPosA,
+    IPosA,
+    IVectorInfo,
+    posaToTransform,
+    toPosA,
+    toVector,
+    transformToPosA,
+} from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
-import { alignVector } from '../../../../Common/Util';
+import { alignPosA, loadClass } from '../../../../Common/Util';
 import {
     Btn,
     DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
@@ -19,7 +27,9 @@ interface IPointState {
     TipActor: Actor;
 }
 
-export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
+const tipActorClass = loadClass('/Game/Blueprints/Tip/BP_PosA.BP_PosA_C');
+
+export class Point extends React.Component<IProps<IPosA>, IPointState> {
     public constructor(props: IProps<IVectorInfo>) {
         super(props);
         this.state = {
@@ -36,21 +46,27 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     }
 
     private readonly OnModifyX = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
-        newPos.X = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        const newPosA = Object.assign({}, this.props.Value);
+        newPosA.X = parseFloat(text);
+        this.SetPosA(newPosA);
     };
 
     private readonly OnModifyY = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
-        newPos.Y = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        const newPosA = Object.assign({}, this.props.Value);
+        newPosA.Y = parseFloat(text);
+        this.SetPosA(newPosA);
     };
 
     private readonly OnModifyZ = (text: string): void => {
-        const newPos = Object.assign({}, this.props.Value);
-        newPos.Z = parseFloat(text);
-        this.SetPosition(new Vector(newPos.X, newPos.Y, newPos.Z));
+        const newPosA = Object.assign({}, this.props.Value);
+        newPosA.Z = parseFloat(text);
+        this.SetPosA(newPosA);
+    };
+
+    private readonly OnModifyAngle = (text: string): void => {
+        const newPosA = Object.assign({}, this.props.Value);
+        newPosA.Z = parseFloat(text);
+        this.SetPosA(newPosA);
     };
 
     private readonly OnActorMoved = (actor: Actor): void => {
@@ -59,17 +75,16 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
         }
 
         setTimeout(() => {
-            this.UpPosition();
+            this.UpPosA();
         }, MS_PER_SEC * 0.1);
     };
 
     private GenTipActorAtPos(vec: Vector): void {
-        const actor = EditorLevelLibrary.SpawnActorFromClass(Actor.StaticClass(), vec);
+        const actor = EditorLevelLibrary.SpawnActorFromClass(tipActorClass, vec);
         this.setState({
             TipActor: actor,
         });
         LevelEditorUtil.SelectActor(actor);
-        // LevelEditorUtil.FocusSelected();
         EditorOperations.GetEditorEvent().OnActorMoved.Add(this.OnActorMoved);
     }
 
@@ -99,20 +114,17 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
             this.GenTipActorAtPos(pos);
         }
 
-        this.SetPosition(pos);
+        this.SetPosA(toPosA(pos, this.props.Value.A));
     };
 
-    private SetPosition(vec: Vector): void {
-        alignVector(vec);
-        if (this.state.TipActor) {
-            this.state.TipActor.K2_SetActorLocation(vec, false, undefined, false);
-        }
-        this.props.OnModify(toVectorInfo(vec), 'normal');
+    private SetPosA(posa: IPosA): void {
+        alignPosA(posa);
+        this.props.OnModify(posa, 'normal');
     }
 
-    private readonly UpPosition = (): void => {
-        const pos = this.state.TipActor.K2_GetActorLocation();
-        this.SetPosition(pos);
+    private readonly UpPosA = (): void => {
+        const posA = transformToPosA(this.state.TipActor.GetTransform());
+        this.SetPosA(posA);
     };
 
     private readonly OnClickBtnNav = (): void => {
@@ -140,8 +152,11 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
     private RenderForTip(): JSX.Element {
         return (
             <HorizontalBox>
-                <Btn Text={'移除指示'} OnClick={this.RemoveTipActor} />
-                <Btn Text={'更新位置'} OnClick={this.UpPosition} />
+                <Btn
+                    Text={'移除指示'}
+                    Color={'#1E90FF dodger blue'}
+                    OnClick={this.RemoveTipActor}
+                />
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中提示点'} />
             </HorizontalBox>
         );
@@ -149,30 +164,36 @@ export class Point extends React.Component<IProps<IVectorInfo>, IPointState> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        const pos = toVector(this.props.Value);
+        const posA = this.props.Value || defalutPosA;
         if (this.state.TipActor) {
-            this.state.TipActor.K2_SetActorLocation(toVector(pos), false, undefined, false);
+            LevelEditorUtil.SetTransform(this.state.TipActor, posaToTransform(posA));
         }
         return (
             <HorizontalBox>
                 {this.props.PrefixElement}
                 <EditorBox
-                    Text={pos.X.toString()}
+                    Text={posA.X?.toString() || '0'}
                     Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
                     OnChange={this.OnModifyX}
                     Tip={'X'}
                 />
                 <EditorBox
-                    Text={pos.Y.toString()}
+                    Text={posA.Y?.toString() || '0'}
                     Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
                     OnChange={this.OnModifyY}
                     Tip={'Y'}
                 />
                 <EditorBox
-                    Text={pos.Z.toString()}
+                    Text={posA.Z?.toString() || '0'}
                     Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
                     OnChange={this.OnModifyZ}
                     Tip={'Z'}
+                />
+                <EditorBox
+                    Text={posA.A?.toString() || '0'}
+                    Width={DEFUALT_NUMBER_EDIT_TEXT_WIDTH}
+                    OnChange={this.OnModifyAngle}
+                    Tip={'Z轴的旋转角度'}
                 />
                 {this.state.TipActor ? this.RenderForTip() : this.RenderForNoTip()}
             </HorizontalBox>

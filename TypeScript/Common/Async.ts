@@ -7,19 +7,19 @@ export async function delay(time: number): Promise<void> {
     });
 }
 
-export interface ICancleableDelay {
-    Promise: Promise<void>;
+export interface ICancleableDelay<T> {
+    Promise: Promise<T>;
     IsFinished: () => boolean;
     Cancel: () => void;
 }
 
-export function createCancleableDelay(time: number): ICancleableDelay {
+export function createCancleableDelay<T>(time: number, t?: T): ICancleableDelay<T> {
     let id: unknown = undefined;
     let finished = false;
-    const promise = new Promise<void>((resolve): void => {
+    const promise = new Promise<T>((resolve): void => {
         id = setTimeout(() => {
             finished = true;
-            resolve();
+            resolve(t);
         }, time * MS_PER_SEC);
     });
     return {

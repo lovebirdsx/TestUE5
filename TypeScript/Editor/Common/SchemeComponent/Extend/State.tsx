@@ -12,6 +12,7 @@ import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { editorFlowOp } from '../../Operations/Flow';
 import { flowContext } from '../../SchemeComponent/Context';
 import { Action } from '../../SchemeComponent/Extend/Action';
+import { copyObject, pasteObject } from '../../Util';
 
 export interface IStateProps {
     State: IStateInfo;
@@ -114,6 +115,16 @@ export class State extends React.Component<IStateProps> {
 
     private OnContextCommand(id: number, cmd: string): void {
         switch (cmd) {
+            case '拷贝':
+                copyObject('ActionInfo', this.props.State.Actions[id]);
+                break;
+            case '粘贴': {
+                const actionInfo = pasteObject<IActionInfo>('ActionInfo');
+                if (actionInfo) {
+                    this.OnActionModify(id, actionInfo, 'normal');
+                }
+                break;
+            }
             case '上插':
                 this.InsertAction(id);
                 break;
@@ -134,7 +145,7 @@ export class State extends React.Component<IStateProps> {
         }
     }
 
-    private ShowStateMoveTo(flow: IFlowInfo): React.ReactNode {
+    private ShowStateMoveTo(flow: IFlowInfo): JSX.Element {
         const states = editorFlowOp.GetDestinationStates(flow, this.props.State);
         const statesFormated = states.map((state) => `➔[${state}]`);
         return (
@@ -176,13 +187,13 @@ export class State extends React.Component<IStateProps> {
                     />
                     <EditorBox Text={state.Name} OnChange={this.ChangeName} Tip="状态名字" />
                     <ContextBtn
-                        Commands={['上插', '下插', '移除', '上移', '下移']}
+                        Commands={['拷贝', '粘贴', '上插', '下插', '移除', '上移', '下移']}
                         OnCommand={this.props.OnContextCommand}
                         Tip="针对当前状态项操作"
                     />
                     <Btn Text={'✚动作'} OnClick={this.AddAction} Tip={ADD_ACTION_TIP} />
                     <flowContext.Consumer>
-                        {(value): React.ReactNode => {
+                        {(value): JSX.Element => {
                             return this.ShowStateMoveTo(value);
                         }}
                     </flowContext.Consumer>

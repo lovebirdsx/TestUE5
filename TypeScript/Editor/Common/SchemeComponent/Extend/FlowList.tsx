@@ -9,6 +9,7 @@ import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IFlowInfo, IFlowListInfo } from '../../../../Game/Flow/Action';
 import { Btn } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { copyObject, pasteObject } from '../../Util';
 import { Flow } from './Flow';
 
 export interface IFlowListProps {
@@ -80,6 +81,16 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
 
     private readonly OnContextCommand = (id: number, cmd: string): void => {
         switch (cmd) {
+            case '拷贝':
+                copyObject('FlowInfo', this.props.FlowList.Flows[id]);
+                break;
+            case '粘贴': {
+                const flowInfo = pasteObject<IFlowInfo>('FlowInfo');
+                if (flowInfo) {
+                    this.ModifiedFlow(id, flowInfo, 'normal');
+                }
+                break;
+            }
             case '上插':
                 this.InsertFlow(id);
                 break;
@@ -155,7 +166,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                     }}
                     PrefixElement={
                         <ContextBtn
-                            Commands={['上插', '下插', '移除', '上移', '下移']}
+                            Commands={['拷贝', '粘贴', '上插', '下插', '移除', '上移', '下移']}
                             OnCommand={(cmd): void => {
                                 this.OnContextCommand(id, cmd);
                             }}

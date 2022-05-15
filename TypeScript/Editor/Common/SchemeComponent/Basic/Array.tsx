@@ -8,6 +8,7 @@ import { log } from '../../../../Common/Log';
 import { ArrayScheme, IProps, TModifyType } from '../../../../Common/Type';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { copyObject, pasteObject } from '../../Util';
 import { Any } from './Any';
 
 export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
@@ -79,6 +80,16 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
 
     private OnElementContextCommand(id: number, cmd: string): void {
         switch (cmd) {
+            case '拷贝':
+                copyObject(this.props.Scheme.Name, this.props.Value[id]);
+                break;
+            case '粘贴': {
+                const value = pasteObject(this.props.Scheme.Name);
+                if (value) {
+                    this.Modify(id, value, 'normal');
+                }
+                break;
+            }
             case '上插':
                 this.Insert(id);
                 break;
@@ -107,7 +118,7 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
         return (
             <HorizontalBox>
                 <ContextBtn
-                    Commands={['上插', '下插', '移除', '上移', '下移']}
+                    Commands={['拷贝', '粘贴', '上插', '下插', '移除', '上移', '下移']}
                     OnCommand={(cmd): void => {
                         this.OnElementContextCommand(id, cmd);
                     }}

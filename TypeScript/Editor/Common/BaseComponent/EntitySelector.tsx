@@ -20,7 +20,7 @@ export class EntitySelector extends React.Component<IEntitySelectorProps> {
     private get SelectedName(): string {
         const props = this.props;
         const entity = entityListCache.GetEntityByGuid(props.Guid);
-        return entity ? entity.GetName() : '';
+        return entity ? entity.ActorLabel : '';
     }
 
     private readonly OnClickBtnAssign = (): void => {
@@ -40,7 +40,7 @@ export class EntitySelector extends React.Component<IEntitySelectorProps> {
 
     private readonly OnSelectChanged = (name: string): void => {
         const props = this.props;
-        const entity = entityListCache.GetEntityByName(name);
+        const entity = entityListCache.GetEntityByLable(name);
         if (entity && entity.Guid !== props.Guid) {
             props.OnEntityChanged(entity.Guid);
         }

@@ -25,6 +25,7 @@ const entityRecordScheme = createObjectScheme<IEntityRecord>({
         }),
         GuidFilter: createStringScheme({
             CnName: 'Guid过滤字符串',
+            Hide: true,
             MaxWidth: 200,
         }),
     },
@@ -40,12 +41,13 @@ function renderEntityRecord(
             <Obj {...props} />
             <Btn
                 Text={'⇦'}
-                Tip={'将当前选中实体的Guid进行赋值'}
+                Tip={'引用当前选中实体'}
                 OnClick={(): void => {
                     const entity = LevelEditorUtil.GetSelectedEntity();
                     if (entity) {
                         const newRecrod = produce(record, (draft) => {
                             draft.GuidFilter = entity.Guid;
+                            draft.Name = entity.ActorLabel;
                         });
                         props.OnModify(newRecrod, 'normal');
                     }
@@ -53,7 +55,7 @@ function renderEntityRecord(
             />
             <Btn
                 Text={'◉'}
-                Tip={'在场景中尝试选中Guid为对应内容的实体'}
+                Tip={'在场景中尝试选中引用的实体'}
                 OnClick={(): void => {
                     const entity = LevelEditorUtil.FindFirstEntityByGuidFilter(record.GuidFilter);
                     if (entity) {

@@ -59,24 +59,6 @@ export class EntityView extends React.Component<IEntityViewProps> {
         }
     };
 
-    private RenderEntityInfo(): JSX.Element {
-        // const entity = this.props.Entity;
-        return (
-            <HorizontalBox>
-                {/* <Text Text={entity.GetName()} /> */}
-                {this.RenderGuid()}
-                <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
-                <Btn
-                    Text={'⊙'}
-                    OnClick={this.OnClickBtnFocusBlueprint}
-                    Tip={'浏览到Entity蓝图所在位置'}
-                />
-                <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
-                <Btn Text={'L'} Tip={'从模板读取'} OnClick={this.OnClickLoadTemplate} />
-            </HorizontalBox>
-        );
-    }
-
     private readonly FixGuid = (): void => {
         const newPureData = produce(this.props.Data, (draft) => {
             draft.Guid = this.props.Entity.ActorGuid.ToString();
@@ -101,6 +83,22 @@ export class EntityView extends React.Component<IEntityViewProps> {
         return <Btn Color="#FF0000 red" Text={'修复Guid'} OnClick={this.FixGuid} />;
     }
 
+    private RenderEntityInfo(): JSX.Element {
+        return (
+            <HorizontalBox>
+                {this.RenderGuid()}
+                <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
+                <Btn
+                    Text={'⊙'}
+                    OnClick={this.OnClickBtnFocusBlueprint}
+                    Tip={'浏览到Entity蓝图所在位置'}
+                />
+                <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
+                <Btn Text={'L'} Tip={'从模板读取'} OnClick={this.OnClickLoadTemplate} />
+            </HorizontalBox>
+        );
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const props = this.props;
@@ -112,7 +110,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         return (
             <VerticalBox>
                 <VerticalBox>
-                    <H3 Text={'实体信息'} />
+                    <H3 Text={`实体信息(${entity.ActorLabel})`} />
                     {this.RenderEntityInfo()}
                 </VerticalBox>
                 <H3 Text={'组件列表'} />

@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
+import { $ref, $unref } from 'puerts';
 import {
+    Actor,
     CameraActor,
     Class,
     Game,
     GameplayStatics,
+    NewArray,
     Rotator,
+    StaticMeshComponent,
     Transform,
     UMGManager,
     Vector,
@@ -13,12 +17,12 @@ import {
 
 import { createSignal, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
-import { log } from '../../Common/Log';
 import { IVectorType } from '../../Common/Type';
+import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
 import TsPlayerController from '../Player/TsPlayerController';
-import { IRotatorComponent } from '../Scheme/Component/RotatorComponentScheme';
+import { IEventRotator, IRotatorComponent } from '../Scheme/Component/RotatorComponentScheme';
 import PlayerComponent from './PlayerComponent';
 
 export class RotatorComponent extends InteractiveComponent implements IRotatorComponent {
@@ -28,11 +32,21 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public RotatorSpeed: IVectorType;
 
+    private Runner: ActionRunner;
+
     public LocationOffset: IVectorType;
 
     public RotationOffset: IVectorType;
 
     public EntityId: string;
+
+    public IsRotatorSelf: boolean;
+
+    public InteractAction: IEventRotator;
+
+    public RotationMapping: IVectorType;
+
+    public IsLocalSpace: boolean;
 
     public OnInit(): void {
         this.InteractSignal = null;
@@ -51,7 +65,6 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
     public OnTriggerEnter(other: Entity): void {
         const player = other.TryGetComponent(PlayerComponent);
         if (player) {
-            log(`OnTriggerEnterOnTriggerEnter`);
             player.AddInteractor(this.Entity);
             const tshub = this.GetPlayerHud();
             tshub.AddInteract(this.GetInteractContent());
@@ -111,12 +124,31 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         // 切换输入
         this.Entity.Actor.EnableInput(playerController);
 
+        //  触发事件
+        if (!this.Runner) {
+            this.Runner = new ActionRunner(
+                'Rotator',
+                this.Entity,
+                this.InteractAction.StartActions,
+            );
+        }
+        await this.Runner.Execute();
+        this.Runner = undefined;
+
         // 等待取消
-        this.InteractSignal = createSignal<never>();
+        this.InteractSignal = createSignal<boolean>();
         await Promise.all([this.InteractSignal.Promise]);
 
         // 结束
         this.Entity.Actor.DisableInput(playerController);
+
+        // 结束事件
+        if (this.Runner) {
+            this.Runner.Stop();
+        }
+        this.Runner = new ActionRunner('Rotator', this.Entity, this.InteractAction.EndActions);
+        await this.Runner.Execute();
+        this.Runner = undefined;
 
         playerController.SetViewTargetWithBlend(oldCamera);
         newCamera.K2_DestroyActor();
@@ -128,22 +160,70 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
     }
 
     public RotateX(val: number): void {
+        if (!val) {
+            return;
+        }
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
-            let rotation = entity.K2_GetActorRotation();
-            const speed = this.RotatorSpeed.X * val;
-            rotation = rotation.op_Addition(new Rotator(speed, 0, 0));
-            entity.K2_SetActorRotation(rotation, true);
+            const speed = (this.RotatorSpeed.X * val) / 100;
+            const rotator = new Rotator(0, 0, speed);
+            entity.K2_AddActorWorldRotation(rotator, false, null, false);
+            this.WakeRigidBodies();
+            if (this.IsRotatorSelf) {
+                this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
+            }
         }
     }
 
     public RotateY(val: number): void {
+        if (!val) {
+            return;
+        }
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
-            let rotation = entity.K2_GetActorRotation();
-            const speed = this.RotatorSpeed.Y * val;
-            rotation = rotation.op_Addition(new Rotator(0, speed, 0));
-            entity.K2_SetActorRotation(rotation, true);
+            const speed = (this.RotatorSpeed.Y * val) / 100;
+            const rotator = new Rotator(speed, 0, 0);
+            entity.K2_AddActorWorldRotation(rotator, false, null, false);
+            this.WakeRigidBodies();
+            if (this.IsRotatorSelf) {
+                this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
+            }
+        }
+    }
+
+    public RotateZ(val: number): void {
+        if (!val) {
+            return;
+        }
+        const entity = gameContext.EntityManager.GetEntity(this.EntityId);
+        if (entity) {
+            const speed = (this.RotatorSpeed.Y * val) / 100;
+            const rotator = new Rotator(0, speed, 0);
+            entity.K2_AddActorWorldRotation(rotator, false, null, false);
+            this.WakeRigidBodies();
+            if (this.IsRotatorSelf) {
+                this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
+            }
+        }
+    }
+
+    public WakeRigidBodies(): void {
+        const entity = gameContext.EntityManager.GetEntity(this.EntityId);
+        if (entity) {
+            const actorRef = $ref(NewArray(Actor));
+            entity.GetOverlappingActors(actorRef, Actor.StaticClass());
+            const actors = $unref(actorRef);
+            if (actors.Num() > 0) {
+                for (let i = 0; i < actors.Num(); i++) {
+                    const actor = actors.Get(i);
+                    const component = actor.GetComponentByClass(
+                        StaticMeshComponent.StaticClass(),
+                    ) as StaticMeshComponent;
+                    if (component) {
+                        component.WakeAllRigidBodies();
+                    }
+                }
+            }
         }
     }
 }

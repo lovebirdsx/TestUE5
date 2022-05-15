@@ -6,6 +6,7 @@ import { Event } from '../Common/Util';
 import {
     IActionInfo,
     IFlowInfo,
+    IInteract,
     IPlayFlow,
     ITriggerActions,
     TActionType,
@@ -26,6 +27,10 @@ export enum EBlueprintId {
     Rotator = 8,
     Trample = 9,
     StateEntity = 10,
+    SphereFactory = 11,
+    GameMode = 12,
+    Lamp = 13,
+    Simple = 14,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,
@@ -36,6 +41,9 @@ export enum EBlueprintId {
     AiNpcVillage1 = 1006,
     AiNpcVillage2 = 1007,
     Gate = 1008,
+    ArrowSpring = 1009,
+    SteeringWheel = 1010,
+    SphereChild = 1011,
 
     // Component
     ActorStateComponent = 10001,
@@ -335,6 +343,11 @@ export class Entity {
             component.OnTriggerExit(other);
         });
     }
+}
+
+export interface IInteractCall {
+    Name: string;
+    CallBack: (action: IInteract) => void;
 }
 
 export class InteractiveComponent extends Component {

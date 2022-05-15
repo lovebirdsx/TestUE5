@@ -4,6 +4,7 @@ import { ITransform, IVectorInfo } from '../../Common/Interface';
 export const FLOW_LIST_VERSION = 8;
 
 export type TActionType =
+    | 'Activate'
     | 'ChangeActorState'
     | 'ChangeBehaviorState'
     | 'ChangeRandomState'
@@ -43,6 +44,11 @@ export interface IActionInfo {
 export interface IInvoke {
     Who: string;
     ActionInfo: IActionInfo;
+}
+
+export interface IInteract {
+    Who: string;
+    Param: string;
 }
 
 export interface ITriggerActions {

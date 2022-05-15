@@ -1,8 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { ObjectScheme } from '../../../Common/Type';
 import { TActionType } from '../../Flow/Action';
-import { actionRegistry } from './ActionRegistry';
-import { destroyScheme, invokeScheme } from './Invoke';
+import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
 import { faceToPosScheme, moveToPosScheme, simpleMoveScheme } from './Move';
@@ -21,7 +20,7 @@ import {
 } from './State';
 import { setHeadIconVisibleScheme } from './Talker';
 
-const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
+export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     ChangeActorState: changeActorStateScheme,
     ChangeBehaviorState: changeBehaviorStateScheme,
     ChangeState: changeStateScheme,
@@ -49,9 +48,10 @@ const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
     SpawnChild: spawnChildScheme,
     Wait: waitScheme,
     SimpleMove: simpleMoveScheme,
+    Activate: interactScheme,
 };
 
-actionRegistry.SetupObjectMap(objectSchemeMap);
+// actionRegistry.SetupObjectMap(objectSchemeMap);
 
 export * from './ActionRegistry';
 export * from './Flow';

@@ -76,7 +76,8 @@ export class GrabComponent extends Component implements IGrabComponent, ITickabl
                 new Vector(this.GrabPos.X, this.GrabPos.Y, this.GrabPos.Z),
             );
             const rotation: Rotator = player.K2_GetActorRotation();
-            grab.SetTargetLocationAndRotation(vector, rotation);
+            //grab.SetTargetLocationAndRotation(vector, rotation);
+            component.K2_SetWorldLocationAndRotation(vector, rotation, false, null, false);
         }
     }
 }

@@ -41,7 +41,7 @@ class TsSpring extends TsEntity {
         if (isEntity(other)) {
             const springcomponent = this.Entity.TryGetComponent(SpringComponent);
             if (springcomponent) {
-                springcomponent.EventHit(myComp, otherComp, normalImpulse);
+                springcomponent.EventHit(myComp, otherComp, hitNormal, normalImpulse);
             }
         }
     }

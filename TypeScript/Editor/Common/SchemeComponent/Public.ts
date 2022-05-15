@@ -5,7 +5,7 @@ import { IBehaviorFlowComponent } from '../../../Game/Interface';
 import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
 import { invokeScheme } from '../../../Game/Scheme/Action/Invoke';
 import { jumpIdScheme } from '../../../Game/Scheme/Action/JumpTalk';
-import { posScheme } from '../../../Game/Scheme/Action/Move';
+import { dirScheme, posScheme } from '../../../Game/Scheme/Action/Move';
 import { whoIdsScheme } from '../../../Game/Scheme/Action/Sequence';
 import {
     showTalkScheme,
@@ -21,6 +21,7 @@ import { behaviorFlowComponentScheme } from '../../../Game/Scheme/Component/Flow
 import { triggerActionsScheme } from '../../../Game/Scheme/Component/TriggerComponentSheme';
 import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
 import { RenderCsvFollowCell } from './Extend/Csv';
+import { Direction } from './Extend/Direction';
 import {
     RenderBehaviorFlow,
     RenderInvoke,
@@ -57,6 +58,7 @@ renderRegistry.RegComponent<IBehaviorFlowComponent>(
 );
 renderRegistry.RegComponent<IInvoke>(invokeScheme, RenderInvoke);
 renderRegistry.RegComponent<IVectorInfo>(posScheme, Point);
+renderRegistry.RegComponent<IVectorInfo>(dirScheme, Direction);
 renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
 
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);

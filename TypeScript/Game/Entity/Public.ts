@@ -9,9 +9,13 @@ import { entityRegistry } from './EntityRegistry';
 import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
+import TsGameMode, { gameModeComponentClasses } from './TsGameMode';
+import TsLamp, { lampComponentClasses } from './TsLamp';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsRotator, { rotatorComponentClasses } from './TsRotator';
+import TsSimple, { simpleComponentClasses } from './TsSimple';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
+import TsSphereFactory, { sphereFactoryComponentClasses } from './TsSphereFactory';
 import TsSpring, { springComponentClasses } from './TsSpring';
 import TsStateEntity, { stateEntityComponentClasses } from './TsStateEntity';
 import TsTrample, { trampleComponentClasses } from './TsTrample';
@@ -73,6 +77,10 @@ export function initEntity(): void {
     entityRegistry.Register(TsRotator, ...rotatorComponentClasses);
     entityRegistry.Register(TsTrample, ...trampleComponentClasses);
     entityRegistry.Register(TsStateEntity, ...stateEntityComponentClasses);
+    entityRegistry.Register(TsSphereFactory, ...sphereFactoryComponentClasses);
+    entityRegistry.Register(TsGameMode, ...gameModeComponentClasses);
+    entityRegistry.Register(TsLamp, ...lampComponentClasses);
+    entityRegistry.Register(TsSimple, ...simpleComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -86,6 +94,10 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Rotator, TsRotator);
     regEntity(EBlueprintId.Trample, TsTrample);
     regEntity(EBlueprintId.StateEntity, TsStateEntity);
+    regEntity(EBlueprintId.SphereFactory, TsSphereFactory);
+    regEntity(EBlueprintId.GameMode, TsGameMode);
+    regEntity(EBlueprintId.Lamp, TsLamp);
+    regEntity(EBlueprintId.Simple, TsSimple);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -100,6 +112,9 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.AiNpcVillage1, 'BP_AiNpcVillage1', TsAiNpc);
     regExtendedEntity(EBlueprintId.AiNpcVillage2, 'BP_AiNpcVillage2', TsAiNpc);
     regExtendedEntity(EBlueprintId.Gate, 'BP_Gate', TsStateEntity);
+    regExtendedEntity(EBlueprintId.ArrowSpring, 'BP_ArrowSpring', TsSpring);
+    regExtendedEntity(EBlueprintId.SteeringWheel, 'BP_SteeringWheel', TsRotator);
+    regExtendedEntity(EBlueprintId.SphereChild, 'BP_Sphere', TsSphereActor);
 
     // ActorComponent
     regActorComponent(EBlueprintId.ActorStateComponent, 'BP_StateComponent');
@@ -110,9 +125,13 @@ export function initEntity(): void {
 initEntity();
 
 export * from './TsEntity';
+export * from './TsGameMode';
+export * from './TsLamp';
 export * from './TsNpc';
 export * from './TsRotator';
+export * from './TsSimple';
 export * from './TsSphereActor';
+export * from './TsSphereFactory';
 export * from './TsSpring';
 export * from './TsTrample';
 export * from './TsTrigger';

@@ -74,3 +74,21 @@ export const simpleMoveScheme = createObjectScheme<ISimpleMove>({
     Tip: '移动到目标点',
     Filters: allActionFilters,
 });
+
+export const dirScheme = createObjectScheme<IVectorInfo>({
+    CnName: '方向',
+    Fields: {
+        X: undefined,
+        Y: undefined,
+        Z: undefined,
+    },
+    CreateDefault: () => {
+        return { X: 0, Y: 0, Z: 0 };
+    },
+    Check: () => {
+        return 0;
+    },
+    ShowName: true,
+    NewLine: true,
+    Tip: '显示方向',
+});

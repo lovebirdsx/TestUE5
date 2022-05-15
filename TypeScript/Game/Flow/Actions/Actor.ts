@@ -1,9 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
 import { ActorStateComponent } from '../../Component/ActorStateComponent';
+import { EventComponent } from '../../Component/EventComponent';
 import { MoveComponent } from '../../Component/MoveComponent';
-import { TrampleComponent } from '../../Component/TrampleComponent';
-import { IChangeActorState, IFaceToPos, IMoveToPos, ISimpleMove } from '../Action';
+import { SimpleComponent } from '../../Component/SimpleComponent';
+import { IChangeActorState, IFaceToPos, IInteract, IMoveToPos, ISimpleMove } from '../Action';
 import { Action } from '../ActionRunner';
 
 export class ChangeActorStateAction extends Action<IChangeActorState> {
@@ -46,7 +47,14 @@ export class FaceToPosAction extends Action<IFaceToPos> {
 
 export class SimpleMoveAction extends Action<ISimpleMove> {
     public Execute(): void {
-        const trampleComponent = this.Entity.GetComponent(TrampleComponent);
-        trampleComponent.SimpleMove(this.Data);
+        const simpleComponent = this.Entity.GetComponent(SimpleComponent);
+        simpleComponent.SimpleMove(this.Data);
+    }
+}
+
+export class Activation extends Action<IInteract> {
+    public Execute(): void {
+        const eventComponent = this.Entity.GetComponent(EventComponent);
+        eventComponent.Activate(this.Data);
     }
 }

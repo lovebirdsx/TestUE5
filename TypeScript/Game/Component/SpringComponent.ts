@@ -1,23 +1,50 @@
-import { PrimitiveComponent, Vector } from 'ue';
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import { PrimitiveComponent, Rotator, Vector } from 'ue';
 
-import { IVectorType } from '../../Common/Type';
 import { InteractiveComponent } from '../Interface';
-import { ISpringComponent } from '../Scheme/Component/SpringComponentScheme';
+import { ISettingSpringDir, ISpringComponent } from '../Scheme/Component/SpringComponentScheme';
 
 export class SpringComponent extends InteractiveComponent implements ISpringComponent {
-    public SpringDir: IVectorType;
+    public IsNormalSpring: boolean;
+
+    public IsHitNormalSpring: boolean;
+
+    public SettingDir: ISettingSpringDir;
 
     public SpringPow: number;
+
+    private OriginRotator: Rotator;
+
+    public OnStart(): void {
+        this.OriginRotator = this.Entity.Actor.K2_GetActorRotation();
+    }
 
     public EventHit(
         myComp: PrimitiveComponent,
         otherComp: PrimitiveComponent,
+        hitNormal: Vector,
         normalImpulse: Vector,
     ): void {
         if (otherComp.IsSimulatingPhysics()) {
-            // 物体要开启模拟物理 和 碰撞命中
-            const impulseDir = new Vector(this.SpringDir.X, this.SpringDir.Y, this.SpringDir.Z);
-            otherComp.AddImpulse(impulseDir.op_Multiply(this.SpringPow));
+            let impulseDir: Vector = normalImpulse; // 正常反弹方向
+            if (this.SettingDir.IsSettingDir) {
+                // 固定方向反弹
+                impulseDir = new Vector(
+                    this.SettingDir.SpringDir.X,
+                    this.SettingDir.SpringDir.Y,
+                    this.SettingDir.SpringDir.Z,
+                );
+                if (this.SettingDir.IsRotator) {
+                    const rotator = this.Entity.Actor.K2_GetActorRotation().op_Subtraction(
+                        this.OriginRotator,
+                    );
+                    impulseDir = rotator.RotateVector(impulseDir);
+                }
+            } else if (this.IsHitNormalSpring) {
+                impulseDir = hitNormal; // 撞击方向反弹
+            }
+            impulseDir = impulseDir.GetSafeNormal(1);
+            otherComp.AddImpulse(impulseDir.op_Multiply(this.SpringPow * 100));
         }
     }
 }

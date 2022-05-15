@@ -2,7 +2,7 @@
 import { ITransform, toTransform } from '../../Common/Interface';
 import { EntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { ISpawn } from '../Flow/Action';
-import { Component, gameContext, ITsEntity } from '../Interface';
+import { Component, Entity, gameContext, ITsEntity } from '../Interface';
 import { StateComponent } from './StateComponent';
 
 interface IEntitySpawnRecord {
@@ -11,12 +11,19 @@ interface IEntitySpawnRecord {
     Transform: ITransform;
 }
 
+export interface ICallBack {
+    Name: string;
+    CallBack: (guid: string) => void;
+}
+
 export class EntitySpawnerComponent extends Component {
     private State: StateComponent;
 
     private SpawnRecord: IEntitySpawnRecord[] = [];
 
     private readonly Children: Map<string, ITsEntity> = new Map();
+
+    private readonly Destroycall = new Set<ICallBack>();
 
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
@@ -48,6 +55,10 @@ export class EntitySpawnerComponent extends Component {
         if (this.SpawnRecord.length <= 0) {
             this.State.SetState('SpawnRecord', undefined);
         }
+
+        this.Destroycall.forEach((call) => {
+            call.CallBack(guid);
+        });
     };
 
     private SpawnChild(
@@ -92,5 +103,23 @@ export class EntitySpawnerComponent extends Component {
     public Destroy(): void {
         gameContext.EntityManager.RemoveEntity(this.Entity.Actor as ITsEntity);
         this.DestroyAllChild();
+    }
+
+    // todo guid
+    public FindChild(entity: Entity): string {
+        let result = '';
+        this.Children.forEach((tsEntity) => {
+            if (tsEntity.Entity.Actor.ActorGuid === entity.Actor.ActorGuid) {
+                result = tsEntity.Guid;
+            }
+        });
+        return result;
+    }
+
+    public RegistryDestroy(call: ICallBack): void {
+        if (this.Destroycall.has(call)) {
+            throw new Error(`Add duplicate tick ${call.Name}`);
+        }
+        this.Destroycall.add(call);
     }
 }

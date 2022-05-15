@@ -5,8 +5,8 @@ import {
     CharacterMovementComponent,
     edit_on_instance,
     PhysicsHandleComponent,
-    PrimitiveComponent,
     Rotator,
+    StaticMeshComponent,
     TestUE5Character,
     Transform,
     Vector,
@@ -108,8 +108,8 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
             return;
         }
         const component = actor.GetComponentByClass(
-            PrimitiveComponent.StaticClass(),
-        ) as PrimitiveComponent;
+            StaticMeshComponent.StaticClass(),
+        ) as StaticMeshComponent;
         if (component) {
             const actorLocation: Vector = component.K2_GetComponentLocation();
             const actorRotation: Rotator = component.K2_GetComponentRotation();
@@ -119,7 +119,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
                 actorLocation,
                 actorRotation,
             );
-            //component.SetAllPhysicsLinearVelocity(new Vector(1, 1, 1));
+            component.SetAllPhysicsLinearVelocity(new Vector(1, 1, 1));
         }
     }
 

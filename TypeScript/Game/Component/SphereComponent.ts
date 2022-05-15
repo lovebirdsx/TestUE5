@@ -60,7 +60,6 @@ export class SphereComponent extends InteractiveComponent {
 
     public async Interact(other: Entity): Promise<void> {
         if (this.State === EState.Down) {
-            // TODO scheme 设置
             this.Grab.Grab(this.Entity.Actor);
             this.State = EState.Up;
             await this.Execute();
@@ -88,7 +87,7 @@ export class SphereComponent extends InteractiveComponent {
         this.InteractUi.AddToViewport();
 
         // 等待取消
-        this.InteractSignal = createSignal<never>();
+        this.InteractSignal = createSignal<boolean>();
         await Promise.all([this.InteractSignal.Promise]);
 
         this.InteractUi.RemoveFromViewport();

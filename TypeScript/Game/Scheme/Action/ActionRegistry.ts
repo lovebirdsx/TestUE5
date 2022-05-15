@@ -10,6 +10,7 @@ import {
     trampleActionScheme,
     triggerActionScheme,
 } from './Action';
+import { objectSchemeMap } from './Public';
 
 export type TObjectSchemeMap = { [key in TActionType]: ObjectScheme<unknown> };
 
@@ -128,7 +129,14 @@ class ActionRegistry {
     }
 
     public GetActionScheme(objectFilter: EActionFilter): ActionScheme {
+        if (!this.AcitonObjectSchemeMap) {
+            this.InitDefaultSchemeMap();
+        }
         return this.AcitonObjectSchemeMap.get(objectFilter);
+    }
+
+    public InitDefaultSchemeMap(): void {
+        this.SetupObjectMap(objectSchemeMap);
     }
 }
 

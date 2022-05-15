@@ -3,7 +3,7 @@ import { EditorLevelLibrary } from 'ue';
 
 import { createObjectScheme, createStringScheme, EActionFilter } from '../../../Common/Type';
 import { LevelUtil } from '../../Common/LevelUtil';
-import { IActionInfo, IInvoke } from '../../Flow/Action';
+import { IActionInfo, IInteract, IInvoke } from '../../Flow/Action';
 import { createActionScheme } from './Action';
 import { moveToPosScheme } from './Move';
 
@@ -45,4 +45,23 @@ export const destroyScheme = createObjectScheme<Record<string, undefined>>({
     CnName: '销毁',
     Filters: [EActionFilter.Invoke, EActionFilter.Trigger, EActionFilter.FlowList],
     Tip: '销毁对象',
+});
+
+export const interactScheme = createObjectScheme<IInteract>({
+    CnName: '触发交互',
+    Tip: '让选定实体交互',
+    Fields: {
+        Who: createStringScheme({
+            CnName: '触发者',
+            RenderType: 'entityId',
+            ShowName: true,
+        }),
+        Param: createStringScheme({
+            CnName: '参数',
+            RenderType: 'string',
+            ShowName: true,
+            NewLine: true,
+        }),
+    },
+    Filters: [EActionFilter.Invoke, EActionFilter.Trigger, EActionFilter.FlowList],
 });

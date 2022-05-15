@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { actionRegistry } from './ActionRunner';
 import {
+    Activation,
     ChangeActorStateAction,
     FaceToPosAction,
     MoveToPosAction,
@@ -43,5 +44,6 @@ export function initFlow(): void {
     actionRegistry.Register('SimpleMove', SimpleMoveAction);
     actionRegistry.Register('SpawnChild', SpawnChildAction);
     actionRegistry.Register('Wait', WaitAction);
+    actionRegistry.Register('Activate', Activation);
     isInit = true;
 }

@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import {
-    Actor,
     Guid,
     LinearColor,
     MaterialInstanceDynamic,
@@ -11,21 +10,12 @@ import {
     Vector,
 } from 'ue';
 
-import { toVector } from '../../Common/Interface';
-import { error, log } from '../../Common/Log';
-import { IActionInfo, ISimpleMove } from '../Flow/Action';
+import { IActionInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
-import { Entity, gameContext, InteractiveComponent, ITickable } from '../Interface';
+import { Entity, InteractiveComponent } from '../Interface';
 import { ITrampleActions, ITrampleComponent } from '../Scheme/Component/TrampleComponentScheme';
 
-interface ISimpleMoveInfo {
-    Who: Actor;
-    Speed: Vector;
-    Time: number;
-    TargetPos: Vector;
-}
-
-export class TrampleComponent extends InteractiveComponent implements ITrampleComponent, ITickable {
+export class TrampleComponent extends InteractiveComponent implements ITrampleComponent {
     public IsDisposable: boolean;
 
     public TriggerActions: ITrampleActions;
@@ -36,7 +26,7 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
 
     private Runner: ActionRunner;
 
-    private MoveInfo: ISimpleMoveInfo;
+    private TriggerTimes = 0;
 
     public OnInit(): void {
         this.IsDisposable = false;
@@ -69,13 +59,16 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
     }
 
     public OnTriggerEnter(other: Entity): void {
+        if (this.TriggerTimes > 0 && this.IsDisposable) {
+            return;
+        }
         if (!this.InteractingList.includes(other.Actor.ActorGuid)) {
             this.InteractingList.push(other.Actor.ActorGuid);
             if (this.InteractingList.length === 1) {
                 const color = new LinearColor(0.5, 0.5, 0, 1);
                 this.ChangeMaterialColor(color);
                 this.RunActions(this.TriggerActions.Actions);
-                log(`OnTriggerEnter`);
+                this.TriggerTimes += 1;
             }
         }
     }
@@ -89,7 +82,6 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
             const color = new LinearColor(0, 0.2, 0.2, 1);
             this.ChangeMaterialColor(color);
             this.RunActions(this.RecoveryActions.Actions);
-            log(`OnTriggerEnter`);
         }
     }
 
@@ -101,41 +93,5 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
             const material = component.GetMaterial(0) as MaterialInstanceDynamic;
             material.SetVectorParameterValue(`SurfaceColor`, color);
         }
-    }
-
-    public SimpleMove(action: ISimpleMove): void {
-        const tsEntity = gameContext.EntityManager.GetEntity(action.Who);
-        if (!tsEntity) {
-            error(`没选定对象`);
-            return;
-        }
-        const vector = toVector(action.Pos);
-        const offset = vector.op_Subtraction(tsEntity.K2_GetActorLocation());
-        const speed = offset.op_Division(action.UseTime);
-        this.MoveInfo = {
-            Who: tsEntity,
-            Speed: speed,
-            Time: action.UseTime,
-            TargetPos: vector,
-        };
-        if (!gameContext.TickManager.HasTick(this)) {
-            gameContext.TickManager.AddTick(this);
-        }
-    }
-
-    public Tick(deltaTime: number): void {
-        const time = this.MoveInfo.Time;
-        if (time - deltaTime > 0) {
-            const tsEntity = this.MoveInfo.Who;
-            const location = tsEntity.K2_GetActorLocation();
-            if (location !== this.MoveInfo.TargetPos) {
-                const offset = this.MoveInfo.Speed.op_Multiply(deltaTime);
-                const newLocation = tsEntity.K2_GetActorLocation().op_Addition(offset);
-                tsEntity.K2_SetActorLocation(newLocation, false, null, false);
-                this.MoveInfo.Time = time - deltaTime;
-                return;
-            }
-        }
-        gameContext.TickManager.RemoveTick(this);
     }
 }

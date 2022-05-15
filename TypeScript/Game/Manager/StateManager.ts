@@ -89,9 +89,11 @@ export class StateManager implements IManager, IStateManager {
         }
 
         const state = JSON.parse(content) as ILevelState;
-        state.EntityStates.forEach((entityState) => {
-            this.EntityById.set(entityState.Id, entityState);
-        });
+        if (state.EntityStates) {
+            state.EntityStates.forEach((entityState) => {
+                this.EntityById.set(entityState.Id, entityState);
+            });
+        }
 
         log(`Load state from ${this.SavePath}`);
     }

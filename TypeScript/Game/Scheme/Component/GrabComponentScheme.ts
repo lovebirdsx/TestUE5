@@ -20,6 +20,13 @@ export const grabComponentScheme = createObjectScheme<IGrabComponent>({
             ShowName: true,
             NewLine: true,
             Tip: '抓取位置',
+            CreateDefault(): IVectorType {
+                return {
+                    X: 100,
+                    Y: 0,
+                    Z: 50,
+                };
+            },
         }),
         ThrowPow: createIntScheme({
             CnName: '扔出力度',

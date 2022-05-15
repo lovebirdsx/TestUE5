@@ -61,6 +61,9 @@ export class ChangeBehaviorStateAction extends Action<IChangeBehaviorState> {
         behaviorFlowComponent.ChangeBehaviorState(this.Data.StateId);
         if (this.Data.IsInstant) {
             behaviorFlowComponent.StopCurrentState();
+            if (behaviorFlowComponent.IsPaused) {
+                behaviorFlowComponent.IsPaused = false;
+            }
         }
     }
 }
@@ -68,6 +71,8 @@ export class ChangeBehaviorStateAction extends Action<IChangeBehaviorState> {
 export class SetBehaviorPausedAction extends Action<ISetBehaviorPaused> {
     public Execute(): void {
         const behaviorFlowComponent = this.Entity.GetComponent(BehaviorFlowComponent);
-        behaviorFlowComponent.IsPaused = this.Data.IsPaused;
+        if (behaviorFlowComponent.IsPaused !== this.Data.IsPaused) {
+            behaviorFlowComponent.IsPaused = this.Data.IsPaused;
+        }
     }
 }

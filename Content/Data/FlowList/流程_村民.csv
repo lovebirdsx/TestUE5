@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_村民,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 29,
+  ""TextGenId"": 31,
   ""FlowGenId"": 6,
   ""Flows"": [
     {
@@ -27,7 +27,45 @@
                     ""Id"": 1,
                     ""Name"": ""对话1"",
                     ""WhoId"": 6,
-                    ""TextId"": 1
+                    ""TextId"": 1,
+                    ""Options"": [
+                      {
+                        ""TextId"": 29,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""ECB537B44F4ABB0C85E12A87F118592F"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeBehaviorState"",
+                                ""Params"": {
+                                  ""StateId"": 2,
+                                  ""IsInstant"": true
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 30,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""ECB537B44F4ABB0C85E12A87F118592F"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeBehaviorState"",
+                                ""Params"": {
+                                  ""StateId"": 0,
+                                  ""IsInstant"": true
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }

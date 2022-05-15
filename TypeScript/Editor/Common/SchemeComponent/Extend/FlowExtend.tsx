@@ -8,6 +8,7 @@ import { EActionFilter, IProps, ObjectScheme, TModifyType } from '../../../../Co
 import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
+import { BehaviorFlowComponent } from '../../../../Game/Component/BehaviorFlowComponent';
 import { FlowComponent } from '../../../../Game/Component/FlowComponent';
 import {
     IFlowInfo,
@@ -17,7 +18,7 @@ import {
     parseFlowInfo,
     parsePlayFlow,
 } from '../../../../Game/Flow/Action';
-import { IBehaviorFlowComponent } from '../../../../Game/Interface';
+import { IBehaviorFlowComponent, ITsEntity } from '../../../../Game/Interface';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
 import { Btn, ErrorText, Fold, List, Text } from '../../BaseComponent/CommonComponent';
 import { editorConfig } from '../../EditorConfig';
@@ -48,12 +49,11 @@ function renderStateIdForFlow(flowInfo: IFlowInfo, props: IProps<number>): JSX.E
     );
 }
 
-function renderStateIdForInvoke(invoke: IInvoke, props: IProps<number>): JSX.Element {
-    const entity = LevelEditorUtil.GetEntity(invoke.Who);
-    if (!entity) {
-        return <ErrorText Text={`找不到实体: ${invoke.Who}`} />;
-    }
-
+function renderStateIdForInvokeChangeState(
+    entity: ITsEntity,
+    invoke: IInvoke,
+    props: IProps<number>,
+): JSX.Element {
     const flowComponent = LevelEditorUtil.GetEntityComponentData(entity, FlowComponent);
     if (!flowComponent) {
         return <ErrorText Text={`对应实体不存在FlowComponent配置`} />;
@@ -74,6 +74,44 @@ function renderStateIdForInvoke(invoke: IInvoke, props: IProps<number>): JSX.Ele
     }
 
     return renderStateIdForFlow(flowInfo, props);
+}
+
+function renderStateIdForInvokeChangeBehaviorState(
+    entity: ITsEntity,
+    invoke: IInvoke,
+    props: IProps<number>,
+): JSX.Element {
+    const behaviorComponent = LevelEditorUtil.GetEntityComponentData(entity, BehaviorFlowComponent);
+    if (!behaviorComponent) {
+        return <ErrorText Text={`实体[${entity.ActorLabel}]不存在BehaviorFlowComponent配置`} />;
+    }
+
+    const flowInfo = behaviorComponent.FlowInfo;
+    if (!flowInfo) {
+        return (
+            <ErrorText Text={`实体[${entity.ActorLabel}]BehaviorFlowComponent上不存在流程配置`} />
+        );
+    }
+
+    return renderStateIdForFlow(flowInfo, props);
+}
+
+function renderStateIdForInvoke(invoke: IInvoke, props: IProps<number>): JSX.Element {
+    const entity = LevelEditorUtil.GetEntity(invoke.Who);
+    if (!entity) {
+        return <ErrorText Text={`找不到实体: ${invoke.Who}`} />;
+    }
+
+    const actionName = invoke.ActionInfo.Name;
+    if (actionName === 'ChangeState' || actionName === 'ChangeRandomState') {
+        return renderStateIdForInvokeChangeState(entity, invoke, props);
+    }
+
+    if (actionName === 'ChangeBehaviorState') {
+        return renderStateIdForInvokeChangeBehaviorState(entity, invoke, props);
+    }
+
+    return <ErrorText Text={`Invoke中不支持的State Id上下文, 动作为[${actionName}]`} />;
 }
 
 // ChangeState可能在Invoke中被调用, 所以要处理该情况

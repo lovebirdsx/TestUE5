@@ -32,7 +32,7 @@ export const triggerComponentScheme = createObjectScheme<ITriggerComponent>({
             NewLine: true,
         }),
         IsNotLoad: createBooleanScheme({
-            CnName: '是否不加载状态',
+            CnName: '不加载状态',
             RenderType: 'boolean',
             ShowName: true,
             NewLine: true,

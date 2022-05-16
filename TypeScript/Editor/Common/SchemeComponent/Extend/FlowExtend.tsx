@@ -335,7 +335,18 @@ export function RenderBehaviorFlow(
             {!value._folded && (
                 <Flow
                     PrefixElement={RenderStateId({
-                        PrefixElement: <Text Text={'初始状态:'} />,
+                        PrefixElement: (
+                            <HorizontalBox>
+                                <Btn
+                                    Text={'C'}
+                                    Tip={'清除所有状态'}
+                                    OnClick={(): void => {
+                                        props.OnModify(undefined, 'normal');
+                                    }}
+                                />
+                                <Text Text={'初始状态:'} />
+                            </HorizontalBox>
+                        ),
                         Value: value.InitStateId,
                         OnModify: (stateId, type) => {
                             const newValue = produce(value, (draft) => {

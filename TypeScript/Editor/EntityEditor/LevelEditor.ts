@@ -5,6 +5,7 @@ import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { log } from '../../Common/Log';
+import { getGuid } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
@@ -71,7 +72,7 @@ export class LevelEditor {
             return;
         }
 
-        entity.Guid = actor.ActorGuid.ToString();
+        entity.Guid = getGuid(entity);
     }
 
     private async InitForNewActors(): Promise<void> {

@@ -8,7 +8,7 @@ import {
     TTsClassType,
 } from '../../Common/Class';
 import { error, warn } from '../../Common/Log';
-import { stringify } from '../../Common/Util';
+import { getGuid, stringify } from '../../Common/Util';
 import {
     IEntityData,
     ITsEntity,
@@ -52,7 +52,7 @@ class EntityRegistry {
                 delete state[key];
             } else {
                 const scheme = componentRegistry.GetScheme(key);
-                if (scheme) {
+                if (scheme && state[key]) {
                     scheme.Fix(state[key]);
                 }
             }
@@ -71,7 +71,7 @@ class EntityRegistry {
 
     public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
         let errorCount = 0;
-        if (data.Guid !== entity.ActorGuid.ToString()) {
+        if (data.Guid !== getGuid(entity)) {
             messages.push(`Guid和Actor的Guid不一致`);
             errorCount++;
         }
@@ -83,7 +83,10 @@ class EntityRegistry {
                 messages.push(`Component ${key}配置了数据, 但是找不到对应的类型数据`);
             }
             const scheme = componentRegistry.GetScheme(key);
-            errorCount += scheme.Check(data.ComponentsState[key], messages);
+            const value = data.ComponentsState[key];
+            if (value) {
+                errorCount += scheme.Check(value, messages);
+            }
         });
         return errorCount;
     }

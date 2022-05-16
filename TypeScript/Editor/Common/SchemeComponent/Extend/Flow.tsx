@@ -120,6 +120,9 @@ export class Flow extends React.Component<IFlowProps> {
             case '粘贴': {
                 const stateInfo = pasteObject<IStateInfo>('StateInfo');
                 if (stateInfo) {
+                    // 确保stateInfo的id和名字唯一
+                    stateInfo.Id = this.props.Flow.States[id].Id;
+                    stateInfo.Name = this.props.Flow.States[id].Name;
                     this.ModifyState(id, stateInfo, 'normal');
                 }
                 break;

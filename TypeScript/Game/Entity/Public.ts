@@ -109,9 +109,7 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.AiNpcVillage1, 'BP_AiNpcVillage1', TsAiNpc);
     regExtendedEntity(EBlueprintId.AiNpcVillage2, 'BP_AiNpcVillage2', TsAiNpc);
     regExtendedEntity(EBlueprintId.Gate, 'BP_Gate', TsStateEntity);
-    regExtendedEntity(EBlueprintId.ArrowSpring, 'BP_ArrowSpring', TsSpring);
     regExtendedEntity(EBlueprintId.SteeringWheel, 'BP_SteeringWheel', TsRotator);
-    regExtendedEntity(EBlueprintId.SphereChild, 'BP_Sphere', TsSphereActor);
 
     // ActorComponent
     regActorComponent(EBlueprintId.ActorStateComponent, 'BP_StateComponent');

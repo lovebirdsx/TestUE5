@@ -40,9 +40,7 @@ export enum EBlueprintId {
     AiNpcVillage1 = 1006,
     AiNpcVillage2 = 1007,
     Gate = 1008,
-    ArrowSpring = 1009,
-    SteeringWheel = 1010,
-    SphereChild = 1011,
+    SteeringWheel = 1009,
 
     // Component
     ActorStateComponent = 10001,

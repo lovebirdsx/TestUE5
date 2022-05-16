@@ -87,6 +87,9 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
             case '粘贴': {
                 const flowInfo = pasteObject<IFlowInfo>('FlowInfo');
                 if (flowInfo) {
+                    // 确保flowInfo的id唯一
+                    flowInfo.Id = this.props.FlowList.Flows[id].Id;
+                    flowInfo.Name = this.props.FlowList.Flows[id].Name;
                     this.ModifiedFlow(id, flowInfo, 'normal');
                 }
                 break;

@@ -19,6 +19,8 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
 
     private State: StateComponent;
 
+    private StateId: number;
+
     private MyIsPaused = false;
 
     private MyIsPausedByFlow = false;
@@ -56,7 +58,7 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
             return;
         }
 
-        this.InitStateId = this.State.GetState<number>('BehaviorStateId') || 0;
+        this.StateId = this.State.GetState<number>('BehaviorStateId') || this.InitStateId;
         this.ActionId = this.State.GetState<number>('BehaviorActionId') || 0;
         this.MyIsPaused = this.State.GetState<boolean>('IsBehaviorPaused') || false;
     }
@@ -71,8 +73,8 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
     }
 
     public ChangeBehaviorState(stateId: number): void {
-        this.InitStateId = stateId;
-        this.State.SetState('BehaviorStateId', this.InitStateId);
+        this.StateId = stateId;
+        this.State.SetState('BehaviorStateId', this.StateId);
     }
 
     public get IsRunning(): boolean {
@@ -127,9 +129,9 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
             return;
         }
 
-        const state = this.FlowInfo.States.find((state0) => state0.Id === this.InitStateId);
+        const state = this.FlowInfo.States.find((state0) => state0.Id === this.StateId);
         if (!state) {
-            error(`[${this.FlowInfo.Name}] no state for id [${this.InitStateId}]`);
+            error(`[${this.FlowInfo.Name}] no state for id [${this.StateId}]`);
             return;
         }
 

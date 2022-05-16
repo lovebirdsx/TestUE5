@@ -49,8 +49,8 @@ export enum EBlueprintId {
 export interface IBehaviorFlowComponent {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _folded?: boolean;
-    InitStateId: number;
-    FlowInfo: IFlowInfo;
+    InitStateId?: number;
+    FlowInfo?: IFlowInfo;
 }
 
 export interface IFlowComponent {

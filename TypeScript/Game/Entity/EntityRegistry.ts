@@ -52,7 +52,7 @@ class EntityRegistry {
                 delete state[key];
             } else {
                 const scheme = componentRegistry.GetScheme(key);
-                if (scheme) {
+                if (scheme && state[key]) {
                     scheme.Fix(state[key]);
                 }
             }
@@ -83,7 +83,10 @@ class EntityRegistry {
                 messages.push(`Component ${key}配置了数据, 但是找不到对应的类型数据`);
             }
             const scheme = componentRegistry.GetScheme(key);
-            errorCount += scheme.Check(data.ComponentsState[key], messages);
+            const value = data.ComponentsState[key];
+            if (value) {
+                errorCount += scheme.Check(value, messages);
+            }
         });
         return errorCount;
     }

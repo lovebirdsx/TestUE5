@@ -128,10 +128,6 @@ export function loadClass(classNameOrPath: string): Class {
     return tsClassObj.StaticClass();
 }
 
-export function genGuid(): string {
-    return KismetGuidLibrary.NewGuid().ToString();
-}
-
 export function stringify(value: unknown, filterUnderScore?: boolean): string {
     return JSON.stringify(
         value,
@@ -235,4 +231,12 @@ export function writeJsonConfig(obj: unknown, path: string): void {
 
 export function isEditor(): boolean {
     return UE.EditorOperations !== undefined;
+}
+
+export function getGuid(actor: UE.Actor): string {
+    return actor.ActorGuid.ToString();
+}
+
+export function genGuid(): string {
+    return KismetGuidLibrary.NewGuid().ToString();
 }

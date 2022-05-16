@@ -6,6 +6,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { error } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
+import { getGuid } from '../../Common/Util';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
@@ -62,7 +63,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
     private readonly FixGuid = (): void => {
         const newPureData = produce(this.props.Data, (draft) => {
-            draft.Guid = this.props.Entity.ActorGuid.ToString();
+            draft.Guid = getGuid(this.props.Entity);
         });
         this.props.OnModify(newPureData, 'normal');
     };
@@ -70,7 +71,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
     private RenderGuid(): JSX.Element {
         const guid = this.props.Data.Guid;
         if (guid) {
-            const needFixGuid = guid !== this.props.Entity.ActorGuid.ToString();
+            const needFixGuid = guid !== getGuid(this.props.Entity);
             return (
                 <HorizontalBox>
                     <Text Text={`Guid: ${guid}`} />

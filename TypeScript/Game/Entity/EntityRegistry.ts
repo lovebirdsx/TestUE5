@@ -8,7 +8,7 @@ import {
     TTsClassType,
 } from '../../Common/Class';
 import { error, warn } from '../../Common/Log';
-import { stringify } from '../../Common/Util';
+import { getGuid, stringify } from '../../Common/Util';
 import {
     IEntityData,
     ITsEntity,
@@ -71,7 +71,7 @@ class EntityRegistry {
 
     public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
         let errorCount = 0;
-        if (data.Guid !== entity.ActorGuid.ToString()) {
+        if (data.Guid !== getGuid(entity)) {
             messages.push(`Guid和Actor的Guid不一致`);
             errorCount++;
         }

@@ -8,7 +8,7 @@ import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 import { MS_PER_SEC } from '../../Common/Async';
 import { log, warn } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import { errorbox, msgbox } from '../../Common/UeHelper';
+import { msgbox } from '../../Common/UeHelper';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
@@ -232,13 +232,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         this.RecordEntityState(newState, type);
     };
 
-    private CheckEntityData(data: IEntityData, entity: ITsEntity): void {
-        const errorMessages: string[] = [];
-        if (entityRegistry.Check(data, entity, errorMessages) > 0) {
-            errorbox(`实体配置错误:\n${errorMessages.join('\r\n')}`);
-        }
-    }
-
     private ApplyEntityChange(): void {
         if (this.state.IsEditorPlaying) {
             return;
@@ -251,8 +244,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         entityRegistry.ApplyData(es.Data, es.Entity);
         EditorOperations.MarkPackageDirty(es.Entity);
-
-        this.CheckEntityData(es.Data, es.Entity);
 
         this.LastApplyEntityState = es;
     }

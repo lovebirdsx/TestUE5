@@ -3,12 +3,13 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { error } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
-import { Btn, H3, Text } from '../Common/BaseComponent/CommonComponent';
+import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { ComponentsState } from './ComponentsState';
@@ -99,6 +100,23 @@ export class EntityView extends React.Component<IEntityViewProps> {
         );
     }
 
+    private RenderEntityError(): JSX.Element {
+        const errorMessages: string[] = [];
+        if (entityRegistry.Check(this.props.Data, this.props.Entity, errorMessages) <= 0) {
+            return undefined;
+        }
+
+        error(`实体配置错误:\n${errorMessages.join('\r\n')}`);
+        return (
+            <VerticalBox>
+                <H3 Text={'错误'} />
+                {errorMessages.map((text, id) => (
+                    <ErrorText key={id} Text={text} />
+                ))}
+            </VerticalBox>
+        );
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const props = this.props;
@@ -110,6 +128,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         return (
             <VerticalBox>
                 <VerticalBox>
+                    {this.RenderEntityError()}
                     <H3 Text={`实体信息(${entity.ActorLabel})`} />
                     {this.RenderEntityInfo()}
                 </VerticalBox>

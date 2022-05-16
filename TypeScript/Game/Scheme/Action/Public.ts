@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { ObjectScheme } from '../../../Common/Type';
 import { TActionType } from '../../Flow/Action';
+import { actionRegistry } from './ActionRegistry';
 import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
@@ -52,7 +53,7 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     Activate: interactScheme,
 };
 
-// actionRegistry.SetupObjectMap(objectSchemeMap);
+actionRegistry.SetupObjectMap(objectSchemeMap);
 
 export * from './ActionRegistry';
 export * from './Flow';

@@ -1,9 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { isChildOfClass } from '../../Common/Class';
 import { toVector } from '../../Common/Interface';
-import { isPlayer } from '../Entity/EntityRegistry';
 import { IInteract } from '../Flow/Action';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
+import TsPlayer from '../Player/TsPlayer';
 import { IGameModeComponent, IStateInfo } from '../Scheme/Component/GameModeScheme';
 import { EventComponent } from './EventComponent';
 import { StateComponent } from './StateComponent';
@@ -44,7 +45,7 @@ export class GameModeComponent extends Component implements IGameModeComponent {
     }
 
     public ReceiveOverlap(other: ITsEntity): void {
-        if (isPlayer(other.Entity.Actor)) {
+        if (isChildOfClass(other.Entity.Actor, TsPlayer)) {
             this.RestartPlayerPos();
         } else {
             gameContext.EntityManager.RemoveEntity(other);

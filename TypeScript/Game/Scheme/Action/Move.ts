@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { IPosA } from '../../../Common/Interface';
+import { IPosA, IVectorInfo } from '../../../Common/Interface';
 import {
     allActionFilters,
     createFloatScheme,

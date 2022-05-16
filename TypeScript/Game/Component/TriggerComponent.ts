@@ -11,6 +11,8 @@ export class TriggerComponent extends Component implements ITriggerComponent {
 
     public TriggerActions: ITriggerActions;
 
+    public IsNotLoad: boolean;
+
     private TriggerTimes = 0;
 
     private Runner: ActionRunner;
@@ -24,7 +26,9 @@ export class TriggerComponent extends Component implements ITriggerComponent {
     }
 
     public OnLoadState(): void {
-        this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
+        if (!this.IsNotLoad) {
+            this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
+        }
         this.ActionId = this.State.GetState<number>('ActionId') || 0;
     }
 
@@ -49,9 +53,10 @@ export class TriggerComponent extends Component implements ITriggerComponent {
         this.State.SetState('ActionId', undefined);
 
         this.TriggerTimes++;
-        this.State.SetState('TriggerTimes', this.TriggerTimes);
-
-        log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
+        if (!this.IsNotLoad) {
+            this.State.SetState('TriggerTimes', this.TriggerTimes);
+            log(`DoTrigger ${this.TriggerTimes} / ${this.MaxTriggerTimes}`);
+        }
     }
 
     public OnTriggerEnter(other: Entity): void {

@@ -39,7 +39,7 @@ export const undergroundActionsScheme = createObjectScheme<IUndergroundComponent
     Name: 'UndergroundActions',
     Fields: {
         TestState: createIntScheme({
-            CnName: '测试状态，非0时使用',
+            CnName: '测试状态，0时读取记录，-1时从playerstart开始',
             RenderType: 'int',
             ShowName: true,
             NewLine: true,

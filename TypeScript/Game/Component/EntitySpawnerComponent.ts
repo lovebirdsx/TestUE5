@@ -105,7 +105,6 @@ export class EntitySpawnerComponent extends Component {
         this.DestroyAllChild();
     }
 
-    // todo guid
     public FindChild(entity: Entity): string {
         let result = '';
         this.Children.forEach((tsEntity) => {

@@ -1,5 +1,6 @@
 import {
     createArrayScheme,
+    createBooleanScheme,
     createIntScheme,
     createObjectScheme,
     EActionFilter,
@@ -29,6 +30,13 @@ export const triggerComponentScheme = createObjectScheme<ITriggerComponent>({
             ShowName: true,
             Tip: '最大触发次数',
             NewLine: true,
+        }),
+        IsNotLoad: createBooleanScheme({
+            CnName: '是否不加载状态',
+            RenderType: 'boolean',
+            ShowName: true,
+            NewLine: true,
+            CreateDefault: () => false,
         }),
         TriggerActions: triggerActionsScheme,
     },

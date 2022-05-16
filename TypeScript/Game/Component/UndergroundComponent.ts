@@ -53,6 +53,10 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
     }
 
     public OnStart(): void {
+        if (this.TestState === -1) {
+            this.StateId = 1;
+            return;
+        }
         this.RestartPlayerPos();
     }
 

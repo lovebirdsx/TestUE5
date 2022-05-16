@@ -44,6 +44,10 @@ export class SphereFactoryComponent
         this.Event.RegistryInteract(interactCall);
     }
 
+    public OnLoadState(): void {
+        this.EntitySpawn.DestroyAllChild();
+    }
+
     public CreateSphere(): void {
         const transformInfo = toTransformInfo(this.Entity.Actor.GetTransform());
         if (this.SphereGuid) {

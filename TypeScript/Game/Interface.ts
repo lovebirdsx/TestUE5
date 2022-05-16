@@ -59,6 +59,7 @@ export interface IFlowComponent {
 
 export interface ITriggerComponent {
     MaxTriggerTimes: number;
+    IsNotLoad: boolean;
     TriggerActions: ITriggerActions;
 }
 

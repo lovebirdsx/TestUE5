@@ -67,13 +67,7 @@ export class BehaviorFlowComponent extends Component implements IBehaviorFlowCom
         }
 
         gameContext.TickManager.RemoveTick(this);
-
-        // 不能在此处停止Runner, 因为调用OnDestroy时, UE的相关组件已经失效了
-        // 而Runner中的Stop, 会访问到相关的组件(譬如CharacterMoveComponent)
-        // if (this.IsRunning) {
-        //     this.Runner.Stop();
-        //     this.Runner = undefined;
-        // }
+        this.StopCurrentState();
     }
 
     public ChangeBehaviorState(stateId: number): void {

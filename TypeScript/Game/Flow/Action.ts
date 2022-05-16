@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ITransform, IVectorInfo } from '../../Common/Interface';
+import { IPosA, ITransform, IVectorInfo } from '../../Common/Interface';
 
 export const FLOW_LIST_VERSION = 8;
 
@@ -25,6 +25,7 @@ export type TActionType =
     | 'SetFlowBoolOption'
     | 'SetHeadIconVisible'
     | 'SetPlotMode'
+    | 'SetPos'
     | 'ShowCenterText'
     | 'ShowMessage'
     | 'ShowOption'
@@ -268,9 +269,13 @@ export interface IShowCenterText {
     TextId: number;
 }
 
-export interface IMoveToPos {
+export interface IMoveToPosA {
     Timeout: number;
-    Pos: IVectorInfo;
+    Pos: IPosA;
+}
+
+export interface ISetPosA {
+    Pos: IPosA;
 }
 
 export interface IFaceToPos {

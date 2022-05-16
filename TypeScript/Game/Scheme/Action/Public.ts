@@ -4,7 +4,7 @@ import { TActionType } from '../../Flow/Action';
 import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
-import { faceToPosScheme, moveToPosScheme, simpleMoveScheme } from './Move';
+import { faceToPosScheme, moveToPosScheme, setPosScheme, simpleMoveScheme } from './Move';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
@@ -41,6 +41,7 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     SetHeadIconVisible: setHeadIconVisibleScheme,
     SetFlowBoolOption: setFlowBoolOptionScheme,
     SetPlotMode: setPlotModeScheme,
+    SetPos: setPosScheme,
     ShowCenterText: showCenterTextScheme,
     ShowMessage: showMssageScheme,
     ShowOption: showOptionScheme,

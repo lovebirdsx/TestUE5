@@ -201,6 +201,10 @@ export abstract class Component {
         return this.Entity.Name;
     }
 
+    public get IsValid(): boolean {
+        return this.Entity.IsValid;
+    }
+
     public OnInit(): void {}
 
     public OnLoadState(): void {}
@@ -224,6 +228,8 @@ export class Entity {
     public readonly Name: string;
 
     public readonly Actor: Actor;
+
+    public IsValid = true;
 
     private readonly TriggerEnterComponents: Component[] = [];
 
@@ -326,6 +332,7 @@ export class Entity {
     }
 
     public Destroy(): void {
+        this.IsValid = false;
         this.Components.forEach((c) => {
             c.OnDestroy();
         });

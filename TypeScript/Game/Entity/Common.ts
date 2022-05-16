@@ -9,7 +9,7 @@ export function initTsEntity(tsEntity: ITsEntity): void {
         return;
     }
 
-    const entity = new Entity(tsEntity.GetName(), tsEntity);
+    const entity = new Entity(tsEntity.ActorLabel, tsEntity);
     const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {

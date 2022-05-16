@@ -13,6 +13,7 @@ import {
     KismetSystemLibrary,
     NewArray,
     Rotator,
+    Transform,
     Vector,
 } from 'ue';
 
@@ -128,8 +129,13 @@ class LevelEditorUtil {
         return entity;
     }
 
-    public static SetEntityTransform(entity: ITsEntity, transform: ITransform): void {
-        entity.K2_SetActorTransform(toTransform(transform), false, undefined, false);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public static SetITransform(actor: Actor, transform: ITransform): void {
+        this.SetTransform(actor, toTransform(transform));
+    }
+
+    public static SetTransform(actor: Actor, transform: Transform): void {
+        actor.K2_SetActorTransform(transform, false, undefined, false);
     }
 
     public static GetCameraHitPos(): Vector {

@@ -17,7 +17,6 @@ import {
 
 import { createSignal, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
-import { log } from '../../Common/Log';
 import { IVectorType } from '../../Common/Type';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
@@ -239,7 +238,6 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
                         component.WakeAllRigidBodies();
                         // 调整球的手感
                         const upSpeed = component.GetPhysicsLinearVelocity();
-                        log(`upSpeed.Z ${upSpeed.X}, ${upSpeed.Y}, ${upSpeed.Z}`);
                         if (upSpeed.Z > 0) {
                             component.AddImpulse(new Vector(0, 0, -20));
                         }

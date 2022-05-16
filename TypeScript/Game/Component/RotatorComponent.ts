@@ -174,13 +174,25 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         return rotator;
     }
 
+    public AdapateVal(val: number): number {
+        // 让鼠标操作不会太快
+        let value = val;
+        if (value > 1) {
+            value = 1;
+        } else if (value < -1) {
+            value = -1;
+        }
+        return value;
+    }
+
     public RotateX(val: number): void {
         if (!val) {
             return;
         }
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
-            const speed = (this.RotatorSpeed.X * val) / 100;
+            const value = this.AdapateVal(val);
+            const speed = (this.RotatorSpeed.X * value) / 100;
             const rotator = this.GetRotator(this.RotationMapping.X).op_Multiply(speed);
             entity.K2_AddActorWorldRotation(rotator, false, null, false);
             this.WakeRigidBodies();
@@ -196,7 +208,8 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         }
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
-            const speed = (this.RotatorSpeed.Y * val) / 100;
+            const value = this.AdapateVal(val);
+            const speed = (this.RotatorSpeed.Y * value) / 100;
             const rotator = this.GetRotator(this.RotationMapping.Y).op_Multiply(speed);
             entity.K2_AddActorWorldRotation(rotator, false, null, false);
             this.WakeRigidBodies();
@@ -212,7 +225,8 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         }
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
         if (entity) {
-            const speed = (this.RotatorSpeed.Z * val) / 100;
+            const value = this.AdapateVal(val);
+            const speed = (this.RotatorSpeed.Z * value) / 100;
             const rotator = this.GetRotator(this.RotationMapping.Z).op_Multiply(speed);
             entity.K2_AddActorWorldRotation(rotator, false, null, false);
             this.WakeRigidBodies();

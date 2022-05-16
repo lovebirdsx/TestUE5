@@ -9,7 +9,6 @@ import { entityRegistry } from './EntityRegistry';
 import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
-import TsGameMode, { gameModeComponentClasses } from './TsGameMode';
 import TsLamp, { lampComponentClasses } from './TsLamp';
 import TsNpc, { npcComponentClasses } from './TsNpc';
 import TsRotator, { rotatorComponentClasses } from './TsRotator';
@@ -19,6 +18,7 @@ import TsSpring, { springComponentClasses } from './TsSpring';
 import TsStateEntity, { stateEntityComponentClasses } from './TsStateEntity';
 import TsTrample, { trampleComponentClasses } from './TsTrample';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
+import TsUnderground, { undergroundComponentClasses } from './TsUnderground';
 
 function makeTsClassPath(basePath: string, name: string, dir?: string): string {
     if (dir) {
@@ -77,7 +77,7 @@ export function initEntity(): void {
     entityRegistry.Register(TsTrample, ...trampleComponentClasses);
     entityRegistry.Register(TsStateEntity, ...stateEntityComponentClasses);
     entityRegistry.Register(TsSphereFactory, ...sphereFactoryComponentClasses);
-    entityRegistry.Register(TsGameMode, ...gameModeComponentClasses);
+    entityRegistry.Register(TsUnderground, ...undergroundComponentClasses);
     entityRegistry.Register(TsLamp, ...lampComponentClasses);
 
     // Player
@@ -93,7 +93,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Trample, TsTrample);
     regEntity(EBlueprintId.StateEntity, TsStateEntity);
     regEntity(EBlueprintId.SphereFactory, TsSphereFactory);
-    regEntity(EBlueprintId.GameMode, TsGameMode);
+    regEntity(EBlueprintId.Underground, TsUnderground);
     regEntity(EBlueprintId.Lamp, TsLamp);
 
     // Character Entity
@@ -122,7 +122,6 @@ export function initEntity(): void {
 initEntity();
 
 export * from './TsEntity';
-export * from './TsGameMode';
 export * from './TsLamp';
 export * from './TsNpc';
 export * from './TsRotator';
@@ -131,3 +130,4 @@ export * from './TsSphereFactory';
 export * from './TsSpring';
 export * from './TsTrample';
 export * from './TsTrigger';
+export * from './TsUnderground';

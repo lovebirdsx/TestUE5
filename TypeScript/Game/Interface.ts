@@ -28,7 +28,7 @@ export enum EBlueprintId {
     Trample = 9,
     StateEntity = 10,
     SphereFactory = 11,
-    GameMode = 12,
+    Underground = 12,
     Lamp = 13,
 
     // ExtendedEntity

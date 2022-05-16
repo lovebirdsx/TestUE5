@@ -11,7 +11,7 @@ export interface IStateInfo {
     RestartPos: IVectorType;
 }
 
-export interface IGameModeComponent {
+export interface IUndergroundComponent {
     TestState: number;
     StateInfo: IStateInfo[];
 }
@@ -35,8 +35,8 @@ export const stateInfoScheme = createObjectScheme<IStateInfo>({
     NoIndent: true,
 });
 
-export const gameModeActionsScheme = createObjectScheme<IGameModeComponent>({
-    Name: 'GameModeActions',
+export const undergroundActionsScheme = createObjectScheme<IUndergroundComponent>({
+    Name: 'UndergroundActions',
     Fields: {
         TestState: createIntScheme({
             CnName: '测试状态，非0时使用',

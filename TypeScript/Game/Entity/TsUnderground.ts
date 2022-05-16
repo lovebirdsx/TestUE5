@@ -2,28 +2,28 @@
 import { Actor } from 'ue';
 
 import { EventComponent } from '../Component/EventComponent';
-import { GameModeComponent } from '../Component/GameModeComponent';
 import { StateComponent } from '../Component/StateComponent';
+import { UndergroundComponent } from '../Component/UndergroundComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
 import { isEntity } from './EntityRegistry';
 import TsEntity from './TsEntity';
 
-export const gameModeComponentClasses: TComponentClass[] = [
-    GameModeComponent,
+export const undergroundComponentClasses: TComponentClass[] = [
+    UndergroundComponent,
     StateComponent,
     EventComponent,
 ];
 
-class TsGameMode extends TsEntity {
+class TsUnderground extends TsEntity {
     // @no-blueprint
     public GetComponentClasses(): TComponentClass[] {
-        return gameModeComponentClasses;
+        return undergroundComponentClasses;
     }
 
     public ReceiveActorBeginOverlap(other: Actor): void {
         if (isEntity(other)) {
             const tsEntity = other as ITsEntity;
-            const component = this.Entity.TryGetComponent(GameModeComponent);
+            const component = this.Entity.TryGetComponent(UndergroundComponent);
             if (component) {
                 component.ReceiveOverlap(tsEntity);
             }
@@ -31,4 +31,4 @@ class TsGameMode extends TsEntity {
     }
 }
 
-export default TsGameMode;
+export default TsUnderground;

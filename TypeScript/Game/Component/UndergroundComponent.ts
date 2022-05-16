@@ -5,11 +5,11 @@ import { toVector } from '../../Common/Interface';
 import { IInteract } from '../Flow/Action';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
-import { IGameModeComponent, IStateInfo } from '../Scheme/Component/GameModeScheme';
+import { IStateInfo, IUndergroundComponent } from '../Scheme/Component/UndergroundScheme';
 import { EventComponent } from './EventComponent';
 import { StateComponent } from './StateComponent';
 
-export class GameModeComponent extends Component implements IGameModeComponent {
+export class UndergroundComponent extends Component implements IUndergroundComponent {
     public TestState: number;
 
     public StateInfo: IStateInfo[];
@@ -26,7 +26,7 @@ export class GameModeComponent extends Component implements IGameModeComponent {
         this.State = this.Entity.GetComponent(StateComponent);
         this.Event = this.Entity.GetComponent(EventComponent);
         const call: IInteractCall = {
-            Name: 'GameModeComponent',
+            Name: 'UndergroundComponent',
             CallBack: (action: IInteract) => {
                 this.Activate(action);
             },

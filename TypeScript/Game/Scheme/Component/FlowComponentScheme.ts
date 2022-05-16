@@ -10,21 +10,52 @@ export const flowComponentScheme = createObjectScheme<IFlowComponent>({
     Fields: {
         InitState: playFlowScheme,
     },
+    Check: (value: IFlowComponent, messages: string[]) => {
+        if (!value) {
+            messages.push(`FlowComponent的初始状态没有配置`);
+            return 1;
+        }
+
+        const messages0: string[] = [];
+        if (playFlowScheme.Check(value.InitState, messages0) > 0) {
+            messages0.forEach((msg) => {
+                messages.push(`[FlowComponent]${msg}`);
+            });
+            return messages0.length;
+        }
+        return 0;
+    },
     NewLine: true,
 });
 
 export const behaviorFlowComponentScheme = createObjectScheme<IBehaviorFlowComponent>({
     Name: 'BehaviorFlowComponent',
-    CreateDefault: () => undefined,
+    CreateDefault: () => {
+        return {
+            InitStateId: 0,
+            FlowInfo: {
+                Id: 0,
+                Name: 'Empty',
+                StateGenId: 1,
+                States: [
+                    {
+                        Id: 0,
+                        Name: '状态1',
+                        Actions: [],
+                    },
+                ],
+            },
+        };
+    },
     NewLine: true,
     Fields: {
         InitStateId: intScheme,
         FlowInfo: createObjectScheme<IFlowInfo>({
             Fix: (flowInfo: IFlowInfo) => {
-                return flowInfo ? flowOp.Fix(flowInfo) : 'canNotFixed';
+                return flowOp.Fix(flowInfo);
             },
             Check: (flowInfo: IFlowInfo, messages: string[]) => {
-                return flowInfo ? flowOp.Check(flowInfo, messages) : 0;
+                return flowOp.Check(flowInfo, messages);
             },
         }),
     },
@@ -33,7 +64,7 @@ export const behaviorFlowComponentScheme = createObjectScheme<IBehaviorFlowCompo
             return 0;
         }
 
-        if (!value.InitStateId) {
+        if (value.InitStateId === undefined) {
             messages.push(`BehaviorFlowComponent的初始状态没有配置`);
             return 1;
         }

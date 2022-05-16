@@ -29,11 +29,7 @@ export class FlowComponent extends Component implements IFlowComponent {
     private FlowListInfo: IFlowListInfo;
 
     public OnInit(): void {
-        if (!this.InitState) {
-            return;
-        }
-
-        this.BehaviorFlow = this.Entity.GetComponent(BehaviorFlowComponent);
+        this.BehaviorFlow = this.Entity.TryGetComponent(BehaviorFlowComponent);
         this.TalkComponent = this.Entity.GetComponent(TalkComponent);
         this.StateComponent = this.Entity.GetComponent(StateComponent);
         this.FlowListInfo = flowListOp.LoadByName(this.InitState.FlowListName);
@@ -41,10 +37,6 @@ export class FlowComponent extends Component implements IFlowComponent {
     }
 
     public OnLoadState(): void {
-        if (!this.InitState) {
-            return;
-        }
-
         this.StateId = this.StateComponent.GetState<number>('StateId') || this.InitState.StateId;
         this.ActionId = this.StateComponent.GetState<number>('ActionId') || 0;
     }
@@ -72,10 +64,6 @@ export class FlowComponent extends Component implements IFlowComponent {
     }
 
     public async Run(): Promise<void> {
-        if (!this.InitState) {
-            return;
-        }
-
         if (this.Runner) {
             error(`${this.Name} Can not run again`);
             return;
@@ -87,7 +75,7 @@ export class FlowComponent extends Component implements IFlowComponent {
             return;
         }
 
-        this.BehaviorFlow.SetPausedByFlow(true);
+        this.BehaviorFlow?.SetPausedByFlow(true);
 
         this.Runner = new ActionRunner('Flow', this.Entity, state.Actions);
         await this.Runner.Execute(this.ActionId, (actionId: number) => {
@@ -100,7 +88,7 @@ export class FlowComponent extends Component implements IFlowComponent {
             this.StateComponent.SetState('ActionId', undefined);
         }
 
-        this.BehaviorFlow.SetPausedByFlow(false);
+        this.BehaviorFlow?.SetPausedByFlow(false);
 
         this.Runner = undefined;
     }

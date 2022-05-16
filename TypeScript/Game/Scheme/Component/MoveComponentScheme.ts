@@ -6,7 +6,6 @@ export const moveComponentScheme = createObjectScheme<IMoveComponent>({
     Fields: {
         InitSpeed: createFloatScheme({
             CnName: '初始速度',
-            Optional: true,
             NewLine: true,
             ShowName: true,
             CreateDefault: () => DEFAULT_INIT_SPEED,

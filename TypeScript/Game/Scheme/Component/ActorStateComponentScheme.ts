@@ -6,7 +6,7 @@ import { IActorStateComponent } from '../../Interface';
 export const actorStateComponentScheme = createObjectScheme<IActorStateComponent>({
     Name: 'FlowComponent',
     Fields: {
-        State: createEnumScheme({
+        InitState: createEnumScheme({
             CnName: '初始状态',
             Config: actorStateConfig,
             NewLine: true,

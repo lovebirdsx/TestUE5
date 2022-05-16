@@ -1,12 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 import * as React from 'react';
-import { VerticalBox } from 'react-umg';
+import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { TModifyType } from '../../Common/Type';
-import { TComponentClass, TComponentsState } from '../../Game/Interface';
+import { TComponentClass, TComponentsState, TComponentState } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Public';
-import { Text } from '../Common/BaseComponent/CommonComponent';
+import { Check, Text } from '../Common/BaseComponent/CommonComponent';
 import { Any } from '../Common/SchemeComponent/Public';
 
 export interface IComponentsStateProps {
@@ -16,6 +16,36 @@ export interface IComponentsStateProps {
 }
 
 export class ComponentsState extends React.Component<IComponentsStateProps> {
+    private RenderPrefix(value: TComponentState, componentName: string): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Check
+                    UnChecked={value._Disabled}
+                    OnChecked={(isEnabled): void => {
+                        // disable或者针对合法的Component数据进行enable, 都只需要修改Disabled字段
+                        // 否则就要重新生成Component的合法数据
+                        if (!isEnabled || Object.keys(value).length > 1) {
+                            const newComponentsState = produce(this.props.Value, (draft) => {
+                                draft[componentName]._Disabled = !isEnabled;
+                            });
+                            this.props.OnModify(newComponentsState, 'normal');
+                        } else {
+                            const scheme = componentRegistry.GetScheme(componentName);
+                            const newComponentsState = produce(this.props.Value, (draft) => {
+                                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                                const componentState = scheme.CreateDefault() as TComponentState;
+                                componentState._Disabled = false;
+                                draft[componentName] = componentState;
+                            });
+                            this.props.OnModify(newComponentsState, 'normal');
+                        }
+                    }}
+                />
+                <Text Text={componentName} />
+            </HorizontalBox>
+        );
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const classObjs = this.props.ClassObjs;
@@ -27,20 +57,16 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
             }
 
             const scheme = componentRegistry.GetScheme(classObj.name);
-            let value = components[classObj.name];
-            if (!value) {
-                value = scheme.CreateDefault() as Record<string, unknown>;
-            }
-
+            const value = components[classObj.name];
             return (
                 <VerticalBox key={id}>
                     <Any
-                        PrefixElement={<Text Text={classObj.name} />}
+                        PrefixElement={this.RenderPrefix(value, classObj.name)}
                         Value={value}
                         Scheme={scheme}
                         OnModify={(obj, type): void => {
                             const newComponentState = produce(this.props.Value, (draft) => {
-                                draft[classObj.name] = obj as Record<string, unknown>;
+                                draft[classObj.name] = obj as TComponentState;
                             });
                             this.props.OnModify(newComponentState, type);
                         }}

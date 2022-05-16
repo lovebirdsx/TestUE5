@@ -33,6 +33,10 @@ class ComponentRegistry {
         }
         return scheme;
     }
+
+    public TryGetScheme(type: string): TClassType<unknown> {
+        return this.SchemeMap.get(type);
+    }
 }
 
 export const componentRegistry = new ComponentRegistry();

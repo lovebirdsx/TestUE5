@@ -39,4 +39,19 @@ export const playFlowScheme = createObjectScheme<IPlayFlow>({
         FlowId: intScheme,
         StateId: intScheme,
     },
+    Check: (playFlow: IPlayFlow, messages: string[]) => {
+        if (!playFlow.FlowListName) {
+            messages.push(`没有配置流程文件`);
+            return 1;
+        }
+        if (playFlow.FlowId === undefined) {
+            messages.push(`没有配置流程id`);
+            return 1;
+        }
+        if (playFlow.FlowId === undefined) {
+            messages.push(`没有配置状态id`);
+            return 1;
+        }
+        return 0;
+    },
 });

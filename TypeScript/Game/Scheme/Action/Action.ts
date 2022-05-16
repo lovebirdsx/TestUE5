@@ -68,3 +68,8 @@ export const behaviorFlowActionScheme = createActionScheme({
     Name: 'BehaviorFlowAction',
     Filter: EActionFilter.BehaviorFlow,
 });
+
+export const functionActionsScheme = createActionScheme({
+    Name: 'FunctionAction',
+    Filter: EActionFilter.Function,
+});

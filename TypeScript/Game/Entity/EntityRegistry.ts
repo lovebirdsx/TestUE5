@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
@@ -15,6 +16,7 @@ import {
     parseComponentsState,
     TComponentClass,
     TComponentsState,
+    TComponentState,
 } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 import { componentRegistry } from '../Scheme/Component/Public';
@@ -44,16 +46,27 @@ class EntityRegistry {
     private GenComponentsState(obj: ITsEntity): TComponentsState {
         const state = parseComponentsState(obj.ComponentsStateJson);
         const classObjs = this.GetComponentClassesByActor(obj);
+        // 移除不存在的Component配置
         Object.keys(state).forEach((key) => {
             const classObj = classObjs.find((obj) => obj.name === key);
             if (classObj === undefined || !componentRegistry.HasScheme(key)) {
                 warn(`移除不存在的Component配置[${key}]`);
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete state[key];
-            } else {
-                const scheme = componentRegistry.GetScheme(key);
-                if (scheme && state[key]) {
-                    scheme.Fix(state[key]);
+            }
+        });
+
+        // 填充需要的Component配置
+        classObjs.forEach((classObj) => {
+            const componentName = classObj.name;
+            const scheme = componentRegistry.TryGetScheme(componentName);
+            if (scheme) {
+                if (state[componentName]) {
+                    scheme.Fix(state[componentName]);
+                } else {
+                    const componentState = scheme.CreateDefault() as TComponentState;
+                    componentState._Disabled = true;
+                    state[componentName] = componentState;
                 }
             }
         });
@@ -77,15 +90,27 @@ class EntityRegistry {
         }
 
         const classObjs = this.GetComponentClassesByActor(entity);
-        Object.keys(data.ComponentsState).forEach((key) => {
-            const classObj = classObjs.find((obj) => obj.name === key);
+
+        // 冗余的配置
+        Object.keys(data.ComponentsState).forEach((componentName) => {
+            const classObj = classObjs.find((obj) => obj.name === componentName);
             if (!classObj) {
-                messages.push(`Component ${key}配置了数据, 但是找不到对应的类型数据`);
+                messages.push(`Component ${componentName}配置了数据, 但是找不到对应的类型数据`);
             }
-            const scheme = componentRegistry.GetScheme(key);
-            const value = data.ComponentsState[key];
-            if (value) {
-                errorCount += scheme.Check(value, messages);
+        });
+
+        // 缺少或者错误的配置
+        classObjs.forEach((classObj) => {
+            const componentName = classObj.name;
+            const scheme = componentRegistry.TryGetScheme(componentName);
+            if (scheme) {
+                const value = data.ComponentsState[componentName];
+                if (value) {
+                    errorCount += scheme.Check(value, messages);
+                } else {
+                    messages.push(`${componentName} 没有配置数据`);
+                    errorCount++;
+                }
             }
         });
         return errorCount;

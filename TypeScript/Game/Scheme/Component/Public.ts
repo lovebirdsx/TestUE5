@@ -1,5 +1,6 @@
 import { ActorStateComponent } from '../../Component/ActorStateComponent';
 import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
+import { CalculateComponent } from '../../Component/CalculateComponent';
 import { FlowComponent } from '../../Component/FlowComponent';
 import { GrabComponent } from '../../Component/GrabComponent';
 import { MoveComponent } from '../../Component/MoveComponent';
@@ -10,6 +11,7 @@ import { TrampleComponent } from '../../Component/TrampleComponent';
 import { TriggerComponent } from '../../Component/TriggerComponent';
 import { UndergroundComponent } from '../../Component/UndergroundComponent';
 import { actorStateComponentScheme } from './ActorStateComponentScheme';
+import { calculateComponentScheme } from './CalculateComponentScheme';
 import { componentRegistry } from './ComponentRegistry';
 import { behaviorFlowComponentScheme, flowComponentScheme } from './FlowComponentScheme';
 import { grabComponentScheme } from './GrabComponentScheme';
@@ -32,6 +34,7 @@ componentRegistry.RegisterClass(SpringComponent, springComponentScheme);
 componentRegistry.RegisterClass(ActorStateComponent, actorStateComponentScheme);
 componentRegistry.RegisterClass(SphereFactoryComponent, sphereFactorComponentScheme);
 componentRegistry.RegisterClass(UndergroundComponent, undergroundActionsScheme);
+componentRegistry.RegisterClass(CalculateComponent, calculateComponentScheme);
 
 export * from './ActorStateComponentScheme';
 export * from './ComponentRegistry';

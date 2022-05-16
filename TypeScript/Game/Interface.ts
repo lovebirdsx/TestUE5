@@ -6,7 +6,9 @@ import { Event } from '../Common/Util';
 import {
     IActionInfo,
     IFlowInfo,
+    IFunction,
     IInteract,
+    INumberVar,
     IPlayFlow,
     ITriggerActions,
     TActionType,
@@ -49,8 +51,8 @@ export enum EBlueprintId {
 export interface IBehaviorFlowComponent {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _folded?: boolean;
-    InitStateId?: number;
-    FlowInfo?: IFlowInfo;
+    InitStateId: number;
+    FlowInfo: IFlowInfo;
 }
 
 export interface IFlowComponent {
@@ -66,14 +68,24 @@ export interface ITriggerComponent {
 export const DEFAULT_INIT_SPEED = 150;
 
 export interface IMoveComponent {
-    InitSpeed?: number;
+    InitSpeed: number;
 }
 
 export interface IActorStateComponent {
-    State: TActorState;
+    InitState: TActorState;
 }
 
-export type TComponentsState = Record<string, Record<string, unknown>>;
+export interface ICalculatorComponent {
+    Vars: INumberVar[];
+    Functions: IFunction[];
+}
+
+export type TComponentState = Record<string, unknown> & {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    _Disabled: boolean;
+};
+
+export type TComponentsState = Record<string, TComponentState>;
 
 export function parseComponentsState(json: string): TComponentsState {
     if (!json) {
@@ -278,7 +290,7 @@ export class Entity {
                 return component;
             }
         }
-        throw new Error(`Component ${classObj.name} not found on Entity ${this.constructor.name}`);
+        throw new Error(`Component ${classObj.name} not found on Entity ${this.Name}`);
     }
 
     public TryGetComponent<T extends Component>(classObj: TClass<T>): T {

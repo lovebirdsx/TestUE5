@@ -305,3 +305,75 @@ export type TActorState = keyof typeof actorStateConfig;
 export interface IChangeActorState {
     State: TActorState;
 }
+
+export interface INumberVar {
+    Name: string;
+    Value: number;
+}
+
+export interface ISetNumberVar {
+    Name: string;
+    Value: number;
+}
+
+export const calOpTypeConfig = {
+    Add: '加',
+    Sub: '减',
+    Mut: '乘',
+    Div: '除',
+};
+
+export type TCalOp = keyof typeof calOpTypeConfig;
+
+export type TVar = number | string;
+
+export interface IDoCalculate {
+    Var1: TVar;
+    Var2: TVar;
+    Result: string;
+}
+
+export const compareTypeConfig = {
+    Ge: '大于等于',
+    Gt: '大于',
+    Le: '小于等于',
+    Lt: '小于',
+    Eq: '等于',
+    Ne: '不等于',
+};
+
+export type TCompare = keyof typeof compareTypeConfig;
+
+export interface ICondition {
+    Var1: TVar;
+    Var2: TVar;
+    Compare: TCompare;
+}
+
+export const logicOpTypeConfig = {
+    And: '与',
+    Or: '或',
+};
+
+export type TLogicOpType = keyof typeof logicOpTypeConfig;
+
+export interface IConditions {
+    LogicOpType: TLogicOpType;
+    Conditions: ICondition[];
+}
+
+export interface IRunByCondition {
+    Conditions: IConditions;
+    TrueActions?: IActionInfo[];
+    FalseActions?: IActionInfo[];
+}
+
+export interface IFunction {
+    Id: number;
+    Name: string;
+    Actions: IActionInfo[];
+}
+
+export interface ICallFunction {
+    Id: number;
+}

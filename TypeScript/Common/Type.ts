@@ -160,6 +160,7 @@ export enum EActionFilter {
     Invoke, // 在Invoke中执行
     Trample,
     BehaviorFlow,
+    Function,
 }
 
 export const allActionFilters = getEnumValues(EActionFilter);

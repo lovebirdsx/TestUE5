@@ -13,10 +13,12 @@ export function initTsEntity(tsEntity: ITsEntity): void {
     const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {
-        const component = entity.AddComponentC(componentClass);
         const data = componentsState[componentClass.name];
-        if (data) {
-            Object.assign(component, data);
+        if (!data || !data._Disabled) {
+            const component = entity.AddComponentC(componentClass);
+            if (data) {
+                Object.assign(component, data);
+            }
         }
     });
 

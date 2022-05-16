@@ -6,7 +6,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { globalContexts } from '../../../../Common/GlobalContext';
 import { ArrayScheme, IProps, ObjectScheme, Scheme, TModifyType } from '../../../../Common/Type';
-import { Btn, Fold, SlotText, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
+import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { Any } from './Any';
 
@@ -89,7 +89,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
                     : false;
             return (
                 <Any
-                    PrefixElement={<SlotText Text={fieldKey} />}
+                    PrefixElement={<Text Text={fieldKey} />}
                     Value={fieldValue}
                     Owner={value}
                     Scheme={fieldTypeData}
@@ -194,7 +194,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
             ] as Scheme;
             return (
                 <HorizontalBox key={arrayFieldKey}>
-                    <SlotText Text={arrayFieldKey} Tip={arrayTypeData.Tip || arrayFieldKey} />
+                    <Text Text={arrayFieldKey} Tip={arrayTypeData.Tip || arrayFieldKey} />
                     <Btn
                         Text={'✚'}
                         Tip={'添加'}
@@ -248,7 +248,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
                     {prefixElement}
                     <HorizontalBox>{sameLine}</HorizontalBox>
                     <HorizontalBox>{simplifyArray}</HorizontalBox>
-                    {optinalKeys.length > 0 && <SlotText Text="Op" Tip="可选参数" />}
+                    {optinalKeys.length > 0 && <Text Text="Op" Tip="可选参数" />}
                     {optinalKeys.length > 0 && (
                         <ContextBtn
                             Commands={optinalKeys}

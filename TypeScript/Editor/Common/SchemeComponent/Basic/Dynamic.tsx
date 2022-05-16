@@ -8,7 +8,7 @@ import { IProps, TModifyType } from '../../../../Common/Type';
 import { IActionInfo, TActionType } from '../../../../Game/Flow/Action';
 import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
-import { Check, List, Text } from '../../BaseComponent/CommonComponent';
+import { Check, COLOR_LEVEL3, List, Text } from '../../BaseComponent/CommonComponent';
 import { Any } from './Any';
 
 export class Dynamic extends React.Component<IProps> {
@@ -54,6 +54,7 @@ export class Dynamic extends React.Component<IProps> {
                             Selected={action.Name}
                             OnSelectChanged={this.Select}
                             Tip={actionTypeData.Tip}
+                            Color={COLOR_LEVEL3}
                         />
                         {actionTypeData.Scheduled && (
                             <Text Text="异步" Tip="是否以异步方式执行动作" />

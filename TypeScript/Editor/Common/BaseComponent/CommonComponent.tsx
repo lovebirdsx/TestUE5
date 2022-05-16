@@ -46,6 +46,10 @@ export const DEFAULT_BACK_COLOR: TColor = '#383838 dark';
 export const DEFAULT_HOVER_COLOR: TColor = '#575757 hover';
 export const DEFAULT_OUTLINE_COLOR: TColor = '#000000 black';
 
+export const COLOR_LEVEL1: TColor = '#1E90FF dodger blue';
+export const COLOR_LEVEL2: TColor = '#8A2BE2 blue violet';
+export const COLOR_LEVEL3: TColor = '#8B4513 saddle brown';
+
 function createSlateColor(color: TColor): SlateColor {
     return {
         SpecifiedColor: formatColor(color),
@@ -285,6 +289,7 @@ export interface IListProps {
     Slot?: unknown;
     HideArrow?: boolean;
     Width?: number;
+    Color?: TColor;
     OnSelectChanged: (item: string) => void;
     Tip?: string;
 }
@@ -332,7 +337,7 @@ export function List(props: IListProps): JSX.Element {
         <SizeBox bOverride_WidthOverride={!!props.Width} WidthOverride={props.Width}>
             <ComboBoxString
                 WidgetStyle={defaultListStyle}
-                ForegroundColor={defaultTintTextColor}
+                ForegroundColor={createSlateColor(props.Color || DEFAULT_TEXT_COLOR)}
                 ItemStyle={defalutListRowStyle}
                 Slot={props.Slot || defaultListSlot}
                 ToolTipText={props.Tip}

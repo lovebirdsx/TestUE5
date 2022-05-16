@@ -20,7 +20,15 @@ import {
 } from '../../../../Game/Flow/Action';
 import { IBehaviorFlowComponent, ITsEntity } from '../../../../Game/Interface';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
-import { Btn, ErrorText, Fold, List, Text } from '../../BaseComponent/CommonComponent';
+import {
+    Btn,
+    COLOR_LEVEL1,
+    COLOR_LEVEL2,
+    ErrorText,
+    Fold,
+    List,
+    Text,
+} from '../../BaseComponent/CommonComponent';
 import { editorConfig } from '../../EditorConfig';
 import LevelEditorUtil from '../../LevelEditorUtil';
 import { sendEditorCommand } from '../../Util';
@@ -39,6 +47,7 @@ function renderStateIdForFlow(flowInfo: IFlowInfo, props: IProps<number>): JSX.E
             <List
                 Items={stateNames}
                 Selected={selectedState ? selectedState.Name : ''}
+                Color={COLOR_LEVEL2}
                 Tip="目标状态"
                 OnSelectChanged={(selectedStateName): void => {
                     const state = flowInfo.States.find((e) => e.Name === selectedStateName);
@@ -193,6 +202,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
                         };
                         props.OnModify(newPlayFlow, 'normal');
                     }}
+                    Color={COLOR_LEVEL1}
                     Tip={`选择剧情`}
                 />
                 <List
@@ -207,6 +217,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
                         };
                         props.OnModify(newPlayFlow, 'normal');
                     }}
+                    Color={COLOR_LEVEL2}
                     Tip={`选择状态`}
                 />
                 <Btn

@@ -6,7 +6,13 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { log } from '../../../../Common/Log';
 import { EActionFilter, TModifyType } from '../../../../Common/Type';
 import { IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
-import { Btn, EditorBox, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
+import {
+    Btn,
+    COLOR_LEVEL1,
+    EditorBox,
+    Fold,
+    TAB_OFFSET,
+} from '../../BaseComponent/CommonComponent';
 import { editorFlowOp } from '../../Operations/Flow';
 import { copyObject, pasteObject } from '../../Util';
 import { flowContext } from '../Context';
@@ -177,9 +183,7 @@ export class Flow extends React.Component<IFlowProps> {
                             <EditorBox
                                 Text={flow.Name}
                                 OnChange={this.ChangeName}
-                                Color={
-                                    this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'
-                                }
+                                Color={this.props.IsDuplicate ? '#8B0000 dark red' : COLOR_LEVEL1}
                                 Tip="剧情名字"
                                 Width={100}
                             />

@@ -18,6 +18,7 @@ import { IProps } from '../../../../Common/Type';
 import { alignPosA, loadClass } from '../../../../Common/Util';
 import {
     Btn,
+    COLOR_LEVEL1,
     DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
     EditorBox,
 } from '../../BaseComponent/CommonComponent';
@@ -152,11 +153,7 @@ export class Point extends React.Component<IProps<IPosA>, IPointState> {
     private RenderForTip(): JSX.Element {
         return (
             <HorizontalBox>
-                <Btn
-                    Text={'移除指示'}
-                    Color={'#1E90FF dodger blue'}
-                    OnClick={this.RemoveTipActor}
-                />
+                <Btn Text={'移除指示'} Color={COLOR_LEVEL1} OnClick={this.RemoveTipActor} />
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中提示点'} />
             </HorizontalBox>
         );

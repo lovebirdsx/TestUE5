@@ -57,6 +57,7 @@ export class GameModeComponent extends Component implements IGameModeComponent {
 
     public OnLoadState(): void {
         this.StateId = this.TestState ? this.TestState : this.State.GetState<number>('StateId');
+        this.StateId = this.StateId ? this.StateId : 1;
     }
 
     public RestartPlayerPos(): void {

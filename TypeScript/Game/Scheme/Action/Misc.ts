@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import {
     createEnumScheme,
-    createIntScheme,
+    createFloatScheme,
     createObjectScheme,
     createStringScheme,
 } from '../../../Common/Type';
@@ -41,10 +42,37 @@ export const waitScheme = createObjectScheme<IWait>({
     CnName: '等待',
     Name: 'Wait',
     Fields: {
-        Time: createIntScheme({
-            CreateDefault: () => 0.5,
-            Tip: '等待时长，单位秒',
+        Min: createFloatScheme({
+            CreateDefault: () => 2,
+            Optional: true,
+            ShowName: true,
+            CnName: '最小',
+            Tip: '等待的最小时间',
+            Width: 60,
+        }),
+        Time: createFloatScheme({
+            CreateDefault: () => 5,
+            Tip: '等待时长，单位秒, 若配置了最小等待时间, 则为等待的最大时间',
+            Width: 60,
         }),
     },
-    Tip: '等待一段时间',
+    Check: (value: IWait, messages: string[]): number => {
+        if (value.Min !== undefined) {
+            if (value.Min < 0) {
+                messages.push(`等待时间不能小于0`);
+                return 1;
+            }
+            if (value.Time < value.Min) {
+                messages.push(`等待最小时间不能大于最大时间`);
+                return 1;
+            }
+        } else {
+            if (value.Time < 0) {
+                messages.push(`等待时间不能小于0`);
+                return 0;
+            }
+        }
+        return 0;
+    },
+    Tip: '等待一段时间, 若配置了最小等待时间, 则实际的等待时间为两个时间区间内的随机值',
 });

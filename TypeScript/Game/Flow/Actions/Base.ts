@@ -42,12 +42,22 @@ export class WaitAction extends Action<IWait> {
 
     private TimeoutHandle: unknown;
 
+    private CalWaitTime(): number {
+        const data = this.Data;
+        const min = data.Min;
+        if (min !== undefined) {
+            const max = data.Time;
+            return (max - min) * Math.random() + min;
+        }
+        return data.Time;
+    }
+
     public async ExecuteSync(): Promise<void> {
         this.Signal = createSignal();
 
         this.TimeoutHandle = setTimeout(() => {
             this.Signal.Emit();
-        }, this.Data.Time * MS_PER_SEC);
+        }, this.CalWaitTime() * MS_PER_SEC);
 
         await this.Signal.Promise;
         this.Signal = undefined;

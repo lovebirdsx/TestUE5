@@ -252,6 +252,7 @@ export interface IPlayCustomSequence {
 
 // 等待一段时间
 export interface IWait {
+    Min?: number;
     Time: number;
 }
 

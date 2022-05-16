@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 19,
+  ""TextGenId"": 25,
   ""FlowGenId"": 5,
   ""Flows"": [
     {
@@ -130,6 +130,18 @@
                             }
                           }
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -246,6 +258,35 @@
                             }
                           }
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 3
+                            }
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                          ""ActionInfo"": {
+                            ""Name"": ""SetPos"",
+                            ""Params"": {
+                              ""Pos"": {
+                                ""X"": 2797,
+                                ""Y"": -1052,
+                                ""Z"": 100,
+                                ""A"": -120
+                              }
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -278,7 +319,7 @@
     },
     {
       ""Id"": 4,
-      ""StateGenId"": 2,
+      ""StateGenId"": 4,
       ""Name"": ""流浪汉"",
       ""States"": [
         {
@@ -292,13 +333,76 @@
                     ""Id"": 1,
                     ""Name"": ""对话1"",
                     ""WhoId"": 18,
-                    ""TextId"": 18
+                    ""TextId"": 18,
+                    ""Options"": [
+                      {
+                        ""TextId"": 19,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 20
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 18,
+                    ""TextId"": 21,
+                    ""Options"": [
+                      {
+                        ""TextId"": 22
+                      }
+                    ]
                   }
                 ]
               }
             }
           ],
           ""Id"": 1
+        },
+        {
+          ""Name"": ""接受村长任务后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 23
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 2
+        },
+        {
+          ""Name"": ""站在挡路的位置"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 24
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
         }
       ]
     }

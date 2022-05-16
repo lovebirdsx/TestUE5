@@ -6,16 +6,17 @@ import {
     createFloatScheme,
     createObjectScheme,
     createStringScheme,
+    optionalFloatScheme,
 } from '../../../Common/Type';
 import { IFaceToPos, IMoveToPosA, ISetPosA, ISimpleMove } from '../../Flow/Action';
 
 export const posScheme = createObjectScheme<IPosA>({
     CnName: '位置',
     Fields: {
-        X: undefined,
-        Y: undefined,
-        Z: undefined,
-        A: undefined,
+        X: optionalFloatScheme,
+        Y: optionalFloatScheme,
+        Z: optionalFloatScheme,
+        A: optionalFloatScheme,
     },
     CreateDefault: () => {
         return { X: 0, Y: 0, Z: 0, A: 0 };
@@ -88,9 +89,9 @@ export const simpleMoveScheme = createObjectScheme<ISimpleMove>({
 export const dirScheme = createObjectScheme<IVectorInfo>({
     CnName: '方向',
     Fields: {
-        X: undefined,
-        Y: undefined,
-        Z: undefined,
+        X: optionalFloatScheme,
+        Y: optionalFloatScheme,
+        Z: optionalFloatScheme,
     },
     CreateDefault: () => {
         return { X: 0, Y: 0, Z: 0 };

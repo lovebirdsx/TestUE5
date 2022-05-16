@@ -58,8 +58,8 @@ export const waitScheme = createObjectScheme<IWait>({
     },
     Check: (value: IWait, messages: string[]): number => {
         if (value.Min !== undefined) {
-            if (value.Min < 0) {
-                messages.push(`等待时间不能小于0`);
+            if (value.Min <= 0) {
+                messages.push(`等待时间必须大于0`);
                 return 1;
             }
             if (value.Time < value.Min) {
@@ -67,8 +67,8 @@ export const waitScheme = createObjectScheme<IWait>({
                 return 1;
             }
         } else {
-            if (value.Time < 0) {
-                messages.push(`等待时间不能小于0`);
+            if (value.Time <= 0) {
+                messages.push(`等待时间必须大于0`);
                 return 0;
             }
         }

@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { error, log } from './Log';
+import { error, warn } from './Log';
 import { getEnumValues } from './Util';
 
 export type TElementRenderType =
@@ -239,19 +239,27 @@ export class ObjectScheme<T> extends Scheme<T> {
     }
 
     public static FixByFields<T>(fields: TObjectFields<T>, value: T): TFixResult {
+        if (!fields) {
+            error(`Fix失败, 对象没有配置fields的Scheme`);
+            return 'canNotFixed';
+        }
         let fixCount = 0;
         for (const key in fields) {
             const filedTypeData = fields[key];
+            if (!filedTypeData) {
+                error(`Fix失败: 对应字段[${key}]的scheme不存在`);
+                continue;
+            }
             if (value[key] === undefined) {
                 if (!filedTypeData.Optional) {
                     value[key] = filedTypeData.CreateDefault();
-                    log(`fixed no exist field [${key}]`);
+                    warn(`fixed no exist field [${key}]`);
                     fixCount++;
                 }
             } else {
                 const reuslt = filedTypeData.Fix(value[key]);
                 if (reuslt === 'fixed') {
-                    log(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
+                    warn(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
                     fixCount++;
                 }
             }
@@ -268,20 +276,33 @@ export class ObjectScheme<T> extends Scheme<T> {
             // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete (value as Record<string, unknown>)[key];
             fixCount++;
-            log(`remove no exist field [${key}]`);
+            warn(`remove no exist field [${key}]`);
         });
 
         return fixCount > 0 ? 'fixed' : 'nothing';
     }
 
     public Fix(value: T): TFixResult {
-        return ObjectScheme.FixByFields(this.Fields, value);
+        const result = ObjectScheme.FixByFields(this.Fields, value);
+        if (result === 'canNotFixed') {
+            error(`修复类型为[${this.Name}]的数据失败`);
+        }
+        return result;
     }
 
     public static CheckByFields<T>(fields: TObjectFields<T>, value: T, messages: string[]): number {
+        if (!fields) {
+            messages.push('对象没有配置fields的Scheme');
+            return 1;
+        }
+
         let errorCount = 0;
         for (const key in fields) {
             const filedTypeData = fields[key];
+            if (!filedTypeData) {
+                continue;
+            }
+
             if (value[key] === undefined) {
                 if (!filedTypeData.Optional) {
                     messages.push(`字段[${key}]值为空`);
@@ -440,6 +461,10 @@ export function createFloatScheme(
 
 export const floatScheme = createFloatScheme({
     Name: 'Float',
+});
+
+export const optionalFloatScheme = createFloatScheme({
+    Optional: true,
 });
 
 // ============================================================================

@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Flow/Action';
-import { actionRegistry } from '../../../Game/Scheme/Action/Public';
+import { TFixResult } from '../../../Common/Type';
+import { IActionInfo, IShowTalk, IStateInfo } from '../../Flow/Action';
+import { actionRegistry } from '../../Scheme/Action/Public';
 
 class StateOp {
     public Check(state: IStateInfo, errorMessages: string[]): number {
@@ -15,14 +16,18 @@ class StateOp {
         return errorCount;
     }
 
-    public Fix(state: IStateInfo, versionFrom: number, versionTo: number): void {
+    public Fix(state: IStateInfo): TFixResult {
+        let result: TFixResult = 'nothing';
         state.Actions.forEach((action) => {
-            this.FixAction(action, versionFrom, versionTo);
+            if (this.FixAction(action) === 'fixed') {
+                result = 'fixed';
+            }
         });
+        return result;
     }
 
-    public FixAction(action: IActionInfo, versionFrom: number, versionTo: number): void {
-        actionRegistry.FixAction(action);
+    public FixAction(action: IActionInfo): TFixResult {
+        return actionRegistry.FixAction(action);
     }
 
     public ForeachActions(state: IStateInfo, actionCb: (action: IActionInfo) => void): void {

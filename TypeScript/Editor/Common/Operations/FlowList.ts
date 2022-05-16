@@ -6,7 +6,9 @@ import { getFileNameWithOutExt } from '../../../Common/File';
 import { error, log } from '../../../Common/Log';
 import { FlowListCsvLoader } from '../../../Game/Common/CsvConfig/FlowListCsv';
 import { TextListCsvLoader, TextRow } from '../../../Game/Common/CsvConfig/TextListCsv';
+import { flowOp } from '../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../Game/Common/Operations/FlowList';
+import { stateOp } from '../../../Game/Common/Operations/State';
 import {
     FLOW_LIST_VERSION,
     IActionInfo,
@@ -16,8 +18,6 @@ import {
     IShowOption,
     IShowTalk,
 } from '../../../Game/Flow/Action';
-import { editorFlowOp } from './Flow';
-import { stateOp } from './State';
 
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
 
@@ -25,7 +25,7 @@ class EditorFlowListOp {
     public Check(flowlist: IFlowListInfo, errorMessages: string[]): number {
         let errorCount = 0;
         flowlist.Flows.forEach((flow) => {
-            errorCount += editorFlowOp.Check(flow, errorMessages);
+            errorCount += flowOp.Check(flow, errorMessages);
         });
         return errorCount;
     }
@@ -42,7 +42,7 @@ class EditorFlowListOp {
         }
 
         flowList.Flows.forEach((flow) => {
-            editorFlowOp.Fix(flow, versionFrom, versionTo);
+            flowOp.Fix(flow);
         });
         flowList.VersionNum = versionTo;
     }

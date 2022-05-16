@@ -6,9 +6,9 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
-import { log } from '../../Common/Log';
+import { log, warn } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
-import { msgbox } from '../../Common/UeHelper';
+import { errorbox, msgbox } from '../../Common/UeHelper';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
@@ -92,13 +92,24 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         gameConfig.Save();
     }
 
+    private GenEntityState(entity: ITsEntity): IEntityState {
+        const data = entityRegistry.GenData(entity);
+        if (entityRegistry.IsDataModified(entity, data)) {
+            entityRegistry.ApplyData(data, entity);
+            EditorOperations.MarkPackageDirty(entity);
+            warn(`[${entity.ActorLabel}]: Auto fix entity data`);
+        }
+
+        return {
+            Entity: entity,
+            Data: data,
+        };
+    }
+
     private GenEntityStateBySelect(): IEntityState {
         const entity = LevelEditorUtil.GetSelectedEntity();
         if (entity) {
-            return {
-                Entity: entity,
-                Data: entityRegistry.GenData(entity),
-            };
+            return this.GenEntityState(entity);
         }
 
         return {
@@ -143,10 +154,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 return;
             }
 
-            const entityState: IEntityState = {
-                Entity: entity,
-                Data: entityRegistry.GenData(entity),
-            };
+            const entityState = this.GenEntityState(entity);
 
             // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
             this.LastApplyEntityState = entityState;
@@ -224,6 +232,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         this.RecordEntityState(newState, type);
     };
 
+    private CheckEntityData(data: IEntityData, entity: ITsEntity): void {
+        const errorMessages: string[] = [];
+        if (entityRegistry.Check(data, entity, errorMessages) > 0) {
+            errorbox(`实体配置错误:\n${errorMessages.join('\r\n')}`);
+        }
+    }
+
     private ApplyEntityChange(): void {
         if (this.state.IsEditorPlaying) {
             return;
@@ -235,10 +250,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         entityRegistry.ApplyData(es.Data, es.Entity);
-
-        // 让ue认为对象已经被修改
         EditorOperations.MarkPackageDirty(es.Entity);
-        this.LevelEditor.MarkDirty();
+
+        this.CheckEntityData(es.Data, es.Entity);
 
         this.LastApplyEntityState = es;
     }
@@ -369,9 +383,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     <Btn Text={'打开'} OnClick={this.OpenMapFile} Tip={`打开地图配置文件`} />
                 </HorizontalBox> */}
                 <HorizontalBox>
-                    <SlotText Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
-                    <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={`打开游戏存档文件`} />
-                    <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={`删除游戏存档文件`} />
+                    <Text Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
+                    <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={'打开游戏存档文件'} />
+                    <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={'删除游戏存档文件'} />
                 </HorizontalBox>
                 <HorizontalBox>
                     <Btn

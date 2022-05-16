@@ -7,7 +7,7 @@ import {
     isChildOfClass,
     TTsClassType,
 } from '../../Common/Class';
-import { error } from '../../Common/Log';
+import { error, warn } from '../../Common/Log';
 import { stringify } from '../../Common/Util';
 import {
     IEntityData,
@@ -47,8 +47,14 @@ class EntityRegistry {
         Object.keys(state).forEach((key) => {
             const classObj = classObjs.find((obj) => obj.name === key);
             if (classObj === undefined || !componentRegistry.HasScheme(key)) {
+                warn(`移除不存在的Component配置[${key}]`);
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete state[key];
+            } else {
+                const scheme = componentRegistry.GetScheme(key);
+                if (scheme) {
+                    scheme.Fix(state[key]);
+                }
             }
         });
 
@@ -63,9 +69,34 @@ class EntityRegistry {
         };
     }
 
+    public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
+        let errorCount = 0;
+        if (data.Guid !== entity.ActorGuid.ToString()) {
+            messages.push(`Guid和Actor的Guid不一致`);
+            errorCount++;
+        }
+
+        const classObjs = this.GetComponentClassesByActor(entity);
+        Object.keys(data.ComponentsState).forEach((key) => {
+            const classObj = classObjs.find((obj) => obj.name === key);
+            if (!classObj) {
+                messages.push(`Component ${key}配置了数据, 但是找不到对应的类型数据`);
+            }
+            const scheme = componentRegistry.GetScheme(key);
+            errorCount += scheme.Check(data.ComponentsState[key], messages);
+        });
+        return errorCount;
+    }
+
     public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): void {
         obj.Guid = data.Guid;
         obj.ComponentsStateJson = stringify(data.ComponentsState);
+    }
+
+    // 判断data数据是否和entity自身携带的数据一致
+    public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
+        const componentsStateJson = stringify(data.ComponentsState);
+        return componentsStateJson !== entity.ComponentsStateJson || entity.Guid !== data.Guid;
     }
 }
 

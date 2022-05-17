@@ -15,6 +15,7 @@ import TsRotator, { rotatorComponentClasses } from './TsRotator';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
 import TsSphereFactory, { sphereFactoryComponentClasses } from './TsSphereFactory';
 import TsSpring, { springComponentClasses } from './TsSpring';
+import TsSpringBoard, { springBoardComponentClasses } from './TsSpringBoard';
 import TsStateEntity, { stateEntityComponentClasses } from './TsStateEntity';
 import TsSwitcher, { switcherComponentClasses } from './TsSwitcher';
 import TsTrample, { trampleComponentClasses } from './TsTrample';
@@ -81,6 +82,7 @@ export function initEntity(): void {
     entityRegistry.Register(TsSphereFactory, ...sphereFactoryComponentClasses);
     entityRegistry.Register(TsUnderground, ...undergroundComponentClasses);
     entityRegistry.Register(TsLamp, ...lampComponentClasses);
+    entityRegistry.Register(TsSpringBoard, ...springBoardComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -98,6 +100,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.SphereFactory, TsSphereFactory);
     regEntity(EBlueprintId.Underground, TsUnderground);
     regEntity(EBlueprintId.Lamp, TsLamp);
+    regEntity(EBlueprintId.SpringBoard, TsSpringBoard);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -131,6 +134,7 @@ export * from './TsRotator';
 export * from './TsSphereActor';
 export * from './TsSphereFactory';
 export * from './TsSpring';
+export * from './TsSpringBoard';
 export * from './TsTrample';
 export * from './TsTrigger';
 export * from './TsUnderground';

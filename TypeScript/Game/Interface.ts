@@ -34,6 +34,7 @@ export enum EBlueprintId {
     Lamp = 13,
     Maze = 14,
     Swicher = 15,
+    SpringBoard = 16,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,

@@ -14,6 +14,7 @@ import { IActionInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, InteractiveComponent } from '../Interface';
 import { ITrampleComponent } from '../Scheme/Component/TrampleComponentScheme';
+import { StateComponent } from './StateComponent';
 
 export class TrampleComponent extends InteractiveComponent implements ITrampleComponent {
     public IsDisposable: boolean;
@@ -21,6 +22,8 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
     public TriggerActions: IActionInfo[];
 
     public RecoveryActions: IActionInfo[];
+
+    private State: StateComponent;
 
     private InteractingList: Guid[];
 
@@ -30,6 +33,7 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
 
     public OnInit(): void {
         this.InteractingList = [];
+        this.State = this.Entity.GetComponent(StateComponent);
     }
 
     public OnStart(): void {
@@ -37,6 +41,14 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
             StaticMeshComponent.StaticClass(),
         ) as StaticMeshComponent;
         component.CreateAndSetMaterialInstanceDynamic(0);
+        if (this.TriggerTimes > 0 && this.IsDisposable) {
+            const color = new LinearColor(0.5, 0.5, 0, 1);
+            this.ChangeMaterialColor(color);
+        }
+    }
+
+    public OnLoadState(): void {
+        this.TriggerTimes = this.State.GetState<number>('TriggerTimes') || 0;
     }
 
     public EventHit(
@@ -68,6 +80,7 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
                 this.ChangeMaterialColor(color);
                 this.RunActions(this.TriggerActions);
                 this.TriggerTimes += 1;
+                this.State.SetState('TriggerTimes', this.TriggerTimes);
             }
         }
     }

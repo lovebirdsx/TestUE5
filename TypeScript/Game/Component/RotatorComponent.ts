@@ -18,12 +18,15 @@ import {
 import { createSignal, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
 import { IVectorType } from '../../Common/Type';
+import { IInteract } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
-import { Entity, gameContext, InteractiveComponent } from '../Interface';
+import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
 import TsPlayerController from '../Player/TsPlayerController';
 import { IEventRotator, IRotatorComponent } from '../Scheme/Component/RotatorComponentScheme';
+import { EventComponent } from './EventComponent';
 import PlayerComponent from './PlayerComponent';
+import { StateComponent } from './StateComponent';
 
 export class RotatorComponent extends InteractiveComponent implements IRotatorComponent {
     private InteractSignal: ISignal<boolean>;
@@ -33,6 +36,12 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
     public RotatorSpeed: IVectorType;
 
     private Runner: ActionRunner;
+
+    private State: StateComponent;
+
+    private Event: EventComponent;
+
+    private StateId = 0;
 
     public LocationOffset: IVectorType;
 
@@ -50,6 +59,29 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public OnInit(): void {
         this.InteractSignal = null;
+        this.State = this.Entity.GetComponent(StateComponent);
+        this.Event = this.Entity.GetComponent(EventComponent);
+        const call: IInteractCall = {
+            Name: 'UndergroundComponent',
+            CallBack: (action: IInteract) => {
+                this.Activate(action);
+            },
+        };
+        this.Event.RegistryInteract(call);
+    }
+
+    public OnLoadState(): void {
+        this.StateId = this.State.GetState<number>('StateId') || 0;
+    }
+
+    public Activate(action: IInteract): void {
+        if (action.Param) {
+            this.StateId = Number(action.Param);
+            this.State.SetState('StateId', this.StateId);
+            if (this.InteractUi) {
+                this.InteractUi.SetChallengeState(this.StateId);
+            }
+        }
     }
 
     public GetPlayerHud(): TsHud {
@@ -59,7 +91,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public GetInteractContent(): string {
         // todo 改成从编写interact的json中读取
-        return `E`;
+        return `按E调查`;
     }
 
     public OnTriggerEnter(other: Entity): void {
@@ -96,6 +128,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             classObj,
         ) as Game.Demo.UI.UI_Rotator.UI_Rotator_C;
         this.InteractUi.AddToViewport();
+        this.InteractUi.SetChallengeState(this.StateId);
 
         // camera controll
         const playerController = gameContext.PlayerController as TsPlayerController;

@@ -22,7 +22,7 @@ export type TEntityStateId =
     | 'StateId'
     | 'TriggerTimes';
 
-function vectorToArray(vec: Vector): number[] {
+export function vectorToArray(vec: Vector): number[] {
     return [vec.X, vec.Y, vec.Z];
 }
 

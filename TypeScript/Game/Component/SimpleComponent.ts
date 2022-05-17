@@ -3,9 +3,10 @@
 import { Actor, Vector } from "ue";
 
 import { toVector } from '../../Common/Interface';
-import { error, log } from '../../Common/Log';
+import { error } from '../../Common/Log';
 import { ISimpleMove } from '../Flow/Action';
-import { Component, gameContext, ITickable } from '../Interface';
+import { Component, gameContext, ITickable, ITsEntity } from '../Interface';
+import { StateComponent, vectorToArray } from './StateComponent';
 
 export interface ISimpleMoveInfo {
     Who: Actor;
@@ -18,7 +19,6 @@ export class SimpleComponent extends Component implements ITickable {
     private MoveInfo: ISimpleMoveInfo;
 
     public SimpleMove(action: ISimpleMove): void {
-        log(`SimpleMove ${action.Who}`);
         const tsEntity = gameContext.EntityManager.GetEntity(action.Who);
         if (!tsEntity) {
             error(`没选定对象`);
@@ -40,8 +40,8 @@ export class SimpleComponent extends Component implements ITickable {
 
     public Tick(deltaTime: number): void {
         const time = this.MoveInfo.Time;
+        const tsEntity = this.MoveInfo.Who as ITsEntity;
         if (time - deltaTime > 0) {
-            const tsEntity = this.MoveInfo.Who;
             const location = tsEntity.K2_GetActorLocation();
             if (location !== this.MoveInfo.TargetPos) {
                 const offset = this.MoveInfo.Speed.op_Multiply(deltaTime);
@@ -52,5 +52,9 @@ export class SimpleComponent extends Component implements ITickable {
             }
         }
         gameContext.TickManager.RemoveTick(this);
+        const stateComponent = tsEntity.Entity.TryGetComponent(StateComponent);
+        if (stateComponent) {
+            stateComponent.SetState('Pos', vectorToArray(this.MoveInfo.TargetPos));
+        }
     }
 }

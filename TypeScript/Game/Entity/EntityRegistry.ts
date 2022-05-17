@@ -65,7 +65,7 @@ class EntityRegistry {
                     scheme.Fix(state[componentName]);
                 } else {
                     const componentState = scheme.CreateDefault() as TComponentState;
-                    componentState._Disabled = true;
+                    componentState._Disabled = false;
                     state[componentName] = componentState;
                 }
             }

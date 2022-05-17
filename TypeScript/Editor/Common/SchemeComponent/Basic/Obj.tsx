@@ -101,7 +101,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
                     : false;
             return (
                 <Any
-                    PrefixElement={<Text Text={fieldKey} />}
+                    PrefixElement={<Text Text={fieldScheme.CnName} />}
                     Value={fieldValue}
                     Owner={value}
                     Scheme={fieldScheme}

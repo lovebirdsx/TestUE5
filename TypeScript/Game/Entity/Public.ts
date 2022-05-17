@@ -16,6 +16,7 @@ import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
 import TsSphereFactory, { sphereFactoryComponentClasses } from './TsSphereFactory';
 import TsSpring, { springComponentClasses } from './TsSpring';
 import TsStateEntity, { stateEntityComponentClasses } from './TsStateEntity';
+import TsSwitcher, { switcherComponentClasses } from './TsSwitcher';
 import TsTrample, { trampleComponentClasses } from './TsTrample';
 import TsTrigger, { triggerComponentClasses } from './TsTrigger';
 import TsUnderground, { undergroundComponentClasses } from './TsUnderground';
@@ -69,6 +70,7 @@ export function initEntity(): void {
     entityRegistry.Register(TsCharacterEntity);
     entityRegistry.Register(TsNpc, ...npcComponentClasses);
     entityRegistry.Register(TsTrigger, ...triggerComponentClasses);
+    entityRegistry.Register(TsSwitcher, ...switcherComponentClasses);
     entityRegistry.Register(TsPlayer, ...playerComponentClasses);
     entityRegistry.Register(TsSphereActor, ...sphereComponentClasses);
     entityRegistry.Register(TsAiNpc, ...aiNpcComponentClasses);
@@ -87,6 +89,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Entity, TsEntity);
     regEntity(EBlueprintId.Npc, TsNpc);
     regEntity(EBlueprintId.Trigger, TsTrigger);
+    regEntity(EBlueprintId.Swicher, TsSwitcher);
     regEntity(EBlueprintId.TsSphereActor, TsSphereActor);
     regEntity(EBlueprintId.Spring, TsSpring);
     regEntity(EBlueprintId.Rotator, TsRotator);
@@ -110,6 +113,7 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.AiNpcVillage2, 'BP_AiNpcVillage2', TsAiNpc);
     regExtendedEntity(EBlueprintId.Gate, 'BP_Gate', TsStateEntity);
     regExtendedEntity(EBlueprintId.SteeringWheel, 'BP_SteeringWheel', TsRotator);
+    regExtendedEntity(EBlueprintId.Switcher1, 'BP_Switcher1', TsSwitcher);
 
     // ActorComponent
     regActorComponent(EBlueprintId.ActorStateComponent, 'BP_StateComponent');

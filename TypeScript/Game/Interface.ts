@@ -33,6 +33,7 @@ export enum EBlueprintId {
     Underground = 12,
     Lamp = 13,
     Maze = 14,
+    Swicher = 15,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,
@@ -44,6 +45,7 @@ export enum EBlueprintId {
     AiNpcVillage2 = 1007,
     Gate = 1008,
     SteeringWheel = 1009,
+    Switcher1 = 1010,
 
     // Component
     ActorStateComponent = 10001,
@@ -64,6 +66,11 @@ export interface ITriggerComponent {
     MaxTriggerTimes: number;
     IsNotLoad: boolean;
     TriggerActions: ITriggerActions;
+}
+
+export interface ISwitcherComponent {
+    OnActions: IActionInfo[];
+    OffActions: IActionInfo[];
 }
 
 export const DEFAULT_INIT_SPEED = 150;

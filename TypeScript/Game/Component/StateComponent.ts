@@ -14,6 +14,7 @@ export type TEntityStateId =
     | 'BehaviorStateId'
     | 'DelayActions'
     | 'IsBehaviorPaused'
+    | 'IsSwitcherOpen'
     | 'ModifiedVars'
     | 'Pos'
     | 'Rot'

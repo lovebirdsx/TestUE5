@@ -21,6 +21,8 @@ const entityRecordScheme = createObjectScheme<IEntityRecord>({
     Fields: {
         Name: createStringScheme({
             CnName: '名字',
+            Name: 'Name',
+            IsUnique: true,
         }),
         GuidFilter: createStringScheme({
             CnName: 'Guid过滤字符串',

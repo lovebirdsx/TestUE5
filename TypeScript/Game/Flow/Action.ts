@@ -369,7 +369,6 @@ export interface IRunByCondition {
 }
 
 export interface IFunction {
-    Id: number;
     Name: string;
     Actions: IActionInfo[];
 }

@@ -5,9 +5,17 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { globalContexts } from '../../../../Common/GlobalContext';
-import { ArrayScheme, IProps, ObjectScheme, Scheme, TModifyType } from '../../../../Common/Type';
+import {
+    ArrayScheme,
+    getObjArrayRenderColorForField,
+    IProps,
+    ObjectScheme,
+    Scheme,
+    TModifyType,
+} from '../../../../Common/Type';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { arrayContext, IArrayContext } from '../Context';
 import { Any } from './Any';
 
 function getFoldFieldName(key: string): string {
@@ -78,9 +86,9 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
     private RenderFieldValue(
         fieldKey: string,
         fieldValue: unknown,
-        fieldTypeData: Scheme,
+        fieldScheme: Scheme,
     ): JSX.Element {
-        if (fieldTypeData.RenderType === 'array') {
+        if (fieldScheme.RenderType === 'array') {
             const fieldFoldKey = getFoldFieldName(fieldKey);
             const { Value: value } = this.props;
             const isFolded =
@@ -92,7 +100,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
                     PrefixElement={<Text Text={fieldKey} />}
                     Value={fieldValue}
                     Owner={value}
-                    Scheme={fieldTypeData}
+                    Scheme={fieldScheme}
                     IsFolded={isFolded}
                     OnFoldChange={(folded): void => {
                         this.OnArrayFieldFoldChange(fieldKey, folded);
@@ -105,14 +113,28 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
         }
 
         return (
-            <Any
-                Value={fieldValue}
-                Owner={this.props.Value}
-                Scheme={fieldTypeData}
-                OnModify={(obj: unknown, type: TModifyType): void => {
-                    this.ModifyKv(fieldKey, obj, type);
+            <arrayContext.Consumer>
+                {(value: IArrayContext): JSX.Element => {
+                    return (
+                        <Any
+                            Color={getObjArrayRenderColorForField(
+                                fieldKey,
+                                fieldValue,
+                                value.Array as Record<string, unknown>[],
+                                fieldScheme,
+                                this.props.Scheme,
+                                value.Scheme,
+                            )}
+                            Value={fieldValue}
+                            Owner={this.props.Value}
+                            Scheme={fieldScheme}
+                            OnModify={(obj: unknown, type: TModifyType): void => {
+                                this.ModifyKv(fieldKey, obj, type);
+                            }}
+                        />
+                    );
                 }}
-            />
+            </arrayContext.Consumer>
         );
     }
 

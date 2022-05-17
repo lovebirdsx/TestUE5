@@ -12,11 +12,11 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
+import { formatColor } from '../../Common/Color';
 import { ICsv } from '../../Common/CsvLoader';
 import { log } from '../../Common/Log';
 import { ECsvName } from '../../Common/Type';
 import { csvRegistry } from '../../Game/Common/CsvConfig/CsvRegistry';
-import { formatColor } from '../Common/BaseComponent/Color';
 import {
     Btn,
     DEFAULT_TEXT_COLOR,

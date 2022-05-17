@@ -9,6 +9,7 @@ import { ArrayScheme, IProps, TModifyType } from '../../../../Common/Type';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { copyObject, pasteObject } from '../../Util';
+import { arrayContext } from '../Context';
 import { Any } from './Any';
 
 export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
@@ -185,11 +186,11 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        const { Scheme: type } = this.props;
-        if (type.NewLine) {
-            return this.RenderMutilineArray();
-        }
-
-        return this.RenderOneLineArray();
+        const scheme = this.props.Scheme;
+        return (
+            <arrayContext.Provider value={{ Array: this.props.Value, Scheme: scheme }}>
+                {scheme.NewLine ? this.RenderMutilineArray() : this.RenderOneLineArray()}
+            </arrayContext.Provider>
+        );
     }
 }

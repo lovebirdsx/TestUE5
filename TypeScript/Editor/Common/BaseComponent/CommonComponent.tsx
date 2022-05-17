@@ -27,8 +27,8 @@ import {
     ESlateColorStylingMode,
 } from 'ue';
 
+import { formatColor, TColor } from '../../../Common/Color';
 import { toUeArray } from '../../../Common/UeHelper';
-import { formatColor, TColor } from './Color';
 
 // export { List } from './ListView';
 export const TAB_OFFSET = 20;

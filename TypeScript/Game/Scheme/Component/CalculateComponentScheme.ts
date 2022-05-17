@@ -1,7 +1,6 @@
 import {
     createArrayScheme,
     createFloatScheme,
-    createIntScheme,
     createObjectScheme,
     createStringScheme,
 } from '../../../Common/Type';
@@ -12,11 +11,15 @@ import { functionActionsScheme } from '../Action/Action';
 export const numberVarScheme = createObjectScheme<INumberVar>({
     Fields: {
         Name: createStringScheme({
-            CnName: '变量名字',
+            CnName: '名字',
+            CreateDefault: () => '变量1',
+            ShowName: true,
             Name: 'Name',
+            IsUnique: true,
         }),
         Value: createFloatScheme({
-            CnName: '变量值',
+            CnName: '值',
+            ShowName: true,
             Name: 'Value',
         }),
     },
@@ -24,15 +27,17 @@ export const numberVarScheme = createObjectScheme<INumberVar>({
 
 export const functionScheme = createObjectScheme<IFunction>({
     Fields: {
-        Id: createIntScheme({
-            CnName: 'Id',
-        }),
         Name: createStringScheme({
-            CnName: '函数名字',
+            CnName: '函数名',
+            CreateDefault: () => '函数1',
+            ShowName: true,
+            IsUnique: true,
         }),
         Actions: createArrayScheme({
             Element: functionActionsScheme,
             NewLine: true,
+            ArraySimplify: true,
+            CnName: '动作',
         }),
     },
 });

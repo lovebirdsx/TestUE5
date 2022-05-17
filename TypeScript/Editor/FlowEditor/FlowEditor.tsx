@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
+import { formatColor } from '../../Common/Color';
 import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import {
@@ -19,7 +20,6 @@ import {
     flowListOp,
 } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
-import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';

@@ -4,6 +4,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 
+import { TColor } from '../../../Common/Color';
 import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TCsvValueType, TModifyType } from '../../../Common/Type';
@@ -11,7 +12,6 @@ import { csvScheme } from '../../../Game/Scheme/Csv/CsvScheme';
 import { editorCsvOp } from '../Operations/CsvOp';
 import { Any } from '../SchemeComponent/Basic/Public';
 import { csvCellContext } from '../SchemeComponent/Context';
-import { TColor } from './Color';
 import { Btn, EditorBox, SlotText, Text } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
 

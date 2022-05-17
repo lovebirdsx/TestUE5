@@ -1,4 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
+import { TColor } from './Color';
 import { error, warn } from './Log';
 import { getEnumValues } from './Util';
 
@@ -69,6 +70,9 @@ export class Scheme<T = unknown> {
     public MaxWidth?: number; // 显示的最大宽度
 
     public Tip?: string; // 提示文字
+
+    // 是否唯一, 若用该scheme对应的数据构造数组, 则需要避免相同值
+    public IsUnique?: boolean;
 }
 
 export function createScheme<T>(type: Partial<Scheme<T>>): Scheme<T> {
@@ -203,6 +207,55 @@ export class ArrayScheme<T = unknown> extends Scheme<T[]> {
         });
         return fixCount > 0 ? 'fixed' : 'nothing';
     }
+}
+
+export type TIndexType = bigint | number | string;
+
+export function isIndexType(value: unknown): boolean {
+    const t = typeof value;
+    return t === 'number' || t === 'string' || t === 'bigint';
+}
+
+export function getObjArraySameFieldCount(
+    filedKey: string,
+    filedValue: TIndexType,
+    array: Record<string, unknown>[],
+): number {
+    let count = 0;
+    array.forEach((value) => {
+        if (value[filedKey] === filedValue) {
+            count++;
+        }
+    });
+    return count;
+}
+
+export function getObjArrayRenderColorForField(
+    fieldName: string,
+    filedValue: unknown,
+    array: Record<string, unknown>[],
+    fieldScheme: Scheme,
+    childScheme: ObjectScheme<unknown>,
+    arrayScheme: ArrayScheme,
+): TColor {
+    if (!arrayScheme) {
+        return undefined;
+    }
+
+    if (childScheme !== arrayScheme.Element) {
+        return undefined;
+    }
+
+    if (!fieldScheme.IsUnique) {
+        return undefined;
+    }
+
+    if (!isIndexType(filedValue)) {
+        return undefined;
+    }
+
+    const sameFiledCount = getObjArraySameFieldCount(fieldName, filedValue as TIndexType, array);
+    return sameFiledCount <= 1 ? undefined : '#8B0000 dark red';
 }
 
 export function createArrayScheme<T>(

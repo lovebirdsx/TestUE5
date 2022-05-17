@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { EActionFilter, Scheme, TModifyType } from '../../../../Common/Type';
+import { EActionFilter, TModifyType } from '../../../../Common/Type';
 import { IActionInfo } from '../../../../Game/Flow/Action';
 import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
 import { TAB_OFFSET } from '../../BaseComponent/CommonComponent';
@@ -22,13 +22,14 @@ export class Action extends React.Component<IActionProps> {
     public render(): JSX.Element {
         const { props } = this;
         const { Action: action } = props;
-        const typeScheme = actionRegistry.GetActionScheme(props.ActionFilter) as Scheme;
+        const actionScheme = actionRegistry.GetActionScheme(props.ActionFilter);
 
+        const indent = actionScheme.NoIndent ? undefined : TAB_OFFSET;
         return (
-            <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+            <VerticalBox RenderTransform={{ Translation: { X: indent } }}>
                 <Dynamic
-                    Value={action as unknown}
-                    Scheme={typeScheme}
+                    Value={action}
+                    Scheme={actionScheme}
                     OnModify={props.OnModify as (obj: unknown, type: TModifyType) => void}
                     PrefixElement={
                         <ContextBtn.ContextBtn

@@ -7,6 +7,8 @@ export class ActionScheme extends Scheme<IActionInfo> {
 
     public Filter: EActionFilter = EActionFilter.FlowList;
 
+    public NoIndent?: boolean;
+
     public CreateDefault(): IActionInfo {
         const logAction: ILog = {
             Level: 'Info',
@@ -72,4 +74,5 @@ export const behaviorFlowActionScheme = createActionScheme({
 export const functionActionsScheme = createActionScheme({
     Name: 'FunctionAction',
     Filter: EActionFilter.Function,
+    NoIndent: true,
 });

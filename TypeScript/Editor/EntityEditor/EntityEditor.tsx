@@ -6,13 +6,13 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
+import { formatColor } from '../../Common/Color';
 import { log, warn } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { msgbox } from '../../Common/UeHelper';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
-import { formatColor } from '../Common/BaseComponent/Color';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';

@@ -3,9 +3,9 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { TColor } from '../../../../Common/Color';
 import { AssetScheme, EnumScheme, IProps } from '../../../../Common/Type';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
-import { TColor } from '../../BaseComponent/Color';
 import { Check, EditorBox, Text } from '../../BaseComponent/CommonComponent';
 import { EntitySelector } from '../../BaseComponent/EntitySelector';
 import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';

@@ -11,14 +11,14 @@ import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
 import { Check, COLOR_LEVEL3, List, Text } from '../../BaseComponent/CommonComponent';
 import { Any } from './Any';
 
-export class Dynamic extends React.Component<IProps> {
+export class Dynamic extends React.Component<IProps<IActionInfo, ActionScheme>> {
     private readonly Select = (name: string): void => {
         const action = actionRegistry.SpawnAction(name as TActionType);
         this.props.OnModify(action, 'normal');
     };
 
     private readonly ChangeAsync = (async: boolean): void => {
-        const action = this.props.Value as IActionInfo;
+        const action = this.props.Value;
         const newAction = produce(action, (draft) => {
             draft.Async = async;
         });
@@ -26,8 +26,7 @@ export class Dynamic extends React.Component<IProps> {
     };
 
     private readonly Modify = (obj: unknown, type: TModifyType): void => {
-        const { Value: value } = this.props;
-        const action = value as IActionInfo;
+        const { Value: action } = this.props;
         const newValue = produce(action, (draft) => {
             draft.Params = obj;
         });
@@ -36,9 +35,7 @@ export class Dynamic extends React.Component<IProps> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        const { Scheme: type, Value: value, PrefixElement: prefixElement } = this.props;
-        const action = value as IActionInfo;
-        const dynamicType = type as ActionScheme;
+        const { Scheme: actionScheme, Value: action, PrefixElement: prefixElement } = this.props;
         const actionTypeData = actionRegistry.GetScheme(action.Name);
 
         return (
@@ -50,7 +47,7 @@ export class Dynamic extends React.Component<IProps> {
                     <HorizontalBox>
                         {prefixElement}
                         <List
-                            Items={actionRegistry.GetActionNames(dynamicType.Filter)}
+                            Items={actionRegistry.GetActionNames(actionScheme.Filter)}
                             Selected={action.Name}
                             OnSelectChanged={this.Select}
                             Tip={actionTypeData.Tip}

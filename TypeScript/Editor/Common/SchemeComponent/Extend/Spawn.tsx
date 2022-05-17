@@ -19,12 +19,11 @@ import {
 import { IProps } from '../../../../Common/Type';
 import { alignVector, deepEquals } from '../../../../Common/Util';
 import { ISpawn } from '../../../../Game/Flow/Action';
-import { ITsEntity } from '../../../../Game/Interface';
+import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
 import { tempEntities } from '../../../EntityEditor/TempEntities';
 import {
     Btn,
     COLOR_LEVEL1,
-    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
     EditorBox,
     Fold,
     TAB_OFFSET,

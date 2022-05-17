@@ -1,5 +1,6 @@
 import {
     createArrayScheme,
+    createBooleanScheme,
     createEnumScheme,
     createObjectScheme,
     createScheme,
@@ -22,6 +23,7 @@ import {
     TLogicOpType,
     TVar,
 } from '../../Flow/Action';
+import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, DEFUALT_VALUE_NAME_TEXT_WIDTH } from '../../Interface';
 import { functionActionScheme } from './Action';
 
 export const varValueScheme = createScheme<TVar>({
@@ -29,6 +31,7 @@ export const varValueScheme = createScheme<TVar>({
     CnName: '变量/值',
     Tip: '可以填入变量字符串或者变量的值, 会自动进行识别',
     CreateDefault: () => 0,
+    Width: DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
     ShowName: false,
 });
 
@@ -37,6 +40,7 @@ export const varNameScheme = createStringScheme({
     Tip: '变量的名字',
     CreateDefault: () => '变量1',
     ShowName: false,
+    Width: DEFUALT_VALUE_NAME_TEXT_WIDTH,
     Name: 'Name',
     IsUnique: true,
 });
@@ -47,6 +51,11 @@ export const setNumberVarScheme = createObjectScheme<ISetNumberVar>({
     Fields: {
         Name: varNameScheme,
         Value: varValueScheme,
+        SyncToState: createBooleanScheme({
+            CnName: '同步Actor状态',
+            Optional: true,
+            Tip: '是否同步给Actor状态, 若为真, 则会将变量的状态同步给Actor',
+        }),
     },
     Filters: [EActionFilter.Invoke, EActionFilter.Function],
 });

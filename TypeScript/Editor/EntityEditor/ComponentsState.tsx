@@ -7,7 +7,9 @@ import { TModifyType } from '../../Common/Type';
 import { TComponentClass, TComponentsState, TComponentState } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Public';
 import { Check, Text } from '../Common/BaseComponent/CommonComponent';
+import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { Any } from '../Common/SchemeComponent/Public';
+import { copyObject, pasteObject } from '../Common/Util';
 
 export interface IComponentsStateProps {
     Value: TComponentsState;
@@ -16,22 +18,24 @@ export interface IComponentsStateProps {
 }
 
 export class ComponentsState extends React.Component<IComponentsStateProps> {
-    private RenderPrefix(value: TComponentState, componentName: string): JSX.Element {
+    private RenderPrefix(componentState: TComponentState, componentName: string): JSX.Element {
+        const props = this.props;
+        const componentsState = props.Value;
         return (
             <HorizontalBox>
                 <Check
-                    UnChecked={value._Disabled}
+                    UnChecked={componentState._Disabled}
                     OnChecked={(isEnabled): void => {
                         // disable或者针对合法的Component数据进行enable, 都只需要修改Disabled字段
                         // 否则就要重新生成Component的合法数据
-                        if (!isEnabled || Object.keys(value).length > 1) {
+                        if (!isEnabled || Object.keys(componentState).length > 1) {
                             const newComponentsState = produce(this.props.Value, (draft) => {
                                 draft[componentName]._Disabled = !isEnabled;
                             });
                             this.props.OnModify(newComponentsState, 'normal');
                         } else {
                             const scheme = componentRegistry.GetScheme(componentName);
-                            const newComponentsState = produce(this.props.Value, (draft) => {
+                            const newComponentsState = produce(componentsState, (draft) => {
                                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                                 const componentState = scheme.CreateDefault() as TComponentState;
                                 componentState._Disabled = false;
@@ -42,6 +46,25 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
                     }}
                 />
                 <Text Text={componentName} />
+                <ContextBtn
+                    Commands={['拷贝', '粘贴']}
+                    OnCommand={function (cmd: string): void {
+                        switch (cmd) {
+                            case '拷贝':
+                                copyObject(componentName, componentState);
+                                break;
+                            case '粘贴': {
+                                const newComponentsState = produce(componentsState, (draft) => {
+                                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                                    draft[componentName] =
+                                        pasteObject<TComponentState>(componentName);
+                                });
+                                props.OnModify(newComponentsState, 'normal');
+                                break;
+                            }
+                        }
+                    }}
+                />
             </HorizontalBox>
         );
     }

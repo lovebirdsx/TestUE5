@@ -57,6 +57,10 @@ export class StateComponent extends Component {
         });
     }
 
+    public HasState(key: TEntityStateId): boolean {
+        return this.StateMap.has(key);
+    }
+
     public GetState<T>(key: TEntityStateId): T {
         return this.StateMap.get(key) as T;
     }

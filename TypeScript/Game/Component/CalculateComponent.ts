@@ -9,10 +9,12 @@ import {
     IDoCalculate,
     IFunction,
     INumberVar,
+    ISetNumberVar,
     TVar,
 } from '../Flow/Action';
 import { Action, actionRegistry } from '../Flow/ActionRunner';
 import { Component, ICalculatorComponent as ICalculateComponent } from '../Interface';
+import { ActorStateComponent } from './ActorStateComponent';
 import { StateComponent } from './StateComponent';
 
 export class CalculateComponent extends Component implements ICalculateComponent {
@@ -20,7 +22,7 @@ export class CalculateComponent extends Component implements ICalculateComponent
 
     public readonly Functions: IFunction[];
 
-    private readonly ModifedVarMap: Map<string, number> = new Map();
+    private readonly ModifiedVarMap: Map<string, number> = new Map();
 
     private readonly InitVarMap: Map<string, number> = new Map();
 
@@ -30,6 +32,8 @@ export class CalculateComponent extends Component implements ICalculateComponent
 
     private StateComponent: StateComponent;
 
+    private ActorStateComponent: ActorStateComponent;
+
     public OnInit(): void {
         this.Vars.forEach((v) => {
             this.InitVarMap.set(v.Name, v.Value);
@@ -37,36 +41,50 @@ export class CalculateComponent extends Component implements ICalculateComponent
         this.Functions.forEach((v) => this.FunctionMap.set(v.Name, v));
 
         this.StateComponent = this.Entity.GetComponent(StateComponent);
+        this.ActorStateComponent = this.Entity.GetComponent(ActorStateComponent);
     }
 
     public OnLoadState(): void {
         // 加载修改的数据
         const modifiedVars = this.StateComponent.GetState<[string, number][]>('ModifiedVars');
         if (modifiedVars) {
-            modifiedVars.forEach((v) => this.ModifedVarMap.set(v[0], v[1]));
+            modifiedVars.forEach((v) => this.ModifiedVarMap.set(v[0], v[1]));
         }
+
+        // 将数字状态同步给ActorComponent
+        this.InitVarMap.forEach((value, key) => {
+            const mValue = this.ModifiedVarMap.get(key);
+            this.ActorStateComponent.SetNumberValue(key, mValue !== undefined ? mValue : value);
+        });
     }
 
-    public SetVar(name: string, value: TVar): void {
+    private SetVarImpl(name: string, value: TVar): number {
         if (!this.InitVarMap.has(name)) {
             throw new Error(`${this.Name} modify no exist var ${name} = ${value}`);
         }
 
         const v = this.GetVarValue(value);
         if (this.InitVarMap.get(name) === v) {
-            this.ModifedVarMap.delete(name);
+            this.ModifiedVarMap.delete(name);
         } else {
-            this.ModifedVarMap.set(name, v);
+            this.ModifiedVarMap.set(name, v);
         }
 
         // 保存修改的数据
-        const modifiedVars = Array.from(this.ModifedVarMap.entries());
+        const modifiedVars = Array.from(this.ModifiedVarMap.entries());
         this.StateComponent.SetState(
             'ModifiedVars',
             modifiedVars.length > 0 ? modifiedVars : undefined,
         );
-
         log(`${this.Name} ${name} = ${v}`);
+        return v;
+    }
+
+    public SetVar(data: ISetNumberVar): void {
+        const v = this.SetVarImpl(data.Name, data.Value);
+        if (data.SyncToState) {
+            this.ActorStateComponent.SetNumberValue(data.Name, v);
+        }
     }
 
     public GetVarValue(v: TVar): number {
@@ -78,7 +96,7 @@ export class CalculateComponent extends Component implements ICalculateComponent
             throw new Error(`${this.Name} get no exist var ${v}`);
         }
 
-        return this.ModifedVarMap.get(v) || this.InitVarMap.get(v);
+        return this.ModifiedVarMap.has(v) ? this.ModifiedVarMap.get(v) : this.InitVarMap.get(v);
     }
 
     public DoCalculate(calculate: IDoCalculate): void {
@@ -86,16 +104,16 @@ export class CalculateComponent extends Component implements ICalculateComponent
         const v2 = this.GetVarValue(calculate.Var2);
         switch (calculate.Op) {
             case 'Add':
-                this.SetVar(calculate.Result, v1 + v2);
+                this.SetVarImpl(calculate.Result, v1 + v2);
                 break;
             case 'Sub':
-                this.SetVar(calculate.Result, v1 - v2);
+                this.SetVarImpl(calculate.Result, v1 - v2);
                 break;
             case 'Mut':
-                this.SetVar(calculate.Result, v1 * v2);
+                this.SetVarImpl(calculate.Result, v1 * v2);
                 break;
             case 'Div':
-                this.SetVar(calculate.Result, v1 / v2);
+                this.SetVarImpl(calculate.Result, v1 / v2);
                 break;
         }
     }

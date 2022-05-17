@@ -76,7 +76,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
         const { Value: value, Scheme: scheme } = this.props;
         const [fieldKey, fieldScheme] = Object.entries(scheme.Fields).find(([key, value]) => {
             const fieldScheme = value as Scheme;
-            return fieldScheme.CnName === key;
+            return fieldScheme.CnName === name;
         });
 
         const fieldValue = (value as Record<string, unknown>)[fieldKey];

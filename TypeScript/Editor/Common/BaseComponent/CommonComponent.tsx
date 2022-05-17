@@ -38,7 +38,6 @@ export const DEFAULT_TEXT_COLOR: TColor = '#FFFFFF white';
 export const DEFAULT_EDIT_TEXT_COLOR: TColor = '#FFFFFF white';
 const DEFAULT_EDIT_TEXT_WIDTH = 80;
 const DEFAULT_EDIT_MAX_WIDTH = 600;
-export const DEFUALT_NUMBER_EDIT_TEXT_WIDTH = 40;
 
 // export const DEFAULT_LIST_BACK_COLOR: TColor = '#101010 very dark';
 export const DEFAULT_LIST_BACK_COLOR: TColor = '#0A0A0A very dark';

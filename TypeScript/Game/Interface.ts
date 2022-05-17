@@ -46,6 +46,7 @@ export enum EBlueprintId {
     Gate = 1008,
     SteeringWheel = 1009,
     Switcher1 = 1010,
+    Screen = 1011,
 
     // Component
     ActorStateComponent = 10001,
@@ -69,6 +70,8 @@ export interface ITriggerComponent {
 }
 
 export interface ISwitcherComponent {
+    IsInitOn: boolean;
+    AutoExecuteOnLoad: boolean;
     OnActions: IActionInfo[];
     OffActions: IActionInfo[];
 }
@@ -381,3 +384,6 @@ export class InteractiveComponent extends Component {
         throw new Error('Interact is not implement');
     }
 }
+
+export const DEFUALT_NUMBER_EDIT_TEXT_WIDTH = 40;
+export const DEFUALT_VALUE_NAME_TEXT_WIDTH = 40;

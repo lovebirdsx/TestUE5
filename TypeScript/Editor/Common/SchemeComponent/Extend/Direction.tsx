@@ -6,12 +6,8 @@ import { EditorLevelLibrary, Rotator, TargetPoint, Vector } from 'ue';
 
 import { IVectorInfo, toRotation, toRotationInfo } from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
-import {
-    Btn,
-    Check,
-    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
-    EditorBox,
-} from '../../BaseComponent/CommonComponent';
+import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
+import { Btn, Check, EditorBox } from '../../BaseComponent/CommonComponent';
 import LevelEditorUtil from '../../LevelEditorUtil';
 
 interface IPointState {

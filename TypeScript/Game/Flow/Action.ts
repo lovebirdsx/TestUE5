@@ -322,13 +322,14 @@ export interface INumberVar {
 export interface ISetNumberVar {
     Name: string;
     Value: TVar;
+    SyncToState: boolean;
 }
 
 export const calOpTypeConfig = {
-    Add: '加',
-    Sub: '减',
-    Mut: '乘',
-    Div: '除',
+    Add: '+',
+    Sub: '-',
+    Mut: 'X',
+    Div: '/',
 };
 
 export type TCalOp = keyof typeof calOpTypeConfig;

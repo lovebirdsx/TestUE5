@@ -5,7 +5,7 @@ import { Action } from '../ActionRunner';
 export class SetNumberVarAction extends Action<ISetNumberVar> {
     public Execute(): void {
         const calculate = this.Entity.GetComponent(CalculateComponent);
-        calculate.SetVar(this.Data.Name, this.Data.Value);
+        calculate.SetVar(this.Data);
     }
 }
 

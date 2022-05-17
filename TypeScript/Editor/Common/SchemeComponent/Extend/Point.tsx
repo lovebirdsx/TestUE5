@@ -16,12 +16,8 @@ import {
 } from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
 import { alignPosA, loadClass } from '../../../../Common/Util';
-import {
-    Btn,
-    COLOR_LEVEL1,
-    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
-    EditorBox,
-} from '../../BaseComponent/CommonComponent';
+import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
+import { Btn, COLOR_LEVEL1, EditorBox } from '../../BaseComponent/CommonComponent';
 import LevelEditorUtil from '../../LevelEditorUtil';
 
 interface IPointState {

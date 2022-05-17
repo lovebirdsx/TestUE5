@@ -1,3 +1,4 @@
+/* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
 import { IActionInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
@@ -7,6 +8,10 @@ import PlayerComponent from './PlayerComponent';
 import { StateComponent } from './StateComponent';
 
 export class SwitcherComponent extends InteractiveComponent implements ISwitcherComponent {
+    public IsInitOn: boolean;
+
+    public AutoExecuteOnLoad: boolean;
+
     public readonly OnActions: IActionInfo[];
 
     public readonly OffActions: IActionInfo[];
@@ -25,7 +30,15 @@ export class SwitcherComponent extends InteractiveComponent implements ISwitcher
     }
 
     public OnLoadState(): void {
-        this.IsOn = this.StateComponent.GetState<boolean>('IsSwitcherOpen');
+        if (this.StateComponent.HasState('IsSwitcherOpen')) {
+            this.IsOn = this.StateComponent.GetState<boolean>('IsSwitcherOpen');
+        } else {
+            this.IsOn = this.IsInitOn;
+        }
+
+        if (this.AutoExecuteOnLoad) {
+            void this.Run(this.IsOn);
+        }
     }
 
     public OnTriggerEnter(other: Entity): void {
@@ -46,18 +59,22 @@ export class SwitcherComponent extends InteractiveComponent implements ISwitcher
         player.RemoveInteractor(this.Entity);
     }
 
+    private async Run(isOn: boolean): Promise<void> {
+        const actionName = isOn ? 'SwitcherOn' : 'SwitcherOff';
+        const actions = isOn ? this.OnActions : this.OffActions;
+        this.Runner = new ActionRunner(actionName, this.Entity, actions);
+        this.ActorSteteComponent.ChangeActorState(isOn ? 'On' : 'Off');
+        await this.Runner.Execute();
+        this.IsOn = isOn;
+        this.StateComponent.SetState('IsSwitcherOpen', isOn);
+        this.Runner = undefined;
+    }
+
     public async Interact(entity: Entity): Promise<void> {
         if (this.Runner) {
             throw new Error(`interact again with ${this.Name}`);
         }
 
-        const actionName = this.IsOn ? 'SwitcherOff' : 'SwitcherOn';
-        const actions = this.IsOn ? this.OffActions : this.OnActions;
-        this.Runner = new ActionRunner(actionName, this.Entity, actions);
-        this.ActorSteteComponent.ChangeActorState(this.IsOn ? 'Off' : 'On');
-        await this.Runner.Execute();
-        this.Runner = undefined;
-        this.IsOn = !this.IsOn;
-        this.StateComponent.SetState('IsSwitcherOpen', this.IsOn);
+        await this.Run(!this.IsOn);
     }
 }

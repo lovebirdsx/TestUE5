@@ -112,6 +112,7 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.AiNpcVillage1, 'BP_AiNpcVillage1', TsAiNpc);
     regExtendedEntity(EBlueprintId.AiNpcVillage2, 'BP_AiNpcVillage2', TsAiNpc);
     regExtendedEntity(EBlueprintId.Gate, 'BP_Gate', TsStateEntity);
+    regExtendedEntity(EBlueprintId.Screen, 'BP_Screen', TsStateEntity);
     regExtendedEntity(EBlueprintId.SteeringWheel, 'BP_SteeringWheel', TsRotator);
     regExtendedEntity(EBlueprintId.Switcher1, 'BP_Switcher1', TsSwitcher);
 

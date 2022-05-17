@@ -48,7 +48,9 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
         if (isChildOfClass(other.Entity.Actor, TsPlayer)) {
             this.RestartPlayerPos();
         } else {
-            gameContext.EntityManager.RemoveEntity(other);
+            if (other.Entity.Actor.ActorHasTag('DestroyUnderground')) {
+                gameContext.EntityManager.RemoveEntity(other);
+            }
         }
     }
 

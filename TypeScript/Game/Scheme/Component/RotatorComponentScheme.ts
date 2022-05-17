@@ -4,7 +4,6 @@ import {
     createBooleanScheme,
     createObjectScheme,
     createStringScheme,
-    createTextScheme,
     createVectorScheme,
     EActionFilter,
     IVectorType,
@@ -13,9 +12,7 @@ import { IActionInfo } from '../../Flow/Action';
 import { actionRegistry } from '../Action/Public';
 
 export interface IEventRotator {
-    InterStart: string;
     StartActions: IActionInfo[];
-    InterEnd: string;
     EndActions: IActionInfo[];
 }
 
@@ -33,23 +30,15 @@ export interface IRotatorComponent {
 export const eventScheme = createObjectScheme<IEventRotator>({
     Name: 'eventScheme',
     Fields: {
-        InterStart: createTextScheme({
-            NewLine: true,
-            CreateDefault(): string {
-                return '开始事件';
-            },
-        }),
         StartActions: createArrayScheme({
+            CnName: `开始事件`,
+            ShowName: true,
             NewLine: true,
             Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
         }),
-        InterEnd: createTextScheme({
-            NewLine: true,
-            CreateDefault(): string {
-                return '退出事件';
-            },
-        }),
         EndActions: createArrayScheme({
+            CnName: `退出事件`,
+            ShowName: true,
             NewLine: true,
             Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
         }),

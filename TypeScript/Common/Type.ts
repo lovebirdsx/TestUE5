@@ -17,7 +17,6 @@ export type TElementRenderType =
     | 'int'
     | 'object'
     | 'string'
-    | 'text'
     | 'vector';
 
 export type TModifyType = 'fold' | 'normal';
@@ -592,31 +591,3 @@ export function createVectorScheme(
 export const vectorScheme = createVectorScheme({
     Name: 'Vector',
 });
-
-// ============================================================================
-
-export class TextScheme extends Scheme<string> {
-    public RenderType: TElementRenderType = 'text';
-
-    public IsJson?: boolean;
-
-    public CreateDefault(): string {
-        return '';
-    }
-}
-
-export function createTextScheme(
-    type: Omit<Partial<TextScheme>, 'fix' | 'renderType'>,
-): TextScheme {
-    const scheme = new TextScheme();
-    if (type) {
-        Object.assign(scheme, type);
-    }
-    return scheme;
-}
-
-export const textScheme = createTextScheme({
-    Name: 'Text',
-});
-
-// ============================================================================

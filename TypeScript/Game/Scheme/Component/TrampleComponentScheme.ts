@@ -3,56 +3,16 @@ import {
     createArrayScheme,
     createBooleanScheme,
     createObjectScheme,
-    createTextScheme,
     EActionFilter,
 } from '../../../Common/Type';
 import { IActionInfo } from '../../Flow/Action';
 import { actionRegistry } from '../Action/Public';
 
-export interface ITrampleActions {
-    Name: string;
-    Actions: IActionInfo[];
-}
-
 export interface ITrampleComponent {
     IsDisposable: boolean;
-    TriggerActions: ITrampleActions;
-    RecoveryActions: ITrampleActions;
+    TriggerActions: IActionInfo[];
+    RecoveryActions: IActionInfo[];
 }
-
-export const trampletriggerScheme = createObjectScheme<ITrampleActions>({
-    Name: 'trampletrigger',
-    Fields: {
-        Name: createTextScheme({
-            CreateDefault(): string {
-                return '踩踏事件';
-            },
-        }),
-        Actions: createArrayScheme({
-            NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
-        }),
-    },
-    NewLine: true,
-    NoIndent: true,
-});
-
-export const trampleleaveScheme = createObjectScheme<ITrampleActions>({
-    Name: 'trampleleaveScheme',
-    Fields: {
-        Name: createTextScheme({
-            CreateDefault(): string {
-                return '离开事件';
-            },
-        }),
-        Actions: createArrayScheme({
-            NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
-        }),
-    },
-    NewLine: true,
-    NoIndent: true,
-});
 
 export const trampleComponentScheme = createObjectScheme<ITrampleComponent>({
     Name: 'TrampleComponent',
@@ -63,8 +23,18 @@ export const trampleComponentScheme = createObjectScheme<ITrampleComponent>({
             NewLine: true,
             Tip: '是否自动运行',
         }),
-        TriggerActions: trampletriggerScheme,
-        RecoveryActions: trampleleaveScheme,
+        TriggerActions: createArrayScheme({
+            CnName: `踩踏事件`,
+            ShowName: true,
+            NewLine: true,
+            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
+        }),
+        RecoveryActions: createArrayScheme({
+            CnName: `离开事件`,
+            ShowName: true,
+            NewLine: true,
+            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
+        }),
     },
     NewLine: true,
 });

@@ -6,7 +6,7 @@ import { HorizontalBox } from 'react-umg';
 import { TColor } from '../../../../Common/Color';
 import { AssetScheme, EnumScheme, IProps } from '../../../../Common/Type';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
-import { Check, EditorBox, Text } from '../../BaseComponent/CommonComponent';
+import { Check, EditorBox } from '../../BaseComponent/CommonComponent';
 import { EntitySelector } from '../../BaseComponent/EntitySelector';
 import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';
 import { FilterableList } from '../../BaseComponent/FilterableList';
@@ -129,19 +129,5 @@ export function EntityTemplateId(props: IProps<string>): JSX.Element {
                 props.OnModify(guid, 'normal');
             }}
         />
-    );
-}
-
-export function TextContent(props: IProps<string> & { Color?: TColor }): JSX.Element {
-    return (
-        <HorizontalBox>
-            {props.PrefixElement}
-            <Text
-                Size={props.Scheme.Width}
-                Text={props.Value}
-                Tip={props.Scheme.Tip}
-                Color={props.Color}
-            />
-        </HorizontalBox>
     );
 }

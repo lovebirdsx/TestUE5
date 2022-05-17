@@ -1,16 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Array } from './Array';
-import {
-    Asset,
-    Bool,
-    EntityId,
-    EntityTemplateId,
-    Enum,
-    Float,
-    Int,
-    String,
-    TextContent,
-} from './Basic';
+import { Asset, Bool, EntityId, EntityTemplateId, Enum, Float, Int, String } from './Basic';
 import { componentRegistry } from './ComponentRegistry';
 import { CsvIndexValue } from './CsvIndexValue';
 import { Dynamic } from './Dynamic';
@@ -31,7 +21,6 @@ function initAllComponents(): void {
     componentRegistry.Register('entityTemplateId', EntityTemplateId);
     componentRegistry.Register('csvIndexValue', CsvIndexValue);
     componentRegistry.Register('vector', VectorScheme);
-    componentRegistry.Register('text', TextContent);
 }
 
 initAllComponents();

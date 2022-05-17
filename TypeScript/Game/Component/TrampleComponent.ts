@@ -13,14 +13,14 @@ import {
 import { IActionInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, InteractiveComponent } from '../Interface';
-import { ITrampleActions, ITrampleComponent } from '../Scheme/Component/TrampleComponentScheme';
+import { ITrampleComponent } from '../Scheme/Component/TrampleComponentScheme';
 
 export class TrampleComponent extends InteractiveComponent implements ITrampleComponent {
     public IsDisposable: boolean;
 
-    public TriggerActions: ITrampleActions;
+    public TriggerActions: IActionInfo[];
 
-    public RecoveryActions: ITrampleActions;
+    public RecoveryActions: IActionInfo[];
 
     private InteractingList: Guid[];
 
@@ -66,7 +66,7 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
             if (this.InteractingList.length === 1) {
                 const color = new LinearColor(0.5, 0.5, 0, 1);
                 this.ChangeMaterialColor(color);
-                this.RunActions(this.TriggerActions.Actions);
+                this.RunActions(this.TriggerActions);
                 this.TriggerTimes += 1;
             }
         }
@@ -80,7 +80,7 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
         if (!this.IsDisposable && this.InteractingList.length === 0) {
             const color = new LinearColor(0, 0.2, 0.2, 1);
             this.ChangeMaterialColor(color);
-            this.RunActions(this.RecoveryActions.Actions);
+            this.RunActions(this.RecoveryActions);
         }
     }
 

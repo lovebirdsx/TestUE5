@@ -56,6 +56,13 @@ class TsRotator extends TsEntity {
             component.RotateZ(val);
         }
     }
+
+    public Interacting(): void {
+        const component = this.Entity.TryGetComponent(RotatorComponent);
+        if (component) {
+            component.Interacting();
+        }
+    }
 }
 
 export default TsRotator;

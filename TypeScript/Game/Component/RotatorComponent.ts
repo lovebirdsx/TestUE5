@@ -80,7 +80,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         }
     }
 
-    public Interacting(entity: Entity): void {
+    public Interacting(): void {
         if (this.InteractSignal !== null) {
             this.InteractSignal.Emit(true);
         }

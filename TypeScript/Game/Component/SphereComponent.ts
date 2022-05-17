@@ -6,6 +6,7 @@ import { Game, UMGManager } from 'ue';
 import { createSignal, ISignal } from '../../Common/Async';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
+import TsPlayerController from '../Player/TsPlayerController';
 import { GrabComponent } from './GrabComponent';
 import PlayerComponent from './PlayerComponent';
 
@@ -68,7 +69,7 @@ export class SphereComponent extends InteractiveComponent {
         }
     }
 
-    public Interacting(entity: Entity): void {
+    public Interacting(): void {
         if (this.InteractSignal !== null) {
             this.InteractSignal.Emit(true);
         }
@@ -86,9 +87,13 @@ export class SphereComponent extends InteractiveComponent {
         this.InteractUi.SetBtnTitle(`放下`);
         this.InteractUi.AddToViewport();
 
+        const playerController = gameContext.PlayerController as TsPlayerController;
+        this.Entity.Actor.EnableInput(playerController);
         // 等待取消
         this.InteractSignal = createSignal<boolean>();
         await Promise.all([this.InteractSignal.Promise]);
+
+        this.Entity.Actor.DisableInput(playerController);
 
         this.InteractUi.RemoveFromViewport();
         this.InteractUi = null;

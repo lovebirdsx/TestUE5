@@ -81,10 +81,6 @@ export class SphereFactoryComponent
     }
 
     public async StartInteract(entity: Entity): Promise<void> {
-        //      检测小球掉落，则销毁
-        //      interacting 再发射小球
-        // 新action
-        //   调用别的entity interact / interacting
         this.CreateSphere();
         // 等待取消
         this.InteractSignal = createSignal<boolean>();

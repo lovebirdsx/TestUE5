@@ -32,6 +32,7 @@ export enum EBlueprintId {
     SphereFactory = 11,
     Underground = 12,
     Lamp = 13,
+    Maze = 14,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,
@@ -372,6 +373,4 @@ export class InteractiveComponent extends Component {
     public async Interact(entity: Entity): Promise<void> {
         throw new Error('Interact is not implement');
     }
-
-    public Interacting(entity: Entity): void {}
 }

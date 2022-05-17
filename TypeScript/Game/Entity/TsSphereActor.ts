@@ -28,6 +28,13 @@ class TsSphereActor extends TsEntity {
             this.Entity.OnTriggerExit(tsEntity.Entity);
         }
     }
+
+    public Interacting(): void {
+        const component = this.Entity.TryGetComponent(SphereComponent);
+        if (component) {
+            component.Interacting();
+        }
+    }
 }
 
 export default TsSphereActor;

@@ -35,10 +35,6 @@ class PlayerComponent extends Component {
 
     public TryInteract(): boolean {
         if (this.IsInteracting) {
-            // 开始进入交互的actor，即使退出触发范围了还能交互
-            if (this.InteractingActer) {
-                this.InteractingActer.GetComponent(InteractiveComponent).Interacting(this.Entity);
-            }
             return false;
         }
 

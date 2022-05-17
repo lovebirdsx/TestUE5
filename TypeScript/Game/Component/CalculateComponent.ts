@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable spellcheck/spell-checker */
+import { log } from '../../Common/Log';
 import {
     ICallByCondition,
     ICallFunction,
@@ -46,7 +47,9 @@ export class CalculateComponent extends Component implements ICalculateComponent
             throw new Error(`${this.Name} modify no exist var ${name} = ${value}`);
         }
 
-        this.VarMap.set(name, this.GetVarValue(value));
+        const v = this.GetVarValue(value);
+        this.VarMap.set(name, v);
+        log(`${this.Name} ${name} = ${v}`);
     }
 
     public GetVarValue(v: TVar): number {
@@ -99,6 +102,7 @@ export class CalculateComponent extends Component implements ICalculateComponent
     }
 
     public CallFunction(call: ICallFunction): void {
+        log(`${this.Name} call [${call.Name}]`);
         const actions = this.GetActions(call.Name);
         actions.forEach((action) => {
             action.Execute();

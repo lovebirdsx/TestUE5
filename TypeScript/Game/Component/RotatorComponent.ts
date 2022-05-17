@@ -168,6 +168,9 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             case 2:
                 rotator = new Rotator(0, 0, 1);
                 break;
+            case 0:
+                rotator = new Rotator(0, 1, 0);
+                break;
             default:
                 break;
         }

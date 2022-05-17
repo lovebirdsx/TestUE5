@@ -1,7 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IVectorInfo } from '../../../Common/Interface';
-import { IInvoke, IPlayFlow, IShowTalk, ISpawn, ITriggerActions } from '../../../Game/Flow/Action';
+import {
+    IInvoke,
+    IPlayFlow,
+    IShowTalk,
+    ISpawn,
+    ITriggerActions,
+    TVar,
+} from '../../../Game/Flow/Action';
 import { IBehaviorFlowComponent } from '../../../Game/Interface';
+import { varValueScheme } from '../../../Game/Scheme/Action/Calculate';
 import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
 import { invokeScheme } from '../../../Game/Scheme/Action/Invoke';
 import { jumpIdScheme } from '../../../Game/Scheme/Action/JumpTalk';
@@ -20,6 +28,7 @@ import { stateIdScheme } from '../../../Game/Scheme/Action/State';
 import { behaviorFlowComponentScheme } from '../../../Game/Scheme/Component/FlowComponentScheme';
 import { triggerActionsScheme } from '../../../Game/Scheme/Component/TriggerComponentSheme';
 import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
+import { RenderVarValue } from './Extend/Calculate';
 import { RenderCsvFollowCell } from './Extend/Csv';
 import { Direction } from './Extend/Direction';
 import {
@@ -47,6 +56,7 @@ renderRegistry.RegComponent<number>(talkOptionTextIdScheme, RenderTextId);
 renderRegistry.RegComponent<number>(talkItemTextIdScheme, RenderTextId);
 renderRegistry.RegComponent<number>(centerTextIdScheme, RenderTextId);
 renderRegistry.RegComponent<number>(talkerIdScheme, RenderTalkerIdScheme);
+renderRegistry.RegComponent<TVar>(varValueScheme, RenderVarValue);
 renderRegistry.RegComponent<string>(talkItemNameScheme, RenderTalkItemName);
 renderRegistry.RegComponent<string>(csvFollowCellScheme, RenderCsvFollowCell);
 renderRegistry.RegComponent<ITriggerActions>(triggerActionsScheme, RenderTriggerActions);

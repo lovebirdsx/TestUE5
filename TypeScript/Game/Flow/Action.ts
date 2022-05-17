@@ -5,12 +5,15 @@ export const FLOW_LIST_VERSION = 8;
 
 export type TActionType =
     | 'Activate'
+    | 'CallByCondition'
+    | 'CallFunction'
     | 'ChangeActorState'
     | 'ChangeBehaviorState'
     | 'ChangeRandomState'
     | 'ChangeState'
     | 'Destroy'
     | 'DestroyAllChild'
+    | 'DoCalculate'
     | 'FaceToPos'
     | 'FinishState'
     | 'FinishTalk'
@@ -24,6 +27,7 @@ export type TActionType =
     | 'SetCameraMode'
     | 'SetFlowBoolOption'
     | 'SetHeadIconVisible'
+    | 'SetNumberVar'
     | 'SetPlotMode'
     | 'SetPos'
     | 'ShowCenterText'
@@ -306,6 +310,8 @@ export interface IChangeActorState {
     State: TActorState;
 }
 
+export type TVar = number | string;
+
 export interface INumberVar {
     Name: string;
     Value: number;
@@ -313,7 +319,7 @@ export interface INumberVar {
 
 export interface ISetNumberVar {
     Name: string;
-    Value: number;
+    Value: TVar;
 }
 
 export const calOpTypeConfig = {
@@ -325,21 +331,20 @@ export const calOpTypeConfig = {
 
 export type TCalOp = keyof typeof calOpTypeConfig;
 
-export type TVar = number | string;
-
 export interface IDoCalculate {
     Var1: TVar;
+    Op: TCalOp;
     Var2: TVar;
     Result: string;
 }
 
 export const compareTypeConfig = {
-    Ge: '大于等于',
-    Gt: '大于',
-    Le: '小于等于',
-    Lt: '小于',
-    Eq: '等于',
-    Ne: '不等于',
+    Ge: '>=',
+    Gt: '>',
+    Le: '<=',
+    Lt: '<',
+    Eq: '==',
+    Ne: '!=',
 };
 
 export type TCompare = keyof typeof compareTypeConfig;
@@ -362,7 +367,7 @@ export interface IConditions {
     Conditions: ICondition[];
 }
 
-export interface IRunByCondition {
+export interface ICallByCondition {
     Conditions: IConditions;
     TrueActions?: IActionInfo[];
     FalseActions?: IActionInfo[];
@@ -374,5 +379,5 @@ export interface IFunction {
 }
 
 export interface ICallFunction {
-    Id: number;
+    Name: string;
 }

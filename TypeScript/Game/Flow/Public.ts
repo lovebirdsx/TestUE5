@@ -10,6 +10,12 @@ import {
 } from './Actions/Actor';
 import { InvokeAction, LogAction, ShowMessageAction, WaitAction } from './Actions/Base';
 import {
+    CallByConditionAction,
+    CallFunctionAction,
+    DoCalculateAction,
+    SetNumberVarAction,
+} from './Actions/Calculate';
+import {
     ChangeBehaviorStateAction,
     ChangeStateAction,
     FinishStateAction,
@@ -47,5 +53,10 @@ export function initFlow(): void {
     actionRegistry.Register('Wait', WaitAction);
     actionRegistry.Register('SetPos', SetPosAction);
     actionRegistry.Register('Activate', Activation);
+    actionRegistry.Register('SetNumberVar', SetNumberVarAction);
+    actionRegistry.Register('DoCalculate', DoCalculateAction);
+    actionRegistry.Register('CallFunction', CallFunctionAction);
+    actionRegistry.Register('CallByCondition', CallByConditionAction);
+
     isInit = true;
 }

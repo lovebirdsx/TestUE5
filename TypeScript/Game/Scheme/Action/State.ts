@@ -45,6 +45,7 @@ export const changeBehaviorStateScheme = createObjectScheme<IChangeBehaviorState
     Fields: {
         StateId: stateIdScheme,
         IsInstant: createBooleanScheme({
+            CnName: '立即模式',
             Optional: true,
             Tip: '是否立即执行, 如果立即执行, 则将停止当前状态, 马上执行下一状态',
         }),
@@ -58,6 +59,7 @@ export const setBehaviorIsPausedScheme = createObjectScheme<ISetBehaviorPaused>(
     Name: 'SetBehaviorIsPaused',
     Fields: {
         IsPaused: createBooleanScheme({
+            CnName: '是否暂停',
             Optional: true,
             Tip: '是否暂停',
         }),
@@ -86,6 +88,6 @@ export const changeActorStateScheme = createObjectScheme<IChangeActorState>({
             Config: actorStateConfig,
         }),
     },
-    Filters: [EActionFilter.Trigger, EActionFilter.Invoke],
+    Filters: [EActionFilter.Trigger, EActionFilter.Invoke, EActionFilter.Function],
     Tip: '让目标Actor改变状态',
 });

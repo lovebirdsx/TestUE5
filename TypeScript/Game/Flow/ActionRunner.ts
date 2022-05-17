@@ -53,13 +53,13 @@ class ActionRegistry {
         this.ActionMap.set(type, actionClass);
     }
 
-    public SpawnAction(type: TActionType, entity: Entity, data: unknown): Action {
-        const classObj = this.ActionMap.get(type);
+    public SpawnAction(actionInfo: IActionInfo, entity: Entity): Action {
+        const classObj = this.ActionMap.get(actionInfo.Name);
         if (!classObj) {
-            throw new Error(`No action class for ${type}`);
+            throw new Error(`No action class for ${actionInfo.Name}`);
         }
 
-        return new classObj(entity, data);
+        return new classObj(entity, actionInfo.Params);
     }
 }
 
@@ -79,7 +79,7 @@ export class ActionRunner {
     public constructor(name: string, entity: Entity, infos: IActionInfo[]) {
         this.Name = name;
         this.Actions = infos.map((info) => {
-            const action = actionRegistry.SpawnAction(info.Name, entity, info.Params);
+            const action = actionRegistry.SpawnAction(info, entity);
             action.IsAsync = info.Async;
             return action;
         });

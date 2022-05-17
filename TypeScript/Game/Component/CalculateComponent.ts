@@ -20,35 +20,52 @@ export class CalculateComponent extends Component implements ICalculateComponent
 
     public readonly Functions: IFunction[];
 
-    private readonly VarMap: Map<string, number> = new Map();
+    private readonly ModifedVarMap: Map<string, number> = new Map();
+
+    private readonly InitVarMap: Map<string, number> = new Map();
 
     private readonly FunctionMap: Map<string, IFunction> = new Map();
 
     private readonly FucntionActionsMap: Map<string, Action[]> = new Map();
 
-    private ModifiedVars: INumberVar[];
-
     private StateComponent: StateComponent;
 
     public OnInit(): void {
-        this.Vars.forEach((v) => this.VarMap.set(v.Name, v.Value));
+        this.Vars.forEach((v) => {
+            this.InitVarMap.set(v.Name, v.Value);
+        });
         this.Functions.forEach((v) => this.FunctionMap.set(v.Name, v));
 
         this.StateComponent = this.Entity.GetComponent(StateComponent);
     }
 
     public OnLoadState(): void {
-        this.ModifiedVars = this.StateComponent.GetState<INumberVar[]>('ModifiedVars') || [];
-        this.ModifiedVars.forEach((v) => this.VarMap.set(v.Name, v.Value));
+        // 加载修改的数据
+        const modifiedVars = this.StateComponent.GetState<[string, number][]>('ModifiedVars');
+        if (modifiedVars) {
+            modifiedVars.forEach((v) => this.ModifedVarMap.set(v[0], v[1]));
+        }
     }
 
     public SetVar(name: string, value: TVar): void {
-        if (!this.VarMap.has(name)) {
+        if (!this.InitVarMap.has(name)) {
             throw new Error(`${this.Name} modify no exist var ${name} = ${value}`);
         }
 
         const v = this.GetVarValue(value);
-        this.VarMap.set(name, v);
+        if (this.InitVarMap.get(name) === v) {
+            this.ModifedVarMap.delete(name);
+        } else {
+            this.ModifedVarMap.set(name, v);
+        }
+
+        // 保存修改的数据
+        const modifiedVars = Array.from(this.ModifedVarMap.entries());
+        this.StateComponent.SetState(
+            'ModifiedVars',
+            modifiedVars.length > 0 ? modifiedVars : undefined,
+        );
+
         log(`${this.Name} ${name} = ${v}`);
     }
 
@@ -57,11 +74,11 @@ export class CalculateComponent extends Component implements ICalculateComponent
             return v;
         }
 
-        if (!this.VarMap.has(v)) {
+        if (!this.InitVarMap.has(v)) {
             throw new Error(`${this.Name} get no exist var ${v}`);
         }
 
-        return this.VarMap.get(v);
+        return this.ModifedVarMap.get(v) || this.InitVarMap.get(v);
     }
 
     public DoCalculate(calculate: IDoCalculate): void {

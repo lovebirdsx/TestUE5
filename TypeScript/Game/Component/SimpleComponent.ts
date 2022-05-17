@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 // eslint-disable-next-line prettier/prettier
 import { Actor, Vector } from "ue";
 

@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { IInteract } from '../Flow/Action';
 import { Component, IInteractCall } from '../Interface';

@@ -250,11 +250,6 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
                     ) as StaticMeshComponent;
                     if (component?.IsSimulatingPhysics()) {
                         component.WakeAllRigidBodies();
-                        // 调整球的手感
-                        const upSpeed = component.GetPhysicsLinearVelocity();
-                        if (upSpeed.Z > 0) {
-                            component.AddImpulse(new Vector(0, 0, -20));
-                        }
                     }
                 }
             }

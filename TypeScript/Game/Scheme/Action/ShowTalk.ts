@@ -101,6 +101,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
     WhoId: talkerIdScheme,
     TextId: talkItemTextIdScheme,
     WaitTime: createFloatScheme({
+        CnName: '等待时间',
         Optional: true,
         Width: 40,
         Tip: '等待多久之后可以跳过，默认值在【全局配置】表中定义',
@@ -296,6 +297,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>({
         }),
         ResetCamera: createBooleanScheme({
             Tip: '是否在对话播放结束后恢复到对话前的镜头状态,默认为false',
+            CnName: '重置镜头',
             Optional: true,
         }),
     },

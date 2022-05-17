@@ -72,14 +72,18 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
         this.ModifyKv(arrayKey, newArrayValue, 'normal', true);
     }
 
-    private readonly OnToggleFiledOptional = (key: string): void => {
-        const { Value: value, Scheme: type } = this.props;
-        const fieldValue = (value as Record<string, unknown>)[key];
+    private readonly OnToggleFiledOptional = (name: string): void => {
+        const { Value: value, Scheme: scheme } = this.props;
+        const [fieldKey, fieldScheme] = Object.entries(scheme.Fields).find(([key, value]) => {
+            const fieldScheme = value as Scheme;
+            return fieldScheme.CnName === key;
+        });
+
+        const fieldValue = (value as Record<string, unknown>)[fieldKey];
         if (fieldValue !== undefined) {
-            this.ModifyKv(key, undefined, 'normal', true);
+            this.ModifyKv(fieldKey, undefined, 'normal', true);
         } else {
-            const fieldTypeData = (type.Fields as Record<string, unknown>)[key] as Scheme;
-            this.ModifyKv(key, fieldTypeData.CreateDefault(), 'normal', true);
+            this.ModifyKv(fieldKey, (fieldScheme as Scheme).CreateDefault(), 'normal', true);
         }
     };
 
@@ -181,7 +185,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
             }
 
             if (fieldTypeData.Optional) {
-                optinalKeys.push(key);
+                optinalKeys.push(fieldTypeData.CnName);
             }
         }
 
@@ -264,12 +268,12 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
                     {prefixElement}
                     <HorizontalBox>{sameLine}</HorizontalBox>
                     <HorizontalBox>{simplifyArray}</HorizontalBox>
-                    {optinalKeys.length > 0 && <Text Text="Op" Tip="可选参数" />}
+                    {optinalKeys.length > 0 && <Text Text="可选" Tip="可选字段" />}
                     {optinalKeys.length > 0 && (
                         <ContextBtn
                             Commands={optinalKeys}
                             OnCommand={this.OnToggleFiledOptional}
-                            Tip="切换可选参数"
+                            Tip="加入可选字段, 若字段已经存在, 再次选择将删除"
                         />
                     )}
                 </HorizontalBox>

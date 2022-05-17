@@ -46,7 +46,7 @@ export const waitScheme = createObjectScheme<IWait>({
             CreateDefault: () => 2,
             Optional: true,
             ShowName: true,
-            CnName: '最小',
+            CnName: '最小时间',
             Tip: '等待的最小时间',
             Width: 60,
         }),

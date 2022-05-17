@@ -1,43 +1,27 @@
-import {
-    createArrayScheme,
-    createFloatScheme,
-    createObjectScheme,
-    createStringScheme,
-} from '../../../Common/Type';
-import { IFunction, INumberVar } from '../../Flow/Action';
+import { createArrayScheme, createFloatScheme, createObjectScheme } from '../../../Common/Type';
+import { IActionInfo, IFunction, INumberVar } from '../../Flow/Action';
 import { ICalculatorComponent } from '../../Interface';
-import { functionActionsScheme } from '../Action/Action';
+import { functionActionScheme } from '../Action/Action';
+import { functionNameScheme, varNameScheme } from '../Action/Calculate';
 
 export const numberVarScheme = createObjectScheme<INumberVar>({
     Fields: {
-        Name: createStringScheme({
-            CnName: '名字',
-            CreateDefault: () => '变量1',
-            ShowName: true,
-            Name: 'Name',
-            IsUnique: true,
-        }),
+        Name: varNameScheme,
         Value: createFloatScheme({
-            CnName: '值',
-            ShowName: true,
-            Name: 'Value',
+            Tip: '变量值, 类型为数字',
         }),
     },
 });
 
 export const functionScheme = createObjectScheme<IFunction>({
     Fields: {
-        Name: createStringScheme({
-            CnName: '函数名',
-            CreateDefault: () => '函数1',
-            ShowName: true,
-            IsUnique: true,
-        }),
-        Actions: createArrayScheme({
-            Element: functionActionsScheme,
+        Name: functionNameScheme,
+        Actions: createArrayScheme<IActionInfo>({
+            Element: functionActionScheme,
             NewLine: true,
             ArraySimplify: true,
             CnName: '动作',
+            Tip: '函数中需要执行的动作',
         }),
     },
 });

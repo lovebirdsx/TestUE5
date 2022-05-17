@@ -14,6 +14,7 @@ export type TEntityStateId =
     | 'BehaviorStateId'
     | 'DelayActions'
     | 'IsBehaviorPaused'
+    | 'ModifiedVars'
     | 'Pos'
     | 'Rot'
     | 'SpawnRecord'
@@ -46,7 +47,7 @@ export class StateComponent extends Component {
         }
 
         delayActions.forEach((info) => {
-            const action = actionRegistry.SpawnAction(info.Name, this.Entity, info.Params);
+            const action = actionRegistry.SpawnAction(info, this.Entity);
             if (action.IsSchedulable) {
                 warn(`Ignore dealy action ${info.Name} for ${this.Name}`);
             } else {

@@ -2,6 +2,12 @@
 import { ObjectScheme } from '../../../Common/Type';
 import { TActionType } from '../../Flow/Action';
 import { actionRegistry } from './ActionRegistry';
+import {
+    callByConditionScheme,
+    callFunctionScheme,
+    doCalculateScheme,
+    setNumberVarScheme,
+} from './Calculate';
 import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
@@ -22,12 +28,15 @@ import {
 import { setHeadIconVisibleScheme } from './Talker';
 
 export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
+    CallByCondition: callByConditionScheme,
+    CallFunction: callFunctionScheme,
     ChangeActorState: changeActorStateScheme,
     ChangeBehaviorState: changeBehaviorStateScheme,
     ChangeState: changeStateScheme,
     ChangeRandomState: changeRandomStateScheme,
     Destroy: destroyScheme,
     DestroyAllChild: destroyAllChildScheme,
+    DoCalculate: doCalculateScheme,
     FaceToPos: faceToPosScheme,
     FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
@@ -40,6 +49,7 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     SetBehaviorIsPaused: setBehaviorIsPausedScheme,
     SetCameraMode: setCameraModeScheme,
     SetHeadIconVisible: setHeadIconVisibleScheme,
+    SetNumberVar: setNumberVarScheme,
     SetFlowBoolOption: setFlowBoolOptionScheme,
     SetPlotMode: setPlotModeScheme,
     SetPos: setPosScheme,

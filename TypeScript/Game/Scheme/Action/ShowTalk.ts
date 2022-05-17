@@ -52,6 +52,7 @@ export const talkOptionScheme = createObjectScheme<ITalkOption>({
     Fields: {
         TextId: talkOptionTextIdScheme,
         Actions: createArrayScheme({
+            CnName: '动作',
             Element: talkActionScheme,
             NewLine: true,
             ArraySimplify: true,
@@ -106,6 +107,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         CreateDefault: () => 1,
     }),
     Actions: createArrayScheme({
+        CnName: '动作',
         NewLine: true,
         ArraySimplify: true,
         Optional: true,
@@ -113,6 +115,7 @@ const talkItemFileds: TObjectFields<ITalkItem> = {
         Element: talkActionScheme,
     }),
     Options: createArrayScheme({
+        CnName: '选项',
         NewLine: true,
         ArraySimplify: true,
         Optional: true,
@@ -286,6 +289,7 @@ export const showTalkScheme = createObjectScheme<IShowTalk>({
     Fields: {
         TalkItems: createArrayScheme<ITalkItem>({
             NewLine: true,
+            CnName: '对话',
             ArraySimplify: true,
             Tip: '对话列表',
             Element: talkItemScheme,

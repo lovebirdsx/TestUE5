@@ -82,9 +82,8 @@ export class InvokeAction extends Action<IInvoke> {
             const invoke = this.Invoke;
             const tsEntity = gameContext.EntityManager.GetEntity(invoke.Who);
             this.MyAction = actionRegistry.SpawnAction(
-                invoke.ActionInfo.Name,
+                invoke.ActionInfo,
                 tsEntity ? tsEntity.Entity : undefined,
-                invoke.ActionInfo.Params,
             );
             this.IsAsync = invoke.ActionInfo.Async;
         }

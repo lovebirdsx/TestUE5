@@ -6,7 +6,7 @@ import {
     ActionScheme,
     behaviorFlowActionScheme,
     flowListActionScheme,
-    functionActionsScheme,
+    functionActionScheme,
     talkActionScheme,
     trampleActionScheme,
     triggerActionScheme,
@@ -53,7 +53,7 @@ class ActionRegistry {
         result.set(EActionFilter.Trigger, triggerActionScheme);
         result.set(EActionFilter.Trample, trampleActionScheme);
         result.set(EActionFilter.BehaviorFlow, behaviorFlowActionScheme);
-        result.set(EActionFilter.Function, functionActionsScheme);
+        result.set(EActionFilter.Function, functionActionScheme);
         return result;
     }
 

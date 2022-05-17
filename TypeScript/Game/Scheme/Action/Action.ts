@@ -3,6 +3,8 @@ import { EActionFilter, Scheme, TElementRenderType } from '../../../Common/Type'
 import { IActionInfo, IJumpTalk, ILog, IShowTalk } from '../../Flow/Action';
 
 export class ActionScheme extends Scheme<IActionInfo> {
+    public CnName = '动作';
+
     public RenderType: TElementRenderType = 'dynamic';
 
     public Filter: EActionFilter = EActionFilter.FlowList;
@@ -71,7 +73,7 @@ export const behaviorFlowActionScheme = createActionScheme({
     Filter: EActionFilter.BehaviorFlow,
 });
 
-export const functionActionsScheme = createActionScheme({
+export const functionActionScheme = createActionScheme({
     Name: 'FunctionAction',
     Filter: EActionFilter.Function,
     NoIndent: true,

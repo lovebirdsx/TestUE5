@@ -69,7 +69,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
         const newArrayValue = produce(arrayValue, (draft) => {
             draft.push(newArrayItem);
         });
-        this.ModifyKv(arrayKey, newArrayValue, 'normal');
+        this.ModifyKv(arrayKey, newArrayValue, 'normal', true);
     }
 
     private readonly OnToggleFiledOptional = (key: string): void => {
@@ -210,22 +210,16 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
         const simplifyArray = simplifyArrayFields.map((e, id) => {
             // 显示数组类型的名字和+号
             const arrayFieldKey = simplifyArrayFieldsKey[id];
-            const arrayFieldValue = objValue[arrayFieldKey];
-            const arrayTypeData = (objectType.Fields as Record<string, unknown>)[
-                arrayFieldKey
-            ] as Scheme;
+            const arrayFieldValue = objValue[arrayFieldKey] as unknown[];
+            const arrayScheme = objectType.Fields[arrayFieldKey] as ArrayScheme;
             return (
                 <HorizontalBox key={arrayFieldKey}>
-                    <Text Text={arrayFieldKey} Tip={arrayTypeData.Tip || arrayFieldKey} />
+                    <Text Text={arrayScheme.CnName} Tip={arrayScheme.Tip} />
                     <Btn
                         Text={'✚'}
                         Tip={'添加'}
                         OnClick={(): void => {
-                            this.AddArrayItem(
-                                arrayFieldKey,
-                                arrayFieldValue as unknown[],
-                                arrayTypeData as ArrayScheme,
-                            );
+                            this.AddArrayItem(arrayFieldKey, arrayFieldValue, arrayScheme);
                         }}
                     />
                 </HorizontalBox>

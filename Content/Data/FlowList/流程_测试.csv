@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,流程_测试,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 31,
-  ""FlowGenId"": 5,
+  ""TextGenId"": 38,
+  ""FlowGenId"": 6,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -451,6 +451,111 @@
             }
           ],
           ""Id"": 4
+        }
+      ]
+    },
+    {
+      ""Id"": 5,
+      ""StateGenId"": 2,
+      ""Name"": ""计算"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 31,
+                    ""Options"": [
+                      {
+                        ""TextId"": 36,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 32,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""AB7BCBCE4D6C97EF0663CA81DA6BAA9A"",
+                              ""ActionInfo"": {
+                                ""Name"": ""CallFunction"",
+                                ""Params"": {
+                                  ""Name"": ""尝试开门""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 33,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""AB7BCBCE4D6C97EF0663CA81DA6BAA9A"",
+                              ""ActionInfo"": {
+                                ""Name"": ""CallFunction"",
+                                ""Params"": {
+                                  ""Name"": ""设定开门""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 34,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""AB7BCBCE4D6C97EF0663CA81DA6BAA9A"",
+                              ""ActionInfo"": {
+                                ""Name"": ""CallFunction"",
+                                ""Params"": {
+                                  ""Name"": ""设定关门""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 37,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""AB7BCBCE4D6C97EF0663CA81DA6BAA9A"",
+                              ""ActionInfo"": {
+                                ""Name"": ""CallFunction"",
+                                ""Params"": {
+                                  ""Name"": ""关门""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
         }
       ]
     }

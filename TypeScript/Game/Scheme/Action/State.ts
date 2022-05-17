@@ -86,6 +86,6 @@ export const changeActorStateScheme = createObjectScheme<IChangeActorState>({
             Config: actorStateConfig,
         }),
     },
-    Filters: [EActionFilter.Trigger, EActionFilter.Invoke],
+    Filters: [EActionFilter.Trigger, EActionFilter.Invoke, EActionFilter.Function],
     Tip: '让目标Actor改变状态',
 });

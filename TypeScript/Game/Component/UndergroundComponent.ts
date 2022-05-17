@@ -14,6 +14,10 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
 
     public StateInfo: IStateInfo[];
 
+    public IsRestartPlayer: boolean;
+
+    public DestroyTag: string[];
+
     private readonly StateMap = new Map<number, IStateInfo>();
 
     private State: StateComponent;
@@ -48,9 +52,12 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
         if (isChildOfClass(other.Entity.Actor, TsPlayer)) {
             this.RestartPlayerPos();
         } else {
-            if (other.Entity.Actor.ActorHasTag('DestroyUnderground')) {
-                gameContext.EntityManager.RemoveEntity(other);
-            }
+            //DestroyUnderground
+            this.DestroyTag.forEach((tag) => {
+                if (other.Entity.Actor.ActorHasTag(tag)) {
+                    gameContext.EntityManager.RemoveEntity(other);
+                }
+            });
         }
     }
 
@@ -68,6 +75,9 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
     }
 
     public RestartPlayerPos(): void {
+        if (!this.IsRestartPlayer) {
+            return;
+        }
         const info = this.StateMap.get(this.StateId);
         if (info) {
             const pos = toVector(info.RestartPos);

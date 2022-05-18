@@ -50,6 +50,7 @@ export enum EBlueprintId {
     Screen = 1011,
     AiNpcTrainer = 1012,
     Invisible = 1013,
+    Trash = 1014,
 
     // Component
     ActorStateComponent = 10001,

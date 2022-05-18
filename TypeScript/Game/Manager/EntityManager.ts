@@ -43,15 +43,13 @@ export class EntityManager implements IManager, IEntityMananger {
     public SpawnEntity(data: IEntityData, transform: Transform): ITsEntity {
         const entity = entitySerializer.SpawnEntityByData(data, transform);
         this.EntitiesToSpawn.push(entity);
-        log(`Spawn entity ${entity.GetName()} [${entity.Guid}]`);
+        log(`Spawn entity ${entity.Entity.Name}} [${entity.Guid}]`);
         return entity;
     }
 
-    public RemoveEntity(...entities: ITsEntity[]): void {
-        this.EntitiesToDestroy.push(...entities);
-        entities.forEach((entity) => {
-            log(`Remove entity ${entity.GetName()} [${entity.Guid}]`);
-        });
+    public RemoveEntity(entity: ITsEntity): void {
+        this.EntitiesToDestroy.push(entity);
+        log(`Remove entity ${entity.Entity.Name} [${entity.Guid}]`);
     }
 
     public RegisterEntity(entity: ITsEntity): boolean {
@@ -83,7 +81,9 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     public Exit(): void {
-        this.RemoveEntity(...this.Entities);
+        this.Entities.forEach((entity) => {
+            this.RemoveEntity(entity);
+        });
     }
 
     public Tick(deltaTime: number): void {
@@ -91,9 +91,13 @@ export class EntityManager implements IManager, IEntityMananger {
             const entities = this.EntitiesToDestroy.splice(0);
 
             entities.forEach((entity) => {
-                const guid = entity.Guid;
-                entity.K2_DestroyActor();
-                this.EntityRemoved.Invoke(guid);
+                // 由于移除操作是带有延迟的, 所以有可能出现重复移除
+                // 所以在此处加入判断, 避免重复移除
+                if (entity.Entity.IsValid) {
+                    const guid = entity.Guid;
+                    entity.K2_DestroyActor();
+                    this.EntityRemoved.Invoke(guid);
+                }
             });
         }
 

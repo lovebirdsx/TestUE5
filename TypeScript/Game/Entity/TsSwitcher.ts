@@ -2,6 +2,7 @@
 import { Actor } from 'ue';
 
 import { ActorStateComponent } from '../Component/ActorStateComponent';
+import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
 import { StateComponent } from '../Component/StateComponent';
 import { SwitcherComponent } from '../Component/SwitcherComponent';
 import { ITsEntity, TComponentClass } from '../Interface';
@@ -12,6 +13,7 @@ export const switcherComponentClasses: TComponentClass[] = [
     StateComponent,
     ActorStateComponent,
     SwitcherComponent,
+    EntitySpawnerComponent,
 ];
 
 export class TsSwitcher extends TsEntity {

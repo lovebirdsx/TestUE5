@@ -1,0 +1,35 @@
+﻿{
+  "Guid": "D2C7AB1344D99334259E7F80B35CA0A6",
+  "PrefabId": 1014,
+  "ComponentsState": {
+    "ActorStateComponent": {
+      "InitState": "Idle",
+      "_Disabled": false
+    },
+    "SwitcherComponent": {
+      "IsInitOn": false,
+      "AutoExecuteOnLoad": false,
+      "OnActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "83B0DD754163760AE20CB981C2294E19",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "收集垃圾"
+              }
+            }
+          }
+        },
+        {
+          "Name": "Destroy",
+          "Params": {}
+        }
+      ],
+      "OffActions": [],
+      "_Disabled": false,
+      "_OnActionsFolded": false
+    }
+  }
+}

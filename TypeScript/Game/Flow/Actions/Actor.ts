@@ -1,14 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import { Character, Rotator, Vector } from 'ue';
-
-import { isChildOfClass } from '../../../Common/Class';
-import { toVector } from '../../../Common/Interface';
 import { ActorStateComponent } from '../../Component/ActorStateComponent';
 import { EventComponent } from '../../Component/EventComponent';
 import { MoveComponent } from '../../Component/MoveComponent';
 import { SimpleComponent } from '../../Component/SimpleComponent';
-import TsCharacterEntity from '../../Entity/TsCharacterEntity';
 import {
     IChangeActorState,
     IFaceToPos,
@@ -28,19 +23,8 @@ export class ChangeActorStateAction extends Action<IChangeActorState> {
 
 export class SetPosAction extends Action<ISetPosA> {
     public Execute(): void {
-        // 如果是Character，则需要将其位置拉高
-        const pos = toVector(this.Data.Pos);
-        if (isChildOfClass(this.Entity.Actor, TsCharacterEntity)) {
-            const charactor = this.Entity.Actor as Character;
-            pos.Z += charactor.CapsuleComponent.GetUnscaledCapsuleHalfHeight();
-        }
-        this.Entity.Actor.K2_SetActorLocationAndRotation(
-            pos,
-            Rotator.MakeFromEuler(new Vector(0, 0, this.Data.Pos.A)),
-            false,
-            undefined,
-            false,
-        );
+        const moveComponent = this.Entity.GetComponent(MoveComponent);
+        moveComponent.SetPosA(this.Data.Pos);
     }
 }
 

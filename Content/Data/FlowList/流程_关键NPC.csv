@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 25,
+  ""TextGenId"": 42,
   ""FlowGenId"": 5,
   ""Flows"": [
     {
@@ -287,6 +287,18 @@
                             }
                           }
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                          ""ActionInfo"": {
+                            ""Name"": ""SetBehaviorIsPaused"",
+                            ""Params"": {
+                              ""IsPaused"": true
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -319,7 +331,7 @@
     },
     {
       ""Id"": 4,
-      ""StateGenId"": 4,
+      ""StateGenId"": 6,
       ""Name"": ""流浪汉"",
       ""States"": [
         {
@@ -396,13 +408,145 @@
                     ""Id"": 1,
                     ""Name"": ""对话1"",
                     ""WhoId"": 18,
-                    ""TextId"": 24
+                    ""TextId"": 24,
+                    ""Options"": [
+                      {
+                        ""TextId"": 25,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 26
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 18,
+                    ""TextId"": 31
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 18,
+                    ""TextId"": 32,
+                    ""Options"": [
+                      {
+                        ""TextId"": 33,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""1D43E1A343D951290FFEC1A9DE64A17C"",
+                              ""ActionInfo"": {
+                                ""Name"": ""SetNumberVar"",
+                                ""Params"": {
+                                  ""Name"": ""IsTriggerd"",
+                                  ""Value"": 0
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 34,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 3,
+                    ""Name"": ""对话4"",
+                    ""WhoId"": 18,
+                    ""TextId"": 40
                   }
                 ]
               }
             }
           ],
           ""Id"": 3
+        },
+        {
+          ""Name"": ""玩家解谜成功"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 35
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 18,
+                    ""TextId"": 36,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeBehaviorState"",
+                            ""Params"": {
+                              ""StateId"": 4,
+                              ""IsInstant"": true
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 5
+              }
+            }
+          ],
+          ""Id"": 4
+        },
+        {
+          ""Name"": ""离开挡路位置"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 37
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 18,
+                    ""TextId"": 38
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 5
         }
       ]
     }

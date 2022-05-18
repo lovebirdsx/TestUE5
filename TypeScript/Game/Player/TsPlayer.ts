@@ -11,6 +11,7 @@ import {
     Transform,
     Vector,
 } from 'ue';
+import { log } from '../../Common/Log';
 
 import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
@@ -87,6 +88,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     }
 
     public set Speed(value: number) {
+        log(`Player speed change from ${this.Speed} to ${value}`);
         this.Movement.MaxWalkSpeed = value;
         this.Movement.BrakingDecelerationWalking = value * 4;
         this.Movement.MaxAcceleration = value * 4;

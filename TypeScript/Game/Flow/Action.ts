@@ -189,7 +189,7 @@ export interface IChangeState {
 
 export interface IChangeBehaviorState {
     StateId: number;
-    IsInstant?: boolean;
+    IsInstant: boolean;
 }
 
 export interface ISetBehaviorPaused {

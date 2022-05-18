@@ -46,7 +46,6 @@ export const changeBehaviorStateScheme = createObjectScheme<IChangeBehaviorState
         StateId: stateIdScheme,
         IsInstant: createBooleanScheme({
             CnName: '立即模式',
-            Optional: true,
             Tip: '是否立即执行, 如果立即执行, 则将停止当前状态, 马上执行下一状态',
         }),
     },
@@ -60,7 +59,6 @@ export const setBehaviorIsPausedScheme = createObjectScheme<ISetBehaviorPaused>(
     Fields: {
         IsPaused: createBooleanScheme({
             CnName: '是否暂停',
-            Optional: true,
             Tip: '是否暂停',
         }),
     },

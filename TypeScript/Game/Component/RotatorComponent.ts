@@ -79,7 +79,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             this.StateId = Number(action.Param);
             this.State.SetState('StateId', this.StateId);
             if (this.InteractUi) {
-                this.InteractUi.SetChallengeState(this.StateId);
+                // this.InteractUi.SetChallengeState(this.StateId);
             }
         }
     }
@@ -128,7 +128,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             classObj,
         ) as Game.Demo.UI.UI_Rotator.UI_Rotator_C;
         this.InteractUi.AddToViewport();
-        this.InteractUi.SetChallengeState(this.StateId);
+        // this.InteractUi.SetChallengeState(this.StateId);
 
         // camera controll
         const playerController = gameContext.PlayerController as TsPlayerController;

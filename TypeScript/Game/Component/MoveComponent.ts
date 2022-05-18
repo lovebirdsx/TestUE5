@@ -6,12 +6,16 @@ import {
     Character,
     EPathFollowingRequestResult,
     EPathFollowingResult,
+    Rotator,
+    Vector,
 } from 'ue';
 
 import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
-import { toVector } from '../../Common/Interface';
+import { isChildOfClass } from '../../Common/Class';
+import { IPosA, toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
 import { calUpRotatorByPoints } from '../../Common/Util';
+import { TsCharacterEntity } from '../Entity/TsCharacterEntity';
 import { IFaceToPos, IMoveToPosA } from '../Flow/Action';
 import { Component, DEFAULT_INIT_SPEED, gameContext, IMoveComponent } from '../Interface';
 import { TweenItem } from '../Manager/TweenManager';
@@ -144,5 +148,23 @@ export class MoveComponent extends Component implements IMoveComponent {
             toVector(action.Pos),
         );
         await this.FaceToZAngle(targetRotator.Euler().Z);
+    }
+
+    public SetPosA(posA: IPosA): void {
+        // 如果是Character，则需要将其位置拉高
+        const pos = toVector(posA);
+        if (isChildOfClass(this.Entity.Actor, TsCharacterEntity)) {
+            const charactor = this.Entity.Actor as Character;
+            pos.Z += charactor.CapsuleComponent.GetUnscaledCapsuleHalfHeight();
+        }
+        this.Entity.Actor.K2_SetActorLocationAndRotation(
+            pos,
+            Rotator.MakeFromEuler(new Vector(0, 0, posA.A)),
+            false,
+            undefined,
+            false,
+        );
+        this.State.RecordPosition();
+        this.State.RecordRotation();
     }
 }

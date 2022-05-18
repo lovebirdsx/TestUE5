@@ -96,4 +96,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
 	static bool SaveFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
+	
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static FString GetExternActorSavePath(AActor *Actor);
 };

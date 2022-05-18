@@ -8,10 +8,13 @@ import {
     EditorLevelLibrary,
     EditorOperations,
     EDrawDebugTrace,
+    EFileRoot,
     ETraceTypeQuery,
     HitResult,
     KismetSystemLibrary,
+    MyFileHelper,
     NewArray,
+    Package,
     Rotator,
     Transform,
     Vector,
@@ -19,11 +22,12 @@ import {
 
 import { getAssetPath, getBlueprintClass } from '../../Common/Class';
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
-import { error } from '../../Common/Log';
+import { error, log } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
+import { writeJsonConfig } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
-import { isEntity } from '../../Game/Entity/EntityRegistry';
+import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
 import { Component, ITsEntity, parseComponentsState } from '../../Game/Interface';
 
 class LevelEditorUtil {
@@ -111,6 +115,52 @@ class LevelEditorUtil {
         }
 
         return undefined;
+    }
+
+    private static GenEntityJsonPath(pkgPath: string): string {
+        const pathBaseOnContent = pkgPath.substring(6);
+        return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
+    }
+
+    public static SaveEntityData(entity: ITsEntity): void {
+        const externActorPath = EditorOperations.GetExternActorSavePath(entity);
+        if (!externActorPath) {
+            error(`Can not find extern actor path for ${entity.ActorLabel}`);
+            return;
+        }
+
+        const entityJsonPath = this.GenEntityJsonPath(externActorPath);
+        const entityData = entityRegistry.GenData(entity);
+        writeJsonConfig(entityData, entityJsonPath);
+        log(`Write: ${entityJsonPath}`);
+    }
+
+    // 尝试移除package对应的Entity配置数据
+    public static TryRemoveEntityByPackage(pkg: Package): void {
+        const pkgPath = pkg.GetName();
+        if (!pkgPath.includes('__ExternalActors__')) {
+            return;
+        }
+
+        const entityJsonPath = this.GenEntityJsonPath(pkg.GetName());
+        MyFileHelper.Remove(entityJsonPath);
+        log(`Remove: ${entityJsonPath}`);
+    }
+
+    public static SaveCurrentEntityData(): void {
+        const entity = this.GetSelectedEntity();
+        if (!entity) {
+            return;
+        }
+
+        this.SaveEntityData(entity);
+    }
+
+    public static SaveAllEntityData(): void {
+        const entities = this.GetAllEntitiesByEditorWorld();
+        entities.forEach((entity) => {
+            this.SaveEntityData(entity);
+        });
     }
 
     public static SpawnEntity(guid: string, iTransform: ITransform): ITsEntity {

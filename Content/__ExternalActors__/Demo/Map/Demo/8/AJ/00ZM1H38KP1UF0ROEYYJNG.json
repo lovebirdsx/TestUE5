@@ -1,0 +1,72 @@
+﻿{
+  "Lable": "开关2",
+  "PrefabId": 1010,
+  "Guid": "20D9C9E94C9FAC71CDEEF9A78546FF33",
+  "ComponentsState": {
+    "ActorStateComponent": {
+      "InitState": "Close",
+      "_Disabled": false
+    },
+    "SwitcherComponent": {
+      "OnActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "B2",
+                "Value": 1
+              }
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "更新屏幕"
+              }
+            }
+          }
+        }
+      ],
+      "OffActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "B2",
+                "Value": 0
+              }
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "更新屏幕"
+              }
+            }
+          }
+        }
+      ],
+      "_Disabled": false,
+      "_OnActionsFolded": false,
+      "_OffActionsFolded": false,
+      "IsInitOn": true,
+      "AutoExecuteOnLoad": true
+    }
+  }
+}

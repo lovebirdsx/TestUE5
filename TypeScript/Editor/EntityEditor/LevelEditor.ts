@@ -4,21 +4,16 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { log } from '../../Common/Log';
 import { getGuid } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
-import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
-import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
+import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
 import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
-import { EditorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { tempEntities } from './TempEntities';
 
 export class LevelEditor {
     private readonly LevelSerializer = new LevelSerializer();
-
-    private IsDirty = false;
 
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
@@ -26,10 +21,6 @@ export class LevelEditor {
         editorEvent.OnDuplicateActorsEnd.Add(this.OnDuplicateActorsEnd.bind(this));
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
-    }
-
-    public MarkDirty(): void {
-        this.IsDirty = true;
     }
 
     public GetMapDataPath(): string {
@@ -47,19 +38,8 @@ export class LevelEditor {
         this.LevelSerializer.Save(entities, this.GetMapDataPath());
     }
 
-    public SaveCurrentEntity(): void {
-        const entity = LevelEditorUtil.GetSelectedEntity();
-        if (!entity) {
-            return;
-        }
-
-        const entityData = entityRegistry.GenData(entity);
-        EntityTemplateOp.Save(entityData, EditorConfig.LastEntityStateSavePath);
-        log(`Last entity state save to ${EditorConfig.LastEntityStateSavePath}`);
-    }
-
     private OnPreBeginPie(): void {
-        this.SaveCurrentEntity();
+        // this.SaveCurrentEntity();
     }
 
     private CheckEntityInit(actor: Actor): void {

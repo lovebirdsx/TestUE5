@@ -1,0 +1,36 @@
+﻿{
+  "Lable": "菜园男",
+  "PrefabId": 1006,
+  "Guid": "48BDE5AA46674119252089A5E03B103A",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_1",
+        "FlowId": 1,
+        "StateId": 1
+      },
+      "_Disabled": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Name": "状态0",
+            "Actions": [],
+            "Id": 0
+          }
+        ],
+        "_folded": false
+      },
+      "_Disabled": true
+    },
+    "MoveComponent": {
+      "_Disabled": true,
+      "InitSpeed": 150
+    }
+  }
+}

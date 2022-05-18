@@ -1,0 +1,36 @@
+﻿{
+  "Lable": "BP_SteeringWheel12",
+  "PrefabId": 1009,
+  "Guid": "A38DFABC4DB6D6A5A00E10BA5BC68F6C",
+  "ComponentsState": {
+    "RotatorComponent": {
+      "RotatorSpeed": {
+        "X": -100,
+        "Y": -100,
+        "Z": 50
+      },
+      "LocationOffset": {
+        "X": 500,
+        "Y": 0,
+        "Z": 800
+      },
+      "RotationOffset": {
+        "X": -50,
+        "Y": 180,
+        "Z": 0
+      },
+      "RotationMapping": {
+        "X": 1,
+        "Y": 2,
+        "Z": 0
+      },
+      "IsLocalSpace": false,
+      "EntityId": "86981C28431CEE43EE342FAC1E8761A7",
+      "IsRotatorSelf": false,
+      "InteractAction": {
+        "StartActions": [],
+        "EndActions": []
+      }
+    }
+  }
+}

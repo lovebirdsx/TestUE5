@@ -1,0 +1,40 @@
+﻿{
+  "Lable": "TsTrample21",
+  "PrefabId": 9,
+  "Guid": "76AD9AE541518D7CE57C76B47F6B8B31",
+  "ComponentsState": {
+    "TrampleComponent": {
+      "IsDisposable": false,
+      "TriggerActions": [
+        {
+          "Name": "SimpleMove",
+          "Params": {
+            "Who": "9C2DC41F4C432970280612A50ABC6110",
+            "UseTime": 2,
+            "Pos": {
+              "X": -7908,
+              "Y": -6260,
+              "Z": 620,
+              "A": 0
+            }
+          }
+        }
+      ],
+      "RecoveryActions": [
+        {
+          "Name": "SimpleMove",
+          "Params": {
+            "Who": "9C2DC41F4C432970280612A50ABC6110",
+            "UseTime": 2,
+            "Pos": {
+              "X": -7488,
+              "Y": -6260,
+              "Z": 620,
+              "A": 0
+            }
+          }
+        }
+      ]
+    }
+  }
+}

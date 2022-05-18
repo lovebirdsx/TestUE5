@@ -1,0 +1,33 @@
+﻿{
+  "Lable": "二狗",
+  "PrefabId": 1003,
+  "Guid": "07E3F5594A0A8413160953BEC437DCCC",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_AJ",
+        "FlowId": 2,
+        "StateId": 1
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 100
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": false
+    }
+  }
+}

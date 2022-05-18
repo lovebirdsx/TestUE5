@@ -12,6 +12,8 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPieEvent, bool, Value);
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNewActorsDropped, const TArray<AActor*>&, Actors);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEvent, const AActor*, Actor);	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPackageEvent, const UPackage*, Package);	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWorldEvent, const UWorld*, World);	
 
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnSelectionChanged;
@@ -73,6 +75,12 @@ public:
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FActorEvent	OnActorMoved;
 	
+	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FPackageEvent OnPackageRemoved;
+
+	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FWorldEvent OnPreSaveExternalActors;
+	
 	void Initialize();
 
 	void Deinitialize();
@@ -102,6 +110,8 @@ private:
 	void OnDeleteActorsEndOccurd();
 	void OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors);
 	void OnActorMovedOccued(AActor* Actor);
+	void OnPackageRemoveOccurd(UPackage *Package);
+	void OnPreSaveExternalActorsOccurd(UWorld *World);
 
 	bool bLaterInitOk = false;
 };

@@ -1,0 +1,95 @@
+﻿{
+  "Lable": "守卫右",
+  "PrefabId": 1001,
+  "Guid": "528E78C34E811E1BE84BE396F4537CDF",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_守卫",
+        "FlowId": 1,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 2,
+        "States": [
+          {
+            "Name": "函数1",
+            "Actions": [
+              {
+                "Name": "Invoke",
+                "Params": {
+                  "Who": "74153BB745727A2A1A4E769E19983989",
+                  "ActionInfo": {
+                    "Name": "CallFunction",
+                    "Params": {
+                      "Name": "函数2"
+                    }
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 1,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 0,
+            "_folded": false
+          },
+          {
+            "Name": "函数2",
+            "Actions": [
+              {
+                "Name": "Invoke",
+                "Params": {
+                  "Who": "74153BB745727A2A1A4E769E19983989",
+                  "ActionInfo": {
+                    "Name": "CallFunction",
+                    "Params": {
+                      "Name": "函数2"
+                    }
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 0,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 1,
+            "_folded": false
+          }
+        ],
+        "_folded": false
+      },
+      "_Disabled": true,
+      "_folded": false
+    },
+    "MoveComponent": {
+      "_Disabled": true,
+      "InitSpeed": 150
+    }
+  }
+}

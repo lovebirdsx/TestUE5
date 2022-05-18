@@ -1,0 +1,27 @@
+﻿{
+  "Lable": "TsTrample16",
+  "PrefabId": 9,
+  "Guid": "56C7FD2E4960B8F7927C49A6AFB3077C",
+  "ComponentsState": {
+    "TrampleComponent": {
+      "IsDisposable": true,
+      "TriggerActions": [
+        {
+          "Name": "SimpleMove",
+          "Params": {
+            "Who": "F34FD7FE4D17993489D63C8E400208C3",
+            "UseTime": 2,
+            "Pos": {
+              "X": -4510,
+              "Y": -9750,
+              "Z": 420,
+              "A": 0
+            }
+          }
+        }
+      ],
+      "RecoveryActions": [],
+      "_TriggerActionsFolded": false
+    }
+  }
+}

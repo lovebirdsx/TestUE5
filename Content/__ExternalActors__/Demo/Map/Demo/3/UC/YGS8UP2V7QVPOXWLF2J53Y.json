@@ -1,0 +1,92 @@
+﻿{
+  "Lable": "水池女2",
+  "PrefabId": 1007,
+  "Guid": "1CC80C3F4234AC5ED3EF5C944053E5D0",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_村民",
+        "FlowId": 6,
+        "StateId": 1
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_folded": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Flow",
+        "StateGenId": 2,
+        "States": [
+          {
+            "Name": "状态0",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 4532,
+                    "Y": -1630,
+                    "Z": 100
+                  },
+                  "_folded": true
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 10
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 1,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 0,
+            "_folded": true
+          },
+          {
+            "Name": "状态1",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 4530,
+                    "Y": -1849,
+                    "Z": 100
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 10
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 0,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 1,
+            "_folded": true
+          }
+        ],
+        "_folded": false
+      }
+    }
+  }
+}

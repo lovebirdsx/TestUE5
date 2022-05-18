@@ -1,0 +1,15 @@
+﻿{
+  "Lable": "TsSphereFactory11",
+  "PrefabId": 11,
+  "Guid": "77744D2F4F253F473B8B699D2B5DD5E7",
+  "ComponentsState": {
+    "SphereFactoryComponent": {
+      "SphereLocation": {
+        "X": 3830,
+        "Y": 5600,
+        "Z": 1740
+      },
+      "SphereGuid": "A7DFCCFC47DA5AE66CB8F88808966AF6"
+    }
+  }
+}

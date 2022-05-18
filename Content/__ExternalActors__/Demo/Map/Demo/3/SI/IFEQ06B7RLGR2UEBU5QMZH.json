@@ -1,0 +1,35 @@
+﻿{
+  "Lable": "桌子1女",
+  "PrefabId": 1006,
+  "Guid": "E658D4EC4176DC553DE779858E4319C5",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_1",
+        "FlowId": 1,
+        "StateId": 1
+      },
+      "_Disabled": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": true
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_Disabled": true
+    }
+  }
+}

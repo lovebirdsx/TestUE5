@@ -76,6 +76,7 @@ class EntityRegistry {
 
     public GenData<T extends ITsEntity>(obj: T): IEntityData {
         return {
+            Lable: obj.ActorLabel,
             PrefabId: getBlueprintId(obj.GetClass()),
             Guid: obj.Guid,
             ComponentsState: this.GenComponentsState(obj),

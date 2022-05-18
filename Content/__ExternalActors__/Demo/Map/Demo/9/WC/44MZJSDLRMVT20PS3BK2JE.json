@@ -1,0 +1,79 @@
+﻿{
+  "Lable": "BP_SteeringWheel14",
+  "PrefabId": 1009,
+  "Guid": "2D2EE9884632F7D7DADE80AB7AA9638D",
+  "ComponentsState": {
+    "RotatorComponent": {
+      "RotatorSpeed": {
+        "X": -50,
+        "Y": -50,
+        "Z": 50
+      },
+      "LocationOffset": {
+        "X": 600,
+        "Y": 300,
+        "Z": 1000
+      },
+      "RotationOffset": {
+        "X": -45,
+        "Y": 180,
+        "Z": 0
+      },
+      "RotationMapping": {
+        "X": 1,
+        "Y": 2,
+        "Z": 0
+      },
+      "IsLocalSpace": false,
+      "EntityId": "5645A9F749EB0B81920607BDC8C5339C",
+      "IsRotatorSelf": false,
+      "InteractAction": {
+        "StartActions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "A8759EAF404F444DD78671BEED038C01",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "A8759EAF404F444DD78671BEED038C01",
+                  "Param": "1"
+                }
+              }
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "2D2EE9884632F7D7DADE80AB7AA9638D",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "2D2EE9884632F7D7DADE80AB7AA9638D",
+                  "Param": "1"
+                }
+              }
+            }
+          }
+        ],
+        "EndActions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "A8759EAF404F444DD78671BEED038C01",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "A8759EAF404F444DD78671BEED038C01",
+                  "Param": "2"
+                }
+              }
+            }
+          }
+        ],
+        "_StartActionsFolded": false,
+        "_EndActionsFolded": false
+      }
+    }
+  }
+}

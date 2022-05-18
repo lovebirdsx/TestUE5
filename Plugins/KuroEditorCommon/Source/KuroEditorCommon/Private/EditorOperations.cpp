@@ -194,3 +194,16 @@ bool UEditorOperations::SaveFileDialog(const FString& DialogTitle, const FString
 
 	return bOK;
 }
+
+FString UEditorOperations::GetExternActorSavePath(AActor* Actor)
+{
+	if (Actor->IsPackageExternal())
+	{
+		const auto Level = Actor->GetLevel();
+		return Level->GetActorPackageName(Level->GetPackage(), Level->GetActorPackagingScheme(), Actor->GetPathName());		
+	}
+	else
+	{
+		return "";
+	}
+}

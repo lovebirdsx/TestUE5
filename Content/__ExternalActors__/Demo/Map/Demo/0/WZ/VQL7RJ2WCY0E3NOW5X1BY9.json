@@ -1,0 +1,34 @@
+﻿{
+  "Lable": "村长",
+  "PrefabId": 1005,
+  "Guid": "635571A34E09192C448349B0A43E4A45",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_关键NPC",
+        "FlowId": 1,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": true
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_Disabled": true
+    }
+  }
+}

@@ -1,0 +1,105 @@
+﻿{
+  "Lable": "BP_SteeringWheel16",
+  "PrefabId": 1009,
+  "Guid": "6D65D2614F5DB8068F1BD1A897518C31",
+  "ComponentsState": {
+    "RotatorComponent": {
+      "RotatorSpeed": {
+        "X": -50,
+        "Y": -50,
+        "Z": 50
+      },
+      "LocationOffset": {
+        "X": 600,
+        "Y": 300,
+        "Z": 1000
+      },
+      "RotationOffset": {
+        "X": -45,
+        "Y": 180,
+        "Z": 0
+      },
+      "RotationMapping": {
+        "X": 1,
+        "Y": 2,
+        "Z": 0
+      },
+      "IsLocalSpace": false,
+      "EntityId": "4422518548F566750CFD02864878658C",
+      "IsRotatorSelf": false,
+      "InteractAction": {
+        "StartActions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "90DE384D482917E1574211AE850D720D",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "90DE384D482917E1574211AE850D720D",
+                  "Param": "1"
+                }
+              }
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "7665F9C148994F6203D7159CAF764B40",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "7665F9C148994F6203D7159CAF764B40",
+                  "Param": "1"
+                }
+              }
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "6D65D2614F5DB8068F1BD1A897518C31",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "6D65D2614F5DB8068F1BD1A897518C31",
+                  "Param": "1"
+                }
+              }
+            }
+          }
+        ],
+        "EndActions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "90DE384D482917E1574211AE850D720D",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "90DE384D482917E1574211AE850D720D",
+                  "Param": "2"
+                }
+              }
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "7665F9C148994F6203D7159CAF764B40",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "7665F9C148994F6203D7159CAF764B40",
+                  "Param": "2"
+                }
+              }
+            }
+          }
+        ],
+        "_StartActionsFolded": false,
+        "_EndActionsFolded": false
+      }
+    }
+  }
+}

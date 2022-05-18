@@ -1,0 +1,36 @@
+﻿{
+  "Lable": "王大妈",
+  "PrefabId": 1004,
+  "Guid": "E32696674CF6D874598B34A29C141D24",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_关键NPC",
+        "FlowId": 3,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": true,
+      "_folded": false
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_Disabled": true,
+      "_folded": true
+    }
+  }
+}

@@ -1,0 +1,35 @@
+﻿{
+  "Lable": "交谈女2",
+  "PrefabId": 1007,
+  "Guid": "2344B7DA413F3883E5F06094B2CF28C6",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_1",
+        "FlowId": 1,
+        "StateId": 1
+      },
+      "_Disabled": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": true
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_Disabled": true
+    }
+  }
+}

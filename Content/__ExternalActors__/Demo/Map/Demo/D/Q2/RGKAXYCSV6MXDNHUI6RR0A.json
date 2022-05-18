@@ -1,0 +1,36 @@
+﻿{
+  "Lable": "水池男",
+  "PrefabId": 1006,
+  "Guid": "4C2A044640531EB7D2302C9004ED1E12",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_村民",
+        "FlowId": 3,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": true,
+      "_folded": true
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_Disabled": true,
+      "_folded": true
+    }
+  }
+}

@@ -110,6 +110,7 @@ export function parseComponentsState(json: string): TComponentsState {
 }
 
 export interface IEntityData {
+    Lable?: string;
     Guid: string;
     PrefabId: number;
     ComponentsState: TComponentsState;

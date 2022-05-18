@@ -1,0 +1,240 @@
+﻿{
+  "Lable": "大门",
+  "PrefabId": 1008,
+  "Guid": "74153BB745727A2A1A4E769E19983989",
+  "ComponentsState": {
+    "ActorStateComponent": {
+      "_Enabled": true,
+      "InitState": "Idle",
+      "_Disabled": false
+    },
+    "CalculateComponent": {
+      "Vars": [
+        {
+          "Name": "a",
+          "Value": 5
+        },
+        {
+          "Name": "b",
+          "Value": 10
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "函数1",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 5
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "b",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Ge",
+                      "Var2": "b"
+                    }
+                  ],
+                  "_folded": false
+                },
+                "_folded": true,
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a >= b"
+                    }
+                  }
+                ],
+                "_TrueActionsFolded": false,
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a < b"
+                    }
+                  }
+                ],
+                "_FalseActionsFolded": false
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Ge",
+                      "Var2": "b"
+                    }
+                  ],
+                  "_folded": false
+                },
+                "_folded": true,
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a >= b"
+                    }
+                  }
+                ],
+                "_TrueActionsFolded": false,
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a < b"
+                    }
+                  }
+                ],
+                "_FalseActionsFolded": false
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 11
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Ge",
+                      "Var2": "b"
+                    }
+                  ],
+                  "_folded": false
+                },
+                "_folded": true,
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a >= b"
+                    }
+                  }
+                ],
+                "_TrueActionsFolded": false,
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a < b"
+                    }
+                  }
+                ],
+                "_FalseActionsFolded": false
+              }
+            }
+          ],
+          "_folded": false
+        },
+        {
+          "Name": "函数2",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "b",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "a",
+                "Op": "Add",
+                "Var2": "b",
+                "Result": "a"
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Eq",
+                      "Var2": 20
+                    }
+                  ],
+                  "_folded": false
+                },
+                "_folded": true,
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a == 20"
+                    }
+                  }
+                ],
+                "_TrueActionsFolded": false,
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a != 20"
+                    }
+                  }
+                ],
+                "_FalseActionsFolded": false
+              }
+            }
+          ],
+          "_folded": false
+        }
+      ],
+      "_Enabled": true,
+      "_VarsFolded": false,
+      "_FunctionsFolded": false
+    }
+  }
+}

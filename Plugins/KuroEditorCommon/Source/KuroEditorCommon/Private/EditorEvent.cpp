@@ -25,6 +25,8 @@ void UEditorEvent::Initialize()
 	FEditorDelegates::OnDeleteActorsBegin.AddUObject(this, &UEditorEvent::OnDeleteActorsBeginOccurd);
 	FEditorDelegates::OnDeleteActorsEnd.AddUObject(this, &UEditorEvent::OnDeleteActorsEndOccurd);
 	FEditorDelegates::OnNewActorsDropped.AddUObject(this, &UEditorEvent::OnNewActorsDroppedOccurd);
+	FEditorDelegates::OnPackageDeleted.AddUObject(this, &UEditorEvent::OnPackageRemoveOccurd);
+	FEditorDelegates::PreSaveExternalActors.AddUObject(this, &UEditorEvent::OnPreSaveExternalActorsOccurd);
 	
 	UE_LOG(KuroEditorCommon, Display, TEXT("UEditorEvent Initialize OK"));
 }
@@ -75,7 +77,9 @@ void UEditorEvent::Deinitialize()
 	FEditorDelegates::OnDuplicateActorsEnd.RemoveAll(this);
 	FEditorDelegates::OnDeleteActorsBegin.RemoveAll(this);
 	FEditorDelegates::OnDeleteActorsEnd.RemoveAll(this);
-	FEditorDelegates::OnNewActorsDropped.RemoveAll(this);	
+	FEditorDelegates::OnNewActorsDropped.RemoveAll(this);
+	FEditorDelegates::OnPackageDeleted.RemoveAll(this);
+	FEditorDelegates::PreSaveExternalActors.RemoveAll(this);
 }
 
 void UEditorEvent::OnLevelSelectionChanged(UObject* InObject)
@@ -164,4 +168,14 @@ void UEditorEvent::OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArra
 void UEditorEvent::OnActorMovedOccued(AActor* Actor)
 {
 	OnActorMoved.Broadcast(Actor);
+}
+
+void UEditorEvent::OnPackageRemoveOccurd(UPackage* Package)
+{
+	OnPackageRemoved.Broadcast(Package);
+}
+
+void UEditorEvent::OnPreSaveExternalActorsOccurd(UWorld* World)
+{
+	OnPreSaveExternalActors.Broadcast(World);
 }

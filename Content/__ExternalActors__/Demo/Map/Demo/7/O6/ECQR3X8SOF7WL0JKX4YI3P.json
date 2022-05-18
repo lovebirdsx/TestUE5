@@ -1,0 +1,29 @@
+﻿{
+  "Lable": "TsTrigger14",
+  "PrefabId": 2,
+  "Guid": "A239E6E243AC139BEC91EAB0A8B2076E",
+  "ComponentsState": {
+    "TriggerComponent": {
+      "MaxTriggerTimes": 1,
+      "TriggerActions": {
+        "Actions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "419498A04DCE8A3DD2FA07BE2CA780B5",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "419498A04DCE8A3DD2FA07BE2CA780B5",
+                  "Param": "5"
+                }
+              }
+            }
+          }
+        ],
+        "_ActionsFolded": false
+      },
+      "IsNotLoad": true
+    }
+  }
+}

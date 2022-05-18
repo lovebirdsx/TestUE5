@@ -1,0 +1,188 @@
+﻿{
+  "Lable": "显示屏",
+  "PrefabId": 1011,
+  "Guid": "1D43E1A343D951290FFEC1A9DE64A17C",
+  "ComponentsState": {
+    "ActorStateComponent": {
+      "InitState": "Idle",
+      "_Disabled": false,
+      "_folded": false
+    },
+    "CalculateComponent": {
+      "Vars": [
+        {
+          "Name": "B0",
+          "Value": 1
+        },
+        {
+          "Name": "B1",
+          "Value": 0
+        },
+        {
+          "Name": "B2",
+          "Value": 0
+        },
+        {
+          "Name": "B3",
+          "Value": 0
+        },
+        {
+          "Name": "Screen",
+          "Value": 0
+        },
+        {
+          "Name": "Temp",
+          "Value": 0
+        },
+        {
+          "Name": "IsTriggerd",
+          "Value": 0
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "更新屏幕",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "Screen",
+                "Value": 0,
+                "_folded": false
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "B0",
+                "Op": "Mut",
+                "Var2": 1,
+                "Result": "Temp"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "Screen",
+                "Op": "Add",
+                "Var2": "Temp",
+                "Result": "Screen"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "B1",
+                "Op": "Mut",
+                "Var2": 2,
+                "Result": "Temp"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "Screen",
+                "Op": "Add",
+                "Var2": "Temp",
+                "Result": "Screen"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "B2",
+                "Op": "Mut",
+                "Var2": 4,
+                "Result": "Temp"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "Screen",
+                "Op": "Add",
+                "Var2": "Temp",
+                "Result": "Screen"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "B3",
+                "Op": "Mut",
+                "Var2": 8,
+                "Result": "Temp"
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "Screen",
+                "Op": "Add",
+                "Var2": "Temp",
+                "Result": "Screen"
+              }
+            },
+            {
+              "Name": "SyncVarToActorState",
+              "Params": {
+                "Name": "Screen",
+                "VarName": "Screen",
+                "StateKey": "Screen"
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "Screen",
+                      "Compare": "Eq",
+                      "Var2": 13
+                    },
+                    {
+                      "Var1": "IsTriggerd",
+                      "Compare": "Eq",
+                      "Var2": 0
+                    }
+                  ],
+                  "_folded": false
+                },
+                "TrueActions": [
+                  {
+                    "Name": "SetNumberVar",
+                    "Params": {
+                      "Name": "IsTriggerd",
+                      "Value": 1
+                    }
+                  },
+                  {
+                    "Name": "Invoke",
+                    "Params": {
+                      "Who": "5F946CE64AC775655094BD8286AB562D",
+                      "ActionInfo": {
+                        "Name": "ChangeState",
+                        "Params": {
+                          "StateId": 4
+                        }
+                      }
+                    }
+                  }
+                ],
+                "_folded": false,
+                "_TrueActionsFolded": false
+              }
+            }
+          ],
+          "_folded": false
+        }
+      ],
+      "_Disabled": false,
+      "_VarsFolded": true,
+      "_FunctionsFolded": false,
+      "_folded": false
+    }
+  }
+}

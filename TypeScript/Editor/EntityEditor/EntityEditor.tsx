@@ -3,7 +3,7 @@
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper } from 'ue';
+import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper, Package, World } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
 import { formatColor } from '../../Common/Color';
@@ -14,6 +14,7 @@ import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
+import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
@@ -51,6 +52,8 @@ function canRedo(state: IEntityEditorState): boolean {
 
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private LastApplyEntityState: IEntityState;
+
+    private LastSavedEntityState: IEntityState;
 
     private readonly LevelEditor: LevelEditor = new LevelEditor();
 
@@ -106,6 +109,16 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         };
     }
 
+    private SaveCurrentEntity(): void {
+        const entityState = this.EntityState;
+        if (!entityState || !entityState.Entity || this.LastSavedEntityState === entityState) {
+            return;
+        }
+
+        this.LastSavedEntityState = entityState;
+        LevelEditorUtil.SaveEntityData(entityState.Entity);
+    }
+
     private GenEntityStateBySelect(): IEntityState {
         const entity = LevelEditorUtil.GetSelectedEntity();
         if (entity) {
@@ -154,6 +167,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 return;
             }
 
+            this.SaveCurrentEntity();
+
             const entityState = this.GenEntityState(entity);
 
             // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
@@ -181,12 +196,22 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }, 100);
     };
 
+    private readonly OnPreSaveExternalActors = (world: World): void => {
+        this.SaveCurrentEntity();
+    };
+
+    private readonly OnPackageRemoved = (pkg: Package): void => {
+        LevelEditorUtil.TryRemoveEntityByPackage(pkg);
+    };
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public UNSAFE_componentWillMount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Add(this.OnSelectionChanged);
         editorEvent.OnBeginPie.Add(this.OnBeginPie);
         editorEvent.OnEndPie.Add(this.OnEndPie);
+        editorEvent.OnPreSaveExternalActors.Add(this.OnPreSaveExternalActors);
+        editorEvent.OnPackageRemoved.Add(this.OnPackageRemoved);
     }
 
     public ComponentWillUnmount(): void {
@@ -194,6 +219,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
         editorEvent.OnBeginPie.Remove(this.OnBeginPie);
         editorEvent.OnEndPie.Remove(this.OnEndPie);
+        editorEvent.OnPreSaveExternalActors.Remove(this.OnPreSaveExternalActors);
+        editorEvent.OnPackageRemoved.Remove(this.OnPackageRemoved);
     }
 
     private get EntityState(): IEntityState {
@@ -309,6 +336,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private readonly Test = (): void => {
         log(`is playing = ${LevelEditorUtil.IsPlaying}`);
+        const entity = LevelEditorUtil.GetSelectedEntity();
+        if (!entity) {
+            return;
+        }
+
+        log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
+
+        LevelEditorUtil.SaveEntityData(entity);
     };
 
     private readonly GetUndoStateStr = (): string => {
@@ -377,6 +412,24 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     <Text Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
                     <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={'打开游戏存档文件'} />
                     <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={'删除游戏存档文件'} />
+                    <Text Text={'保存游戏'} Tip={'退出Pie时,是否自动保存游戏'} />
+                    <Check
+                        UnChecked={!this.IsSaveWhileExitPie}
+                        OnChecked={(checked: boolean): void => {
+                            this.IsSaveWhileExitPie = checked;
+                        }}
+                        Tip={'退出Pie时,是否自动保存游戏'}
+                    />
+                    <ContextBtn
+                        Commands={['导出所有实体数据']}
+                        OnCommand={function (cmd: string): void {
+                            switch (cmd) {
+                                case '导出所有实体数据':
+                                    LevelEditorUtil.SaveAllEntityData();
+                                    break;
+                            }
+                        }}
+                    />
                 </HorizontalBox>
                 <HorizontalBox>
                     <Btn
@@ -402,14 +455,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                             this.IsLocked = checked;
                         }}
                         Tip={'锁定后,选择其它Entity将不会改变当前编辑的Entity'}
-                    />
-                    <Text Text={'自动保存'} Tip={'退出Pie时,是否自动保存游戏'} />
-                    <Check
-                        UnChecked={!this.IsSaveWhileExitPie}
-                        OnChecked={(checked: boolean): void => {
-                            this.IsSaveWhileExitPie = checked;
-                        }}
-                        Tip={'退出Pie时,是否自动保存游戏'}
                     />
                     <Btn Text={'状态'} OnClick={this.Info} Tip={`输出状态`} />
                     <Btn Text={'测试'} OnClick={this.Test} Tip={`测试`} />

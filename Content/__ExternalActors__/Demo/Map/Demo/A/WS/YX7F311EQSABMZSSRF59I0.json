@@ -1,0 +1,36 @@
+﻿{
+  "Lable": "训练导师",
+  "PrefabId": 1012,
+  "Guid": "0035B3094C5F4382792795B5A086CA4D",
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_通过新手关",
+        "FlowId": 1,
+        "StateId": 1
+      },
+      "_Disabled": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "_Disabled": true,
+      "_folded": false
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "_Disabled": true
+    }
+  }
+}

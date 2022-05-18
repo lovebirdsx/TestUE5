@@ -342,8 +342,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
-
-        LevelEditorUtil.SaveEntityData(entity);
+        log(`${entity.ActorLabel}: Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
     };
 
     private readonly GetUndoStateStr = (): string => {

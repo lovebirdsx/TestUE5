@@ -123,6 +123,10 @@ class LevelEditorUtil {
     }
 
     public static SaveEntityData(entity: ITsEntity): void {
+        if (!EditorOperations.IsActorDirty(entity)) {
+            return;
+        }
+
         const externActorPath = EditorOperations.GetExternActorSavePath(entity);
         if (!externActorPath) {
             error(`Can not find extern actor path for ${entity.ActorLabel}`);

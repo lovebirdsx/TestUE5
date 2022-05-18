@@ -207,3 +207,8 @@ FString UEditorOperations::GetExternActorSavePath(AActor* Actor)
 		return "";
 	}
 }
+
+bool UEditorOperations::IsActorDirty(AActor* Actor)
+{
+	return Actor->GetPackage()->IsDirty();
+}

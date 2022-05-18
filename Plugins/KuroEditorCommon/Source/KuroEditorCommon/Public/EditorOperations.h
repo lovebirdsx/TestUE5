@@ -99,4 +99,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static FString GetExternActorSavePath(AActor *Actor);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static  bool IsActorDirty(AActor *Actor);
 };

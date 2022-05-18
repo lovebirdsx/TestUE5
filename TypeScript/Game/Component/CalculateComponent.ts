@@ -32,8 +32,6 @@ export class CalculateComponent extends Component implements ICalculateComponent
 
     private StateComponent: StateComponent;
 
-    private ActorStateComponent: ActorStateComponent;
-
     public OnInit(): void {
         this.Vars.forEach((v) => {
             this.InitVarMap.set(v.Name, v.Value);
@@ -41,7 +39,6 @@ export class CalculateComponent extends Component implements ICalculateComponent
         this.Functions.forEach((v) => this.FunctionMap.set(v.Name, v));
 
         this.StateComponent = this.Entity.GetComponent(StateComponent);
-        this.ActorStateComponent = this.Entity.GetComponent(ActorStateComponent);
     }
 
     public OnLoadState(): void {
@@ -76,7 +73,8 @@ export class CalculateComponent extends Component implements ICalculateComponent
 
     public SyncVarToActorState(data: ISyncVarToActorState): void {
         const v = this.GetVarValue(data.VarName);
-        this.ActorStateComponent.SetChildNumberState(data.StateKey, v);
+        const actorStateComponent = this.Entity.GetComponent(ActorStateComponent);
+        actorStateComponent.SetChildNumberState(data.StateKey, v);
     }
 
     public GetVarValue(v: TVar): number {

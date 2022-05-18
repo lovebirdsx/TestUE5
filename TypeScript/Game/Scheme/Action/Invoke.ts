@@ -43,7 +43,12 @@ export const invokeScheme = createObjectScheme<IInvoke>({
 export const destroyScheme = createObjectScheme<Record<string, undefined>>({
     Name: 'Destroy',
     CnName: '销毁',
-    Filters: [EActionFilter.Invoke, EActionFilter.Trigger, EActionFilter.FlowList],
+    Filters: [
+        EActionFilter.Invoke,
+        EActionFilter.Trigger,
+        EActionFilter.FlowList,
+        EActionFilter.Function,
+    ],
     Tip: '销毁对象',
 });
 

@@ -629,10 +629,20 @@
                             }
                           },
                           {
-                            ""Name"": ""JumpTalk"",
+                            ""Name"": ""Invoke"",
                             ""Params"": {
-                              ""TalkId"": 1
+                              ""Who"": ""83B0DD754163760AE20CB981C2294E19"",
+                              ""ActionInfo"": {
+                                ""Name"": ""CallFunction"",
+                                ""Params"": {
+                                  ""Name"": ""开始任务""
+                                }
+                              }
                             }
+                          },
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
                           }
                         ]
                       },

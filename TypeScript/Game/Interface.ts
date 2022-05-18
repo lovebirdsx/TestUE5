@@ -2,7 +2,7 @@
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
-import { Event } from '../Common/Util';
+import { Event, parse } from '../Common/Util';
 import {
     IActionInfo,
     IFlowInfo,
@@ -94,8 +94,7 @@ export interface ICalculatorComponent {
 }
 
 export type TComponentState = Record<string, unknown> & {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    _Disabled: boolean;
+    Disabled: boolean;
 };
 
 export type TComponentsState = Record<string, TComponentState>;
@@ -104,7 +103,7 @@ export function parseComponentsState(json: string): TComponentsState {
     if (!json) {
         return {};
     }
-    return JSON.parse(json) as TComponentsState;
+    return parse(json, true) as TComponentsState;
 }
 
 export interface IEntityData {

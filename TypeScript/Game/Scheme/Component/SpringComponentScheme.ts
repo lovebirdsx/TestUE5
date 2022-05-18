@@ -3,6 +3,7 @@ import {
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
+    createObjectSchemeForComponent,
     createVectorScheme,
     IVectorType,
 } from '../../../Common/Type';
@@ -42,7 +43,7 @@ export const springSettingDirScheme = createObjectScheme<ISettingSpringDir>({
     NewLine: true,
 });
 
-export const springComponentScheme = createObjectScheme<ISpringComponent>({
+export const springComponentScheme = createObjectSchemeForComponent<ISpringComponent>({
     Name: 'RotatorComponent',
     Fields: {
         IsNormalSpring: createBooleanScheme({

@@ -47,7 +47,13 @@ bool UMyFileHelper::Exist(const FString Path)
 }
 
 bool UMyFileHelper::Write(const FString Path, FString Content)
-{	
+{		
+	const auto Dir = FPaths::GetPath(Path);
+	if (!FPaths::DirectoryExists(Dir))
+	{
+		IPlatformFile& PlatformFile	 = FPlatformFileManager::Get().GetPlatformFile();
+		PlatformFile.CreateDirectoryTree(ToCStr(Dir));
+	}
 	return FFileHelper::SaveStringToFile(Content, *Path, FFileHelper::EEncodingOptions::ForceUTF8);		
 }
 

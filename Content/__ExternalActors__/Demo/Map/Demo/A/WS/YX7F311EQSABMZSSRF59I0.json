@@ -8,8 +8,7 @@
         "FlowListName": "流程_通过新手关",
         "FlowId": 1,
         "StateId": 1
-      },
-      "_Disabled": false
+      }
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -25,12 +24,11 @@
           }
         ]
       },
-      "_Disabled": true,
-      "_folded": false
+      "Disabled": false
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "_Disabled": true
+      "Disabled": false
     }
   }
 }

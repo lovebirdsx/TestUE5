@@ -3,6 +3,7 @@ import {
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
+    createObjectSchemeForComponent,
     EActionFilter,
 } from '../../../Common/Type';
 import { ITriggerActions } from '../../Flow/Action';
@@ -22,7 +23,7 @@ export const triggerActionsScheme = createObjectScheme<ITriggerActions>({
     NoIndent: true,
 });
 
-export const triggerComponentScheme = createObjectScheme<ITriggerComponent>({
+export const triggerComponentScheme = createObjectSchemeForComponent<ITriggerComponent>({
     Name: 'TriggerComponent',
     Fields: {
         MaxTriggerTimes: createIntScheme({

@@ -30,7 +30,8 @@
       "InteractAction": {
         "StartActions": [],
         "EndActions": []
-      }
+      },
+      "Disabled": false
     }
   }
 }

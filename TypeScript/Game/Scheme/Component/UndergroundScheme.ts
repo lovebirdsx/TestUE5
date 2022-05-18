@@ -4,6 +4,7 @@ import {
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
+    createObjectSchemeForComponent,
     createStringScheme,
     createVectorScheme,
     IVectorType,
@@ -40,7 +41,7 @@ export const stateInfoScheme = createObjectScheme<IStateInfo>({
     NoIndent: true,
 });
 
-export const undergroundActionsScheme = createObjectScheme<IUndergroundComponent>({
+export const undergroundActionsScheme = createObjectSchemeForComponent<IUndergroundComponent>({
     Name: 'UndergroundActions',
     Fields: {
         TestState: createIntScheme({

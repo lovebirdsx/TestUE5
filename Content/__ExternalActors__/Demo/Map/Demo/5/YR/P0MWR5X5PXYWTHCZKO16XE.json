@@ -5,8 +5,7 @@
   "ComponentsState": {
     "ActorStateComponent": {
       "InitState": "Idle",
-      "_Disabled": false,
-      "_folded": false
+      "Disabled": false
     },
     "CalculateComponent": {
       "Vars": [
@@ -51,8 +50,7 @@
               "Name": "SetNumberVar",
               "Params": {
                 "Name": "Screen",
-                "Value": 0,
-                "_folded": false
+                "Value": 0
               }
             },
             {
@@ -156,8 +154,7 @@
                       "Compare": "Eq",
                       "Var2": 1
                     }
-                  ],
-                  "_folded": false
+                  ]
                 },
                 "TrueActions": [
                   {
@@ -179,19 +176,13 @@
                       }
                     }
                   }
-                ],
-                "_folded": false,
-                "_TrueActionsFolded": false
+                ]
               }
             }
-          ],
-          "_folded": false
+          ]
         }
       ],
-      "_Disabled": false,
-      "_VarsFolded": false,
-      "_FunctionsFolded": false,
-      "_folded": false
+      "Disabled": false
     }
   }
 }

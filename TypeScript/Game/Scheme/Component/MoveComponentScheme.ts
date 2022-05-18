@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { createFloatScheme, createObjectScheme } from '../../../Common/Type';
+import { createFloatScheme, createObjectSchemeForComponent } from '../../../Common/Type';
 import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../Interface';
 
-export const moveComponentScheme = createObjectScheme<IMoveComponent>({
+export const moveComponentScheme = createObjectSchemeForComponent<IMoveComponent>({
     Fields: {
         InitSpeed: createFloatScheme({
             CnName: '初始速度',

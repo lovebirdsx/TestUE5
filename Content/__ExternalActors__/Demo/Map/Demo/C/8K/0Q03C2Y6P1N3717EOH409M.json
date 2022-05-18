@@ -11,7 +11,8 @@
       }
     },
     "MoveComponent": {
-      "InitSpeed": 100
+      "InitSpeed": 100,
+      "Disabled": false
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -27,7 +28,7 @@
           }
         ]
       },
-      "_Disabled": false
+      "Disabled": false
     }
   }
 }

@@ -6,7 +6,7 @@ import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 import { getFileNameWithOutExt } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
 import { toTsArray } from '../../../Common/UeHelper';
-import { deepEquals, genGuid, readJsonObj, writeJsonObj } from '../../../Common/Util';
+import { deepEquals, genGuid, readJsonObj, writeJson } from '../../../Common/Util';
 import { IEntityData, TComponentClass, TComponentsState } from '../../Interface';
 import { GameConfig } from '../GameConfig';
 
@@ -105,7 +105,7 @@ export class EntityTemplateOp {
     public static Save(data: IEntityData, path: string): void {
         const existTemplate = this.Load(path);
         const template = this.Gen(data, existTemplate ? existTemplate.Guid : undefined);
-        writeJsonObj(template, path);
+        writeJson(template, path, true);
     }
 
     // 将Template中的数据写入EntityData中,如果数据一样,则返回传入的data

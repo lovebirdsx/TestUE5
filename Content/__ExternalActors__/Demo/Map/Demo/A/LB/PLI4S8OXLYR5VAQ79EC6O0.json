@@ -20,10 +20,10 @@
               }
             }
           }
-        ],
-        "_ActionsFolded": false
+        ]
       },
-      "IsNotLoad": true
+      "IsNotLoad": true,
+      "Disabled": false
     }
   }
 }

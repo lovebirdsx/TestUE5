@@ -1,5 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createObjectScheme, intScheme } from '../../../Common/Type';
+import {
+    createObjectScheme,
+    createObjectSchemeForComponent,
+    intScheme,
+} from '../../../Common/Type';
 import { flowOp } from '../../Common/Operations/Flow';
 import { IFlowInfo } from '../../Flow/Action';
 import { IBehaviorFlowComponent, IFlowComponent } from '../../Interface';
@@ -28,7 +32,7 @@ export const flowComponentScheme = createObjectScheme<IFlowComponent>({
     NewLine: true,
 });
 
-export const behaviorFlowComponentScheme = createObjectScheme<IBehaviorFlowComponent>({
+export const behaviorFlowComponentScheme = createObjectSchemeForComponent<IBehaviorFlowComponent>({
     Name: 'BehaviorFlowComponent',
     CreateDefault: () => {
         return {

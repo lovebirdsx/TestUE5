@@ -1,7 +1,7 @@
 import { DemoWorldSettings, EFileRoot, MyFileHelper, World } from 'ue';
 
 import { log } from '../../Common/Log';
-import { writeJsonConfig } from '../../Common/Util';
+import { writeJson } from '../../Common/Util';
 
 export class GameConfig {
     public static readonly SavePath = MyFileHelper.GetPath(EFileRoot.Save, 'Game/Config.json');
@@ -37,7 +37,7 @@ export class GameConfig {
     }
 
     public Save(): void {
-        writeJsonConfig(this, GameConfig.SavePath);
+        writeJson(this, GameConfig.SavePath);
     }
 
     public static GetCurrentMapDataPath(world: World): string {

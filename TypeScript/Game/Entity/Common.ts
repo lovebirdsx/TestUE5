@@ -14,7 +14,7 @@ export function initTsEntity(tsEntity: ITsEntity): void {
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {
         const data = componentsState[componentClass.name];
-        if (!data || !data._Disabled) {
+        if (!data || !data.Disabled) {
             const component = entity.AddComponentC(componentClass);
             if (data) {
                 Object.assign(component, data);

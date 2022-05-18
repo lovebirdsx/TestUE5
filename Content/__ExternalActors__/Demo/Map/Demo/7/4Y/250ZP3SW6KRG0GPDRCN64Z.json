@@ -28,8 +28,7 @@
                     "X": 1737,
                     "Y": 418,
                     "Z": 100
-                  },
-                  "_folded": false
+                  }
                 }
               },
               {
@@ -46,8 +45,7 @@
                 }
               }
             ],
-            "Id": 0,
-            "_folded": false
+            "Id": 0
           },
           {
             "Name": "状态1",
@@ -77,16 +75,15 @@
                 }
               }
             ],
-            "Id": 1,
-            "_folded": false
+            "Id": 1
           }
-        ],
-        "_folded": true
-      }
+        ]
+      },
+      "Disabled": false
     },
     "MoveComponent": {
-      "_Disabled": false,
-      "InitSpeed": 150
+      "InitSpeed": 150,
+      "Disabled": false
     }
   }
 }

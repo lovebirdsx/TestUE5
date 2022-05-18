@@ -2,7 +2,7 @@
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
-import { writeJsonConfig } from '../../Common/Util';
+import { writeJson } from '../../Common/Util';
 import { IPlayFlow } from '../../Game/Flow/Action';
 import { IEntityRecords } from './Interface';
 
@@ -82,7 +82,7 @@ export class EditorConfig {
     }
 
     public Save(): void {
-        writeJsonConfig(this, EditorConfig.SavePath);
+        writeJson(this, EditorConfig.SavePath);
     }
 }
 

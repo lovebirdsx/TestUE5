@@ -96,10 +96,9 @@
               }
             }
           }
-        ],
-        "_StartActionsFolded": false,
-        "_EndActionsFolded": false
-      }
+        ]
+      },
+      "Disabled": false
     }
   }
 }

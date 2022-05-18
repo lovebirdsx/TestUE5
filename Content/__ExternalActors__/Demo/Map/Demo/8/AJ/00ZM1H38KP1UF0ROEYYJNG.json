@@ -5,7 +5,7 @@
   "ComponentsState": {
     "ActorStateComponent": {
       "InitState": "Open",
-      "_Disabled": false
+      "Disabled": false
     },
     "SwitcherComponent": {
       "OnActions": [
@@ -62,9 +62,7 @@
           }
         }
       ],
-      "_Disabled": false,
-      "_OnActionsFolded": false,
-      "_OffActionsFolded": false
+      "Disabled": false
     }
   }
 }

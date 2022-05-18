@@ -65,7 +65,7 @@ class EntityRegistry {
                     scheme.Fix(state[componentName]);
                 } else {
                     const componentState = scheme.CreateDefault() as TComponentState;
-                    componentState._Disabled = false;
+                    componentState.Disabled = false;
                     state[componentName] = componentState;
                 }
             }
@@ -117,9 +117,18 @@ class EntityRegistry {
         return errorCount;
     }
 
-    public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): void {
-        obj.Guid = data.Guid;
-        obj.ComponentsStateJson = stringify(data.ComponentsState);
+    public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): boolean {
+        let modifyCount = 0;
+        if (obj.Guid !== data.Guid) {
+            obj.Guid = data.Guid;
+            modifyCount++;
+        }
+        const newStateJson = stringify(data.ComponentsState, true);
+        if (obj.ComponentsStateJson !== newStateJson) {
+            obj.ComponentsStateJson = newStateJson;
+            modifyCount++;
+        }
+        return modifyCount > 0;
     }
 
     // 判断data数据是否和entity自身携带的数据一致

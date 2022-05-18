@@ -69,10 +69,9 @@
             }
           }
         ],
-        "EndActions": [],
-        "_StartActionsFolded": false,
-        "_EndActionsFolded": false
-      }
+        "EndActions": []
+      },
+      "Disabled": false
     }
   }
 }

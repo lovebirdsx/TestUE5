@@ -8,8 +8,7 @@
         "FlowListName": "流程_村民",
         "FlowId": 1,
         "StateId": 1
-      },
-      "_folded": true
+      }
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -30,8 +29,7 @@
                     "Y": -2953,
                     "Z": 90,
                     "A": 89
-                  },
-                  "_folded": false
+                  }
                 }
               },
               {
@@ -48,8 +46,7 @@
                 }
               }
             ],
-            "Id": 0,
-            "_folded": false
+            "Id": 0
           },
           {
             "Name": "朝B移动",
@@ -63,8 +60,7 @@
                     "Y": -2951,
                     "Z": 99,
                     "A": 89
-                  },
-                  "_folded": false
+                  }
                 }
               },
               {
@@ -81,8 +77,7 @@
                 }
               }
             ],
-            "Id": 1,
-            "_folded": false
+            "Id": 1
           },
           {
             "Name": "静止",
@@ -101,17 +96,15 @@
                 }
               }
             ],
-            "Id": 2,
-            "_folded": false
+            "Id": 2
           }
-        ],
-        "_folded": false
+        ]
       },
-      "_folded": true
+      "Disabled": false
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "_folded": true
+      "Disabled": false
     }
   }
 }

@@ -3,13 +3,22 @@
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import { Actor, EditorOperations, ESlateSizeRule, MyFileHelper, Package, World } from 'ue';
+import {
+    Actor,
+    EditorOperations,
+    EFileRoot,
+    ESlateSizeRule,
+    MyFileHelper,
+    Package,
+    World,
+} from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
 import { formatColor } from '../../Common/Color';
 import { log, warn } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { msgbox } from '../../Common/UeHelper';
+import { readJsonObj, stringifyEditor } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
@@ -20,7 +29,7 @@ import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { openFile } from '../Common/Util';
+import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
@@ -95,12 +104,56 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         gameConfig.Save();
     }
 
+    private GenEntityEditorJsonPath(entity: ITsEntity): string | undefined {
+        const pkgPath = EditorOperations.GetExternActorSavePath(entity);
+        if (!pkgPath) {
+            return undefined;
+        }
+
+        const pathBaseOnContent = pkgPath.substring(6);
+        return MyFileHelper.GetPath(EFileRoot.Save, pathBaseOnContent) + '.json';
+    }
+
+    private LoadEntityEditorData(entity: ITsEntity): IEntityData | undefined {
+        const path = this.GenEntityEditorJsonPath(entity);
+        if (!path) {
+            return undefined;
+        }
+
+        return readJsonObj(path);
+    }
+
+    private TryRemoveEntityEditorDataByPackage(pkg: Package): void {
+        const pkgPath = pkg.GetName();
+        if (!pkgPath.includes('__ExternalActors__')) {
+            return;
+        }
+
+        const pathBaseOnContent = pkgPath.substring(6);
+        const path = MyFileHelper.GetPath(EFileRoot.Save, pathBaseOnContent) + '.json';
+        MyFileHelper.Remove(path);
+    }
+
+    private SaveEntityEditorData(entity: ITsEntity, data: IEntityData): void {
+        const entityEditorSavePath = this.GenEntityEditorJsonPath(entity);
+        if (!entityEditorSavePath) {
+            return;
+        }
+
+        MyFileHelper.Write(entityEditorSavePath, stringifyEditor(data));
+    }
+
     private GenEntityState(entity: ITsEntity): IEntityState {
         const data = entityRegistry.GenData(entity);
         if (entityRegistry.IsDataModified(entity, data)) {
             entityRegistry.ApplyData(data, entity);
             EditorOperations.MarkPackageDirty(entity);
             warn(`[${entity.ActorLabel}]: Auto fix entity data`);
+        }
+
+        const editorData = this.LoadEntityEditorData(entity);
+        if (editorData) {
+            mergeEditorToConfig(data, editorData);
         }
 
         return {
@@ -116,7 +169,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         this.LastSavedEntityState = entityState;
-        LevelEditorUtil.SaveEntityData(entityState.Entity);
+        LevelEditorUtil.CheckAndSaveEntityData(entityState.Entity);
+
+        this.SaveEntityEditorData(entityState.Entity, entityState.Data);
     }
 
     private GenEntityStateBySelect(): IEntityState {
@@ -202,6 +257,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private readonly OnPackageRemoved = (pkg: Package): void => {
         LevelEditorUtil.TryRemoveEntityByPackage(pkg);
+        this.TryRemoveEntityEditorDataByPackage(pkg);
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -269,8 +325,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        entityRegistry.ApplyData(es.Data, es.Entity);
-        EditorOperations.MarkPackageDirty(es.Entity);
+        if (entityRegistry.ApplyData(es.Data, es.Entity)) {
+            EditorOperations.MarkPackageDirty(es.Entity);
+        }
 
         this.LastApplyEntityState = es;
     }
@@ -420,11 +477,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         Tip={'退出Pie时,是否自动保存游戏'}
                     />
                     <ContextBtn
-                        Commands={['导出所有实体数据']}
+                        Commands={['修复并导出所有实体数据']}
                         OnCommand={function (cmd: string): void {
                             switch (cmd) {
-                                case '导出所有实体数据':
-                                    LevelEditorUtil.SaveAllEntityData();
+                                case '修复并导出所有实体数据':
+                                    LevelEditorUtil.CheckAndSaveAllEntityData();
                                     break;
                             }
                         }}

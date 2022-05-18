@@ -3,6 +3,7 @@ import {
     createArrayScheme,
     createBooleanScheme,
     createObjectScheme,
+    createObjectSchemeForComponent,
     createStringScheme,
     createVectorScheme,
     EActionFilter,
@@ -47,7 +48,7 @@ export const eventScheme = createObjectScheme<IEventRotator>({
     NoIndent: true,
 });
 
-export const rotatorComponentScheme = createObjectScheme<IRotatorComponent>({
+export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorComponent>({
     Name: 'RotatorComponent',
     Fields: {
         RotatorSpeed: createVectorScheme({

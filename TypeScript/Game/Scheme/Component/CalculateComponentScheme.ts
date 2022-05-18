@@ -1,4 +1,9 @@
-import { createArrayScheme, createFloatScheme, createObjectScheme } from '../../../Common/Type';
+import {
+    createArrayScheme,
+    createFloatScheme,
+    createObjectScheme,
+    createObjectSchemeForComponent,
+} from '../../../Common/Type';
 import { IActionInfo, IFunction, INumberVar } from '../../Flow/Action';
 import { ICalculatorComponent } from '../../Interface';
 import { functionActionScheme } from '../Action/Action';
@@ -26,7 +31,7 @@ export const functionScheme = createObjectScheme<IFunction>({
     },
 });
 
-export const calculateComponentScheme = createObjectScheme<ICalculatorComponent>({
+export const calculateComponentScheme = createObjectSchemeForComponent<ICalculatorComponent>({
     Fields: {
         Vars: createArrayScheme({
             Element: numberVarScheme,

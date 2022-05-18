@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createEnumScheme, createObjectScheme } from '../../../Common/Type';
+import { createEnumScheme, createObjectSchemeForComponent } from '../../../Common/Type';
 import { actorStateConfig } from '../../Flow/Action';
 import { IActorStateComponent } from '../../Interface';
 
-export const actorStateComponentScheme = createObjectScheme<IActorStateComponent>({
+export const actorStateComponentScheme = createObjectSchemeForComponent<IActorStateComponent>({
     Name: 'FlowComponent',
     Fields: {
         InitState: createEnumScheme({

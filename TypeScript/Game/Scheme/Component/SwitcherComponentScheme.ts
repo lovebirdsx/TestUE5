@@ -1,8 +1,8 @@
-import { createArrayScheme, createObjectScheme } from '../../../Common/Type';
+import { createArrayScheme, createObjectSchemeForComponent } from '../../../Common/Type';
 import { ISwitcherComponent } from '../../Interface';
 import { triggerActionScheme } from '../Action/Action';
 
-export const switcherComponentScheme = createObjectScheme<ISwitcherComponent>({
+export const switcherComponentScheme = createObjectSchemeForComponent<ISwitcherComponent>({
     Fields: {
         OnActions: createArrayScheme({
             CnName: '开启动作',

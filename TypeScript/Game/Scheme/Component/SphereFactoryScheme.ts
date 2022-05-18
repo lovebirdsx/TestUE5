@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
-    createObjectScheme,
+    createObjectSchemeForComponent,
     createStringScheme,
     createVectorScheme,
     IVectorType,
@@ -12,7 +12,7 @@ export interface ISphereFactoryComponent {
     SphereGuid: string;
 }
 
-export const sphereFactorComponentScheme = createObjectScheme<ISphereFactoryComponent>({
+export const sphereFactorComponentScheme = createObjectSchemeForComponent<ISphereFactoryComponent>({
     Name: 'SphereFactorComponent',
     Fields: {
         SphereLocation: createVectorScheme({

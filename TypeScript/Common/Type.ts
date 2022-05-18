@@ -265,136 +265,6 @@ export function createArrayScheme<T>(
     return scheme;
 }
 
-export class ObjectScheme<T> extends Scheme<T> {
-    public RenderType: TElementRenderType = 'object';
-
-    public Filters: EActionFilter[] = actionFilterExcpetInvoke;
-
-    public Fields: TObjectFields<T>;
-
-    public Scheduled?: boolean;
-
-    public NoIndent?: boolean;
-
-    public static CreateByFields<T>(fields: TObjectFields<T>): T {
-        const fieldArray = [];
-        for (const key in fields) {
-            const filedTypeData = fields[key];
-            if (!filedTypeData.Optional) {
-                fieldArray.push([key, filedTypeData.CreateDefault()]);
-            }
-        }
-        return Object.fromEntries(fieldArray) as T;
-    }
-
-    public CreateDefault(): T {
-        return ObjectScheme.CreateByFields<T>(this.Fields);
-    }
-
-    public static FixByFields<T>(fields: TObjectFields<T>, value: T): TFixResult {
-        if (!fields) {
-            error(`Fix失败, 对象没有配置fields的Scheme`);
-            return 'canNotFixed';
-        }
-        let fixCount = 0;
-        for (const key in fields) {
-            const filedTypeData = fields[key];
-            if (!filedTypeData) {
-                error(`Fix失败: 对应字段[${key}]的scheme不存在`);
-                continue;
-            }
-            if (value[key] === undefined) {
-                if (!filedTypeData.Optional) {
-                    value[key] = filedTypeData.CreateDefault();
-                    warn(`fixed no exist field [${key}]`);
-                    fixCount++;
-                }
-            } else {
-                const reuslt = filedTypeData.Fix(value[key]);
-                if (reuslt === 'fixed') {
-                    warn(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
-                    fixCount++;
-                }
-            }
-        }
-
-        const keysToRemove = [] as string[];
-        for (const key in value) {
-            if (!fields[key] && !key.startsWith('_')) {
-                keysToRemove.push(key);
-            }
-        }
-
-        keysToRemove.forEach((key) => {
-            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-            delete (value as Record<string, unknown>)[key];
-            fixCount++;
-            warn(`remove no exist field [${key}]`);
-        });
-
-        return fixCount > 0 ? 'fixed' : 'nothing';
-    }
-
-    public Fix(value: T): TFixResult {
-        const result = ObjectScheme.FixByFields(this.Fields, value);
-        if (result === 'canNotFixed') {
-            error(`修复类型为[${this.Name}]的数据失败`);
-        }
-        return result;
-    }
-
-    public static CheckByFields<T>(fields: TObjectFields<T>, value: T, messages: string[]): number {
-        if (!fields) {
-            messages.push('对象没有配置fields的Scheme');
-            return 1;
-        }
-
-        let errorCount = 0;
-        for (const key in fields) {
-            const filedTypeData = fields[key];
-            if (!filedTypeData) {
-                continue;
-            }
-
-            if (value[key] === undefined) {
-                if (!filedTypeData.Optional) {
-                    messages.push(`字段[${key}]值为空`);
-                    errorCount++;
-                }
-            } else {
-                errorCount += filedTypeData.Check(value[key], messages);
-            }
-        }
-
-        for (const key in value) {
-            if (!fields[key] && !key.startsWith('_')) {
-                messages.push(`存在非法的字段[${key}]`);
-                errorCount++;
-            }
-        }
-
-        return errorCount;
-    }
-
-    public Check(value: T, messages: string[]): number {
-        return ObjectScheme.CheckByFields(this.Fields, value, messages);
-    }
-}
-
-export function createObjectScheme<T>(
-    type: Omit<Partial<ObjectScheme<T>>, 'renderType'>,
-): ObjectScheme<T> {
-    const scheme = new ObjectScheme<T>();
-    if (type) {
-        Object.assign(scheme, type);
-    }
-    return scheme;
-}
-
-export const emptyObjectScheme = createObjectScheme({
-    Name: 'EmptyObject',
-});
-
 // ============================================================================
 
 export class IntScheme extends Scheme<number> {
@@ -590,4 +460,147 @@ export function createVectorScheme(
 
 export const vectorScheme = createVectorScheme({
     Name: 'Vector',
+});
+
+// ============================================================================
+export class ObjectScheme<T> extends Scheme<T> {
+    public RenderType: TElementRenderType = 'object';
+
+    public Filters: EActionFilter[] = actionFilterExcpetInvoke;
+
+    public Fields: TObjectFields<T>;
+
+    public Scheduled?: boolean;
+
+    public NoIndent?: boolean;
+
+    public static CreateByFields<T>(fields: TObjectFields<T>): T {
+        const fieldArray = [];
+        for (const key in fields) {
+            const filedTypeData = fields[key];
+            if (!filedTypeData.Optional) {
+                fieldArray.push([key, filedTypeData.CreateDefault()]);
+            }
+        }
+        return Object.fromEntries(fieldArray) as T;
+    }
+
+    public CreateDefault(): T {
+        return ObjectScheme.CreateByFields<T>(this.Fields);
+    }
+
+    public static FixByFields<T>(fields: TObjectFields<T>, value: T): TFixResult {
+        if (!fields) {
+            error(`Fix失败, 对象没有配置fields的Scheme`);
+            return 'canNotFixed';
+        }
+        let fixCount = 0;
+        for (const key in fields) {
+            const filedTypeData = fields[key];
+            if (!filedTypeData) {
+                error(`Fix失败: 对应字段[${key}]的scheme不存在`);
+                continue;
+            }
+            if (value[key] === undefined) {
+                if (!filedTypeData.Optional) {
+                    value[key] = filedTypeData.CreateDefault();
+                    warn(`fixed no exist field [${key}]`);
+                    fixCount++;
+                }
+            } else {
+                const reuslt = filedTypeData.Fix(value[key]);
+                if (reuslt === 'fixed') {
+                    warn(`fixed field [${key}] to ${JSON.stringify(value[key])}`);
+                    fixCount++;
+                }
+            }
+        }
+
+        const keysToRemove = [] as string[];
+        for (const key in value) {
+            if (!fields[key] && !key.startsWith('_')) {
+                keysToRemove.push(key);
+            }
+        }
+
+        keysToRemove.forEach((key) => {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete (value as Record<string, unknown>)[key];
+            fixCount++;
+            warn(`remove no exist field [${key}]`);
+        });
+
+        return fixCount > 0 ? 'fixed' : 'nothing';
+    }
+
+    public Fix(value: T): TFixResult {
+        const result = ObjectScheme.FixByFields(this.Fields, value);
+        if (result === 'canNotFixed') {
+            error(`修复类型为[${this.Name}]的数据失败`);
+        }
+        return result;
+    }
+
+    public static CheckByFields<T>(fields: TObjectFields<T>, value: T, messages: string[]): number {
+        if (!fields) {
+            messages.push('对象没有配置fields的Scheme');
+            return 1;
+        }
+
+        let errorCount = 0;
+        for (const key in fields) {
+            const filedTypeData = fields[key];
+            if (!filedTypeData) {
+                continue;
+            }
+
+            if (value[key] === undefined) {
+                if (!filedTypeData.Optional) {
+                    messages.push(`字段[${key}]值为空`);
+                    errorCount++;
+                }
+            } else {
+                errorCount += filedTypeData.Check(value[key], messages);
+            }
+        }
+
+        for (const key in value) {
+            if (!fields[key] && !key.startsWith('_')) {
+                messages.push(`存在非法的字段[${key}]`);
+                errorCount++;
+            }
+        }
+
+        return errorCount;
+    }
+
+    public Check(value: T, messages: string[]): number {
+        return ObjectScheme.CheckByFields(this.Fields, value, messages);
+    }
+}
+
+export function createObjectScheme<T>(
+    type: Omit<Partial<ObjectScheme<T>>, 'renderType'>,
+): ObjectScheme<T> {
+    const scheme = new ObjectScheme<T>();
+    if (type) {
+        Object.assign(scheme, type);
+    }
+    return scheme;
+}
+
+export function createObjectSchemeForComponent<T>(
+    type: Omit<Partial<ObjectScheme<T>>, 'renderType'>,
+): ObjectScheme<T> {
+    if (type?.Fields) {
+        const fileds = type.Fields as Record<string, unknown>;
+        fileds.Disabled = createBooleanScheme({
+            Hide: true,
+        });
+    }
+    return createObjectScheme(type);
+}
+
+export const emptyObjectScheme = createObjectScheme({
+    Name: 'EmptyObject',
 });

@@ -12,8 +12,7 @@
             "X": -3085,
             "Y": -4530.1689453125,
             "Z": 742
-          },
-          "_folded": true
+          }
         },
         {
           "StateId": 2,
@@ -21,8 +20,7 @@
             "X": -3111,
             "Y": -5956.49853515625,
             "Z": 564
-          },
-          "_folded": true
+          }
         },
         {
           "StateId": 3,
@@ -30,8 +28,7 @@
             "X": -3111,
             "Y": -7696.49853515625,
             "Z": 564
-          },
-          "_folded": true
+          }
         },
         {
           "StateId": 4,
@@ -39,8 +36,7 @@
             "X": -3111,
             "Y": -10076,
             "Z": 584
-          },
-          "_folded": true
+          }
         },
         {
           "StateId": 5,
@@ -48,8 +44,7 @@
             "X": -4592,
             "Y": -9356,
             "Z": 524
-          },
-          "_folded": false
+          }
         },
         {
           "StateId": 6,
@@ -57,8 +52,7 @@
             "X": -4591,
             "Y": -7966,
             "Z": 524
-          },
-          "_folded": false
+          }
         },
         {
           "StateId": 7,
@@ -66,8 +60,7 @@
             "X": -4591,
             "Y": -6336,
             "Z": 524
-          },
-          "_folded": false
+          }
         },
         {
           "StateId": 8,
@@ -75,8 +68,7 @@
             "X": -6491,
             "Y": -4566,
             "Z": 524
-          },
-          "_folded": false
+          }
         },
         {
           "StateId": 9,
@@ -84,17 +76,14 @@
             "X": -6491,
             "Y": -6526,
             "Z": 524
-          },
-          "_folded": false
+          }
         }
       ],
-      "_StateInfoFolded": true,
       "DestroyTag": [
         "DestroyUnderground"
       ],
       "IsRestartPlayer": false,
-      "_DestroyTagFolded": false,
-      "_Disabled": false
+      "Disabled": false
     }
   }
 }

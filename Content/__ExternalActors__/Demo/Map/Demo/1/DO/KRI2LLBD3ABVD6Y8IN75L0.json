@@ -34,8 +34,7 @@
         }
       ],
       "RecoveryActions": [],
-      "_Disabled": false,
-      "_TriggerActionsFolded": false
+      "Disabled": false
     }
   }
 }

@@ -5,7 +5,7 @@
   "ComponentsState": {
     "ActorStateComponent": {
       "InitState": "Idle",
-      "_Disabled": true
+      "Disabled": false
     },
     "CalculateComponent": {
       "Vars": [
@@ -69,8 +69,7 @@
                 }
               }
             }
-          ],
-          "_folded": true
+          ]
         },
         {
           "Name": "收集垃圾",
@@ -95,8 +94,7 @@
                       "Compare": "Eq",
                       "Var2": 3
                     }
-                  ],
-                  "_folded": false
+                  ]
                 },
                 "TrueActions": [
                   {
@@ -105,13 +103,10 @@
                       "Name": "结束任务"
                     }
                   }
-                ],
-                "_folded": false,
-                "_TrueActionsFolded": false
+                ]
               }
             }
-          ],
-          "_folded": true
+          ]
         },
         {
           "Name": "结束任务",
@@ -132,13 +127,10 @@
               "Name": "Destroy",
               "Params": {}
             }
-          ],
-          "_folded": false
+          ]
         }
       ],
-      "_Disabled": false,
-      "_VarsFolded": false,
-      "_FunctionsFolded": false
+      "Disabled": false
     }
   }
 }

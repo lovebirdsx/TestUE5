@@ -128,11 +128,46 @@ export function loadClass(classNameOrPath: string): Class {
     return tsClassObj.StaticClass();
 }
 
+// 将value转换为json格式, filterUnderScore表示是否过滤掉以下划线开头的字段
+// 如果filterUnderScore为真, 则
+// 对于: { name: 'hello', _folded: true }
+// 将被格式化成: { name: 'hello' }
 export function stringify(value: unknown, filterUnderScore?: boolean): string {
     return JSON.stringify(
         value,
         (key: string, value: unknown): unknown => {
             if (filterUnderScore && typeof key === 'string' && key.startsWith('_')) {
+                return undefined;
+            }
+            return value;
+        },
+        2,
+    );
+}
+
+// 解析json格式, filterUnderScore表示是否过滤掉以下滑线开头的字段
+export function parse(text: string, filterUnderScore?: boolean): unknown {
+    return JSON.parse(text, (key: string, value: unknown): unknown => {
+        if (filterUnderScore && key.startsWith('_')) {
+            return undefined;
+        }
+        return value;
+    });
+}
+
+// 将value中包含的编辑器配置(字段名以下划线_开始)导出
+// 譬如 { name: 'hello', _folded: true }
+// 将被导出为 { _folded: true }
+export function stringifyEditor(value: unknown): string {
+    return JSON.stringify(
+        value,
+        (key: unknown, value: unknown): unknown => {
+            if (
+                typeof key === 'string' &&
+                key.length > 0 &&
+                !key.startsWith('_') &&
+                typeof value !== 'object'
+            ) {
                 return undefined;
             }
             return value;
@@ -213,7 +248,7 @@ export class Event<T1 = unknown, T2 = unknown, T3 = unknown> {
     }
 }
 
-export function readJsonObj<T>(path: string, defalut?: T): T {
+export function readJsonObj<T>(path: string, defalut?: T): T | undefined {
     const content = UE.MyFileHelper.Read(path);
     if (content) {
         return JSON.parse(content) as T;
@@ -221,12 +256,8 @@ export function readJsonObj<T>(path: string, defalut?: T): T {
     return defalut ? defalut : undefined;
 }
 
-export function writeJsonObj(obj: unknown, path: string): void {
-    UE.MyFileHelper.Write(path, stringify(obj));
-}
-
-export function writeJsonConfig(obj: unknown, path: string): void {
-    UE.MyFileHelper.Write(path, JSON.stringify(obj, undefined, 2));
+export function writeJson(obj: unknown, path: string, filterUnderScore?: boolean): void {
+    UE.MyFileHelper.Write(path, stringify(obj, filterUnderScore));
 }
 
 export function isEditor(): boolean {

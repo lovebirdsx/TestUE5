@@ -24,13 +24,13 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
         return (
             <HorizontalBox>
                 <Check
-                    UnChecked={componentState._Disabled}
+                    UnChecked={componentState.Disabled}
                     OnChecked={(isEnabled): void => {
                         // disable或者针对合法的Component数据进行enable, 都只需要修改Disabled字段
                         // 否则就要重新生成Component的合法数据
                         if (!isEnabled || Object.keys(componentState).length > 1) {
                             const newComponentsState = produce(this.props.Value, (draft) => {
-                                draft[componentName]._Disabled = !isEnabled;
+                                draft[componentName].Disabled = !isEnabled;
                             });
                             this.props.OnModify(newComponentsState, 'normal');
                         } else {
@@ -38,7 +38,7 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
                             const newComponentsState = produce(componentsState, (draft) => {
                                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                                 const componentState = scheme.CreateDefault() as TComponentState;
-                                componentState._Disabled = false;
+                                componentState.Disabled = false;
                                 draft[componentName] = componentState;
                             });
                             this.props.OnModify(newComponentsState, 'normal');

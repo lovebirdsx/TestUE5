@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { EFileRoot, MyFileHelper, PythonScriptLibrary } from 'ue';
 
-import { readJsonObj, writeJsonConfig } from '../../Common/Util';
+import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Util';
 
 export function openDirOfFile(filepath: string): void {
     const command = [
@@ -40,7 +40,7 @@ const CLIP_BOARD_SAVE_PATH = MyFileHelper.GetPath(EFileRoot.Save, 'ClipBoard.jso
 const defalutClipBoard: IClipBoard = { DataMap: {} };
 
 function saveClipBoard(clipBoard: IClipBoard): void {
-    writeJsonConfig(clipBoard, CLIP_BOARD_SAVE_PATH);
+    writeJson(clipBoard, CLIP_BOARD_SAVE_PATH);
 }
 
 function loadClipBoard(): IClipBoard {
@@ -57,4 +57,34 @@ export function pasteObject<T>(type: string): T {
     const clipBoard = loadClipBoard();
     const data = clipBoard.DataMap[type];
     return data as T;
+}
+
+export function mergeEditorToConfig(config: unknown, editor: unknown): object {
+    if (typeof config !== 'object' || typeof editor !== 'object') {
+        throw new Error('Can only merge object');
+    }
+
+    for (const key in editor) {
+        const v1 = config[key];
+        const v2 = editor[key];
+        if (typeof v2 === 'object') {
+            // editor有可能落后于config,从而出现editor中多出的object
+            // 由于editor的字段只可能存在于已有的config的object中,故而忽略
+            if (typeof v1 === 'object') {
+                config[key] = mergeEditorToConfig(
+                    v1 as Record<string, unknown>,
+                    v2 as Record<string, unknown>,
+                );
+            }
+        } else {
+            if (v1 === undefined) {
+                config[key] = v2;
+            }
+        }
+    }
+    return config;
+}
+
+export function wirteEditorConfig(config: unknown, path: string): void {
+    MyFileHelper.Write(stringifyEditor(config), path);
 }

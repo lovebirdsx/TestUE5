@@ -22,8 +22,7 @@
                     "Y": -1877,
                     "Z": 100,
                     "A": 134
-                  },
-                  "_folded": true
+                  }
                 }
               },
               {
@@ -40,8 +39,7 @@
                 }
               }
             ],
-            "Id": 0,
-            "_folded": true
+            "Id": 0
           },
           {
             "Name": "移动2",
@@ -55,8 +53,7 @@
                     "Y": -808,
                     "Z": 100,
                     "A": -145
-                  },
-                  "_folded": true
+                  }
                 }
               },
               {
@@ -73,8 +70,7 @@
                 }
               }
             ],
-            "Id": 1,
-            "_folded": true
+            "Id": 1
           },
           {
             "Name": "移动3",
@@ -105,8 +101,7 @@
                 }
               }
             ],
-            "Id": 2,
-            "_folded": true
+            "Id": 2
           },
           {
             "Name": "移动4",
@@ -137,12 +132,11 @@
                 }
               }
             ],
-            "Id": 3,
-            "_folded": true
+            "Id": 3
           }
         ]
       },
-      "_folded": true
+      "Disabled": false
     },
     "FlowComponent": {
       "InitState": {
@@ -152,8 +146,8 @@
       }
     },
     "MoveComponent": {
-      "_Disabled": false,
-      "InitSpeed": 150
+      "InitSpeed": 150,
+      "Disabled": false
     }
   }
 }

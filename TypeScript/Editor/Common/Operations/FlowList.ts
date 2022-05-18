@@ -18,6 +18,7 @@ import {
     IShowOption,
     IShowTalk,
 } from '../../../Game/Flow/Action';
+import { mergeEditorToConfig } from '../Util';
 
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
 
@@ -63,32 +64,6 @@ class EditorFlowListOp {
         }
 
         return {};
-    }
-
-    // 将编辑器的配置合并到config
-    private MergeEditorToConfig(
-        config: Record<string, unknown>,
-        editor: Record<string, unknown>,
-    ): object {
-        for (const key in editor) {
-            const v1 = config[key];
-            const v2 = editor[key];
-            if (typeof v2 === 'object') {
-                // editor有可能落后于config,从而出现editor中多出的object
-                // 由于editor的字段只可能存在于已有的config的object中,故而忽略
-                if (typeof v1 === 'object') {
-                    config[key] = this.MergeEditorToConfig(
-                        v1 as Record<string, unknown>,
-                        v2 as Record<string, unknown>,
-                    );
-                }
-            } else {
-                if (v1 === undefined) {
-                    config[key] = v2;
-                }
-            }
-        }
-        return config;
     }
 
     private SaveConfig(flowList: IFlowListInfo, path: string): void {
@@ -149,7 +124,7 @@ class EditorFlowListOp {
     public Load(path: string): IFlowListInfo {
         const flowList = flowListOp.Load(path);
         const editor = this.LoadEditor(path);
-        this.MergeEditorToConfig(
+        mergeEditorToConfig(
             flowList as unknown as Record<string, unknown>,
             editor as Record<string, unknown>,
         );

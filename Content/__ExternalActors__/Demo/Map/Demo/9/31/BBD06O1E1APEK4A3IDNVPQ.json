@@ -47,7 +47,7 @@
         }
       ],
       "RecoveryActions": [],
-      "_TriggerActionsFolded": false
+      "Disabled": false
     }
   }
 }

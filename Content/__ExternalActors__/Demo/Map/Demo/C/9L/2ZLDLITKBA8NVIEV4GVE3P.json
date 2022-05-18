@@ -12,7 +12,7 @@
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "_folded": false
+      "Disabled": false
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -50,8 +50,7 @@
                 }
               }
             ],
-            "Id": 0,
-            "_folded": false
+            "Id": 0
           },
           {
             "Name": "状态2",
@@ -82,12 +81,11 @@
                 }
               }
             ],
-            "Id": 1,
-            "_folded": false
+            "Id": 1
           }
-        ],
-        "_folded": false
-      }
+        ]
+      },
+      "Disabled": false
     }
   }
 }

@@ -46,8 +46,7 @@
                 }
               }
             ],
-            "Id": 0,
-            "_folded": false
+            "Id": 0
           },
           {
             "Name": "函数2",
@@ -78,18 +77,15 @@
                 }
               }
             ],
-            "Id": 1,
-            "_folded": false
+            "Id": 1
           }
-        ],
-        "_folded": false
+        ]
       },
-      "_Disabled": true,
-      "_folded": false
+      "Disabled": true
     },
     "MoveComponent": {
-      "_Disabled": true,
-      "InitSpeed": 150
+      "InitSpeed": 150,
+      "Disabled": true
     }
   }
 }

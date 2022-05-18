@@ -8,8 +8,7 @@
         "FlowListName": "流程_关键NPC",
         "FlowId": 5,
         "StateId": 1
-      },
-      "_Disabled": false
+      }
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -28,8 +27,7 @@
                 }
               }
             ],
-            "Id": 0,
-            "_folded": false
+            "Id": 0
           },
           {
             "Name": "到房子后",
@@ -50,8 +48,7 @@
                 "Name": "Wait",
                 "Params": {
                   "Time": 5,
-                  "Min": 2,
-                  "_folded": false
+                  "Min": 2
                 }
               },
               {
@@ -70,8 +67,7 @@
                 "Name": "Wait",
                 "Params": {
                   "Time": 5,
-                  "Min": 2,
-                  "_folded": false
+                  "Min": 2
                 }
               },
               {
@@ -82,8 +78,7 @@
                 }
               }
             ],
-            "Id": 1,
-            "_folded": true
+            "Id": 1
           },
           {
             "Name": "到房子前",
@@ -104,8 +99,7 @@
                 "Name": "Wait",
                 "Params": {
                   "Time": 5,
-                  "Min": 2,
-                  "_folded": false
+                  "Min": 2
                 }
               },
               {
@@ -117,16 +111,14 @@
                     "Y": -959,
                     "Z": 100,
                     "A": -31
-                  },
-                  "_folded": true
+                  }
                 }
               },
               {
                 "Name": "Wait",
                 "Params": {
                   "Time": 5,
-                  "Min": 2,
-                  "_folded": false
+                  "Min": 2
                 }
               },
               {
@@ -138,16 +130,14 @@
                     "Y": 135,
                     "Z": 100,
                     "A": 89
-                  },
-                  "_folded": true
+                  }
                 }
               },
               {
                 "Name": "Wait",
                 "Params": {
                   "Time": 5,
-                  "Min": 2,
-                  "_folded": false
+                  "Min": 2
                 }
               },
               {
@@ -159,16 +149,14 @@
                     "Y": -17,
                     "Z": 99,
                     "A": 89
-                  },
-                  "_folded": true
+                  }
                 }
               },
               {
                 "Name": "Wait",
                 "Params": {
                   "Time": 5,
-                  "Min": 2,
-                  "_folded": false
+                  "Min": 2
                 }
               },
               {
@@ -179,18 +167,15 @@
                 }
               }
             ],
-            "Id": 2,
-            "_folded": false
+            "Id": 2
           }
-        ],
-        "_folded": false
+        ]
       },
-      "_Disabled": false,
-      "_folded": false
+      "Disabled": false
     },
     "MoveComponent": {
-      "_Disabled": false,
-      "InitSpeed": 150
+      "InitSpeed": 150,
+      "Disabled": false
     }
   }
 }

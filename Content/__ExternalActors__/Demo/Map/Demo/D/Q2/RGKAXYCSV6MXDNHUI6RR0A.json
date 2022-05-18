@@ -24,13 +24,11 @@
           }
         ]
       },
-      "_Disabled": true,
-      "_folded": true
+      "Disabled": true
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "_Disabled": true,
-      "_folded": true
+      "Disabled": true
     }
   }
 }

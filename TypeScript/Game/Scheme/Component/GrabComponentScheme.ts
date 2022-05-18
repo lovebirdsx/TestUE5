@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
     createIntScheme,
-    createObjectScheme,
+    createObjectSchemeForComponent,
     createVectorScheme,
     IVectorType,
 } from '../../../Common/Type';
@@ -12,7 +12,7 @@ export interface IGrabComponent {
     ThrowHight: number;
 }
 
-export const grabComponentScheme = createObjectScheme<IGrabComponent>({
+export const grabComponentScheme = createObjectSchemeForComponent<IGrabComponent>({
     Name: 'GrabComponent',
     Fields: {
         GrabPos: createVectorScheme({

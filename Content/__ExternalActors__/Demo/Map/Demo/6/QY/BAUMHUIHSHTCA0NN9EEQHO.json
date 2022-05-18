@@ -9,7 +9,8 @@
         "Y": 0,
         "Z": 0
       },
-      "SphereGuid": "A7DFCCFC47DA5AE66CB8F88808966AF6"
+      "SphereGuid": "A7DFCCFC47DA5AE66CB8F88808966AF6",
+      "Disabled": false
     }
   }
 }

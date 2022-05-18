@@ -4,9 +4,8 @@
   "Guid": "74153BB745727A2A1A4E769E19983989",
   "ComponentsState": {
     "ActorStateComponent": {
-      "_Enabled": true,
       "InitState": "Idle",
-      "_Disabled": false
+      "Disabled": false
     },
     "CalculateComponent": {
       "Vars": [
@@ -48,10 +47,8 @@
                       "Compare": "Ge",
                       "Var2": "b"
                     }
-                  ],
-                  "_folded": false
+                  ]
                 },
-                "_folded": true,
                 "TrueActions": [
                   {
                     "Name": "Log",
@@ -61,7 +58,6 @@
                     }
                   }
                 ],
-                "_TrueActionsFolded": false,
                 "FalseActions": [
                   {
                     "Name": "Log",
@@ -70,8 +66,7 @@
                       "Content": "a < b"
                     }
                   }
-                ],
-                "_FalseActionsFolded": false
+                ]
               }
             },
             {
@@ -92,10 +87,8 @@
                       "Compare": "Ge",
                       "Var2": "b"
                     }
-                  ],
-                  "_folded": false
+                  ]
                 },
-                "_folded": true,
                 "TrueActions": [
                   {
                     "Name": "Log",
@@ -105,7 +98,6 @@
                     }
                   }
                 ],
-                "_TrueActionsFolded": false,
                 "FalseActions": [
                   {
                     "Name": "Log",
@@ -114,8 +106,7 @@
                       "Content": "a < b"
                     }
                   }
-                ],
-                "_FalseActionsFolded": false
+                ]
               }
             },
             {
@@ -136,10 +127,8 @@
                       "Compare": "Ge",
                       "Var2": "b"
                     }
-                  ],
-                  "_folded": false
+                  ]
                 },
-                "_folded": true,
                 "TrueActions": [
                   {
                     "Name": "Log",
@@ -149,7 +138,6 @@
                     }
                   }
                 ],
-                "_TrueActionsFolded": false,
                 "FalseActions": [
                   {
                     "Name": "Log",
@@ -158,12 +146,10 @@
                       "Content": "a < b"
                     }
                   }
-                ],
-                "_FalseActionsFolded": false
+                ]
               }
             }
-          ],
-          "_folded": false
+          ]
         },
         {
           "Name": "函数2",
@@ -202,10 +188,8 @@
                       "Compare": "Eq",
                       "Var2": 20
                     }
-                  ],
-                  "_folded": false
+                  ]
                 },
-                "_folded": true,
                 "TrueActions": [
                   {
                     "Name": "Log",
@@ -215,7 +199,6 @@
                     }
                   }
                 ],
-                "_TrueActionsFolded": false,
                 "FalseActions": [
                   {
                     "Name": "Log",
@@ -224,17 +207,13 @@
                       "Content": "a != 20"
                     }
                   }
-                ],
-                "_FalseActionsFolded": false
+                ]
               }
             }
-          ],
-          "_folded": false
+          ]
         }
       ],
-      "_Enabled": true,
-      "_VarsFolded": false,
-      "_FunctionsFolded": false
+      "Disabled": false
     }
   }
 }

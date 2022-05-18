@@ -8,8 +8,7 @@
         "FlowListName": "流程_1",
         "FlowId": 1,
         "StateId": 1
-      },
-      "_Disabled": false
+      }
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -25,11 +24,11 @@
           }
         ]
       },
-      "_Disabled": true
+      "Disabled": true
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "_Disabled": true
+      "Disabled": true
     }
   }
 }

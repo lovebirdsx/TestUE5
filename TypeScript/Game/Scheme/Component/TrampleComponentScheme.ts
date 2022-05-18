@@ -2,7 +2,7 @@
 import {
     createArrayScheme,
     createBooleanScheme,
-    createObjectScheme,
+    createObjectSchemeForComponent,
     EActionFilter,
 } from '../../../Common/Type';
 import { IActionInfo } from '../../Flow/Action';
@@ -14,7 +14,7 @@ export interface ITrampleComponent {
     RecoveryActions: IActionInfo[];
 }
 
-export const trampleComponentScheme = createObjectScheme<ITrampleComponent>({
+export const trampleComponentScheme = createObjectSchemeForComponent<ITrampleComponent>({
     Name: 'TrampleComponent',
     Fields: {
         IsDisposable: createBooleanScheme({

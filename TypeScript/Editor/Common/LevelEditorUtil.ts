@@ -24,7 +24,7 @@ import { getAssetPath, getBlueprintClass } from '../../Common/Class';
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
-import { writeJsonConfig } from '../../Common/Util';
+import { writeJson } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
@@ -122,8 +122,8 @@ class LevelEditorUtil {
         return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
     }
 
-    public static SaveEntityData(entity: ITsEntity): void {
-        if (!EditorOperations.IsActorDirty(entity)) {
+    public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
+        if (!isForce && !EditorOperations.IsActorDirty(entity)) {
             return;
         }
 
@@ -135,7 +135,11 @@ class LevelEditorUtil {
 
         const entityJsonPath = this.GenEntityJsonPath(externActorPath);
         const entityData = entityRegistry.GenData(entity);
-        writeJsonConfig(entityData, entityJsonPath);
+        if (entityRegistry.ApplyData(entityData, entity)) {
+            EditorOperations.MarkPackageDirty(entity);
+        }
+        writeJson(entityData, entityJsonPath, true);
+
         log(`Write: ${entityJsonPath}`);
     }
 
@@ -151,19 +155,19 @@ class LevelEditorUtil {
         log(`Remove: ${entityJsonPath}`);
     }
 
-    public static SaveCurrentEntityData(): void {
+    public static CheckAndSaveCurrentEntityData(): void {
         const entity = this.GetSelectedEntity();
         if (!entity) {
             return;
         }
 
-        this.SaveEntityData(entity);
+        this.CheckAndSaveEntityData(entity, true);
     }
 
-    public static SaveAllEntityData(): void {
+    public static CheckAndSaveAllEntityData(): void {
         const entities = this.GetAllEntitiesByEditorWorld();
         entities.forEach((entity) => {
-            this.SaveEntityData(entity);
+            this.CheckAndSaveEntityData(entity, true);
         });
     }
 

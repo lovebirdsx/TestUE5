@@ -14,6 +14,7 @@ import {
     CallFunctionAction,
     DoCalculateAction,
     SetNumberVarAction,
+    SyncVarToActorStateAction,
 } from './Actions/Calculate';
 import {
     ChangeBehaviorStateAction,
@@ -54,6 +55,7 @@ export function initFlow(): void {
     actionRegistry.Register('SetPos', SetPosAction);
     actionRegistry.Register('Activate', Activation);
     actionRegistry.Register('SetNumberVar', SetNumberVarAction);
+    actionRegistry.Register('SyncVarToActorState', SyncVarToActorStateAction);
     actionRegistry.Register('DoCalculate', DoCalculateAction);
     actionRegistry.Register('CallFunction', CallFunctionAction);
     actionRegistry.Register('CallByCondition', CallByConditionAction);

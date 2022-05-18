@@ -7,6 +7,7 @@ import {
     callFunctionScheme,
     doCalculateScheme,
     setNumberVarScheme,
+    syncVarToActorStateScheme,
 } from './Calculate';
 import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
@@ -57,6 +58,7 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     ShowMessage: showMssageScheme,
     ShowOption: showOptionScheme,
     ShowTalk: showTalkScheme,
+    SyncVarToActorState: syncVarToActorStateScheme,
     SpawnChild: spawnChildScheme,
     Wait: waitScheme,
     SimpleMove: simpleMoveScheme,

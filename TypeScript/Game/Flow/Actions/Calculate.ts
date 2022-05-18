@@ -1,11 +1,24 @@
 import { CalculateComponent } from '../../Component/CalculateComponent';
-import { ICallByCondition, ICallFunction, IDoCalculate, ISetNumberVar } from '../Action';
+import {
+    ICallByCondition,
+    ICallFunction,
+    IDoCalculate,
+    ISetNumberVar,
+    ISyncVarToActorState,
+} from '../Action';
 import { Action } from '../ActionRunner';
 
 export class SetNumberVarAction extends Action<ISetNumberVar> {
     public Execute(): void {
         const calculate = this.Entity.GetComponent(CalculateComponent);
-        calculate.SetVar(this.Data);
+        calculate.SetVar(this.Data.Name, this.Data.Value);
+    }
+}
+
+export class SyncVarToActorStateAction extends Action<ISyncVarToActorState> {
+    public Execute(): void {
+        const calculate = this.Entity.GetComponent(CalculateComponent);
+        calculate.SyncVarToActorState(this.Data);
     }
 }
 

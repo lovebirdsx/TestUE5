@@ -1,6 +1,5 @@
 import {
     createArrayScheme,
-    createBooleanScheme,
     createEnumScheme,
     createObjectScheme,
     createScheme,
@@ -17,6 +16,7 @@ import {
     IConditions,
     IDoCalculate,
     ISetNumberVar,
+    ISyncVarToActorState,
     logicOpTypeConfig,
     TCalOp,
     TCompare,
@@ -51,10 +51,19 @@ export const setNumberVarScheme = createObjectScheme<ISetNumberVar>({
     Fields: {
         Name: varNameScheme,
         Value: varValueScheme,
-        SyncToState: createBooleanScheme({
-            CnName: '同步Actor状态',
-            Optional: true,
-            Tip: '是否同步给Actor状态, 若为真, 则会将变量的状态同步给Actor',
+    },
+    Filters: [EActionFilter.Invoke, EActionFilter.Function],
+});
+
+export const syncVarToActorStateScheme = createObjectScheme<ISyncVarToActorState>({
+    CnName: '同步Actor状态',
+    Tip: '将对应变量的值同步给Actor状态',
+    Fields: {
+        VarName: varNameScheme,
+        StateKey: createStringScheme({
+            CnName: '状态Key',
+            Tip: '同步给Actor的状态的Key',
+            Width: DEFUALT_VALUE_NAME_TEXT_WIDTH,
         }),
     },
     Filters: [EActionFilter.Invoke, EActionFilter.Function],

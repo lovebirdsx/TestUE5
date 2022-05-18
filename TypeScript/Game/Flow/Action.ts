@@ -36,6 +36,7 @@ export type TActionType =
     | 'ShowTalk'
     | 'SimpleMove'
     | 'SpawnChild'
+    | 'SyncVarToActorState'
     | 'Wait';
 
 export type TActionFun = (action: IActionInfo) => unknown;
@@ -322,7 +323,11 @@ export interface INumberVar {
 export interface ISetNumberVar {
     Name: string;
     Value: TVar;
-    SyncToState: boolean;
+}
+
+export interface ISyncVarToActorState {
+    VarName: string;
+    StateKey: string;
 }
 
 export const calOpTypeConfig = {

@@ -9,6 +9,7 @@ import { Component } from '../Interface';
 export type TEntityStateId =
     | 'ActionId'
     | 'ActorState'
+    | 'ActorStateSlots'
     | 'BehaviorActionId'
     | 'BehaviorNextStateId'
     | 'BehaviorStateId'

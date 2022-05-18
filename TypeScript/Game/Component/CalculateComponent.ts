@@ -9,7 +9,7 @@ import {
     IDoCalculate,
     IFunction,
     INumberVar,
-    ISetNumberVar,
+    ISyncVarToActorState,
     TVar,
 } from '../Flow/Action';
 import { Action, actionRegistry } from '../Flow/ActionRunner';
@@ -50,15 +50,9 @@ export class CalculateComponent extends Component implements ICalculateComponent
         if (modifiedVars) {
             modifiedVars.forEach((v) => this.ModifiedVarMap.set(v[0], v[1]));
         }
-
-        // 将数字状态同步给ActorComponent
-        this.InitVarMap.forEach((value, key) => {
-            const mValue = this.ModifiedVarMap.get(key);
-            this.ActorStateComponent.SetNumberValue(key, mValue !== undefined ? mValue : value);
-        });
     }
 
-    private SetVarImpl(name: string, value: TVar): number {
+    public SetVar(name: string, value: TVar): number {
         if (!this.InitVarMap.has(name)) {
             throw new Error(`${this.Name} modify no exist var ${name} = ${value}`);
         }
@@ -80,11 +74,9 @@ export class CalculateComponent extends Component implements ICalculateComponent
         return v;
     }
 
-    public SetVar(data: ISetNumberVar): void {
-        const v = this.SetVarImpl(data.Name, data.Value);
-        if (data.SyncToState) {
-            this.ActorStateComponent.SetNumberValue(data.Name, v);
-        }
+    public SyncVarToActorState(data: ISyncVarToActorState): void {
+        const v = this.GetVarValue(data.VarName);
+        this.ActorStateComponent.SetChildNumberState(data.StateKey, v);
     }
 
     public GetVarValue(v: TVar): number {
@@ -104,16 +96,16 @@ export class CalculateComponent extends Component implements ICalculateComponent
         const v2 = this.GetVarValue(calculate.Var2);
         switch (calculate.Op) {
             case 'Add':
-                this.SetVarImpl(calculate.Result, v1 + v2);
+                this.SetVar(calculate.Result, v1 + v2);
                 break;
             case 'Sub':
-                this.SetVarImpl(calculate.Result, v1 - v2);
+                this.SetVar(calculate.Result, v1 - v2);
                 break;
             case 'Mut':
-                this.SetVarImpl(calculate.Result, v1 * v2);
+                this.SetVar(calculate.Result, v1 * v2);
                 break;
             case 'Div':
-                this.SetVarImpl(calculate.Result, v1 / v2);
+                this.SetVar(calculate.Result, v1 / v2);
                 break;
         }
     }

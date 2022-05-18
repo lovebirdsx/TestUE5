@@ -7,7 +7,7 @@ import { IVectorType } from '../../Common/Type';
 import { IInteract, ISpawn } from '../Flow/Action';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import { ISphereFactoryComponent } from '../Scheme/Component/SphereFactoryScheme';
-import { EntitySpawnerComponent, ICallBack } from './EntitySpawnerComponent';
+import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { EventComponent } from './EventComponent';
 
 export class SphereFactoryComponent
@@ -27,13 +27,7 @@ export class SphereFactoryComponent
     public OnInit(): void {
         this.InteractSignal = null;
         this.EntitySpawn = this.Entity.GetComponent(EntitySpawnerComponent);
-        const call: ICallBack = {
-            Name: 'SphereFactoryComponent',
-            CallBack: (guid: string) => {
-                this.CreateSphere();
-            },
-        };
-        this.EntitySpawn.RegistryDestroy(call);
+        gameContext.EntityManager.EntityRemoved.AddCallback(this.OnEntityRemoved);
         this.Event = this.Entity.GetComponent(EventComponent);
         const interactCall: IInteractCall = {
             Name: 'SphereFactoryComponent',
@@ -44,9 +38,20 @@ export class SphereFactoryComponent
         this.Event.RegistryInteract(interactCall);
     }
 
+    public OnDestroy(): void {
+        gameContext.EntityManager.EntityRemoved.RemoveCallBack(this.OnEntityRemoved);
+    }
+
     public OnLoadState(): void {
         this.EntitySpawn.DestroyAllChild();
     }
+
+    private readonly OnEntityRemoved = (guid: string): void => {
+        if (!this.EntitySpawn.HasChild(guid)) {
+            return;
+        }
+        this.CreateSphere();
+    };
 
     public CreateSphere(): void {
         const transformInfo = toTransformInfo(this.Entity.Actor.GetTransform());

@@ -74,8 +74,6 @@ export interface ITriggerComponent {
 }
 
 export interface ISwitcherComponent {
-    IsInitOn: boolean;
-    AutoExecuteOnLoad: boolean;
     OnActions: IActionInfo[];
     OffActions: IActionInfo[];
 }

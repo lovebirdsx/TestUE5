@@ -64,9 +64,7 @@
       ],
       "_Disabled": false,
       "_OnActionsFolded": false,
-      "_OffActionsFolded": false,
-      "IsInitOn": false,
-      "AutoExecuteOnLoad": true
+      "_OffActionsFolded": false
     }
   }
 }

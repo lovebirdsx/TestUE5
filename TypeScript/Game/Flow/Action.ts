@@ -303,8 +303,6 @@ export const actorStateConfig = {
     Idle: '待机',
     Open: '打开',
     Close: '关闭',
-    On: '开启',
-    Off: '关闭',
 };
 
 export type TActorState = keyof typeof actorStateConfig;

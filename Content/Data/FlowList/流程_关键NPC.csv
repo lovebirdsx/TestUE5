@@ -458,8 +458,8 @@
                               ""ActionInfo"": {
                                 ""Name"": ""SetNumberVar"",
                                 ""Params"": {
-                                  ""Name"": ""IsTriggerd"",
-                                  ""Value"": 0
+                                  ""Name"": ""IsReady"",
+                                  ""Value"": 1
                                 }
                               }
                             }

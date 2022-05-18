@@ -4,7 +4,7 @@
   "Guid": "D51B94FE4D8C0E0CD5B52C816D4CDC89",
   "ComponentsState": {
     "ActorStateComponent": {
-      "InitState": "Close",
+      "InitState": "Open",
       "_Disabled": false
     },
     "SwitcherComponent": {
@@ -64,9 +64,7 @@
       ],
       "_Disabled": false,
       "_OnActionsFolded": false,
-      "_OffActionsFolded": false,
-      "IsInitOn": true,
-      "AutoExecuteOnLoad": true
+      "_OffActionsFolded": false
     }
   }
 }

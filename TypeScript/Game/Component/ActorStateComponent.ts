@@ -46,11 +46,13 @@ export class ActorStateComponent extends Component implements IActorStateCompone
     }
 
     public SetChildNumberState(key: string, value: number): void {
-        this.SetChildStringState(key, value === 0 ? undefined : value.toString());
+        this.SetChildStringState(key, value.toString());
     }
 
     public SetChildStringState(key: string, value: string): void {
-        this.ActorStateComponent.Change(key, value.toString());
+        this.ActorStateComponent.Change(key, value);
+
+        // 将状态保存
         const index = this.StateSlots.findIndex((slot) => slot.Key === key);
         if (!value) {
             if (index >= 0) {
@@ -63,6 +65,11 @@ export class ActorStateComponent extends Component implements IActorStateCompone
                 this.StateSlots.push({ Key: key, Value: value });
             }
         }
+
+        this.StateComponent.SetState(
+            'ActorStateSlots',
+            this.StateSlots.length > 0 ? this.StateSlots : undefined,
+        );
     }
 
     public ChangeActorState(state: TActorState): void {

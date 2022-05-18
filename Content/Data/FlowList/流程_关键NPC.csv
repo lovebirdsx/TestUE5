@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 42,
-  ""FlowGenId"": 5,
+  ""TextGenId"": 55,
+  ""FlowGenId"": 6,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -299,6 +299,18 @@
                             }
                           }
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""B84994BE4659B0A34B4674934230C346"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -541,6 +553,184 @@
                     ""Name"": ""对话2"",
                     ""WhoId"": 18,
                     ""TextId"": 38
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 5
+        }
+      ]
+    },
+    {
+      ""Id"": 5,
+      ""StateGenId"": 6,
+      ""Name"": ""老太婆"",
+      ""States"": [
+        {
+          ""Name"": ""初始"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 14,
+                    ""TextId"": 42
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        },
+        {
+          ""Name"": ""玩家接受找小孩任务后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 14,
+                    ""TextId"": 43,
+                    ""Options"": [
+                      {
+                        ""TextId"": 44,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 45
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 14,
+                    ""TextId"": 46,
+                    ""Options"": [
+                      {
+                        ""TextId"": 47,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 3
+                            }
+                          },
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 1
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 48
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 14,
+                    ""TextId"": 49
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 2
+        },
+        {
+          ""Name"": ""玩家接受清理任务后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 14,
+                    ""TextId"": 50
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
+        },
+        {
+          ""Name"": ""玩家完成清理任务"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 14,
+                    ""TextId"": 51,
+                    ""Options"": [
+                      {
+                        ""TextId"": 52
+                      },
+                      {
+                        ""TextId"": 53
+                      }
+                    ],
+                    ""Actions"": []
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""Invoke"",
+              ""Params"": {
+                ""Who"": ""B84994BE4659B0A34B4674934230C346"",
+                ""ActionInfo"": {
+                  ""Name"": ""ChangeBehaviorState"",
+                  ""Params"": {
+                    ""StateId"": 1,
+                    ""IsInstant"": true
+                  }
+                }
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 5
+              }
+            }
+          ],
+          ""Id"": 4
+        },
+        {
+          ""Name"": ""结束"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 14,
+                    ""TextId"": 54
                   }
                 ]
               }

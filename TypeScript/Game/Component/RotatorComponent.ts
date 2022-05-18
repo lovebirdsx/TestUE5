@@ -230,11 +230,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             const value = this.AdapateVal(val);
             const speed = (this.RotatorSpeed.X * value) / 100;
             const rotator = this.GetRotator(this.RotationMapping.X).op_Multiply(speed);
-            entity.K2_AddActorWorldRotation(rotator, false, null, false);
-            this.WakeRigidBodies();
-            if (this.IsRotatorSelf) {
-                this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
-            }
+            this.RotateEntity(rotator);
         }
     }
 
@@ -247,11 +243,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             const value = this.AdapateVal(val);
             const speed = (this.RotatorSpeed.Y * value) / 100;
             const rotator = this.GetRotator(this.RotationMapping.Y).op_Multiply(speed);
-            entity.K2_AddActorWorldRotation(rotator, false, null, false);
-            this.WakeRigidBodies();
-            if (this.IsRotatorSelf) {
-                this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
-            }
+            this.RotateEntity(rotator);
         }
     }
 
@@ -264,11 +256,21 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             const value = this.AdapateVal(val);
             const speed = (this.RotatorSpeed.Z * value) / 100;
             const rotator = this.GetRotator(this.RotationMapping.Z).op_Multiply(speed);
-            entity.K2_AddActorWorldRotation(rotator, false, null, false);
-            this.WakeRigidBodies();
-            if (this.IsRotatorSelf) {
-                this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
-            }
+            this.RotateEntity(rotator);
+        }
+    }
+
+    public RotateEntity(rotator: Rotator): void {
+        const entity = gameContext.EntityManager.GetEntity(this.EntityId);
+        entity.K2_AddActorWorldRotation(rotator, false, null, false);
+        const stateComponent = entity.Entity.TryGetComponent(StateComponent);
+        if (stateComponent) {
+            stateComponent.RecordRotation();
+        }
+
+        this.WakeRigidBodies();
+        if (this.IsRotatorSelf) {
+            this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
         }
     }
 

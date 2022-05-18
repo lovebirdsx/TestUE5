@@ -48,6 +48,7 @@ export enum EBlueprintId {
     SteeringWheel = 1009,
     Switcher1 = 1010,
     Screen = 1011,
+    AiNpcTrainer = 1012,
 
     // Component
     ActorStateComponent = 10001,

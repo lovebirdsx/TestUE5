@@ -118,6 +118,7 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.Screen, 'BP_Screen', TsStateEntity);
     regExtendedEntity(EBlueprintId.SteeringWheel, 'BP_SteeringWheel', TsRotator);
     regExtendedEntity(EBlueprintId.Switcher1, 'BP_Switcher1', TsSwitcher);
+    regExtendedEntity(EBlueprintId.AiNpcTrainer, 'BP_AiNpcTrainer', TsAiNpc);
 
     // ActorComponent
     regActorComponent(EBlueprintId.ActorStateComponent, 'BP_StateComponent');

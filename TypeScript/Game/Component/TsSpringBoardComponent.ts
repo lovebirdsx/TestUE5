@@ -19,5 +19,6 @@ export class SpringBoardComponent extends Component {
 
     public OnStart(): void {
         this.State.ApplyPosition();
+        this.State.ApplyRotation();
     }
 }

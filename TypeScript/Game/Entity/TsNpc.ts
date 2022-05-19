@@ -27,6 +27,10 @@ export class TsNpc extends TsEntity {
     }
 
     public ReceiveActorBeginOverlap(other: Actor): void {
+        if (!this.Entity) {
+            return;
+        }
+
         if (isEntity(other)) {
             const tsEntity = other as ITsEntity;
             this.Entity.OnTriggerEnter(tsEntity.Entity);

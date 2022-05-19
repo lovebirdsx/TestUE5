@@ -21,6 +21,10 @@ class TsUnderground extends TsEntity {
     }
 
     public ReceiveActorBeginOverlap(other: Actor): void {
+        if (!this.Entity) {
+            return;
+        }
+
         if (isEntity(other)) {
             const tsEntity = other as ITsEntity;
             const component = this.Entity.TryGetComponent(UndergroundComponent);

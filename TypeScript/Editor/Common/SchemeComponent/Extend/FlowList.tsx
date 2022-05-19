@@ -17,23 +17,29 @@ export interface IFlowListProps {
     OnModify: (flowList: IFlowListInfo, type: TModifyType) => void;
 }
 
-function foldAll(obj: unknown, value: boolean, force: boolean): void {
+function foldAll(obj: unknown, folded: boolean, force: boolean): void {
     if (typeof obj !== 'object') {
         return;
     }
 
-    const recObj = obj as Record<string, unknown>;
+    if (Array.isArray(obj)) {
+        obj.forEach((value) => {
+            foldAll(value, folded, force);
+        });
+    } else {
+        const recObj = obj as Record<string, unknown>;
 
-    for (const key in obj) {
-        if (key.startsWith('_') && key.toLowerCase().endsWith('folded')) {
-            recObj[key] = value;
-        } else if (force) {
-            recObj._folded = value;
-        }
+        for (const key in obj) {
+            if (key.startsWith('_') && key.toLowerCase().endsWith('folded')) {
+                recObj[key] = folded;
+            } else if (force) {
+                recObj._folded = folded;
+            }
 
-        const field = recObj[key];
-        if (typeof field === 'object') {
-            foldAll(field, value, false);
+            const value = recObj[key];
+            if (typeof value === 'object') {
+                foldAll(value, folded, force);
+            }
         }
     }
 }

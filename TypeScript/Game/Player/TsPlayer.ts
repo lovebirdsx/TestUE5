@@ -11,8 +11,8 @@ import {
     Transform,
     Vector,
 } from 'ue';
-import { log } from '../../Common/Log';
 
+import { log } from '../../Common/Log';
 import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
 import { deInitTsEntity, initTsEntity } from '../Entity/Common';

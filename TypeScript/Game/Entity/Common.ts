@@ -9,7 +9,7 @@ export function initTsEntity(tsEntity: ITsEntity): void {
         return;
     }
 
-    const entity = new Entity(tsEntity.ActorLabel, tsEntity);
+    const entity = new Entity(tsEntity.ActorLabel, tsEntity.Guid, tsEntity);
     const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {
@@ -42,9 +42,4 @@ export function deInitTsEntity(tsEntity: ITsEntity): void {
 
     tsEntity.Entity.Destroy();
     gameContext.EntityManager.UnregisterEntity(tsEntity);
-}
-
-export function loadTsEntity(tsEntity: ITsEntity): void {
-    deInitTsEntity(tsEntity);
-    initTsEntity(tsEntity);
 }

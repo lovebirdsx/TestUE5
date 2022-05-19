@@ -36,7 +36,7 @@ export class EntitySpawnerComponent extends Component {
         // 销毁的时候, 自动移除构造的子Entity
         // 但子Entity的记录还在, 下次流送的时候依然能够恢复
         this.Children.forEach((child) => {
-            gameContext.EntityManager.RemoveEntity(child);
+            gameContext.EntityManager.RemoveEntity(child, 'streaming');
         });
 
         gameContext.EntityManager.EntityRemoved.RemoveCallBack(this.OnEntityRemoved);
@@ -81,7 +81,7 @@ export class EntitySpawnerComponent extends Component {
 
     public DestroyAllChild(): void {
         this.Children.forEach((child) => {
-            gameContext.EntityManager.RemoveEntity(child);
+            gameContext.EntityManager.RemoveEntity(child, 'delete');
         });
 
         this.Children.clear();
@@ -90,7 +90,7 @@ export class EntitySpawnerComponent extends Component {
     }
 
     public Destroy(): void {
-        gameContext.EntityManager.RemoveEntity(this.Entity.Actor as ITsEntity);
+        gameContext.EntityManager.RemoveEntity(this.Entity.Actor as ITsEntity, 'delete');
         this.DestroyAllChild();
     }
 

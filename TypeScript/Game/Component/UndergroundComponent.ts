@@ -55,7 +55,7 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
             //DestroyUnderground
             this.DestroyTag.forEach((tag) => {
                 if (other.Entity.Actor.ActorHasTag(tag)) {
-                    gameContext.EntityManager.RemoveEntity(other);
+                    gameContext.EntityManager.RemoveEntity(other, 'delete');
                 }
             });
         }

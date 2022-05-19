@@ -5,7 +5,14 @@ import { Transform } from 'ue';
 
 import { error, log } from '../../Common/Log';
 import { Event } from '../../Common/Util';
-import { gameContext, IEntityData, IEntityMananger, ITsEntity } from '../Interface';
+import {
+    gameContext,
+    IEntityData,
+    IEntityMananger,
+    ITsEntity,
+    TDestroyType,
+    TSpawnType,
+} from '../Interface';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { IManager } from './Interface';
 
@@ -25,6 +32,10 @@ export class EntityManager implements IManager, IEntityMananger {
     private readonly EntitiesToSpawn: ITsEntity[] = [];
 
     private readonly EntitiesToDestroy: ITsEntity[] = [];
+
+    private readonly DestroyRecord = new Map<string, TDestroyType>();
+
+    private readonly GuidsBySpawn = new Set<string>();
 
     public constructor() {
         gameContext.EntityManager = this;
@@ -47,9 +58,19 @@ export class EntityManager implements IManager, IEntityMananger {
         return entity;
     }
 
-    public RemoveEntity(entity: ITsEntity): void {
+    public RemoveEntity(entity: ITsEntity, destroyType: TDestroyType): void {
+        this.DestroyRecord.set(entity.Guid, destroyType);
         this.EntitiesToDestroy.push(entity);
         log(`Remove entity ${entity.Entity.Name} [${entity.Guid}]`);
+    }
+
+    public GetDestoryType(guid: string): TDestroyType {
+        // EntityManager没有记录, 则认为是被Unreal的流送给销毁了
+        return this.DestroyRecord.get(guid) || 'streaming';
+    }
+
+    public GetSpawnType(guid: string): TSpawnType {
+        return this.GuidsBySpawn.has(guid) ? 'user' : 'streaming';
     }
 
     public RegisterEntity(entity: ITsEntity): boolean {
@@ -80,11 +101,7 @@ export class EntityManager implements IManager, IEntityMananger {
         return false;
     }
 
-    public Exit(): void {
-        this.Entities.forEach((entity) => {
-            this.RemoveEntity(entity);
-        });
-    }
+    public Exit(): void {}
 
     public Tick(deltaTime: number): void {
         if (this.EntitiesToDestroy.length > 0) {
@@ -97,6 +114,10 @@ export class EntityManager implements IManager, IEntityMananger {
                     const guid = entity.Guid;
                     entity.K2_DestroyActor();
                     this.EntityRemoved.Invoke(guid);
+
+                    // 等外部处理完成EntityRemove的消息, 则可以移除销毁的记录了
+                    this.DestroyRecord.delete(guid);
+                    this.GuidsBySpawn.delete(guid);
                 }
             });
         }
@@ -104,6 +125,7 @@ export class EntityManager implements IManager, IEntityMananger {
         if (this.EntitiesToSpawn.length > 0) {
             const entities = this.EntitiesToSpawn.splice(0);
             entities.forEach((entity) => {
+                this.GuidsBySpawn.add(entity.Guid);
                 this.EntityAdded.Invoke(entity);
             });
         }

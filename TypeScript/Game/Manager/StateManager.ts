@@ -68,12 +68,16 @@ export class StateManager implements IManager, IStateManager {
         log(`Push delay action ${JSON.stringify(actionInfo)} to ${id}`);
     }
 
-    public DeleteState(id: string): void {
+    public MarkDelete(id: string): void {
         const saveEntityState: ISavedEntityState = {
             Id: id,
             Deleted: true,
         };
         this.EntityById.set(id, saveEntityState);
+    }
+
+    public DeleteState(id: string): void {
+        this.EntityById.delete(id);
     }
 
     private Clear(): void {

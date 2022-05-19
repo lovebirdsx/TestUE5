@@ -43,7 +43,7 @@ export class StateComponent extends Component {
     private readonly StateMap = new Map<TEntityStateId, unknown>();
 
     public OnStart(): void {
-        const delayActions = this.GetDelayActions();
+        const delayActions = this.StateMap.get('DelayActions') as IActionInfo[];
         if (!delayActions) {
             return;
         }
@@ -56,6 +56,8 @@ export class StateComponent extends Component {
                 action.Execute();
             }
         });
+
+        this.StateMap.delete('DelayActions');
     }
 
     public HasState(key: TEntityStateId): boolean {
@@ -73,14 +75,6 @@ export class StateComponent extends Component {
         } else {
             this.StateMap.delete(key);
         }
-    }
-
-    public GetDelayActions(): IActionInfo[] {
-        return this.StateMap.get('DelayActions') as IActionInfo[];
-    }
-
-    public ClearDelayActions(): void {
-        this.StateMap.delete('DelayActions');
     }
 
     public RecordPosition(): void {

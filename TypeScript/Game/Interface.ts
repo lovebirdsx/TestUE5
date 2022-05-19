@@ -150,6 +150,9 @@ export interface ISavedEntityState extends TEntityState {
     DelayActions?: IActionInfo[];
 }
 
+export type TDestroyType = 'delete' | 'streaming';
+export type TSpawnType = 'streaming' | 'user';
+
 export interface IEntityMananger {
     EntityAdded: Event<ITsEntity>;
     EntityRemoved: Event<string>;
@@ -158,7 +161,9 @@ export interface IEntityMananger {
     RegisterEntity: (entity: ITsEntity) => boolean;
     UnregisterEntity: (entity: ITsEntity) => boolean;
     SpawnEntity: (data: IEntityData, transform: Transform) => ITsEntity;
-    RemoveEntity: (...entities: ITsEntity[]) => void;
+    RemoveEntity: (entity: ITsEntity, destroyType: TDestroyType) => void;
+    GetDestoryType: (guid: string) => TDestroyType;
+    GetSpawnType: (guid: string) => TSpawnType;
     GetEntity: (guid: string) => ITsEntity;
     GetAllEntites: () => ITsEntity[];
 }
@@ -168,6 +173,7 @@ export interface IStateManager {
     SetState: (id: string, state: TEntityState) => void;
     PushDelayAction: (id: string, actionInfo: IActionInfo) => void;
     DeleteState: (id: string) => void;
+    MarkDelete: (id: string) => void;
     Load: () => void;
     Save: () => void;
 }
@@ -190,7 +196,6 @@ export interface ITickManager {
 }
 
 export interface IGameController {
-    LoadGame: () => void;
     SaveGame: () => void;
 }
 
@@ -255,14 +260,17 @@ export class Entity {
 
     public readonly Actor: Actor;
 
+    public readonly Guid: string;
+
     public IsValid = true;
 
     private readonly TriggerEnterComponents: Component[] = [];
 
     private readonly TriggerExitComponents: Component[] = [];
 
-    public constructor(name: string, actor: Actor) {
+    public constructor(name: string, guid: string, actor: Actor) {
         this.Name = name;
+        this.Guid = guid;
         this.Actor = actor;
     }
 

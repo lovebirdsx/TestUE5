@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { error } from '../../Common/Log';
-import { Component, Entity, InteractiveComponent } from '../Interface';
+import { Component, Entity, gameContext, InteractiveComponent } from '../Interface';
+import TsHud from '../Player/TsHud';
 
 class PlayerComponent extends Component {
     private readonly Interacters: Entity[] = [];
@@ -38,12 +39,16 @@ class PlayerComponent extends Component {
             return false;
         }
 
-        if (this.Interacters.length <= 0) {
-            return false;
+        let id = 0;
+        const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+        const guid = tsHud.GetSelectInteract();
+        const tsEntity = gameContext.EntityManager.GetEntity(guid);
+        if (tsEntity) {
+            id = this.Interacters.indexOf(tsEntity.Entity);
+            id = id > 0 ? id : 0;
         }
-
         // eslint-disable-next-line no-void
-        void this.StartInteract(0);
+        void this.StartInteract(id);
         return true;
     }
 

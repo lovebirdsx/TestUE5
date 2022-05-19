@@ -23,7 +23,7 @@ export class NpcComponent extends InteractiveComponent {
             player.AddInteractor(this.Entity);
             this.IsAdded = true;
             const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
-            tsHud.AddInteract(this.GetInteractContent());
+            tsHud.AddInteract(this.GetInteractContent(), this.Entity.Guid);
         }
     }
 
@@ -37,7 +37,7 @@ export class NpcComponent extends InteractiveComponent {
             player.RemoveInteractor(this.Entity);
             this.IsAdded = false;
             const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
-            tsHud.DelInteract(this.GetInteractContent());
+            tsHud.DelInteract(this.Entity.Guid);
         }
     }
 
@@ -46,6 +46,9 @@ export class NpcComponent extends InteractiveComponent {
             return;
         }
 
+        const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+        tsHud.HideInteract();
         await this.Flow.Run();
+        tsHud.ShowInteract();
     }
 }

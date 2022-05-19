@@ -40,7 +40,7 @@ export class SphereComponent extends InteractiveComponent {
         if (player) {
             player.AddInteractor(this.Entity);
             const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
-            tsHud.AddInteract(this.GetInteractContent());
+            tsHud.AddInteract(this.GetInteractContent(), this.Entity.Guid);
         }
     }
 
@@ -49,7 +49,7 @@ export class SphereComponent extends InteractiveComponent {
         if (player) {
             player.RemoveInteractor(this.Entity);
             const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
-            tsHud.DelInteract(this.GetInteractContent());
+            tsHud.DelInteract(this.Entity.Guid);
         }
     }
 

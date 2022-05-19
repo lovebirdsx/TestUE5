@@ -98,7 +98,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         if (player) {
             player.AddInteractor(this.Entity);
             const tsHud = this.GetPlayerHud();
-            tsHud.AddInteract(this.GetInteractContent());
+            tsHud.AddInteract(this.GetInteractContent(), this.Entity.Guid);
         }
     }
 
@@ -107,7 +107,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         if (player) {
             player.RemoveInteractor(this.Entity);
             const tsHud = this.GetPlayerHud();
-            tsHud.DelInteract(this.GetInteractContent());
+            tsHud.DelInteract(this.Entity.Guid);
         }
     }
 

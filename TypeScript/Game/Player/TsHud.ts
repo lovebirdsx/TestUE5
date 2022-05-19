@@ -1,6 +1,6 @@
 /* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
-import { $ref } from 'puerts';
+import { $ref, $unref } from 'puerts';
 import { BuiltinText, HUD, UMGManager } from 'ue';
 import * as UE from 'ue';
 
@@ -13,8 +13,6 @@ class TsHud extends HUD {
 
     // @no-blueprint
     private UiInteractDisplay: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
-
-    private IsInteracting: boolean;
 
     private Interacts: string[];
 
@@ -32,7 +30,6 @@ class TsHud extends HUD {
         ) as UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
 
         this.Interacts = [];
-        this.IsInteracting = false;
     }
 
     public ReceiveBeginPlay(): void {
@@ -49,36 +46,35 @@ class TsHud extends HUD {
         return this.UiInteractDisplay;
     }
 
-    public AddInteract(key: string): void {
-        const index = this.Interacts.indexOf(key);
+    public AddInteract(key: string, guid: string): void {
+        const index = this.Interacts.indexOf(guid);
         if (index < 0) {
-            this.Interacts.push(key);
-            this.UiInteractDisplay.AddItem(key);
-            if (!this.IsInteracting) {
-                this.UiInteractDisplay.ShowAll();
-            }
+            this.Interacts.push(guid);
+            this.UiInteractDisplay.AddItem(key, guid);
         }
     }
 
-    public DelInteract(key: string): void {
-        const index = this.Interacts.indexOf(key);
+    public DelInteract(guid: string): void {
+        const index = this.Interacts.indexOf(guid);
         if (index >= 0) {
             this.Interacts.splice(index, 1);
             this.UiInteractDisplay.DelItem(index);
         }
-        if (this.Interacts.length <= 0) {
-            this.UiInteractDisplay.HideAll();
-        }
+    }
+
+    public GetSelectInteract(): string {
+        const guidRef = $ref('');
+        this.UiInteractDisplay.GetSelect(guidRef);
+        const guid = $unref(guidRef);
+        return guid;
     }
 
     public ShowInteract(): void {
-        this.IsInteracting = false;
-        this.UiInteractDisplay.ShowAll();
+        this.UiInteractDisplay.SetActive(true);
     }
 
     public HideInteract(): void {
-        this.IsInteracting = true;
-        this.UiInteractDisplay.HideAll();
+        this.UiInteractDisplay.SetActive(false);
     }
 
     // @no-blueprint

@@ -13,6 +13,10 @@ export class NpcComponent extends InteractiveComponent {
         this.Flow = this.Entity.GetComponent(FlowComponent);
     }
 
+    public GetInteractContent(): string {
+        return this.Content ? this.Content : '交谈';
+    }
+
     public OnTriggerEnter(other: Entity): void {
         if (this.Flow.IsRunning) {
             return;

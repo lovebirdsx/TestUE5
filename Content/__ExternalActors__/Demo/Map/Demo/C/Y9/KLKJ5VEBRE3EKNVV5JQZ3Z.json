@@ -69,7 +69,9 @@
           }
         }
       ],
-      "Disabled": false
+      "Disabled": false,
+      "Content": "",
+      "Icon": ""
     }
   }
 }

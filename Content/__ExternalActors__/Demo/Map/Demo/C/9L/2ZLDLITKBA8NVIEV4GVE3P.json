@@ -96,6 +96,11 @@
         ]
       },
       "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
     }
   }
 }

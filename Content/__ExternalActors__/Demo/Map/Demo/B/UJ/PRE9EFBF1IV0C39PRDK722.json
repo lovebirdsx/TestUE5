@@ -88,11 +88,16 @@
           }
         ]
       },
-      "Disabled": true
+      "Disabled": false
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "Disabled": true
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
     }
   }
 }

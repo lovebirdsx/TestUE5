@@ -14,12 +14,12 @@
       "InitState": {
         "FlowListName": "流程_守卫",
         "FlowId": 2,
-        "StateId": 2
+        "StateId": 1
       }
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "Disabled": true
+      "Disabled": false
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -35,7 +35,12 @@
           }
         ]
       },
-      "Disabled": true
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
     }
   }
 }

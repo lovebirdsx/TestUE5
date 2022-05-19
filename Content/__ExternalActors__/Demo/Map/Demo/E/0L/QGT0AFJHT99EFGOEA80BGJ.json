@@ -155,6 +155,11 @@
     "MoveComponent": {
       "InitSpeed": 150,
       "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
     }
   }
 }

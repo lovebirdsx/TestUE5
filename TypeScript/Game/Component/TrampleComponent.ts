@@ -34,13 +34,13 @@ export class TrampleComponent extends InteractiveComponent implements ITrampleCo
     public OnInit(): void {
         this.InteractingList = [];
         this.State = this.Entity.GetComponent(StateComponent);
-    }
-
-    public OnStart(): void {
         const component = this.Entity.Actor.GetComponentByClass(
             StaticMeshComponent.StaticClass(),
         ) as StaticMeshComponent;
         component.CreateAndSetMaterialInstanceDynamic(0);
+    }
+
+    public OnStart(): void {
         if (this.TriggerTimes > 0 && this.IsDisposable) {
             const color = new LinearColor(0.5, 0.5, 0, 1);
             this.ChangeMaterialColor(color);

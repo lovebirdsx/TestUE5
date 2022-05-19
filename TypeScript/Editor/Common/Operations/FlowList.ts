@@ -96,7 +96,7 @@ class EditorFlowListOp {
         );
     }
 
-    private SaveEditor(flowList: IFlowListInfo, path: string): void {
+    public SaveEditor(flowList: IFlowListInfo, path: string): void {
         const editorSavePath = this.GetEditorSavePath(path);
         const content = JSON.stringify(
             flowList,

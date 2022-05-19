@@ -14,11 +14,7 @@ import {
     openLoadCsvFileDialog,
     openSaveCsvFileDialog,
 } from '../../Common/UeHelper';
-import {
-    EFlowListAction,
-    flowListContext,
-    flowListOp,
-} from '../../Game/Common/Operations/FlowList';
+import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
@@ -162,7 +158,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         let flowListConfig: IFlowListInfo = undefined;
         let openError: string = undefined;
         try {
-            flowListConfig = flowListOp.Load(editorConfig.FlowConfigPath);
+            flowListConfig = editorFlowListOp.Load(editorConfig.FlowConfigPath);
         } catch (e: unknown) {
             let errorStr: string = undefined;
             if (typeof e === 'string') {

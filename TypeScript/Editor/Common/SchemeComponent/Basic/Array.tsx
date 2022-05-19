@@ -129,21 +129,53 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
         );
     }
 
-    private CreateItemsElement(): JSX.Element[] {
-        const { Value: value, Scheme: scheme } = this.props;
-        return value.map((e, id) => {
-            return (
+    private RenderRow(rowId: number, value: unknown[], scheme: ArrayScheme): JSX.Element {
+        const elements: JSX.Element[] = [];
+        for (let col = 0; col < scheme.ColCount; col++) {
+            const id = rowId * scheme.ColCount + col;
+            if (id >= value.length) {
+                continue;
+            }
+
+            elements.push(
                 <Any
-                    key={id}
+                    key={col}
                     PrefixElement={this.CreatePrefixElement(id)}
-                    Value={e}
+                    Value={value[id]}
                     Scheme={scheme.Element}
                     OnModify={(e0, type): void => {
                         this.Modify(id, e0, type);
                     }}
-                />
+                />,
             );
-        });
+        }
+        return <HorizontalBox key={rowId}>{elements}</HorizontalBox>;
+    }
+
+    private CreateItemsElement(): JSX.Element[] {
+        const { Value: value, Scheme: scheme } = this.props;
+        if (scheme.ColCount === 1) {
+            return value.map((e, id) => {
+                return (
+                    <Any
+                        key={id}
+                        PrefixElement={this.CreatePrefixElement(id)}
+                        Value={e}
+                        Scheme={scheme.Element}
+                        OnModify={(e0, type): void => {
+                            this.Modify(id, e0, type);
+                        }}
+                    />
+                );
+            });
+        }
+
+        const rowCount = Math.ceil(value.length / Math.floor(scheme.ColCount));
+        const rowElements: JSX.Element[] = [];
+        for (let row = 0; row < rowCount; row++) {
+            rowElements.push(this.RenderRow(row, value, scheme));
+        }
+        return rowElements;
     }
 
     private RenderOneLineArray(): JSX.Element {

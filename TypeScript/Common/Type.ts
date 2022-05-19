@@ -183,11 +183,14 @@ export type TClassType<T> = Scheme<T> & {
 export class ArrayScheme<T = unknown> extends Scheme<T[]> {
     public RenderType: TElementRenderType = 'array';
 
+    public Element: Scheme<T>;
+
+    // 每一行显示的数组元素个数
+    public ColCount = 1;
+
     public CreateDefault(): T[] {
         return [];
     }
-
-    public Element: Scheme<T>;
 
     public Check(value: T[], messages: string[]): number {
         let fixCount = 0;

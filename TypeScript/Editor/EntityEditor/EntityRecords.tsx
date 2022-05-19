@@ -22,6 +22,7 @@ const entityRecordScheme = createObjectScheme<IEntityRecord>({
         Name: createStringScheme({
             CnName: '名字',
             Name: 'Name',
+            MaxWidth: 65,
             IsUnique: true,
         }),
         GuidFilter: createStringScheme({
@@ -74,6 +75,7 @@ const entityRecordsArrayScheme = createArrayScheme<IEntityRecord>({
     CnName: '实体记录列表',
     Tip: '实体记录列表',
     Element: entityRecordScheme,
+    ColCount: 3,
     ShowName: false,
     NewLine: true,
 });

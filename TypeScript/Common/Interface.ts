@@ -1,8 +1,7 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-param-reassign */
 import { Quat, Rotator, Transform, Vector } from 'ue';
-
-import { eqn } from './Util';
 
 /* eslint-disable spellcheck/spell-checker */
 export interface IVectorInfo {
@@ -22,6 +21,13 @@ export function toVector(iVec: IVectorInfo, defalut?: IVectorInfo): Vector {
     }
 
     return new Vector(iVec.X || defalut.X, iVec.Y || defalut.Y, iVec.Z || defalut.Z);
+}
+
+// 比较两个number, 返回是否大约相等, 通常用于比较浮点数
+export function eqn(a: number, b: number): boolean {
+    const sub = a - b;
+    const ab = sub > 0 ? sub : -sub;
+    return ab < 0.0001;
 }
 
 export function toVectorInfo(vec: Vector, defalut?: IVectorInfo): IVectorInfo {

@@ -19,7 +19,7 @@
     },
     "MoveComponent": {
       "InitSpeed": 150,
-      "Disabled": false
+      "Disabled": true
     },
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -35,7 +35,7 @@
           }
         ]
       },
-      "Disabled": false
+      "Disabled": true
     },
     "NpcComponent": {
       "Content": "",

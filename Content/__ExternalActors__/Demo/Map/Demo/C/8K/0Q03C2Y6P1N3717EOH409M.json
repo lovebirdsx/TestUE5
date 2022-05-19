@@ -2,8 +2,8 @@
   "Lable": "二狗",
   "Transform": {
     "Pos": {
-      "X": 3430.7199037862406,
-      "Y": 574.3194109685454,
+      "X": 3395.193333421648,
+      "Y": 584.77126946993,
       "Z": 170.12510488908742
     },
     "Rot": {
@@ -15,13 +15,13 @@
   "ComponentsState": {
     "FlowComponent": {
       "InitState": {
-        "FlowListName": "流程_AJ",
-        "FlowId": 2,
+        "FlowListName": "流程_关键NPC",
+        "FlowId": 6,
         "StateId": 1
       }
     },
     "MoveComponent": {
-      "InitSpeed": 100,
+      "InitSpeed": 500,
       "Disabled": false
     },
     "BehaviorFlowComponent": {
@@ -29,12 +29,134 @@
       "FlowInfo": {
         "Id": 0,
         "Name": "Empty",
-        "StateGenId": 1,
+        "StateGenId": 5,
         "States": [
           {
             "Id": 0,
-            "Name": "状态1",
-            "Actions": []
+            "Name": "后院行走",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3704,
+                    "Y": 930,
+                    "Z": 100,
+                    "A": 49
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3428,
+                    "Y": 984,
+                    "Z": 100,
+                    "A": -41
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3177,
+                    "Y": 1004,
+                    "Z": 100,
+                    "A": 178
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3421,
+                    "Y": 1253,
+                    "Z": 100,
+                    "A": 68
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3142,
+                    "Y": 1418,
+                    "Z": 100,
+                    "A": -11
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3882,
+                    "Y": 1135,
+                    "Z": 100,
+                    "A": -1
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 0,
+                  "IsInstant": false
+                }
+              }
+            ]
           }
         ]
       },

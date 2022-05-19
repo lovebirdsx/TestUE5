@@ -1,11 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createDefaultTransform, ITransform } from '../../../Common/Interface';
-import {
-    actionFilterExcept,
-    createObjectScheme,
-    createStringScheme,
-    EActionFilter,
-} from '../../../Common/Type';
+import { allActionFilters, createObjectScheme, createStringScheme } from '../../../Common/Type';
 import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
 import { ISpawn } from '../../Flow/Action';
 
@@ -31,11 +26,11 @@ export const spawnChildScheme = createObjectScheme<ISpawn>({
         TemplateGuid: templateGuidScheme,
         Transform: transformScheme,
     },
-    Filters: actionFilterExcept(EActionFilter.Invoke),
+    Filters: allActionFilters,
 });
 
 export const destroyAllChildScheme = createObjectScheme({
     CnName: '移除所有子实体',
     Tip: '移除所有由当前实体生成的子实体',
-    Filters: actionFilterExcept(EActionFilter.Invoke),
+    Filters: allActionFilters,
 });

@@ -65,7 +65,10 @@ export class State extends React.Component<IStateProps> {
 
     private readonly InsertAction = (id: number): void => {
         this.Modify((from, to) => {
-            const action = this.SpwanNewActionAfter();
+            let action = pasteObject<IActionInfo>('ActionInfo');
+            if (!action) {
+                action = this.SpwanNewActionAfter();
+            }
             to.Actions.splice(id, 0, action);
         }, 'normal');
     };

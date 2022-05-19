@@ -86,30 +86,43 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         this.TimeSecond = 0;
     }
 
+    private TrySave(): boolean {
+        if (!this.NeedSave()) {
+            return false;
+        }
+
+        if (this.FlowList === this.LastSaveFailState) {
+            return false;
+        }
+
+        this.Save();
+        return true;
+    }
+
     private readonly DetectAutoSave = (): void => {
         this.TimeSecond++;
-        if (!this.NeedSave()) {
-            return;
-        }
         if (this.TimeSecond - this.LastModifyTime < editorConfig.AutoSaveInterval) {
             return;
         }
-        if (this.FlowList === this.LastSaveFailState) {
-            return;
-        }
 
-        log('Auto save triggered');
-        this.Save();
+        if (this.TrySave()) {
+            log('Auto save triggered');
+        }
     };
 
     private StopAutoSave(): void {
         clearInterval(this.AutoSaveHander);
     }
 
+    private readonly OnPreBeginPie = (): void => {
+        this.TrySave();
+    };
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public UNSAFE_componentWillMount(): void {
         this.RegKeyCommands();
         this.StartAutoSave();
+        EditorOperations.GetEditorEvent().OnPreBeginPie.Add(this.OnPreBeginPie);
 
         // 由于子Component中会访问 FlowListContext, 所以不能在componentDidMout中调用
         // 没有在componentWillMount中调用,是因为会报警告
@@ -131,6 +144,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         this.RemKeyCommands();
         this.StopAutoSave();
         flowListContext.Clear();
+        EditorOperations.GetEditorEvent().OnPreBeginPie.Remove(this.OnPreBeginPie);
     }
 
     private get FlowList(): IFlowListInfo {

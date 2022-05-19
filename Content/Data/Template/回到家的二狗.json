@@ -1,0 +1,33 @@
+﻿{
+  "Guid": "FAF5002240053ABBFAEBC2A08C674773",
+  "PrefabId": 1003,
+  "ComponentsState": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_关键NPC",
+        "FlowId": 6,
+        "StateId": 5
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 500,
+      "Disabled": true
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "Disabled": true
+    }
+  }
+}

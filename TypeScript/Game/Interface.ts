@@ -352,6 +352,9 @@ export class Entity {
     }
 
     public Start(): void {
+        if (!this.IsValid) {
+            return;
+        }
         this.Components.forEach((c) => {
             c.OnStart();
         });

@@ -8,8 +8,8 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 55,
-  ""FlowGenId"": 6,
+  ""TextGenId"": 73,
+  ""FlowGenId"": 7,
   ""Flows"": [
     {
       ""Id"": 1,
@@ -174,7 +174,7 @@
     },
     {
       ""Id"": 3,
-      ""StateGenId"": 4,
+      ""StateGenId"": 6,
       ""Name"": ""王大妈"",
       ""States"": [
         {
@@ -338,6 +338,50 @@
             }
           ],
           ""Id"": 3
+        },
+        {
+          ""Name"": ""玩家找回二狗"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 13,
+                    ""TextId"": 66
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 5
+              }
+            }
+          ],
+          ""Id"": 4
+        },
+        {
+          ""Name"": ""结束"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 13,
+                    ""TextId"": 67
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 5
         }
       ]
     },
@@ -741,6 +785,365 @@
                     ""Name"": ""对话1"",
                     ""WhoId"": 14,
                     ""TextId"": 54
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 5
+        }
+      ]
+    },
+    {
+      ""Id"": 6,
+      ""StateGenId"": 6,
+      ""Name"": ""二狗"",
+      ""States"": [
+        {
+          ""Name"": ""初始"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 12,
+                    ""TextId"": 55,
+                    ""Options"": [
+                      {
+                        ""TextId"": 56,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 0
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 57,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 2
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 12,
+                    ""TextId"": 58,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""FinishTalk"",
+                        ""Params"": {}
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 12,
+                    ""TextId"": 59,
+                    ""Options"": [
+                      {
+                        ""TextId"": 60,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""SetBehaviorIsPaused"",
+                            ""Params"": {
+                              ""IsPaused"": true
+                            }
+                          },
+                          {
+                            ""Name"": ""MoveToPos"",
+                            ""Params"": {
+                              ""Timeout"": 5,
+                              ""Pos"": {
+                                ""X"": 2807,
+                                ""Y"": 309,
+                                ""Z"": 100,
+                                ""A"": -90
+                              }
+                            }
+                          },
+                          {
+                            ""Name"": ""SetPos"",
+                            ""Params"": {
+                              ""Pos"": {
+                                ""X"": 3970,
+                                ""Y"": 145,
+                                ""Z"": 97,
+                                ""A"": 139
+                              }
+                            }
+                          },
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 2
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    ""Actions"": []
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        },
+        {
+          ""Name"": ""第一次被找到"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 12,
+                    ""TextId"": 72
+                  },
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 12,
+                    ""TextId"": 61,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""MoveToPos"",
+                        ""Params"": {
+                          ""Timeout"": 5,
+                          ""Pos"": {
+                            ""X"": 3280,
+                            ""Y"": -740,
+                            ""Z"": 100,
+                            ""A"": -151
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""SetPos"",
+                        ""Params"": {
+                          ""Pos"": {
+                            ""X"": 3515,
+                            ""Y"": 1458,
+                            ""Z"": 99,
+                            ""A"": -123
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 3
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 2
+        },
+        {
+          ""Name"": ""第二次被找到"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 1,
+                    ""TextId"": 68,
+                    ""Options"": [
+                      {
+                        ""TextId"": 69
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 1,
+                    ""TextId"": 63,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""MoveToPos"",
+                        ""Params"": {
+                          ""Timeout"": 1.5,
+                          ""Pos"": {
+                            ""X"": 3410,
+                            ""Y"": 1466,
+                            ""Z"": 99,
+                            ""A"": -123
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""MoveToPos"",
+                        ""Params"": {
+                          ""Timeout"": 5,
+                          ""Pos"": {
+                            ""X"": 2807,
+                            ""Y"": 309,
+                            ""Z"": 100,
+                            ""A"": -90
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""SetPos"",
+                        ""Params"": {
+                          ""Pos"": {
+                            ""X"": 4724,
+                            ""Y"": -605,
+                            ""Z"": 100,
+                            ""A"": 177
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 4
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
+        },
+        {
+          ""Name"": ""第三次被找到"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 12,
+                    ""TextId"": 64
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 12,
+                    ""TextId"": 70,
+                    ""Options"": [
+                      {
+                        ""TextId"": 71
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 12,
+                    ""TextId"": 62,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""MoveToPos"",
+                        ""Params"": {
+                          ""Timeout"": 1.5,
+                          ""Pos"": {
+                            ""X"": 4825,
+                            ""Y"": -611,
+                            ""Z"": 100,
+                            ""A"": -108
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""MoveToPos"",
+                        ""Params"": {
+                          ""Timeout"": 5,
+                          ""Pos"": {
+                            ""X"": 4400,
+                            ""Y"": -1972,
+                            ""Z"": 99,
+                            ""A"": -91
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""Invoke"",
+              ""Params"": {
+                ""Who"": ""E32696674CF6D874598B34A29C141D24"",
+                ""ActionInfo"": {
+                  ""Name"": ""SpawnChild"",
+                  ""Params"": {
+                    ""TemplateGuid"": ""FAF5002240053ABBFAEBC2A08C674773"",
+                    ""Transform"": {
+                      ""Pos"": {
+                        ""X"": 2983,
+                        ""Y"": -4308,
+                        ""Z"": 170
+                      },
+                      ""Rot"": {
+                        ""Z"": 91
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              ""Name"": ""Invoke"",
+              ""Params"": {
+                ""Who"": ""E32696674CF6D874598B34A29C141D24"",
+                ""ActionInfo"": {
+                  ""Name"": ""ChangeState"",
+                  ""Params"": {
+                    ""StateId"": 4
+                  }
+                }
+              }
+            },
+            {
+              ""Name"": ""Destroy"",
+              ""Params"": {}
+            }
+          ],
+          ""Id"": 4
+        },
+        {
+          ""Name"": ""回到家中"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 12,
+                    ""TextId"": 65
                   }
                 ]
               }

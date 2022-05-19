@@ -102,17 +102,11 @@ export class InvokeAction extends Action<IInvoke> {
             // 如果此时Entity不存在, 则将action压入对应Actor的待执行Action序列中
             gameContext.StateManager.PushDelayAction(this.Invoke.Who, this.Invoke.ActionInfo);
         } else {
-            await action.ExecuteSync();
-        }
-    }
-
-    public Execute(): void {
-        const action = this.Action;
-        if (!action.Entity) {
-            // 如果此时Entity不存在, 则将action压入对应Actor的待执行Action序列中
-            gameContext.StateManager.PushDelayAction(this.Invoke.Who, this.Invoke.ActionInfo);
-        } else {
-            action.Execute();
+            if (action.IsSchedulable) {
+                await action.ExecuteSync();
+            } else {
+                action.Execute();
+            }
         }
     }
 
@@ -121,6 +115,6 @@ export class InvokeAction extends Action<IInvoke> {
     }
 
     public get IsSchedulable(): boolean {
-        return this.Action.IsSchedulable;
+        return true;
     }
 }

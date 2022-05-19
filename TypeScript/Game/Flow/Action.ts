@@ -27,6 +27,7 @@ export type TActionType =
     | 'SetCameraMode'
     | 'SetFlowBoolOption'
     | 'SetHeadIconVisible'
+    | 'SetMoveSpeed'
     | 'SetNumberVar'
     | 'SetPlotMode'
     | 'SetPos'
@@ -278,6 +279,10 @@ export interface IShowCenterText {
 export interface IMoveToPosA {
     Timeout: number;
     Pos: IPosA;
+}
+
+export interface ISetMoveSpeed {
+    Speed: number;
 }
 
 export interface ISetPosA {

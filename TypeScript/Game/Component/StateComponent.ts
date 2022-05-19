@@ -19,6 +19,7 @@ export type TEntityStateId =
     | 'Pos'
     | 'Rot'
     | 'SpawnRecord'
+    | 'Speed'
     | 'StateId'
     | 'TriggerTimes';
 

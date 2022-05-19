@@ -73,7 +73,17 @@ export class Flow extends React.Component<IFlowProps> {
 
     private readonly InsertState = (id: number): void => {
         this.Modify((from, to) => {
-            to.States.splice(id + 1, 0, editorFlowOp.CreateState(from));
+            const pastedState = pasteObject<IStateInfo>('StateInfo');
+
+            to.StateGenId = from.StateGenId + 1;
+            const newState = editorFlowOp.CreateState(from);
+
+            if (pastedState) {
+                // 确保stateInfo的id和名字唯一
+                pastedState.Id = newState.Id;
+                pastedState.Name = newState.Name;
+            }
+            to.States.splice(id + 1, 0, pastedState || newState);
         }, 'normal');
     };
 

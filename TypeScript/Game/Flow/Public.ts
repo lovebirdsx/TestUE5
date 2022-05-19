@@ -5,6 +5,7 @@ import {
     ChangeActorStateAction,
     FaceToPosAction,
     MoveToPosAction,
+    SetMoveSpeedAction,
     SetPosAction,
     SimpleMoveAction,
 } from './Actions/Actor';
@@ -53,6 +54,7 @@ export function initFlow(): void {
     actionRegistry.Register('SpawnChild', SpawnChildAction);
     actionRegistry.Register('Wait', WaitAction);
     actionRegistry.Register('SetPos', SetPosAction);
+    actionRegistry.Register('SetMoveSpeed', SetMoveSpeedAction);
     actionRegistry.Register('Activate', Activation);
     actionRegistry.Register('SetNumberVar', SetNumberVarAction);
     actionRegistry.Register('SyncVarToActorState', SyncVarToActorStateAction);

@@ -24,6 +24,14 @@ export class EntitySpawnerComponent extends Component {
         gameContext.EntityManager.EntityRemoved.AddCallback(this.OnEntityRemoved);
     }
 
+    public OnLoadState(): void {
+        this.SpawnRecord = this.State.GetState('SpawnRecord') || [];
+
+        this.SpawnRecord.forEach((record) => {
+            this.SpawnChild(record.TemplateGuid, record.Transform, record.EntityGuid);
+        });
+    }
+
     public OnDestroy(): void {
         // 销毁的时候, 自动移除构造的子Entity
         // 但子Entity的记录还在, 下次流送的时候依然能够恢复
@@ -59,14 +67,6 @@ export class EntitySpawnerComponent extends Component {
         const entity = gameContext.EntityManager.SpawnEntity(entityData, toTransform(transform));
         this.Children.set(entity.Guid, entity);
         return entity;
-    }
-
-    public OnLoadState(): void {
-        this.SpawnRecord = this.State.GetState('SpawnRecord') || [];
-
-        this.SpawnRecord.forEach((record) => {
-            this.SpawnChild(record.TemplateGuid, record.Transform, record.EntityGuid);
-        });
     }
 
     public Spawn(action: ISpawn): void {

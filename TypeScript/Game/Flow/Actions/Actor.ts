@@ -9,6 +9,7 @@ import {
     IFaceToPos,
     IInteract,
     IMoveToPosA,
+    ISetMoveSpeed,
     ISetPosA,
     ISimpleMove,
 } from '../Action';
@@ -25,6 +26,13 @@ export class SetPosAction extends Action<ISetPosA> {
     public Execute(): void {
         const moveComponent = this.Entity.GetComponent(MoveComponent);
         moveComponent.SetPosA(this.Data.Pos);
+    }
+}
+
+export class SetMoveSpeedAction extends Action<ISetMoveSpeed> {
+    public Execute(): void {
+        const moveComponent = this.Entity.GetComponent(MoveComponent);
+        moveComponent.Speed = this.Data.Speed;
     }
 }
 

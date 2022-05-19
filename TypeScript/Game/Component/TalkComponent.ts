@@ -67,6 +67,7 @@ export class TalkComponent extends Component {
             cancleableDelay.Cancel();
         }
 
+        // 动作
         if (item.Actions) {
             this.ActionRunner = new ActionRunner('TalkActions', this.Entity, item.Actions);
             await this.ActionRunner.Execute();
@@ -85,15 +86,16 @@ export class TalkComponent extends Component {
             });
 
             const selectOptionText = await selectOptionSignal.Promise;
+            this.TalkerDisplay.HideAll();
 
             const option = item.Options.find((op) => texts[op.TextId].Text === selectOptionText);
             if (option.Actions) {
                 this.ActionRunner = new ActionRunner('OptionActions', this.Entity, option.Actions);
                 await this.ActionRunner.Execute();
             }
+        } else {
+            this.TalkerDisplay.HideAll();
         }
-
-        this.TalkerDisplay.HideAll();
     }
 
     private async FaceToPlayer(): Promise<void> {

@@ -18,7 +18,9 @@ import { IProps } from '../../../../Common/Type';
 import { alignPosA, loadClass } from '../../../../Common/Util';
 import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
 import { Btn, COLOR_LEVEL1, EditorBox } from '../../BaseComponent/CommonComponent';
+import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import LevelEditorUtil from '../../LevelEditorUtil';
+import { copyObject, pasteObject } from '../../Util';
 
 interface IPointState {
     TipActor: Actor;
@@ -157,7 +159,9 @@ export class Point extends React.Component<IProps<IPosA>, IPointState> {
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
-        const posA = this.props.Value || defalutPosA;
+        const props = this.props;
+        const posA = props.Value || defalutPosA;
+        const scheme = props.Scheme;
         if (this.state.TipActor) {
             LevelEditorUtil.SetTransform(this.state.TipActor, posaToTransform(posA));
         }
@@ -189,6 +193,23 @@ export class Point extends React.Component<IProps<IPosA>, IPointState> {
                     Tip={'Z轴的旋转角度'}
                 />
                 {this.state.TipActor ? this.RenderForTip() : this.RenderForNoTip()}
+                <ContextBtn
+                    Commands={['拷贝', '粘贴']}
+                    OnCommand={function (cmd: string): void {
+                        switch (cmd) {
+                            case '拷贝':
+                                copyObject(scheme.Name, posA);
+                                break;
+                            case '粘贴': {
+                                const pos = pasteObject(scheme.Name);
+                                if (pos) {
+                                    props.OnModify(pos, 'normal');
+                                }
+                                break;
+                            }
+                        }
+                    }}
+                />
             </HorizontalBox>
         );
     }

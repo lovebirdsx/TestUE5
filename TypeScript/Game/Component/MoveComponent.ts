@@ -36,6 +36,8 @@ export class MoveComponent extends Component implements IMoveComponent {
 
     private IsMoving = false;
 
+    private MySpeed: number;
+
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
 
@@ -48,11 +50,24 @@ export class MoveComponent extends Component implements IMoveComponent {
     public OnLoadState(): void {
         this.State.ApplyPosition();
         this.State.ApplyRotation();
+
+        this.MySpeed = this.State.HasState('Speed') ? this.State.GetState('Speed') : this.InitSpeed;
     }
 
     public OnDestroy(): void {
         // 确保等待中的回调都被正常处理
         this.Stop();
+    }
+
+    public get Speed(): number {
+        return this.MySpeed;
+    }
+
+    public set Speed(value: number) {
+        this.MySpeed = value;
+        const character = this.Entity.Actor as Character;
+        character.CharacterMovement.MaxWalkSpeed = value;
+        this.State.SetState('Speed', value === this.InitSpeed ? undefined : value);
     }
 
     private readonly OnMoveCompleted = (

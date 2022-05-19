@@ -12,7 +12,13 @@ import {
 import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
-import { faceToPosScheme, moveToPosScheme, setPosScheme, simpleMoveScheme } from './Move';
+import {
+    faceToPosScheme,
+    moveToPosScheme,
+    setMoveSpeedScheme,
+    setPosScheme,
+    simpleMoveScheme,
+} from './Move';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
@@ -50,6 +56,7 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     SetBehaviorIsPaused: setBehaviorIsPausedScheme,
     SetCameraMode: setCameraModeScheme,
     SetHeadIconVisible: setHeadIconVisibleScheme,
+    SetMoveSpeed: setMoveSpeedScheme,
     SetNumberVar: setNumberVarScheme,
     SetFlowBoolOption: setFlowBoolOptionScheme,
     SetPlotMode: setPlotModeScheme,

@@ -48,7 +48,10 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
 
     private readonly Insert = (id: number): void => {
         this.ModifyByCb((from, to) => {
-            const e = this.SpawnElement();
+            let e = pasteObject(this.props.Scheme.Name);
+            if (!e) {
+                e = this.SpawnElement();
+            }
             to.splice(id, 0, e);
         });
     };
@@ -82,10 +85,10 @@ export class Array extends React.Component<IProps<unknown[], ArrayScheme>> {
     private OnElementContextCommand(id: number, cmd: string): void {
         switch (cmd) {
             case '拷贝':
-                copyObject(this.props.Scheme.Name, this.props.Value[id]);
+                copyObject(this.props.Scheme.Element.Name, this.props.Value[id]);
                 break;
             case '粘贴': {
-                const value = pasteObject(this.props.Scheme.Name);
+                const value = pasteObject(this.props.Scheme.Element.Name);
                 if (value) {
                     this.Modify(id, value, 'normal');
                 }

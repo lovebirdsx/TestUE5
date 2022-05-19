@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
+    allActionFilters,
     createArrayScheme,
     createBooleanScheme,
     createEnumScheme,
@@ -49,7 +50,7 @@ export const changeBehaviorStateScheme = createObjectScheme<IChangeBehaviorState
             Tip: '是否立即执行, 如果立即执行, 则将停止当前状态, 马上执行下一状态',
         }),
     },
-    Filters: [EActionFilter.BehaviorFlow, EActionFilter.Invoke],
+    Filters: allActionFilters,
     Tip: '改变行为状态, 实体将从该状态继续执行动作',
 });
 
@@ -62,7 +63,7 @@ export const setBehaviorIsPausedScheme = createObjectScheme<ISetBehaviorPaused>(
             Tip: '是否暂停',
         }),
     },
-    Filters: [EActionFilter.BehaviorFlow, EActionFilter.Invoke],
+    Filters: allActionFilters,
     Tip: '设定是否暂停Behavior的执行',
 });
 

@@ -8,9 +8,10 @@ import {
     createStringScheme,
     optionalFloatScheme,
 } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPosA, ISetPosA, ISimpleMove } from '../../Flow/Action';
+import { IFaceToPos, IMoveToPosA, ISetMoveSpeed, ISetPosA, ISimpleMove } from '../../Flow/Action';
 
 export const posScheme = createObjectScheme<IPosA>({
+    Name: 'PosA',
     CnName: '位置',
     Fields: {
         X: optionalFloatScheme,
@@ -35,6 +36,17 @@ export const setPosScheme = createObjectScheme<ISetPosA>({
         Pos: posScheme,
     },
     Tip: '将实体设定到目标位置',
+    Filters: allActionFilters,
+});
+
+export const setMoveSpeedScheme = createObjectScheme<ISetMoveSpeed>({
+    CnName: '设定移动速度',
+    Fields: {
+        Speed: createFloatScheme({
+            CnName: '速度',
+            Tip: '角色移动的速度(厘米/秒)',
+        }),
+    },
     Filters: allActionFilters,
 });
 

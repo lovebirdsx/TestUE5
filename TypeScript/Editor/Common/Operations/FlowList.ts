@@ -3,14 +3,13 @@ import produce from 'immer';
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { getFileNameWithOutExt } from '../../../Common/File';
-import { error, log } from '../../../Common/Log';
+import { error, log, warn } from '../../../Common/Log';
 import { FlowListCsvLoader } from '../../../Game/Common/CsvConfig/FlowListCsv';
 import { TextListCsvLoader, TextRow } from '../../../Game/Common/CsvConfig/TextListCsv';
 import { flowOp } from '../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../Game/Common/Operations/FlowList';
 import { stateOp } from '../../../Game/Common/Operations/State';
 import {
-    FLOW_LIST_VERSION,
     IActionInfo,
     IFlowListInfo,
     IPlayFlow,
@@ -23,20 +22,57 @@ import { mergeEditorToConfig } from '../Util';
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
 
 class EditorFlowListOp {
-    public Check(flowlist: IFlowListInfo, errorMessages: string[]): number {
+    public Check(flowList: IFlowListInfo, errorMessages: string[]): number {
         let errorCount = 0;
-        flowlist.Flows.forEach((flow) => {
+        flowList.Flows.forEach((flow) => {
             errorCount += flowOp.Check(flow, errorMessages);
+        });
+
+        const textIdMap: Set<number> = new Set();
+        const checkTextId = (id: number): void => {
+            if (textIdMap.has(id)) {
+                errorMessages.push(`重复的Text[${id}] ${flowList.Texts[id].Text}`);
+                errorCount++;
+            } else {
+                textIdMap.add(id);
+            }
+        };
+
+        // 检查重复的文本id
+        flowList.Flows.forEach((flow) => {
+            flow.States.forEach((state) => {
+                stateOp.ForeachActions(state, (action) => {
+                    switch (action.Name) {
+                        case 'ShowTalk': {
+                            const showTalk = action.Params as IShowTalk;
+                            showTalk.TalkItems.forEach((talkItem) => {
+                                checkTextId(talkItem.TextId);
+                                talkItem.Options?.forEach((option) => {
+                                    checkTextId(option.TextId);
+                                });
+                            });
+                            break;
+                        }
+                        case 'ShowCenterText': {
+                            const show = action.Params as IShowCenterText;
+                            checkTextId(show.TextId);
+                            break;
+                        }
+                        case 'ShowOption': {
+                            const show = action.Params as IShowOption;
+                            checkTextId(show.TextId);
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                });
+            });
         });
         return errorCount;
     }
 
-    public Fix(flowList: IFlowListInfo, versionTo: number): void {
-        const versionFrom = flowList.VersionNum;
-        if (versionFrom === versionTo) {
-            return;
-        }
-
+    public Fix(flowList: IFlowListInfo): void {
         if (!flowList.Texts) {
             flowList.Texts = {};
             flowList.TextGenId = 0;
@@ -45,7 +81,51 @@ class EditorFlowListOp {
         flowList.Flows.forEach((flow) => {
             flowOp.Fix(flow);
         });
-        flowList.VersionNum = versionTo;
+
+        // 修复重复的文本id
+        const textIdMap: Set<number> = new Set();
+        const tryFixTextId = (textContainer: { TextId: number }): void => {
+            const textId = textContainer.TextId;
+            if (textIdMap.has(textId)) {
+                const text = flowList.Texts[textId].Text;
+                textContainer.TextId = flowListOp.CreateText(flowList, text);
+                warn(`修复文本id:[${textId}]=>[${textContainer.TextId}] ${text}`);
+            } else {
+                textIdMap.add(textId);
+            }
+        };
+
+        // 检查重复的文本id
+        flowList.Flows.forEach((flow) => {
+            flow.States.forEach((state) => {
+                stateOp.ForeachActions(state, (action) => {
+                    switch (action.Name) {
+                        case 'ShowTalk': {
+                            const showTalk = action.Params as IShowTalk;
+                            showTalk.TalkItems.forEach((talkItem) => {
+                                tryFixTextId(talkItem);
+                                talkItem.Options?.forEach((option) => {
+                                    tryFixTextId(option);
+                                });
+                            });
+                            break;
+                        }
+                        case 'ShowCenterText': {
+                            const show = action.Params as IShowCenterText;
+                            tryFixTextId(show);
+                            break;
+                        }
+                        case 'ShowOption': {
+                            const show = action.Params as IShowOption;
+                            tryFixTextId(show);
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                });
+            });
+        });
     }
 
     public RemoveText(flowList: IFlowListInfo, textId: number): void {
@@ -128,10 +208,6 @@ class EditorFlowListOp {
             flowList as unknown as Record<string, unknown>,
             editor as Record<string, unknown>,
         );
-
-        if (flowList.VersionNum !== FLOW_LIST_VERSION) {
-            this.Fix(flowList, FLOW_LIST_VERSION);
-        }
 
         return flowList;
     }

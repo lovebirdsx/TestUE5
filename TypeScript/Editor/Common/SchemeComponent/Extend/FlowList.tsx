@@ -7,8 +7,9 @@ import { log } from '../../../../Common/Log';
 import { EActionFilter, TModifyType } from '../../../../Common/Type';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IFlowInfo, IFlowListInfo } from '../../../../Game/Flow/Action';
-import { Btn } from '../../BaseComponent/CommonComponent';
+import { Btn, ErrorText } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { editorFlowListOp } from '../../Operations/FlowList';
 import { copyObject, pasteObject } from '../../Util';
 import { Flow } from './Flow';
 
@@ -158,6 +159,36 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
         }, 'fold');
     };
 
+    private RenderError(): JSX.Element {
+        const errors: string[] = [];
+        const props = this.props;
+        editorFlowListOp.Check(props.FlowList, errors);
+        if (errors.length <= 0) {
+            return undefined;
+        }
+
+        return (
+            <VerticalBox>
+                <HorizontalBox>
+                    <Btn
+                        Text={'自动修复'}
+                        OnClick={function (): void {
+                            const newFlowList = produce(props.FlowList, (draft) => {
+                                editorFlowListOp.Fix(draft);
+                            });
+                            if (newFlowList !== props.FlowList) {
+                                props.OnModify(newFlowList, 'normal');
+                            }
+                        }}
+                    />
+                </HorizontalBox>
+                {errors.map((err, id) => (
+                    <ErrorText key={id} Text={err} />
+                ))}
+            </VerticalBox>
+        );
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const { Flows: flows } = this.props.FlowList;
@@ -190,25 +221,28 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
             Padding: { Left: 10, Bottom: 10 },
         };
         return (
-            <VerticalBox Slot={rootSlot}>
-                <HorizontalBox>
-                    <Btn Text={'✚流程'} OnClick={this.AddFlow} Tip={FLOW_TIP} />
-                    <Btn
-                        Text={'▼▼'}
-                        OnClick={(): void => {
-                            this.FoldAll(false);
-                        }}
-                        Tip="展开所有"
-                    />
-                    <Btn
-                        Text={'▶▶'}
-                        OnClick={(): void => {
-                            this.FoldAll(true);
-                        }}
-                        Tip="折叠所有"
-                    />
-                </HorizontalBox>
-                {nodes}
+            <VerticalBox>
+                {this.RenderError()}
+                <VerticalBox Slot={rootSlot}>
+                    <HorizontalBox>
+                        <Btn Text={'✚流程'} OnClick={this.AddFlow} Tip={FLOW_TIP} />
+                        <Btn
+                            Text={'▼▼'}
+                            OnClick={(): void => {
+                                this.FoldAll(false);
+                            }}
+                            Tip="展开所有"
+                        />
+                        <Btn
+                            Text={'▶▶'}
+                            OnClick={(): void => {
+                                this.FoldAll(true);
+                            }}
+                            Tip="折叠所有"
+                        />
+                    </HorizontalBox>
+                    {nodes}
+                </VerticalBox>
             </VerticalBox>
         );
     }

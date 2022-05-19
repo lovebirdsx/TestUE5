@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { globalContexts } from '../../../Common/GlobalContext';
+import { warn } from '../../../Common/Log';
 import {
     createArrayScheme,
     createAssetScheme,
@@ -131,6 +132,7 @@ function fixJumpTalk(actions: IActionInfo[], talkIds: number[]): number {
         if (action.Name === 'JumpTalk') {
             const jumpTalk = action.Params as IJumpTalk;
             if (!talkIds.includes(jumpTalk.TalkId)) {
+                warn(`修复跳转对话 [${jumpTalk.TalkId}] => [${0}]`);
                 jumpTalk.TalkId = 0;
                 fixCount++;
             }
@@ -154,10 +156,11 @@ function fixJumpTalk(actions: IActionInfo[], talkIds: number[]): number {
 function fixTalkItem(items: ITalkItem[], item: ITalkItem): TFixResult {
     let fixedCount = 0;
     // 确保对话名字唯一
-    if (!item.Name || items.find((e) => e.Name === item.Name)) {
+    if (!item.Name || items.find((e) => e.Name === item.Name && e !== item)) {
         for (let i = 0; i < items.length + 1; i++) {
             const name = `对话${i + 1}`;
             if (!items.find((e) => e.Name === name)) {
+                warn(`修复对话名字 [${item.Name}] => [${name}]`);
                 item.Name = name;
                 fixedCount++;
                 break;
@@ -166,9 +169,10 @@ function fixTalkItem(items: ITalkItem[], item: ITalkItem): TFixResult {
     }
 
     // 确保对话id唯一
-    if (items.find((e) => e.Id === item.Id)) {
+    if (items.find((e) => e.Id === item.Id && e !== item)) {
         for (let i = 0; i < items.length + 1; i++) {
             if (!items.find((e) => e.Id === i)) {
+                warn(`修复对话id [${item.Id}] => [${i}]`);
                 item.Id = i;
                 fixedCount++;
                 break;
@@ -183,7 +187,9 @@ function fixTalkItem(items: ITalkItem[], item: ITalkItem): TFixResult {
     }
     if (item.Options) {
         item.Options.forEach((option) => {
-            fixedCount += fixJumpTalk(option.Actions, alltalkIds);
+            if (option.Actions) {
+                fixedCount += fixJumpTalk(option.Actions, alltalkIds);
+            }
         });
     }
 

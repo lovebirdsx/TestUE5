@@ -1,5 +1,15 @@
 ﻿{
   "Lable": "TsEntity25",
+  "Transform": {
+    "Pos": {
+      "X": -7227.999982,
+      "Y": -7409.999998,
+      "Z": 600
+    },
+    "Rot": {
+      "Z": 179.999999
+    }
+  },
   "PrefabId": 0,
   "Guid": "4422518548F566750CFD02864878658C",
   "ComponentsState": {}

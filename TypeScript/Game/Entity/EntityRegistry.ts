@@ -8,6 +8,7 @@ import {
     isChildOfClass,
     TTsClassType,
 } from '../../Common/Class';
+import { toTransformInfo } from '../../Common/Interface';
 import { error, warn } from '../../Common/Log';
 import { getGuid, stringify } from '../../Common/Util';
 import {
@@ -77,6 +78,7 @@ class EntityRegistry {
     public GenData<T extends ITsEntity>(obj: T): IEntityData {
         return {
             Lable: obj.ActorLabel,
+            Transform: toTransformInfo(obj.GetTransform()),
             PrefabId: getBlueprintId(obj.GetClass()),
             Guid: obj.Guid,
             ComponentsState: this.GenComponentsState(obj),

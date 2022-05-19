@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { Class, KismetGuidLibrary } from 'ue';
 import * as UE from 'ue';
@@ -84,6 +85,13 @@ export function deepEqualsIgnore<T>(x: T, y: T, ignoreFields: string[]): boolean
     }
 
     return true;
+}
+
+// 比较两个number, 返回是否大约相等, 通常用于比较浮点数
+export function eqn(a: number, b: number): boolean {
+    const sub = a - b;
+    const ab = sub > 0 ? sub : -sub;
+    return ab < 0.0001;
 }
 
 export function calHash(str: string): number {

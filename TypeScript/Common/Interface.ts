@@ -1,5 +1,8 @@
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-param-reassign */
 import { Quat, Rotator, Transform, Vector } from 'ue';
+
+import { eqn } from './Util';
 
 /* eslint-disable spellcheck/spell-checker */
 export interface IVectorInfo {
@@ -25,9 +28,9 @@ export function toVectorInfo(vec: Vector, defalut?: IVectorInfo): IVectorInfo {
     // eslint-disable-next-line no-param-reassign
     defalut = defalut || defaultVec;
 
-    const x = vec.X === defaultVec.X ? undefined : vec.X;
-    const y = vec.Y === defaultVec.Y ? undefined : vec.Y;
-    const z = vec.Z === defaultVec.Z ? undefined : vec.Z;
+    const x = eqn(vec.X, defalut.X) ? undefined : vec.X;
+    const y = eqn(vec.Y, defalut.Y) ? undefined : vec.Y;
+    const z = eqn(vec.Z, defalut.Z) ? undefined : vec.Z;
 
     if (x === undefined && y === undefined && z === undefined) {
         return undefined;
@@ -82,7 +85,7 @@ export function toTransformInfo(transform: Transform): ITransform {
     return {
         Pos: toVectorInfo(transform.GetLocation()),
         Rot: toRotationInfoQuat(transform.GetRotation()),
-        Scale: toScale(transform.GetScale3D()),
+        Scale: toScaleInfo(transform.GetScale3D()),
     };
 }
 

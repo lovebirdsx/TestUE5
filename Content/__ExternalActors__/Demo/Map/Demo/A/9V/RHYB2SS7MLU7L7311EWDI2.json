@@ -1,5 +1,16 @@
 ﻿{
   "Lable": "TsSpringBoard21",
+  "Transform": {
+    "Pos": {
+      "X": -3818,
+      "Y": -10480,
+      "Z": 510
+    },
+    "Rot": {
+      "X": 180,
+      "Y": -29.999999767608927
+    }
+  },
   "PrefabId": 16,
   "Guid": "86981C28431CEE43EE342FAC1E8761A7",
   "ComponentsState": {}

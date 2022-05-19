@@ -1,5 +1,15 @@
 ﻿{
   "Lable": "TsUnderground2",
+  "Transform": {
+    "Pos": {
+      "X": -7357.999974,
+      "Y": -5680.000026,
+      "Z": 110
+    },
+    "Rot": {
+      "Z": 179.999999
+    }
+  },
   "PrefabId": 12,
   "Guid": "09AC00F7437217181DD460BAE86A3264",
   "ComponentsState": {

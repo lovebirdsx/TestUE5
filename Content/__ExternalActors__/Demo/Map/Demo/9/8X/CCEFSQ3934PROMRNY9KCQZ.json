@@ -1,5 +1,12 @@
 ﻿{
   "Lable": "守卫左",
+  "Transform": {
+    "Pos": {
+      "X": -889.3863730545602,
+      "Y": -2359.653138656556,
+      "Z": 188.00000346876453
+    }
+  },
   "PrefabId": 1001,
   "Guid": "441B935344164350641BD48E404F2A5C",
   "ComponentsState": {
@@ -7,7 +14,7 @@
       "InitState": {
         "FlowListName": "流程_守卫",
         "FlowId": 2,
-        "StateId": 1
+        "StateId": 2
       }
     },
     "MoveComponent": {

@@ -1,5 +1,15 @@
 ﻿{
   "Lable": "BP_SteeringWheel13",
+  "Transform": {
+    "Pos": {
+      "X": -2958.000034,
+      "Y": -8140.000116,
+      "Z": 610
+    },
+    "Rot": {
+      "Z": 179.999999
+    }
+  },
   "PrefabId": 1009,
   "Guid": "717D321A406B5B1E688C3E85FB172B2A",
   "ComponentsState": {

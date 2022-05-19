@@ -2,6 +2,7 @@
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
 import { getTsClassByUeClass } from '../Common/Class';
+import { ITransform } from '../Common/Interface';
 import { Event, parse } from '../Common/Util';
 import {
     IActionInfo,
@@ -108,6 +109,7 @@ export function parseComponentsState(json: string): TComponentsState {
 
 export interface IEntityData {
     Lable?: string;
+    Transform?: ITransform;
     Guid: string;
     PrefabId: number;
     ComponentsState: TComponentsState;

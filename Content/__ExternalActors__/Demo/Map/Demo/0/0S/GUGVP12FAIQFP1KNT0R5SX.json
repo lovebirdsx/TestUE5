@@ -1,5 +1,15 @@
 ﻿{
   "Lable": "TsTrample12",
+  "Transform": {
+    "Pos": {
+      "X": -3077.999964,
+      "Y": -4870.000113,
+      "Z": 573
+    },
+    "Rot": {
+      "Z": 179.999999
+    }
+  },
   "PrefabId": 9,
   "Guid": "A71A69384584A782F1C1A0BD09E4E63C",
   "ComponentsState": {

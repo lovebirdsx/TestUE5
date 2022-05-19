@@ -1,5 +1,15 @@
 ﻿{
   "Lable": "TsSphereFactory10",
+  "Transform": {
+    "Pos": {
+      "X": -5878.000023,
+      "Y": -7710.000039,
+      "Z": 1830
+    },
+    "Rot": {
+      "Z": 179.999999
+    }
+  },
   "PrefabId": 11,
   "Guid": "54FD0C924D6AB5F39DC813A6617D4837",
   "ComponentsState": {

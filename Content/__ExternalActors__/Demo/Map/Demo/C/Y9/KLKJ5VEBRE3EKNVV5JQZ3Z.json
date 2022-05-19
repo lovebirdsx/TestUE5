@@ -1,5 +1,12 @@
 ﻿{
   "Lable": "开关1",
+  "Transform": {
+    "Pos": {
+      "X": 2080,
+      "Y": -1149.5144119309475,
+      "Z": 99.99999968672671
+    }
+  },
   "PrefabId": 1010,
   "Guid": "D61CFF214ECC8BBA86DB9BBD3B0EC988",
   "ComponentsState": {

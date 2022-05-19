@@ -1,5 +1,15 @@
 ﻿{
   "Lable": "TsTrigger12",
+  "Transform": {
+    "Pos": {
+      "X": -3111.901591,
+      "Y": -7696.49855,
+      "Z": 564.452963
+    },
+    "Rot": {
+      "Z": 179.999999
+    }
+  },
   "PrefabId": 2,
   "Guid": "EEC91C944324876BEB06E1BCE187270F",
   "ComponentsState": {

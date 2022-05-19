@@ -74,7 +74,7 @@ export interface ITriggerComponent {
     TriggerActions: ITriggerActions;
 }
 
-export interface ISwitcherComponent {
+export interface ISwitcherComponent extends IInteractiveComponent {
     OnActions: IActionInfo[];
     OffActions: IActionInfo[];
 }
@@ -382,10 +382,29 @@ export interface IInteractCall {
     CallBack: (action: IInteract) => void;
 }
 
-export class InteractiveComponent extends Component {
+export interface IInteractiveComponent {
+    Content: string;
+    Icon: string;
+}
+
+export class InteractiveComponent extends Component implements IInteractiveComponent {
+    public Content: string;
+
+    public Icon: string;
+
+    private readonly DefalutIcon = '';
+
     // eslint-disable-next-line @typescript-eslint/require-await
     public async Interact(entity: Entity): Promise<void> {
         throw new Error('Interact is not implement');
+    }
+
+    public GetInteractContent(): string {
+        return this.Content ? this.Content : this.Name;
+    }
+
+    public GetInteractIcon(): string {
+        return this.Icon ? this.Icon : this.DefalutIcon;
     }
 }
 

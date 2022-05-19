@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Entity, InteractiveComponent } from '../Interface';
+import { Entity, gameContext, InteractiveComponent } from '../Interface';
+import TsHud from '../Player/TsHud';
 import { FlowComponent } from './FlowComponent';
 import PlayerComponent from './PlayerComponent';
 
@@ -21,6 +22,8 @@ export class NpcComponent extends InteractiveComponent {
         if (player) {
             player.AddInteractor(this.Entity);
             this.IsAdded = true;
+            const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+            tsHud.AddInteract(this.GetInteractContent());
         }
     }
 
@@ -33,6 +36,8 @@ export class NpcComponent extends InteractiveComponent {
         if (player) {
             player.RemoveInteractor(this.Entity);
             this.IsAdded = false;
+            const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+            tsHud.DelInteract(this.GetInteractContent());
         }
     }
 

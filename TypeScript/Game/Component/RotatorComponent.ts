@@ -70,6 +70,10 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         this.Event.RegistryInteract(call);
     }
 
+    public GetInteractContent(): string {
+        return this.Content ? this.Content : '调查';
+    }
+
     public OnLoadState(): void {
         this.StateId = this.State.GetState<number>('StateId') || 0;
     }
@@ -89,17 +93,12 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         return playerController.GetHUD() as TsHud;
     }
 
-    public GetInteractContent(): string {
-        // todo 改成从编写interact的json中读取
-        return `按E调查`;
-    }
-
     public OnTriggerEnter(other: Entity): void {
         const player = other.TryGetComponent(PlayerComponent);
         if (player) {
             player.AddInteractor(this.Entity);
-            const tshub = this.GetPlayerHud();
-            tshub.AddInteract(this.GetInteractContent());
+            const tsHud = this.GetPlayerHud();
+            tsHud.AddInteract(this.GetInteractContent());
         }
     }
 
@@ -107,8 +106,8 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         const player = other.TryGetComponent(PlayerComponent);
         if (player) {
             player.RemoveInteractor(this.Entity);
-            const tshub = this.GetPlayerHud();
-            tshub.DelInteract(this.GetInteractContent());
+            const tsHud = this.GetPlayerHud();
+            tsHud.DelInteract(this.GetInteractContent());
         }
     }
 

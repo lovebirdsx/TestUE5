@@ -4,7 +4,9 @@ import { CalculateComponent } from '../../Component/CalculateComponent';
 import { FlowComponent } from '../../Component/FlowComponent';
 import { GrabComponent } from '../../Component/GrabComponent';
 import { MoveComponent } from '../../Component/MoveComponent';
+import { NpcComponent } from '../../Component/NpcComponent';
 import { RotatorComponent } from '../../Component/RotatorComponent';
+import { SphereComponent } from '../../Component/SphereComponent';
 import { SphereFactoryComponent } from '../../Component/SphereFactoryComponent';
 import { SpringComponent } from '../../Component/SpringComponent';
 import { SwitcherComponent } from '../../Component/SwitcherComponent';
@@ -16,6 +18,7 @@ import { calculateComponentScheme } from './CalculateComponentScheme';
 import { componentRegistry } from './ComponentRegistry';
 import { behaviorFlowComponentScheme, flowComponentScheme } from './FlowComponentScheme';
 import { grabComponentScheme } from './GrabComponentScheme';
+import { npcComponentScheme, sphereComponentScheme } from './InteractComponentScheme';
 import { moveComponentScheme } from './MoveComponentScheme';
 import { rotatorComponentScheme } from './RotatorComponentScheme';
 import { sphereFactorComponentScheme } from './SphereFactoryScheme';
@@ -38,6 +41,8 @@ componentRegistry.RegisterClass(SphereFactoryComponent, sphereFactorComponentSch
 componentRegistry.RegisterClass(UndergroundComponent, undergroundActionsScheme);
 componentRegistry.RegisterClass(CalculateComponent, calculateComponentScheme);
 componentRegistry.RegisterClass(SwitcherComponent, switcherComponentScheme);
+componentRegistry.RegisterClass(NpcComponent, npcComponentScheme);
+componentRegistry.RegisterClass(SphereComponent, sphereComponentScheme);
 
 export * from './ActorStateComponentScheme';
 export * from './ComponentRegistry';

@@ -2,7 +2,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IActionInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
-import { Entity, InteractiveComponent, ISwitcherComponent } from '../Interface';
+import { Entity, gameContext, InteractiveComponent, ISwitcherComponent } from '../Interface';
+import TsHud from '../Player/TsHud';
 import { ActorStateComponent } from './ActorStateComponent';
 import PlayerComponent from './PlayerComponent';
 
@@ -25,13 +26,18 @@ export class SwitcherComponent extends InteractiveComponent implements ISwitcher
         this.IsOn = this.ActorSteteComponent.State === 'Open';
     }
 
+    public GetInteractContent(): string {
+        return this.Content ? this.Content : '调查';
+    }
+
     public OnTriggerEnter(other: Entity): void {
         const player = other.TryGetComponent(PlayerComponent);
         if (!player) {
             return;
         }
-
         player.AddInteractor(this.Entity);
+        const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+        tsHud.AddInteract(this.GetInteractContent());
     }
 
     public OnTriggerExit(other: Entity): void {
@@ -39,8 +45,9 @@ export class SwitcherComponent extends InteractiveComponent implements ISwitcher
         if (!player) {
             return;
         }
-
         player.RemoveInteractor(this.Entity);
+        const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+        tsHud.DelInteract(this.GetInteractContent());
     }
 
     private async Run(isOn: boolean): Promise<void> {

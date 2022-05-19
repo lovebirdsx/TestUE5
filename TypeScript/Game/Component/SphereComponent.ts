@@ -31,22 +31,16 @@ export class SphereComponent extends InteractiveComponent {
         this.InteractSignal = null;
     }
 
-    public GetPlayerHud(): TsHud {
-        const playerController = gameContext.PlayerController;
-        return playerController.GetHUD() as TsHud;
-    }
-
     public GetInteractContent(): string {
-        // todo 改成从编写interact的json中读取
-        return this.Entity.Name;
+        return this.Content ? this.Content : '抬起';
     }
 
     public OnTriggerEnter(other: Entity): void {
         const player = other.TryGetComponent(PlayerComponent);
         if (player) {
             player.AddInteractor(this.Entity);
-            const tshub = this.GetPlayerHud();
-            tshub.AddInteract(this.GetInteractContent());
+            const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+            tsHud.AddInteract(this.GetInteractContent());
         }
     }
 
@@ -54,8 +48,8 @@ export class SphereComponent extends InteractiveComponent {
         const player = other.TryGetComponent(PlayerComponent);
         if (player) {
             player.RemoveInteractor(this.Entity);
-            const tshub = this.GetPlayerHud();
-            tshub.DelInteract(this.GetInteractContent());
+            const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
+            tsHud.DelInteract(this.GetInteractContent());
         }
     }
 
@@ -76,7 +70,7 @@ export class SphereComponent extends InteractiveComponent {
     }
 
     public async Execute(): Promise<void> {
-        const tsHud = this.GetPlayerHud();
+        const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
         tsHud.HideInteract();
 
         const classObj = UE.Class.Load('/Game/Demo/UI/UI_Sphere.UI_Sphere_C');

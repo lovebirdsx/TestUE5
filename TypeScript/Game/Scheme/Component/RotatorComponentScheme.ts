@@ -10,14 +10,16 @@ import {
     IVectorType,
 } from '../../../Common/Type';
 import { IActionInfo } from '../../Flow/Action';
+import { IInteractiveComponent } from '../../Interface';
 import { actionRegistry } from '../Action/Public';
+import { interactiveComponentFields } from './InteractComponentScheme';
 
 export interface IEventRotator {
     StartActions: IActionInfo[];
     EndActions: IActionInfo[];
 }
 
-export interface IRotatorComponent {
+export interface IRotatorComponent extends IInteractiveComponent {
     RotatorSpeed: IVectorType;
     LocationOffset: IVectorType;
     RotationOffset: IVectorType;
@@ -51,6 +53,7 @@ export const eventScheme = createObjectScheme<IEventRotator>({
 export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorComponent>({
     Name: 'RotatorComponent',
     Fields: {
+        ...interactiveComponentFields,
         RotatorSpeed: createVectorScheme({
             CnName: '旋转速度(/100)',
             ShowName: true,

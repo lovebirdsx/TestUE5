@@ -6,7 +6,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { TModifyType } from '../../Common/Type';
 import { TComponentClass, TComponentsState, TComponentState } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Public';
-import { Check, Text } from '../Common/BaseComponent/CommonComponent';
+import { Check, COLOR_DISABLE, COLOR_LEVEL4, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { Any } from '../Common/SchemeComponent/Public';
 import { copyObject, pasteObject } from '../Common/Util';
@@ -45,7 +45,10 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
                         }
                     }}
                 />
-                <Text Text={componentName} />
+                <Text
+                    Text={componentName}
+                    Color={componentState.Disabled ? COLOR_DISABLE : COLOR_LEVEL4}
+                />
                 <ContextBtn
                     Commands={['拷贝', '粘贴']}
                     OnCommand={function (cmd: string): void {

@@ -34,8 +34,8 @@ import { toUeArray } from '../../../Common/UeHelper';
 export const TAB_OFFSET = 20;
 
 const DEFAULT_FONT_SIZE = 10;
-export const DEFAULT_TEXT_COLOR: TColor = '#FFFFFF white';
-export const DEFAULT_EDIT_TEXT_COLOR: TColor = '#FFFFFF white';
+export const DEFAULT_TEXT_COLOR: TColor = '#d4d4d4 text';
+export const DEFAULT_EDIT_TEXT_COLOR: TColor = '#d4d4d4 edit text';
 const DEFAULT_EDIT_TEXT_WIDTH = 80;
 const DEFAULT_EDIT_MAX_WIDTH = 600;
 
@@ -45,9 +45,11 @@ export const DEFAULT_BACK_COLOR: TColor = '#383838 dark';
 export const DEFAULT_HOVER_COLOR: TColor = '#575757 hover';
 export const DEFAULT_OUTLINE_COLOR: TColor = '#000000 black';
 
-export const COLOR_LEVEL1: TColor = '#1E90FF dodger blue';
-export const COLOR_LEVEL2: TColor = '#8A2BE2 blue violet';
-export const COLOR_LEVEL3: TColor = '#8B4513 saddle brown';
+export const COLOR_LEVEL1: TColor = '#2c7ad6 level1';
+export const COLOR_LEVEL2: TColor = '#8A2BE2 level2';
+export const COLOR_LEVEL3: TColor = '#8B4513 level3';
+export const COLOR_LEVEL4: TColor = '#4ec9a4 level4';
+export const COLOR_DISABLE: TColor = '#434949 disable';
 
 function createSlateColor(color: TColor): SlateColor {
     return {
@@ -114,7 +116,7 @@ const DEFAULT_LIST_FONT_SIZE = DEFAULT_FONT_SIZE;
 export const H3_SIZE = DEFAULT_FONT_SIZE + 2;
 export const H2_SIZE = H3_SIZE + 2;
 export const H1_SIZE = H2_SIZE + 2;
-export const HEADING_COLOR: TColor = '#1E90FF dodger blue';
+export const HEADING_COLOR: TColor = '#2c7ad6 level1';
 
 export function Text(props: {
     Text: string;
@@ -138,7 +140,7 @@ export function Text(props: {
 }
 
 export function ErrorText(props: { Text: string }): JSX.Element {
-    return <Text {...props} Color={'#8B0000 dark red'} />;
+    return <Text {...props} Color={'#8B0000 error'} />;
 }
 
 export function SlotText(props: { Text: string; Tip?: string; Slot?: unknown }): JSX.Element {

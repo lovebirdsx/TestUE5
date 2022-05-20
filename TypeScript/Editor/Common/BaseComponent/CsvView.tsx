@@ -192,7 +192,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
                 const colValues = this.IndexColumes.get(field.Name);
                 const value = row[field.Name];
                 if (value && colValues.find((e, id) => e === value && rowId !== id)) {
-                    color = '#8B0000 dark red';
+                    color = '#8B0000 error';
                 }
             }
 

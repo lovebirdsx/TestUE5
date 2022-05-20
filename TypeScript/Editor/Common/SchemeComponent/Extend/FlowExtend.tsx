@@ -24,6 +24,7 @@ import {
     Btn,
     COLOR_LEVEL1,
     COLOR_LEVEL2,
+    COLOR_LEVEL3,
     ErrorText,
     Fold,
     List,
@@ -183,6 +184,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
                 <List
                     Items={flowListOp.Names}
                     Selected={playFlow.FlowListName}
+                    Color={COLOR_LEVEL3}
                     OnSelectChanged={function (flowListName: string): void {
                         const newPlayFlow = createDefaultPlayFlowFor(flowListName);
                         props.OnModify(newPlayFlow, 'normal');

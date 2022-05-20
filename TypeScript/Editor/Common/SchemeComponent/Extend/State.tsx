@@ -190,7 +190,7 @@ export class State extends React.Component<IStateProps> {
                     />
                     <Text
                         Text={'●'}
-                        Color={this.props.IsDuplicate ? '#8B0000 dark red' : '#FFFFFF white'}
+                        Color={this.props.IsDuplicate ? '#8B0000 error' : '#FFFFFF white'}
                     />
                     <EditorBox
                         Text={state.Name}

@@ -257,7 +257,7 @@ export function getObjArrayRenderColorForField(
     }
 
     const sameFiledCount = getObjArraySameFieldCount(fieldName, filedValue as TIndexType, array);
-    return sameFiledCount <= 1 ? undefined : '#8B0000 dark red';
+    return sameFiledCount <= 1 ? undefined : '#8B0000 error';
 }
 
 export function createArrayScheme<T>(

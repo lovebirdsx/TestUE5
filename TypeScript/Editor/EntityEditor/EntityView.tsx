@@ -76,7 +76,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 <HorizontalBox>
                     <Text Text={`Guid: ${guid}`} />
                     {needFixGuid && (
-                        <Btn Text={`修复`} Color={'#8B0000 dark red'} OnClick={this.FixGuid} />
+                        <Btn Text={`修复`} Color={'#8B0000 error'} OnClick={this.FixGuid} />
                     )}
                 </HorizontalBox>
             );

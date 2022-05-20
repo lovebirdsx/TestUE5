@@ -197,7 +197,7 @@ export class Flow extends React.Component<IFlowProps> {
                             <EditorBox
                                 Text={flow.Name}
                                 OnChange={this.ChangeName}
-                                Color={this.props.IsDuplicate ? '#8B0000 dark red' : COLOR_LEVEL1}
+                                Color={this.props.IsDuplicate ? '#8B0000 error' : COLOR_LEVEL1}
                                 Tip="剧情名字"
                                 Width={100}
                             />

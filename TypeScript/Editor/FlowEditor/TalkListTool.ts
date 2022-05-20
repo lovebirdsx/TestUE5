@@ -99,7 +99,6 @@ export class TalkListCsvFile {
                 lastState = editorFlowOp.CreateState(lastFlow);
                 lastAction = undefined;
                 lastFlow.States.push(lastState);
-                lastFlow.StateGenId++;
                 lastState.Name = state;
             }
 

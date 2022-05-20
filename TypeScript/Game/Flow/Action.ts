@@ -85,7 +85,6 @@ export interface IFlowInfo {
     Name: string;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _folded?: boolean;
-    StateGenId: number;
     States: IStateInfo[];
 }
 
@@ -94,7 +93,6 @@ export function parseFlowInfo(json: string): IFlowInfo {
         return {
             Id: 0,
             Name: 'Flow',
-            StateGenId: 0,
             States: [],
         };
     }

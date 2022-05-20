@@ -66,7 +66,6 @@ export class Flow extends React.Component<IFlowProps> {
 
     private readonly AddState = (): void => {
         this.Modify((from, to) => {
-            to.StateGenId = from.StateGenId + 1;
             to._folded = false;
             to.States.push(editorFlowOp.CreateState(from));
         }, 'normal');
@@ -75,8 +74,6 @@ export class Flow extends React.Component<IFlowProps> {
     private readonly InsertState = (id: number): void => {
         this.Modify((from, to) => {
             const pastedState = pasteObject<IStateInfo>('StateInfo');
-
-            to.StateGenId = from.StateGenId + 1;
             const newState = editorFlowOp.CreateState(from);
 
             if (pastedState) {

@@ -9,11 +9,22 @@ import {
 } from '../../../Game/Flow/Action';
 
 class EditorFlowOp {
+    private GenNewStateId(flow: IFlowInfo): number {
+        let maxId = 0;
+        flow.States.forEach((state) => {
+            if (state.Id > maxId) {
+                maxId = state.Id;
+            }
+        });
+        return maxId + 1;
+    }
+
     public CreateState(flow: IFlowInfo): IStateInfo {
+        const stateId = this.GenNewStateId(flow);
         const state: IStateInfo = {
-            Name: `状态${flow.StateGenId}`,
+            Name: `状态${stateId}`,
             Actions: [],
-            Id: flow.StateGenId,
+            Id: stateId,
         };
         return state;
     }

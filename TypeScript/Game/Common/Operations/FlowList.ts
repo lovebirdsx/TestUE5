@@ -78,7 +78,6 @@ class FlowListOp {
         const id = this.GenNewFlowId(flowList);
         const flow: IFlowInfo = {
             Id: id,
-            StateGenId: 1,
             Name: `剧情${id}`,
             States: [],
         };

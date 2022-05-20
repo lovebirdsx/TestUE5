@@ -39,7 +39,6 @@ function createFlowList({
         flow.Name = `剧情${i + 1}`;
         for (let j = 0; j < stateCount; j++) {
             const state = editorFlowOp.CreateState(flow);
-            flow.StateGenId++;
             for (let k = 0; k < talkCount; k++) {
                 const showTalk: IShowTalk = {
                     TalkItems: [],

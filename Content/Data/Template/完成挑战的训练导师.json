@@ -1,23 +1,12 @@
 ﻿{
-  "Lable": "训练导师",
-  "Transform": {
-    "Pos": {
-      "X": -2110,
-      "Y": -4110,
-      "Z": 188
-    },
-    "Rot": {
-      "Z": 89.99999930282695
-    }
-  },
+  "Guid": "8A5B9C814F9DE52F8B43008857DABCF4",
   "PrefabId": 1012,
-  "Guid": "0035B3094C5F4382792795B5A086CA4D",
   "ComponentsState": {
     "FlowComponent": {
       "InitState": {
         "FlowListName": "流程_通过新手关",
         "FlowId": 1,
-        "StateId": 1
+        "StateId": 3
       }
     },
     "BehaviorFlowComponent": {

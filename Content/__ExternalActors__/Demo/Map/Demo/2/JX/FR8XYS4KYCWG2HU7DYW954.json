@@ -1,17 +1,17 @@
 ﻿{
-  "Lable": "训练导师",
+  "Lable": "训练导师2",
   "Transform": {
     "Pos": {
-      "X": -2110,
-      "Y": -4110,
-      "Z": 188
+      "X": -6500,
+      "Y": -10740,
+      "Z": 1188
     },
     "Rot": {
-      "Z": 89.99999930282695
+      "Z": 89.999999
     }
   },
   "PrefabId": 1012,
-  "Guid": "0035B3094C5F4382792795B5A086CA4D",
+  "Guid": "1DBA2DE44F99BA9D3E5E388736C8A297",
   "ComponentsState": {
     "FlowComponent": {
       "InitState": {

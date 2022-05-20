@@ -8,16 +8,16 @@
 #,Id,Json字符串
 ,流程_通过新手关,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 5,
+  ""TextGenId"": 13,
   ""FlowGenId"": 2,
   ""Flows"": [
     {
       ""Id"": 1,
-      ""StateGenId"": 3,
-      ""Name"": ""通关新手关"",
+      ""StateGenId"": 5,
+      ""Name"": ""新手关"",
       ""States"": [
         {
-          ""Name"": ""初次对话"",
+          ""Name"": ""发布任务"",
           ""Actions"": [
             {
               ""Name"": ""ShowTalk"",
@@ -33,28 +33,41 @@
                     ""Id"": 0,
                     ""Name"": ""对话2"",
                     ""WhoId"": 19,
-                    ""TextId"": 3
+                    ""TextId"": 2,
+                    ""Options"": [
+                      {
+                        ""TextId"": 3
+                      },
+                      {
+                        ""TextId"": 4,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     ""Id"": 2,
                     ""Name"": ""对话3"",
                     ""WhoId"": 19,
-                    ""TextId"": 4
+                    ""TextId"": 5,
+                    ""Actions"": []
                   }
                 ]
               }
             },
             {
-              ""Name"": ""ChangeState"",
-              ""Params"": {
-                ""StateId"": 2
-              }
+              ""Name"": ""Destroy"",
+              ""Params"": {}
             }
           ],
           ""Id"": 1
         },
         {
-          ""Name"": ""正常对话"",
+          ""Name"": ""完成任务"",
           ""Actions"": [
             {
               ""Name"": ""ShowTalk"",
@@ -63,14 +76,61 @@
                   {
                     ""Id"": 1,
                     ""Name"": ""对话1"",
-                    ""WhoId"": 19,
-                    ""TextId"": 2
+                    ""WhoId"": 20,
+                    ""TextId"": 9
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 20,
+                    ""TextId"": 10
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 20,
+                    ""TextId"": 11
+                  }
+                ]
+              }
+            },
+            {
+              ""Name"": ""ChangeState"",
+              ""Params"": {
+                ""StateId"": 4
+              }
+            },
+            {
+              ""Name"": ""Invoke"",
+              ""Params"": {
+                ""Who"": ""0035B3094C5F4382792795B5A086CA4D"",
+                ""ActionInfo"": {
+                  ""Name"": ""Destroy"",
+                  ""Params"": {}
+                }
+              }
+            }
+          ],
+          ""Id"": 3
+        },
+        {
+          ""Name"": ""完成后"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 20,
+                    ""TextId"": 12
                   }
                 ]
               }
             }
           ],
-          ""Id"": 2
+          ""Id"": 4
         }
       ]
     }

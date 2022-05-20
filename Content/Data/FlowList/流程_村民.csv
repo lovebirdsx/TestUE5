@@ -441,6 +441,90 @@
           ""Id"": 3
         }
       ]
+    },
+    {
+      ""Id"": 7,
+      ""StateGenId"": 2,
+      ""Name"": ""菜地男"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 16,
+                    ""TextId"": 31
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 8,
+      ""StateGenId"": 2,
+      ""Name"": ""面对面女1"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 17,
+                    ""TextId"": 32
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
+    },
+    {
+      ""Id"": 9,
+      ""StateGenId"": 2,
+      ""Name"": ""面对面女2"",
+      ""States"": [
+        {
+          ""Name"": ""状态1"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 16,
+                    ""TextId"": 33
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 16,
+                    ""TextId"": 34
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 1
+        }
+      ]
     }
   ]
 }"

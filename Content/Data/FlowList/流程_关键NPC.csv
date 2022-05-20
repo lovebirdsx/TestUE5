@@ -492,7 +492,7 @@
     },
     {
       ""Id"": 4,
-      ""StateGenId"": 8,
+      ""StateGenId"": 9,
       ""Name"": ""流浪汉"",
       ""States"": [
         {
@@ -614,15 +614,6 @@
                             }
                           }
                         ]
-                      },
-                      {
-                        ""TextId"": 34,
-                        ""Actions"": [
-                          {
-                            ""Name"": ""FinishTalk"",
-                            ""Params"": {}
-                          }
-                        ]
                       }
                     ]
                   },
@@ -630,13 +621,40 @@
                     ""Id"": 3,
                     ""Name"": ""对话4"",
                     ""WhoId"": 18,
-                    ""TextId"": 40
+                    ""TextId"": 40,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 8
+                        }
+                      }
+                    ]
                   }
                 ]
               }
             }
           ],
           ""Id"": 3
+        },
+        {
+          ""Name"": ""玩家接受解谜任务"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 91
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 8
         },
         {
           ""Name"": ""玩家解谜成功"",

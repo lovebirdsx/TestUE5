@@ -121,7 +121,27 @@
                     ""Id"": 1,
                     ""Name"": ""对话1"",
                     ""WhoId"": 5,
-                    ""TextId"": 30
+                    ""TextId"": 30,
+                    ""Options"": [
+                      {
+                        ""TextId"": 31
+                      },
+                      {
+                        ""TextId"": 32,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""FinishTalk"",
+                            ""Params"": {}
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 5,
+                    ""TextId"": 33
                   }
                 ]
               }

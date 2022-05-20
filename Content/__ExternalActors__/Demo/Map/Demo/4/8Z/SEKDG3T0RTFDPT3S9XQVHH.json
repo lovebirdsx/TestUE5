@@ -110,7 +110,8 @@
       },
       "Content": "",
       "Icon": "",
-      "Disabled": false
+      "Disabled": false,
+      "IsLockZ": true
     }
   }
 }

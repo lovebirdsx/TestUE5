@@ -48,7 +48,8 @@
       },
       "Content": "",
       "Icon": "",
-      "Disabled": false
+      "Disabled": false,
+      "IsLockZ": false
     }
   }
 }

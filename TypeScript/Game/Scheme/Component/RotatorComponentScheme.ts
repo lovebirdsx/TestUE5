@@ -28,6 +28,7 @@ export interface IRotatorComponent extends IInteractiveComponent {
     EntityId: string;
     IsRotatorSelf: boolean;
     InteractAction: IEventRotator;
+    IsLockZ: boolean;
 }
 
 export const eventScheme = createObjectScheme<IEventRotator>({
@@ -83,7 +84,7 @@ export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorCom
             CnName: '旋转控制轴映射',
             ShowName: true,
             NewLine: true,
-            Tip: '调整a/d, w/s 时旋转物体哪个轴，a/d旋转的轴为1， w/s旋转的轴为2',
+            Tip: '调整鼠标的竖直和横向移动调整哪个轴',
             CreateDefault(): IVectorType {
                 return {
                     X: 1,
@@ -92,15 +93,15 @@ export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorCom
                 };
             },
         }),
-        IsLocalSpace: createBooleanScheme({
-            CnName: '本地空间旋转',
-            RenderType: 'boolean',
-            ShowName: true,
-            NewLine: true,
-        }),
         EntityId: createStringScheme({
             CnName: '旋转目标',
             RenderType: 'entityId',
+            ShowName: true,
+            NewLine: true,
+        }),
+        IsLocalSpace: createBooleanScheme({
+            CnName: '本地空间旋转',
+            RenderType: 'boolean',
             ShowName: true,
             NewLine: true,
         }),
@@ -109,6 +110,13 @@ export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorCom
             RenderType: 'boolean',
             ShowName: true,
             NewLine: true,
+        }),
+        IsLockZ: createBooleanScheme({
+            CnName: '是否锁Z轴',
+            RenderType: 'boolean',
+            ShowName: true,
+            NewLine: true,
+            Tip: '开启后旋转时物体的Z不会旋转，并且有旋转范围限定',
         }),
         InteractAction: eventScheme,
     },

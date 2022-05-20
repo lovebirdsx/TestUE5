@@ -57,6 +57,10 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public IsLocalSpace: boolean;
 
+    public IsLockZ: boolean;
+
+    private OriginRotator: Rotator;
+
     public OnInit(): void {
         this.InteractSignal = null;
         this.State = this.Entity.GetComponent(StateComponent);
@@ -139,6 +143,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         if (entity) {
             vector = entity.K2_GetActorLocation().op_Addition(locationOffset);
         }
+        this.OriginRotator = entity.Entity.Actor.K2_GetActorRotation();
         const rotate = new Rotator(
             this.RotationOffset.X,
             this.RotationOffset.Y,
@@ -267,10 +272,27 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
             stateComponent.RecordRotation();
         }
 
+        // 调整Z
+        if (this.IsLockZ) {
+            const newRotator = entity.Entity.Actor.K2_GetActorRotation();
+            const fixRotator = new Rotator(
+                this.FixRotator(newRotator.Pitch, this.OriginRotator.Pitch, 40),
+                this.OriginRotator.Yaw,
+                this.FixRotator(newRotator.Roll, this.OriginRotator.Roll, 40),
+            );
+            entity.Entity.Actor.K2_SetActorRotation(fixRotator, false);
+        }
+
         this.WakeRigidBodies();
         if (this.IsRotatorSelf) {
             this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
         }
+    }
+
+    public FixRotator(val: number, originVal: number, range: number): number {
+        let pitch = val > originVal + range ? originVal + range : val;
+        pitch = pitch < originVal - range ? originVal - range : pitch;
+        return pitch;
     }
 
     public WakeRigidBodies(): void {

@@ -28,40 +28,9 @@
                     ""Name"": ""对话1"",
                     ""WhoId"": 19,
                     ""TextId"": 1
-                  },
-                  {
-                    ""Id"": 0,
-                    ""Name"": ""对话2"",
-                    ""WhoId"": 19,
-                    ""TextId"": 2,
-                    ""Options"": [
-                      {
-                        ""TextId"": 3
-                      },
-                      {
-                        ""TextId"": 4,
-                        ""Actions"": [
-                          {
-                            ""Name"": ""FinishTalk"",
-                            ""Params"": {}
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    ""Id"": 2,
-                    ""Name"": ""对话3"",
-                    ""WhoId"": 19,
-                    ""TextId"": 5,
-                    ""Actions"": []
                   }
                 ]
               }
-            },
-            {
-              ""Name"": ""Destroy"",
-              ""Params"": {}
             }
           ],
           ""Id"": 1
@@ -98,16 +67,6 @@
               ""Name"": ""ChangeState"",
               ""Params"": {
                 ""StateId"": 4
-              }
-            },
-            {
-              ""Name"": ""Invoke"",
-              ""Params"": {
-                ""Who"": ""0035B3094C5F4382792795B5A086CA4D"",
-                ""ActionInfo"": {
-                  ""Name"": ""Destroy"",
-                  ""Params"": {}
-                }
               }
             }
           ],

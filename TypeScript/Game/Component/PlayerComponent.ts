@@ -39,6 +39,10 @@ class PlayerComponent extends Component {
             return false;
         }
 
+        if (this.Interacters.length === 0) {
+            return false;
+        }
+
         let id = 0;
         const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
         const guid = tsHud.GetSelectInteract();

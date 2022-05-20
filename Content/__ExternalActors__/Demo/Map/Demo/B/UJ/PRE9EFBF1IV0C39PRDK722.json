@@ -14,7 +14,7 @@
       "InitState": {
         "FlowListName": "流程_守卫",
         "FlowId": 1,
-        "StateId": 1
+        "StateId": 3
       }
     },
     "BehaviorFlowComponent": {

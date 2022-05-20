@@ -110,6 +110,10 @@ export class InvokeAction extends Action<IInvoke> {
         }
     }
 
+    public Execute(): void {
+        void this.ExecuteSync();
+    }
+
     public get IsStoppable(): boolean {
         return this.Action.IsStoppable;
     }

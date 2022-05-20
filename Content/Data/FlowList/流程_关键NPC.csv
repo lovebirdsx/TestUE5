@@ -8,12 +8,12 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 73,
+  ""TextGenId"": 89,
   ""FlowGenId"": 7,
   ""Flows"": [
     {
       ""Id"": 1,
-      ""StateGenId"": 3,
+      ""StateGenId"": 5,
       ""Name"": ""村长"",
       ""States"": [
         {
@@ -169,6 +169,86 @@
             }
           ],
           ""Id"": 2
+        },
+        {
+          ""Name"": ""完成王大妈任务"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 11,
+                    ""TextId"": 74
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 11,
+                    ""TextId"": 75,
+                    ""Options"": [
+                      {
+                        ""TextId"": 76,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""JumpTalk"",
+                            ""Params"": {
+                              ""TalkId"": 0
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 77,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 4
+                            }
+                          },
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""441B935344164350641BD48E404F2A5C"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeState"",
+                                ""Params"": {
+                                  ""StateId"": 4
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
+        },
+        {
+          ""Name"": ""玩家获得了许可"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 11,
+                    ""TextId"": 78
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 4
         }
       ]
     },
@@ -351,14 +431,34 @@
                     ""Name"": ""对话1"",
                     ""WhoId"": 13,
                     ""TextId"": 66
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 13,
+                    ""TextId"": 73,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 5
+                        }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""635571A34E09192C448349B0A43E4A45"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 3
+                            }
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
-              }
-            },
-            {
-              ""Name"": ""ChangeState"",
-              ""Params"": {
-                ""StateId"": 5
               }
             }
           ],
@@ -387,7 +487,7 @@
     },
     {
       ""Id"": 4,
-      ""StateGenId"": 6,
+      ""StateGenId"": 8,
       ""Name"": ""流浪汉"",
       ""States"": [
         {
@@ -603,12 +703,77 @@
             }
           ],
           ""Id"": 5
+        },
+        {
+          ""Name"": ""二狗玩游戏前两次"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 82,
+                    ""Options"": [
+                      {
+                        ""TextId"": 83
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 18,
+                    ""TextId"": 84
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 6
+        },
+        {
+          ""Name"": ""二狗玩游戏第三次"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 18,
+                    ""TextId"": 85,
+                    ""Options"": [
+                      {
+                        ""TextId"": 86
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 18,
+                    ""TextId"": 87,
+                    ""Options"": [
+                      {
+                        ""TextId"": 88
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 7
         }
       ]
     },
     {
       ""Id"": 5,
-      ""StateGenId"": 6,
+      ""StateGenId"": 7,
       ""Name"": ""老太婆"",
       ""States"": [
         {
@@ -791,6 +956,36 @@
             }
           ],
           ""Id"": 5
+        },
+        {
+          ""Name"": ""和小朋友玩游戏"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 14,
+                    ""TextId"": 79,
+                    ""Options"": [
+                      {
+                        ""TextId"": 80
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 14,
+                    ""TextId"": 81
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 6
         }
       ]
     },
@@ -879,9 +1074,9 @@
                             ""Name"": ""SetPos"",
                             ""Params"": {
                               ""Pos"": {
-                                ""X"": 3970,
-                                ""Y"": 145,
-                                ""Z"": 97,
+                                ""X"": 3992,
+                                ""Y"": 125,
+                                ""Z"": 96,
                                 ""A"": 139
                               }
                             }
@@ -890,6 +1085,30 @@
                             ""Name"": ""ChangeState"",
                             ""Params"": {
                               ""StateId"": 2
+                            }
+                          },
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""B84994BE4659B0A34B4674934230C346"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeState"",
+                                ""Params"": {
+                                  ""StateId"": 6
+                                }
+                              }
+                            }
+                          },
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeState"",
+                                ""Params"": {
+                                  ""StateId"": 6
+                                }
+                              }
                             }
                           }
                         ]
@@ -922,6 +1141,18 @@
                     ""WhoId"": 12,
                     ""TextId"": 61,
                     ""Actions"": [
+                      {
+                        ""Name"": ""MoveToPos"",
+                        ""Params"": {
+                          ""Timeout"": 1.5,
+                          ""Pos"": {
+                            ""X"": 4093,
+                            ""Y"": 105,
+                            ""Z"": 100,
+                            ""A"": -14
+                          }
+                        }
+                      },
                       {
                         ""Name"": ""MoveToPos"",
                         ""Params"": {
@@ -1023,6 +1254,18 @@
                         ""Params"": {
                           ""StateId"": 4
                         }
+                      },
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeState"",
+                            ""Params"": {
+                              ""StateId"": 7
+                            }
+                          }
+                        }
                       }
                     ]
                   }
@@ -1121,6 +1364,30 @@
                   ""Name"": ""ChangeState"",
                   ""Params"": {
                     ""StateId"": 4
+                  }
+                }
+              }
+            },
+            {
+              ""Name"": ""Invoke"",
+              ""Params"": {
+                ""Who"": ""B84994BE4659B0A34B4674934230C346"",
+                ""ActionInfo"": {
+                  ""Name"": ""ChangeState"",
+                  ""Params"": {
+                    ""StateId"": 5
+                  }
+                }
+              }
+            },
+            {
+              ""Name"": ""Invoke"",
+              ""Params"": {
+                ""Who"": ""5F946CE64AC775655094BD8286AB562D"",
+                ""ActionInfo"": {
+                  ""Name"": ""ChangeState"",
+                  ""Params"": {
+                    ""StateId"": 5
                   }
                 }
               }

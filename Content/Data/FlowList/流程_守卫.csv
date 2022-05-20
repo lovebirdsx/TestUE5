@@ -8,16 +8,16 @@
 #,Id,Json字符串
 ,流程_守卫,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 21,
+  ""TextGenId"": 31,
   ""FlowGenId"": 3,
   ""Flows"": [
     {
       ""Id"": 1,
-      ""StateGenId"": 3,
+      ""StateGenId"": 4,
       ""Name"": ""守卫右"",
       ""States"": [
         {
-          ""Name"": ""状态1"",
+          ""Name"": ""测试"",
           ""Actions"": [
             {
               ""Name"": ""ShowTalk"",
@@ -109,12 +109,31 @@
             }
           ],
           ""Id"": 1
+        },
+        {
+          ""Name"": ""初次相遇"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 5,
+                    ""TextId"": 30
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 3
         }
       ]
     },
     {
       ""Id"": 2,
-      ""StateGenId"": 4,
+      ""StateGenId"": 6,
       ""Name"": ""守卫左"",
       ""States"": [
         {
@@ -252,6 +271,129 @@
             }
           ],
           ""Id"": 3
+        },
+        {
+          ""Name"": ""获得出城许可"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 4,
+                    ""TextId"": 21
+                  },
+                  {
+                    ""Id"": 0,
+                    ""Name"": ""对话2"",
+                    ""WhoId"": 4,
+                    ""TextId"": 22
+                  },
+                  {
+                    ""Id"": 2,
+                    ""Name"": ""对话3"",
+                    ""WhoId"": 4,
+                    ""TextId"": 23
+                  },
+                  {
+                    ""Id"": 3,
+                    ""Name"": ""对话4"",
+                    ""WhoId"": 4,
+                    ""TextId"": 24,
+                    ""Options"": [
+                      {
+                        ""TextId"": 25
+                      }
+                    ]
+                  },
+                  {
+                    ""Id"": 4,
+                    ""Name"": ""对话5"",
+                    ""WhoId"": 4,
+                    ""TextId"": 26,
+                    ""Actions"": [
+                      {
+                        ""Name"": ""Invoke"",
+                        ""Params"": {
+                          ""Who"": ""74153BB745727A2A1A4E769E19983989"",
+                          ""ActionInfo"": {
+                            ""Name"": ""ChangeActorState"",
+                            ""Params"": {
+                              ""State"": ""Open""
+                            }
+                          }
+                        }
+                      },
+                      {
+                        ""Name"": ""ChangeState"",
+                        ""Params"": {
+                          ""StateId"": 5
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 4
+        },
+        {
+          ""Name"": ""正常出城"",
+          ""Actions"": [
+            {
+              ""Name"": ""ShowTalk"",
+              ""Params"": {
+                ""TalkItems"": [
+                  {
+                    ""Id"": 1,
+                    ""Name"": ""对话1"",
+                    ""WhoId"": 4,
+                    ""TextId"": 27,
+                    ""Options"": [
+                      {
+                        ""TextId"": 28,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""74153BB745727A2A1A4E769E19983989"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeActorState"",
+                                ""Params"": {
+                                  ""State"": ""Open""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        ""TextId"": 29,
+                        ""Actions"": [
+                          {
+                            ""Name"": ""Invoke"",
+                            ""Params"": {
+                              ""Who"": ""74153BB745727A2A1A4E769E19983989"",
+                              ""ActionInfo"": {
+                                ""Name"": ""ChangeActorState"",
+                                ""Params"": {
+                                  ""State"": ""Close""
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          ""Id"": 5
         }
       ]
     }

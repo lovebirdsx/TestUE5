@@ -85,7 +85,7 @@
       "Icon": "",
       "Disabled": false,
       "IsLockZ": true,
-      "IsRecovery": true
+      "IsRecovery": false
     }
   }
 }

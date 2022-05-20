@@ -27,6 +27,7 @@ import {
     ErrorText,
     Fold,
     List,
+    TAB_OFFSET,
     Text,
 } from '../../BaseComponent/CommonComponent';
 import { editorConfig } from '../../EditorConfig';
@@ -333,39 +334,42 @@ export function RenderBehaviorFlow(
                 {props.PrefixElement}
             </HorizontalBox>
             {!value._folded && (
-                <Flow
-                    PrefixElement={RenderStateId({
-                        PrefixElement: (
-                            <HorizontalBox>
-                                <Btn
-                                    Text={'C'}
-                                    Tip={'清除所有状态'}
-                                    OnClick={(): void => {
-                                        props.OnModify(undefined, 'normal');
-                                    }}
-                                />
-                                <Text Text={'初始状态:'} />
-                            </HorizontalBox>
-                        ),
-                        Value: value.InitStateId,
-                        OnModify: (stateId, type) => {
+                <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+                    <Flow
+                        NoIndent={true}
+                        PrefixElement={RenderStateId({
+                            PrefixElement: (
+                                <HorizontalBox>
+                                    <Btn
+                                        Text={'C'}
+                                        Tip={'清除所有状态'}
+                                        OnClick={(): void => {
+                                            props.OnModify(props.Scheme.CreateDefault(), 'normal');
+                                        }}
+                                    />
+                                    <Text Text={'初始状态:'} />
+                                </HorizontalBox>
+                            ),
+                            Value: value.InitStateId,
+                            OnModify: (stateId, type) => {
+                                const newValue = produce(value, (draft) => {
+                                    draft.InitStateId = stateId;
+                                });
+                                props.OnModify(newValue, type);
+                            },
+                            Scheme: undefined,
+                        })}
+                        HideName={true}
+                        Flow={value.FlowInfo}
+                        ObjectFilter={EActionFilter.BehaviorFlow}
+                        OnModify={(flow, type): void => {
                             const newValue = produce(value, (draft) => {
-                                draft.InitStateId = stateId;
+                                draft.FlowInfo = flow;
                             });
                             props.OnModify(newValue, type);
-                        },
-                        Scheme: undefined,
-                    })}
-                    HideName={true}
-                    Flow={value.FlowInfo}
-                    ObjectFilter={EActionFilter.BehaviorFlow}
-                    OnModify={(flow, type): void => {
-                        const newValue = produce(value, (draft) => {
-                            draft.FlowInfo = flow;
-                        });
-                        props.OnModify(newValue, type);
-                    }}
-                />
+                        }}
+                    />
+                </VerticalBox>
             )}
         </VerticalBox>
     );

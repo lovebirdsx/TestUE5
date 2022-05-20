@@ -23,6 +23,7 @@ export interface IFlowProps {
     IsDuplicate?: boolean;
     PrefixElement?: JSX.Element;
     HideName?: boolean;
+    NoIndent?: boolean;
     ObjectFilter: EActionFilter;
     OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
@@ -203,7 +204,11 @@ export class Flow extends React.Component<IFlowProps> {
                         )}
                         <Btn Text={'✚状态'} OnClick={this.AddState} Tip={ADD_STATE_TIP} />
                     </HorizontalBox>
-                    <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
+                    <VerticalBox
+                        RenderTransform={{
+                            Translation: { X: this.props.NoIndent ? undefined : TAB_OFFSET },
+                        }}
+                    >
                         {nodes}
                     </VerticalBox>
                 </flowContext.Provider>

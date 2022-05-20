@@ -1,11 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 // eslint-disable-next-line prettier/prettier
-import { Vector } from "ue";
+import { $ref, $unref } from "puerts";
+import { Actor, NewArray, StaticMeshComponent, Vector } from 'ue';
 
 import { toVector } from '../../Common/Interface';
 import { error } from '../../Common/Log';
 import { ISimpleMove } from '../Flow/Action';
-import { Component, gameContext, ITickable } from '../Interface';
+import { Component, gameContext, ITickable, ITsEntity } from '../Interface';
 import { StateComponent } from './StateComponent';
 
 export interface ISimpleMoveInfo {
@@ -58,6 +59,8 @@ export class SimpleComponent extends Component implements ITickable {
                         const newLocation = tsEntity.K2_GetActorLocation().op_Addition(offset);
                         tsEntity.K2_SetActorLocation(newLocation, false, null, false);
                         moveinfo.Time = time - deltaTime;
+                        // 移动时更新附近物体的物理
+                        this.WakeRigidBodies(tsEntity);
                     }
                 }
             }
@@ -67,6 +70,23 @@ export class SimpleComponent extends Component implements ITickable {
         });
         if (this.MoveInfo.size <= 0) {
             gameContext.TickManager.RemoveTick(this);
+        }
+    }
+
+    public WakeRigidBodies(tsEntity: ITsEntity): void {
+        const actorRef = $ref(NewArray(Actor));
+        tsEntity.GetOverlappingActors(actorRef, Actor.StaticClass());
+        const actors = $unref(actorRef);
+        if (actors.Num() > 0) {
+            for (let i = 0; i < actors.Num(); i++) {
+                const actor = actors.Get(i);
+                const component = actor.GetComponentByClass(
+                    StaticMeshComponent.StaticClass(),
+                ) as StaticMeshComponent;
+                if (component?.IsSimulatingPhysics()) {
+                    component.WakeAllRigidBodies();
+                }
+            }
         }
     }
 }

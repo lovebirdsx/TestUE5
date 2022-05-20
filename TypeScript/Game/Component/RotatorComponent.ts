@@ -61,6 +61,8 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     private OriginRotator: Rotator;
 
+    public IsRecovery: boolean;
+
     public OnInit(): void {
         this.InteractSignal = null;
         this.State = this.Entity.GetComponent(StateComponent);
@@ -178,6 +180,9 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
         // 结束
         this.Entity.Actor.DisableInput(playerController);
+        if (this.IsRecovery) {
+            entity.Entity.Actor.K2_SetActorRotation(this.OriginRotator, false);
+        }
 
         // 结束事件
         if (this.Runner) {

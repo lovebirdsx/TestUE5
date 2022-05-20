@@ -29,6 +29,7 @@ export interface IRotatorComponent extends IInteractiveComponent {
     IsRotatorSelf: boolean;
     InteractAction: IEventRotator;
     IsLockZ: boolean;
+    IsRecovery: boolean;
 }
 
 export const eventScheme = createObjectScheme<IEventRotator>({
@@ -117,6 +118,12 @@ export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorCom
             ShowName: true,
             NewLine: true,
             Tip: '开启后旋转时物体的Z不会旋转，并且有旋转范围限定',
+        }),
+        IsRecovery: createBooleanScheme({
+            CnName: '结束后是否恢复旋转',
+            RenderType: 'boolean',
+            ShowName: true,
+            NewLine: true,
         }),
         InteractAction: eventScheme,
     },

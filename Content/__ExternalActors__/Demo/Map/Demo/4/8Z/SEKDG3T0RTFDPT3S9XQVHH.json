@@ -111,7 +111,8 @@
       "Content": "",
       "Icon": "",
       "Disabled": false,
-      "IsLockZ": true
+      "IsLockZ": true,
+      "IsRecovery": true
     }
   }
 }

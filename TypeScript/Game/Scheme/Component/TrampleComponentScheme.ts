@@ -25,13 +25,11 @@ export const trampleComponentScheme = createObjectSchemeForComponent<ITrampleCom
         }),
         TriggerActions: createArrayScheme({
             CnName: `踩踏事件`,
-            ShowName: true,
             NewLine: true,
             Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
         }),
         RecoveryActions: createArrayScheme({
             CnName: `离开事件`,
-            ShowName: true,
             NewLine: true,
             Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
         }),

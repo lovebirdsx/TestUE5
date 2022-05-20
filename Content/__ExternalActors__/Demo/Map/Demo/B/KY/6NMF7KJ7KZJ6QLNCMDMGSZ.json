@@ -44,7 +44,8 @@
       "Content": "",
       "Icon": "",
       "Disabled": false,
-      "IsLockZ": false
+      "IsLockZ": false,
+      "IsRecovery": false
     }
   }
 }

@@ -1,8 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IPosA, ITransform, IVectorInfo } from '../../Common/Interface';
 
-export const FLOW_LIST_VERSION = 8;
-
 export type TActionType =
     | 'Activate'
     | 'CallByCondition'
@@ -128,9 +126,6 @@ export interface ITextConfig {
 }
 
 export interface IFlowListInfo {
-    VersionNum: number;
-    FlowGenId: number;
-    TextGenId: number;
     Texts: Record<number, ITextConfig>;
     Flows: IFlowInfo[];
 }

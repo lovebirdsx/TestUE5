@@ -91,7 +91,6 @@ export class TalkListCsvFile {
             if (!lastFlow || flow !== lastFlow.Name) {
                 lastFlow = flowListOp.CreateFlow(flowList);
                 flows.push(lastFlow);
-                flowList.FlowGenId++;
                 lastFlow.Name = flow;
                 lastState = undefined;
             }

@@ -69,7 +69,6 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
         this.Modify((from, to) => {
             const flow = flowListOp.CreateFlow(from);
             to.Flows.push(flow);
-            to.FlowGenId = this.props.FlowList.FlowGenId + 1;
         }, 'normal');
     };
 

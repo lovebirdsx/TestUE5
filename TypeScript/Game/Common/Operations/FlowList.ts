@@ -6,7 +6,7 @@ import { getDir, getFileName, getFileNameWithOutExt } from '../../../Common/File
 import { error, log, warn } from '../../../Common/Log';
 import { errorbox, toTsArray } from '../../../Common/UeHelper';
 import { calHash } from '../../../Common/Util';
-import { FLOW_LIST_VERSION, IFlowInfo, IFlowListInfo, ITextConfig } from '../../Flow/Action';
+import { IFlowInfo, IFlowListInfo, ITextConfig } from '../../Flow/Action';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
 import { Context, createEditorContext } from '../EditorContext';
@@ -64,11 +64,22 @@ class FlowListOp {
         }
     }
 
+    private GenNewFlowId(flowList: IFlowListInfo): number {
+        let maxId = 0;
+        flowList.Flows.forEach((flow) => {
+            if (flow.Id > maxId) {
+                maxId = flow.Id;
+            }
+        });
+        return maxId + 1;
+    }
+
     public CreateFlow(flowList: IFlowListInfo): IFlowInfo {
+        const id = this.GenNewFlowId(flowList);
         const flow: IFlowInfo = {
-            Id: flowList.FlowGenId,
+            Id: id,
             StateGenId: 1,
-            Name: `剧情${flowList.FlowGenId}`,
+            Name: `剧情${id}`,
             States: [],
         };
         return flow;
@@ -84,9 +95,6 @@ class FlowListOp {
 
     public Create(): IFlowListInfo {
         return {
-            VersionNum: FLOW_LIST_VERSION,
-            TextGenId: 1,
-            FlowGenId: 1,
             Flows: [],
             Texts: {},
         };
@@ -176,14 +184,24 @@ class FlowListOp {
         return BigInt(calHash(name) * MAX_TEXT_ID);
     }
 
+    private GenNewTextId(flowList: IFlowListInfo): number {
+        let maxId = 0;
+        Object.keys(flowList.Texts).forEach((key) => {
+            const id = parseInt(key);
+            if (id > maxId) {
+                maxId = id;
+            }
+        });
+        return maxId + 1;
+    }
+
     public CreateText(flowList: IFlowListInfo, text: string): number {
-        if (flowList.TextGenId >= MAX_TEXT_ID) {
-            error(`文本id已经超过最大值${MAX_TEXT_ID}`);
-            return flowList.TextGenId;
+        const textId = this.GenNewTextId(flowList);
+        if (textId >= MAX_TEXT_ID) {
+            throw new Error(`文本id[${textId}]已经超过最大值${MAX_TEXT_ID}`);
         }
-        const textId = flowList.TextGenId;
+
         flowList.Texts[textId] = { Text: text, Sound: '' };
-        flowList.TextGenId++;
         return textId;
     }
 

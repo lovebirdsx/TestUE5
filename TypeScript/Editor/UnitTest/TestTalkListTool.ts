@@ -36,7 +36,6 @@ function createFlowList({
     const flowList = flowListOp.Create();
     for (let i = 0; i < flowCount; i++) {
         const flow = flowListOp.CreateFlow(flowList);
-        flowList.FlowGenId++;
         flow.Name = `剧情${i + 1}`;
         for (let j = 0; j < stateCount; j++) {
             const state = editorFlowOp.CreateState(flow);

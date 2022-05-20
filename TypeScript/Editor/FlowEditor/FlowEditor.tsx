@@ -17,12 +17,13 @@ import {
 import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
 import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
+import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { FlowList } from '../Common/SchemeComponent/Public';
-import { openDirOfFile } from '../Common/Util';
+import { openDirOfFile, openFile } from '../Common/Util';
 import { TalkListTool } from './TalkListTool';
 
 interface IFlowEditorState {
@@ -189,9 +190,13 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         this.setState(this.LoadState(path));
     }
 
-    private readonly OpenFlowListConfigDir = (): void => {
+    private OpenFlowListConfigDir(): void {
         openDirOfFile(editorConfig.FlowConfigPath);
-    };
+    }
+
+    private OpenFlowListConfig(): void {
+        openFile(editorConfig.FlowConfigPath);
+    }
 
     private CheckSave(): boolean {
         if (this.NeedSave()) {
@@ -432,6 +437,19 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         );
     }
 
+    private readonly OnFlowListContextCommand = (cmd: string): void => {
+        switch (cmd) {
+            case '打开':
+                this.OpenFlowListConfig();
+                break;
+            case '目录':
+                this.OpenFlowListConfigDir();
+                break;
+            default:
+                break;
+        }
+    };
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const scrollBoxSlot: VerticalBoxSlot = {
@@ -447,10 +465,9 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                                 Text={`${this.NeedSave() ? '*' : ''}${editorConfig.FlowConfigPath}`}
                                 Tip="当前打开的剧情配置文件路径(相对于Content目录)"
                             />
-                            <Btn
-                                Text={'目录'}
-                                OnClick={this.OpenFlowListConfigDir}
-                                Tip={'打开配置文件所在目录'}
+                            <ContextBtn
+                                Commands={['打开', '目录']}
+                                OnCommand={this.OnFlowListContextCommand}
                             />
                         </HorizontalBox>
                         <HorizontalBox>

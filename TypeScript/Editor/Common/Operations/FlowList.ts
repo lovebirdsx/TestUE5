@@ -75,7 +75,6 @@ class EditorFlowListOp {
     public Fix(flowList: IFlowListInfo): void {
         if (!flowList.Texts) {
             flowList.Texts = {};
-            flowList.TextGenId = 0;
         }
 
         flowList.Flows.forEach((flow) => {

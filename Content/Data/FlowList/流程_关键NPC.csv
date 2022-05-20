@@ -8,7 +8,7 @@
 #,Id,Json字符串
 ,流程_关键NPC,"{
   ""VersionNum"": 8,
-  ""TextGenId"": 89,
+  ""TextGenId"": 90,
   ""FlowGenId"": 7,
   ""Flows"": [
     {
@@ -455,6 +455,11 @@
                             }
                           }
                         }
+                      }
+                    ],
+                    ""Options"": [
+                      {
+                        ""TextId"": 89
                       }
                     ]
                   }

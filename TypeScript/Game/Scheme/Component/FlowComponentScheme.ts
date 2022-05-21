@@ -77,6 +77,7 @@ export const behaviorFlowComponentScheme = createObjectSchemeForComponent<IBehav
             messages.push(`BehaviorFlowComponent的中不存在id为${value.InitStateId}的状态`);
             return 1;
         }
-        return 0;
+
+        return flowOp.Check(value.FlowInfo, messages);
     },
 });

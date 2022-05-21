@@ -5,7 +5,8 @@ import { createObjectScheme, createStringScheme, EActionFilter } from '../../../
 import { LevelUtil } from '../../Common/LevelUtil';
 import { IActionInfo, IInteract, IInvoke } from '../../Flow/Action';
 import { createActionScheme } from './Action';
-import { moveToPosScheme } from './Move';
+import { actionRegistry } from './ActionRegistry';
+import { setPosScheme } from './Move';
 
 export const entityIdScheme = createStringScheme({
     CnName: '目标',
@@ -23,22 +24,29 @@ export const entityIdScheme = createStringScheme({
 export const invokeScheme = createObjectScheme<IInvoke>({
     CnName: '调用方法',
     Tip: '让选定实体执行相关动作',
+    Check: (invoke: IInvoke, messages: string[]): number => {
+        const actionScheme = actionRegistry.GetScheme(invoke.ActionInfo.Name);
+        if (actionScheme.Scheduled) {
+            messages.push(`Invoke [${invoke.ActionInfo.Name}]: 只能调用瞬发型动作`);
+            return 1;
+        }
+        return 0;
+    },
     Fields: {
         Who: entityIdScheme,
         ActionInfo: createActionScheme({
             Name: 'InvokeAction',
             Filter: EActionFilter.Invoke,
             CreateDefault(): IActionInfo {
-                const moveToPos = moveToPosScheme.CreateDefault();
+                const setPos = setPosScheme.CreateDefault();
                 return {
-                    Name: 'MoveToPos',
-                    Params: moveToPos,
+                    Name: 'SetPos',
+                    Params: setPos,
                 };
             },
             NewLine: true,
         }),
     },
-    Scheduled: true,
 });
 
 export const destroyScheme = createObjectScheme<Record<string, undefined>>({

@@ -35,6 +35,15 @@ import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
 import { tempEntities } from './TempEntities';
 
+const contextCmdList = [
+    '检查当前实体数据',
+    '检查所有实体数据',
+    '修复并导出所有实体数据',
+    '检查并修复当前实体数据',
+] as const;
+
+type TContextCmd = typeof contextCmdList[number];
+
 interface IEntityState {
     Entity: ITsEntity;
     Data: IEntityData;
@@ -452,6 +461,32 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         );
     }
 
+    private readonly OnContextCmd = (cmd: TContextCmd): void => {
+        switch (cmd) {
+            case '检查当前实体数据':
+                if (this.state.Entity) {
+                    LevelEditorUtil.CheckEntity(this.state.Entity);
+                    log(`检查[${this.state.Entity.ActorLabel}]完毕`);
+                }
+                break;
+
+            case '检查所有实体数据':
+                LevelEditorUtil.CheckAllEntityData();
+                break;
+
+            case '检查并修复当前实体数据':
+                if (this.state.Entity) {
+                    LevelEditorUtil.CheckAndSaveEntityData(this.state.Entity);
+                    log(`检查修复[${this.state.Entity.ActorLabel}]完毕`);
+                }
+                break;
+
+            case '修复并导出所有实体数据':
+                LevelEditorUtil.CheckAndSaveAllEntityData();
+                break;
+        }
+    };
+
     private RenderToolbar(): JSX.Element {
         if (this.state.IsEditorPlaying) {
             return <SlotText Text={'游戏运行中,无法进行编辑'} />;
@@ -477,17 +512,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         Tip={'退出Pie时,是否自动保存游戏'}
                     />
                     <ContextBtn
-                        Commands={['修复并导出所有实体数据', '检查所有实体数据']}
-                        OnCommand={function (cmd: string): void {
-                            switch (cmd) {
-                                case '修复并导出所有实体数据':
-                                    LevelEditorUtil.CheckAndSaveAllEntityData();
-                                    break;
-                                case '检查所有实体数据':
-                                    LevelEditorUtil.CheckAllEntityData();
-                                    break;
-                            }
-                        }}
+                        Commands={contextCmdList as unknown as string[]}
+                        OnCommand={this.OnContextCmd}
                     />
                 </HorizontalBox>
                 <HorizontalBox>

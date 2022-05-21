@@ -35,6 +35,7 @@ import {
 import { setHeadIconVisibleScheme } from './Talker';
 
 export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = {
+    Activate: interactScheme,
     CallByCondition: callByConditionScheme,
     CallFunction: callFunctionScheme,
     ChangeActorState: changeActorStateScheme,
@@ -47,29 +48,28 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     FaceToPos: faceToPosScheme,
     FinishTalk: finishTalkScheme,
     FinishState: finishStateScheme,
-    JumpTalk: jumpTalkScheme,
     Invoke: invokeScheme,
+    JumpTalk: jumpTalkScheme,
     Log: logScheme,
     MoveToPos: moveToPosScheme,
     PlaySequenceData: playSequenceDataScheme,
     PlayCustomSequence: playCustomSequenceScheme,
     SetBehaviorIsPaused: setBehaviorIsPausedScheme,
     SetCameraMode: setCameraModeScheme,
+    SetFlowBoolOption: setFlowBoolOptionScheme,
     SetHeadIconVisible: setHeadIconVisibleScheme,
     SetMoveSpeed: setMoveSpeedScheme,
     SetNumberVar: setNumberVarScheme,
-    SetFlowBoolOption: setFlowBoolOptionScheme,
     SetPlotMode: setPlotModeScheme,
     SetPos: setPosScheme,
     ShowCenterText: showCenterTextScheme,
     ShowMessage: showMssageScheme,
     ShowOption: showOptionScheme,
     ShowTalk: showTalkScheme,
-    SyncVarToActorState: syncVarToActorStateScheme,
-    SpawnChild: spawnChildScheme,
-    Wait: waitScheme,
     SimpleMove: simpleMoveScheme,
-    Activate: interactScheme,
+    SpawnChild: spawnChildScheme,
+    SyncVarToActorState: syncVarToActorStateScheme,
+    Wait: waitScheme,
 };
 
 actionRegistry.SetupObjectMap(objectSchemeMap);

@@ -96,36 +96,13 @@ export class InvokeAction extends Action<IInvoke> {
         this.Invoke = invoke;
     }
 
-    public async ExecuteSync(): Promise<void> {
+    public Execute(): void {
         const action = this.Action;
         if (!action.Entity) {
             // 如果此时Entity不存在, 则将action压入对应Actor的待执行Action序列中
             gameContext.StateManager.PushDelayAction(this.Invoke.Who, this.Invoke.ActionInfo);
         } else {
-            if (action.IsSchedulable) {
-                await action.ExecuteSync();
-            } else {
-                action.Execute();
-            }
+            action.Execute();
         }
-    }
-
-    public Stop(): void {
-        const action = this.Action;
-        if (action.IsSchedulable) {
-            action.Stop();
-        }
-    }
-
-    public Execute(): void {
-        void this.ExecuteSync();
-    }
-
-    public get IsStoppable(): boolean {
-        return this.Action.IsStoppable;
-    }
-
-    public get IsSchedulable(): boolean {
-        return true;
     }
 }

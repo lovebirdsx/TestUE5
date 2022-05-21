@@ -110,6 +110,13 @@ export class InvokeAction extends Action<IInvoke> {
         }
     }
 
+    public Stop(): void {
+        const action = this.Action;
+        if (action.IsSchedulable) {
+            action.Stop();
+        }
+    }
+
     public Execute(): void {
         void this.ExecuteSync();
     }

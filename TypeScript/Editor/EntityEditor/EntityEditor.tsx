@@ -477,11 +477,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         Tip={'退出Pie时,是否自动保存游戏'}
                     />
                     <ContextBtn
-                        Commands={['修复并导出所有实体数据']}
+                        Commands={['修复并导出所有实体数据', '检查所有实体数据']}
                         OnCommand={function (cmd: string): void {
                             switch (cmd) {
                                 case '修复并导出所有实体数据':
                                     LevelEditorUtil.CheckAndSaveAllEntityData();
+                                    break;
+                                case '检查所有实体数据':
+                                    LevelEditorUtil.CheckAllEntityData();
                                     break;
                             }
                         }}

@@ -171,6 +171,27 @@ class LevelEditorUtil {
         });
     }
 
+    public static CheckEntity(entity: ITsEntity): number {
+        const entityData = entityRegistry.GenData(entity);
+        const messages: string[] = [];
+        if (entityRegistry.Check(entityData, entity, messages) > 0) {
+            messages.forEach((msg) => {
+                error(`[${entity.ActorLabel}]: ${msg}`);
+            });
+            return messages.length;
+        }
+        return 0;
+    }
+
+    public static CheckAllEntityData(): void {
+        const entities = this.GetAllEntitiesByEditorWorld();
+        let totalErrorCount = 0;
+        entities.forEach((entity) => {
+            totalErrorCount += this.CheckEntity(entity);
+        });
+        log(`检查完毕, 实体树:${entities.length} 错误数:${totalErrorCount}`);
+    }
+
     public static SpawnEntity(guid: string, iTransform: ITransform): ITsEntity {
         const template = EntityTemplateOp.GetTemplateByGuid(guid);
         if (!template) {

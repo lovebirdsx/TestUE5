@@ -130,6 +130,7 @@ export function initEntity(): void {
 
 initEntity();
 
+export * from './EntityRegistry';
 export * from './TsEntity';
 export * from './TsLamp';
 export * from './TsNpc';

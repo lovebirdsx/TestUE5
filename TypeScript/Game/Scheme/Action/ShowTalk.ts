@@ -10,7 +10,6 @@ import {
     createIntScheme,
     createObjectScheme,
     createStringScheme,
-    EActionFilter,
     IntScheme,
     ObjectScheme,
     TFixResult,
@@ -307,7 +306,6 @@ export const showTalkScheme = createObjectScheme<IShowTalk>({
             Optional: true,
         }),
     },
-    Filters: [EActionFilter.FlowList],
     Scheduled: true,
     Tip: [
         '显示对话',
@@ -346,7 +344,6 @@ export const showOptionScheme = createObjectScheme<IShowOption>({
     Fields: {
         TextId: talkOptionTextIdScheme,
     },
-    Filters: [EActionFilter.FlowList],
     Scheduled: true,
     Tip: '显示独立选项',
 });

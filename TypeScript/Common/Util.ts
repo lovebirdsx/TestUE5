@@ -6,6 +6,9 @@ import * as UE from 'ue';
 import { IPosA, IVectorInfo } from './Interface';
 import { error } from './Log';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export type RequiredField<T, K extends keyof T> = Required<Pick<T, K>> & T;
+
 /* eslint-disable spellcheck/spell-checker */
 export function getEnumValues(enumType: Record<number, string>): number[] {
     const valueNames = Object.keys(enumType).filter((item) => !Number.isNaN(Number(item)));
@@ -85,6 +88,23 @@ export function deepEqualsIgnore<T>(x: T, y: T, ignoreFields: string[]): boolean
     }
 
     return true;
+}
+
+export function subArray<T>(a: T[], b: T[]): T[] {
+    if (b.length <= 0) {
+        return a;
+    }
+    return a.filter((v) => !b.includes(v));
+}
+
+export function addArray<T>(a: T[], b: T[]): T[] {
+    if (a.length <= 0) {
+        return b;
+    }
+    if (b.length <= 0) {
+        return a;
+    }
+    return [...a, ...b];
 }
 
 export function calHash(str: string): number {

@@ -77,7 +77,7 @@ export class SimpleMoveAction extends Action<ISimpleMove> {
     }
 }
 
-export class Activation extends Action<IInteract> {
+export class ActivateAction extends Action<IInteract> {
     public Execute(): void {
         const eventComponent = this.Entity.TryGetComponent(EventComponent);
         if (eventComponent) {

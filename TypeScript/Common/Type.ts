@@ -1,7 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { TColor } from './Color';
 import { error, warn } from './Log';
-import { getEnumValues } from './Util';
 
 export type TElementRenderType =
     | 'array'
@@ -155,23 +154,6 @@ export function createEnumScheme<T extends string>(
     Object.assign(scheme, type);
     return scheme;
 }
-
-export enum EActionFilter {
-    FlowList, // 在flowlist中执行
-    Trigger, // 在trigger中执行
-    Talk, // 在ShowTalk中执行
-    Invoke, // 在Invoke中执行
-    Trample,
-    BehaviorFlow,
-    Function,
-}
-
-export const allActionFilters = getEnumValues(EActionFilter);
-export function actionFilterExcept(...args: EActionFilter[]): EActionFilter[] {
-    const result = allActionFilters.filter((filter) => !args.includes(filter));
-    return result;
-}
-export const actionFilterExcpetInvoke = actionFilterExcept(EActionFilter.Invoke);
 
 export type TObjectFields<T> = { [K in keyof T]: Scheme<T[K]> };
 
@@ -468,8 +450,6 @@ export const vectorScheme = createVectorScheme({
 // ============================================================================
 export class ObjectScheme<T> extends Scheme<T> {
     public RenderType: TElementRenderType = 'object';
-
-    public Filters: EActionFilter[] = actionFilterExcpetInvoke;
 
     public Fields: TObjectFields<T>;
 

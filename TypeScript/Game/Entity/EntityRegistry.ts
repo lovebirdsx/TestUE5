@@ -9,8 +9,9 @@ import {
     TTsClassType,
 } from '../../Common/Class';
 import { toTransformInfo } from '../../Common/Interface';
-import { error, warn } from '../../Common/Log';
+import { warn } from '../../Common/Log';
 import { getGuid, stringify } from '../../Common/Util';
+import { TActionType } from '../Flow/Action';
 import {
     IEntityData,
     ITsEntity,
@@ -24,17 +25,42 @@ import { componentRegistry } from '../Scheme/Component/Public';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
 
+const baseActions: TActionType[] = ['Invoke', 'Log', 'Wait', 'ShowMessage'];
+
 class EntityRegistry {
     private readonly EntityMap = new Map<TTsClassType, TComponentClass[]>();
 
+    private readonly ActionsMap = new Map<TTsClassType, TActionType[]>();
+
     public Register(entityClass: TTsClassType, ...components: TComponentClass[]): void {
+        if (this.EntityMap.has(entityClass)) {
+            throw new Error(`Register entity again for [${entityClass.name}]`);
+        }
         this.EntityMap.set(entityClass, components);
+        const actions: TActionType[] = [...baseActions];
+        components.forEach((compClass) => {
+            const scheme = componentRegistry.TryGetScheme(compClass.name);
+            if (scheme) {
+                scheme.Actions.forEach((action) => {
+                    if (actions.includes(action)) {
+                        throw new Error(`Action ${action} on two component [${compClass.name}]`);
+                    } else {
+                        actions.push(action);
+                    }
+                });
+            }
+        });
+        // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
+        actions.sort();
+        this.ActionsMap.set(entityClass, actions);
+
+        // log(`${entityClass.name} actions: ${actions.join(', ')}`);
     }
 
     public GetComponentClassesByTsClass(entityClass: TTsClassType): TComponentClass[] {
         const result = this.EntityMap.get(entityClass);
         if (!result) {
-            error(`No components class for [${entityClass.name}]`);
+            throw new Error(`No components class for entity [${entityClass.name}]`);
         }
         return result;
     }
@@ -44,13 +70,27 @@ class EntityRegistry {
         return this.GetComponentClassesByTsClass(tsClassObj);
     }
 
+    public GetActionsByTsClass(entityClass: TTsClassType): TActionType[] {
+        const actions = this.ActionsMap.get(entityClass);
+        if (!actions) {
+            throw new Error(`No actions for entity [${entityClass.name}]`);
+        }
+
+        return actions;
+    }
+
+    public GetActionsByActor(actor: Actor): TActionType[] {
+        const tsClassObj = getTsClassByUeClass(actor.GetClass());
+        return this.GetActionsByTsClass(tsClassObj);
+    }
+
     private GenComponentsState(obj: ITsEntity): TComponentsState {
         const state = parseComponentsState(obj.ComponentsStateJson);
         const classObjs = this.GetComponentClassesByActor(obj);
         // 移除不存在的Component配置
         Object.keys(state).forEach((key) => {
             const classObj = classObjs.find((obj) => obj.name === key);
-            if (classObj === undefined || !componentRegistry.HasScheme(key)) {
+            if (classObj === undefined || !componentRegistry.HasDataForScheme(key)) {
                 warn(`移除不存在的Component配置[${key}]`);
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete state[key];
@@ -60,8 +100,8 @@ class EntityRegistry {
         // 填充需要的Component配置
         classObjs.forEach((classObj) => {
             const componentName = classObj.name;
-            const scheme = componentRegistry.TryGetScheme(componentName);
-            if (scheme) {
+            if (componentRegistry.HasDataForScheme(componentName)) {
+                const scheme = componentRegistry.GetScheme(componentName);
                 if (state[componentName]) {
                     scheme.Fix(state[componentName]);
                 } else {
@@ -105,8 +145,8 @@ class EntityRegistry {
         // 缺少或者错误的配置
         classObjs.forEach((classObj) => {
             const componentName = classObj.name;
-            const scheme = componentRegistry.TryGetScheme(componentName);
-            if (scheme) {
+            if (componentRegistry.HasDataForScheme(componentName)) {
+                const scheme = componentRegistry.GetScheme(componentName);
                 const value = data.ComponentsState[componentName];
                 if (value) {
                     errorCount += scheme.Check(value, messages);

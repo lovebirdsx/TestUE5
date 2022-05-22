@@ -3,16 +3,16 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { EActionFilter, TModifyType } from '../../../../Common/Type';
+import { TModifyType } from '../../../../Common/Type';
 import { IActionInfo } from '../../../../Game/Flow/Action';
-import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
+import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import * as ContextBtn from '../../BaseComponent/ContextBtn';
 import { Dynamic } from '../Basic/Public';
 
 export interface IActionProps {
     Action: IActionInfo;
-    ActionFilter: EActionFilter;
+    Scheme: ActionScheme;
     OnModify: (action: IActionInfo, type: TModifyType) => void;
     OnContextCommand: (cmd: string) => void;
 }
@@ -22,7 +22,8 @@ export class Action extends React.Component<IActionProps> {
     public render(): JSX.Element {
         const { props } = this;
         const { Action: action } = props;
-        const actionScheme = actionRegistry.GetActionScheme(props.ActionFilter);
+
+        const actionScheme = this.props.Scheme;
 
         const indent = actionScheme.NoIndent ? undefined : TAB_OFFSET;
         return (

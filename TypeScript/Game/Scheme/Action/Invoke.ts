@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary } from 'ue';
 
-import { createObjectScheme, createStringScheme, EActionFilter } from '../../../Common/Type';
+import { createObjectScheme, createStringScheme } from '../../../Common/Type';
 import { LevelUtil } from '../../Common/LevelUtil';
 import { IActionInfo, IInteract, IInvoke } from '../../Flow/Action';
 import { createActionScheme } from './Action';
@@ -36,7 +36,6 @@ export const invokeScheme = createObjectScheme<IInvoke>({
         Who: entityIdScheme,
         ActionInfo: createActionScheme({
             Name: 'InvokeAction',
-            Filter: EActionFilter.Invoke,
             CreateDefault(): IActionInfo {
                 const setPos = setPosScheme.CreateDefault();
                 return {
@@ -53,13 +52,6 @@ export const destroyScheme = createObjectScheme<Record<string, undefined>>({
     Name: 'Destroy',
     CnName: '销毁',
     Fields: {},
-    Filters: [
-        EActionFilter.Invoke,
-        EActionFilter.Trigger,
-        EActionFilter.FlowList,
-        EActionFilter.BehaviorFlow,
-        EActionFilter.Function,
-    ],
     Tip: '销毁对象',
 });
 
@@ -79,5 +71,4 @@ export const interactScheme = createObjectScheme<IInteract>({
             NewLine: true,
         }),
     },
-    Filters: [EActionFilter.Invoke, EActionFilter.Trigger, EActionFilter.FlowList],
 });

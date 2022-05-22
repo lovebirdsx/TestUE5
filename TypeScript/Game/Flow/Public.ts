@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { actionRegistry } from './ActionRunner';
 import {
-    Activation,
+    ActivateAction,
     ChangeActorStateAction,
     FaceToPosAction,
     MoveToPosAction,
@@ -55,7 +55,7 @@ export function initFlow(): void {
     actionRegistry.Register('Wait', WaitAction);
     actionRegistry.Register('SetPos', SetPosAction);
     actionRegistry.Register('SetMoveSpeed', SetMoveSpeedAction);
-    actionRegistry.Register('Activate', Activation);
+    actionRegistry.Register('Activate', ActivateAction);
     actionRegistry.Register('SetNumberVar', SetNumberVarAction);
     actionRegistry.Register('SyncVarToActorState', SyncVarToActorStateAction);
     actionRegistry.Register('DoCalculate', DoCalculateAction);

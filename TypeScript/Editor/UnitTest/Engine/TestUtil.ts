@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { assertEq, test } from '../../../Common/Test';
-import { parse, stringify, stringifyEditor } from '../../../Common/Util';
+import { parse, stringify, stringifyEditor, subArray } from '../../../Common/Util';
 
 interface IFoo {
     Name: string;
@@ -67,5 +67,13 @@ export function testUtil(): void {
         const fooParsed = parse(fooJson, true) as IFoo;
         assertEq(fooParsed.Bar._Folded, undefined, '_Folded nested must be filtered');
         assertEq(fooParsed._Bar, undefined, '_Bar nested must be filtered');
+    });
+
+    test('sub array', () => {
+        const a = ['a', 'b', 'c'];
+        const b = ['a'];
+        const c = subArray(a, b);
+        assertEq(c.length, 2, 'c length must == 2');
+        assertEq(c[0], 'b', 'c[0] must be b');
     });
 }

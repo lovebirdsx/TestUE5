@@ -1,9 +1,11 @@
-import { createArrayScheme, createObjectSchemeForComponent } from '../../../Common/Type';
+import { createArrayScheme } from '../../../Common/Type';
 import { ISwitcherComponent } from '../../Interface';
 import { triggerActionScheme } from '../Action/Action';
+import { createComponentScheme } from './ComponentRegistry';
 import { interactiveComponentFields } from './InteractComponentScheme';
 
-export const switcherComponentScheme = createObjectSchemeForComponent<ISwitcherComponent>({
+export const switcherComponentScheme = createComponentScheme<ISwitcherComponent>({
+    Actions: [],
     Fields: {
         ...interactiveComponentFields,
         OnActions: createArrayScheme({

@@ -4,8 +4,9 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { EActionFilter, TModifyType } from '../../../../Common/Type';
+import { TModifyType } from '../../../../Common/Type';
 import { IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
+import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import {
     Btn,
     COLOR_LEVEL1,
@@ -24,7 +25,7 @@ export interface IFlowProps {
     PrefixElement?: JSX.Element;
     HideName?: boolean;
     NoIndent?: boolean;
-    ObjectFilter: EActionFilter;
+    ActionScheme: ActionScheme;
     OnModify: (flow: IFlowInfo, type: TModifyType) => void;
 }
 
@@ -168,7 +169,7 @@ export class Flow extends React.Component<IFlowProps> {
                         IsDuplicate={
                             states.find((e) => e !== state && e.Name === state.Name) !== undefined
                         }
-                        ObjectFilter={this.props.ObjectFilter}
+                        ActionScheme={this.props.ActionScheme}
                         State={state}
                         OnModify={(newConfig, type): void => {
                             this.ModifyState(id, newConfig, type);

@@ -1,10 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import {
-    createObjectSchemeForComponent,
-    createStringScheme,
-    TObjectFields,
-} from '../../../Common/Type';
+import { createStringScheme, TObjectFields } from '../../../Common/Type';
 import { IInteractiveComponent } from '../../Interface';
+import { createComponentScheme } from './ComponentRegistry';
 
 export const interactiveComponentFields: TObjectFields<IInteractiveComponent> = {
     Content: createStringScheme({
@@ -22,13 +19,15 @@ export const interactiveComponentFields: TObjectFields<IInteractiveComponent> = 
 };
 
 // 因为scheme没有其他内容，所以写这里
-export const npcComponentScheme = createObjectSchemeForComponent<IInteractiveComponent>({
+export const npcComponentScheme = createComponentScheme<IInteractiveComponent>({
+    Actions: [],
     Fields: {
         ...interactiveComponentFields,
     },
 });
 
-export const sphereComponentScheme = createObjectSchemeForComponent<IInteractiveComponent>({
+export const sphereComponentScheme = createComponentScheme<IInteractiveComponent>({
+    Actions: [],
     Fields: {
         ...interactiveComponentFields,
     },

@@ -1,8 +1,11 @@
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { createFloatScheme, createObjectSchemeForComponent } from '../../../Common/Type';
+import { createFloatScheme } from '../../../Common/Type';
 import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../Interface';
+import { createComponentScheme } from './ComponentRegistry';
 
-export const moveComponentScheme = createObjectSchemeForComponent<IMoveComponent>({
+export const moveComponentScheme = createComponentScheme<IMoveComponent>({
+    Actions: ['MoveToPos', 'SetPos', 'FaceToPos', 'SetMoveSpeed'],
     Fields: {
         InitSpeed: createFloatScheme({
             CnName: '初始速度',

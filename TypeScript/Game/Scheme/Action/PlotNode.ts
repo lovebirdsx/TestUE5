@@ -1,11 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import {
-    actionFilterExcept,
-    booleanHideNameScheme,
-    createEnumScheme,
-    createObjectScheme,
-    EActionFilter,
-} from '../../../Common/Type';
+import { booleanHideNameScheme, createEnumScheme, createObjectScheme } from '../../../Common/Type';
 import {
     cameraModeConfig,
     flowBoolOptionConfig,
@@ -26,7 +20,6 @@ export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>({
         Value: booleanHideNameScheme,
     },
     Tip: '设定和剧情播放相关的控制变量',
-    Filters: actionFilterExcept(EActionFilter.Trigger, EActionFilter.Invoke),
 });
 
 export const setCameraModeScheme = createObjectScheme<ISetCameraMode>({
@@ -50,6 +43,5 @@ export const setPlotModeScheme = createObjectScheme<ISetPlotMode>({
             Name: 'PlotMode',
         }),
     },
-    Filters: [EActionFilter.FlowList],
     Tip: '设定剧情模式,默认为D级演出',
 });

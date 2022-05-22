@@ -28,3 +28,5 @@ export const arrayContext = React.createContext<IArrayContext>({
     Scheme: undefined,
     Array: undefined,
 });
+
+export const entityIdContext = React.createContext<string>(undefined);

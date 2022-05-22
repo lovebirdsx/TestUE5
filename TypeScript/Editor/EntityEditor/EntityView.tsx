@@ -13,6 +13,7 @@ import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { entityIdContext } from '../Common/SchemeComponent/Context';
 import { ComponentsState } from './ComponentsState';
 
 export interface IEntityViewProps {
@@ -134,16 +135,18 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     {this.RenderEntityInfo()}
                 </VerticalBox>
                 <H3 Text={'组件列表'} />
-                <ComponentsState
-                    Value={componentsState}
-                    ClassObjs={componentClassObjs}
-                    OnModify={(componentState, type): void => {
-                        const newData = produce(data, (draft) => {
-                            draft.ComponentsState = componentState;
-                        });
-                        props.OnModify(newData, type);
-                    }}
-                />
+                <entityIdContext.Provider value={entity.Guid}>
+                    <ComponentsState
+                        Value={componentsState}
+                        ClassObjs={componentClassObjs}
+                        OnModify={(componentState, type): void => {
+                            const newData = produce(data, (draft) => {
+                                draft.ComponentsState = componentState;
+                            });
+                            props.OnModify(newData, type);
+                        }}
+                    />
+                </entityIdContext.Provider>
             </VerticalBox>
         );
     }

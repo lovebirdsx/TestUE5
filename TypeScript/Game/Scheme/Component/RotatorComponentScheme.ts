@@ -3,15 +3,14 @@ import {
     createArrayScheme,
     createBooleanScheme,
     createObjectScheme,
-    createObjectSchemeForComponent,
     createStringScheme,
     createVectorScheme,
-    EActionFilter,
     IVectorType,
 } from '../../../Common/Type';
 import { IActionInfo } from '../../Flow/Action';
 import { IInteractiveComponent } from '../../Interface';
-import { actionRegistry } from '../Action/Public';
+import { trampleActionScheme } from '../Action/Action';
+import { createComponentScheme } from './ComponentRegistry';
 import { interactiveComponentFields } from './InteractComponentScheme';
 
 export interface IEventRotator {
@@ -39,20 +38,21 @@ export const eventScheme = createObjectScheme<IEventRotator>({
             CnName: `开始事件`,
             ShowName: true,
             NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
+            Element: trampleActionScheme,
         }),
         EndActions: createArrayScheme({
             CnName: `退出事件`,
             ShowName: true,
             NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
+            Element: trampleActionScheme,
         }),
     },
     NewLine: true,
     NoIndent: true,
 });
 
-export const rotatorComponentScheme = createObjectSchemeForComponent<IRotatorComponent>({
+export const rotatorComponentScheme = createComponentScheme<IRotatorComponent>({
+    Actions: [],
     Name: 'RotatorComponent',
     Fields: {
         ...interactiveComponentFields,

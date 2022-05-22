@@ -22,7 +22,11 @@ export function getUeClassByTsClass(tsClassType: TTsClassType): UE.Class {
 }
 
 export function getTsClassByUeClass(ueClassType: UE.Class): TTsClassType {
-    return ueClassToTsClassMap.get(ueClassType);
+    const result = ueClassToTsClassMap.get(ueClassType);
+    if (!result) {
+        throw new Error(`No ts class for ue class ${ueClassType.GetName()}`);
+    }
+    return result;
 }
 
 export function isChildOfClass(childObj: UE.Object, parentClassType: TTsClassType): boolean {
@@ -96,7 +100,11 @@ export function regBlueprintType(
 }
 
 export function getBlueprintClass(id: number): UE.Class {
-    return ueClassById.get(id);
+    const result = ueClassById.get(id);
+    if (!result) {
+        throw new Error(`No blueprint class for id [${id}]`);
+    }
+    return result;
 }
 
 export function getBlueprintId(classObj: UE.Class): number {

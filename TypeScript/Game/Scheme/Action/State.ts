@@ -1,12 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
-    allActionFilters,
     createArrayScheme,
     createBooleanScheme,
     createEnumScheme,
     createIntScheme,
     createObjectScheme,
-    EActionFilter,
 } from '../../../Common/Type';
 import {
     actorStateConfig,
@@ -19,7 +17,6 @@ import {
 
 export const finishStateScheme = createObjectScheme({
     CnName: '结束状态',
-    Filters: [EActionFilter.FlowList],
     Tip: '结束状态,后续的动作将不被执行',
 });
 
@@ -36,7 +33,6 @@ export const changeStateScheme = createObjectScheme<IChangeState>({
     Fields: {
         StateId: stateIdScheme,
     },
-    Filters: [EActionFilter.FlowList, EActionFilter.Talk, EActionFilter.Invoke],
     Tip: '改变Entity的状态,下一次再和实体交互,则将从此设定的状态开始',
 });
 
@@ -50,7 +46,6 @@ export const changeBehaviorStateScheme = createObjectScheme<IChangeBehaviorState
             Tip: '是否立即执行, 如果立即执行, 则将停止当前状态, 马上执行下一状态',
         }),
     },
-    Filters: allActionFilters,
     Tip: '改变行为状态, 实体将从该状态继续执行动作',
 });
 
@@ -63,7 +58,6 @@ export const setBehaviorIsPausedScheme = createObjectScheme<ISetBehaviorPaused>(
             Tip: '是否暂停',
         }),
     },
-    Filters: allActionFilters,
     Tip: '设定是否暂停Behavior的执行',
 });
 
@@ -75,7 +69,6 @@ export const changeRandomStateScheme = createObjectScheme<IChangeRandomState>({
             Element: stateIdScheme,
         }),
     },
-    Filters: [EActionFilter.FlowList],
     Tip: '随机选择一个状态进行跳转',
 });
 
@@ -87,6 +80,5 @@ export const changeActorStateScheme = createObjectScheme<IChangeActorState>({
             Config: actorStateConfig,
         }),
     },
-    Filters: [EActionFilter.Trigger, EActionFilter.Invoke, EActionFilter.Function],
     Tip: '让目标Actor改变状态',
 });

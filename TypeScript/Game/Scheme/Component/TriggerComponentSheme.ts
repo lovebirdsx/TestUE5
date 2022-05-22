@@ -3,19 +3,18 @@ import {
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
-    createObjectSchemeForComponent,
-    EActionFilter,
 } from '../../../Common/Type';
 import { ITriggerActions } from '../../Flow/Action';
 import { ITriggerComponent } from '../../Interface';
-import { actionRegistry } from '../Action/Public';
+import { triggerActionScheme } from '../Action/Action';
+import { createComponentScheme } from './ComponentRegistry';
 
 export const triggerActionsScheme = createObjectScheme<ITriggerActions>({
     Name: 'TriggerActions',
     Fields: {
         Actions: createArrayScheme({
             NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trigger),
+            Element: triggerActionScheme,
             Tip: '触发之后执行的动作序列',
         }),
     },
@@ -23,7 +22,8 @@ export const triggerActionsScheme = createObjectScheme<ITriggerActions>({
     NoIndent: true,
 });
 
-export const triggerComponentScheme = createObjectSchemeForComponent<ITriggerComponent>({
+export const triggerComponentScheme = createComponentScheme<ITriggerComponent>({
+    Actions: [],
     Name: 'TriggerComponent',
     Fields: {
         MaxTriggerTimes: createIntScheme({

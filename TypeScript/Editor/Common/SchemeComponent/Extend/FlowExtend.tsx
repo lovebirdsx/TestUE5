@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { EActionFilter, IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
+import { IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
 import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
@@ -19,6 +19,7 @@ import {
     parsePlayFlow,
 } from '../../../../Game/Flow/Action';
 import { IBehaviorFlowComponent, ITsEntity } from '../../../../Game/Interface';
+import { behaviorFlowActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
 import {
     Btn,
@@ -35,7 +36,7 @@ import { editorConfig } from '../../EditorConfig';
 import LevelEditorUtil from '../../LevelEditorUtil';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';
-import { flowContext, invokeContext } from '../Context';
+import { entityIdContext, flowContext, invokeContext } from '../Context';
 import { Flow } from './Flow';
 
 const DEFAULT_STATE_ID = 1;
@@ -363,7 +364,7 @@ export function RenderBehaviorFlow(
                         })}
                         HideName={true}
                         Flow={value.FlowInfo}
-                        ObjectFilter={EActionFilter.BehaviorFlow}
+                        ActionScheme={behaviorFlowActionScheme}
                         OnModify={(flow, type): void => {
                             const newValue = produce(value, (draft) => {
                                 draft.FlowInfo = flow;
@@ -380,7 +381,9 @@ export function RenderBehaviorFlow(
 export function RenderInvoke(props: IProps<IInvoke, ObjectScheme<IInvoke>>): JSX.Element {
     return (
         <invokeContext.Provider value={props.Value}>
-            <Obj {...props} />
+            <entityIdContext.Provider value={props.Value.Who}>
+                <Obj {...props} />
+            </entityIdContext.Provider>
         </invokeContext.Provider>
     );
 }

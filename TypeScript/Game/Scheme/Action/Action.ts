@@ -1,13 +1,19 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EActionFilter, Scheme, TElementRenderType } from '../../../Common/Type';
-import { IActionInfo, IJumpTalk, ILog, IShowTalk } from '../../Flow/Action';
+import { Scheme, TElementRenderType } from '../../../Common/Type';
+import { IActionInfo, IJumpTalk, ILog, IShowTalk, TActionType } from '../../Flow/Action';
+
+export type TActionQueryType = 'custom' | 'entity';
 
 export class ActionScheme extends Scheme<IActionInfo> {
     public CnName = '动作';
 
     public RenderType: TElementRenderType = 'dynamic';
 
-    public Filter: EActionFilter = EActionFilter.FlowList;
+    // 需要额外添加的动作
+    public ExtraActions: TActionType[] = [];
+
+    // 需要过滤掉的动作
+    public FilterActions: TActionType[] = [];
 
     public NoIndent?: boolean;
 
@@ -32,7 +38,8 @@ export function createActionScheme(type: Partial<ActionScheme>): ActionScheme {
 
 export const flowListActionScheme = createActionScheme({
     Name: 'FlowListAction',
-    Filter: EActionFilter.FlowList,
+    // ShowTalk和FinishState只能在FlowListAction中出现
+    ExtraActions: ['ShowTalk', 'FinishState'],
     CreateDefault(): IActionInfo {
         const showTalk: IShowTalk = {
             TalkItems: [],
@@ -46,7 +53,8 @@ export const flowListActionScheme = createActionScheme({
 
 export const talkActionScheme = createActionScheme({
     Name: 'TalkAction',
-    Filter: EActionFilter.Talk,
+    // JumpTalk和FinishTalk只能在TalkAction中出现
+    ExtraActions: ['JumpTalk', 'FinishTalk'],
     CreateDefault(): IActionInfo {
         const jumpTalk: IJumpTalk = {
             TalkId: 1,
@@ -60,21 +68,17 @@ export const talkActionScheme = createActionScheme({
 
 export const triggerActionScheme = createActionScheme({
     Name: 'TriggerAction',
-    Filter: EActionFilter.Trigger,
 });
 
 export const trampleActionScheme = createActionScheme({
     Name: 'TrampleAction',
-    Filter: EActionFilter.Trample,
 });
 
 export const behaviorFlowActionScheme = createActionScheme({
     Name: 'BehaviorFlowAction',
-    Filter: EActionFilter.BehaviorFlow,
+    FilterActions: ['ChangeState', 'FinishState'],
 });
 
 export const functionActionScheme = createActionScheme({
     Name: 'FunctionAction',
-    Filter: EActionFilter.Function,
-    NoIndent: true,
 });

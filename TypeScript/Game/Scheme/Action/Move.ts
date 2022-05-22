@@ -2,7 +2,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IPosA, IVectorInfo } from '../../../Common/Interface';
 import {
-    allActionFilters,
     createFloatScheme,
     createObjectScheme,
     createStringScheme,
@@ -36,7 +35,6 @@ export const setPosScheme = createObjectScheme<ISetPosA>({
         Pos: posScheme,
     },
     Tip: '将实体设定到目标位置',
-    Filters: allActionFilters,
 });
 
 export const setMoveSpeedScheme = createObjectScheme<ISetMoveSpeed>({
@@ -47,7 +45,6 @@ export const setMoveSpeedScheme = createObjectScheme<ISetMoveSpeed>({
             Tip: '角色移动的速度(厘米/秒)',
         }),
     },
-    Filters: allActionFilters,
 });
 
 export const moveToPosScheme = createObjectScheme<IMoveToPosA>({
@@ -64,16 +61,15 @@ export const moveToPosScheme = createObjectScheme<IMoveToPosA>({
     },
     Tip: '移动到目标点,超时则会取消移动',
     Scheduled: true,
-    Filters: allActionFilters,
 });
 
 export const faceToPosScheme = createObjectScheme<IFaceToPos>({
     CnName: '朝向目标点',
+    Scheduled: true,
     Fields: {
         Pos: posScheme,
     },
     Tip: '朝向目标点',
-    Filters: allActionFilters,
 });
 
 export const simpleMoveScheme = createObjectScheme<ISimpleMove>({
@@ -95,7 +91,6 @@ export const simpleMoveScheme = createObjectScheme<ISimpleMove>({
         Pos: posScheme,
     },
     Tip: '移动到目标点',
-    Filters: allActionFilters,
 });
 
 export const dirScheme = createObjectScheme<IVectorInfo>({

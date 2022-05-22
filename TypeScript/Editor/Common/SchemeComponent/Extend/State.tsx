@@ -4,9 +4,9 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { EActionFilter, TModifyType } from '../../../../Common/Type';
+import { TModifyType } from '../../../../Common/Type';
 import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
-import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
+import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { Btn, COLOR_LEVEL2, EditorBox, Fold, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { editorFlowOp } from '../../Operations/Flow';
@@ -17,7 +17,7 @@ import { copyObject, pasteObject } from '../../Util';
 export interface IStateProps {
     State: IStateInfo;
     IsDuplicate: boolean;
-    ObjectFilter: EActionFilter;
+    ActionScheme: ActionScheme;
     OnContextCommand: (cmd: string) => void;
     OnModify: (state: IStateInfo, type: TModifyType) => void;
 }
@@ -53,7 +53,7 @@ export class State extends React.Component<IStateProps> {
     };
 
     private SpwanNewActionAfter(): IActionInfo {
-        return actionRegistry.SpawnDefaultAction(this.props.ObjectFilter);
+        return this.props.ActionScheme.CreateDefault();
     }
 
     private readonly AddAction = (): void => {
@@ -170,7 +170,7 @@ export class State extends React.Component<IStateProps> {
                 <Action
                     key={id}
                     Action={e}
-                    ActionFilter={this.props.ObjectFilter}
+                    Scheme={this.props.ActionScheme}
                     OnModify={(action, type): void => {
                         this.OnActionModify(id, action, type);
                     }}

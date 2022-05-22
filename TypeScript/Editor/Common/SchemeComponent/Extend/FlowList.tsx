@@ -4,9 +4,10 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { EActionFilter, TModifyType } from '../../../../Common/Type';
+import { TModifyType } from '../../../../Common/Type';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IFlowInfo, IFlowListInfo } from '../../../../Game/Flow/Action';
+import { flowListActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { Btn, ErrorText } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { editorFlowListOp } from '../../Operations/FlowList';
@@ -196,7 +197,7 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
                 <Flow
                     key={id}
                     Flow={flow}
-                    ObjectFilter={EActionFilter.FlowList}
+                    ActionScheme={flowListActionScheme}
                     IsDuplicate={
                         flows.find((e1) => e1 !== flow && e1.Name === flow.Name) !== undefined
                     }

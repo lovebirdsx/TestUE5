@@ -41,6 +41,7 @@ export const showMssageScheme = createObjectScheme<IShowMessage>({
 export const waitScheme = createObjectScheme<IWait>({
     CnName: '等待',
     Name: 'Wait',
+    Scheduled: true,
     Fields: {
         Min: createFloatScheme({
             CreateDefault: () => 2,

@@ -83,6 +83,10 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
             }
 
             const scheme = componentRegistry.GetScheme(classObj.name);
+            if (scheme.NoData) {
+                return undefined;
+            }
+
             const value = components[classObj.name];
             return (
                 <VerticalBox key={id}>

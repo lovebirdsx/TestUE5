@@ -4,7 +4,6 @@ import {
     createObjectScheme,
     createScheme,
     createStringScheme,
-    EActionFilter,
 } from '../../../Common/Type';
 import {
     calOpTypeConfig,
@@ -52,7 +51,6 @@ export const setNumberVarScheme = createObjectScheme<ISetNumberVar>({
         Name: varNameScheme,
         Value: varValueScheme,
     },
-    Filters: [EActionFilter.Invoke, EActionFilter.Function],
 });
 
 export const syncVarToActorStateScheme = createObjectScheme<ISyncVarToActorState>({
@@ -66,7 +64,6 @@ export const syncVarToActorStateScheme = createObjectScheme<ISyncVarToActorState
             Width: DEFUALT_VALUE_NAME_TEXT_WIDTH,
         }),
     },
-    Filters: [EActionFilter.Invoke, EActionFilter.Function],
 });
 
 export const calOpScheme = createEnumScheme<TCalOp>({
@@ -81,7 +78,6 @@ export const doCalculateScheme = createObjectScheme<IDoCalculate>({
         Var2: varValueScheme,
         Result: varNameScheme,
     },
-    Filters: [EActionFilter.Invoke, EActionFilter.Function],
 });
 
 export const compareScheme = createEnumScheme<TCompare>({
@@ -140,7 +136,6 @@ export const callByConditionScheme = createObjectScheme<ICallByCondition>({
             Optional: true,
         }),
     },
-    Filters: [EActionFilter.Invoke, EActionFilter.Function],
 });
 
 export const functionNameScheme = createStringScheme({
@@ -156,5 +151,4 @@ export const callFunctionScheme = createObjectScheme<ICallFunction>({
     Fields: {
         Name: functionNameScheme,
     },
-    Filters: [EActionFilter.Invoke, EActionFilter.Function],
 });

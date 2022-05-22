@@ -1,15 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
-import {
-    createObjectScheme,
-    createObjectSchemeForComponent,
-    intScheme,
-} from '../../../Common/Type';
+import { createObjectScheme, intScheme } from '../../../Common/Type';
 import { flowOp } from '../../Common/Operations/Flow';
 import { IFlowInfo } from '../../Flow/Action';
 import { IBehaviorFlowComponent, IFlowComponent } from '../../Interface';
 import { playFlowScheme } from '../Action/Flow';
+import { createComponentScheme } from './ComponentRegistry';
 
-export const flowComponentScheme = createObjectScheme<IFlowComponent>({
+export const flowComponentScheme = createComponentScheme<IFlowComponent>({
+    Actions: ['ChangeState'],
     Name: 'FlowComponent',
     Fields: {
         InitState: playFlowScheme,
@@ -32,7 +30,8 @@ export const flowComponentScheme = createObjectScheme<IFlowComponent>({
     NewLine: true,
 });
 
-export const behaviorFlowComponentScheme = createObjectSchemeForComponent<IBehaviorFlowComponent>({
+export const behaviorFlowComponentScheme = createComponentScheme<IBehaviorFlowComponent>({
+    Actions: ['ChangeBehaviorState', 'SetBehaviorIsPaused'],
     Name: 'BehaviorFlowComponent',
     CreateDefault: () => {
         return {

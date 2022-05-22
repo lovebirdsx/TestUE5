@@ -1,12 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import {
-    createArrayScheme,
-    createBooleanScheme,
-    createObjectSchemeForComponent,
-    EActionFilter,
-} from '../../../Common/Type';
+import { createArrayScheme, createBooleanScheme } from '../../../Common/Type';
 import { IActionInfo } from '../../Flow/Action';
-import { actionRegistry } from '../Action/Public';
+import { trampleActionScheme } from '../Action/Action';
+import { createComponentScheme } from './ComponentRegistry';
 
 export interface ITrampleComponent {
     IsDisposable: boolean;
@@ -14,7 +10,8 @@ export interface ITrampleComponent {
     RecoveryActions: IActionInfo[];
 }
 
-export const trampleComponentScheme = createObjectSchemeForComponent<ITrampleComponent>({
+export const trampleComponentScheme = createComponentScheme<ITrampleComponent>({
+    Actions: [],
     Name: 'TrampleComponent',
     Fields: {
         IsDisposable: createBooleanScheme({
@@ -26,12 +23,12 @@ export const trampleComponentScheme = createObjectSchemeForComponent<ITrampleCom
         TriggerActions: createArrayScheme({
             CnName: `踩踏事件`,
             NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
+            Element: trampleActionScheme,
         }),
         RecoveryActions: createArrayScheme({
             CnName: `离开事件`,
             NewLine: true,
-            Element: actionRegistry.GetActionScheme(EActionFilter.Trample),
+            Element: trampleActionScheme,
         }),
     },
     NewLine: true,

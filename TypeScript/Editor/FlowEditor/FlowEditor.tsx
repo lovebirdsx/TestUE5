@@ -16,7 +16,7 @@ import {
 } from '../../Common/UeHelper';
 import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Flow/Action';
-import { Btn, Check, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
+import { Btn, Check, ErrorText, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';
@@ -408,6 +408,36 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         });
     };
 
+    private RenderError(): JSX.Element {
+        const errors: string[] = [];
+        const flowList = this.FlowList;
+        editorFlowListOp.Check(flowList, errors);
+        if (errors.length <= 0) {
+            return undefined;
+        }
+
+        return (
+            <VerticalBox>
+                <HorizontalBox>
+                    <Btn
+                        Text={'自动修复'}
+                        OnClick={(): void => {
+                            const newFlowList = produce(flowList, (draft) => {
+                                editorFlowListOp.Fix(draft);
+                            });
+                            if (newFlowList !== flowList) {
+                                this.ModifyFlowList(newFlowList, 'normal');
+                            }
+                        }}
+                    />
+                </HorizontalBox>
+                {errors.map((err, id) => (
+                    <ErrorText key={id} Text={err} />
+                ))}
+            </VerticalBox>
+        );
+    }
+
     private RenderDevelopElements(): JSX.Element {
         return (
             <HorizontalBox>
@@ -514,6 +544,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                             />
                         </HorizontalBox>
                         {this.state.IsDevelop && this.RenderDevelopElements()}
+                        <HorizontalBox>{this.RenderError()}</HorizontalBox>
                     </VerticalBox>
                 </Border>
                 <ScrollBox Slot={scrollBoxSlot}>

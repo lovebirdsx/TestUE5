@@ -8,9 +8,8 @@ import { TModifyType } from '../../../../Common/Type';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IFlowInfo, IFlowListInfo } from '../../../../Game/Flow/Action';
 import { flowListActionScheme } from '../../../../Game/Scheme/Action/Action';
-import { Btn, ErrorText } from '../../BaseComponent/CommonComponent';
+import { Btn } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
-import { editorFlowListOp } from '../../Operations/FlowList';
 import { copyObject, pasteObject } from '../../Util';
 import { Flow } from './Flow';
 
@@ -159,36 +158,6 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
         }, 'fold');
     };
 
-    private RenderError(): JSX.Element {
-        const errors: string[] = [];
-        const props = this.props;
-        editorFlowListOp.Check(props.FlowList, errors);
-        if (errors.length <= 0) {
-            return undefined;
-        }
-
-        return (
-            <VerticalBox>
-                <HorizontalBox>
-                    <Btn
-                        Text={'自动修复'}
-                        OnClick={function (): void {
-                            const newFlowList = produce(props.FlowList, (draft) => {
-                                editorFlowListOp.Fix(draft);
-                            });
-                            if (newFlowList !== props.FlowList) {
-                                props.OnModify(newFlowList, 'normal');
-                            }
-                        }}
-                    />
-                </HorizontalBox>
-                {errors.map((err, id) => (
-                    <ErrorText key={id} Text={err} />
-                ))}
-            </VerticalBox>
-        );
-    }
-
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const { Flows: flows } = this.props.FlowList;
@@ -222,7 +191,6 @@ export class FlowList extends React.Component<IFlowListProps, unknown> {
         };
         return (
             <VerticalBox>
-                {this.RenderError()}
                 <VerticalBox Slot={rootSlot}>
                     <HorizontalBox>
                         <Btn Text={'✚流程'} OnClick={this.AddFlow} Tip={FLOW_TIP} />

@@ -16,6 +16,7 @@ export function createComponentScheme<T>(
         const fields = type.Fields as Record<string, unknown>;
         fields.Disabled = createBooleanScheme({
             Hide: true,
+            Optional: true,
         });
     }
 

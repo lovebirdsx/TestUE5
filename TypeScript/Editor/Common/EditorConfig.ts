@@ -46,6 +46,9 @@ export class EditorConfig {
     // EntityEditor中的编辑记录
     public EntityRecords: IEntityRecords = { Records: [] };
 
+    // TalkerEditor中滚轮位置
+    public TalkerOffset: number;
+
     public IsDevelop: boolean;
 
     public readonly MaxHistory = 100;

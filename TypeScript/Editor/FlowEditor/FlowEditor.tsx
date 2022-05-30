@@ -544,7 +544,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
                             />
                         </HorizontalBox>
                         {this.state.IsDevelop && this.RenderDevelopElements()}
-                        <HorizontalBox>{this.RenderError()}</HorizontalBox>
+                        <HorizontalBox>{!this.state.OpenError && this.RenderError()}</HorizontalBox>
                     </VerticalBox>
                 </Border>
                 <ScrollBox Slot={scrollBoxSlot}>

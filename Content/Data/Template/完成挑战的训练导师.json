@@ -1,7 +1,7 @@
 ﻿{
   "Guid": "8A5B9C814F9DE52F8B43008857DABCF4",
   "PrefabId": 1012,
-  "ComponentsState": {
+  "ComponentsData": {
     "FlowComponent": {
       "InitState": {
         "FlowListName": "流程_通过新手关",

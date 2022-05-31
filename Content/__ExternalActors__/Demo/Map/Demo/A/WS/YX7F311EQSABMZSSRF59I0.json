@@ -7,45 +7,11 @@
       "Z": 188
     },
     "Rot": {
-      "Z": 89.99999930282695
+      "Z": 89.99999930282696
     }
   },
   "PrefabId": 1012,
   "Guid": "0035B3094C5F4382792795B5A086CA4D",
-  "ComponentsState": {
-    "FlowComponent": {
-      "InitState": {
-        "FlowListName": "流程_通过新手关",
-        "FlowId": 1,
-        "StateId": 1
-      }
-    },
-    "BehaviorFlowComponent": {
-      "InitStateId": 0,
-      "FlowInfo": {
-        "Id": 0,
-        "Name": "Empty",
-        "StateGenId": 1,
-        "States": [
-          {
-            "Id": 0,
-            "Name": "状态1",
-            "Actions": []
-          }
-        ]
-      },
-      "Disabled": false
-    },
-    "MoveComponent": {
-      "InitSpeed": 150,
-      "Disabled": false
-    },
-    "NpcComponent": {
-      "Content": "",
-      "Icon": "",
-      "Disabled": false
-    }
-  },
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

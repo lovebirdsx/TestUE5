@@ -15,10 +15,10 @@ import { TActionType } from '../Flow/Action';
 import {
     IEntityData,
     ITsEntity,
-    parseComponentsState,
+    parseComponentsData,
     TComponentClass,
-    TComponentsState,
-    TComponentState,
+    TComponentData,
+    TComponentsData,
 } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 import { componentRegistry } from '../Scheme/Component/Public';
@@ -84,16 +84,16 @@ class EntityRegistry {
         return this.GetActionsByTsClass(tsClassObj);
     }
 
-    private GenComponentsState(obj: ITsEntity): TComponentsState {
-        const state = parseComponentsState(obj.ComponentsStateJson);
+    private GenComponentsData(obj: ITsEntity): TComponentsData {
+        const data = parseComponentsData(obj.ComponentsDataJson);
         const classObjs = this.GetComponentClassesByActor(obj);
         // 移除不存在的Component配置
-        Object.keys(state).forEach((key) => {
+        Object.keys(data).forEach((key) => {
             const classObj = classObjs.find((obj) => obj.name === key);
             if (classObj === undefined || !componentRegistry.HasDataForScheme(key)) {
                 warn(`移除不存在的Component配置[${key}]`);
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-                delete state[key];
+                delete data[key];
             }
         });
 
@@ -102,17 +102,17 @@ class EntityRegistry {
             const componentName = classObj.name;
             if (componentRegistry.HasDataForScheme(componentName)) {
                 const scheme = componentRegistry.GetScheme(componentName);
-                if (state[componentName]) {
-                    scheme.Fix(state[componentName]);
+                if (data[componentName]) {
+                    scheme.Fix(data[componentName]);
                 } else {
-                    const componentState = scheme.CreateDefault() as TComponentState;
-                    componentState.Disabled = false;
-                    state[componentName] = componentState;
+                    const componentData = scheme.CreateDefault() as TComponentData;
+                    componentData.Disabled = false;
+                    data[componentName] = componentData;
                 }
             }
         });
 
-        return state;
+        return data;
     }
 
     public GenData<T extends ITsEntity>(obj: T): IEntityData {
@@ -121,8 +121,7 @@ class EntityRegistry {
             Transform: toTransformInfo(obj.GetTransform()),
             PrefabId: getBlueprintId(obj.GetClass()),
             Guid: obj.Guid,
-            ComponentsState: this.GenComponentsState(obj),
-            ComponentsData: this.GenComponentsState(obj),
+            ComponentsData: this.GenComponentsData(obj),
         };
     }
 
@@ -136,7 +135,7 @@ class EntityRegistry {
         const classObjs = this.GetComponentClassesByActor(entity);
 
         // 冗余的配置
-        Object.keys(data.ComponentsState).forEach((componentName) => {
+        Object.keys(data.ComponentsData).forEach((componentName) => {
             const classObj = classObjs.find((obj) => obj.name === componentName);
             if (!classObj) {
                 messages.push(`Component ${componentName}配置了数据, 但是找不到对应的类型数据`);
@@ -148,7 +147,7 @@ class EntityRegistry {
             const componentName = classObj.name;
             if (componentRegistry.HasDataForScheme(componentName)) {
                 const scheme = componentRegistry.GetScheme(componentName);
-                const value = data.ComponentsState[componentName];
+                const value = data.ComponentsData[componentName];
                 if (value) {
                     errorCount += scheme.Check(value, messages);
                 } else {
@@ -166,13 +165,13 @@ class EntityRegistry {
             obj.Guid = data.Guid;
             modifyCount++;
         }
-        const newStateJson = stringify(data.ComponentsState, true);
-        if (obj.ComponentsStateJson !== newStateJson) {
-            obj.ComponentsStateJson = newStateJson;
+        const newDataJson = stringify(data.ComponentsData, true);
+        if (obj.ComponentsDataJson !== newDataJson) {
+            obj.ComponentsDataJson = newDataJson;
             modifyCount++;
         }
-        if (obj.ComponentsDataJson !== newStateJson) {
-            obj.ComponentsDataJson = newStateJson;
+        if (obj.ComponentsDataJson !== newDataJson) {
+            obj.ComponentsDataJson = newDataJson;
             modifyCount++;
         }
         return modifyCount > 0;
@@ -180,8 +179,8 @@ class EntityRegistry {
 
     // 判断data数据是否和entity自身携带的数据一致
     public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
-        const componentsStateJson = stringify(data.ComponentsState);
-        return componentsStateJson !== entity.ComponentsStateJson || entity.Guid !== data.Guid;
+        const componentsDataJson = stringify(data.ComponentsData);
+        return componentsDataJson !== entity.ComponentsDataJson || entity.Guid !== data.Guid;
     }
 }
 

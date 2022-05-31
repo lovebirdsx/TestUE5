@@ -4,65 +4,65 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { TModifyType } from '../../Common/Type';
-import { TComponentClass, TComponentsState, TComponentState } from '../../Game/Interface';
+import { TComponentClass, TComponentData, TComponentsData } from '../../Game/Interface';
 import { componentRegistry } from '../../Game/Scheme/Component/Public';
 import { Check, COLOR_DISABLE, COLOR_LEVEL4, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { Any } from '../Common/SchemeComponent/Public';
 import { copyObject, pasteObject } from '../Common/Util';
 
-export interface IComponentsStateProps {
-    Value: TComponentsState;
+export interface IComponentsDataProps {
+    Value: TComponentsData;
     ClassObjs: TComponentClass[];
-    OnModify: (value: TComponentsState, type: TModifyType) => void;
+    OnModify: (value: TComponentsData, type: TModifyType) => void;
 }
 
-export class ComponentsState extends React.Component<IComponentsStateProps> {
-    private RenderPrefix(componentState: TComponentState, componentName: string): JSX.Element {
+export class ComponentsData extends React.Component<IComponentsDataProps> {
+    private RenderPrefix(componentData: TComponentData, componentName: string): JSX.Element {
         const props = this.props;
-        const componentsState = props.Value;
+        const componentsData = props.Value;
         return (
             <HorizontalBox>
                 <Check
-                    UnChecked={componentState.Disabled}
+                    UnChecked={componentData.Disabled}
                     OnChecked={(isEnabled): void => {
                         // disable或者针对合法的Component数据进行enable, 都只需要修改Disabled字段
                         // 否则就要重新生成Component的合法数据
-                        if (!isEnabled || Object.keys(componentState).length > 1) {
-                            const newComponentsState = produce(this.props.Value, (draft) => {
+                        if (!isEnabled || Object.keys(componentData).length > 1) {
+                            const newComponentsData = produce(this.props.Value, (draft) => {
                                 draft[componentName].Disabled = !isEnabled;
                             });
-                            this.props.OnModify(newComponentsState, 'normal');
+                            this.props.OnModify(newComponentsData, 'normal');
                         } else {
                             const scheme = componentRegistry.GetScheme(componentName);
-                            const newComponentsState = produce(componentsState, (draft) => {
+                            const newComponentsData = produce(componentsData, (draft) => {
                                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                                const componentState = scheme.CreateDefault() as TComponentState;
-                                componentState.Disabled = false;
-                                draft[componentName] = componentState;
+                                const componentData = scheme.CreateDefault() as TComponentData;
+                                componentData.Disabled = false;
+                                draft[componentName] = componentData;
                             });
-                            this.props.OnModify(newComponentsState, 'normal');
+                            this.props.OnModify(newComponentsData, 'normal');
                         }
                     }}
                 />
                 <Text
                     Text={componentName}
-                    Color={componentState.Disabled ? COLOR_DISABLE : COLOR_LEVEL4}
+                    Color={componentData.Disabled ? COLOR_DISABLE : COLOR_LEVEL4}
                 />
                 <ContextBtn
                     Commands={['拷贝', '粘贴']}
                     OnCommand={function (cmd: string): void {
                         switch (cmd) {
                             case '拷贝':
-                                copyObject(componentName, componentState);
+                                copyObject(componentName, componentData);
                                 break;
                             case '粘贴': {
-                                const newComponentsState = produce(componentsState, (draft) => {
+                                const newComponentsData = produce(componentsData, (draft) => {
                                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                                     draft[componentName] =
-                                        pasteObject<TComponentState>(componentName);
+                                        pasteObject<TComponentData>(componentName);
                                 });
-                                props.OnModify(newComponentsState, 'normal');
+                                props.OnModify(newComponentsData, 'normal');
                                 break;
                             }
                         }
@@ -95,10 +95,10 @@ export class ComponentsState extends React.Component<IComponentsStateProps> {
                         Value={value}
                         Scheme={scheme}
                         OnModify={(obj, type): void => {
-                            const newComponentState = produce(this.props.Value, (draft) => {
-                                draft[classObj.name] = obj as TComponentState;
+                            const newComponentData = produce(this.props.Value, (draft) => {
+                                draft[classObj.name] = obj as TComponentData;
                             });
-                            this.props.OnModify(newComponentState, type);
+                            this.props.OnModify(newComponentData, type);
                         }}
                     />
                 </VerticalBox>

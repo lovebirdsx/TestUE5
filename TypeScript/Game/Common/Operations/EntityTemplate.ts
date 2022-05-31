@@ -7,13 +7,13 @@ import { getFileNameWithOutExt } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
 import { toTsArray } from '../../../Common/UeHelper';
 import { deepEquals, genGuid, readJsonObj, writeJson } from '../../../Common/Util';
-import { IEntityData, TComponentClass, TComponentsState } from '../../Interface';
+import { IEntityData, TComponentClass, TComponentsData } from '../../Interface';
 import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
     Guid: string;
     PrefabId: number;
-    ComponentsState: TComponentsState;
+    ComponentsData: TComponentsData;
 }
 
 function getEntityTemplateFiles(): string[] {
@@ -67,8 +67,7 @@ export class EntityTemplateOp {
         const template = this.GetTemplateByGuid(templateGuid);
         return {
             Guid: entityGuid || genGuid(),
-            ComponentsData: template.ComponentsState,
-            ComponentsState: template.ComponentsState,
+            ComponentsData: template.ComponentsData,
             PrefabId: template.PrefabId,
         };
     }
@@ -95,7 +94,7 @@ export class EntityTemplateOp {
         return {
             Guid: guid || genGuid(),
             PrefabId: data.PrefabId,
-            ComponentsState: data.ComponentsState,
+            ComponentsData: data.ComponentsData,
         };
     }
 
@@ -116,17 +115,17 @@ export class EntityTemplateOp {
         componentClasses: TComponentClass[],
         data: IEntityData,
     ): IEntityData {
-        const componentsState = template.ComponentsState;
+        const componentsData = template.ComponentsData;
 
         // 取模板中共同的Component配置
-        const componentsStateNew = Object.assign({}, data.ComponentsState);
+        const componentsDataNew = Object.assign({}, data.ComponentsData);
         let modifyCount = 0;
         let sameComponentCount = 0;
-        for (const key in componentsState) {
-            if (componentsStateNew[key] || componentClasses.find((c) => c.name === key)) {
+        for (const key in componentsData) {
+            if (componentsDataNew[key] || componentClasses.find((c) => c.name === key)) {
                 sameComponentCount++;
-                if (!deepEquals(componentsStateNew[key], componentsState[key])) {
-                    componentsStateNew[key] = componentsState[key];
+                if (!deepEquals(componentsDataNew[key], componentsData[key])) {
+                    componentsDataNew[key] = componentsData[key];
                     modifyCount++;
                 }
             }
@@ -143,7 +142,7 @@ export class EntityTemplateOp {
         }
 
         const newData = produce(data, (draft) => {
-            draft.ComponentsState = componentsStateNew;
+            draft.ComponentsData = componentsDataNew;
         });
         return newData;
     }

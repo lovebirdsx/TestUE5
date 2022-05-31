@@ -12,40 +12,6 @@
   },
   "PrefabId": 1007,
   "Guid": "B2E003A2479A6441123EA6AD7B8999C0",
-  "ComponentsState": {
-    "FlowComponent": {
-      "InitState": {
-        "FlowListName": "流程_村民",
-        "FlowId": 11,
-        "StateId": 1
-      }
-    },
-    "BehaviorFlowComponent": {
-      "InitStateId": 0,
-      "FlowInfo": {
-        "Id": 0,
-        "Name": "Empty",
-        "StateGenId": 1,
-        "States": [
-          {
-            "Id": 0,
-            "Name": "状态1",
-            "Actions": []
-          }
-        ]
-      },
-      "Disabled": true
-    },
-    "MoveComponent": {
-      "InitSpeed": 150,
-      "Disabled": true
-    },
-    "NpcComponent": {
-      "Content": "",
-      "Icon": "",
-      "Disabled": false
-    }
-  },
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

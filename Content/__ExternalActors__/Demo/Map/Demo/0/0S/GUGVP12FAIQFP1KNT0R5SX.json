@@ -12,34 +12,6 @@
   },
   "PrefabId": 9,
   "Guid": "A71A69384584A782F1C1A0BD09E4E63C",
-  "ComponentsState": {
-    "TrampleComponent": {
-      "IsDisposable": true,
-      "TriggerActions": [
-        {
-          "Name": "Invoke",
-          "Params": {
-            "Who": "AC23101542723B8A619097AF76FECEAA",
-            "ActionInfo": {
-              "Name": "SimpleMove",
-              "Params": {
-                "Who": "AC23101542723B8A619097AF76FECEAA",
-                "UseTime": 2,
-                "Pos": {
-                  "X": -3020,
-                  "Y": -5410,
-                  "Z": 440,
-                  "A": 0
-                }
-              }
-            }
-          }
-        }
-      ],
-      "RecoveryActions": [],
-      "Disabled": false
-    }
-  },
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": true,

@@ -9,9 +9,6 @@ export class TsCharacterEntity extends Character implements ITsEntity {
     public Guid: string;
 
     @edit_on_instance()
-    public ComponentsStateJson: string;
-
-    @edit_on_instance()
     public ComponentsDataJson: string;
 
     // @no-blueprint

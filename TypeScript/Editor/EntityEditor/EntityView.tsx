@@ -14,7 +14,7 @@ import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponen
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
-import { ComponentsState } from './ComponentsState';
+import { ComponentsData } from './ComponentsData';
 
 export interface IEntityViewProps {
     Entity: ITsEntity;
@@ -124,7 +124,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const props = this.props;
         const entity = props.Entity;
         const data = props.Data;
-        const componentsState = data.ComponentsState;
+        const componentsState = data.ComponentsData;
         const componentClassObjs = entityRegistry.GetComponentClassesByActor(entity);
 
         return (
@@ -136,12 +136,12 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 </VerticalBox>
                 <H3 Text={'组件列表'} />
                 <entityIdContext.Provider value={entity.Guid}>
-                    <ComponentsState
+                    <ComponentsData
                         Value={componentsState}
                         ClassObjs={componentClassObjs}
                         OnModify={(componentState, type): void => {
                             const newData = produce(data, (draft) => {
-                                draft.ComponentsState = componentState;
+                                draft.ComponentsData = componentState;
                             });
                             props.OnModify(newData, type);
                         }}

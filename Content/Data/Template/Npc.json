@@ -1,7 +1,7 @@
 ﻿{
   "Guid": "D8CA584B4A2D0D8008DF53A81FDCD892",
   "PrefabId": 1,
-  "ComponentsState": {
+  "ComponentsData": {
     "FlowComponent": {
       "InitState": {
         "FlowListName": "流程_测试",

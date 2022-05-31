@@ -28,7 +28,7 @@ import { writeJson } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
-import { Component, ITsEntity, parseComponentsState } from '../../Game/Interface';
+import { Component, ITsEntity, parseComponentsData } from '../../Game/Interface';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): boolean {
@@ -100,7 +100,7 @@ class LevelEditorUtil {
         entity: ITsEntity,
         componentClass: new () => T,
     ): T {
-        const componentsState = parseComponentsState(entity.ComponentsStateJson);
+        const componentsState = parseComponentsData(entity.ComponentsDataJson);
         return componentsState[componentClass.name] as T;
     }
 

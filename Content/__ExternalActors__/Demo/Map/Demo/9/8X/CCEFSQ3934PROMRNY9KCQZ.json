@@ -9,40 +9,6 @@
   },
   "PrefabId": 1001,
   "Guid": "441B935344164350641BD48E404F2A5C",
-  "ComponentsState": {
-    "FlowComponent": {
-      "InitState": {
-        "FlowListName": "流程_守卫",
-        "FlowId": 2,
-        "StateId": 1
-      }
-    },
-    "MoveComponent": {
-      "InitSpeed": 150,
-      "Disabled": true
-    },
-    "BehaviorFlowComponent": {
-      "InitStateId": 0,
-      "FlowInfo": {
-        "Id": 0,
-        "Name": "Empty",
-        "StateGenId": 1,
-        "States": [
-          {
-            "Name": "状态0",
-            "Actions": [],
-            "Id": 0
-          }
-        ]
-      },
-      "Disabled": true
-    },
-    "NpcComponent": {
-      "Content": "",
-      "Icon": "",
-      "Disabled": false
-    }
-  },
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

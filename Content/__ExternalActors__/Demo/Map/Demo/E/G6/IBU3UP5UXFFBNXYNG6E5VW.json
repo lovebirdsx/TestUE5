@@ -7,45 +7,11 @@
       "Z": 187.99993904749314
     },
     "Rot": {
-      "Z": 90.00000209151933
+      "Z": 90.00000209151935
     }
   },
   "PrefabId": 1004,
   "Guid": "E32696674CF6D874598B34A29C141D24",
-  "ComponentsState": {
-    "FlowComponent": {
-      "InitState": {
-        "FlowListName": "流程_关键NPC",
-        "FlowId": 3,
-        "StateId": 1
-      }
-    },
-    "BehaviorFlowComponent": {
-      "InitStateId": 0,
-      "FlowInfo": {
-        "Id": 0,
-        "Name": "Empty",
-        "StateGenId": 1,
-        "States": [
-          {
-            "Id": 0,
-            "Name": "状态1",
-            "Actions": []
-          }
-        ]
-      },
-      "Disabled": false
-    },
-    "MoveComponent": {
-      "InitSpeed": 150,
-      "Disabled": false
-    },
-    "NpcComponent": {
-      "Content": "",
-      "Icon": "",
-      "Disabled": false
-    }
-  },
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

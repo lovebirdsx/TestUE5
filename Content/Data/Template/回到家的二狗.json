@@ -1,7 +1,7 @@
 ﻿{
   "Guid": "FAF5002240053ABBFAEBC2A08C674773",
   "PrefabId": 1003,
-  "ComponentsState": {
+  "ComponentsData": {
     "FlowComponent": {
       "InitState": {
         "FlowListName": "流程_关键NPC",

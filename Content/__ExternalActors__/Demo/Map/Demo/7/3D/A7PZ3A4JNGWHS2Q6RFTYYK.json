@@ -8,12 +8,11 @@
     },
     "Rot": {
       "X": 180,
-      "Y": 60.00000023239043,
+      "Y": 60.000000232390455,
       "Z": 180
     }
   },
   "PrefabId": 16,
   "Guid": "D62F1FA3445E1C8CEC1F5486F05C0B8D",
-  "ComponentsState": {},
   "ComponentsData": {}
 }

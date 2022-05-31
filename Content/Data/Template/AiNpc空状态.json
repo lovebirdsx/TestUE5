@@ -1,7 +1,7 @@
 ﻿{
   "Guid": "B13AFF12452A0054A80F02A8E70191A5",
   "PrefabId": 6,
-  "ComponentsState": {
+  "ComponentsData": {
     "FlowComponent": {
       "InitState": {
         "FlowListName": "流程_移动测试",

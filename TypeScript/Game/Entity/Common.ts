@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { StateComponent } from '../Component/StateComponent';
-import { Entity, gameContext, ITsEntity, parseComponentsState } from '../Interface';
+import { Entity, gameContext, ITsEntity, parseComponentsData } from '../Interface';
 
 export function initTsEntity(tsEntity: ITsEntity): void {
     const state = gameContext.StateManager.GetState(tsEntity.Guid);
@@ -10,7 +10,7 @@ export function initTsEntity(tsEntity: ITsEntity): void {
     }
 
     const entity = new Entity(tsEntity.ActorLabel, tsEntity.Guid, tsEntity);
-    const componentsState = parseComponentsState(tsEntity.ComponentsStateJson);
+    const componentsState = parseComponentsData(tsEntity.ComponentsDataJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {
         const data = componentsState[componentClass.name];

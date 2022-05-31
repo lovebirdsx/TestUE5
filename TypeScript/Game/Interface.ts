@@ -94,17 +94,17 @@ export interface ICalculatorComponent {
     Functions: IFunction[];
 }
 
-export type TComponentState = Record<string, unknown> & {
+export type TComponentData = Record<string, unknown> & {
     Disabled: boolean;
 };
 
-export type TComponentsState = Record<string, TComponentState>;
+export type TComponentsData = Record<string, TComponentData>;
 
-export function parseComponentsState(json: string): TComponentsState {
+export function parseComponentsData(json: string): TComponentsData {
     if (!json) {
         return {};
     }
-    return parse(json, true) as TComponentsState;
+    return parse(json, true) as TComponentsData;
 }
 
 export interface IEntityData {
@@ -112,8 +112,7 @@ export interface IEntityData {
     Transform?: ITransform;
     Guid: string;
     PrefabId: number;
-    ComponentsState?: TComponentsState;
-    ComponentsData: TComponentsState;
+    ComponentsData: TComponentsData;
 }
 
 export interface IEntitySnapshot extends IEntityData {
@@ -124,7 +123,6 @@ export interface IEntitySnapshot extends IEntityData {
 
 export interface ITsEntity extends Actor {
     Guid: string;
-    ComponentsStateJson: string;
     ComponentsDataJson: string;
     Entity: Entity;
     GetComponentClasses: () => TComponentClass[];

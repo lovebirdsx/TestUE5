@@ -122,6 +122,7 @@ class EntityRegistry {
             PrefabId: getBlueprintId(obj.GetClass()),
             Guid: obj.Guid,
             ComponentsState: this.GenComponentsState(obj),
+            ComponentsData: this.GenComponentsState(obj),
         };
     }
 
@@ -168,6 +169,10 @@ class EntityRegistry {
         const newStateJson = stringify(data.ComponentsState, true);
         if (obj.ComponentsStateJson !== newStateJson) {
             obj.ComponentsStateJson = newStateJson;
+            modifyCount++;
+        }
+        if (obj.ComponentsDataJson !== newStateJson) {
+            obj.ComponentsDataJson = newStateJson;
             modifyCount++;
         }
         return modifyCount > 0;

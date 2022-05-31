@@ -47,5 +47,41 @@
       ],
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "TrampleComponent": {
+      "IsDisposable": false,
+      "TriggerActions": [
+        {
+          "Name": "SimpleMove",
+          "Params": {
+            "Who": "9C2DC41F4C432970280612A50ABC6110",
+            "UseTime": 2,
+            "Pos": {
+              "X": -7908,
+              "Y": -6330,
+              "Z": 620,
+              "A": 0
+            }
+          }
+        }
+      ],
+      "RecoveryActions": [
+        {
+          "Name": "SimpleMove",
+          "Params": {
+            "Who": "9C2DC41F4C432970280612A50ABC6110",
+            "UseTime": 2,
+            "Pos": {
+              "X": -7488,
+              "Y": -6330,
+              "Z": 620,
+              "A": 0
+            }
+          }
+        }
+      ],
+      "Disabled": false
+    }
   }
 }

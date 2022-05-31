@@ -102,5 +102,96 @@
       "Icon": "",
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_村民",
+        "FlowId": 4,
+        "StateId": 1
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "Disabled": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Flow",
+        "StateGenId": 2,
+        "States": [
+          {
+            "Name": "状态1",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3766,
+                    "Y": -2958,
+                    "Z": 99,
+                    "A": 94
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 1,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 0
+          },
+          {
+            "Name": "状态2",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 4117,
+                    "Y": -2796,
+                    "Z": 100,
+                    "A": 139
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 0,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 1
+          }
+        ]
+      },
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
   }
 }

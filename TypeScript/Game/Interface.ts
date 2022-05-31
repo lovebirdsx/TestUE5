@@ -112,7 +112,8 @@ export interface IEntityData {
     Transform?: ITransform;
     Guid: string;
     PrefabId: number;
-    ComponentsState: TComponentsState;
+    ComponentsState?: TComponentsState;
+    ComponentsData: TComponentsState;
 }
 
 export interface IEntitySnapshot extends IEntityData {
@@ -124,6 +125,7 @@ export interface IEntitySnapshot extends IEntityData {
 export interface ITsEntity extends Actor {
     Guid: string;
     ComponentsStateJson: string;
+    ComponentsDataJson: string;
     Entity: Entity;
     GetComponentClasses: () => TComponentClass[];
     Init: () => void;

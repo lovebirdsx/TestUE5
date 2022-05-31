@@ -59,5 +59,53 @@
       ],
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "TrampleComponent": {
+      "IsDisposable": false,
+      "TriggerActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "5C909B284572F4F40102CBA158268F9A",
+            "ActionInfo": {
+              "Name": "SimpleMove",
+              "Params": {
+                "Who": "5C909B284572F4F40102CBA158268F9A",
+                "UseTime": 2,
+                "Pos": {
+                  "X": -4450,
+                  "Y": -7210,
+                  "Z": 440,
+                  "A": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "RecoveryActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "5C909B284572F4F40102CBA158268F9A",
+            "ActionInfo": {
+              "Name": "SimpleMove",
+              "Params": {
+                "Who": "5C909B284572F4F40102CBA158268F9A",
+                "UseTime": 1,
+                "Pos": {
+                  "X": -4450,
+                  "Y": -7210,
+                  "Z": 150,
+                  "A": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "Disabled": false
+    }
   }
 }

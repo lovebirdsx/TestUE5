@@ -192,5 +192,186 @@
       "Icon": "",
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_关键NPC",
+        "FlowId": 5,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 4,
+        "States": [
+          {
+            "Name": "暂停",
+            "Actions": [
+              {
+                "Name": "SetBehaviorIsPaused",
+                "Params": {
+                  "IsPaused": true
+                }
+              }
+            ],
+            "Id": 0
+          },
+          {
+            "Name": "到房子后",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 30,
+                  "Pos": {
+                    "X": 2785,
+                    "Y": 1079,
+                    "Z": 100,
+                    "A": -180
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5,
+                  "Min": 2
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 30,
+                  "Pos": {
+                    "X": 2786,
+                    "Y": 812,
+                    "Z": 100,
+                    "A": -180
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5,
+                  "Min": 2
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 2,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 1
+          },
+          {
+            "Name": "到房子前",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 30,
+                  "Pos": {
+                    "X": 3284,
+                    "Y": -539,
+                    "Z": 99,
+                    "A": -61
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5,
+                  "Min": 2
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 30,
+                  "Pos": {
+                    "X": 4137,
+                    "Y": -959,
+                    "Z": 100,
+                    "A": -31
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5,
+                  "Min": 2
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 4074,
+                    "Y": 135,
+                    "Z": 100,
+                    "A": 89
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5,
+                  "Min": 2
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3212,
+                    "Y": -17,
+                    "Z": 99,
+                    "A": 89
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5,
+                  "Min": 2
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 1,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 2
+          }
+        ]
+      },
+      "Disabled": false
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
   }
 }

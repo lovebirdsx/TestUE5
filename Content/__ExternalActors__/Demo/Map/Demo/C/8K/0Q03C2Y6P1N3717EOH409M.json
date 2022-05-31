@@ -167,5 +167,161 @@
       "Icon": "",
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_关键NPC",
+        "FlowId": 6,
+        "StateId": 1
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 500,
+      "Disabled": false
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 5,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "后院行走",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3704,
+                    "Y": 930,
+                    "Z": 100,
+                    "A": 49
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3428,
+                    "Y": 984,
+                    "Z": 100,
+                    "A": -41
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3177,
+                    "Y": 1004,
+                    "Z": 100,
+                    "A": 178
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3421,
+                    "Y": 1253,
+                    "Z": 100,
+                    "A": 68
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3142,
+                    "Y": 1418,
+                    "Z": 100,
+                    "A": -11
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 3882,
+                    "Y": 1135,
+                    "Z": 100,
+                    "A": -1
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 3,
+                  "Min": 1
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 0,
+                  "IsInstant": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
   }
 }

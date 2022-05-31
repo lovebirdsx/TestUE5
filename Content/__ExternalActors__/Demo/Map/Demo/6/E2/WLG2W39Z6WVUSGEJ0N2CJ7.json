@@ -60,5 +60,50 @@
       "RecoveryActions": [],
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "TrampleComponent": {
+      "IsDisposable": false,
+      "TriggerActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "6D65D2614F5DB8068F1BD1A897518C31",
+            "ActionInfo": {
+              "Name": "Activate",
+              "Params": {
+                "Who": "6D65D2614F5DB8068F1BD1A897518C31",
+                "Param": "2"
+              }
+            }
+          }
+        },
+        {
+          "Name": "SimpleMove",
+          "Params": {
+            "Who": "0466ABAE4B4C6B8A03518692F14F4032",
+            "UseTime": 2,
+            "Pos": {
+              "X": -6550,
+              "Y": -7560,
+              "Z": 340,
+              "A": 0
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "0035B3094C5F4382792795B5A086CA4D",
+            "ActionInfo": {
+              "Name": "Destroy",
+              "Params": {}
+            }
+          }
+        }
+      ],
+      "RecoveryActions": [],
+      "Disabled": false
+    }
   }
 }

@@ -40,5 +40,33 @@
       "RecoveryActions": [],
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "TrampleComponent": {
+      "IsDisposable": true,
+      "TriggerActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "EC4934374C8E873BEA57DFBCD12D0610",
+            "ActionInfo": {
+              "Name": "SimpleMove",
+              "Params": {
+                "Who": "EC4934374C8E873BEA57DFBCD12D0610",
+                "UseTime": 2,
+                "Pos": {
+                  "X": -2910,
+                  "Y": -9420,
+                  "Z": 430,
+                  "A": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "RecoveryActions": [],
+      "Disabled": false
+    }
   }
 }

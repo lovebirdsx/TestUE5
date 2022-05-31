@@ -11,6 +11,9 @@ export class TsEntity extends Actor implements ITsEntity {
     @edit_on_instance()
     public ComponentsStateJson: string;
 
+    @edit_on_instance()
+    public ComponentsDataJson: string;
+
     // @no-blueprint
     public Entity: Entity;
 

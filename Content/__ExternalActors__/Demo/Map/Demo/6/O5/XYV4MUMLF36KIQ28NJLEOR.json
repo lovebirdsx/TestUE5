@@ -222,5 +222,219 @@
       ],
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "ActorStateComponent": {
+      "InitState": "Idle",
+      "Disabled": false
+    },
+    "CalculateComponent": {
+      "Vars": [
+        {
+          "Name": "a",
+          "Value": 5
+        },
+        {
+          "Name": "b",
+          "Value": 10
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "函数1",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 5
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "b",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Ge",
+                      "Var2": "b"
+                    }
+                  ]
+                },
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a >= b"
+                    }
+                  }
+                ],
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a < b"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Ge",
+                      "Var2": "b"
+                    }
+                  ]
+                },
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a >= b"
+                    }
+                  }
+                ],
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a < b"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 11
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Ge",
+                      "Var2": "b"
+                    }
+                  ]
+                },
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a >= b"
+                    }
+                  }
+                ],
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a < b"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "Name": "函数2",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "b",
+                "Value": 10
+              }
+            },
+            {
+              "Name": "DoCalculate",
+              "Params": {
+                "Var1": "a",
+                "Op": "Add",
+                "Var2": "b",
+                "Result": "a"
+              }
+            },
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Eq",
+                      "Var2": 20
+                    }
+                  ]
+                },
+                "TrueActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a == 20"
+                    }
+                  }
+                ],
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Info",
+                      "Content": "a != 20"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "Disabled": false
+    }
   }
 }

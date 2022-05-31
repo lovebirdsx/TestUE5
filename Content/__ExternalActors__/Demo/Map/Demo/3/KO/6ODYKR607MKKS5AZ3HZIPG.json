@@ -52,5 +52,41 @@
       "IsLockZ": false,
       "IsRecovery": false
     }
+  },
+  "ComponentsData": {
+    "RotatorComponent": {
+      "RotatorSpeed": {
+        "X": -100,
+        "Y": -100,
+        "Z": 50
+      },
+      "LocationOffset": {
+        "X": 500,
+        "Y": 0,
+        "Z": 800
+      },
+      "RotationOffset": {
+        "X": -50,
+        "Y": 180,
+        "Z": 0
+      },
+      "RotationMapping": {
+        "X": 1,
+        "Y": 2,
+        "Z": 0
+      },
+      "IsLocalSpace": false,
+      "EntityId": "86981C28431CEE43EE342FAC1E8761A7",
+      "IsRotatorSelf": false,
+      "InteractAction": {
+        "StartActions": [],
+        "EndActions": []
+      },
+      "Content": "",
+      "Icon": "",
+      "Disabled": false,
+      "IsLockZ": false,
+      "IsRecovery": false
+    }
   }
 }

@@ -36,6 +36,9 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     @edit_on_instance()
     public ComponentsStateJson = '';
 
+    @edit_on_instance()
+    public ComponentsDataJson = '';
+
     // @no-blueprint
     public Entity: Entity;
 

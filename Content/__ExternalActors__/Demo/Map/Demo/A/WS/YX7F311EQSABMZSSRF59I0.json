@@ -45,5 +45,39 @@
       "Icon": "",
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_通过新手关",
+        "FlowId": 1,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      },
+      "Disabled": false
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
   }
 }

@@ -73,5 +73,70 @@
       "Content": "",
       "Icon": ""
     }
+  },
+  "ComponentsData": {
+    "ActorStateComponent": {
+      "InitState": "Close",
+      "Disabled": false
+    },
+    "SwitcherComponent": {
+      "OnActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "B3",
+                "Value": 1
+              }
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "更新屏幕"
+              }
+            }
+          }
+        }
+      ],
+      "OffActions": [
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "B3",
+                "Value": 0
+              }
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "更新屏幕"
+              }
+            }
+          }
+        }
+      ],
+      "Disabled": false,
+      "Content": "",
+      "Icon": ""
+    }
   }
 }

@@ -121,5 +121,115 @@
       "Icon": "",
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_村民",
+        "FlowId": 1,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Flow",
+        "StateGenId": 3,
+        "States": [
+          {
+            "Name": "朝A移动",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 1479,
+                    "Y": -2953,
+                    "Z": 90,
+                    "A": 89
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 5
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 1,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 0
+          },
+          {
+            "Name": "朝B移动",
+            "Actions": [
+              {
+                "Name": "MoveToPos",
+                "Params": {
+                  "Timeout": 20,
+                  "Pos": {
+                    "X": 381,
+                    "Y": -2951,
+                    "Z": 99,
+                    "A": 89
+                  }
+                }
+              },
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 1
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 0,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 1
+          },
+          {
+            "Name": "静止",
+            "Actions": [
+              {
+                "Name": "Wait",
+                "Params": {
+                  "Time": 6
+                }
+              },
+              {
+                "Name": "ChangeBehaviorState",
+                "Params": {
+                  "StateId": 2,
+                  "IsInstant": false
+                }
+              }
+            ],
+            "Id": 2
+          }
+        ]
+      },
+      "Disabled": false
+    },
+    "MoveComponent": {
+      "InitSpeed": 150,
+      "Disabled": false
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
   }
 }

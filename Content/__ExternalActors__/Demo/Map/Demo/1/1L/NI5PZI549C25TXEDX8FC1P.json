@@ -95,5 +95,89 @@
       "IsRestartPlayer": false,
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "UndergroundComponent": {
+      "TestState": -1,
+      "StateInfo": [
+        {
+          "StateId": 1,
+          "RestartPos": {
+            "X": -3085,
+            "Y": -4530.1689453125,
+            "Z": 742
+          }
+        },
+        {
+          "StateId": 2,
+          "RestartPos": {
+            "X": -3111,
+            "Y": -5956.49853515625,
+            "Z": 564
+          }
+        },
+        {
+          "StateId": 3,
+          "RestartPos": {
+            "X": -3111,
+            "Y": -7696.49853515625,
+            "Z": 564
+          }
+        },
+        {
+          "StateId": 4,
+          "RestartPos": {
+            "X": -3111,
+            "Y": -10076,
+            "Z": 584
+          }
+        },
+        {
+          "StateId": 5,
+          "RestartPos": {
+            "X": -4592,
+            "Y": -9356,
+            "Z": 524
+          }
+        },
+        {
+          "StateId": 6,
+          "RestartPos": {
+            "X": -4591,
+            "Y": -7966,
+            "Z": 524
+          }
+        },
+        {
+          "StateId": 7,
+          "RestartPos": {
+            "X": -4591,
+            "Y": -6336,
+            "Z": 524
+          }
+        },
+        {
+          "StateId": 8,
+          "RestartPos": {
+            "X": -6491,
+            "Y": -4566,
+            "Z": 524
+          }
+        },
+        {
+          "StateId": 9,
+          "RestartPos": {
+            "X": -6491,
+            "Y": -6526,
+            "Z": 524
+          }
+        }
+      ],
+      "DestroyTag": [
+        "DestroyUnderground"
+      ],
+      "IsRestartPlayer": false,
+      "Disabled": false
+    }
   }
 }

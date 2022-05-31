@@ -67,6 +67,7 @@ export class EntityTemplateOp {
         const template = this.GetTemplateByGuid(templateGuid);
         return {
             Guid: entityGuid || genGuid(),
+            ComponentsData: template.ComponentsState,
             ComponentsState: template.ComponentsState,
             PrefabId: template.PrefabId,
         };

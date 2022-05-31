@@ -22,5 +22,16 @@
       "SphereGuid": "A7DFCCFC47DA5AE66CB8F88808966AF6",
       "Disabled": false
     }
+  },
+  "ComponentsData": {
+    "SphereFactoryComponent": {
+      "SphereLocation": {
+        "X": 3830,
+        "Y": 5600,
+        "Z": 1740
+      },
+      "SphereGuid": "A7DFCCFC47DA5AE66CB8F88808966AF6",
+      "Disabled": false
+    }
   }
 }

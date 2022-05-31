@@ -19,18 +19,24 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "5C909B284572F4F40102CBA158268F9A",
+            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
             "ActionInfo": {
-              "Name": "SimpleMove",
+              "Name": "SetNumberVar",
               "Params": {
-                "Who": "5C909B284572F4F40102CBA158268F9A",
-                "UseTime": 2,
-                "Pos": {
-                  "X": -4450,
-                  "Y": -7210,
-                  "Z": 440,
-                  "A": 0
-                }
+                "Name": "TrampB",
+                "Value": 1
+              }
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "Update"
               }
             }
           }
@@ -40,18 +46,24 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "5C909B284572F4F40102CBA158268F9A",
+            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
             "ActionInfo": {
-              "Name": "SimpleMove",
+              "Name": "SetNumberVar",
               "Params": {
-                "Who": "5C909B284572F4F40102CBA158268F9A",
-                "UseTime": 1,
-                "Pos": {
-                  "X": -4450,
-                  "Y": -7210,
-                  "Z": 150,
-                  "A": 0
-                }
+                "Name": "TrampB",
+                "Value": 0
+              }
+            }
+          }
+        },
+        {
+          "Name": "Invoke",
+          "Params": {
+            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
+            "ActionInfo": {
+              "Name": "CallFunction",
+              "Params": {
+                "Name": "Update"
               }
             }
           }

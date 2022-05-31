@@ -1,0 +1,126 @@
+﻿{
+  "Lable": "TsStateEntity",
+  "Transform": {
+    "Pos": {
+      "X": -5310,
+      "Y": -7580,
+      "Z": 1260
+    }
+  },
+  "PrefabId": 10,
+  "Guid": "4E129A284E3B0447E3343CA5AA1CC16E",
+  "ComponentsData": {
+    "ActorStateComponent": {
+      "InitState": "Idle",
+      "Disabled": false
+    },
+    "CalculateComponent": {
+      "Vars": [
+        {
+          "Name": "IsTrigger",
+          "Value": 0
+        },
+        {
+          "Name": "TrampA",
+          "Value": 0
+        },
+        {
+          "Name": "TrampB",
+          "Value": 0
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "Update",
+          "Actions": [
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "IsTrigger",
+                      "Compare": "Ne",
+                      "Var2": 1
+                    }
+                  ]
+                },
+                "TrueActions": [
+                  {
+                    "Name": "CallByCondition",
+                    "Params": {
+                      "Conditions": {
+                        "LogicOpType": "And",
+                        "Conditions": [
+                          {
+                            "Var1": "TrampA",
+                            "Compare": "Eq",
+                            "Var2": 1
+                          },
+                          {
+                            "Var1": "TrampB",
+                            "Compare": "Eq",
+                            "Var2": 1
+                          }
+                        ]
+                      },
+                      "TrueActions": [
+                        {
+                          "Name": "Invoke",
+                          "Params": {
+                            "Who": "D8D9A02D48E268D429459080BE3D5467",
+                            "ActionInfo": {
+                              "Name": "SimpleMove",
+                              "Params": {
+                                "Who": "D8D9A02D48E268D429459080BE3D5467",
+                                "UseTime": 2,
+                                "Pos": {
+                                  "X": -4280,
+                                  "Y": -7040,
+                                  "Z": 440,
+                                  "A": 0
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "Name": "Invoke",
+                          "Params": {
+                            "Who": "5C909B284572F4F40102CBA158268F9A",
+                            "ActionInfo": {
+                              "Name": "SimpleMove",
+                              "Params": {
+                                "Who": "5C909B284572F4F40102CBA158268F9A",
+                                "UseTime": 2,
+                                "Pos": {
+                                  "X": -4450,
+                                  "Y": -7210,
+                                  "Z": 440,
+                                  "A": 0
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "Name": "SetNumberVar",
+                          "Params": {
+                            "Name": "IsTrigger",
+                            "Value": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "Disabled": false
+    }
+  }
+}

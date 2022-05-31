@@ -79,13 +79,40 @@
             }
           }
         ],
-        "EndActions": []
+        "EndActions": [
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "D09A26E44E5193FFD9A2B592321E0A90",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "D09A26E44E5193FFD9A2B592321E0A90",
+                  "Param": "2"
+                }
+              }
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "54FD0C924D6AB5F39DC813A6617D4837",
+              "ActionInfo": {
+                "Name": "Activate",
+                "Params": {
+                  "Who": "54FD0C924D6AB5F39DC813A6617D4837",
+                  "Param": "2"
+                }
+              }
+            }
+          }
+        ]
       },
       "Content": "",
       "Icon": "",
       "Disabled": false,
       "IsLockZ": true,
-      "IsRecovery": false
+      "IsRecovery": true
     }
   }
 }

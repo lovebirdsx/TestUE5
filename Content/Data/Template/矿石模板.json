@@ -1,0 +1,29 @@
+﻿{
+  "Guid": "78F868F24B65F2DC628BD593F6C9447C",
+  "PrefabId": 1014,
+  "ComponentsData": {
+    "ActorStateComponent": {
+      "InitState": "Idle",
+      "Disabled": false
+    },
+    "SwitcherComponent": {
+      "Content": "采集",
+      "Icon": "",
+      "OnActions": [
+        {
+          "Name": "Log",
+          "Params": {
+            "Level": "Info",
+            "Content": "你采集了物体"
+          }
+        },
+        {
+          "Name": "Destroy",
+          "Params": {}
+        }
+      ],
+      "OffActions": [],
+      "Disabled": false
+    }
+  }
+}

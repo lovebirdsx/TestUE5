@@ -101,4 +101,8 @@ export class EntitySpawnerComponent extends Component {
     public GetChild(guid: string): ITsEntity {
         return this.Children.get(guid);
     }
+
+    public GetChildNum(): number {
+        return this.Children.size;
+    }
 }

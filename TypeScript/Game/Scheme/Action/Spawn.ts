@@ -4,7 +4,7 @@ import { createObjectScheme, createStringScheme } from '../../../Common/Type';
 import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
 import { ISpawn } from '../../Flow/Action';
 
-const templateGuidScheme = createStringScheme({
+export const templateGuidScheme = createStringScheme({
     CnName: '实体模板',
     RenderType: 'entityTemplateId',
     CreateDefault: () => {

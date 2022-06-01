@@ -17,6 +17,7 @@ export type TEntityStateId =
     | 'IsBehaviorPaused'
     | 'ModifiedVars'
     | 'Pos'
+    | 'RefreshTime'
     | 'Rot'
     | 'SpawnRecord'
     | 'Speed'

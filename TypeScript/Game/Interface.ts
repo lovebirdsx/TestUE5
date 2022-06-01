@@ -36,6 +36,7 @@ export enum EBlueprintId {
     Maze = 14,
     Swicher = 15,
     SpringBoard = 16,
+    RefreshSingle = 17,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,
@@ -52,6 +53,7 @@ export enum EBlueprintId {
     AiNpcTrainer = 1012,
     Invisible = 1013,
     Trash = 1014,
+    Mineral = 1015,
 
     // Component
     ActorStateComponent = 10001,
@@ -188,11 +190,20 @@ export interface ITickable {
     Tick: (deltaTime: number) => void;
 }
 
+export interface ITimeCall {
+    Name: string;
+    CallTime: number;
+    TimeCall: () => void;
+}
+
 export interface ITickManager {
     AddTick: (tickable: ITickable) => void;
     RemoveTick: (tickable: ITickable) => void;
     AddDelayCall: (call: () => void) => void;
     HasTick: (tickable: ITickable) => boolean;
+    AddTimeCall: (timeCall: ITimeCall) => void;
+    RemoveTimeCall: (timeCall: ITimeCall) => void;
+    HasTimeCall: (timeCall: ITimeCall) => boolean;
 }
 
 export interface IGameController {

@@ -1,12 +1,17 @@
 /* eslint-disable spellcheck/spell-checker */
 import { error } from '../../Common/Log';
-import { gameContext, ITickable, ITickManager } from '../Interface';
+import { getTotalSecond } from '../../Common/Util';
+import { gameContext, ITickable, ITickManager, ITimeCall } from '../Interface';
 import { IManager } from './Interface';
 
 export class TickManager implements IManager, ITickManager {
     private readonly TickList: ITickable[] = [];
 
     private readonly TickSet = new Set<ITickable>();
+
+    private readonly TimeCallList: ITimeCall[] = [];
+
+    private readonly TimeCallSet = new Set<ITimeCall>();
 
     private readonly AddQueue: ITickable[] = [];
 
@@ -53,6 +58,33 @@ export class TickManager implements IManager, ITickManager {
         this.DelayCalls.push(call);
     }
 
+    public HasTimeCall(timeCall: ITimeCall): boolean {
+        if (this.TimeCallSet.has(timeCall)) {
+            return true;
+        }
+        return false;
+    }
+
+    public AddTimeCall(timeCall: ITimeCall): void {
+        if (this.TimeCallSet.has(timeCall)) {
+            throw new Error(`Add duplicate timeCall ${timeCall.Name}`);
+        }
+        this.TimeCallSet.add(timeCall);
+
+        this.TimeCallList.push(timeCall);
+        this.TimeCallList.sort((a: ITimeCall, b: ITimeCall) => {
+            return a.CallTime - b.CallTime;
+        });
+    }
+
+    public RemoveTimeCall(timeCall: ITimeCall): void {
+        if (!this.TimeCallSet.has(timeCall)) {
+            error(`Remove not exist timeCall`);
+        }
+        this.TimeCallSet.delete(timeCall);
+        this.TimeCallList.splice(this.TimeCallList.indexOf(timeCall), 1);
+    }
+
     public Init(): void {}
 
     public Exit(): void {}
@@ -79,5 +111,23 @@ export class TickManager implements IManager, ITickManager {
         this.TickList.forEach((tick) => {
             tick.Tick(deltaTime);
         });
+
+        if (this.TimeCallList.length > 0) {
+            const removeTimeCall: ITimeCall[] = [];
+            const second = getTotalSecond();
+            for (const timeCall of this.TimeCallList) {
+                if (timeCall.CallTime < second) {
+                    timeCall.TimeCall();
+                    removeTimeCall.push(timeCall);
+                } else {
+                    break;
+                }
+            }
+            if (removeTimeCall.length > 0) {
+                removeTimeCall.forEach((timeCall) => {
+                    this.RemoveTimeCall(timeCall);
+                });
+            }
+        }
     }
 }

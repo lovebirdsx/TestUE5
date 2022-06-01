@@ -292,3 +292,13 @@ export function getGuid(actor: UE.Actor): string {
 export function genGuid(): string {
     return KismetGuidLibrary.NewGuid().ToString();
 }
+
+export function getTotalSecond(): number {
+    const now = UE.KismetMathLibrary.UtcNow();
+    const day = UE.KismetMathLibrary.GetDayOfYear(now);
+    const hour = UE.KismetMathLibrary.GetHour(now);
+    const minute = UE.KismetMathLibrary.GetMinute(now);
+    const second = UE.KismetMathLibrary.GetSecond(now);
+    const totalSecond = second + minute * 60 + hour * 3600 + day * 86400;
+    return totalSecond;
+}

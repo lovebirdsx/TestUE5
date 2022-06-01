@@ -96,6 +96,7 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
         }
         if (!gameContext.TickManager.HasTimeCall(this) && this.CallTime > 0) {
             gameContext.TickManager.AddTimeCall(this);
+            this.State.SetState('RefreshTime', this.CallTime);
         }
     }
 
@@ -113,6 +114,7 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
         this.CreateSingle();
         this.CallTime = -1;
         this.RefreshTimes += 1;
+        this.State.SetState('TriggerTimes', this.RefreshTimes);
     }
 
     public CreateSingle(): void {

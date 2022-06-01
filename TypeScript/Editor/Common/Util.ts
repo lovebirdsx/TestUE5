@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { EFileRoot, MyFileHelper, PythonScriptLibrary } from 'ue';
+import { EditorOperations, EFileRoot, MyFileHelper, PythonScriptLibrary } from 'ue';
 
 import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Util';
 
@@ -87,4 +87,9 @@ export function mergeEditorToConfig(config: unknown, editor: unknown): object {
 
 export function wirteEditorConfig(config: unknown, path: string): void {
     MyFileHelper.Write(stringifyEditor(config), path);
+}
+
+export function getMacAddress(): string {
+    const addr = EditorOperations.GetMacAddress();
+    return addr.toUpperCase();
 }

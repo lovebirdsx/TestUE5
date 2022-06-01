@@ -212,3 +212,8 @@ bool UEditorOperations::IsActorDirty(AActor* Actor)
 {
 	return Actor->GetPackage()->IsDirty();
 }
+
+FString UEditorOperations::GetMacAddress()
+{
+	return FGenericPlatformMisc::GetMacAddressString();
+}

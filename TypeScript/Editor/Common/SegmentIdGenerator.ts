@@ -1,0 +1,167 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import { EFileRoot, MyFileHelper } from 'ue';
+
+import { readJsonObj, writeJson } from '../../Common/Util';
+import { getMacAddress } from './Util';
+
+interface IIdSegmentRow {
+    Name: string;
+    MacAddress: string;
+    SegmentId: number;
+}
+
+export type TConfigType = 'entity' | 'entityTemplate' | 'machineNotExist' | 'notExist';
+
+export function loadIdSegmentConfig(configName: TConfigType): IIdSegmentRow[] {
+    const path = MyFileHelper.GetPath(EFileRoot.Content, `Data/IdSegment/${configName}.json`);
+    return readJsonObj<IIdSegmentRow[]>(path, []);
+}
+
+export function getSegmentId(configName: TConfigType): number | undefined {
+    const segmentRows = loadIdSegmentConfig(configName);
+    const macAddress = getMacAddress();
+    const row = segmentRows.find((r) => r.MacAddress === macAddress);
+    return row ? row.SegmentId : undefined;
+}
+
+interface IGeneratorSnapshot {
+    Name: string;
+    Id: number;
+}
+
+export class SegmentIdGenerator {
+    public static readonly IdsCountPerSegment = 100 * 10000;
+
+    private static GetSavePath(config: TConfigType): string {
+        const baseDir = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Generator');
+        return `${baseDir}/${config}.json`;
+    }
+
+    public static HasRecordForConfig(config: TConfigType): boolean {
+        const path = this.GetSavePath(config);
+        return MyFileHelper.Exist(path);
+    }
+
+    public static RemoveRecordForConfig(config: TConfigType): void {
+        const path = this.GetSavePath(config);
+        MyFileHelper.Remove(path);
+    }
+
+    public readonly Config: TConfigType;
+
+    private Id = 0;
+
+    private SegmentId: number;
+
+    public constructor(config: TConfigType) {
+        this.Config = config;
+        this.Load();
+    }
+
+    private Load(): void {
+        this.SegmentId = getSegmentId(this.Config);
+        if (this.SegmentId === undefined) {
+            throw new Error(`No segment id found for [${this.Config}] [${getMacAddress()}]`);
+        }
+
+        const data = readJsonObj<IGeneratorSnapshot>(SegmentIdGenerator.GetSavePath(this.Config));
+        if (data) {
+            if (data.Name !== this.Config) {
+                throw new Error(`Generator file name [${data.Name}] !== [${this.Config}]`);
+            }
+            this.Id = data.Id;
+        } else {
+            this.Id = this.MinId;
+        }
+    }
+
+    private Save(): void {
+        const data: IGeneratorSnapshot = {
+            Name: this.Config,
+            Id: this.Id,
+        };
+        writeJson(data, SegmentIdGenerator.GetSavePath(this.Config));
+    }
+
+    public get MinId(): number {
+        return this.SegmentId * SegmentIdGenerator.IdsCountPerSegment;
+    }
+
+    public get MaxId(): number {
+        return (this.SegmentId + 1) * SegmentIdGenerator.IdsCountPerSegment;
+    }
+
+    private CheckId(id: number): void {
+        const min = this.MinId;
+        const max = this.MaxId;
+        if (id < min || id >= max) {
+            throw new Error(`[${this.Config}] id[${id}] 超出范围 [${min}, ${max})`);
+        }
+    }
+
+    public SaveWithId(id: number): void {
+        this.CheckId(id);
+        this.Id = id;
+        this.Save();
+    }
+
+    private IncreaseAndGen(): number {
+        const result = this.Id;
+        this.Id++;
+        if (this.Id >= this.MaxId) {
+            throw new Error(`[${this.Config}]Id生成失败: 机器[${getMacAddress()}]的配置id耗尽`);
+        }
+        return result;
+    }
+
+    public GenOne(): number {
+        const result = this.IncreaseAndGen();
+        this.Save();
+        return result;
+    }
+
+    public GenMany(count: number): number[] {
+        const ids: number[] = [];
+        for (let i = 0; i < count; i++) {
+            ids.push(this.IncreaseAndGen());
+        }
+        this.Save();
+        return ids;
+    }
+}
+
+export class EntityIdGenerator {
+    private static MyGenerator: SegmentIdGenerator;
+
+    private static get Generator(): SegmentIdGenerator {
+        if (!this.MyGenerator) {
+            this.MyGenerator = new SegmentIdGenerator('entity');
+        }
+        return this.MyGenerator;
+    }
+
+    public static get IsMachineRegistered(): boolean {
+        return getSegmentId('entity') !== undefined;
+    }
+
+    public static get HasRecord(): boolean {
+        return SegmentIdGenerator.HasRecordForConfig('entity');
+    }
+
+    private static GetMinRelatedEntityId(): number | undefined {
+        return undefined;
+    }
+
+    public static GenRecord(): void {
+        const entityId = this.GetMinRelatedEntityId();
+        this.Generator.SaveWithId(entityId !== undefined ? entityId : this.Generator.MinId);
+    }
+
+    public static GenOne(): number {
+        return this.Generator.GenOne();
+    }
+
+    public static GenMany(count: number): number[] {
+        return this.Generator.GenMany(count);
+    }
+}

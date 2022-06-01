@@ -75,3 +75,16 @@ export function assertGe<T>(a: T, b: T, msg: string): void {
         throw new Error(`assert failed: \n${msg}\n: ${JSON.stringify(a)} >= ${JSON.stringify(b)}`);
     }
 }
+
+export function assertError(msg: string, fun: () => void): void {
+    let hasError = false;
+    try {
+        fun();
+    } catch (error) {
+        hasError = true;
+    }
+
+    if (!hasError) {
+        throw new Error(`assert failed: \n${msg}`);
+    }
+}

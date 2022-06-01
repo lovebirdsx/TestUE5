@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { assertEq, test } from '../../../Common/Test';
+import { log } from '../../../Common/Log';
+import { assertEq, assertNe, test } from '../../../Common/Test';
 import { parse, stringify, stringifyEditor, subArray } from '../../../Common/Util';
+import { getMacAddress } from '../../Common/Util';
 
 interface IFoo {
     Name: string;
@@ -75,5 +78,12 @@ export function testUtil(): void {
         const c = subArray(a, b);
         assertEq(c.length, 2, 'c length must == 2');
         assertEq(c[0], 'b', 'c[0] must be b');
+    });
+
+    test('read mac address', () => {
+        const mac = getMacAddress();
+        assertNe(mac, undefined, 'mac must not undefined');
+        assertEq(mac.length, 12, 'mac string length must be 12');
+        log(mac);
     });
 }

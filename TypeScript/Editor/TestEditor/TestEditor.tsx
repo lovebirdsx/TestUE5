@@ -23,6 +23,7 @@ import testTextListCsv, {
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
+import testConfig from '../UnitTest/Common/TestConfig';
 import { testUtil } from '../UnitTest/Engine/TestUtil';
 import testClass from '../UnitTest/Game/TestClass';
 import testTickManager from '../UnitTest/Game/TestTickManager';
@@ -50,6 +51,7 @@ interface ITestEditorState {
 
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
+    { Name: 'testConfig', Fun: testConfig },
     { Name: 'testEvent', Fun: testEvent },
     { Name: 'testContainer', Fun: testContainer },
     { Name: 'testImmer', Fun: testImmer },

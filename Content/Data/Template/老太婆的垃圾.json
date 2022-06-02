@@ -3,8 +3,7 @@
   "PrefabId": 1014,
   "ComponentsData": {
     "ActorStateComponent": {
-      "InitState": "Idle",
-      "_Disabled": false
+      "InitState": "Idle"
     },
     "SwitcherComponent": {
       "IsInitOn": false,
@@ -27,9 +26,8 @@
           "Params": {}
         }
       ],
-      "OffActions": [],
-      "_Disabled": false,
-      "_OnActionsFolded": false
+      "OffActions": []
     }
-  }
+  },
+  "Id": 8
 }

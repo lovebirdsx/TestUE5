@@ -67,20 +67,22 @@ export class SegmentIdGenerator {
 
     public readonly Config: TConfigType;
 
+    public readonly MinId: number;
+
+    public readonly MaxId: number;
+
     private Id = 0;
 
-    private SegmentId: number;
+    private readonly SegmentId: number;
 
     public constructor(config: TConfigType) {
         this.Config = config;
-        this.Load();
-    }
-
-    private Load(): void {
         this.SegmentId = getLocalSegmentId();
         if (this.SegmentId === undefined) {
             throw new Error(`No segment id found for local machine [${getMacAddress()}]`);
         }
+        this.MinId = this.SegmentId * ID_COUNT_PER_SEGMENT;
+        this.MaxId = this.MinId + ID_COUNT_PER_SEGMENT;
 
         const data = readJsonObj<IGeneratorSnapshot>(SegmentIdGenerator.GetSavePath(this.Config));
         if (data) {
@@ -101,24 +103,14 @@ export class SegmentIdGenerator {
         writeJson(data, SegmentIdGenerator.GetSavePath(this.Config));
     }
 
-    public get MinId(): number {
-        return this.SegmentId * ID_COUNT_PER_SEGMENT;
-    }
-
-    public get MaxId(): number {
-        return (this.SegmentId + 1) * ID_COUNT_PER_SEGMENT;
-    }
-
-    private CheckId(id: number): void {
-        const min = this.MinId;
-        const max = this.MaxId;
-        if (id < min || id >= max) {
-            throw new Error(`[${this.Config}] id[${id}] 超出范围 [${min}, ${max})`);
-        }
+    public ContainsId(id: number): boolean {
+        return this.MinId <= id && id < this.MaxId;
     }
 
     public SaveWithId(id: number): void {
-        this.CheckId(id);
+        if (!this.ContainsId(id)) {
+            throw new Error(`[${this.Config}] id[${id}] 超出范围 [${this.MinId}, ${this.MaxId})`);
+        }
         this.Id = id;
         this.Save();
     }

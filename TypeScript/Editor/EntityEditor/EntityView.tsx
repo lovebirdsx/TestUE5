@@ -13,6 +13,7 @@ import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
 import { openFile } from '../Common/Util';
 import { ComponentsData } from './ComponentsData';
@@ -42,7 +43,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const path = openSaveJsonFileDialog(editorConfig.LastEntityTemplatePath);
         if (path) {
             editorConfig.LastEntityTemplatePath = path;
-            EntityTemplateOp.Save(this.props.Data, path);
+            EditorEntityTemplateOp.Save(this.props.Data, path);
         }
     };
 

@@ -1,26 +1,21 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
-import { $ref } from 'puerts';
-import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
-import { getFileNameWithOutExt } from '../../../Common/File';
+import { getFileNameWithOutExt, listFiles } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
-import { toTsArray } from '../../../Common/UeHelper';
-import { deepEquals, genGuid, readJsonObj, writeJson } from '../../../Common/Util';
+import { deepEquals, genGuid, readJsonObj } from '../../../Common/Util';
 import { IEntityData, TComponentClass, TComponentsData } from '../../Interface';
 import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
     Guid: string;
+    Id: number;
     PrefabId: number;
     ComponentsData: TComponentsData;
 }
 
 function getEntityTemplateFiles(): string[] {
-    const dir = GameConfig.EntityTemplateDir;
-    const array = NewArray(BuiltinString);
-    MyFileHelper.FindFiles($ref(array), dir, 'json');
-    const files = toTsArray(array);
+    const files = listFiles(GameConfig.EntityTemplateDir, 'json', true);
     // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
     files.sort();
     return files;
@@ -53,6 +48,11 @@ export class EntityTemplateOp {
                 const prevName = this.NameByGuid.get(guid);
                 throw new Error(`Duplicate template guid [${prevName}] [${name}] guid: ${guid}`);
             }
+
+            if (this.GuidByName.has(name)) {
+                throw new Error(`Duplicate template name [${name}]`);
+            }
+
             this.GuidMap.set(guid, template);
             this.NameByGuid.set(guid, name);
             this.GuidByName.set(name, guid);
@@ -61,6 +61,10 @@ export class EntityTemplateOp {
 
     public static GetTemplateByGuid(guid: string): IEntityTemplate {
         return this.GuidMap.get(guid);
+    }
+
+    public static GetTemplateByName(name: string): IEntityTemplate {
+        return this.GuidMap.get(this.GuidByName.get(name));
     }
 
     public static GenEntityData(templateGuid: string, entityGuid?: string): IEntityData {
@@ -90,22 +94,8 @@ export class EntityTemplateOp {
         return this.GetGuidByName(this.Names[0]);
     }
 
-    public static Gen(data: IEntityData, guid?: string): IEntityTemplate {
-        return {
-            Guid: guid || genGuid(),
-            PrefabId: data.PrefabId,
-            ComponentsData: data.ComponentsData,
-        };
-    }
-
     public static Load(path: string): IEntityTemplate {
         return readJsonObj<IEntityTemplate>(path);
-    }
-
-    public static Save(data: IEntityData, path: string): void {
-        const existTemplate = this.Load(path);
-        const template = this.Gen(data, existTemplate ? existTemplate.Guid : undefined);
-        writeJson(template, path, true);
     }
 
     // 将Template中的数据写入EntityData中,如果数据一样,则返回传入的data

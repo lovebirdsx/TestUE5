@@ -29,6 +29,7 @@ import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
@@ -41,6 +42,7 @@ const contextCmdList = [
     '检查所有实体数据',
     '修复并导出所有实体数据',
     '检查并修复当前实体数据',
+    '修复所有实体模板',
 ] as const;
 
 type TContextCmd = typeof contextCmdList[number];
@@ -496,6 +498,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
             case '修复并导出所有实体数据':
                 LevelEditorUtil.CheckAndSaveAllEntityData();
+                break;
+
+            case '修复所有实体模板':
+                EditorEntityTemplateOp.FixAllTemplateId();
                 break;
         }
     };

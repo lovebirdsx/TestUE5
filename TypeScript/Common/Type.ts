@@ -16,6 +16,7 @@ export type TElementRenderType =
     | 'int'
     | 'object'
     | 'string'
+    | 'templateIdData'
     | 'vector';
 
 export type TModifyType = 'fold' | 'normal';

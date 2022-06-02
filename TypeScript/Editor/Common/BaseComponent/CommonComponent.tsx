@@ -270,9 +270,11 @@ export function Fold(props: {
     IsFull?: boolean;
     Slot?: unknown;
     OnChanged?: (isFold: boolean) => void;
+    Tip?: string;
 }): JSX.Element {
     // eslint-disable-next-line no-nested-ternary
     const text = props.IsFold ? (props.IsFull ? '▶' : '▷') : props.IsFull ? '▼' : '▽';
+    const tip = props.Tip ? props.Tip : undefined;
     return (
         <Btn
             Text={text}
@@ -280,6 +282,7 @@ export function Fold(props: {
             OnClick={(): void => {
                 props.OnChanged(!props.IsFold);
             }}
+            Tip={tip}
         />
     );
 }

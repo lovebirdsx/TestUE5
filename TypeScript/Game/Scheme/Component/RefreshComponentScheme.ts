@@ -1,12 +1,23 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createBooleanScheme, createIntScheme } from '../../../Common/Type';
+import { createBooleanScheme, createIntScheme, createStringScheme } from '../../../Common/Type';
+import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
 import { IRefreshSingle } from '../../Component/RefreshComponent';
-import { templateGuidScheme } from '../Action/Spawn';
 import { createComponentScheme } from './ComponentRegistry';
+
+const templeGuidScheme = createStringScheme({
+    CnName: '创建模板',
+    RenderType: 'templateIdData',
+    CreateDefault: () => {
+        return EntityTemplateOp.GenDefaultGuid();
+    },
+    NewLine: true,
+    ShowName: true,
+});
 
 export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingle>({
     Actions: [],
     Fields: {
+        TemplateGuid: templeGuidScheme,
         RefreshInterval: createIntScheme({
             CnName: '刷新间隔',
             ShowName: true,
@@ -22,7 +33,6 @@ export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingle
             ShowName: true,
             NewLine: true,
         }),
-        TemplateGuid: templateGuidScheme,
     },
     NewLine: true,
 });

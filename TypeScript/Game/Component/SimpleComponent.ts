@@ -7,7 +7,7 @@ import { toVector } from '../../Common/Interface';
 import { error } from '../../Common/Log';
 import { ISimpleMove } from '../Flow/Action';
 import { Component, gameContext, ITickable, ITsEntity } from '../Interface';
-import { StateComponent } from './StateComponent';
+import { StateComponent, vectorToArray } from './StateComponent';
 
 export interface ISimpleMoveInfo {
     Speed: Vector;
@@ -36,6 +36,10 @@ export class SimpleComponent extends Component implements ITickable {
         if (!gameContext.TickManager.HasTick(this)) {
             gameContext.TickManager.AddTick(this);
         }
+        const stateComponent = tsEntity.Entity.TryGetComponent(StateComponent);
+        if (stateComponent) {
+            stateComponent.SetState('Pos', vectorToArray(vector));
+        }
     }
 
     public Tick(deltaTime: number): void {
@@ -48,10 +52,6 @@ export class SimpleComponent extends Component implements ITickable {
             } else {
                 if (time - deltaTime <= 0) {
                     delList.push(who);
-                    const stateComponent = tsEntity.Entity.TryGetComponent(StateComponent);
-                    if (stateComponent) {
-                        stateComponent.RecordPosition();
-                    }
                 } else {
                     const location = tsEntity.K2_GetActorLocation();
                     if (location !== moveinfo.TargetPos) {

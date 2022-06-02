@@ -1,7 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { toTransformInfo } from '../../Common/Interface';
-import { log } from '../../Common/Log';
 import { getTotalSecond } from '../../Common/Util';
 import { deInitTsEntity } from '../Entity/Common';
 import { ISpawn } from '../Flow/Action';
@@ -23,7 +22,7 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
 
     public MaxRefreshTimes: number;
 
-    public DelayRefresh: boolean; // 后面再做
+    public DelayRefresh: boolean;
 
     public TemplateGuid: string;
 
@@ -32,6 +31,8 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
     private Spawn: EntitySpawnerComponent;
 
     private RefreshTimes = 0;
+
+    private readonly MaxNum = 1;
 
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
@@ -63,8 +64,11 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
         }
         const second = getTotalSecond();
         this.CallTime = second + this.RefreshInterval;
-        log(`OnEntityRemoved ${this.CallTime} ${second}`);
-        this.AddCall();
+        if (!this.DelayRefresh) {
+            this.AddCall();
+        } else {
+            this.State.SetState('RefreshTime', this.CallTime);
+        }
     };
 
     public OnStart(): void {
@@ -101,19 +105,18 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
     }
 
     public Refresh(): void {
-        // todo 延迟刷新
         // 数量满没
-        if (this.Spawn.GetChildNum() >= 1) {
+        if (this.Spawn.GetChildNum() >= this.MaxNum) {
             return;
         }
         // 次数刷满没
         if (this.RefreshTimes >= this.MaxRefreshTimes) {
             return;
         }
-        // SpawnEntity
         this.CreateSingle();
         this.CallTime = -1;
         this.RefreshTimes += 1;
+        this.State.SetState('RefreshTime', this.CallTime);
         this.State.SetState('TriggerTimes', this.RefreshTimes);
     }
 

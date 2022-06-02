@@ -1,0 +1,29 @@
+﻿{
+  "Lable": "TsTrigger6",
+  "Transform": {
+    "Pos": {
+      "X": 845.044343,
+      "Y": -701.21563,
+      "Z": -0.499903
+    }
+  },
+  "PrefabId": 2,
+  "Guid": "D2F53BAC43ADB24F1B1A97A712E4079F",
+  "ComponentsData": {
+    "TriggerComponent": {
+      "MaxTriggerTimes": 10,
+      "TriggerActions": {
+        "Actions": [
+          {
+            "Name": "Log",
+            "Params": {
+              "Level": "Warn",
+              "Content": "Hello World"
+            }
+          }
+        ]
+      },
+      "IsNotLoad": false
+    }
+  }
+}

@@ -2,8 +2,13 @@
 import { $ref } from 'puerts';
 import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
 
-import { getFileName, getFileNameWithOutExt, removeExtension } from '../../../Common/File';
-import { assertEq, assertTrue, test } from '../../../Common/Test';
+import {
+    getFileName,
+    getFileNameWithOutExt,
+    listFiles,
+    removeExtension,
+} from '../../../Common/File';
+import { assertEq, assertFalse, assertTrue, test } from '../../../Common/Test';
 import { toTsArray } from '../../../Common/UeHelper';
 
 export default function testFile(): void {
@@ -21,7 +26,7 @@ export default function testFile(): void {
         assertEq(content, 'Hello Test', 'file read must equal to write');
     });
 
-    test('getFileName', () => {
+    test('get file name', () => {
         assertEq(getFileName('hello/foo.json'), 'foo.json', 'getFileName failed');
         assertEq(removeExtension('foo.json'), 'foo', 'getFileName failed');
         assertEq(getFileNameWithOutExt('hello/foo.json'), 'foo', 'getFileName failed');
@@ -44,5 +49,29 @@ export default function testFile(): void {
                 `file [${fileName}] not find for: [${fileNames.join(',')}]`,
             );
         }
+    });
+
+    test('list file', () => {
+        const dir = MyFileHelper.GetPath(EFileRoot.Save, 'Test/TestListFiles');
+        const file1 = `${dir}/test1.test`;
+        const file2 = `${dir}/test1/test1.json`;
+
+        const fileSub1 = `${dir}/subDir/test1.test`;
+        const fileSub2 = `${dir}/subDir/test1.json`;
+
+        MyFileHelper.Write(file1, `file1`);
+        MyFileHelper.Write(file2, `[]`);
+        MyFileHelper.Write(fileSub1, `file2`);
+        MyFileHelper.Write(fileSub2, `[]`);
+
+        const files = listFiles(dir, 'test', true);
+        assertEq(files.length, 2, 'file count must equal');
+        assertTrue(files.includes(file1), `result must contain ${file1}`);
+        assertTrue(files.includes(fileSub1), `result must contain ${fileSub1}`);
+
+        const files2 = listFiles(dir, 'test', false);
+        assertEq(files2.length, 1, 'file count must equal');
+        assertTrue(files2.includes(file1), `result must contain ${file1}`);
+        assertFalse(files2.includes(fileSub1), `result must contain ${fileSub1}`);
     });
 }

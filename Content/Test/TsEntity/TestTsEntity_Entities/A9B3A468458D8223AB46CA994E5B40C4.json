@@ -1,0 +1,43 @@
+﻿{
+  "Lable": "TsNpc2",
+  "Transform": {
+    "Pos": {
+      "X": -949.999999,
+      "Y": 49.999980580877825
+    },
+    "Rot": {
+      "Z": -89.999999
+    }
+  },
+  "PrefabId": 1,
+  "Guid": "A9B3A468458D8223AB46CA994E5B40C4",
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_测试",
+        "FlowId": 4,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      }
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
+  }
+}

@@ -1,0 +1,45 @@
+﻿{
+  "Lable": "TsTrigger3",
+  "Transform": {
+    "Pos": {
+      "X": 1445.044343,
+      "Y": 1208.7843699999999,
+      "Z": -0.499903
+    }
+  },
+  "PrefabId": 2,
+  "Guid": "96B9C2914DCF1DB857B75C8B7881FE73",
+  "ComponentsData": {
+    "TriggerComponent": {
+      "MaxTriggerTimes": 1,
+      "TriggerActions": {
+        "Actions": [
+          {
+            "Name": "Wait",
+            "Params": {
+              "Time": 1
+            }
+          },
+          {
+            "Name": "SpawnChild",
+            "Params": {
+              "TemplateGuid": "0B98C77D45CF767B37234BBFC019848E",
+              "Transform": {
+                "Pos": {
+                  "X": 1375,
+                  "Y": 642,
+                  "Z": 87
+                },
+                "Rot": {
+                  "Z": -90
+                },
+                "Scale": {}
+              }
+            }
+          }
+        ]
+      },
+      "IsNotLoad": false
+    }
+  }
+}

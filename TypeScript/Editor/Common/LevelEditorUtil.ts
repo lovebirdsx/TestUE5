@@ -118,7 +118,7 @@ class LevelEditorUtil {
         return undefined;
     }
 
-    private static GenEntityJsonPath(pkgPath: string): string {
+    private static GetExternEntityJsonPath(pkgPath: string): string {
         const pathBaseOnContent = pkgPath.substring(6);
         return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
     }
@@ -126,13 +126,14 @@ class LevelEditorUtil {
     public static GetEntityJsonPath(entity: ITsEntity): string {
         const externActorPath = EditorOperations.GetExternActorSavePath(entity);
         if (externActorPath) {
-            return this.GenEntityJsonPath(externActorPath);
+            return this.GetExternEntityJsonPath(externActorPath);
         }
 
-        const mapPath = EditorOperations.GetPackagePath(EditorLevelLibrary.GetEditorWorld());
+        const world = EditorLevelLibrary.GetEditorWorld();
+        const mapPath = EditorOperations.GetPackagePath(world);
         const mapDir = getDir(mapPath);
 
-        return `${mapDir}/Entities/${entity.ActorGuid.ToString()}.json`;
+        return `${mapDir}/${world.GetName()}_Entities/${entity.ActorGuid.ToString()}.json`;
     }
 
     public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
@@ -157,7 +158,7 @@ class LevelEditorUtil {
             return;
         }
 
-        const entityJsonPath = this.GenEntityJsonPath(pkg.GetName());
+        const entityJsonPath = this.GetExternEntityJsonPath(pkg.GetName());
         MyFileHelper.Remove(entityJsonPath);
         log(`Remove: ${entityJsonPath}`);
     }

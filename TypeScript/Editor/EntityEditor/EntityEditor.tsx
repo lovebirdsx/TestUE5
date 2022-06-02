@@ -33,6 +33,7 @@ import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
+import { LevelTools } from './LevelTools';
 import { tempEntities } from './TempEntities';
 
 const contextCmdList = [
@@ -405,16 +406,22 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         // log(`is playing = ${LevelEditorUtil.IsPlaying}`);
         //
         // Test Case 2
-        const entity = LevelEditorUtil.GetSelectedEntity();
-        if (entity) {
-            log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
-            log(`${entity.ActorLabel}: ${LevelEditorUtil.GetEntityJsonPath(entity)}`);
-            log(`${entity.ActorLabel}: Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
-        }
-
+        // const entity = LevelEditorUtil.GetSelectedEntity();
+        // if (entity) {
+        //     log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
+        //     log(`${entity.ActorLabel}: ${LevelEditorUtil.GetEntityJsonPath(entity)}`);
+        //     log(`${entity.ActorLabel}: Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
+        // }
+        //
         // Test Case 3
         // const world = EditorLevelLibrary.GetEditorWorld();
         // log(`World: ${world.GetName()} Package Path: ${EditorOperations.GetPackagePath(world)}`);
+
+        // Test Case 4
+        const entityDatas = LevelTools.GetAllEntityTemplatePath();
+        entityDatas.forEach((data) => {
+            log(data);
+        });
     };
 
     private readonly GetUndoStateStr = (): string => {

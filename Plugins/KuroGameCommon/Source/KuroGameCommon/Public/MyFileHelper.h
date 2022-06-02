@@ -42,4 +42,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
 	static void FindFiles(TArray<FString>& FoundFiles, const FString& Directory, const FString& FileExtension);
+
+	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	static void FindFilesRecursively(TArray<FString>& FoundFiles, const FString& Directory, const FString& FileExtension);
 };

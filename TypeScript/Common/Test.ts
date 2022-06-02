@@ -58,7 +58,7 @@ export function assertTrue(value: boolean, msg: string): void {
     }
 }
 
-export function assertFlase(value: boolean, msg: string): void {
+export function assertFalse(value: boolean, msg: string): void {
     if (value) {
         throw new Error(`assert failed: \n${msg}\n: value is not false`);
     }

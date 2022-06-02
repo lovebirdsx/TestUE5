@@ -1,0 +1,78 @@
+﻿{
+  "Lable": "TsTrigger4",
+  "Transform": {
+    "Pos": {
+      "X": 835.044343,
+      "Y": 1208.78437,
+      "Z": -0.499903
+    }
+  },
+  "PrefabId": 2,
+  "Guid": "FCE05A124214ED10FD8EA18C0EAEB44D",
+  "ComponentsData": {
+    "TriggerComponent": {
+      "MaxTriggerTimes": 1,
+      "TriggerActions": {
+        "Actions": [
+          {
+            "Name": "Wait",
+            "Params": {
+              "Time": 1
+            }
+          },
+          {
+            "Name": "SpawnChild",
+            "Params": {
+              "TemplateGuid": "B13AFF12452A0054A80F02A8E70191A5",
+              "Transform": {
+                "Pos": {
+                  "X": 1092,
+                  "Y": 582,
+                  "Z": 87
+                },
+                "Rot": {
+                  "Z": -91
+                },
+                "Scale": {}
+              }
+            }
+          },
+          {
+            "Name": "Wait",
+            "Params": {
+              "Time": 1
+            }
+          },
+          {
+            "Name": "SpawnChild",
+            "Params": {
+              "TemplateGuid": "B13AFF12452A0054A80F02A8E70191A5",
+              "Transform": {
+                "Pos": {
+                  "X": 527,
+                  "Y": 581,
+                  "Z": 87
+                },
+                "Rot": {
+                  "Z": -90
+                },
+                "Scale": {}
+              }
+            }
+          },
+          {
+            "Name": "Wait",
+            "Params": {
+              "Time": 5
+            }
+          },
+          {
+            "Name": "DestroyAllChild",
+            "Params": {}
+          }
+        ]
+      },
+      "IsNotLoad": false
+    }
+  }
+}

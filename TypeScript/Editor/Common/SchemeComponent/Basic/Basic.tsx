@@ -8,10 +8,7 @@ import { AssetScheme, EnumScheme, IProps } from '../../../../Common/Type';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { Check, EditorBox } from '../../BaseComponent/CommonComponent';
 import { EntitySelector } from '../../BaseComponent/EntitySelector';
-import {
-    EntityTemplateSelector,
-    TemplateSelectorData,
-} from '../../BaseComponent/EntityTemplateSelector';
+import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';
 import { FilterableList } from '../../BaseComponent/FilterableList';
 
 export function Bool(props: IProps<boolean>): JSX.Element {
@@ -127,17 +124,6 @@ export function EntityId(props: IProps<string>): JSX.Element {
 export function EntityTemplateId(props: IProps<string>): JSX.Element {
     return (
         <EntityTemplateSelector
-            Guid={props.Value}
-            OnModify={(guid): void => {
-                props.OnModify(guid, 'normal');
-            }}
-        />
-    );
-}
-
-export function TemplateData(props: IProps<string>): JSX.Element {
-    return (
-        <TemplateSelectorData
             Guid={props.Value}
             OnModify={(guid): void => {
                 props.OnModify(guid, 'normal');

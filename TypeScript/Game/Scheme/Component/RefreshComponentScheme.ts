@@ -1,17 +1,26 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createBooleanScheme, createIntScheme, createStringScheme } from '../../../Common/Type';
+import {
+    createBooleanScheme,
+    createIntScheme,
+    createObjectScheme,
+    createStringScheme,
+} from '../../../Common/Type';
 import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
-import { IRefreshSingle } from '../../Component/RefreshComponent';
+import { IRefreshSingle, ITempleGuid } from '../../Component/RefreshComponent';
 import { createComponentScheme } from './ComponentRegistry';
 
-const templeGuidScheme = createStringScheme({
-    CnName: '创建模板',
-    RenderType: 'templateIdData',
-    CreateDefault: () => {
-        return EntityTemplateOp.GenDefaultGuid();
+export const templeGuidScheme = createObjectScheme<ITempleGuid>({
+    Fields: {
+        TempleGuid: createStringScheme({
+            CnName: '创建模板',
+            NewLine: true,
+            ShowName: true,
+            CreateDefault: () => {
+                return EntityTemplateOp.GenDefaultGuid();
+            },
+        }),
     },
     NewLine: true,
-    ShowName: true,
 });
 
 export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingle>({

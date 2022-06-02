@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IVectorInfo } from '../../../Common/Interface';
+import { ITempleGuid } from '../../../Game/Component/RefreshComponent';
 import {
     IInvoke,
     IPlayFlow,
@@ -26,6 +27,7 @@ import { centerTextIdScheme } from '../../../Game/Scheme/Action/ShowText';
 import { spawnChildScheme } from '../../../Game/Scheme/Action/Spawn';
 import { stateIdScheme } from '../../../Game/Scheme/Action/State';
 import { behaviorFlowComponentScheme } from '../../../Game/Scheme/Component/FlowComponentScheme';
+import { templeGuidScheme } from '../../../Game/Scheme/Component/RefreshComponentScheme';
 import { triggerActionsScheme } from '../../../Game/Scheme/Component/TriggerComponentSheme';
 import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
 import { RenderVarValue } from './Extend/Calculate';
@@ -48,6 +50,7 @@ import {
     RenderTalkItemName,
     RenderTextId,
 } from './Extend/Talk';
+import { TempleData } from './Extend/TempleData';
 import { renderRegistry } from './RenderRegistry';
 
 renderRegistry.RegComponent<number>(jumpIdScheme, RenderJumpTalkId);
@@ -70,7 +73,7 @@ renderRegistry.RegComponent<IInvoke>(invokeScheme, RenderInvoke);
 renderRegistry.RegComponent<IVectorInfo>(posScheme, Point);
 renderRegistry.RegComponent<IVectorInfo>(dirScheme, Direction);
 renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
-
+renderRegistry.RegComponent<ITempleGuid>(templeGuidScheme, TempleData);
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 
 export * from './Basic/Public';

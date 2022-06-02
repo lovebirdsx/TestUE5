@@ -8,7 +8,7 @@ import { TComponentClass, TComponentData, TComponentsData } from '../../Game/Int
 import { componentRegistry } from '../../Game/Scheme/Component/Public';
 import { Check, COLOR_DISABLE, COLOR_LEVEL4, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
-import { Any } from '../Common/SchemeComponent/Public';
+import { Any } from '../Common/SchemeComponent/Basic/Public';
 import { copyObject, pasteObject } from '../Common/Util';
 
 export interface IComponentsDataProps {

@@ -34,7 +34,7 @@ import { testOpenFileDialog, testSaveFileDialog } from './FileDialog';
 import { TestAssetSelector } from './TestAssetSelector';
 import { TestButton } from './TestButton';
 import { TestContextBtn } from './TestContextBtn';
-import { TestCsvView } from './TestCsvView';
+// import { TestCsvView } from './TestCsvView';
 import { TestListView } from './TestListView';
 import { TestMap } from './TestMap';
 import { TestMoveComponent } from './TestMoveComponent';
@@ -141,8 +141,8 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
                 <TestAssetSelector />
                 <H3 Text={'Read/Write Csv'} />
                 {this.RenderReadWriteCsv()}
-                <H3 Text={'Test Csv View'} />
-                <TestCsvView />
+                {/* <H3 Text={'Test Csv View'} />
+                <TestCsvView /> */}
             </VerticalBox>
         );
     }

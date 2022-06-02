@@ -14,6 +14,7 @@ import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponen
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
+import { openFile } from '../Common/Util';
 import { ComponentsData } from './ComponentsData';
 
 export interface IEntityViewProps {
@@ -30,6 +31,11 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
     private readonly OnClickBtnFocusBlueprint = (): void => {
         LevelEditorUtil.FocusOnSelectedBlueprint(this.props.Entity);
+    };
+
+    private readonly OnClickBtnOpenJson = (): void => {
+        const entityEditorSavePath = LevelEditorUtil.GetEntityJsonPath(this.props.Entity);
+        openFile(entityEditorSavePath);
     };
 
     private readonly OnClickSaveTemplate = (): void => {
@@ -96,6 +102,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     OnClick={this.OnClickBtnFocusBlueprint}
                     Tip={'浏览到Entity蓝图所在位置'}
                 />
+                <Btn Text={'J'} OnClick={this.OnClickBtnOpenJson} Tip={'打开实体对应的Json配置'} />
                 <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
                 <Btn Text={'L'} Tip={'从模板读取'} OnClick={this.OnClickLoadTemplate} />
             </HorizontalBox>

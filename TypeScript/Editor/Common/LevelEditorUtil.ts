@@ -122,6 +122,15 @@ class LevelEditorUtil {
         return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
     }
 
+    public static GetEntityJsonPath(entity: ITsEntity): string {
+        const externActorPath = EditorOperations.GetExternActorSavePath(entity);
+        if (externActorPath) {
+            return this.GenEntityJsonPath(externActorPath);
+        }
+        // todo: 非partition类地图, 需要处理EntityJson的存储位置
+        throw new Error();
+    }
+
     public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
         if (!isForce && !EditorOperations.IsActorDirty(entity)) {
             return;

@@ -1,0 +1,47 @@
+﻿{
+  "Lable": "TsAiNpc3",
+  "Transform": {
+    "Pos": {
+      "X": 1677.6524060000002,
+      "Y": -218.75877891003063,
+      "Z": 91.499969
+    },
+    "Rot": {
+      "Z": -89.999999
+    }
+  },
+  "PrefabId": 6,
+  "Guid": "3454C42740E745D749B6FEA1070D7258",
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_移动测试",
+        "FlowId": 2,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 150
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
+  }
+}

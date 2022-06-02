@@ -1,0 +1,102 @@
+﻿{
+  "Lable": "BP_Gate",
+  "Transform": {
+    "Pos": {
+      "X": -1430,
+      "Y": -1120
+    }
+  },
+  "PrefabId": 1008,
+  "Guid": "AB7BCBCE4D6C97EF0663CA81DA6BAA9A",
+  "ComponentsData": {
+    "ActorStateComponent": {
+      "InitState": "Idle"
+    },
+    "CalculateComponent": {
+      "Vars": [
+        {
+          "Name": "a",
+          "Value": 0
+        },
+        {
+          "Name": "b",
+          "Value": 0
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "尝试开门",
+          "Actions": [
+            {
+              "Name": "CallByCondition",
+              "Params": {
+                "Conditions": {
+                  "LogicOpType": "And",
+                  "Conditions": [
+                    {
+                      "Var1": "a",
+                      "Compare": "Eq",
+                      "Var2": 1
+                    }
+                  ]
+                },
+                "TrueActions": [
+                  {
+                    "Name": "ChangeActorState",
+                    "Params": {
+                      "State": "Open"
+                    }
+                  }
+                ],
+                "FalseActions": [
+                  {
+                    "Name": "Log",
+                    "Params": {
+                      "Level": "Warn",
+                      "Content": "无法开门，权限不足！！！"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "Name": "设定开门",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 1
+              }
+            }
+          ]
+        },
+        {
+          "Name": "设定关门",
+          "Actions": [
+            {
+              "Name": "SetNumberVar",
+              "Params": {
+                "Name": "a",
+                "Value": 0
+              }
+            }
+          ]
+        },
+        {
+          "Name": "关门",
+          "Actions": [
+            {
+              "Name": "ChangeActorState",
+              "Params": {
+                "State": "Close"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

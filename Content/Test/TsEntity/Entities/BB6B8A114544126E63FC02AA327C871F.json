@@ -1,0 +1,38 @@
+﻿{
+  "Lable": "TsTrigger2",
+  "Transform": {
+    "Pos": {
+      "X": 1455.044343,
+      "Y": -1.2156300000000009,
+      "Z": -0.499903
+    }
+  },
+  "PrefabId": 2,
+  "Guid": "BB6B8A114544126E63FC02AA327C871F",
+  "ComponentsData": {
+    "TriggerComponent": {
+      "MaxTriggerTimes": 1,
+      "TriggerActions": {
+        "Actions": [
+          {
+            "Name": "Wait",
+            "Params": {
+              "Time": 1
+            }
+          },
+          {
+            "Name": "Invoke",
+            "Params": {
+              "Who": "3454C42740E745D749B6FEA1070D7258",
+              "ActionInfo": {
+                "Name": "Destroy",
+                "Params": {}
+              }
+            }
+          }
+        ]
+      },
+      "IsNotLoad": false
+    }
+  }
+}

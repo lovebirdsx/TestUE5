@@ -105,4 +105,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static FString GetMacAddress();
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static FString GetPackagePath(UObject *Object);
 };

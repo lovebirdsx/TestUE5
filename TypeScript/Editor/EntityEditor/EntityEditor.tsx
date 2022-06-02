@@ -401,14 +401,20 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly Test = (): void => {
-        log(`is playing = ${LevelEditorUtil.IsPlaying}`);
+        // Test Case 1
+        // log(`is playing = ${LevelEditorUtil.IsPlaying}`);
+        //
+        // Test Case 2
         const entity = LevelEditorUtil.GetSelectedEntity();
-        if (!entity) {
-            return;
+        if (entity) {
+            log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
+            log(`${entity.ActorLabel}: ${LevelEditorUtil.GetEntityJsonPath(entity)}`);
+            log(`${entity.ActorLabel}: Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
         }
 
-        log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
-        log(`${entity.ActorLabel}: Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
+        // Test Case 3
+        // const world = EditorLevelLibrary.GetEditorWorld();
+        // log(`World: ${world.GetName()} Package Path: ${EditorOperations.GetPackagePath(world)}`);
     };
 
     private readonly GetUndoStateStr = (): string => {

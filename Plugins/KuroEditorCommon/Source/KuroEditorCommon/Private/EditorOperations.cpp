@@ -217,3 +217,9 @@ FString UEditorOperations::GetMacAddress()
 {
 	return FGenericPlatformMisc::GetMacAddressString();
 }
+
+FString UEditorOperations::GetPackagePath(UObject* Object)
+{
+	const auto Package = Object->GetPackage();
+	return Package->GetLoadedPath().GetLocalFullPath();
+}

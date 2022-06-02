@@ -21,6 +21,7 @@ import {
 } from 'ue';
 
 import { getAssetPath, getBlueprintClass } from '../../Common/Class';
+import { getDir } from '../../Common/File';
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
@@ -127,8 +128,11 @@ class LevelEditorUtil {
         if (externActorPath) {
             return this.GenEntityJsonPath(externActorPath);
         }
-        // todo: 非partition类地图, 需要处理EntityJson的存储位置
-        throw new Error();
+
+        const mapPath = EditorOperations.GetPackagePath(EditorLevelLibrary.GetEditorWorld());
+        const mapDir = getDir(mapPath);
+
+        return `${mapDir}/Entities/${entity.ActorGuid.ToString()}.json`;
     }
 
     public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
@@ -136,13 +140,7 @@ class LevelEditorUtil {
             return;
         }
 
-        const externActorPath = EditorOperations.GetExternActorSavePath(entity);
-        if (!externActorPath) {
-            error(`Can not find extern actor path for ${entity.ActorLabel}`);
-            return;
-        }
-
-        const entityJsonPath = this.GenEntityJsonPath(externActorPath);
+        const entityJsonPath = this.GetEntityJsonPath(entity);
         const entityData = entityRegistry.GenData(entity);
         if (entityRegistry.ApplyData(entityData, entity)) {
             EditorOperations.MarkPackageDirty(entity);

@@ -1,0 +1,40 @@
+﻿{
+  "Lable": "TsNpc",
+  "Transform": {
+    "Pos": {
+      "X": 400,
+      "Y": -1050
+    }
+  },
+  "PrefabId": 1,
+  "Guid": "1524A753469DCADE6F1005AF739882F9",
+  "ComponentsData": {
+    "FlowComponent": {
+      "InitState": {
+        "FlowListName": "流程_1",
+        "FlowId": 1,
+        "StateId": 1
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      }
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": "",
+      "Disabled": false
+    }
+  }
+}

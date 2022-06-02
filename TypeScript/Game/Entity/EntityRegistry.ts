@@ -21,7 +21,7 @@ import {
     TComponentsData,
 } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
-import { componentRegistry } from '../Scheme/Component/Public';
+import { componentRegistry } from '../Scheme/Component/ComponentRegistry';
 import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
 

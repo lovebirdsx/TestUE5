@@ -17,8 +17,28 @@ export function loadIdSegmentConfig(): IIdSegmentRow[] {
     return readJsonObj<IIdSegmentRow[]>(path, []);
 }
 
+const ID_COUNT_PER_SEGMENT = 100 * 10000;
+
+function checkSegmentConfig(rows: IIdSegmentRow[]): void {
+    let maxSegmentIdInConfig = 0;
+    rows.forEach((row) => {
+        if (row.SegmentId > maxSegmentIdInConfig) {
+            maxSegmentIdInConfig = row.SegmentId;
+        }
+    });
+
+    const maxUint32 = 0xffffffff;
+    const maxSegmentId = Math.floor(maxUint32 / 2 / ID_COUNT_PER_SEGMENT);
+    if (maxSegmentIdInConfig >= maxSegmentId) {
+        throw new Error(
+            `配置段id超出范围, 最大值[${maxSegmentId}] 当前值[${maxSegmentIdInConfig}]`,
+        );
+    }
+}
+
 export function getLocalSegmentId(): number | undefined {
     const segmentRows = loadIdSegmentConfig();
+    checkSegmentConfig(segmentRows);
     const macAddress = getMacAddress();
     const row = segmentRows.find((r) => r.MacAddress === macAddress);
     return row ? row.SegmentId : undefined;
@@ -30,8 +50,6 @@ interface IGeneratorSnapshot {
 }
 
 export class SegmentIdGenerator {
-    public static readonly IdsCountPerSegment = 100 * 10000;
-
     private static GetSavePath(config: TConfigType): string {
         const baseDir = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Generator');
         return `${baseDir}/${config}.json`;
@@ -84,11 +102,11 @@ export class SegmentIdGenerator {
     }
 
     public get MinId(): number {
-        return this.SegmentId * SegmentIdGenerator.IdsCountPerSegment;
+        return this.SegmentId * ID_COUNT_PER_SEGMENT;
     }
 
     public get MaxId(): number {
-        return (this.SegmentId + 1) * SegmentIdGenerator.IdsCountPerSegment;
+        return (this.SegmentId + 1) * ID_COUNT_PER_SEGMENT;
     }
 
     private CheckId(id: number): void {

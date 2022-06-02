@@ -1,11 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import { assertEq, assertError, assertGt, assertNe, test } from '../../../Common/Test';
 import { loadIdSegmentConfig, SegmentIdGenerator } from '../../Common/SegmentIdGenerator';
+import { getMacAddress, setMacAddress } from '../../Common/Util';
 
 export default function testConfig(): void {
     // 读取id生成器的配置
     test('entity id segment config', () => {
-        const config = loadIdSegmentConfig('entity');
+        const config = loadIdSegmentConfig();
         assertGt(config.length, 0, 'entity id segment config count must > 0');
         const row = config[0];
         assertNe(row.Name, undefined, 'Name must not be undefined');
@@ -15,15 +16,13 @@ export default function testConfig(): void {
 
     // 创建generator出错
     test('entity id generator create error', () => {
+        const originMacAddr = getMacAddress();
         assertError('create SegmentIdGenerator error while machine not registered', () => {
-            const generator = new SegmentIdGenerator('machineNotExist');
+            setMacAddress('000000000000');
+            const generator = new SegmentIdGenerator('entity');
             generator.GenOne();
         });
-
-        assertError('create SegmentIdGenerator error while config not exist', () => {
-            const generator = new SegmentIdGenerator('notExist');
-            generator.GenOne();
-        });
+        setMacAddress(originMacAddr);
     });
 
     // 生成的id超出范围

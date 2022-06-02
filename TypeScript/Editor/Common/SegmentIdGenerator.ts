@@ -10,15 +10,15 @@ interface IIdSegmentRow {
     SegmentId: number;
 }
 
-export type TConfigType = 'entity' | 'entityTemplate' | 'machineNotExist' | 'notExist';
+export type TConfigType = 'entity' | 'entityTemplate';
 
-export function loadIdSegmentConfig(configName: TConfigType): IIdSegmentRow[] {
-    const path = MyFileHelper.GetPath(EFileRoot.Content, `Data/IdSegment/${configName}.json`);
+export function loadIdSegmentConfig(): IIdSegmentRow[] {
+    const path = MyFileHelper.GetPath(EFileRoot.Content, `Editor/Config/IdSegmentConfig.json`);
     return readJsonObj<IIdSegmentRow[]>(path, []);
 }
 
-export function getSegmentId(configName: TConfigType): number | undefined {
-    const segmentRows = loadIdSegmentConfig(configName);
+export function getLocalSegmentId(): number | undefined {
+    const segmentRows = loadIdSegmentConfig();
     const macAddress = getMacAddress();
     const row = segmentRows.find((r) => r.MacAddress === macAddress);
     return row ? row.SegmentId : undefined;
@@ -59,9 +59,9 @@ export class SegmentIdGenerator {
     }
 
     private Load(): void {
-        this.SegmentId = getSegmentId(this.Config);
+        this.SegmentId = getLocalSegmentId();
         if (this.SegmentId === undefined) {
-            throw new Error(`No segment id found for [${this.Config}] [${getMacAddress()}]`);
+            throw new Error(`No segment id found for local machine [${getMacAddress()}]`);
         }
 
         const data = readJsonObj<IGeneratorSnapshot>(SegmentIdGenerator.GetSavePath(this.Config));
@@ -138,10 +138,6 @@ export class EntityIdGenerator {
             this.MyGenerator = new SegmentIdGenerator('entity');
         }
         return this.MyGenerator;
-    }
-
-    public static get IsMachineRegistered(): boolean {
-        return getSegmentId('entity') !== undefined;
     }
 
     public static get HasRecord(): boolean {

@@ -89,7 +89,14 @@ export function wirteEditorConfig(config: unknown, path: string): void {
     MyFileHelper.Write(stringifyEditor(config), path);
 }
 
+let macAddress = EditorOperations.GetMacAddress().toUpperCase();
+
+// addr为12字节,大写, e.g. D8BBC1154BF3
+// 该接口主要用于测试
+export function setMacAddress(addr: string): void {
+    macAddress = addr;
+}
+
 export function getMacAddress(): string {
-    const addr = EditorOperations.GetMacAddress();
-    return addr.toUpperCase();
+    return macAddress;
 }

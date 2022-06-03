@@ -1,5 +1,6 @@
 [
-    {"Name": "宋晓",   "MacAddress": "D8BBC1154BF3", "SegmentId": 0},
-    {"Name": "宁博",   "MacAddress": "D8BBC150C709", "SegmentId": 1},
-    {"Name": "黄伟成", "MacAddress": "D8BBC1A19538", "SegmentId": 2}
+    {"Name": "宋晓", "MacAddress": "D8BBC1154BF3", "SegmentId": 0},
+    {"Name": "宁博", "MacAddress": "D8BBC150C709", "SegmentId": 1},
+    {"Name": "黄伟成", "MacAddress": "D8BBC1A19538", "SegmentId": 2},
+    {"Name": "宋晓2", "MacAddress": "0C9D92192D17", "SegmentId": 3}
 ]

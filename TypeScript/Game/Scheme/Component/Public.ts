@@ -8,7 +8,7 @@ import { FlowComponent } from '../../Component/FlowComponent';
 import { GrabComponent } from '../../Component/GrabComponent';
 import { MoveComponent } from '../../Component/MoveComponent';
 import { NpcComponent } from '../../Component/NpcComponent';
-import { RefreshSingleComponent } from '../../Component/RefreshComponent';
+import { RefreshEntityComponent, RefreshSingleComponent } from '../../Component/RefreshComponent';
 import { RotatorComponent } from '../../Component/RotatorComponent';
 import { SimpleComponent } from '../../Component/SimpleComponent';
 import { SphereComponent } from '../../Component/SphereComponent';
@@ -30,7 +30,10 @@ import {
 } from './HidedComponents';
 import { npcComponentScheme, sphereComponentScheme } from './InteractComponentScheme';
 import { moveComponentScheme } from './MoveComponentScheme';
-import { refreshSingleComponentScheme } from './RefreshComponentScheme';
+import {
+    refreshEntityComponentScheme,
+    refreshSingleComponentScheme,
+} from './RefreshComponentScheme';
 import { rotatorComponentScheme } from './RotatorComponentScheme';
 import { sphereFactorComponentScheme } from './SphereFactoryScheme';
 import { springComponentScheme } from './SpringComponentScheme';
@@ -58,6 +61,7 @@ componentRegistry.RegisterClass(EntitySpawnerComponent, entitySpawnerComponentSc
 componentRegistry.RegisterClass(SimpleComponent, simpleComponentScheme);
 componentRegistry.RegisterClass(EventComponent, eventComponentScheme);
 componentRegistry.RegisterClass(RefreshSingleComponent, refreshSingleComponentScheme);
+componentRegistry.RegisterClass(RefreshEntityComponent, refreshEntityComponentScheme);
 
 export * from './ActorStateComponentScheme';
 export * from './ComponentRegistry';

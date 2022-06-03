@@ -1,6 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IVectorInfo } from '../../../Common/Interface';
-import { ITempleGuid } from '../../../Game/Component/RefreshComponent';
 import {
     IInvoke,
     IPlayFlow,
@@ -9,7 +8,7 @@ import {
     ITriggerActions,
     TVar,
 } from '../../../Game/Flow/Action';
-import { IBehaviorFlowComponent } from '../../../Game/Interface';
+import { IBehaviorFlowComponent, ITempleGuid } from '../../../Game/Interface';
 import { varValueScheme } from '../../../Game/Scheme/Action/Calculate';
 import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
 import { invokeScheme } from '../../../Game/Scheme/Action/Invoke';

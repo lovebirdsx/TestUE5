@@ -87,7 +87,11 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
                 return undefined;
             }
 
-            const value = components[classObj.name];
+            let value = components[classObj.name];
+            if (!value) {
+                value = scheme.CreateDefault() as TComponentData;
+            }
+
             return (
                 <VerticalBox key={id}>
                     <Any

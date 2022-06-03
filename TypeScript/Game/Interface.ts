@@ -37,6 +37,7 @@ export enum EBlueprintId {
     Swicher = 15,
     SpringBoard = 16,
     RefreshSingle = 17,
+    RefreshEntity = 18,
 
     // ExtendedEntity
     AiNpcGuard1 = 1001,
@@ -54,6 +55,7 @@ export enum EBlueprintId {
     Invisible = 1013,
     Trash = 1014,
     Mineral = 1015,
+    RefreshManage = 1016,
 
     // Component
     ActorStateComponent = 10001,
@@ -74,6 +76,24 @@ export interface ITriggerComponent {
     MaxTriggerTimes: number;
     IsNotLoad: boolean;
     TriggerActions: ITriggerActions;
+}
+
+export interface IRefreshSingle {
+    RefreshInterval: number;
+    MaxRefreshTimes: number;
+    DelayRefresh: boolean;
+    TemplateGuid: ITempleGuid;
+}
+
+export interface ITempleGuid {
+    TempleGuid: string;
+}
+
+export interface IRefreshGroup {
+    RefreshInterval: number;
+    MaxRefreshTimes: number;
+    DelayRefresh: boolean;
+    EntityGuidList: string[];
 }
 
 export interface ISwitcherComponent extends IInteractiveComponent {
@@ -152,7 +172,7 @@ export interface ISavedEntityState extends TEntityState {
     DelayActions?: IActionInfo[];
 }
 
-export type TDestroyType = 'delete' | 'streaming';
+export type TDestroyType = 'delete' | 'deleteByRefresh' | 'streaming';
 export type TSpawnType = 'streaming' | 'user';
 
 export interface IEntityMananger {

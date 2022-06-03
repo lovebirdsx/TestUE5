@@ -5,20 +5,17 @@ import { getTotalSecond } from '../../Common/Util';
 import { deInitTsEntity } from '../Entity/Common';
 import { entityRegistry } from '../Entity/EntityRegistry';
 import { ISpawn } from '../Flow/Action';
-import { Component, gameContext, IEntityData, ITimeCall } from '../Interface';
+import {
+    Component,
+    gameContext,
+    IEntityData,
+    IRefreshGroup,
+    IRefreshSingle,
+    ITempleGuid,
+    ITimeCall,
+} from '../Interface';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';
-
-export interface IRefreshSingle {
-    RefreshInterval: number;
-    MaxRefreshTimes: number;
-    DelayRefresh: boolean;
-    TemplateGuid: ITempleGuid;
-}
-
-export interface ITempleGuid {
-    TempleGuid: string;
-}
 
 export class RefreshSingleComponent extends Component implements IRefreshSingle, ITimeCall {
     public CallTime = -1;
@@ -68,16 +65,18 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
             return;
         }
         const second = getTotalSecond();
-        this.CallTime = second + this.RefreshInterval;
-        if (!this.DelayRefresh) {
-            this.AddCall();
-        } else {
-            this.State.SetState('RefreshTime', this.CallTime);
+        const destroyType = gameContext.EntityManager.GetDestoryType(guid);
+        if (destroyType === 'delete') {
+            this.CallTime = second + this.RefreshInterval;
+            if (!this.DelayRefresh) {
+                this.AddCall();
+            } else {
+                this.State.SetState('RefreshTime', this.CallTime);
+            }
         }
     };
 
     public OnStart(): void {
-        const second = getTotalSecond();
         if (this.RefreshTimes >= this.MaxRefreshTimes && this.Spawn.GetChildNum() === 0) {
             // 如果刷满且没有子实体了就删除实体;
             const guid = this.Entity.Guid;
@@ -88,6 +87,7 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
             }
             return;
         }
+        const second = getTotalSecond();
         if (second < this.CallTime) {
             this.AddCall();
         } else {
@@ -139,13 +139,6 @@ export class RefreshSingleComponent extends Component implements IRefreshSingle,
 
 // -----------------------------------------------------------------------------------------------------
 
-export interface IRefreshGroup {
-    RefreshInterval: number;
-    MaxRefreshTimes: number;
-    DelayRefresh: boolean;
-    EntityGuidList: string[];
-}
-
 export class RefreshEntityComponent extends Component implements IRefreshGroup, ITimeCall {
     public CallTime = -1;
 
@@ -159,15 +152,12 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
 
     private State: StateComponent;
 
-    private Spawn: EntitySpawnerComponent;
-
     private RefreshTimes = 0;
 
-    private readonly OriginEntityData: Map<string, IEntityData>;
+    private readonly OriginEntityMap = new Map<string, IEntityData>();
 
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
-        this.Spawn = this.Entity.GetComponent(EntitySpawnerComponent);
         gameContext.EntityManager.EntityRemoved.AddCallback(this.OnEntityRemoved);
     }
 
@@ -190,44 +180,54 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     }
 
     private readonly OnEntityRemoved = (guid: string): void => {
-        if (!this.Spawn.HasChild(guid)) {
-            return;
-        }
-        const second = getTotalSecond();
-        this.CallTime = second + this.RefreshInterval;
-        if (!this.DelayRefresh) {
-            this.AddCall();
-        } else {
-            this.State.SetState('RefreshTime', this.CallTime);
+        if (this.EntityGuidList.includes(guid)) {
+            const second = getTotalSecond();
+            const destroyType = gameContext.EntityManager.GetDestoryType(guid);
+            if (destroyType === 'delete' && this.CallTime === -1) {
+                this.CallTime = second + this.RefreshInterval;
+                if (!this.DelayRefresh) {
+                    this.AddCall();
+                } else {
+                    this.State.SetState('RefreshTime', this.CallTime);
+                }
+            } else {
+                if (destroyType === 'deleteByRefresh') {
+                    this.RefreshEntity(guid);
+                }
+            }
         }
     };
 
     private RecordOringinTransform(): void {
-        this.EntityGuidList.forEach((guid) => {
-            const tsEntity = gameContext.EntityManager.GetEntity(guid);
-            if (tsEntity) {
-                const data = entityRegistry.GenData(tsEntity);
-                this.OriginEntityData.set(guid, data);
-            }
+        let entitylist: IEntityData[] = [];
+        if (this.State.GetState('SpawnRecord')) {
+            entitylist = this.State.GetState('SpawnRecord');
+        }
+        if (entitylist.length !== this.EntityGuidList.length) {
+            this.EntityGuidList.forEach((guid) => {
+                const tsEntity = gameContext.EntityManager.GetEntity(guid);
+                if (tsEntity) {
+                    const data = entityRegistry.GenData(tsEntity);
+                    entitylist.push(data);
+                }
+            });
+            this.State.SetState('SpawnRecord', entitylist);
+        }
+        entitylist.forEach((data) => {
+            this.OriginEntityMap.set(data.Guid, data);
         });
     }
 
     public OnStart(): void {
+        // 记录初始信息，并删除最初实体
         this.RecordOringinTransform();
         const second = getTotalSecond();
-        if (this.RefreshTimes >= this.MaxRefreshTimes && this.Spawn.GetChildNum() === 0) {
-            const guid = this.Entity.Guid;
-            const tsEntity = gameContext.EntityManager.GetEntity(guid);
-            if (tsEntity) {
-                deInitTsEntity(tsEntity);
-                tsEntity.K2_DestroyActor();
+        if (this.CallTime > 0) {
+            if (second < this.CallTime) {
+                this.AddCall();
+            } else {
+                this.Refresh();
             }
-            return;
-        }
-        if (second < this.CallTime) {
-            this.AddCall();
-        } else {
-            this.Refresh();
         }
     }
 
@@ -236,7 +236,7 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     };
 
     public AddCall(): void {
-        if (this.RefreshTimes >= this.MaxRefreshTimes) {
+        if (this.MaxRefreshTimes > 0 && this.RefreshTimes >= this.MaxRefreshTimes) {
             return;
         }
         if (!gameContext.TickManager.HasTimeCall(this) && this.CallTime > 0) {
@@ -246,12 +246,8 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     }
 
     public Refresh(): void {
-        // 数量满没
-        if (this.Spawn.GetChildNum() >= this.EntityGuidList.length) {
-            return;
-        }
-        // 次数刷满没
-        if (this.RefreshTimes >= this.MaxRefreshTimes) {
+        // 次数刷满没  todo 有的次数无限制 优化一下
+        if (this.MaxRefreshTimes > 0 && this.RefreshTimes >= this.MaxRefreshTimes) {
             return;
         }
         this.RefreshGroup();
@@ -262,20 +258,30 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     }
 
     public RefreshGroup(): void {
-        // 先delete 整组
-        this.EntityGuidList.forEach((guid) => {
-            const tsEntity = gameContext.EntityManager.GetEntity(guid);
-            if (tsEntity) {
-                gameContext.EntityManager.RemoveEntity(tsEntity, 'delete');
+        const delelist = [];
+        if (!this.DelayRefresh) {
+            this.EntityGuidList.forEach((guid) => {
+                const tsEntity = gameContext.EntityManager.GetEntity(guid);
+                if (tsEntity) {
+                    gameContext.EntityManager.RemoveEntity(tsEntity, 'deleteByRefresh');
+                    delelist.push(guid);
+                }
+            });
+        }
+
+        this.OriginEntityMap.forEach((data, guid) => {
+            if (!delelist.includes(guid)) {
+                this.RefreshEntity(guid);
             }
         });
-        // 整组刷
-        this.EntityGuidList.forEach((guid) => {
-            const entityData = this.OriginEntityData.get(guid);
-            if (entityData) {
-                const transform = toTransform(entityData.Transform);
-                gameContext.EntityManager.SpawnEntity(entityData, transform);
-            }
-        });
+    }
+
+    public RefreshEntity(guid: string): void {
+        const data = this.OriginEntityMap.get(guid);
+        if (data) {
+            const transform = toTransform(data.Transform);
+            gameContext.StateManager.DeleteState(data.Guid);
+            gameContext.EntityManager.SpawnEntity(data, transform);
+        }
     }
 }

@@ -6,9 +6,8 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { getBlueprintClass, getTsClassByUeClass } from '../../../../Common/Class';
 import { IProps, TModifyType } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
-import { ITempleGuid } from '../../../../Game/Component/RefreshComponent';
 import { entityRegistry } from '../../../../Game/Entity/Public';
-import { IEntityData } from '../../../../Game/Interface';
+import { IEntityData, ITempleGuid } from '../../../../Game/Interface';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
@@ -48,6 +47,7 @@ export class TempleData extends React.Component<IProps<ITempleGuid>, IState> {
         const actorClass = getBlueprintClass(template.PrefabId);
         const tsClassObj = getTsClassByUeClass(actorClass);
         const componentClassObjs = entityRegistry.GetComponentClassesByTsClass(tsClassObj);
+
         return (
             <VerticalBox>
                 <ComponentsData
@@ -55,7 +55,7 @@ export class TempleData extends React.Component<IProps<ITempleGuid>, IState> {
                     ClassObjs={componentClassObjs}
                     OnModify={(componentState, type): void => {
                         const newData = produce(template, (draft) => {
-                            draft.ComponentsData = componentState;
+                            //draft.ComponentsData = componentState;
                         });
                         this.OnTempleModify(newData, type);
                     }}

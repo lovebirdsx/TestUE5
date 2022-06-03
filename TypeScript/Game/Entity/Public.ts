@@ -11,6 +11,7 @@ import TsCharacterEntity from './TsCharacterEntity';
 import TsEntity from './TsEntity';
 import TsLamp, { lampComponentClasses } from './TsLamp';
 import TsNpc, { npcComponentClasses } from './TsNpc';
+import TsRefreshEntity, { refreshEntityComponentClasses } from './TsRefreshEntity';
 import TsRefreshSingle, { refreshSingleComponentClasses } from './TsRefreshSingle';
 import TsRotator, { rotatorComponentClasses } from './TsRotator';
 import TsSphereActor, { sphereComponentClasses } from './TsSphereActor';
@@ -85,6 +86,7 @@ export function initEntity(): void {
     entityRegistry.Register(TsLamp, ...lampComponentClasses);
     entityRegistry.Register(TsSpringBoard, ...springBoardComponentClasses);
     entityRegistry.Register(TsRefreshSingle, ...refreshSingleComponentClasses);
+    entityRegistry.Register(TsRefreshEntity, ...refreshEntityComponentClasses);
 
     // Player
     regPlayer(EBlueprintId.Player, TsPlayer);
@@ -104,6 +106,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Lamp, TsLamp);
     regEntity(EBlueprintId.SpringBoard, TsSpringBoard);
     regEntity(EBlueprintId.RefreshSingle, TsRefreshSingle);
+    regEntity(EBlueprintId.RefreshEntity, TsRefreshEntity);
 
     // Character Entity
     regEntity(EBlueprintId.CharacterEntity, TsCharacterEntity);
@@ -125,6 +128,7 @@ export function initEntity(): void {
     regExtendedEntity(EBlueprintId.Trash, 'BP_Trash', TsSwitcher);
     regExtendedEntity(EBlueprintId.AiNpcTrainer, 'BP_AiNpcTrainer', TsAiNpc);
     regExtendedEntity(EBlueprintId.Mineral, 'BP_Mineral', TsRefreshSingle);
+    regExtendedEntity(EBlueprintId.RefreshManage, 'BP_RefreshManage', TsRefreshEntity);
 
     // ActorComponent
     regActorComponent(EBlueprintId.ActorStateComponent, 'BP_StateComponent');

@@ -58,11 +58,7 @@ export class EntitySpawnerComponent extends Component {
         }
     };
 
-    private SpawnChild(
-        templateGuid: string,
-        transform: ITransform,
-        entityGuid?: string,
-    ): ITsEntity {
+    public SpawnChild(templateGuid: string, transform: ITransform, entityGuid?: string): ITsEntity {
         const entityData = EntityTemplateOp.GenEntityData(templateGuid, entityGuid);
         const entity = gameContext.EntityManager.SpawnEntity(entityData, toTransform(transform));
         this.Children.set(entity.Guid, entity);

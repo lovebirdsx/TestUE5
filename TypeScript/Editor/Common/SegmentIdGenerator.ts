@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { EFileRoot, MyFileHelper } from 'ue';
 
+import { log } from '../../Common/Log';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { getMacAddress } from './Util';
 
@@ -101,6 +102,10 @@ export class SegmentIdGenerator {
         writeJson(data, SegmentIdGenerator.GetSavePath(this.Name));
     }
 
+    public ToString(): string {
+        return `[${this.Name}][${this.MinId} - ${this.MaxId}] Id = ${this.Id}`;
+    }
+
     public ContainsId(id: number): boolean {
         return this.MinId <= id && id < this.MaxId;
     }
@@ -138,24 +143,34 @@ export class SegmentIdGenerator {
     }
 }
 
+export class SegmentIdGeneratorManager {
+    private readonly Generators: SegmentIdGenerator[] = [];
+
+    public AddGenerator(generator: SegmentIdGenerator): void {
+        this.Generators.push(generator);
+    }
+
+    public ShowInfo(): void {
+        this.Generators.forEach((generator) => {
+            log(generator.ToString());
+        });
+    }
+}
+
+export const segmentIdGeneratorManager = new SegmentIdGeneratorManager();
+
 export abstract class CustomSegmentIdGenerator extends SegmentIdGenerator {
     public constructor(name: string) {
         super(name);
         if (!CustomSegmentIdGenerator.HasRecordForConfig(name)) {
             const id = this.GetMaxIdGenerated();
-            if (id !== undefined) {
+            if (id > 0) {
                 this.SaveWithId(id + 1);
             }
         }
+        segmentIdGeneratorManager.AddGenerator(this);
     }
 
-    protected abstract GetMaxIdGenerated(): number | undefined;
-
-    public GenOne(): number {
-        return super.GenOne();
-    }
-
-    public GenMany(count: number): number[] {
-        return super.GenMany(count);
-    }
+    // 返回当前已经生成的最大id, 若不存在, 则返回-1
+    protected abstract GetMaxIdGenerated(): number;
 }

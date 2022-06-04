@@ -30,6 +30,7 @@ import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
+import { segmentIdGeneratorManager } from '../Common/SegmentIdGenerator';
 import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
@@ -409,18 +410,21 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         // Test Case 3
         // const world = EditorLevelLibrary.GetEditorWorld();
         // log(`World: ${world.GetName()} Package Path: ${EditorOperations.GetPackagePath(world)}`);
-
+        //
         // Test Case 4
         // const entityDatas = LevelTools.GetAllEntityTemplatePath();
         // entityDatas.forEach((data) => {
         //     log(data);
         // });
-
+        //
         // Test Case 5
-        const entity = LevelEditorUtil.GetSelectedEntity();
-        if (entity) {
-            log(`[${entity.ActorLabel}] [${entity.Id}]`);
-        }
+        // const entity = LevelEditorUtil.GetSelectedEntity();
+        // if (entity) {
+        //     log(`[${entity.ActorLabel}] [${entity.Id}]`);
+        // }
+        //
+        // Test Case 6
+        segmentIdGeneratorManager.ShowInfo();
     };
 
     private readonly GetUndoStateStr = (): string => {

@@ -1,7 +1,9 @@
-import { EFileRoot, MyFileHelper } from 'ue';
+import { EditorLevelLibrary, EFileRoot, MyFileHelper } from 'ue';
 
 import { listFiles } from '../../Common/File';
+import { readJsonObj } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
+import { IEntityData } from '../../Game/Interface';
 
 export type TLevelName = 'Demo' | 'TestTsEntity';
 
@@ -21,6 +23,11 @@ export class LevelTools {
         return levelConfigs.map((level) => level.Name);
     }
 
+    public static GetAllEntityDataPathOfCurrentLevel(): string[] {
+        const world = EditorLevelLibrary.GetEditorWorld();
+        return this.GetAllEntityDataPath(world.GetName() as TLevelName);
+    }
+
     public static GetAllEntityDataPath(levelName: TLevelName): string[] {
         const levelConfig = levelConfigs.find((config) => config.Name === levelName);
         if (!levelConfig) {
@@ -31,6 +38,16 @@ export class LevelTools {
             return this.GetAllEntityDataPathForPartitionLevel(levelConfig.ContentPath);
         }
         return this.GetAllEntityDataPathForNormalLevel(levelConfig.ContentPath);
+    }
+
+    public static GetAllEntityData(levelName: TLevelName): IEntityData[] {
+        const paths = this.GetAllEntityDataPath(levelName);
+        return paths.map((path) => readJsonObj<IEntityData>(path));
+    }
+
+    public static GetAllEntityDataOfCurrentLevel(): IEntityData[] {
+        const paths = this.GetAllEntityDataPathOfCurrentLevel();
+        return paths.map((path) => readJsonObj<IEntityData>(path));
     }
 
     private static GetAllEntityDataPathForPartitionLevel(contentPath: string): string[] {

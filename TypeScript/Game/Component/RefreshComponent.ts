@@ -3,7 +3,7 @@
 import { toTransform, toTransformInfo } from '../../Common/Interface';
 import { getTotalSecond } from '../../Common/Util';
 import { deInitTsEntity } from '../Entity/Common';
-import { entityRegistry } from '../Entity/EntityRegistry';
+// import { entityRegistry } from '../Entity/EntityRegistry';
 import { Component, gameContext, IEntityData, ITimeCall } from '../Interface';
 import { ISpawn } from '../Interface/Action';
 import { IRefreshGroup, IRefreshSingleComponent, ITempleGuid } from '../Interface/Component';
@@ -203,8 +203,8 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
             this.EntityGuidList.forEach((guid) => {
                 const tsEntity = gameContext.EntityManager.GetEntity(guid);
                 if (tsEntity) {
-                    const data = entityRegistry.GenData(tsEntity);
-                    entitylist.push(data);
+                    // const data = entityRegistry.GenData(tsEntity);
+                    // entitylist.push(data);
                 }
             });
             this.State.SetState('SpawnRecord', entitylist);

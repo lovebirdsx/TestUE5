@@ -16,7 +16,7 @@ export interface ISimpleMoveInfo {
 }
 
 export class SimpleComponent extends Component implements ITickable {
-    private readonly MoveInfo: Map<string, ISimpleMoveInfo> = new Map();
+    private readonly MoveInfo: Map<number, ISimpleMoveInfo> = new Map();
 
     public SimpleMove(action: ISimpleMove): void {
         const tsEntity = gameContext.EntityManager.GetEntity(action.Who);

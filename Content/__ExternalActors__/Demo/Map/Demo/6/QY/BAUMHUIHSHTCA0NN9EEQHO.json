@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 11,
-  "Guid": "A8759EAF404F444DD78671BEED038C01",
   "ComponentsData": {
     "SphereFactoryComponent": {
       "SphereLocation": {
@@ -19,7 +18,7 @@
         "Y": 0,
         "Z": 0
       },
-      "SphereGuid": "A7DFCCFC47DA5AE66CB8F88808966AF6",
+      "SphereGuid": 3,
       "Disabled": false
     }
   },

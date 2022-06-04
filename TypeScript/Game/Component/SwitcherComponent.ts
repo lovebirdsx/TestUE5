@@ -38,7 +38,7 @@ export class SwitcherComponent extends InteractiveComponent implements ISwitcher
         }
         player.AddInteractor(this.Entity);
         const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
-        tsHud.AddInteract(this.GetInteractContent(), this.Entity.Guid);
+        tsHud.AddInteract(this.GetInteractContent(), this.Entity.Id);
     }
 
     public OnTriggerExit(other: Entity): void {
@@ -48,7 +48,7 @@ export class SwitcherComponent extends InteractiveComponent implements ISwitcher
         }
         player.RemoveInteractor(this.Entity);
         const tsHud = gameContext.PlayerController.GetHUD() as TsHud;
-        tsHud.DelInteract(this.Entity.Guid);
+        tsHud.DelInteract(this.Entity.Id);
     }
 
     private async Run(isOn: boolean): Promise<void> {

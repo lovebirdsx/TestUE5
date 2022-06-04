@@ -30,6 +30,6 @@ export const arrayContext = React.createContext<IArrayContext>({
     Array: undefined,
 });
 
-export const entityIdContext = React.createContext<string>(undefined);
+export const entityIdContext = React.createContext<number>(undefined);
 
 export const talkerListContext = React.createContext<ITalkerListInfo>(undefined);

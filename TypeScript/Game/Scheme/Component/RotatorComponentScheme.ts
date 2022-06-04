@@ -2,8 +2,8 @@
 import {
     createArrayScheme,
     createBooleanScheme,
+    createIntScheme,
     createObjectScheme,
-    createStringScheme,
     createVectorScheme,
     IVectorType,
 } from '../../../Common/Type';
@@ -75,7 +75,7 @@ export const rotatorComponentScheme = createComponentScheme<IRotatorComponent>({
                 };
             },
         }),
-        EntityId: createStringScheme({
+        EntityId: createIntScheme({
             CnName: '旋转目标',
             RenderType: 'entityId',
             ShowName: true,

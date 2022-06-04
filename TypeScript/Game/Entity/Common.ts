@@ -3,13 +3,13 @@ import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity, parseComponentsData } from '../Interface';
 
 export function initTsEntity(tsEntity: ITsEntity): void {
-    const state = gameContext.StateManager.GetState(tsEntity.Guid);
+    const state = gameContext.StateManager.GetState(tsEntity.Id);
     if (state?.Deleted) {
         tsEntity.K2_DestroyActor();
         return;
     }
 
-    const entity = new Entity(tsEntity.ActorLabel, tsEntity.Guid, tsEntity);
+    const entity = new Entity(tsEntity.ActorLabel, tsEntity.Id, tsEntity);
     const componentsState = parseComponentsData(tsEntity.ComponentsDataJson);
     const componentClasses = tsEntity.GetComponentClasses();
     componentClasses.forEach((componentClass) => {

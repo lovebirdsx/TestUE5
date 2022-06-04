@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 1010,
-  "Guid": "20D9C9E94C9FAC71CDEEF9A78546FF33",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Open",
@@ -19,7 +18,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "Who": 3000052,
             "ActionInfo": {
               "Name": "SetNumberVar",
               "Params": {
@@ -32,7 +31,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "Who": 3000052,
             "ActionInfo": {
               "Name": "CallFunction",
               "Params": {
@@ -46,7 +45,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "Who": 3000052,
             "ActionInfo": {
               "Name": "SetNumberVar",
               "Params": {
@@ -59,7 +58,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "1D43E1A343D951290FFEC1A9DE64A17C",
+            "Who": 3000052,
             "ActionInfo": {
               "Name": "CallFunction",
               "Params": {

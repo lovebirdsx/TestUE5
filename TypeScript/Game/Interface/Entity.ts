@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { TComponentType } from './Component';
+import { TActionType } from './Action';
+import { baseActions, getActionsByComponentType, TComponentType } from './Component';
 
 export type TEntityType =
     | 'AiNpc'
@@ -18,18 +19,70 @@ export type TEntityType =
     | 'Underground';
 
 export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
-    AiNpc: ['FlowComponent', 'BehaviorFlowComponent', 'MoveComponent', 'EntitySpawnerComponent'],
-    Lamp: ['EventComponent'],
-    Npc: ['FlowComponent', 'BehaviorFlowComponent', 'EntitySpawnerComponent'],
-    RefreshSingle: ['RefreshSingleComponent', 'EntitySpawnerComponent'],
-    Rotator: ['RotatorComponent', 'EventComponent'],
-    SphereActor: ['InteractiveComponent'],
-    SphereFactory: ['SphereFactoryComponent', 'EntitySpawnerComponent', 'EventComponent'],
+    AiNpc: [
+        'StateComponent',
+        'FlowComponent',
+        'BehaviorFlowComponent',
+        'TalkComponent',
+        'MoveComponent',
+        'NpcComponent',
+        'EntitySpawnerComponent',
+    ],
+    Lamp: ['LampComponent', 'EventComponent', 'StateComponent'],
+    Npc: [
+        'StateComponent',
+        'FlowComponent',
+        'BehaviorFlowComponent',
+        'TalkComponent',
+        'NpcComponent',
+        'EntitySpawnerComponent',
+    ],
+    RefreshSingle: ['RefreshSingleComponent', 'StateComponent', 'EntitySpawnerComponent'],
+    Rotator: ['RotatorComponent', 'StateComponent', 'EventComponent'],
+    SphereActor: ['SphereComponent', 'GrabComponent'],
+    SphereFactory: [
+        'SphereFactoryComponent',
+        'EntitySpawnerComponent',
+        'EventComponent',
+        'StateComponent',
+    ],
     Spring: ['SpringComponent'],
-    SpringBoard: ['SimpleComponent'],
-    StateEntity: ['ActorStateComponent', 'CalculateComponent', 'EntitySpawnerComponent'],
-    Switcher: ['SwitcherComponent', 'EntitySpawnerComponent'],
-    Trample: ['TrampleComponent', 'SimpleComponent'],
-    Trigger: ['TriggerComponent', 'EntitySpawnerComponent'],
-    Underground: ['UndergroundComponent', 'EventComponent'],
+    SpringBoard: ['SpringBoardComponent', 'StateComponent', 'SimpleComponent'],
+    StateEntity: [
+        'StateComponent',
+        'ActorStateComponent',
+        'CalculateComponent',
+        'EntitySpawnerComponent',
+    ],
+    Switcher: [
+        'StateComponent',
+        'ActorStateComponent',
+        'SwitcherComponent',
+        'EntitySpawnerComponent',
+    ],
+    Trample: ['TrampleComponent', 'SimpleComponent', 'StateComponent'],
+    Trigger: ['StateComponent', 'TriggerComponent', 'EntitySpawnerComponent'],
+    Underground: ['UndergroundComponent', 'StateComponent', 'EventComponent'],
 };
+
+export function getComponentsTypeByEntity(entity: TEntityType): TComponentType[] {
+    return entityConfig[entity];
+}
+
+const actionsByEntity: Map<TEntityType, TActionType[]> = new Map();
+
+export function getActionsByEntityType(entity: TEntityType): TActionType[] {
+    let result = actionsByEntity.get(entity);
+    if (!result) {
+        const actions: TActionType[] = [...baseActions];
+        entityConfig[entity].forEach((componentType) => {
+            actions.push(...getActionsByComponentType(componentType));
+        });
+        // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
+        actions.sort();
+        actionsByEntity.set(entity, actions);
+        result = actions;
+    }
+
+    return result;
+}

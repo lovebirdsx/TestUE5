@@ -5,6 +5,7 @@ import { HorizontalBox } from 'react-umg';
 
 import {
     createArrayScheme,
+    createIntScheme,
     createObjectScheme,
     createStringScheme,
     IProps,
@@ -25,8 +26,8 @@ const entityRecordScheme = createObjectScheme<IEntityRecord>({
             MaxWidth: 65,
             IsUnique: true,
         }),
-        GuidFilter: createStringScheme({
-            CnName: 'Guid过滤字符串',
+        Id: createIntScheme({
+            CnName: 'Id过滤字符串',
             Hide: true,
             MaxWidth: 200,
         }),
@@ -48,7 +49,7 @@ function renderEntityRecord(
                     const entity = LevelEditorUtil.GetSelectedEntity();
                     if (entity) {
                         const newRecrod = produce(record, (draft) => {
-                            draft.GuidFilter = entity.Guid;
+                            draft.Id = entity.Id;
                             draft.Name = entity.ActorLabel;
                         });
                         props.OnModify(newRecrod, 'normal');
@@ -59,7 +60,7 @@ function renderEntityRecord(
                 Text={'◉'}
                 Tip={'在场景中尝试选中引用的实体'}
                 OnClick={(): void => {
-                    const entity = LevelEditorUtil.FindFirstEntityByGuidFilter(record.GuidFilter);
+                    const entity = LevelEditorUtil.GetEntity(record.Id);
                     if (entity) {
                         LevelEditorUtil.Focus(entity);
                     }

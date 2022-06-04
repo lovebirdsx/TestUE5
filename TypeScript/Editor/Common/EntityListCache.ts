@@ -6,13 +6,13 @@ import LevelEditorUtil from './LevelEditorUtil';
 class EntityListCache {
     private Lables: string[];
 
-    private Guids: string[];
+    private Ids: number[];
 
     private Entities: ITsEntity[];
 
     private readonly EntityByLabel = new Map<string, ITsEntity>();
 
-    private readonly EntityByGuid = new Map<string, ITsEntity>();
+    private readonly EntityById = new Map<number, ITsEntity>();
 
     public constructor() {
         this.RefreshCache();
@@ -22,15 +22,15 @@ class EntityListCache {
         const entities = LevelEditorUtil.GetAllEntitiesByEditorWorld();
         this.Entities = entities;
         this.Lables = entities.map((entity) => entity.ActorLabel);
-        this.Guids = entities.map((entity) => entity.Guid);
+        this.Ids = entities.map((entity) => entity.Id);
         this.EntityByLabel.clear();
-        this.EntityByGuid.clear();
+        this.EntityById.clear();
         entities.forEach((entity) => {
             if (this.EntityByLabel.has(entity.ActorLabel)) {
                 error(`重复的ActorLabel ${entity.ActorLabel}`);
             }
             this.EntityByLabel.set(entity.ActorLabel, entity);
-            this.EntityByGuid.set(entity.Guid, entity);
+            this.EntityById.set(entity.Id, entity);
         });
     }
 
@@ -38,16 +38,16 @@ class EntityListCache {
         return this.Lables;
     }
 
-    public GetGuids(): string[] {
-        return this.Guids;
+    public GetIds(): number[] {
+        return this.Ids;
     }
 
     public GetAllEntities(): ITsEntity[] {
         return this.Entities;
     }
 
-    public GetEntityByGuid(guid: string): ITsEntity {
-        return this.EntityByGuid.get(guid);
+    public GetEntityById(id: number): ITsEntity {
+        return this.EntityById.get(id);
     }
 
     public GetEntityByLable(name: string): ITsEntity {

@@ -47,7 +47,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public RotationOffset: IVectorType;
 
-    public EntityId: string;
+    public EntityId: number;
 
     public IsRotatorSelf: boolean;
 
@@ -104,7 +104,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         if (player) {
             player.AddInteractor(this.Entity);
             const tsHud = this.GetPlayerHud();
-            tsHud.AddInteract(this.GetInteractContent(), this.Entity.Guid);
+            tsHud.AddInteract(this.GetInteractContent(), this.Entity.Id);
         }
     }
 
@@ -113,7 +113,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         if (player) {
             player.RemoveInteractor(this.Entity);
             const tsHud = this.GetPlayerHud();
-            tsHud.DelInteract(this.Entity.Guid);
+            tsHud.DelInteract(this.Entity.Id);
         }
     }
 

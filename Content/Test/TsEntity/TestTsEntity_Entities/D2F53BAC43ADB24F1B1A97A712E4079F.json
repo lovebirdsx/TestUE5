@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 2,
-  "Guid": "D2F53BAC43ADB24F1B1A97A712E4079F",
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 10,

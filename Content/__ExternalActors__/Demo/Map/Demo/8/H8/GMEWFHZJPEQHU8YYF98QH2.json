@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 1009,
-  "Guid": "C358A33D4F5B08AEAF4510BB3F870303",
   "ComponentsData": {
     "RotatorComponent": {
       "RotatorSpeed": {
@@ -35,18 +34,18 @@
         "Z": 0
       },
       "IsLocalSpace": false,
-      "EntityId": "3677A62F458E70352FC195BE4E15F515",
+      "EntityId": 3000001,
       "IsRotatorSelf": false,
       "InteractAction": {
         "StartActions": [
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "D09A26E44E5193FFD9A2B592321E0A90",
+              "Who": 3000036,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "D09A26E44E5193FFD9A2B592321E0A90",
+                  "Who": 3000036,
                   "Param": "1"
                 }
               }
@@ -55,11 +54,11 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "54FD0C924D6AB5F39DC813A6617D4837",
+              "Who": 3000033,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "54FD0C924D6AB5F39DC813A6617D4837",
+                  "Who": 3000033,
                   "Param": "1"
                 }
               }
@@ -68,11 +67,11 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "C358A33D4F5B08AEAF4510BB3F870303",
+              "Who": 3000044,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "C358A33D4F5B08AEAF4510BB3F870303",
+                  "Who": 3000044,
                   "Param": "1"
                 }
               }
@@ -83,11 +82,11 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "D09A26E44E5193FFD9A2B592321E0A90",
+              "Who": 3000036,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "D09A26E44E5193FFD9A2B592321E0A90",
+                  "Who": 3000036,
                   "Param": "2"
                 }
               }
@@ -96,11 +95,11 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "54FD0C924D6AB5F39DC813A6617D4837",
+              "Who": 3000033,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "54FD0C924D6AB5F39DC813A6617D4837",
+                  "Who": 3000033,
                   "Param": "2"
                 }
               }

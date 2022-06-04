@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 2,
-  "Guid": "E2B3C52A4B275A0467A4AFBC9368D54F",
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 1,
@@ -23,7 +22,7 @@
           {
             "Name": "SpawnChild",
             "Params": {
-              "TemplateGuid": "B13AFF12452A0054A80F02A8E70191A5",
+              "TemplateGuid": 1,
               "Transform": {
                 "Pos": {
                   "X": 392,
@@ -46,7 +45,7 @@
           {
             "Name": "SpawnChild",
             "Params": {
-              "TemplateGuid": "B13AFF12452A0054A80F02A8E70191A5",
+              "TemplateGuid": 1,
               "Transform": {
                 "Pos": {
                   "X": 67,

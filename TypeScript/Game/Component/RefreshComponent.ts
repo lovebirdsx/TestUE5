@@ -56,12 +56,12 @@ export class RefreshSingleComponent
         }
     }
 
-    private readonly OnEntityRemoved = (guid: string): void => {
-        if (!this.Spawn.HasChild(guid)) {
+    private readonly OnEntityRemoved = (id: number): void => {
+        if (!this.Spawn.HasChild(id)) {
             return;
         }
         const second = getTotalSecond();
-        const destroyType = gameContext.EntityManager.GetDestoryType(guid);
+        const destroyType = gameContext.EntityManager.GetDestoryType(id);
         if (destroyType === 'delete') {
             this.CallTime = second + this.RefreshInterval;
             if (!this.DelayRefresh) {
@@ -75,8 +75,8 @@ export class RefreshSingleComponent
     public OnStart(): void {
         if (this.RefreshTimes >= this.MaxRefreshTimes && this.Spawn.GetChildNum() === 0) {
             // 如果刷满且没有子实体了就删除实体;
-            const guid = this.Entity.Guid;
-            const tsEntity = gameContext.EntityManager.GetEntity(guid);
+            const id = this.Entity.Id;
+            const tsEntity = gameContext.EntityManager.GetEntity(id);
             if (tsEntity) {
                 deInitTsEntity(tsEntity);
                 tsEntity.K2_DestroyActor();
@@ -144,13 +144,13 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
 
     public DelayRefresh: boolean;
 
-    public EntityGuidList: string[];
+    public EntityIdList: number[];
 
     private State: StateComponent;
 
     private RefreshTimes = 0;
 
-    private readonly OriginEntityMap = new Map<string, IEntityData>();
+    private readonly OriginEntityMap = new Map<number, IEntityData>();
 
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
@@ -175,10 +175,10 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
         }
     }
 
-    private readonly OnEntityRemoved = (guid: string): void => {
-        if (this.EntityGuidList.includes(guid)) {
+    private readonly OnEntityRemoved = (id: number): void => {
+        if (this.EntityIdList.includes(id)) {
             const second = getTotalSecond();
-            const destroyType = gameContext.EntityManager.GetDestoryType(guid);
+            const destroyType = gameContext.EntityManager.GetDestoryType(id);
             if (destroyType === 'delete' && this.CallTime === -1) {
                 this.CallTime = second + this.RefreshInterval;
                 if (!this.DelayRefresh) {
@@ -188,7 +188,7 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
                 }
             } else {
                 if (destroyType === 'deleteByRefresh') {
-                    this.RefreshEntity(guid);
+                    this.RefreshEntity(id);
                 }
             }
         }
@@ -199,8 +199,8 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
         if (this.State.GetState('SpawnRecord')) {
             entitylist = this.State.GetState('SpawnRecord');
         }
-        if (entitylist.length !== this.EntityGuidList.length) {
-            this.EntityGuidList.forEach((guid) => {
+        if (entitylist.length !== this.EntityIdList.length) {
+            this.EntityIdList.forEach((guid) => {
                 const tsEntity = gameContext.EntityManager.GetEntity(guid);
                 if (tsEntity) {
                     // const data = entityRegistry.GenData(tsEntity);
@@ -210,7 +210,7 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
             this.State.SetState('SpawnRecord', entitylist);
         }
         entitylist.forEach((data) => {
-            this.OriginEntityMap.set(data.Guid, data);
+            this.OriginEntityMap.set(data.Id, data);
         });
     }
 
@@ -256,7 +256,7 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     public RefreshGroup(): void {
         const delelist = [];
         if (!this.DelayRefresh) {
-            this.EntityGuidList.forEach((guid) => {
+            this.EntityIdList.forEach((guid) => {
                 const tsEntity = gameContext.EntityManager.GetEntity(guid);
                 if (tsEntity) {
                     gameContext.EntityManager.RemoveEntity(tsEntity, 'deleteByRefresh');
@@ -272,11 +272,11 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
         });
     }
 
-    public RefreshEntity(guid: string): void {
-        const data = this.OriginEntityMap.get(guid);
+    public RefreshEntity(id: number): void {
+        const data = this.OriginEntityMap.get(id);
         if (data) {
             const transform = toTransform(data.Transform);
-            gameContext.StateManager.DeleteState(data.Guid);
+            gameContext.StateManager.DeleteState(data.Id);
             gameContext.EntityManager.SpawnEntity(data, transform);
         }
     }

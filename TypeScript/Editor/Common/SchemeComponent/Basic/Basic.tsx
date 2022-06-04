@@ -110,10 +110,10 @@ export function Asset(props: IProps<string, AssetScheme>): JSX.Element {
     );
 }
 
-export function EntityId(props: IProps<string>): JSX.Element {
+export function EntityId(props: IProps<number>): JSX.Element {
     return (
         <EntitySelector
-            Guid={props.Value}
+            Id={props.Value}
             OnEntityChanged={(guid): void => {
                 props.OnModify(guid, 'normal');
             }}

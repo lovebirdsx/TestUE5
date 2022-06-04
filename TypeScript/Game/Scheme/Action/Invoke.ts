@@ -1,14 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary } from 'ue';
 
-import { createObjectScheme, createStringScheme } from '../../../Common/Type';
+import { createIntScheme, createObjectScheme, createStringScheme } from '../../../Common/Type';
 import { LevelUtil } from '../../Common/LevelUtil';
 import { IActionInfo, IInteract, IInvoke } from '../../Interface/Action';
 import { createActionScheme } from './Action';
 import { actionRegistry } from './ActionRegistry';
 import { setPosScheme } from './Move';
 
-export const entityIdScheme = createStringScheme({
+export const entityIdScheme = createIntScheme({
     CnName: '目标',
     RenderType: 'entityId',
     CreateDefault: () => {
@@ -16,7 +16,7 @@ export const entityIdScheme = createStringScheme({
         // 但是此处为了确保EntityId的合法, 必须要这样处理
         const world = EditorLevelLibrary.GetEditorWorld();
         const entities = LevelUtil.GetAllEntities(world);
-        return entities.length > 0 ? entities[0].Guid : 'empty';
+        return entities.length > 0 ? entities[0].Id : 0;
     },
     ShowName: true,
 });
@@ -59,7 +59,7 @@ export const interactScheme = createObjectScheme<IInteract>({
     CnName: '触发交互',
     Tip: '让选定实体交互',
     Fields: {
-        Who: createStringScheme({
+        Who: createIntScheme({
             CnName: '触发者',
             RenderType: 'entityId',
             ShowName: true,

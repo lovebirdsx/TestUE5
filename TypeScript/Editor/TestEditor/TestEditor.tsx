@@ -23,6 +23,7 @@ import testTextListCsv, {
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
+import { LevelTools } from '../EntityEditor/LevelTools';
 import testConfig from '../UnitTest/Common/TestConfig';
 import { testUtil } from '../UnitTest/Engine/TestUtil';
 import testClass from '../UnitTest/Game/TestClass';
@@ -49,6 +50,10 @@ interface ITestEditorState {
     Tests: ITest[];
 }
 
+function fixEntityIds(): void {
+    LevelTools.FixAllEntityDataId();
+}
+
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
     { Name: 'testConfig', Fun: testConfig },
@@ -64,6 +69,7 @@ const allTests: ITest[] = [
     { Name: 'testTextListCSV', Fun: testTextListCsv },
     { Name: 'testOpenFileDialog', Fun: testOpenFileDialog, ManualRun: true },
     { Name: 'testCloseFileDialog', Fun: testSaveFileDialog, ManualRun: true },
+    { Name: 'fixEntityIds', Fun: fixEntityIds, ManualRun: true },
 ];
 
 export class TestEditor extends React.Component<unknown, ITestEditorState> {

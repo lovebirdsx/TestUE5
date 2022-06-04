@@ -8,8 +8,8 @@ import { Btn } from './CommonComponent';
 import { FilterableList } from './FilterableList';
 
 export interface IEntitySelectorProps {
-    Guid: string;
-    OnEntityChanged: (guid: string) => void;
+    Id: number;
+    OnEntityChanged: (id: number) => void;
 }
 
 export class EntitySelector extends React.Component<IEntitySelectorProps> {
@@ -19,19 +19,19 @@ export class EntitySelector extends React.Component<IEntitySelectorProps> {
 
     private get SelectedName(): string {
         const props = this.props;
-        const entity = entityListCache.GetEntityByGuid(props.Guid);
+        const entity = entityListCache.GetEntityById(props.Id);
         return entity ? entity.ActorLabel : '';
     }
 
     private readonly OnClickBtnAssign = (): void => {
         const entity = LevelEditorUtil.GetSelectedEntity();
-        if (entity && entity.Guid !== this.props.Guid) {
-            this.props.OnEntityChanged(entity.Guid);
+        if (entity && entity.Id !== this.props.Id) {
+            this.props.OnEntityChanged(entity.Id);
         }
     };
 
     private readonly OnClickBtnNav = (): void => {
-        const entity = entityListCache.GetEntityByGuid(this.props.Guid);
+        const entity = entityListCache.GetEntityById(this.props.Id);
         if (entity) {
             LevelEditorUtil.SelectActor(entity);
             LevelEditorUtil.FocusSelected();
@@ -41,8 +41,8 @@ export class EntitySelector extends React.Component<IEntitySelectorProps> {
     private readonly OnSelectChanged = (name: string): void => {
         const props = this.props;
         const entity = entityListCache.GetEntityByLable(name);
-        if (entity && entity.Guid !== props.Guid) {
-            props.OnEntityChanged(entity.Guid);
+        if (entity && entity.Id !== props.Id) {
+            props.OnEntityChanged(entity.Id);
         }
     };
 

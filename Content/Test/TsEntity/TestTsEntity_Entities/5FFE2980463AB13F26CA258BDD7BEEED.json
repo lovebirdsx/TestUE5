@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 2,
-  "Guid": "5FFE2980463AB13F26CA258BDD7BEEED",
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 1,
@@ -17,7 +16,7 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "95179F584CAB6556478FE4A64085CEEE",
+              "Who": 3000012,
               "ActionInfo": {
                 "Name": "MoveToPos",
                 "Params": {
@@ -34,7 +33,7 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "95179F584CAB6556478FE4A64085CEEE",
+              "Who": 3000012,
               "ActionInfo": {
                 "Name": "FaceToPos",
                 "Params": {
@@ -50,7 +49,7 @@
           {
             "Name": "SpawnChild",
             "Params": {
-              "TemplateGuid": "0B98C77D45CF767B37234BBFC019848E",
+              "TemplateGuid": 0,
               "Transform": {
                 "Pos": {
                   "X": 760,

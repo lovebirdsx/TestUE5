@@ -18,17 +18,27 @@ export type TComponentType =
     | 'EntitySpawnerComponent'
     | 'EventComponent'
     | 'FlowComponent'
+    | 'GrabComponent'
     | 'InteractiveComponent'
+    | 'LampComponent'
     | 'MoveComponent'
+    | 'NpcComponent'
+    | 'RefreshEntityComponent'
     | 'RefreshSingleComponent'
     | 'RotatorComponent'
     | 'SimpleComponent'
+    | 'SphereComponent'
     | 'SphereFactoryComponent'
+    | 'SpringBoardComponent'
     | 'SpringComponent'
+    | 'StateComponent'
     | 'SwitcherComponent'
+    | 'TalkComponent'
     | 'TrampleComponent'
     | 'TriggerComponent'
     | 'UndergroundComponent';
+
+export const baseActions: TActionType[] = ['Invoke', 'Log', 'Wait', 'ShowMessage'];
 
 export const actionsByComponent: { [key in TComponentType]: TActionType[] } = {
     ActorStateComponent: ['ChangeActorState'],
@@ -54,7 +64,19 @@ export const actionsByComponent: { [key in TComponentType]: TActionType[] } = {
     TrampleComponent: [],
     TriggerComponent: [],
     UndergroundComponent: [],
+    GrabComponent: [],
+    NpcComponent: [],
+    RefreshEntityComponent: [],
+    SphereComponent: [],
+    StateComponent: [],
+    TalkComponent: [],
+    LampComponent: [],
+    SpringBoardComponent: [],
 };
+
+export function getActionsByComponentType(component: TComponentType): TActionType[] {
+    return actionsByComponent[component];
+}
 
 export interface IInteractiveComponent {
     Content: string;
@@ -113,7 +135,7 @@ export interface IRefreshGroup {
     RefreshInterval: number;
     MaxRefreshTimes: number;
     DelayRefresh: boolean;
-    EntityGuidList: string[];
+    EntityIdList: number[];
 }
 
 export interface IRefreshSingleComponent {
@@ -135,7 +157,7 @@ export interface IRotatorComponent extends IInteractiveComponent {
     RotationOffset: IVectorType;
     RotationMapping: IVectorType;
     IsLocalSpace: boolean;
-    EntityId: string;
+    EntityId: number;
     IsRotatorSelf: boolean;
     InteractAction: IEventRotator;
     IsLockZ: boolean;

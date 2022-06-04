@@ -59,7 +59,7 @@ interface IEntityEditorState {
     StepId: number;
     IsEditorPlaying: boolean;
     ShowExtended: boolean;
-    GuidFilter: string;
+    IdToSearch: number;
     EntityRecords: IEntityRecords;
 }
 
@@ -88,7 +88,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             StepId: 0,
             IsEditorPlaying: LevelEditorUtil.IsPlaying,
             ShowExtended: editorConfig.IsEntityEditorShowExtendToolBar,
-            GuidFilter: editorConfig.GuidFilter,
+            IdToSearch: editorConfig.EntityIdToSearch || 1,
             EntityRecords: editorConfig.EntityRecords,
         };
         this.LastApplyEntityState = initEntityState;
@@ -433,9 +433,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly FocusOnSearch = (): void => {
-        const entity = LevelEditorUtil.FindFirstEntityByGuidFilter(this.state.GuidFilter);
+        const entity = LevelEditorUtil.GetEntity(this.state.IdToSearch);
         if (!entity) {
-            msgbox(`没有找到Guid中包含字符串为${this.state.GuidFilter}的实体`);
+            msgbox(`没有找到Id为[${this.state.IdToSearch}]的实体`);
         } else {
             LevelEditorUtil.Focus(entity);
         }
@@ -446,10 +446,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             <HorizontalBox>
                 <Text Text={'Guid'} />
                 <EditorBox
-                    Text={this.state.GuidFilter}
+                    Text={this.state.IdToSearch.toString()}
                     OnChange={(text): void => {
-                        this.setState({ GuidFilter: text });
-                        editorConfig.GuidFilter = text;
+                        const id = parseInt(text, 10);
+                        this.setState({ IdToSearch: id });
+                        editorConfig.EntityIdToSearch = id;
                         editorConfig.Save();
                         this.FocusOnSearch();
                     }}

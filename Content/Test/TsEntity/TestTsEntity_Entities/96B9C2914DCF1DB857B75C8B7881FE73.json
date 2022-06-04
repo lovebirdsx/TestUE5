@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 2,
-  "Guid": "96B9C2914DCF1DB857B75C8B7881FE73",
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 1,
@@ -23,7 +22,7 @@
           {
             "Name": "SpawnChild",
             "Params": {
-              "TemplateGuid": "0B98C77D45CF767B37234BBFC019848E",
+              "TemplateGuid": 0,
               "Transform": {
                 "Pos": {
                   "X": 1375,

@@ -46,8 +46,8 @@ export class SphereFactoryComponent
         this.EntitySpawn.DestroyAllChild();
     }
 
-    private readonly OnEntityRemoved = (guid: string): void => {
-        if (!this.EntitySpawn.HasChild(guid)) {
+    private readonly OnEntityRemoved = (id: number): void => {
+        if (!this.EntitySpawn.HasChild(id)) {
             return;
         }
         this.CreateSphere();

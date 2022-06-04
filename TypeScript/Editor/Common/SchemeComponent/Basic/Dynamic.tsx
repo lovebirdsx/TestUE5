@@ -30,13 +30,13 @@ class ActionsCache {
     private readonly InstantActionMapByClass: Map<TTsClassType, Map<ActionScheme, TActionType[]>> =
         new Map();
 
-    public GetActions(entityId: string, scheme: ActionScheme, isInvoke: boolean): TActionType[] {
+    public GetActions(entityId: number, scheme: ActionScheme, isInvoke: boolean): TActionType[] {
         if (entityId === undefined) {
             // FlowEditor中的是没有entityId的上下文的, 则默认按照TsAiNpc的来处理
             return this.GetActionsByClass(TsAiNpc, scheme);
         }
 
-        const entity = entityListCache.GetEntityByGuid(entityId);
+        const entity = entityListCache.GetEntityById(entityId);
         if (!entity) {
             return [];
         }
@@ -111,7 +111,7 @@ export class Dynamic extends React.Component<IProps<IActionInfo, ActionScheme>> 
         this.props.OnModify(newValue, type);
     };
 
-    private RenderAction(invoke: IInvoke, entityId: string): JSX.Element {
+    private RenderAction(invoke: IInvoke, entityId: number): JSX.Element {
         const { Scheme: actionScheme, Value: action, PrefixElement: prefixElement } = this.props;
         const scheme = actionRegistry.GetScheme(action.Name);
         const actions = actionsCache.GetActions(entityId, actionScheme, invoke !== undefined);
@@ -147,7 +147,7 @@ export class Dynamic extends React.Component<IProps<IActionInfo, ActionScheme>> 
                 {(invoke: IInvoke): JSX.Element => {
                     return (
                         <entityIdContext.Consumer>
-                            {(entityId: string): JSX.Element => this.RenderAction(invoke, entityId)}
+                            {(entityId: number): JSX.Element => this.RenderAction(invoke, entityId)}
                         </entityIdContext.Consumer>
                     );
                 }}

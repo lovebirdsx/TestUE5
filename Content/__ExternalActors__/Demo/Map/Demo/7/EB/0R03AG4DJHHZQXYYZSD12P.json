@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 9,
-  "Guid": "D0875C0B4B9E405C72A10389533C6ADE",
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": false,
@@ -19,7 +18,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
+            "Who": 3000032,
             "ActionInfo": {
               "Name": "SetNumberVar",
               "Params": {
@@ -32,7 +31,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
+            "Who": 3000032,
             "ActionInfo": {
               "Name": "CallFunction",
               "Params": {
@@ -46,7 +45,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
+            "Who": 3000032,
             "ActionInfo": {
               "Name": "SetNumberVar",
               "Params": {
@@ -59,7 +58,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "4E129A284E3B0447E3343CA5AA1CC16E",
+            "Who": 3000032,
             "ActionInfo": {
               "Name": "CallFunction",
               "Params": {

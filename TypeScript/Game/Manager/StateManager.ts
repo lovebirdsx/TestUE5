@@ -3,8 +3,8 @@ import { MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
 import { GameConfig } from '../Common/GameConfig';
-import { IActionInfo } from '../Interface/Action';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
+import { IActionInfo } from '../Interface/Action';
 import { IManager } from './Interface';
 
 interface ILevelState {
@@ -12,7 +12,7 @@ interface ILevelState {
 }
 
 export class StateManager implements IManager, IStateManager {
-    private readonly EntityById = new Map<string, ISavedEntityState>();
+    private readonly EntityById = new Map<number, ISavedEntityState>();
 
     public constructor() {
         gameContext.StateManager = this;
@@ -30,11 +30,11 @@ export class StateManager implements IManager, IStateManager {
         this.Save();
     }
 
-    public GetState(id: string): ISavedEntityState {
+    public GetState(id: number): ISavedEntityState {
         return this.EntityById.get(id);
     }
 
-    public SetState(id: string, state: TEntityState): void {
+    public SetState(id: number, state: TEntityState): void {
         if (Object.keys(state).length <= 0) {
             this.EntityById.delete(id);
             return;
@@ -48,7 +48,7 @@ export class StateManager implements IManager, IStateManager {
         this.EntityById.set(id, saveEntityState);
     }
 
-    public PushDelayAction(id: string, actionInfo: IActionInfo): void {
+    public PushDelayAction(id: number, actionInfo: IActionInfo): void {
         let state = this.EntityById.get(id);
         if (!state) {
             state = {
@@ -68,7 +68,7 @@ export class StateManager implements IManager, IStateManager {
         log(`Push delay action ${JSON.stringify(actionInfo)} to ${id}`);
     }
 
-    public MarkDelete(id: string): void {
+    public MarkDelete(id: number): void {
         const saveEntityState: ISavedEntityState = {
             Id: id,
             Deleted: true,
@@ -76,7 +76,7 @@ export class StateManager implements IManager, IStateManager {
         this.EntityById.set(id, saveEntityState);
     }
 
-    public DeleteState(id: string): void {
+    public DeleteState(id: number): void {
         this.EntityById.delete(id);
     }
 

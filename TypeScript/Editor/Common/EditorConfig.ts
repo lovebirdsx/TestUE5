@@ -37,8 +37,8 @@ export class EditorConfig {
     // EntityEditor是否被锁定
     public IsEntityEditorLocked: boolean;
 
-    // EntityEditor中Guid过滤字符串
-    public GuidFilter: string;
+    // EntityEditor中EntityId
+    public EntityIdToSearch: number;
 
     // EntityEditor中是否显示扩展工具栏
     public IsEntityEditorShowExtendToolBar: boolean;

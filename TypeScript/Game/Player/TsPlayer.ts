@@ -33,9 +33,6 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     // @no-blueprint
     private InitSpeed: number;
 
-    // @no-blueprint
-    public Guid = 'unknown';
-
     @edit_on_instance()
     public ComponentsDataJson = '';
 
@@ -49,7 +46,6 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
 
     // @no-blueprint
     public Init(): void {
-        this.Guid = genGuid();
         initTsEntity(this);
     }
 

@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 1007,
-  "Guid": "4CAB2DA34EA8FB7000E3F1A92370F541",
   "ComponentsData": {
     "BehaviorFlowComponent": {
       "InitStateId": 0,

@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 1011,
-  "Guid": "1D43E1A343D951290FFEC1A9DE64A17C",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",
@@ -174,7 +173,7 @@
                   {
                     "Name": "Invoke",
                     "Params": {
-                      "Who": "5F946CE64AC775655094BD8286AB562D",
+                      "Who": 3000068,
                       "ActionInfo": {
                         "Name": "ChangeState",
                         "Params": {

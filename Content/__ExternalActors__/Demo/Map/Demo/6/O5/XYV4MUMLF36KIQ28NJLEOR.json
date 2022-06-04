@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 1008,
-  "Guid": "74153BB745727A2A1A4E769E19983989",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",

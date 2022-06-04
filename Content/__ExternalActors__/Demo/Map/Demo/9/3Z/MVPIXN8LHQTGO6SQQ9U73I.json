@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 9,
-  "Guid": "4156D5F44889F93EB58508A93ECEFF9D",
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": false,
@@ -19,11 +18,11 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "3644F2CD4727803E9D1ADCA409A477F3",
+            "Who": 3000048,
             "ActionInfo": {
               "Name": "Activate",
               "Params": {
-                "Who": "3644F2CD4727803E9D1ADCA409A477F3",
+                "Who": 3000048,
                 "Param": "2"
               }
             }
@@ -32,7 +31,7 @@
         {
           "Name": "SimpleMove",
           "Params": {
-            "Who": "DED3FEB64015F8065BF5659349DF3EDA",
+            "Who": 3000022,
             "UseTime": 2,
             "Pos": {
               "X": -4490,

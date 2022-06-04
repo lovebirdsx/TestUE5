@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 1001,
-  "Guid": "528E78C34E811E1BE84BE396F4537CDF",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -30,7 +29,7 @@
               {
                 "Name": "Invoke",
                 "Params": {
-                  "Who": "74153BB745727A2A1A4E769E19983989",
+                  "Who": 3000050,
                   "ActionInfo": {
                     "Name": "CallFunction",
                     "Params": {
@@ -61,7 +60,7 @@
               {
                 "Name": "Invoke",
                 "Params": {
-                  "Who": "74153BB745727A2A1A4E769E19983989",
+                  "Who": 3000050,
                   "ActionInfo": {
                     "Name": "CallFunction",
                     "Params": {

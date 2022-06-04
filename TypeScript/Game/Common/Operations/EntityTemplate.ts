@@ -3,7 +3,7 @@ import produce from 'immer';
 
 import { getFileNameWithOutExt, listFiles } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
-import { deepEquals, genGuid, readJsonObj } from '../../../Common/Util';
+import { deepEquals, readJsonObj } from '../../../Common/Util';
 import { IEntityData, TComponentClass, TComponentsData } from '../../Interface';
 import { GameConfig } from '../GameConfig';
 
@@ -67,10 +67,10 @@ export class EntityTemplateOp {
         return this.GuidMap.get(this.GuidByName.get(name));
     }
 
-    public static GenEntityData(templateGuid: string, entityGuid?: string): IEntityData {
+    public static GenEntityData(templateGuid: string, entityId?: number): IEntityData {
         const template = this.GetTemplateByGuid(templateGuid);
         return {
-            Guid: entityGuid || genGuid(),
+            Id: entityId,
             ComponentsData: template.ComponentsData,
             PrefabId: template.PrefabId,
         };

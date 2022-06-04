@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 1009,
-  "Guid": "3644F2CD4727803E9D1ADCA409A477F3",
   "ComponentsData": {
     "RotatorComponent": {
       "RotatorSpeed": {
@@ -35,18 +34,18 @@
         "Z": 0
       },
       "IsLocalSpace": false,
-      "EntityId": "746E641F4F488E7A00310D8BCB7C3DE2",
+      "EntityId": 3000002,
       "IsRotatorSelf": false,
       "InteractAction": {
         "StartActions": [
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "E9455EC94E609A558951DA924317C4C1",
+              "Who": 3000037,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "E9455EC94E609A558951DA924317C4C1",
+                  "Who": 3000037,
                   "Param": "1"
                 }
               }
@@ -55,11 +54,11 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "3644F2CD4727803E9D1ADCA409A477F3",
+              "Who": 3000048,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "3644F2CD4727803E9D1ADCA409A477F3",
+                  "Who": 3000048,
                   "Param": "1"
                 }
               }
@@ -70,11 +69,11 @@
           {
             "Name": "Invoke",
             "Params": {
-              "Who": "E9455EC94E609A558951DA924317C4C1",
+              "Who": 3000037,
               "ActionInfo": {
                 "Name": "Activate",
                 "Params": {
-                  "Who": "E9455EC94E609A558951DA924317C4C1",
+                  "Who": 3000037,
                   "Param": "2"
                 }
               }

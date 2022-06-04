@@ -22,18 +22,18 @@ export class GameController implements IGameController {
     private OnEntityDeregistered(entity: ITsEntity): void {
         const stateComponent = entity.Entity.TryGetComponent(StateComponent);
         if (stateComponent) {
-            gameContext.StateManager.SetState(entity.Guid, stateComponent.GenSnapshot());
+            gameContext.StateManager.SetState(entity.Id, stateComponent.GenSnapshot());
         }
     }
 
-    private OnEntityRemoved(guid: string): void {
+    private OnEntityRemoved(id: number): void {
         const entityMananger = gameContext.EntityManager;
-        const spawnType = entityMananger.GetSpawnType(guid);
-        const destroyType = entityMananger.GetDestoryType(guid);
+        const spawnType = entityMananger.GetSpawnType(id);
+        const destroyType = entityMananger.GetDestoryType(id);
         if (spawnType === 'user' && destroyType === 'delete') {
-            gameContext.StateManager.DeleteState(guid);
+            gameContext.StateManager.DeleteState(id);
         } else if (spawnType === 'streaming' && destroyType === 'delete') {
-            gameContext.StateManager.MarkDelete(guid);
+            gameContext.StateManager.MarkDelete(id);
         }
     }
 

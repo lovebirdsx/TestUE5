@@ -83,10 +83,20 @@ export class SegmentIdGenerator {
         this.MinId = this.SegmentId * ID_COUNT_PER_SEGMENT;
         this.MaxId = this.MinId + ID_COUNT_PER_SEGMENT;
 
+        // 确保生成的id都不为0, 简化某些id是否生成的判断
+        if (this.MinId === 0) {
+            this.MinId = 1;
+        }
+
         const data = readJsonObj<IGeneratorSnapshot>(SegmentIdGenerator.GetSavePath(this.Name));
         if (data) {
             if (data.Name !== this.Name) {
                 throw new Error(`Generator file name [${data.Name}] !== [${this.Name}]`);
+            }
+            if (!this.ContainsId(data.Id)) {
+                throw new Error(
+                    `Generator save id [${data.Id}] is not in range [${this.MinId}, ${this.MaxId})`,
+                );
             }
             this.Id = data.Id;
         } else {

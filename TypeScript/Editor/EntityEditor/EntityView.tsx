@@ -6,7 +6,6 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { error } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
-import { getGuid } from '../../Common/Util';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
@@ -61,7 +60,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         editorConfig.LastEntityTemplatePath = path;
         const newData = EntityTemplateOp.ProduceEntityData(
             template,
-            entityRegistry.GetComponentClassesByActor(this.props.Entity),
+            entityRegistry.GetComponentClasses(this.props.Entity),
             this.props.Data,
         );
         if (newData !== this.props.Data) {
@@ -71,21 +70,18 @@ export class EntityView extends React.Component<IEntityViewProps> {
 
     private readonly FixGuid = (): void => {
         const newPureData = produce(this.props.Data, (draft) => {
-            draft.Guid = getGuid(this.props.Entity);
+            draft.Id = this.props.Entity.Id;
         });
         this.props.OnModify(newPureData, 'normal');
     };
 
-    private RenderGuid(): JSX.Element {
-        const guid = this.props.Data.Guid;
-        if (guid) {
-            const needFixGuid = guid !== getGuid(this.props.Entity);
+    private RenderId(): JSX.Element {
+        const id = this.props.Data.Id;
+        if (!id) {
             return (
                 <HorizontalBox>
-                    <Text Text={`Guid: ${guid}`} />
-                    {needFixGuid && (
-                        <Btn Text={`修复`} Color={'#8B0000 error'} OnClick={this.FixGuid} />
-                    )}
+                    <Text Text={`Id: ${id}`} />
+                    <Btn Text={`修复`} Color={'#8B0000 error'} OnClick={this.FixGuid} />
                 </HorizontalBox>
             );
         }
@@ -96,7 +92,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
     private RenderEntityInfo(): JSX.Element {
         return (
             <HorizontalBox>
-                {this.RenderGuid()}
+                {this.RenderId()}
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
                 <Btn
                     Text={'⊙'}
@@ -133,7 +129,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const entity = props.Entity;
         const data = props.Data;
         const componentsState = data.ComponentsData;
-        const componentClassObjs = entityRegistry.GetComponentClassesByActor(entity);
+        const componentClassObjs = entityRegistry.GetComponentClasses(entity);
 
         return (
             <VerticalBox>
@@ -143,7 +139,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     {this.RenderEntityInfo()}
                 </VerticalBox>
                 <H3 Text={'组件列表'} />
-                <entityIdContext.Provider value={entity.Guid}>
+                <entityIdContext.Provider value={entity.Id}>
                     <ComponentsData
                         Value={componentsState}
                         ClassObjs={componentClassObjs}

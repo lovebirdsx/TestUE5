@@ -14,7 +14,7 @@ class TsHud extends HUD {
     // @no-blueprint
     private UiInteractDisplay: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
 
-    private Interacts: string[];
+    private Interacts: number[];
 
     public Constructor(): void {
         const classObj = UE.Class.Load('/Game/Demo/UI/UI_TalkDisplayer.UI_TalkDisplayer_C');
@@ -46,27 +46,27 @@ class TsHud extends HUD {
         return this.UiInteractDisplay;
     }
 
-    public AddInteract(key: string, guid: string): void {
-        const index = this.Interacts.indexOf(guid);
+    public AddInteract(key: string, id: number): void {
+        const index = this.Interacts.indexOf(id);
         if (index < 0) {
-            this.Interacts.push(guid);
-            this.UiInteractDisplay.AddItem(key, guid);
+            this.Interacts.push(id);
+            this.UiInteractDisplay.AddItem(key, id.toString());
         }
     }
 
-    public DelInteract(guid: string): void {
-        const index = this.Interacts.indexOf(guid);
+    public DelInteract(id: number): void {
+        const index = this.Interacts.indexOf(id);
         if (index >= 0) {
             this.Interacts.splice(index, 1);
             this.UiInteractDisplay.DelItem(index);
         }
     }
 
-    public GetSelectInteract(): string {
-        const guidRef = $ref('');
-        this.UiInteractDisplay.GetSelect(guidRef);
-        const guid = $unref(guidRef);
-        return guid;
+    public GetSelectInteract(): number {
+        const idStrRef = $ref('');
+        this.UiInteractDisplay.GetSelect(idStrRef);
+        const idStr = $unref(idStrRef);
+        return parseInt(idStr, 10);
     }
 
     public ShowInteract(): void {

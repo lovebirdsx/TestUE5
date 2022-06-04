@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 1009,
-  "Guid": "3D12BA4940EC66093849C0BD0988194A",
   "ComponentsData": {
     "RotatorComponent": {
       "RotatorSpeed": {
@@ -35,7 +34,7 @@
         "Z": 0
       },
       "IsLocalSpace": false,
-      "EntityId": "7F90A86E48AD7BCB33212F844A837B19",
+      "EntityId": 3000028,
       "IsRotatorSelf": false,
       "InteractAction": {
         "StartActions": [],

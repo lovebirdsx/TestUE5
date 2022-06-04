@@ -7,7 +7,7 @@ import { StateComponent } from './StateComponent';
 
 interface IEntitySpawnRecord {
     TemplateGuid: string;
-    EntityGuid: string;
+    EntityId: number;
     Transform: ITransform;
 }
 
@@ -16,7 +16,7 @@ export class EntitySpawnerComponent extends Component {
 
     private SpawnRecord: IEntitySpawnRecord[] = [];
 
-    private readonly Children: Map<string, ITsEntity> = new Map();
+    private readonly Children: Map<number, ITsEntity> = new Map();
 
     public OnInit(): void {
         this.State = this.Entity.GetComponent(StateComponent);
@@ -28,7 +28,7 @@ export class EntitySpawnerComponent extends Component {
         this.SpawnRecord = this.State.GetState('SpawnRecord') || [];
 
         this.SpawnRecord.forEach((record) => {
-            this.SpawnChild(record.TemplateGuid, record.Transform, record.EntityGuid);
+            this.SpawnChild(record.TemplateGuid, record.Transform, record.EntityId);
         });
     }
 
@@ -42,14 +42,14 @@ export class EntitySpawnerComponent extends Component {
         gameContext.EntityManager.EntityRemoved.RemoveCallBack(this.OnEntityRemoved);
     }
 
-    private readonly OnEntityRemoved = (guid: string): void => {
-        if (!this.Children.has(guid)) {
+    private readonly OnEntityRemoved = (id: number): void => {
+        if (!this.Children.has(id)) {
             return;
         }
 
-        this.Children.delete(guid);
+        this.Children.delete(id);
         this.SpawnRecord.splice(
-            this.SpawnRecord.findIndex((record) => record.EntityGuid === guid),
+            this.SpawnRecord.findIndex((record) => record.EntityId === id),
             1,
         );
 
@@ -58,10 +58,10 @@ export class EntitySpawnerComponent extends Component {
         }
     };
 
-    public SpawnChild(templateGuid: string, transform: ITransform, entityGuid?: string): ITsEntity {
-        const entityData = EntityTemplateOp.GenEntityData(templateGuid, entityGuid);
+    public SpawnChild(templateGuid: string, transform: ITransform, entityId?: number): ITsEntity {
+        const entityData = EntityTemplateOp.GenEntityData(templateGuid, entityId);
         const entity = gameContext.EntityManager.SpawnEntity(entityData, toTransform(transform));
-        this.Children.set(entity.Guid, entity);
+        this.Children.set(entity.Id, entity);
         return entity;
     }
 
@@ -70,7 +70,7 @@ export class EntitySpawnerComponent extends Component {
         this.SpawnRecord.push({
             TemplateGuid: action.TemplateGuid,
             Transform: action.Transform,
-            EntityGuid: entity.Guid,
+            EntityId: entity.Id,
         });
         this.State.SetState('SpawnRecord', this.SpawnRecord);
     }
@@ -90,12 +90,12 @@ export class EntitySpawnerComponent extends Component {
         this.DestroyAllChild();
     }
 
-    public HasChild(guid: string): boolean {
-        return this.Children.has(guid);
+    public HasChild(id: number): boolean {
+        return this.Children.has(id);
     }
 
-    public GetChild(guid: string): ITsEntity {
-        return this.Children.get(guid);
+    public GetChild(id: number): ITsEntity {
+        return this.Children.get(id);
     }
 
     public GetChildNum(): number {

@@ -47,12 +47,12 @@ export interface IActionInfo {
 }
 
 export interface IInvoke {
-    Who: string;
+    Who: number;
     ActionInfo: IActionInfo;
 }
 
 export interface IInteract {
-    Who: string;
+    Who: number;
     Param: string;
 }
 
@@ -292,7 +292,7 @@ export interface ISpawn {
 }
 
 export interface ISimpleMove {
-    Who: string;
+    Who: number;
     UseTime: number;
     Pos: IVectorInfo;
 }

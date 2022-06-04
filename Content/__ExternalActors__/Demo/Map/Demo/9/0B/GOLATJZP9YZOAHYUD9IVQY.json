@@ -8,7 +8,6 @@
     }
   },
   "PrefabId": 10,
-  "Guid": "4E129A284E3B0447E3343CA5AA1CC16E",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",
@@ -69,11 +68,11 @@
                         {
                           "Name": "Invoke",
                           "Params": {
-                            "Who": "D8D9A02D48E268D429459080BE3D5467",
+                            "Who": 3000027,
                             "ActionInfo": {
                               "Name": "SimpleMove",
                               "Params": {
-                                "Who": "D8D9A02D48E268D429459080BE3D5467",
+                                "Who": 3000027,
                                 "UseTime": 2,
                                 "Pos": {
                                   "X": -4280,
@@ -88,11 +87,11 @@
                         {
                           "Name": "Invoke",
                           "Params": {
-                            "Who": "5C909B284572F4F40102CBA158268F9A",
+                            "Who": 3000019,
                             "ActionInfo": {
                               "Name": "SimpleMove",
                               "Params": {
-                                "Who": "5C909B284572F4F40102CBA158268F9A",
+                                "Who": 3000019,
                                 "UseTime": 2,
                                 "Pos": {
                                   "X": -4450,

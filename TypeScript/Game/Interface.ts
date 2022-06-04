@@ -66,17 +66,15 @@ export function parseComponentsData(json: string): TComponentsData {
 }
 
 export interface IEntityData {
+    Id: number;
     Lable?: string;
     Transform?: ITransform;
-    Guid: string;
-    Id?: number;
     PrefabId: number;
     ComponentsData: TComponentsData;
 }
 
 export interface ITsEntity extends Actor {
     Id: number;
-    Guid: string;
     ComponentsDataJson: string;
     Entity: Entity;
     GetComponentClasses: () => TComponentClass[];
@@ -99,7 +97,7 @@ export interface ITsTrigger {
 export type TEntityState = Record<string, unknown>;
 
 export interface ISavedEntityState extends TEntityState {
-    Id: string;
+    Id: number;
     Deleted: boolean;
     DelayActions?: IActionInfo[];
 }
@@ -109,25 +107,25 @@ export type TSpawnType = 'streaming' | 'user';
 
 export interface IEntityMananger {
     EntityAdded: Event<ITsEntity>;
-    EntityRemoved: Event<string>;
+    EntityRemoved: Event<number>;
     EntityRegistered: Event<ITsEntity>;
     EntityDeregistered: Event<ITsEntity>;
     RegisterEntity: (entity: ITsEntity) => boolean;
     UnregisterEntity: (entity: ITsEntity) => boolean;
     SpawnEntity: (data: IEntityData, transform: Transform) => ITsEntity;
     RemoveEntity: (entity: ITsEntity, destroyType: TDestroyType) => void;
-    GetDestoryType: (guid: string) => TDestroyType;
-    GetSpawnType: (guid: string) => TSpawnType;
-    GetEntity: (guid: string) => ITsEntity;
+    GetDestoryType: (id: number) => TDestroyType;
+    GetSpawnType: (id: number) => TSpawnType;
+    GetEntity: (id: number) => ITsEntity;
     GetAllEntites: () => ITsEntity[];
 }
 
 export interface IStateManager {
-    GetState: (id: string) => ISavedEntityState;
-    SetState: (id: string, state: TEntityState) => void;
-    PushDelayAction: (id: string, actionInfo: IActionInfo) => void;
-    DeleteState: (id: string) => void;
-    MarkDelete: (id: string) => void;
+    GetState: (id: number) => ISavedEntityState;
+    SetState: (id: number, state: TEntityState) => void;
+    PushDelayAction: (id: number, actionInfo: IActionInfo) => void;
+    DeleteState: (id: number) => void;
+    MarkDelete: (id: number) => void;
     Load: () => void;
     Save: () => void;
 }
@@ -223,7 +221,7 @@ export class Entity {
 
     public readonly Actor: Actor;
 
-    public readonly Guid: string;
+    public readonly Id: number;
 
     public IsValid = true;
 
@@ -231,9 +229,9 @@ export class Entity {
 
     private readonly TriggerExitComponents: Component[] = [];
 
-    public constructor(name: string, guid: string, actor: Actor) {
+    public constructor(name: string, id: number, actor: Actor) {
         this.Name = name;
-        this.Guid = guid;
+        this.Id = id;
         this.Actor = actor;
     }
 

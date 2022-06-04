@@ -3,11 +3,17 @@
 import { IPosA, IVectorInfo } from '../../../Common/Interface';
 import {
     createFloatScheme,
+    createIntScheme,
     createObjectScheme,
-    createStringScheme,
     optionalFloatScheme,
 } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPosA, ISetMoveSpeed, ISetPosA, ISimpleMove } from '../../Interface/Action';
+import {
+    IFaceToPos,
+    IMoveToPosA,
+    ISetMoveSpeed,
+    ISetPosA,
+    ISimpleMove,
+} from '../../Interface/Action';
 
 export const posScheme = createObjectScheme<IPosA>({
     Name: 'PosA',
@@ -75,10 +81,10 @@ export const faceToPosScheme = createObjectScheme<IFaceToPos>({
 export const simpleMoveScheme = createObjectScheme<ISimpleMove>({
     CnName: '简单移动',
     Fields: {
-        Who: createStringScheme({
+        Who: createIntScheme({
             CnName: '目标',
             RenderType: 'entityId',
-            CreateDefault: () => '',
+            CreateDefault: () => 0,
             ShowName: true,
             NewLine: true,
         }),

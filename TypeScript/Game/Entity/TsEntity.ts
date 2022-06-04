@@ -9,9 +9,6 @@ export class TsEntity extends Actor implements ITsEntity {
     public Id: number;
 
     @edit_on_instance()
-    public Guid: string;
-
-    @edit_on_instance()
     public ComponentsDataJson: string;
 
     // @no-blueprint

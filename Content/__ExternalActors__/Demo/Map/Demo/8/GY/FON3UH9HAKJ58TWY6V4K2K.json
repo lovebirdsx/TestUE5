@@ -12,7 +12,6 @@
     }
   },
   "PrefabId": 9,
-  "Guid": "56C7FD2E4960B8F7927C49A6AFB3077C",
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": true,
@@ -20,7 +19,7 @@
         {
           "Name": "SimpleMove",
           "Params": {
-            "Who": "F34FD7FE4D17993489D63C8E400208C3",
+            "Who": 3000020,
             "UseTime": 2,
             "Pos": {
               "X": -4510,

@@ -88,14 +88,9 @@ class LevelEditorUtil {
         return LevelUtil.GetAllEntities(world);
     }
 
-    public static FindFirstEntityByGuidFilter(filter: string): ITsEntity {
+    public static GetEntity(id: number): ITsEntity {
         const entities = this.GetAllEntitiesByEditorWorld();
-        return entities.find((entity) => entity.Guid.includes(filter));
-    }
-
-    public static GetEntity(guid: string): ITsEntity {
-        const entities = this.GetAllEntitiesByEditorWorld();
-        return entities.find((entity) => entity.Guid === guid);
+        return entities.find((entity) => entity.Id === id);
     }
 
     public static GetEntityComponentData<T extends Component>(

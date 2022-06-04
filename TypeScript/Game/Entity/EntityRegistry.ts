@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
@@ -10,7 +10,7 @@ import {
 } from '../../Common/Class';
 import { toTransformInfo } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
-import { getGuid, stringify } from '../../Common/Util';
+import { stringify } from '../../Common/Util';
 import {
     IEntityData,
     ITsEntity,
@@ -65,8 +65,8 @@ class EntityRegistry {
         return result;
     }
 
-    public GetComponentClassesByActor(actor: Actor): TComponentClass[] {
-        const tsClassObj = getTsClassByUeClass(actor.GetClass());
+    public GetComponentClasses(entity: ITsEntity): TComponentClass[] {
+        const tsClassObj = getTsClassByUeClass(entity.GetClass());
         return this.GetComponentClassesByTsClass(tsClassObj);
     }
 
@@ -85,15 +85,15 @@ class EntityRegistry {
     }
 
     private GenComponentsData(obj: ITsEntity): TComponentsData {
-        const data = parseComponentsData(obj.ComponentsDataJson);
-        const classObjs = this.GetComponentClassesByActor(obj);
+        const componentsData = parseComponentsData(obj.ComponentsDataJson);
+        const classObjs = this.GetComponentClasses(obj);
         // 移除不存在的Component配置
-        Object.keys(data).forEach((key) => {
+        Object.keys(componentsData).forEach((key) => {
             const classObj = classObjs.find((obj) => obj.name === key);
             if (classObj === undefined || !componentRegistry.HasDataForScheme(key)) {
                 warn(`移除不存在的Component配置[${key}]`);
                 // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-                delete data[key];
+                delete componentsData[key];
             }
         });
 
@@ -102,17 +102,17 @@ class EntityRegistry {
             const componentName = classObj.name;
             if (componentRegistry.HasDataForScheme(componentName)) {
                 const scheme = componentRegistry.GetScheme(componentName);
-                if (data[componentName]) {
-                    scheme.Fix(data[componentName]);
+                if (componentsData[componentName]) {
+                    scheme.Fix(componentsData[componentName]);
                 } else {
                     const componentData = scheme.CreateDefault() as TComponentData;
                     componentData.Disabled = false;
-                    data[componentName] = componentData;
+                    componentsData[componentName] = componentData;
                 }
             }
         });
 
-        return data;
+        return componentsData;
     }
 
     public GenData<T extends ITsEntity>(obj: T): IEntityData {
@@ -120,19 +120,19 @@ class EntityRegistry {
             Lable: obj.ActorLabel,
             Transform: toTransformInfo(obj.GetTransform()),
             PrefabId: getBlueprintId(obj.GetClass()),
-            Guid: obj.Guid,
+            Id: obj.Id,
             ComponentsData: this.GenComponentsData(obj),
         };
     }
 
     public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
         let errorCount = 0;
-        if (data.Guid !== getGuid(entity)) {
-            messages.push(`Guid和Actor的Guid不一致`);
+        if (data.Id !== entity.Id) {
+            messages.push(`Id和Actor的Id不一致`);
             errorCount++;
         }
 
-        const classObjs = this.GetComponentClassesByActor(entity);
+        const classObjs = this.GetComponentClasses(entity);
 
         // 冗余的配置
         Object.keys(data.ComponentsData).forEach((componentName) => {
@@ -161,8 +161,8 @@ class EntityRegistry {
 
     public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): boolean {
         let modifyCount = 0;
-        if (obj.Guid !== data.Guid) {
-            obj.Guid = data.Guid;
+        if (obj.Id !== data.Id) {
+            obj.Id = data.Id;
             modifyCount++;
         }
         const newDataJson = stringify(data.ComponentsData, true);
@@ -180,7 +180,7 @@ class EntityRegistry {
     // 判断data数据是否和entity自身携带的数据一致
     public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
         const componentsDataJson = stringify(data.ComponentsData);
-        return componentsDataJson !== entity.ComponentsDataJson || entity.Guid !== data.Guid;
+        return componentsDataJson !== entity.ComponentsDataJson || entity.Id !== data.Id;
     }
 }
 

@@ -19,13 +19,13 @@ import { IManager } from './Interface';
 export class EntityManager implements IManager, IEntityMananger {
     public readonly EntityAdded = new Event<ITsEntity>('EntityAdded');
 
-    public readonly EntityRemoved = new Event<string>('EntityRemoved');
+    public readonly EntityRemoved = new Event<number>('EntityRemoved');
 
     public readonly EntityRegistered = new Event<ITsEntity>('EntityRegistered');
 
     public readonly EntityDeregistered = new Event<ITsEntity>('EntityDeregistered');
 
-    private readonly EntityMap = new Map<string, ITsEntity>();
+    private readonly EntityMap = new Map<number, ITsEntity>();
 
     private readonly Entities: ITsEntity[] = [];
 
@@ -33,9 +33,9 @@ export class EntityManager implements IManager, IEntityMananger {
 
     private readonly EntitiesToDestroy: ITsEntity[] = [];
 
-    private readonly DestroyRecord = new Map<string, TDestroyType>();
+    private readonly DestroyRecord = new Map<number, TDestroyType>();
 
-    private readonly GuidsBySpawn = new Set<string>();
+    private readonly GuidsBySpawn = new Set<number>();
 
     public constructor() {
         gameContext.EntityManager = this;
@@ -43,8 +43,8 @@ export class EntityManager implements IManager, IEntityMananger {
 
     public Init(): void {}
 
-    public GetEntity(guid: string): ITsEntity {
-        return this.EntityMap.get(guid);
+    public GetEntity(id: number): ITsEntity {
+        return this.EntityMap.get(id);
     }
 
     public GetAllEntites(): ITsEntity[] {
@@ -54,36 +54,36 @@ export class EntityManager implements IManager, IEntityMananger {
     public SpawnEntity(data: IEntityData, transform: Transform): ITsEntity {
         const entity = entitySerializer.SpawnEntityByData(data, transform);
         this.EntitiesToSpawn.push(entity);
-        log(`Spawn entity ${entity.Entity.Name}} [${entity.Guid}]`);
+        log(`Spawn entity ${entity.Entity.Name}} [${entity.Id}]`);
         return entity;
     }
 
     public RemoveEntity(entity: ITsEntity, destroyType: TDestroyType): void {
-        this.DestroyRecord.set(entity.Guid, destroyType);
+        this.DestroyRecord.set(entity.Id, destroyType);
         this.EntitiesToDestroy.push(entity);
-        log(`Remove entity ${entity.Entity.Name} [${entity.Guid}]`);
+        log(`Remove entity ${entity.Entity.Name} [${entity.Id}]`);
     }
 
-    public GetDestoryType(guid: string): TDestroyType {
+    public GetDestoryType(id: number): TDestroyType {
         // EntityManager没有记录, 则认为是被Unreal的流送给销毁了
-        return this.DestroyRecord.get(guid) || 'streaming';
+        return this.DestroyRecord.get(id) || 'streaming';
     }
 
-    public GetSpawnType(guid: string): TSpawnType {
-        return this.GuidsBySpawn.has(guid) ? 'user' : 'streaming';
+    public GetSpawnType(id: number): TSpawnType {
+        return this.GuidsBySpawn.has(id) ? 'user' : 'streaming';
     }
 
     public RegisterEntity(entity: ITsEntity): boolean {
-        const exist = this.EntityMap.get(entity.Guid);
+        const exist = this.EntityMap.get(entity.Id);
         if (exist) {
             throw new Error(
-                `Duplicate entity guid exist[${exist.GetName()}] add[${entity.Guid}] guid[${
-                    entity.Guid
+                `Duplicate entity guid exist[${exist.GetName()}] add[${entity.GetActorLabel()}] id[${
+                    entity.Id
                 }]`,
             );
         }
         this.Entities.push(entity);
-        this.EntityMap.set(entity.Guid, entity);
+        this.EntityMap.set(entity.Id, entity);
         this.EntityRegistered.Invoke(entity);
         return true;
     }
@@ -92,7 +92,7 @@ export class EntityManager implements IManager, IEntityMananger {
         const index = this.Entities.indexOf(entity);
         if (index >= 0) {
             this.Entities.splice(index, 1);
-            this.EntityMap.delete(entity.Guid);
+            this.EntityMap.delete(entity.Id);
             this.EntityDeregistered.Invoke(entity);
             return true;
         }
@@ -111,13 +111,13 @@ export class EntityManager implements IManager, IEntityMananger {
                 // 由于移除操作是带有延迟的, 所以有可能出现重复移除
                 // 所以在此处加入判断, 避免重复移除
                 if (entity.Entity.IsValid) {
-                    const guid = entity.Guid;
+                    const id = entity.Id;
                     entity.K2_DestroyActor();
-                    this.EntityRemoved.Invoke(guid);
+                    this.EntityRemoved.Invoke(id);
 
                     // 等外部处理完成EntityRemove的消息, 则可以移除销毁的记录了
-                    this.DestroyRecord.delete(guid);
-                    this.GuidsBySpawn.delete(guid);
+                    this.DestroyRecord.delete(id);
+                    this.GuidsBySpawn.delete(id);
                 }
             });
         }
@@ -125,7 +125,7 @@ export class EntityManager implements IManager, IEntityMananger {
         if (this.EntitiesToSpawn.length > 0) {
             const entities = this.EntitiesToSpawn.splice(0);
             entities.forEach((entity) => {
-                this.GuidsBySpawn.add(entity.Guid);
+                this.GuidsBySpawn.add(entity.Id);
                 this.EntityAdded.Invoke(entity);
             });
         }

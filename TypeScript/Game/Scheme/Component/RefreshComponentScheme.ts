@@ -66,7 +66,7 @@ export const refreshEntityComponentScheme = createComponentScheme<IRefreshGroup>
             ShowName: true,
             NewLine: true,
         }),
-        EntityGuidList: createArrayScheme({
+        EntityIdList: createArrayScheme({
             CnName: '实体列表',
             ShowName: true,
             NewLine: true,

@@ -11,7 +11,6 @@
     }
   },
   "PrefabId": 1013,
-  "Guid": "83B0DD754163760AE20CB981C2294E19",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",
@@ -31,7 +30,7 @@
             {
               "Name": "SpawnChild",
               "Params": {
-                "TemplateGuid": "D2C7AB1344D99334259E7F80B35CA0A6",
+                "TemplateGuid": 8,
                 "Transform": {
                   "Pos": {
                     "X": 3943,
@@ -49,7 +48,7 @@
             {
               "Name": "SpawnChild",
               "Params": {
-                "TemplateGuid": "D2C7AB1344D99334259E7F80B35CA0A6",
+                "TemplateGuid": 8,
                 "Transform": {
                   "Pos": {
                     "X": 3368,
@@ -63,7 +62,7 @@
             {
               "Name": "SpawnChild",
               "Params": {
-                "TemplateGuid": "D2C7AB1344D99334259E7F80B35CA0A6",
+                "TemplateGuid": 8,
                 "Transform": {
                   "Pos": {
                     "X": 3793,
@@ -124,7 +123,7 @@
             {
               "Name": "Invoke",
               "Params": {
-                "Who": "B84994BE4659B0A34B4674934230C346",
+                "Who": 3000075,
                 "ActionInfo": {
                   "Name": "ChangeState",
                   "Params": {

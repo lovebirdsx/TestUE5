@@ -4,10 +4,10 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { getGuid } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
+import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
 import { tempEntities } from './TempEntities';
 
 export class LevelEditor {
@@ -43,7 +43,9 @@ export class LevelEditor {
             return;
         }
 
-        entity.Guid = getGuid(entity);
+        if (!entity.Id) {
+            entity.Id = currentLevelEntityIdGenerator.GenOne();
+        }
     }
 
     private async InitForNewActors(): Promise<void> {

@@ -69,6 +69,7 @@ export interface IEntityData {
     Lable?: string;
     Transform?: ITransform;
     Guid: string;
+    Id?: number;
     PrefabId: number;
     ComponentsData: TComponentsData;
 }

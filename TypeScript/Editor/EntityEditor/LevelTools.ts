@@ -66,4 +66,14 @@ export class LevelTools {
     public static GetAllEntityTemplatePath(): string[] {
         return listFiles(GameConfig.EntityTemplateDir, 'json', true);
     }
+
+    public static FixEntityDataId(levelName: TLevelName): void {
+        // const entityPaths = this.GetAllEntityDataPath(levelName);
+    }
+
+    public static FixAllEntityDataId(): void {
+        this.GetAllLevelNames().forEach((levelName) => {
+            this.FixEntityDataId(levelName);
+        });
+    }
 }

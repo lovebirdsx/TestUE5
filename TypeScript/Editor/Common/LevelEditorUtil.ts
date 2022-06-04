@@ -30,6 +30,7 @@ import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
 import { Component, ITsEntity, parseComponentsData } from '../../Game/Interface';
+import { currentLevelEntityIdGenerator } from './Operations/Entity';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): boolean {
@@ -141,11 +142,18 @@ class LevelEditorUtil {
             return;
         }
 
+        if (!entity.Id) {
+            entity.Id = currentLevelEntityIdGenerator.GenOne();
+            EditorOperations.MarkPackageDirty(entity);
+        }
+
         const entityJsonPath = this.GetEntityJsonPath(entity);
         const entityData = entityRegistry.GenData(entity);
         if (entityRegistry.ApplyData(entityData, entity)) {
             EditorOperations.MarkPackageDirty(entity);
         }
+        entityData.Id = entity.Id;
+
         writeJson(entityData, entityJsonPath, true);
 
         log(`Write: ${entityJsonPath}`);

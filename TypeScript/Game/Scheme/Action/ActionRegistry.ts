@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { error, log } from '../../../Common/Log';
 import { ObjectScheme, TFixResult } from '../../../Common/Type';
-import { IActionInfo, TActionType } from '../../Flow/Action';
+import { IActionInfo, TActionType } from '../../Interface/Action';
 
 export type TObjectSchemeMap = { [key in TActionType]: ObjectScheme<unknown> };
 

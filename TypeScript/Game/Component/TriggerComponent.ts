@@ -1,8 +1,9 @@
 /* eslint-disable no-void */
 import { log } from '../../Common/Log';
-import { ITriggerActions } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
-import { Component, Entity, ITriggerComponent } from '../Interface';
+import { Component, Entity } from '../Interface';
+import { ITriggerActions } from '../Interface/Action';
+import { ITriggerComponent } from '../Interface/Component';
 import PlayerComponent from './PlayerComponent';
 import { StateComponent } from './StateComponent';
 

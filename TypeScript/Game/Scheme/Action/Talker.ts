@@ -1,5 +1,5 @@
 import { createAssetScheme, createBooleanScheme, createObjectScheme } from '../../../Common/Type';
-import { ISetHeadIconVisible } from '../../Flow/Action';
+import { ISetHeadIconVisible } from '../../Interface/Action';
 import { talkerIdScheme } from './ShowTalk';
 
 const DEFAULT_TEXTURE_PATH = '/Textures/J_01.J_01';

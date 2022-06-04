@@ -11,7 +11,6 @@ import {
 import { toTransformInfo } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
 import { getGuid, stringify } from '../../Common/Util';
-import { TActionType } from '../Flow/Action';
 import {
     IEntityData,
     ITsEntity,
@@ -20,6 +19,7 @@ import {
     TComponentData,
     TComponentsData,
 } from '../Interface';
+import { TActionType } from '../Interface/Action';
 import TsPlayer from '../Player/TsPlayer';
 import { componentRegistry } from '../Scheme/Component/Public';
 import TsCharacterEntity from './TsCharacterEntity';

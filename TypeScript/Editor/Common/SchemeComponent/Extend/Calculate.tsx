@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { TColor } from '../../../../Common/Color';
 import { IProps } from '../../../../Common/Type';
-import { TVar } from '../../../../Game/Flow/Action';
+import { TVar } from '../../../../Game/Interface/Action';
 import { EditorBox } from '../../BaseComponent/CommonComponent';
 
 export function RenderVarValue(props: IProps<TVar> & { Color?: TColor }): JSX.Element {

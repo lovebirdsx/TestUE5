@@ -4,20 +4,16 @@ import { toTransform, toTransformInfo } from '../../Common/Interface';
 import { getTotalSecond } from '../../Common/Util';
 import { deInitTsEntity } from '../Entity/Common';
 import { entityRegistry } from '../Entity/EntityRegistry';
-import { ISpawn } from '../Flow/Action';
-import {
-    Component,
-    gameContext,
-    IEntityData,
-    IRefreshGroup,
-    IRefreshSingle,
-    ITempleGuid,
-    ITimeCall,
-} from '../Interface';
+import { Component, gameContext, IEntityData, ITimeCall } from '../Interface';
+import { ISpawn } from '../Interface/Action';
+import { IRefreshGroup, IRefreshSingleComponent, ITempleGuid } from '../Interface/Component';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';
 
-export class RefreshSingleComponent extends Component implements IRefreshSingle, ITimeCall {
+export class RefreshSingleComponent
+    extends Component
+    implements IRefreshSingleComponent, ITimeCall
+{
     public CallTime = -1;
 
     public RefreshInterval: number;

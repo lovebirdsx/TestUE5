@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ArrayScheme, IProps, ObjectScheme, Scheme } from '../../../Common/Type';
-import { IActionInfo } from '../../../Game/Flow/Action';
+import { IActionInfo } from '../../../Game/Interface/Action';
 import { ActionScheme } from '../../../Game/Scheme/Action/Action';
 
 export type TSchemeComponent<T = unknown, TScheme extends Scheme<T> = Scheme<T>> =

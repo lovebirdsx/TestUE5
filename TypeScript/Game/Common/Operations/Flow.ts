@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { warn } from '../../../Common/Log';
 import { TFixResult } from '../../../Common/Type';
-import { IChangeRandomState, IChangeState, IFlowInfo, IStateInfo } from '../../Flow/Action';
+import { IChangeRandomState, IChangeState, IFlowInfo, IStateInfo } from '../../Interface/Action';
 import { stateOp } from './State';
 
 class FlowOp {

@@ -1,7 +1,7 @@
 import { error } from '../../../Common/Log';
 import { createBooleanScheme, ObjectScheme } from '../../../Common/Type';
-import { TActionType } from '../../Flow/Action';
 import { Component, TComponentClass } from '../../Interface';
+import { TActionType } from '../../Interface/Action';
 
 export class ComponentScheme<T> extends ObjectScheme<T> {
     public Actions: TActionType[] = [];

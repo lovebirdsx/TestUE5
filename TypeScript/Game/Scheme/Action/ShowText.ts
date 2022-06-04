@@ -1,5 +1,5 @@
 import { createObjectScheme } from '../../../Common/Type';
-import { IShowCenterText } from '../../Flow/Action';
+import { IShowCenterText } from '../../Interface/Action';
 import { createTextIdScheme } from './ShowTalk';
 
 export const centerTextIdScheme = createTextIdScheme('在屏幕上显示点啥吧!', {

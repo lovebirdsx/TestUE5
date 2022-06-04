@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { ObjectScheme } from '../../../Common/Type';
-import { TActionType } from '../../Flow/Action';
+import { TActionType } from '../../Interface/Action';
 import { actionRegistry } from './ActionRegistry';
 import {
     callByConditionScheme,

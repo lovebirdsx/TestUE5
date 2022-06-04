@@ -4,8 +4,8 @@ import {
     createIntScheme,
     createObjectScheme,
 } from '../../../Common/Type';
-import { ITriggerActions } from '../../Flow/Action';
-import { ITriggerComponent } from '../../Interface';
+import { ITriggerActions } from '../../Interface/Action';
+import { ITriggerComponent } from '../../Interface/Component';
 import { triggerActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
 

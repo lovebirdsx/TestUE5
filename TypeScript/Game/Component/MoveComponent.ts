@@ -16,8 +16,9 @@ import { IPosA, toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
 import { calUpRotatorByPoints } from '../../Common/Util';
 import { TsCharacterEntity } from '../Entity/TsCharacterEntity';
-import { IFaceToPos, IMoveToPosA } from '../Flow/Action';
-import { Component, DEFAULT_INIT_SPEED, gameContext, IMoveComponent } from '../Interface';
+import { Component, gameContext } from '../Interface';
+import { IFaceToPos, IMoveToPosA } from '../Interface/Action';
+import { DEFAULT_INIT_SPEED, IMoveComponent } from '../Interface/Component';
 import { TweenItem } from '../Manager/TweenManager';
 import { StateComponent } from './StateComponent';
 

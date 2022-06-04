@@ -8,13 +8,9 @@ import { getGuid } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { ITsEntity } from '../../Game/Interface';
-import { LevelSerializer } from '../../Game/Serialize/LevelSerializer';
-import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { tempEntities } from './TempEntities';
 
 export class LevelEditor {
-    private readonly LevelSerializer = new LevelSerializer();
-
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
@@ -31,11 +27,6 @@ export class LevelEditor {
     public GetMapSavePath(): string {
         const world = EditorLevelLibrary.GetEditorWorld();
         return GameConfig.GetCurrentMapSavePath(world);
-    }
-
-    public Save(): void {
-        const entities = LevelEditorUtil.GetAllEntitiesByEditorWorld();
-        this.LevelSerializer.Save(entities, this.GetMapDataPath());
     }
 
     private OnPreBeginPie(): void {

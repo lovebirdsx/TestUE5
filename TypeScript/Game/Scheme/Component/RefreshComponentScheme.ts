@@ -7,7 +7,7 @@ import {
     createStringScheme,
 } from '../../../Common/Type';
 import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
-import { IRefreshGroup, IRefreshSingle, ITempleGuid } from '../../Interface';
+import { IRefreshGroup, IRefreshSingleComponent, ITempleGuid } from '../../Interface/Component';
 import { entityIdScheme } from '../Action/Invoke';
 import { createComponentScheme } from './ComponentRegistry';
 
@@ -25,7 +25,7 @@ export const templeGuidScheme = createObjectScheme<ITempleGuid>({
     NewLine: true,
 });
 
-export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingle>({
+export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingleComponent>({
     Actions: [],
     Fields: {
         TemplateGuid: templeGuidScheme,

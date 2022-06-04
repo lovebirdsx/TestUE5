@@ -12,7 +12,7 @@ import {
     ISetMoveSpeed,
     ISetPosA,
     ISimpleMove,
-} from '../Action';
+} from '../../Interface/Action';
 import { Action } from '../ActionRunner';
 
 export class ChangeActorStateAction extends Action<IChangeActorState> {

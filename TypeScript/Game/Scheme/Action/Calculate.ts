@@ -21,7 +21,7 @@ import {
     TCompare,
     TLogicOpType,
     TVar,
-} from '../../Flow/Action';
+} from '../../Interface/Action';
 import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, DEFUALT_VALUE_NAME_TEXT_WIDTH } from '../../Interface';
 import { functionActionScheme } from './Action';
 

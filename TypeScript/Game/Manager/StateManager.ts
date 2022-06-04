@@ -3,7 +3,7 @@ import { MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
 import { GameConfig } from '../Common/GameConfig';
-import { IActionInfo } from '../Flow/Action';
+import { IActionInfo } from '../Interface/Action';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
 import { IManager } from './Interface';
 

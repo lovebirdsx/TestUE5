@@ -4,21 +4,9 @@ import {
     createIntScheme,
     createObjectScheme,
     createVectorScheme,
-    IVectorType,
 } from '../../../Common/Type';
+import { ISettingSpringDir, ISpringComponent } from '../../Interface/Component';
 import { createComponentScheme } from './ComponentRegistry';
-
-export interface ISettingSpringDir {
-    IsSettingDir: boolean;
-    IsRotator: boolean;
-    SpringDir: IVectorType;
-}
-export interface ISpringComponent {
-    IsNormalSpring: boolean;
-    IsHitNormalSpring: boolean;
-    SettingDir: ISettingSpringDir;
-    SpringPow: number;
-}
 
 export const springSettingDirScheme = createObjectScheme<ISettingSpringDir>({
     Name: 'RotatorComponent',

@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createObjectScheme, intScheme } from '../../../Common/Type';
 import { flowOp } from '../../Common/Operations/Flow';
-import { IFlowInfo } from '../../Flow/Action';
-import { IBehaviorFlowComponent, IFlowComponent } from '../../Interface';
+import { IFlowInfo } from '../../Interface/Action';
+import { IBehaviorFlowComponent, IFlowComponent } from '../../Interface/Component';
 import { playFlowScheme } from '../Action/Flow';
 import { createComponentScheme } from './ComponentRegistry';
 

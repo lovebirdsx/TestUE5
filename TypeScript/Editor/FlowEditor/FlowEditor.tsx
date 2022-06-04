@@ -15,7 +15,7 @@ import {
     openSaveCsvFileDialog,
 } from '../../Common/UeHelper';
 import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
-import { IFlowListInfo } from '../../Game/Flow/Action';
+import { IFlowListInfo } from '../../Game/Interface/Action';
 import { Btn, Check, ErrorText, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';

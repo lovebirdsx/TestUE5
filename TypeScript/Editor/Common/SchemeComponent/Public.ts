@@ -7,8 +7,8 @@ import {
     ISpawn,
     ITriggerActions,
     TVar,
-} from '../../../Game/Flow/Action';
-import { IBehaviorFlowComponent, ITempleGuid } from '../../../Game/Interface';
+} from '../../../Game/Interface/Action';
+import { IBehaviorFlowComponent, ITempleGuid } from '../../../Game/Interface/Component';
 import { varValueScheme } from '../../../Game/Scheme/Action/Calculate';
 import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
 import { invokeScheme } from '../../../Game/Scheme/Action/Invoke';

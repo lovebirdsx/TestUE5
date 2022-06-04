@@ -16,7 +16,7 @@ import {
     IShowCenterText,
     IShowOption,
     IShowTalk,
-} from '../../../Game/Flow/Action';
+} from '../../../Game/Interface/Action';
 import { mergeEditorToConfig } from '../Util';
 
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';

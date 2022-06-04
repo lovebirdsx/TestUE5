@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { ICsv } from '../../../Common/CsvLoader';
 import { ArrayScheme } from '../../../Common/Type';
-import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Flow/Action';
+import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Interface/Action';
 import { ITalkerListInfo } from '../../TalkerEditor/TalkerList';
 
 export const flowContext = React.createContext<IFlowInfo>(undefined);

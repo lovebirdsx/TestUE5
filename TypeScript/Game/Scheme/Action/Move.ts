@@ -7,7 +7,7 @@ import {
     createStringScheme,
     optionalFloatScheme,
 } from '../../../Common/Type';
-import { IFaceToPos, IMoveToPosA, ISetMoveSpeed, ISetPosA, ISimpleMove } from '../../Flow/Action';
+import { IFaceToPos, IMoveToPosA, ISetMoveSpeed, ISetPosA, ISimpleMove } from '../../Interface/Action';
 
 export const posScheme = createObjectScheme<IPosA>({
     Name: 'PosA',

@@ -6,7 +6,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { warn } from '../../Common/Log';
 import { Entity } from '../Interface';
-import { IActionInfo, TActionType } from './Action';
+import { IActionInfo, TActionType } from '../Interface/Action';
 
 export class Action<T = unknown> {
     public readonly Entity: Entity;

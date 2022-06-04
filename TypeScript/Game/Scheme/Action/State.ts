@@ -13,7 +13,7 @@ import {
     IChangeRandomState,
     IChangeState,
     ISetBehaviorPaused,
-} from '../../Flow/Action';
+} from '../../Interface/Action';
 
 export const finishStateScheme = createObjectScheme({
     CnName: '结束状态',

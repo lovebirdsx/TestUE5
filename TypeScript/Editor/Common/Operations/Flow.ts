@@ -6,7 +6,7 @@ import {
     IFlowInfo,
     IShowTalk,
     IStateInfo,
-} from '../../../Game/Flow/Action';
+} from '../../../Game/Interface/Action';
 
 class EditorFlowOp {
     private GenNewStateId(flow: IFlowInfo): number {

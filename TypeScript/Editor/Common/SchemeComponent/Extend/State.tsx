@@ -5,7 +5,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
 import { TModifyType } from '../../../../Common/Type';
-import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Flow/Action';
+import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Interface/Action';
 import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { Btn, COLOR_LEVEL2, EditorBox, Fold, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';

@@ -3,7 +3,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 
 import { log } from '../../Common/Log';
 import { writeJson } from '../../Common/Util';
-import { IPlayFlow } from '../../Game/Flow/Action';
+import { IPlayFlow } from '../../Game/Interface/Action';
 import { IEntityRecords } from './Interface';
 
 function getDefaultFlowListPath(): string {

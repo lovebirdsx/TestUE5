@@ -6,7 +6,7 @@ import {
     createObjectScheme,
     createScheme,
 } from '../../../Common/Type';
-import { cameraBindModeConfig, IPlayCustomSequence, IPlaySequenceData } from '../../Flow/Action';
+import { cameraBindModeConfig, IPlayCustomSequence, IPlaySequenceData } from '../../Interface/Action';
 import { customSeqIdScheme } from '../Csv/CsvCell';
 
 const DEFAULT_SEQUENCEDATA_PATH = '/Game/Test/CustomSequence/Sequence1.Sequence1';

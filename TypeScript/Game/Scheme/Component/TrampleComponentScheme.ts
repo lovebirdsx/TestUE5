@@ -1,14 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createArrayScheme, createBooleanScheme } from '../../../Common/Type';
-import { IActionInfo } from '../../Flow/Action';
+import { ITrampleComponent } from '../../Interface/Component';
 import { trampleActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
-
-export interface ITrampleComponent {
-    IsDisposable: boolean;
-    TriggerActions: IActionInfo[];
-    RecoveryActions: IActionInfo[];
-}
 
 export const trampleComponentScheme = createComponentScheme<ITrampleComponent>({
     Actions: [],

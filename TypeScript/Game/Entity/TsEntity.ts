@@ -6,6 +6,9 @@ import { deInitTsEntity, initTsEntity } from './Common';
 
 export class TsEntity extends Actor implements ITsEntity {
     @edit_on_instance()
+    public Id: number;
+
+    @edit_on_instance()
     public Guid: string;
 
     @edit_on_instance()

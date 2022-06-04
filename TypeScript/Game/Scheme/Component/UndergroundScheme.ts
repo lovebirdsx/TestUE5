@@ -6,21 +6,9 @@ import {
     createObjectScheme,
     createStringScheme,
     createVectorScheme,
-    IVectorType,
 } from '../../../Common/Type';
+import { IStateInfo, IUndergroundComponent } from '../../Interface/Component';
 import { createComponentScheme } from './ComponentRegistry';
-
-export interface IStateInfo {
-    StateId: number;
-    RestartPos: IVectorType;
-}
-
-export interface IUndergroundComponent {
-    TestState: number;
-    IsRestartPlayer: boolean;
-    DestroyTag: string[];
-    StateInfo: IStateInfo[];
-}
 
 export const stateInfoScheme = createObjectScheme<IStateInfo>({
     Name: 'StateInfoScheme',

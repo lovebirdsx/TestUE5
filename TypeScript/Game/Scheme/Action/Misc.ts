@@ -6,7 +6,7 @@ import {
     createObjectScheme,
     createStringScheme,
 } from '../../../Common/Type';
-import { ILog, IShowMessage, IWait, logLeveConfig } from '../../Flow/Action';
+import { ILog, IShowMessage, IWait, logLeveConfig } from '../../Interface/Action';
 
 export const logScheme = createObjectScheme<ILog>({
     CnName: '输出',

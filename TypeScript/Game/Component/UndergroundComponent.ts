@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { isChildOfClass } from '../../Common/Class';
 import { toVector } from '../../Common/Interface';
-import { IInteract } from '../Flow/Action';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
+import { IInteract } from '../Interface/Action';
+import { IStateInfo, IUndergroundComponent } from '../Interface/Component';
 import TsPlayer from '../Player/TsPlayer';
-import { IStateInfo, IUndergroundComponent } from '../Scheme/Component/UndergroundScheme';
 import { EventComponent } from './EventComponent';
 import { StateComponent } from './StateComponent';
 

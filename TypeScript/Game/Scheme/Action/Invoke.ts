@@ -3,7 +3,7 @@ import { EditorLevelLibrary } from 'ue';
 
 import { createObjectScheme, createStringScheme } from '../../../Common/Type';
 import { LevelUtil } from '../../Common/LevelUtil';
-import { IActionInfo, IInteract, IInvoke } from '../../Flow/Action';
+import { IActionInfo, IInteract, IInvoke } from '../../Interface/Action';
 import { createActionScheme } from './Action';
 import { actionRegistry } from './ActionRegistry';
 import { setPosScheme } from './Move';

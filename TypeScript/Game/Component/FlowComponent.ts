@@ -2,9 +2,10 @@
 /* eslint-disable no-void */
 import { error } from '../../Common/Log';
 import { flowListOp } from '../Common/Operations/FlowList';
-import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
-import { Component, IFlowComponent } from '../Interface';
+import { Component } from '../Interface';
+import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../Interface/Action';
+import { IFlowComponent } from '../Interface/Component';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';
 import { StateComponent } from './StateComponent';
 import { TalkComponent } from './TalkComponent';

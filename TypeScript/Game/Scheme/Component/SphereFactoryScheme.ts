@@ -1,12 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createStringScheme, createVectorScheme, IVectorType } from '../../../Common/Type';
+import { createStringScheme, createVectorScheme } from '../../../Common/Type';
 import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
+import { ISphereFactoryComponent } from '../../Interface/Component';
 import { createComponentScheme } from './ComponentRegistry';
-
-export interface ISphereFactoryComponent {
-    SphereLocation: IVectorType;
-    SphereGuid: string;
-}
 
 export const sphereFactorComponentScheme = createComponentScheme<ISphereFactoryComponent>({
     Actions: [],

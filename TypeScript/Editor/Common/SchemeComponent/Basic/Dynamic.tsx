@@ -10,7 +10,7 @@ import { IProps, TModifyType } from '../../../../Common/Type';
 import { addArray, subArray } from '../../../../Common/Util';
 import { entityRegistry } from '../../../../Game/Entity/EntityRegistry';
 import TsAiNpc from '../../../../Game/Entity/TsAiNpc';
-import { IActionInfo, IInvoke, TActionType } from '../../../../Game/Flow/Action';
+import { IActionInfo, IInvoke, TActionType } from '../../../../Game/Interface/Action';
 import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
 import { Check, COLOR_LEVEL3, List, Text } from '../../BaseComponent/CommonComponent';

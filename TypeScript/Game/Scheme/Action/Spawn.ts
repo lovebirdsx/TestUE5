@@ -2,7 +2,7 @@
 import { createDefaultTransform, ITransform } from '../../../Common/Interface';
 import { createObjectScheme, createStringScheme } from '../../../Common/Type';
 import { EntityTemplateOp } from '../../Common/Operations/EntityTemplate';
-import { ISpawn } from '../../Flow/Action';
+import { ISpawn } from '../../Interface/Action';
 
 export const templateGuidScheme = createStringScheme({
     CnName: '实体模板',

@@ -18,7 +18,7 @@ import {
 } from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
 import { alignVector, deepEquals } from '../../../../Common/Util';
-import { ISpawn } from '../../../../Game/Flow/Action';
+import { ISpawn } from '../../../../Game/Interface/Action';
 import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
 import { tempEntities } from '../../../EntityEditor/TempEntities';
 import {

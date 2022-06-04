@@ -4,17 +4,8 @@ import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 import { getTsClassByUeClass } from '../Common/Class';
 import { ITransform } from '../Common/Interface';
 import { Event, parse } from '../Common/Util';
-import {
-    IActionInfo,
-    IFlowInfo,
-    IFunction,
-    IInteract,
-    INumberVar,
-    IPlayFlow,
-    ITriggerActions,
-    TActionType,
-    TActorState,
-} from './Flow/Action';
+import { IActionInfo, IInteract, TActionType } from './Interface/Action';
+import { IInteractiveComponent } from './Interface/Component';
 import { TweenManager } from './Manager/TweenManager';
 
 // 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
@@ -61,61 +52,6 @@ export enum EBlueprintId {
     ActorStateComponent = 10001,
 }
 
-export interface IBehaviorFlowComponent {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    _folded?: boolean;
-    InitStateId: number;
-    FlowInfo: IFlowInfo;
-}
-
-export interface IFlowComponent {
-    InitState: IPlayFlow;
-}
-
-export interface ITriggerComponent {
-    MaxTriggerTimes: number;
-    IsNotLoad: boolean;
-    TriggerActions: ITriggerActions;
-}
-
-export interface IRefreshSingle {
-    RefreshInterval: number;
-    MaxRefreshTimes: number;
-    DelayRefresh: boolean;
-    TemplateGuid: ITempleGuid;
-}
-
-export interface ITempleGuid {
-    TempleGuid: string;
-}
-
-export interface IRefreshGroup {
-    RefreshInterval: number;
-    MaxRefreshTimes: number;
-    DelayRefresh: boolean;
-    EntityGuidList: string[];
-}
-
-export interface ISwitcherComponent extends IInteractiveComponent {
-    OnActions: IActionInfo[];
-    OffActions: IActionInfo[];
-}
-
-export const DEFAULT_INIT_SPEED = 150;
-
-export interface IMoveComponent {
-    InitSpeed: number;
-}
-
-export interface IActorStateComponent {
-    InitState: TActorState;
-}
-
-export interface ICalculatorComponent {
-    Vars: INumberVar[];
-    Functions: IFunction[];
-}
-
 export type TComponentData = Record<string, unknown> & {
     Disabled: boolean;
 };
@@ -137,13 +73,8 @@ export interface IEntityData {
     ComponentsData: TComponentsData;
 }
 
-export interface IEntitySnapshot extends IEntityData {
-    Pos: number[];
-    Rot?: number[];
-    Scale?: number[];
-}
-
 export interface ITsEntity extends Actor {
+    Id: number;
     Guid: string;
     ComponentsDataJson: string;
     Entity: Entity;
@@ -422,11 +353,6 @@ export class Entity {
 export interface IInteractCall {
     Name: string;
     CallBack: (action: IInteract) => void;
-}
-
-export interface IInteractiveComponent {
-    Content: string;
-    Icon: string;
 }
 
 export class InteractiveComponent extends Component implements IInteractiveComponent {

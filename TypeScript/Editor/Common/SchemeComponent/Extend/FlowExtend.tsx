@@ -10,6 +10,7 @@ import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { BehaviorFlowComponent } from '../../../../Game/Component/BehaviorFlowComponent';
 import { FlowComponent } from '../../../../Game/Component/FlowComponent';
+import { ITsEntity } from '../../../../Game/Interface';
 import {
     IFlowInfo,
     IInvoke,
@@ -17,8 +18,8 @@ import {
     ITriggerActions,
     parseFlowInfo,
     parsePlayFlow,
-} from '../../../../Game/Flow/Action';
-import { IBehaviorFlowComponent, ITsEntity } from '../../../../Game/Interface';
+} from '../../../../Game/Interface/Action';
+import { IBehaviorFlowComponent } from '../../../../Game/Interface/Component';
 import { behaviorFlowActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
 import {

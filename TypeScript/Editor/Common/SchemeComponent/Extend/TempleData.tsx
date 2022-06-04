@@ -7,7 +7,8 @@ import { getBlueprintClass, getTsClassByUeClass } from '../../../../Common/Class
 import { IProps, TModifyType } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import { entityRegistry } from '../../../../Game/Entity/Public';
-import { IEntityData, ITempleGuid } from '../../../../Game/Interface';
+import { IEntityData } from '../../../../Game/Interface';
+import { ITempleGuid } from '../../../../Game/Interface/Component';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';

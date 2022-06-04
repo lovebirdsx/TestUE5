@@ -18,12 +18,12 @@ import {
 import { createSignal, ISignal } from '../../Common/Async';
 import { toVector } from '../../Common/Interface';
 import { IVectorType } from '../../Common/Type';
-import { IInteract } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
+import { IInteract } from '../Interface/Action';
+import { IEventRotator, IRotatorComponent } from '../Interface/Component';
 import TsHud from '../Player/TsHud';
 import TsPlayerController from '../Player/TsPlayerController';
-import { IEventRotator, IRotatorComponent } from '../Scheme/Component/RotatorComponentScheme';
 import { EventComponent } from './EventComponent';
 import PlayerComponent from './PlayerComponent';
 import { StateComponent } from './StateComponent';

@@ -21,6 +21,9 @@ import { Entity, gameContext, ITsEntity, TComponentClass } from '../Interface';
 export const playerComponentClasses: TComponentClass[] = [PlayerComponent];
 
 class TsPlayer extends TestUE5Character implements ITsEntity {
+    @edit_on_instance()
+    public Id: number;
+
     // @no-blueprint
     private Movement: CharacterMovementComponent;
 

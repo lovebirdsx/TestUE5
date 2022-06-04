@@ -34,7 +34,6 @@ import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
-import { LevelTools } from './LevelTools';
 import { tempEntities } from './TempEntities';
 
 const contextCmdList = [
@@ -365,14 +364,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         });
     }
 
-    private readonly SaveMap = (): void => {
-        this.LevelEditor.Save();
-    };
-
-    private readonly OpenMapFile = (): void => {
-        openFile(this.LevelEditor.GetMapDataPath());
-    };
-
     private readonly OpenSavaFile = (): void => {
         openFile(this.LevelEditor.GetMapSavePath());
     };
@@ -420,10 +411,16 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         // log(`World: ${world.GetName()} Package Path: ${EditorOperations.GetPackagePath(world)}`);
 
         // Test Case 4
-        const entityDatas = LevelTools.GetAllEntityTemplatePath();
-        entityDatas.forEach((data) => {
-            log(data);
-        });
+        // const entityDatas = LevelTools.GetAllEntityTemplatePath();
+        // entityDatas.forEach((data) => {
+        //     log(data);
+        // });
+
+        // Test Case 5
+        const entity = LevelEditorUtil.GetSelectedEntity();
+        if (entity) {
+            log(`[${entity.ActorLabel}] [${entity.Id}]`);
+        }
     };
 
     private readonly GetUndoStateStr = (): string => {

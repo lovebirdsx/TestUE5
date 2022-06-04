@@ -7,7 +7,7 @@ import {
     ISetFlowBoolOption,
     ISetPlotMode,
     plotModeConfig,
-} from '../../Flow/Action';
+} from '../../Interface/Action';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>({
     CnName: '设定剧情控制变量',

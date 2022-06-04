@@ -1,5 +1,5 @@
 import { createArrayScheme } from '../../../Common/Type';
-import { ISwitcherComponent } from '../../Interface';
+import { ISwitcherComponent } from '../../Interface/Component';
 import { triggerActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
 import { interactiveComponentFields } from './InteractComponentScheme';

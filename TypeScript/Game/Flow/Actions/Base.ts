@@ -5,7 +5,7 @@ import { createSignal, ISignal, MS_PER_SEC } from '../../../Common/Async';
 import { error, log, warn } from '../../../Common/Log';
 import { msgbox } from '../../../Common/UeHelper';
 import { Entity, gameContext } from '../../Interface';
-import { IInvoke, ILog, IShowMessage, IWait } from '../Action';
+import { IInvoke, ILog, IShowMessage, IWait } from '../../Interface/Action';
 import { Action, actionRegistry } from '../ActionRunner';
 
 export class LogAction extends Action<ILog> {

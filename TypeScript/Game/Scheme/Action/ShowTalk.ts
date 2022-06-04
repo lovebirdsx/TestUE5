@@ -24,7 +24,7 @@ import {
     IShowTalk,
     ITalkItem,
     ITalkOption,
-} from '../../Flow/Action';
+} from '../../Interface/Action';
 import { talkActionScheme } from './Action';
 
 export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>): IntScheme {

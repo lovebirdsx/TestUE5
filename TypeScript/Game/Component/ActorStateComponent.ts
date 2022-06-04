@@ -3,8 +3,9 @@ import { Game } from 'ue';
 import BP_StateComponent = Game.Blueprints.Component.BP_StateComponent.BP_StateComponent_C;
 
 import { getBlueprintClass } from '../../Common/Class';
-import { TActorState } from '../Flow/Action';
-import { Component, EBlueprintId, IActorStateComponent } from '../Interface';
+import { Component, EBlueprintId } from '../Interface';
+import { TActorState } from '../Interface/Action';
+import { IActorStateComponent } from '../Interface/Component';
 import { StateComponent } from './StateComponent';
 
 interface IActorStateSlot {

@@ -5,8 +5,8 @@ import { Actor, NewArray, StaticMeshComponent, Vector } from 'ue';
 
 import { toVector } from '../../Common/Interface';
 import { error } from '../../Common/Log';
-import { ISimpleMove } from '../Flow/Action';
 import { Component, gameContext, ITickable, ITsEntity } from '../Interface';
+import { ISimpleMove } from '../Interface/Action';
 import { StateComponent, vectorToArray } from './StateComponent';
 
 export interface ISimpleMoveInfo {

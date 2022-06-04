@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createIntScheme, createObjectScheme } from '../../../Common/Type';
-import { IJumpTalk } from '../../Flow/Action';
+import { IJumpTalk } from '../../Interface/Action';
 
 export const jumpIdScheme = createIntScheme();
 

@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Scheme, TElementRenderType } from '../../../Common/Type';
-import { IActionInfo, IJumpTalk, ILog, IShowTalk, TActionType } from '../../Flow/Action';
+import { IActionInfo, IJumpTalk, ILog, IShowTalk, TActionType } from '../../Interface/Action';
 
 export type TActionQueryType = 'custom' | 'entity';
 

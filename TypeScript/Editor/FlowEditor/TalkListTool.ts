@@ -15,7 +15,7 @@ import {
     ITalkItem,
     ITalkOption,
     TActionType,
-} from '../../Game/Flow/Action';
+} from '../../Game/Interface/Action';
 import { editorFlowOp } from '../Common/Operations/Flow';
 
 type TCsvTalkType = '对话' | '对话选项' | '独立选项';

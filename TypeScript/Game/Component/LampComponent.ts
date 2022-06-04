@@ -2,7 +2,7 @@
 /* eslint-disable no-void */
 import { MaterialInstanceDynamic, StaticMeshComponent } from 'ue';
 
-import { IInteract } from '../Flow/Action';
+import { IInteract } from '../Interface/Action';
 import { Component, IInteractCall } from '../Interface';
 import { EventComponent } from './EventComponent';
 

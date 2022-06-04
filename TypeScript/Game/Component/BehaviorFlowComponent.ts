@@ -3,9 +3,10 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
 import { error } from '../../Common/Log';
-import { IFlowInfo } from '../Flow/Action';
 import { ActionRunner } from '../Flow/ActionRunner';
-import { Component, gameContext, IBehaviorFlowComponent, ITickable } from '../Interface';
+import { Component, gameContext, ITickable } from '../Interface';
+import { IFlowInfo } from '../Interface/Action';
+import { IBehaviorFlowComponent } from '../Interface/Component';
 import { StateComponent } from './StateComponent';
 
 export class BehaviorFlowComponent extends Component implements IBehaviorFlowComponent, ITickable {

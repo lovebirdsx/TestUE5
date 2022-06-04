@@ -1,6 +1,6 @@
 import { createArrayScheme, createFloatScheme, createObjectScheme } from '../../../Common/Type';
-import { IActionInfo, IFunction, INumberVar } from '../../Flow/Action';
-import { ICalculatorComponent } from '../../Interface';
+import { IActionInfo, IFunction, INumberVar } from '../../Interface/Action';
+import { ICalculateComponent } from '../../Interface/Component';
 import { functionActionScheme } from '../Action/Action';
 import { functionNameScheme, varNameScheme } from '../Action/Calculate';
 import { createComponentScheme } from './ComponentRegistry';
@@ -27,7 +27,7 @@ export const functionScheme = createObjectScheme<IFunction>({
     },
 });
 
-export const calculateComponentScheme = createComponentScheme<ICalculatorComponent>({
+export const calculateComponentScheme = createComponentScheme<ICalculateComponent>({
     Actions: [
         'SetNumberVar',
         'SyncVarToActorState',

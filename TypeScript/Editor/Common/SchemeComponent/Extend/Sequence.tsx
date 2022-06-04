@@ -8,7 +8,7 @@ import { csvOp } from '../../../../Common/CsvOp';
 import { ECsvName, IProps } from '../../../../Common/Type';
 import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
-import { IPlayCustomSequence, TCameraBindMode } from '../../../../Game/Flow/Action';
+import { IPlayCustomSequence, TCameraBindMode } from '../../../../Game/Interface/Action';
 import { List } from '../../BaseComponent/CommonComponent';
 
 function getTalkerCountByCameraBindType(type: TCameraBindMode): number {

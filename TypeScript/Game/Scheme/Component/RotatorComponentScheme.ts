@@ -7,29 +7,10 @@ import {
     createVectorScheme,
     IVectorType,
 } from '../../../Common/Type';
-import { IActionInfo } from '../../Flow/Action';
-import { IInteractiveComponent } from '../../Interface';
+import { IEventRotator, IRotatorComponent } from '../../Interface/Component';
 import { trampleActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
 import { interactiveComponentFields } from './InteractComponentScheme';
-
-export interface IEventRotator {
-    StartActions: IActionInfo[];
-    EndActions: IActionInfo[];
-}
-
-export interface IRotatorComponent extends IInteractiveComponent {
-    RotatorSpeed: IVectorType;
-    LocationOffset: IVectorType;
-    RotationOffset: IVectorType;
-    RotationMapping: IVectorType;
-    IsLocalSpace: boolean;
-    EntityId: string;
-    IsRotatorSelf: boolean;
-    InteractAction: IEventRotator;
-    IsLockZ: boolean;
-    IsRecovery: boolean;
-}
 
 export const eventScheme = createObjectScheme<IEventRotator>({
     Name: 'eventScheme',

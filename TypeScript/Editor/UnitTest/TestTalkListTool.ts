@@ -11,7 +11,7 @@ import {
     IShowTalk,
     ITalkItem,
     ITalkOption,
-} from '../../Game/Flow/Action';
+} from '../../Game/Interface/Action';
 import { editorFlowOp } from '../Common/Operations/Flow';
 
 function flowListEqual(f1: IFlowListInfo, f2: IFlowListInfo): boolean {

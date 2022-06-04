@@ -4,9 +4,9 @@
 import { createSignal, ISignal } from '../../Common/Async';
 import { toTransformInfo } from '../../Common/Interface';
 import { IVectorType } from '../../Common/Type';
-import { IInteract, ISpawn } from '../Flow/Action';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
-import { ISphereFactoryComponent } from '../Scheme/Component/SphereFactoryScheme';
+import { IInteract, ISpawn } from '../Interface/Action';
+import { ISphereFactoryComponent } from '../Interface/Component';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { EventComponent } from './EventComponent';
 

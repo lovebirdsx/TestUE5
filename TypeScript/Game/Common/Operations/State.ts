@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { TFixResult } from '../../../Common/Type';
-import { IActionInfo, IShowTalk, IStateInfo } from '../../Flow/Action';
+import { IActionInfo, IShowTalk, IStateInfo } from '../../Interface/Action';
 import { actionRegistry } from '../../Scheme/Action/Public';
 
 class StateOp {

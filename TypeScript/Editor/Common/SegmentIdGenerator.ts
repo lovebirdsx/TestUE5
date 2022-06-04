@@ -10,8 +10,6 @@ interface IIdSegmentRow {
     SegmentId: number;
 }
 
-export type TConfigType = 'entity' | 'entityTemplate';
-
 export function loadIdSegmentConfig(): IIdSegmentRow[] {
     const path = MyFileHelper.GetPath(EFileRoot.Content, `Editor/Config/IdSegmentConfig.json`);
     return readJsonObj<IIdSegmentRow[]>(path, []);
@@ -50,22 +48,22 @@ interface IGeneratorSnapshot {
 }
 
 export class SegmentIdGenerator {
-    private static GetSavePath(config: TConfigType): string {
+    private static GetSavePath(configName: string): string {
         const baseDir = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Generator');
-        return `${baseDir}/${config}.json`;
+        return `${baseDir}/${configName}.json`;
     }
 
-    public static HasRecordForConfig(config: TConfigType): boolean {
-        const path = this.GetSavePath(config);
+    public static HasRecordForConfig(configName: string): boolean {
+        const path = this.GetSavePath(configName);
         return MyFileHelper.Exist(path);
     }
 
-    public static RemoveRecordForConfig(config: TConfigType): void {
-        const path = this.GetSavePath(config);
+    public static RemoveRecordForConfig(configName: string): void {
+        const path = this.GetSavePath(configName);
         MyFileHelper.Remove(path);
     }
 
-    public readonly Config: TConfigType;
+    public readonly Name: string;
 
     public readonly MinId: number;
 
@@ -75,8 +73,8 @@ export class SegmentIdGenerator {
 
     private readonly SegmentId: number;
 
-    public constructor(config: TConfigType) {
-        this.Config = config;
+    public constructor(name: string) {
+        this.Name = name;
         this.SegmentId = getLocalSegmentId();
         if (this.SegmentId === undefined) {
             throw new Error(`No segment id found for local machine [${getMacAddress()}]`);
@@ -84,10 +82,10 @@ export class SegmentIdGenerator {
         this.MinId = this.SegmentId * ID_COUNT_PER_SEGMENT;
         this.MaxId = this.MinId + ID_COUNT_PER_SEGMENT;
 
-        const data = readJsonObj<IGeneratorSnapshot>(SegmentIdGenerator.GetSavePath(this.Config));
+        const data = readJsonObj<IGeneratorSnapshot>(SegmentIdGenerator.GetSavePath(this.Name));
         if (data) {
-            if (data.Name !== this.Config) {
-                throw new Error(`Generator file name [${data.Name}] !== [${this.Config}]`);
+            if (data.Name !== this.Name) {
+                throw new Error(`Generator file name [${data.Name}] !== [${this.Name}]`);
             }
             this.Id = data.Id;
         } else {
@@ -97,10 +95,10 @@ export class SegmentIdGenerator {
 
     private Save(): void {
         const data: IGeneratorSnapshot = {
-            Name: this.Config,
+            Name: this.Name,
             Id: this.Id,
         };
-        writeJson(data, SegmentIdGenerator.GetSavePath(this.Config));
+        writeJson(data, SegmentIdGenerator.GetSavePath(this.Name));
     }
 
     public ContainsId(id: number): boolean {
@@ -109,7 +107,7 @@ export class SegmentIdGenerator {
 
     public SaveWithId(id: number): void {
         if (!this.ContainsId(id)) {
-            throw new Error(`[${this.Config}] id[${id}] 超出范围 [${this.MinId}, ${this.MaxId})`);
+            throw new Error(`[${this.Name}] id[${id}] 超出范围 [${this.MinId}, ${this.MaxId})`);
         }
         this.Id = id;
         this.Save();
@@ -119,7 +117,7 @@ export class SegmentIdGenerator {
         const result = this.Id;
         this.Id++;
         if (this.Id >= this.MaxId) {
-            throw new Error(`[${this.Config}]Id生成失败: 机器[${getMacAddress()}]的配置id耗尽`);
+            throw new Error(`[${this.Name}]Id生成失败: 机器[${getMacAddress()}]的配置id耗尽`);
         }
         return result;
     }
@@ -140,34 +138,24 @@ export class SegmentIdGenerator {
     }
 }
 
-export class EntityIdGenerator {
-    private static MyGenerator: SegmentIdGenerator;
-
-    private static get Generator(): SegmentIdGenerator {
-        if (!this.MyGenerator) {
-            this.MyGenerator = new SegmentIdGenerator('entity');
+export abstract class CustomSegmentIdGenerator extends SegmentIdGenerator {
+    public constructor(name: string) {
+        super(name);
+        if (!CustomSegmentIdGenerator.HasRecordForConfig(name)) {
+            const id = this.GetMaxIdGenerated();
+            if (id !== undefined) {
+                this.SaveWithId(id + 1);
+            }
         }
-        return this.MyGenerator;
     }
 
-    public static get HasRecord(): boolean {
-        return SegmentIdGenerator.HasRecordForConfig('entity');
+    protected abstract GetMaxIdGenerated(): number | undefined;
+
+    public GenOne(): number {
+        return super.GenOne();
     }
 
-    private static GetMinRelatedEntityId(): number | undefined {
-        return undefined;
-    }
-
-    public static GenRecord(): void {
-        const entityId = this.GetMinRelatedEntityId();
-        this.Generator.SaveWithId(entityId !== undefined ? entityId : this.Generator.MinId);
-    }
-
-    public static GenOne(): number {
-        return this.Generator.GenOne();
-    }
-
-    public static GenMany(count: number): number[] {
-        return this.Generator.GenMany(count);
+    public GenMany(count: number): number[] {
+        return super.GenMany(count);
     }
 }

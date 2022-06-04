@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createStringScheme, TObjectFields } from '../../../Common/Type';
-import { IInteractiveComponent } from '../../Interface';
+import { IInteractiveComponent } from '../../Interface/Component';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const interactiveComponentFields: TObjectFields<IInteractiveComponent> = {

@@ -20,7 +20,6 @@ import { TModifyType } from '../../Common/Type';
 import { msgbox } from '../../Common/UeHelper';
 import { readJsonObj, stringifyEditor } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
-import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
@@ -30,6 +29,7 @@ import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
+import { entityRegistry } from '../Common/Scheme/Entity';
 import { segmentIdGeneratorManager } from '../Common/SegmentIdGenerator';
 import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
@@ -515,11 +515,23 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
         return (
             <VerticalBox>
-                {/* <HorizontalBox>
-                    <SlotText Text={'地图配置:'} Tip={this.LevelEditor.GetMapDataPath()} />
-                    <Btn Text={'保存'} OnClick={this.SaveMap} Tip={`保存场景状态`} />
-                    <Btn Text={'打开'} OnClick={this.OpenMapFile} Tip={`打开地图配置文件`} />
-                </HorizontalBox> */}
+                <HorizontalBox>
+                    <Text Text={'数据文件:'} Tip={this.LevelEditor.GetMapDataPath()} />
+                    <Btn
+                        Text={'保存'}
+                        OnClick={(): void => {
+                            this.LevelEditor.SaveMapData();
+                        }}
+                        Tip={`保存场景状态`}
+                    />
+                    <Btn
+                        Text={'打开'}
+                        OnClick={(): void => {
+                            this.LevelEditor.OpenMapDataFile();
+                        }}
+                        Tip={`打开地图配置文件`}
+                    />
+                </HorizontalBox>
                 <HorizontalBox>
                     <Text Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
                     <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={'打开游戏存档文件'} />

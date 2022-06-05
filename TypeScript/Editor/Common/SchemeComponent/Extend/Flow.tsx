@@ -6,7 +6,6 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { log } from '../../../../Common/Log';
 import { TModifyType } from '../../../../Common/Type';
 import { IFlowInfo, IStateInfo } from '../../../../Game/Interface/Action';
-import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import {
     Btn,
     COLOR_LEVEL1,
@@ -15,6 +14,7 @@ import {
     TAB_OFFSET,
 } from '../../BaseComponent/CommonComponent';
 import { editorFlowOp } from '../../Operations/Flow';
+import { ActionScheme } from '../../Scheme/Action/Action';
 import { copyObject, pasteObject } from '../../Util';
 import { flowContext } from '../Context';
 import { State } from './State';

@@ -18,8 +18,8 @@ import {
 } from '../../../../Common/Interface';
 import { IProps } from '../../../../Common/Type';
 import { alignVector, deepEquals } from '../../../../Common/Util';
-import { ISpawn } from '../../../../Game/Interface/Action';
 import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
+import { ISpawn } from '../../../../Game/Interface/Action';
 import { tempEntities } from '../../../EntityEditor/TempEntities';
 import {
     Btn,
@@ -331,9 +331,9 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
         });
     };
 
-    private readonly OnModifyTemplateGuid = (newGuid: string): void => {
+    private readonly OnModifyTemplateGuid = (newId: number): void => {
         const newValue = produce(this.props.Value, (draft) => {
-            draft.TemplateGuid = newGuid;
+            draft.TemplateGuid = newId;
         });
         this.props.OnModify(newValue, 'normal');
     };
@@ -355,7 +355,7 @@ export class Spawn extends React.Component<IProps<ISpawn>, IPointState> {
                     />
                     {this.props.PrefixElement}
                     <EntityTemplateSelector
-                        Guid={this.props.Value.TemplateGuid}
+                        Id={this.props.Value.TemplateGuid}
                         OnModify={this.OnModifyTemplateGuid}
                     />
                 </HorizontalBox>

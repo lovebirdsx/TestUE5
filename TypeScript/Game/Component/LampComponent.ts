@@ -2,8 +2,8 @@
 /* eslint-disable no-void */
 import { MaterialInstanceDynamic, StaticMeshComponent } from 'ue';
 
-import { IInteract } from '../Interface/Action';
 import { Component, IInteractCall } from '../Interface';
+import { IInteract } from '../Interface/Action';
 import { EventComponent } from './EventComponent';
 
 export class LampComponent extends Component {

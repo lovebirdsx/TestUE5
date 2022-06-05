@@ -3,7 +3,7 @@
 import * as UE from 'ue';
 
 import { regBlueprintType, TTsClassType } from '../../Common/Class';
-import { EBlueprintId } from '../Interface';
+import { EBlueprintId } from '../Interface/Entity';
 import TsPlayer, { playerComponentClasses } from '../Player/TsPlayer';
 import { entityRegistry } from './EntityRegistry';
 import TsAiNpc, { aiNpcComponentClasses } from './TsAiNpc';
@@ -95,7 +95,7 @@ export function initEntity(): void {
     regEntity(EBlueprintId.Entity, TsEntity);
     regEntity(EBlueprintId.Npc, TsNpc);
     regEntity(EBlueprintId.Trigger, TsTrigger);
-    regEntity(EBlueprintId.Swicher, TsSwitcher);
+    regEntity(EBlueprintId.Switcher, TsSwitcher);
     regEntity(EBlueprintId.TsSphereActor, TsSphereActor);
     regEntity(EBlueprintId.Spring, TsSpring);
     regEntity(EBlueprintId.Rotator, TsRotator);

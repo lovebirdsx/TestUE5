@@ -3,6 +3,7 @@ import { EditorOperations } from 'ue';
 
 import { isEditor } from '../Common/Util';
 import { gameConfig } from './Common/GameConfig';
+import { entityIdAllocator } from './Common/Operations/Entity';
 import { StateComponent } from './Component/StateComponent';
 import { gameContext, IGameController, ITsEntity } from './Interface';
 
@@ -30,9 +31,13 @@ export class GameController implements IGameController {
         const entityMananger = gameContext.EntityManager;
         const spawnType = entityMananger.GetSpawnType(id);
         const destroyType = entityMananger.GetDestoryType(id);
+
         if (spawnType === 'user' && destroyType === 'delete') {
+            // 动态生成的Entity, 且被明确删除
             gameContext.StateManager.DeleteState(id);
+            entityIdAllocator.Free(id);
         } else if (spawnType === 'streaming' && destroyType === 'delete') {
+            // 预先布置的Entity, 且被明确删除
             gameContext.StateManager.MarkDelete(id);
         }
     }
@@ -43,9 +48,13 @@ export class GameController implements IGameController {
             this.OnEntityDeregistered(entity);
         });
         gameContext.StateManager.Save();
+
+        entityIdAllocator.Save();
     }
 
     public Init(): void {
+        entityIdAllocator.Load();
+
         const entityMananger = gameContext.EntityManager;
         entityMananger.EntityRemoved.AddCallback(this.OnEntityRemoved.bind(this));
         entityMananger.EntityDeregistered.AddCallback(this.OnEntityDeregistered.bind(this));

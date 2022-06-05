@@ -1,12 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 import { ITransform, toTransform } from '../../Common/Interface';
-import { EntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { Component, gameContext, ITsEntity } from '../Interface';
 import { ISpawn } from '../Interface/Action';
 import { StateComponent } from './StateComponent';
 
 interface IEntitySpawnRecord {
-    TemplateGuid: string;
+    TemplateGuid: number;
     EntityId: number;
     Transform: ITransform;
 }
@@ -58,8 +57,8 @@ export class EntitySpawnerComponent extends Component {
         }
     };
 
-    public SpawnChild(templateGuid: string, transform: ITransform, entityId?: number): ITsEntity {
-        const entityData = EntityTemplateOp.GenEntityData(templateGuid, entityId);
+    public SpawnChild(templateGuid: number, transform: ITransform, entityId?: number): ITsEntity {
+        const entityData = gameContext.LevelDataManager.GenEntityData(templateGuid, entityId);
         const entity = gameContext.EntityManager.SpawnEntity(entityData, toTransform(transform));
         this.Children.set(entity.Id, entity);
         return entity;

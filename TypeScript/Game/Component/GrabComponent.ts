@@ -4,8 +4,8 @@ import { Actor, KismetMathLibrary, PrimitiveComponent, Rotator, Vector } from 'u
 
 import { IVectorType } from '../../Common/Type';
 import { Component, gameContext, ITickable } from '../Interface';
+import { IGrabComponent } from '../Interface/Component';
 import TsPlayer from '../Player/TsPlayer';
-import { IGrabComponent } from '../Scheme/Component/GrabComponentScheme';
 
 export class GrabComponent extends Component implements IGrabComponent, ITickable {
     public GrabPos: IVectorType;

@@ -6,9 +6,7 @@ import { getFileNameWithOutExt } from '../../../Common/File';
 import { error, log, warn } from '../../../Common/Log';
 import { FlowListCsvLoader } from '../../../Game/Common/CsvConfig/FlowListCsv';
 import { TextListCsvLoader, TextRow } from '../../../Game/Common/CsvConfig/TextListCsv';
-import { flowOp } from '../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../Game/Common/Operations/FlowList';
-import { stateOp } from '../../../Game/Common/Operations/State';
 import {
     IActionInfo,
     IFlowListInfo,
@@ -18,6 +16,8 @@ import {
     IShowTalk,
 } from '../../../Game/Interface/Action';
 import { mergeEditorToConfig } from '../Util';
+import { editorFlowOp } from './Flow';
+import { stateOp } from './State';
 
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
 
@@ -25,7 +25,7 @@ class EditorFlowListOp {
     public Check(flowList: IFlowListInfo, errorMessages: string[]): number {
         let errorCount = 0;
         flowList.Flows.forEach((flow) => {
-            errorCount += flowOp.Check(flow, errorMessages);
+            errorCount += editorFlowOp.Check(flow, errorMessages);
         });
 
         const textIdMap: Set<number> = new Set();
@@ -78,7 +78,7 @@ class EditorFlowListOp {
         }
 
         flowList.Flows.forEach((flow) => {
-            flowOp.Fix(flow);
+            editorFlowOp.Fix(flow);
         });
 
         // 修复重复的文本id

@@ -27,6 +27,7 @@ import { LevelTools } from '../EntityEditor/LevelTools';
 import testConfig from '../UnitTest/Common/TestConfig';
 import { testUtil } from '../UnitTest/Engine/TestUtil';
 import testClass from '../UnitTest/Game/TestClass';
+import testIdAllocator from '../UnitTest/Game/TestIdAllocator';
 import testTickManager from '../UnitTest/Game/TestTickManager';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';
@@ -57,6 +58,7 @@ function fixEntityIds(): void {
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
     { Name: 'testConfig', Fun: testConfig },
+    { Name: 'testIdAllocator', Fun: testIdAllocator },
     { Name: 'testEvent', Fun: testEvent },
     { Name: 'testContainer', Fun: testContainer },
     { Name: 'testImmer', Fun: testImmer },

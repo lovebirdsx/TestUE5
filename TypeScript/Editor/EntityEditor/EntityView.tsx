@@ -7,12 +7,12 @@ import { error } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
-import { entityRegistry } from '../../Game/Entity/EntityRegistry';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
+import { entityRegistry } from '../Common/Scheme/Entity';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
 import { openFile } from '../Common/Util';
 import { ComponentsData } from './ComponentsData';
@@ -60,7 +60,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         editorConfig.LastEntityTemplatePath = path;
         const newData = EntityTemplateOp.ProduceEntityData(
             template,
-            entityRegistry.GetComponentClasses(this.props.Entity),
+            entityRegistry.GetComponentTypes(this.props.Entity),
             this.props.Data,
         );
         if (newData !== this.props.Data) {
@@ -86,7 +86,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
             );
         }
 
-        return <Btn Color="#FF0000 red" Text={'修复Guid'} OnClick={this.FixGuid} />;
+        return <Text Text={id.toString()} />;
     }
 
     private RenderEntityInfo(): JSX.Element {
@@ -129,7 +129,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const entity = props.Entity;
         const data = props.Data;
         const componentsState = data.ComponentsData;
-        const componentClassObjs = entityRegistry.GetComponentClasses(entity);
+        const componentTypes = entityRegistry.GetComponentTypes(entity);
 
         return (
             <VerticalBox>
@@ -142,7 +142,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 <entityIdContext.Provider value={entity.Id}>
                     <ComponentsData
                         Value={componentsState}
-                        ClassObjs={componentClassObjs}
+                        ComponentTypes={componentTypes}
                         OnModify={(componentState, type): void => {
                             const newData = produce(data, (draft) => {
                                 draft.ComponentsData = componentState;

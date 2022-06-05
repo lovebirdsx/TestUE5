@@ -20,8 +20,6 @@ import {
     parsePlayFlow,
 } from '../../../../Game/Interface/Action';
 import { IBehaviorFlowComponent } from '../../../../Game/Interface/Component';
-import { behaviorFlowActionScheme } from '../../../../Game/Scheme/Action/Action';
-import { createDefaultPlayFlowFor, playFlowScheme } from '../../../../Game/Scheme/Action/Flow';
 import {
     Btn,
     COLOR_LEVEL1,
@@ -35,6 +33,8 @@ import {
 } from '../../BaseComponent/CommonComponent';
 import { editorConfig } from '../../EditorConfig';
 import LevelEditorUtil from '../../LevelEditorUtil';
+import { behaviorFlowActionScheme } from '../../Scheme/Action/Action';
+import { createDefaultPlayFlowFor, playFlowScheme } from '../../Scheme/Action/Flow';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';
 import { entityIdContext, flowContext, invokeContext } from '../Context';

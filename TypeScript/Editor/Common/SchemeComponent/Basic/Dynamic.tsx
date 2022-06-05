@@ -1,39 +1,42 @@
 /* eslint-disable @typescript-eslint/require-array-sort-compare */
 /* eslint-disable spellcheck/spell-checker */
-
 import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { getTsClassByUeClass, TTsClassType } from '../../../../Common/Class';
 import { IProps, TModifyType } from '../../../../Common/Type';
 import { addArray, subArray } from '../../../../Common/Util';
-import { entityRegistry } from '../../../../Game/Entity/EntityRegistry';
-import TsAiNpc from '../../../../Game/Entity/TsAiNpc';
 import { IActionInfo, IInvoke, TActionType } from '../../../../Game/Interface/Action';
-import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
-import { actionRegistry } from '../../../../Game/Scheme/Action/Public';
+import {
+    getActionsByEntityType,
+    getEntityTypeByActor,
+    TEntityType,
+} from '../../../../Game/Interface/Entity';
 import { Check, COLOR_LEVEL3, List, Text } from '../../BaseComponent/CommonComponent';
 import { entityListCache } from '../../EntityListCache';
+import { ActionScheme } from '../../Scheme/Action/Action';
+import { actionRegistry } from '../../Scheme/Action/Public';
 import { entityIdContext, invokeContext } from '../Context';
 import { Any } from './Any';
 
-function getActions(tsClassType: TTsClassType, scheme: ActionScheme): TActionType[] {
-    const actions = addArray(entityRegistry.GetActionsByTsClass(tsClassType), scheme.ExtraActions);
+function getActions(entityType: TEntityType, scheme: ActionScheme): TActionType[] {
+    const actions = addArray(getActionsByEntityType(entityType), scheme.ExtraActions);
     return subArray(actions, scheme.FilterActions).sort();
 }
 
 class ActionsCache {
-    private readonly ActionMapByClass: Map<TTsClassType, Map<ActionScheme, TActionType[]>> =
+    private readonly ActionMapByEntityType: Map<TEntityType, Map<ActionScheme, TActionType[]>> =
         new Map();
 
-    private readonly InstantActionMapByClass: Map<TTsClassType, Map<ActionScheme, TActionType[]>> =
-        new Map();
+    private readonly InstantActionMapByEntityType: Map<
+        TEntityType,
+        Map<ActionScheme, TActionType[]>
+    > = new Map();
 
     public GetActions(entityId: number, scheme: ActionScheme, isInvoke: boolean): TActionType[] {
         if (entityId === undefined) {
             // FlowEditor中的是没有entityId的上下文的, 则默认按照TsAiNpc的来处理
-            return this.GetActionsByClass(TsAiNpc, scheme);
+            return this.GetActionsByEntityType('AiNpc', scheme);
         }
 
         const entity = entityListCache.GetEntityById(entityId);
@@ -41,24 +44,24 @@ class ActionsCache {
             return [];
         }
 
-        const tsClassType = getTsClassByUeClass(entity.GetClass());
+        const entityType = getEntityTypeByActor(entity);
         if (!isInvoke) {
-            return this.GetActionsByClass(tsClassType, scheme);
+            return this.GetActionsByEntityType(entityType, scheme);
         }
 
-        return this.GetInvokeActionsByClass(tsClassType, scheme);
+        return this.GetInvokeActionsByClass(entityType, scheme);
     }
 
-    public GetInvokeActionsByClass(tsClassType: TTsClassType, scheme: ActionScheme): TActionType[] {
-        let actionMap = this.InstantActionMapByClass.get(tsClassType);
+    public GetInvokeActionsByClass(entityType: TEntityType, scheme: ActionScheme): TActionType[] {
+        let actionMap = this.InstantActionMapByEntityType.get(entityType);
         if (!actionMap) {
             actionMap = new Map();
-            this.InstantActionMapByClass.set(tsClassType, actionMap);
+            this.InstantActionMapByEntityType.set(entityType, actionMap);
         }
 
         let actions = actionMap.get(scheme);
         if (!actions) {
-            actions = getActions(tsClassType, scheme);
+            actions = getActions(entityType, scheme);
             actions = actions.filter((action) => {
                 const actionScheme = actionRegistry.GetScheme(action);
                 // 避免Invoke中再次调用Invoke
@@ -70,16 +73,16 @@ class ActionsCache {
         return actions;
     }
 
-    public GetActionsByClass(tsClassType: TTsClassType, scheme: ActionScheme): TActionType[] {
-        let actionMap = this.ActionMapByClass.get(tsClassType);
+    public GetActionsByEntityType(entityType: TEntityType, scheme: ActionScheme): TActionType[] {
+        let actionMap = this.ActionMapByEntityType.get(entityType);
         if (!actionMap) {
             actionMap = new Map();
-            this.ActionMapByClass.set(tsClassType, actionMap);
+            this.ActionMapByEntityType.set(entityType, actionMap);
         }
 
         let actions = actionMap.get(scheme);
         if (!actions) {
-            actions = getActions(tsClassType, scheme);
+            actions = getActions(entityType, scheme);
             actionMap.set(scheme, actions);
         }
 

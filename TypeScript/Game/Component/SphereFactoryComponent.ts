@@ -16,7 +16,7 @@ export class SphereFactoryComponent
 {
     public SphereLocation: IVectorType; // 用自己位置
 
-    public SphereGuid: string;
+    public SphereGuid: number;
 
     private EntitySpawn: EntitySpawnerComponent;
 

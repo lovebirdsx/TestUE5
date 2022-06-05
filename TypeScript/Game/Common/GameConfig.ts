@@ -1,4 +1,4 @@
-import { DemoWorldSettings, EFileRoot, MyFileHelper, World } from 'ue';
+import { EFileRoot, MyFileHelper, World } from 'ue';
 
 import { log } from '../../Common/Log';
 import { writeJson } from '../../Common/Util';
@@ -10,7 +10,7 @@ export class GameConfig {
 
     public static readonly FlowListPrefix = '流程_';
 
-    public static readonly LevelDataDir = MyFileHelper.GetPath(EFileRoot.Content, 'Data/Map');
+    public static readonly LevelDataDir = MyFileHelper.GetPath(EFileRoot.Save, 'MapData');
 
     public static readonly LevelSaveDir = MyFileHelper.GetPath(EFileRoot.Save, 'Map');
 
@@ -40,14 +40,12 @@ export class GameConfig {
         writeJson(this, GameConfig.SavePath);
     }
 
-    public static GetCurrentMapDataPath(world: World): string {
-        const settings = world.K2_GetWorldSettings() as DemoWorldSettings;
-        return `${this.LevelDataDir}/${settings.MapName}.json`;
+    public static GetCurrentLevelDataPath(world: World): string {
+        return `${this.LevelDataDir}/${world.GetName()}.json`;
     }
 
-    public static GetCurrentMapSavePath(world: World): string {
-        const settings = world.K2_GetWorldSettings() as DemoWorldSettings;
-        return `${this.LevelSaveDir}/${settings.MapName}.json`;
+    public static GetCurrentLevelSavePath(world: World): string {
+        return `${this.LevelSaveDir}/${world.GetName()}.json`;
     }
 }
 

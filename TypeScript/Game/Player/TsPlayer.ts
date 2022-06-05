@@ -13,7 +13,6 @@ import {
 } from 'ue';
 
 import { log } from '../../Common/Log';
-import { genGuid } from '../../Common/Util';
 import PlayerComponent from '../Component/PlayerComponent';
 import { deInitTsEntity, initTsEntity } from '../Entity/Common';
 import { Entity, gameContext, ITsEntity, TComponentClass } from '../Interface';

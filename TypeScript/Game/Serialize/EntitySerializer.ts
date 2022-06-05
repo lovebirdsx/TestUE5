@@ -3,14 +3,14 @@
 import { Actor, Character, GameplayStatics, Transform } from 'ue';
 
 import { getBlueprintClass, isChildOfClass } from '../../Common/Class';
-import { entityRegistry } from '../Entity/EntityRegistry';
+import { stringify } from '../../Common/Util';
 import { TsEntity } from '../Entity/Public';
 import TsCharacterEntity from '../Entity/TsCharacterEntity';
 import { gameContext, IEntityData } from '../Interface';
 
 class EntitySerializer {
-    public SpawnEntityByData(state: IEntityData, transform: Transform): TsEntity {
-        const actorClass = getBlueprintClass(state.PrefabId);
+    public SpawnEntityByData(entityData: IEntityData, transform: Transform): TsEntity {
+        const actorClass = getBlueprintClass(entityData.PrefabId);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
             gameContext.World,
             actorClass,
@@ -22,7 +22,13 @@ class EntitySerializer {
             character.SpawnDefaultController();
         }
 
-        entityRegistry.ApplyData(state, entity);
+        if (!entityData.Id) {
+            throw new Error(
+                `Invalid EntityData for spawn [id = ${entityData.Id}]\n${stringify(entityData)}`,
+            );
+        }
+
+        entity.Id = entityData.Id;
 
         GameplayStatics.FinishSpawningActor(entity, transform);
 

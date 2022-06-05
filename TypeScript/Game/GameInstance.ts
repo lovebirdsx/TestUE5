@@ -6,6 +6,7 @@ import { initFlow } from './Flow/Public';
 import { GameController } from './GameController';
 import { gameContext } from './Interface';
 import { EntityManager } from './Manager/EntityManager';
+import { LevelDataManager } from './Manager/LevelDataManager';
 import { StateManager } from './Manager/StateManager';
 import { TickManager } from './Manager/TickManager';
 import { TweenManager } from './Manager/TweenManager';
@@ -21,15 +22,19 @@ export class GameInstance {
 
     private readonly GameController = new GameController();
 
+    private readonly LevelDataManager = new LevelDataManager();
+
     public Init(): void {
         initCommon();
         initFlow();
         initEntity(); // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
 
+        // 如果在TweenManager内部进行赋值, 则会出现循环依赖, 故而在此赋值
         gameContext.TweenManager = this.TweenManager;
 
         this.TickManager.Init();
         this.StateManager.Init();
+        this.LevelDataManager.Init();
         this.EntityManager.Init();
 
         log('GameInstance Init()');
@@ -43,6 +48,7 @@ export class GameInstance {
         this.EntityManager.Exit();
         this.StateManager.Exit();
         this.TickManager.Exit();
+        this.LevelDataManager.Exit();
         log('GameInstance Exit()');
     }
 

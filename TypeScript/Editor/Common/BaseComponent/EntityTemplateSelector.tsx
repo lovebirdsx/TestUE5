@@ -8,13 +8,13 @@ import { Btn } from './CommonComponent';
 import { FilterableList } from './FilterableList';
 
 export interface IEntityTemplateSelectorProps {
-    Guid: string;
-    OnModify: (guid: string) => void;
+    Id: number;
+    OnModify: (id: number) => void;
 }
 
 export class EntityTemplateSelector extends React.Component<IEntityTemplateSelectorProps> {
     private readonly OpenEntityTemplate = (): void => {
-        const templateFile = EntityTemplateOp.GetPath(this.props.Guid);
+        const templateFile = EntityTemplateOp.GetPath(this.props.Id);
         openFile(templateFile);
     };
 
@@ -25,9 +25,9 @@ export class EntityTemplateSelector extends React.Component<IEntityTemplateSelec
                 <FilterableList
                     Tip={'实体模板名字'}
                     Items={EntityTemplateOp.Names}
-                    Selected={EntityTemplateOp.GetNameByGuid(this.props.Guid)}
+                    Selected={EntityTemplateOp.GetNameById(this.props.Id)}
                     OnSelectChanged={(name: string): void => {
-                        this.props.OnModify(EntityTemplateOp.GetGuidByName(name));
+                        this.props.OnModify(EntityTemplateOp.GetIdByName(name));
                     }}
                 />
                 <Btn Text={'◉'} OnClick={this.OpenEntityTemplate} Tip={'打开实体模板'} />

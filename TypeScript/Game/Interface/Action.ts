@@ -287,7 +287,7 @@ export interface IFaceToPos {
 }
 
 export interface ISpawn {
-    TemplateGuid: string;
+    TemplateGuid: number;
     Transform: ITransform;
 }
 

@@ -121,7 +121,7 @@ export interface ICalculateComponent {
 export const DEFAULT_INIT_SPEED = 150;
 
 export interface ITempleGuid {
-    TempleGuid: string;
+    TempleGuid: number;
 }
 
 export interface IRefreshSingle {
@@ -166,7 +166,7 @@ export interface IRotatorComponent extends IInteractiveComponent {
 
 export interface ISphereFactoryComponent {
     SphereLocation: IVectorType;
-    SphereGuid: string;
+    SphereGuid: number;
 }
 
 export interface ISettingSpringDir {
@@ -198,4 +198,10 @@ export interface IUndergroundComponent {
     IsRestartPlayer: boolean;
     DestroyTag: string[];
     StateInfo: IStateInfo[];
+}
+
+export interface IGrabComponent {
+    GrabPos: IVectorType;
+    ThrowPow: number;
+    ThrowHight: number;
 }

@@ -5,9 +5,9 @@ import { VerticalBox } from 'react-umg';
 
 import { TModifyType } from '../../../../Common/Type';
 import { IActionInfo } from '../../../../Game/Interface/Action';
-import { ActionScheme } from '../../../../Game/Scheme/Action/Action';
 import { TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import * as ContextBtn from '../../BaseComponent/ContextBtn';
+import { ActionScheme } from '../../Scheme/Action/Action';
 import { Dynamic } from '../Basic/Public';
 
 export interface IActionProps {

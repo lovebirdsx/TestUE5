@@ -19,7 +19,7 @@ export class StateManager implements IManager, IStateManager {
     }
 
     private get SavePath(): string {
-        return GameConfig.GetCurrentMapSavePath(gameContext.World);
+        return GameConfig.GetCurrentLevelSavePath(gameContext.World);
     }
 
     public Init(): void {

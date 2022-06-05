@@ -121,12 +121,12 @@ export function EntityId(props: IProps<number>): JSX.Element {
     );
 }
 
-export function EntityTemplateId(props: IProps<string>): JSX.Element {
+export function EntityTemplateId(props: IProps<number>): JSX.Element {
     return (
         <EntityTemplateSelector
-            Guid={props.Value}
-            OnModify={(guid): void => {
-                props.OnModify(guid, 'normal');
+            Id={props.Value}
+            OnModify={(id): void => {
+                props.OnModify(id, 'normal');
             }}
         />
     );

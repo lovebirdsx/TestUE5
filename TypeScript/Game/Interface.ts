@@ -8,50 +8,6 @@ import { IActionInfo, IInteract, TActionType } from './Interface/Action';
 import { IInteractiveComponent } from './Interface/Component';
 import { TweenManager } from './Manager/TweenManager';
 
-// 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
-export enum EBlueprintId {
-    Entity = 0,
-    Npc = 1,
-    Trigger = 2,
-    Player = 3,
-    TsSphereActor = 4,
-    CharacterEntity = 5,
-    AiNpc = 6,
-    Spring = 7,
-    Rotator = 8,
-    Trample = 9,
-    StateEntity = 10,
-    SphereFactory = 11,
-    Underground = 12,
-    Lamp = 13,
-    Maze = 14,
-    Swicher = 15,
-    SpringBoard = 16,
-    RefreshSingle = 17,
-    RefreshEntity = 18,
-
-    // ExtendedEntity
-    AiNpcGuard1 = 1001,
-    AiNpcGuard2 = 1002,
-    AiNpcAj = 1003,
-    AiNpcMother = 1004,
-    AiNpcVillageHead = 1005,
-    AiNpcVillage1 = 1006,
-    AiNpcVillage2 = 1007,
-    Gate = 1008,
-    SteeringWheel = 1009,
-    Switcher1 = 1010,
-    Screen = 1011,
-    AiNpcTrainer = 1012,
-    Invisible = 1013,
-    Trash = 1014,
-    Mineral = 1015,
-    RefreshManage = 1016,
-
-    // Component
-    ActorStateComponent = 10001,
-}
-
 export type TComponentData = Record<string, unknown> & {
     Disabled: boolean;
 };
@@ -68,8 +24,8 @@ export function parseComponentsData(json: string): TComponentsData {
 export interface IEntityData {
     Id: number;
     Lable?: string;
-    Transform?: ITransform;
     PrefabId: number;
+    Transform?: ITransform;
     ComponentsData: TComponentsData;
 }
 
@@ -120,6 +76,11 @@ export interface IEntityMananger {
     GetAllEntites: () => ITsEntity[];
 }
 
+export interface ILevelDataManager {
+    GetEntityData: (id: number) => IEntityData;
+    GenEntityData: (templateId: number, entityId?: number) => IEntityData;
+}
+
 export interface IStateManager {
     GetState: (id: number) => ISavedEntityState;
     SetState: (id: number, state: TEntityState) => void;
@@ -166,6 +127,7 @@ export interface IGameContext {
     GameMode: GameModeBase;
     World: World;
     EntityManager: IEntityMananger;
+    LevelDataManager: ILevelDataManager;
     TickManager: ITickManager;
     GlobalActionsRunner: IGlobalActionsRunner;
     StateManager: IStateManager;
@@ -180,6 +142,7 @@ export const gameContext: IGameContext = {
     GameMode: undefined,
     World: undefined,
     EntityManager: undefined,
+    LevelDataManager: undefined,
     TickManager: undefined,
     GlobalActionsRunner: undefined,
     StateManager: undefined,

@@ -4,7 +4,8 @@ import produce from 'immer';
 import { getFileNameWithOutExt, listFiles } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
 import { deepEquals, readJsonObj } from '../../../Common/Util';
-import { IEntityData, TComponentClass, TComponentsData } from '../../Interface';
+import { IEntityData, TComponentsData } from '../../Interface';
+import { TComponentType } from '../../Interface/Component';
 import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
@@ -24,74 +25,65 @@ function getEntityTemplateFiles(): string[] {
 export class EntityTemplateOp {
     public static readonly Names: string[] = [];
 
-    public static readonly NameByGuid: Map<string, string> = new Map();
+    public static readonly NameById: Map<number, string> = new Map();
 
-    public static readonly GuidByName: Map<string, string> = new Map();
+    public static readonly IdByName: Map<string, number> = new Map();
 
-    private static readonly GuidMap: Map<string, IEntityTemplate> = new Map();
+    private static readonly IdMap: Map<number, IEntityTemplate> = new Map();
 
     public static RefreshTemplates(): void {
         this.Names.splice(0);
-        this.GuidMap.clear();
-        this.NameByGuid.clear();
-        this.GuidByName.clear();
+        this.IdMap.clear();
+        this.NameById.clear();
+        this.IdByName.clear();
 
         const files = getEntityTemplateFiles();
         files.forEach((file) => {
             const template = this.Load(file);
 
             const name = getFileNameWithOutExt(file);
-            const guid = template.Guid;
+            const id = template.Id;
             this.Names.push(name);
 
-            if (this.GuidMap.has(guid)) {
-                const prevName = this.NameByGuid.get(guid);
-                throw new Error(`Duplicate template guid [${prevName}] [${name}] guid: ${guid}`);
+            if (this.IdMap.has(id)) {
+                const prevName = this.NameById.get(id);
+                throw new Error(`Duplicate template guid [${prevName}] [${name}] guid: ${id}`);
             }
 
-            if (this.GuidByName.has(name)) {
+            if (this.IdByName.has(name)) {
                 throw new Error(`Duplicate template name [${name}]`);
             }
 
-            this.GuidMap.set(guid, template);
-            this.NameByGuid.set(guid, name);
-            this.GuidByName.set(name, guid);
+            this.IdMap.set(id, template);
+            this.NameById.set(id, name);
+            this.IdByName.set(name, id);
         });
     }
 
-    public static GetTemplateByGuid(guid: string): IEntityTemplate {
-        return this.GuidMap.get(guid);
+    public static GetTemplateById(id: number): IEntityTemplate {
+        return this.IdMap.get(id);
     }
 
     public static GetTemplateByName(name: string): IEntityTemplate {
-        return this.GuidMap.get(this.GuidByName.get(name));
+        return this.IdMap.get(this.IdByName.get(name));
     }
 
-    public static GenEntityData(templateGuid: string, entityId?: number): IEntityData {
-        const template = this.GetTemplateByGuid(templateGuid);
-        return {
-            Id: entityId,
-            ComponentsData: template.ComponentsData,
-            PrefabId: template.PrefabId,
-        };
+    public static GetNameById(id: number): string {
+        return this.NameById.get(id);
     }
 
-    public static GetNameByGuid(guid: string): string {
-        return this.NameByGuid.get(guid);
+    public static GetIdByName(name: string): number {
+        return this.IdByName.get(name);
     }
 
-    public static GetGuidByName(name: string): string {
-        return this.GuidByName.get(name);
-    }
-
-    public static GetPath(guid: string): string {
+    public static GetPath(id: number): string {
         const dir = GameConfig.EntityTemplateDir;
-        const name = this.GetNameByGuid(guid);
+        const name = this.GetNameById(id);
         return `${dir}/${name}.json`;
     }
 
-    public static GenDefaultGuid(): string {
-        return this.GetGuidByName(this.Names[0]);
+    public static GenDefaultId(): number {
+        return this.GetIdByName(this.Names[0]);
     }
 
     public static Load(path: string): IEntityTemplate {
@@ -102,7 +94,7 @@ export class EntityTemplateOp {
     // 否则构造一个新的IEntityData
     public static ProduceEntityData(
         template: IEntityTemplate,
-        componentClasses: TComponentClass[],
+        componentTypes: TComponentType[],
         data: IEntityData,
     ): IEntityData {
         const componentsData = template.ComponentsData;
@@ -112,7 +104,7 @@ export class EntityTemplateOp {
         let modifyCount = 0;
         let sameComponentCount = 0;
         for (const key in componentsData) {
-            if (componentsDataNew[key] || componentClasses.find((c) => c.name === key)) {
+            if (componentsDataNew[key] || componentTypes.find((type) => type === key)) {
                 sameComponentCount++;
                 if (!deepEquals(componentsDataNew[key], componentsData[key])) {
                     componentsDataNew[key] = componentsData[key];

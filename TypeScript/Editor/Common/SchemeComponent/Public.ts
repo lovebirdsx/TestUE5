@@ -9,26 +9,26 @@ import {
     TVar,
 } from '../../../Game/Interface/Action';
 import { IBehaviorFlowComponent, ITempleGuid } from '../../../Game/Interface/Component';
-import { varValueScheme } from '../../../Game/Scheme/Action/Calculate';
-import { playFlowScheme } from '../../../Game/Scheme/Action/Flow';
-import { invokeScheme } from '../../../Game/Scheme/Action/Invoke';
-import { jumpIdScheme } from '../../../Game/Scheme/Action/JumpTalk';
-import { dirScheme, posScheme } from '../../../Game/Scheme/Action/Move';
-import { whoIdsScheme } from '../../../Game/Scheme/Action/Sequence';
+import { varValueScheme } from '../Scheme/Action/Calculate';
+import { playFlowScheme } from '../Scheme/Action/Flow';
+import { invokeScheme } from '../Scheme/Action/Invoke';
+import { jumpIdScheme } from '../Scheme/Action/JumpTalk';
+import { dirScheme, posScheme } from '../Scheme/Action/Move';
+import { whoIdsScheme } from '../Scheme/Action/Sequence';
 import {
     showTalkScheme,
     talkerIdScheme,
     talkItemNameScheme,
     talkItemTextIdScheme,
     talkOptionTextIdScheme,
-} from '../../../Game/Scheme/Action/ShowTalk';
-import { centerTextIdScheme } from '../../../Game/Scheme/Action/ShowText';
-import { spawnChildScheme } from '../../../Game/Scheme/Action/Spawn';
-import { stateIdScheme } from '../../../Game/Scheme/Action/State';
-import { behaviorFlowComponentScheme } from '../../../Game/Scheme/Component/FlowComponentScheme';
-import { templeGuidScheme } from '../../../Game/Scheme/Component/RefreshComponentScheme';
-import { triggerActionsScheme } from '../../../Game/Scheme/Component/TriggerComponentSheme';
-import { csvFollowCellScheme } from '../../../Game/Scheme/Csv/CsvCell';
+} from '../Scheme/Action/ShowTalk';
+import { centerTextIdScheme } from '../Scheme/Action/ShowText';
+import { spawnChildScheme } from '../Scheme/Action/Spawn';
+import { stateIdScheme } from '../Scheme/Action/State';
+import { behaviorFlowComponentScheme } from '../Scheme/Component/FlowComponentScheme';
+import { templeGuidScheme } from '../Scheme/Component/RefreshComponentScheme';
+import { triggerActionsScheme } from '../Scheme/Component/TriggerComponentSheme';
+import { csvFollowCellScheme } from '../Scheme/Csv/CsvCell';
 import { RenderVarValue } from './Extend/Calculate';
 import { RenderCsvFollowCell } from './Extend/Csv';
 import { Direction } from './Extend/Direction';

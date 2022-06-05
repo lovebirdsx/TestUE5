@@ -28,9 +28,10 @@ import { toUeArray } from '../../Common/UeHelper';
 import { writeJson } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
-import { entityRegistry, isEntity } from '../../Game/Entity/EntityRegistry';
+import { isEntity } from '../../Game/Entity/EntityRegistry';
 import { Component, ITsEntity, parseComponentsData } from '../../Game/Interface';
 import { currentLevelEntityIdGenerator } from './Operations/Entity';
+import { entityRegistry } from './Scheme/Entity';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): boolean {
@@ -203,10 +204,10 @@ class LevelEditorUtil {
         log(`检查完毕, 实体树:${entities.length} 错误数:${totalErrorCount}`);
     }
 
-    public static SpawnEntity(guid: string, iTransform: ITransform): ITsEntity {
-        const template = EntityTemplateOp.GetTemplateByGuid(guid);
+    public static SpawnEntity(templateId: number, iTransform: ITransform): ITsEntity {
+        const template = EntityTemplateOp.GetTemplateById(templateId);
         if (!template) {
-            error(`生成Entity失败:无法找到Guid为[${guid}]的模板配置`);
+            error(`生成Entity失败:无法找到id为[${templateId}]的模板配置`);
             return undefined;
         }
 

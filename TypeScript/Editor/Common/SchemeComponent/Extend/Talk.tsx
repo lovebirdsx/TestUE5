@@ -10,10 +10,10 @@ import {
 } from '../../../../Game/Common/Operations/FlowList';
 import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
 import { IShowTalk } from '../../../../Game/Interface/Action';
-import { DEFAULT_SOUND_PATH, soundScheme } from '../../../../Game/Scheme/Action/ShowTalk';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { Btn, DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
+import { DEFAULT_SOUND_PATH, soundScheme } from '../../Scheme/Action/ShowTalk';
 import { Obj, String } from '../Basic/Public';
 import { showTalkContext } from '../Context';
 

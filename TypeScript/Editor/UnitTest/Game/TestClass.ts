@@ -55,4 +55,10 @@ export default function testClass(): void {
         const assetDatas4 = EditorOperations.LoadAssetDataFromPath(searchPath4, seqClass4);
         assertGt(assetDatas4.Num(), 0, "Texture asset(by Class.Load('Texture2D')) count == 0");
     });
+
+    test('class equal', () => {
+        const class1 = Class.Load('/Game/Test/CustomSequence/CustomSequence.CustomSequence_C');
+        const class2 = Class.Load('/Game/Test/CustomSequence/CustomSequence.CustomSequence_C');
+        assertEq(class1, class2, `${class1.GetName()} must equal to ${class2.GetName()}`);
+    });
 }

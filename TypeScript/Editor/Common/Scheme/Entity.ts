@@ -67,7 +67,7 @@ class EntityRegistry {
 
     private GenComponentsData(entity: ITsEntity): TComponentsData {
         const entityData = editorEntityOp.LoadEntityData(entity);
-        const componentsData = entityData.ComponentsData;
+        const componentsData: TComponentsData = entityData ? entityData.ComponentsData : {};
         const componentTypes = this.GetComponentTypes(entity);
 
         // 移除不存在的Component配置

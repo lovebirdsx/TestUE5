@@ -108,4 +108,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static FString GetPackagePath(UObject *Object);
+	
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static UPackage* GetPackage(UObject *Object);
 };

@@ -223,3 +223,8 @@ FString UEditorOperations::GetPackagePath(UObject* Object)
 	const auto Package = Object->GetPackage();
 	return Package->GetLoadedPath().GetLocalFullPath();
 }
+
+UPackage* UEditorOperations::GetPackage(UObject* Object)
+{
+	return Object->GetPackage();
+}

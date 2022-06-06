@@ -1,31 +1,11 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Class, EditorOperations, NewObject, Texture2D } from 'ue';
+import { Class, EditorOperations, Texture2D } from 'ue';
 
-import { getUeClassByTsClass, isChildOf, isChildOfClass, isType } from '../../../Common/Class';
-import { assertEq, assertGt, assertTrue, test } from '../../../Common/Test';
+import { assertEq, assertGt, test } from '../../../Common/Test';
 import { getFieldCount, loadClass } from '../../../Common/Util';
-import { TsEntity } from '../../../Game/Entity/Public';
-import TsTrigger from '../../../Game/Entity/TsTrigger';
 
 export default function testClass(): void {
-    test('is child of class', () => {
-        const classObj = getUeClassByTsClass(TsTrigger);
-        const trigger = NewObject(classObj);
-        assertTrue(isChildOfClass(trigger, TsTrigger), 'triggerobj must child of trigger class');
-        assertTrue(isChildOfClass(trigger, TsEntity), 'triggerobj must child of entity class');
-    });
-
-    test('is child', () => {
-        assertTrue(isChildOf(TsTrigger, TsEntity), 'trigger must child of entity');
-    });
-
-    test('is type', () => {
-        const classObj = getUeClassByTsClass(TsTrigger);
-        const trigger = NewObject(classObj);
-        assertTrue(isType(trigger, TsTrigger), `trigger obj type must be trigger class`);
-    });
-
     test('load ue class', () => {
         const class1 = Class.Load('Texture2D');
         assertEq(class1, undefined, "Class.Load('Texture2D') must return undefined");

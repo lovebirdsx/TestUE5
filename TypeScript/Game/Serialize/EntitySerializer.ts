@@ -2,22 +2,23 @@
 
 import { Actor, Character, GameplayStatics, Transform } from 'ue';
 
-import { getBlueprintClass, isChildOfClass } from '../../Common/Class';
-import { stringify } from '../../Common/Util';
-import { TsEntity } from '../Entity/Public';
-import TsCharacterEntity from '../Entity/TsCharacterEntity';
+import { isChildOfClass, stringify } from '../../Common/Util';
+import TsEntity from '../Entity/TsEntity';
 import { gameContext, IEntityData } from '../Interface';
+import { getClassByBluprintId, getClassByEntityType } from '../Interface/Entity';
+
+const characterEntityClass = getClassByEntityType('CharacterEntity');
 
 class EntitySerializer {
     public SpawnEntityByData(entityData: IEntityData, transform: Transform): TsEntity {
-        const actorClass = getBlueprintClass(entityData.BlueprintId);
+        const actorClass = getClassByBluprintId(entityData.BlueprintId);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
             gameContext.World,
             actorClass,
             transform,
         ) as TsEntity;
 
-        if (isChildOfClass(entity, TsCharacterEntity)) {
+        if (isChildOfClass(entity, characterEntityClass)) {
             const character = entity as Actor as Character;
             character.SpawnDefaultController();
         }

@@ -1,6 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
+import { Actor, Class } from 'ue';
+
+import { isChildOfClass } from '../../Common/Util';
 import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity, TComponentsData } from '../Interface';
+import { getClassByEntityType } from '../Interface/Entity';
 
 function getComponentsData(entity: ITsEntity, isPlayer: boolean): TComponentsData {
     if (!isPlayer) {
@@ -54,4 +58,20 @@ export function deInitTsEntity(tsEntity: ITsEntity): void {
 
     tsEntity.Entity.Destroy();
     gameContext.EntityManager.UnregisterEntity(tsEntity);
+}
+
+const entityClass = getClassByEntityType('Entity');
+const characterEntityClass = getClassByEntityType('CharacterEntity');
+const playerClass = Class.Load('/Game/Blueprints/TypeScript/Game/Player/TsPlayer.TsPlayer_C');
+
+export function isEntity(actor: Actor): boolean {
+    return (
+        isChildOfClass(actor, entityClass) ||
+        isChildOfClass(actor, characterEntityClass) ||
+        isChildOfClass(actor, playerClass)
+    );
+}
+
+export function isPlayer(actor: Actor): boolean {
+    return isChildOfClass(actor, playerClass);
 }

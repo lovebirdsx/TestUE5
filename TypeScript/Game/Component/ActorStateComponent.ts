@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { Game } from 'ue';
+import { Class, Game } from 'ue';
 import BP_StateComponent = Game.Blueprints.Component.BP_StateComponent.BP_StateComponent_C;
 
-import { getBlueprintClass } from '../../Common/Class';
 import { Component } from '../Interface';
 import { TActorState } from '../Interface/Action';
 import { IActorStateComponent } from '../Interface/Component';
-import { EBlueprintId } from '../Interface/Entity';
 import { StateComponent } from './StateComponent';
 
 interface IActorStateSlot {
     Key: string;
     Value: string;
 }
+
+const actorStateComponentClass = Class.Load(
+    '/Game/Blueprints/Component/BP_StateComponent.BP_StateComponent_C',
+);
 
 export class ActorStateComponent extends Component implements IActorStateComponent {
     public readonly InitState: TActorState;
@@ -26,7 +28,7 @@ export class ActorStateComponent extends Component implements IActorStateCompone
     public OnInit(): void {
         this.StateComponent = this.Entity.GetComponent(StateComponent);
         this.ActorStateComponent = this.Entity.Actor.GetComponentByClass(
-            getBlueprintClass(EBlueprintId.ActorStateComponent),
+            actorStateComponentClass,
         ) as BP_StateComponent;
     }
 

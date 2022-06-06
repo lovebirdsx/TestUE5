@@ -1,13 +1,16 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { isChildOfClass } from '../../Common/Class';
+import { Class } from 'ue';
+
 import { toVector } from '../../Common/Interface';
+import { isChildOfClass } from '../../Common/Util';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
 import { IInteract } from '../Interface/Action';
 import { IStateInfo, IUndergroundComponent } from '../Interface/Component';
-import TsPlayer from '../Player/TsPlayer';
 import { EventComponent } from './EventComponent';
 import { StateComponent } from './StateComponent';
+
+const playerClass = Class.Load('/Game/Blueprints/TypeScript/Game/Player/TsPlayer.TsPlayer_C');
 
 export class UndergroundComponent extends Component implements IUndergroundComponent {
     public TestState: number;
@@ -49,7 +52,7 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
     }
 
     public ReceiveOverlap(other: ITsEntity): void {
-        if (isChildOfClass(other.Entity.Actor, TsPlayer)) {
+        if (isChildOfClass(other.Entity.Actor, playerClass)) {
             this.RestartPlayerPos();
         } else {
             //DestroyUnderground

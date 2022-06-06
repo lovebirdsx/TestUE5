@@ -8,7 +8,7 @@ import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTempl
 import { IEntityData } from '../../../../Game/Interface';
 import { ITempleGuid } from '../../../../Game/Interface/Component';
 import {
-    getComponentsTypeByEntity,
+    getComponentsTypeByEntityType,
     getEntityTypeByBlueprintId,
 } from '../../../../Game/Interface/Entity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
@@ -49,7 +49,7 @@ export class TempleData extends React.Component<IProps<ITempleGuid>, IState> {
         const template = EntityTemplateOp.GetTemplateById(this.props.Value.TempleGuid);
         const componentsState = template.ComponentsData;
         const entityType = getEntityTypeByBlueprintId(template.BlueprintId);
-        const componentClassObjs = getComponentsTypeByEntity(entityType);
+        const componentClassObjs = getComponentsTypeByEntityType(entityType);
 
         return (
             <VerticalBox>

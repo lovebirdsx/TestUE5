@@ -6,7 +6,7 @@ import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 import { delay } from '../../Common/Async';
 import { error, log } from '../../Common/Log';
 import { GameConfig } from '../../Game/Common/GameConfig';
-import { isEntity } from '../../Game/Entity/EntityRegistry';
+import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { saveLevelData, tryGetWorldLevelName } from '../../Game/Interface/Level';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';

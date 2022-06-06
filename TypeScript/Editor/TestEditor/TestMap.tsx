@@ -3,9 +3,8 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, GameplayStatics, NewArray, TArray } from 'ue';
 
-import { getUeClassByTsClass } from '../../Common/Class';
 import { log, warn } from '../../Common/Log';
-import { TsEntity } from '../../Game/Entity/Public';
+import { getClassByEntityType } from '../../Game/Interface/Entity';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 
 export class TestMap extends React.Component {
@@ -43,7 +42,7 @@ export class TestMap extends React.Component {
         }
 
         const actors = NewArray(Actor);
-        GameplayStatics.GetAllActorsOfClass(world, getUeClassByTsClass(TsEntity), $ref(actors));
+        GameplayStatics.GetAllActorsOfClass(world, getClassByEntityType('Entity'), $ref(actors));
 
         log(`TsEntity count = ${actors.Num()}`);
         for (let i = 0; i < actors.Num(); i++) {

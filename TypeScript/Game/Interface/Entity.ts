@@ -6,6 +6,7 @@ import { baseActions, getActionsByComponentType, TComponentType } from './Compon
 
 export type TEntityType =
     | 'AiNpc'
+    | 'CharacterEntity'
     | 'Entity'
     | 'Lamp'
     | 'Npc'
@@ -32,6 +33,7 @@ export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
         'NpcComponent',
         'EntitySpawnerComponent',
     ],
+    CharacterEntity: [],
     Entity: [],
     Lamp: ['LampComponent', 'EventComponent', 'StateComponent'],
     Npc: [
@@ -71,7 +73,7 @@ export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
     Underground: ['UndergroundComponent', 'StateComponent', 'EventComponent'],
 };
 
-export function getComponentsTypeByEntity(entity: TEntityType): TComponentType[] {
+export function getComponentsTypeByEntityType(entity: TEntityType): TComponentType[] {
     return entityConfig[entity];
 }
 
@@ -162,60 +164,6 @@ function registerBlueprint(id: EBlueprintId, classPath: string, entityType: TEnt
     blueprintByClass.set(classObj, record);
 }
 
-const ENTITY_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Entity/';
-
-function makeTsClassPath(basePath: string, name: string, dir?: string): string {
-    if (dir) {
-        return `${basePath}${dir}/${name}.${name}_C`;
-    }
-    return `${basePath}${name}.${name}_C`;
-}
-
-function makeBaseEntityPath(name: string): string {
-    return makeTsClassPath(ENTITY_BASE_PATH, name);
-}
-
-const b = EBlueprintId;
-
-registerBlueprint(b.Entity, makeBaseEntityPath('TsEntity'), 'Entity');
-registerBlueprint(b.Npc, makeBaseEntityPath('TsNpc'), 'Npc');
-registerBlueprint(b.Trigger, makeBaseEntityPath('TsTrigger'), 'Trigger');
-registerBlueprint(b.TsSphereActor, makeBaseEntityPath('TsSphereActor'), 'SphereActor');
-registerBlueprint(b.AiNpc, makeBaseEntityPath('TsAiNpc'), 'AiNpc');
-registerBlueprint(b.Spring, makeBaseEntityPath('TsSpring'), 'Spring');
-registerBlueprint(b.Rotator, makeBaseEntityPath('TsRotator'), 'Rotator');
-registerBlueprint(b.Trample, makeBaseEntityPath('TsTrample'), 'Trample');
-registerBlueprint(b.StateEntity, makeBaseEntityPath('TsStateEntity'), 'StateEntity');
-registerBlueprint(b.SphereFactory, makeBaseEntityPath('TsSphereFactory'), 'SphereFactory');
-registerBlueprint(b.Underground, makeBaseEntityPath('TsUnderground'), 'Underground');
-registerBlueprint(b.Lamp, makeBaseEntityPath('TsLamp'), 'Lamp');
-registerBlueprint(b.Switcher, makeBaseEntityPath('TsSwitcher'), 'Switcher');
-registerBlueprint(b.SpringBoard, makeBaseEntityPath('TsSpringBoard'), 'SpringBoard');
-registerBlueprint(b.RefreshSingle, makeBaseEntityPath('TsRefreshSingle'), 'RefreshSingle');
-registerBlueprint(b.RefreshEntity, makeBaseEntityPath('TsRefreshEntity'), 'RefreshEntity');
-
-const ENTITY_EXTENDED_PATH = '/Game/Blueprints/ExtendedEntity/';
-function makeExtendEntityPath(name: string): string {
-    return makeTsClassPath(ENTITY_EXTENDED_PATH, name);
-}
-
-registerBlueprint(b.AiNpcGuard1, makeExtendEntityPath('BP_AiNpcGuard1'), 'AiNpc');
-registerBlueprint(b.AiNpcGuard2, makeExtendEntityPath('BP_AiNpcGuard2'), 'AiNpc');
-registerBlueprint(b.AiNpcAj, makeExtendEntityPath('BP_AiNpcAj'), 'AiNpc');
-registerBlueprint(b.AiNpcMother, makeExtendEntityPath('BP_AiNpcMother'), 'AiNpc');
-registerBlueprint(b.AiNpcVillageHead, makeExtendEntityPath('BP_AiNpcVillageHead'), 'AiNpc');
-registerBlueprint(b.AiNpcVillage1, makeExtendEntityPath('BP_AiNpcVillage1'), 'AiNpc');
-registerBlueprint(b.AiNpcVillage2, makeExtendEntityPath('BP_AiNpcVillage2'), 'AiNpc');
-registerBlueprint(b.Gate, makeExtendEntityPath('BP_Gate'), 'StateEntity');
-registerBlueprint(b.SteeringWheel, makeExtendEntityPath('BP_SteeringWheel'), 'Rotator');
-registerBlueprint(b.Switcher1, makeExtendEntityPath('BP_Switcher1'), 'Switcher');
-registerBlueprint(b.Screen, makeExtendEntityPath('BP_Screen'), 'StateEntity');
-registerBlueprint(b.AiNpcTrainer, makeExtendEntityPath('BP_AiNpcTrainer'), 'AiNpc');
-registerBlueprint(b.Invisible, makeExtendEntityPath('BP_Invisible'), 'StateEntity');
-registerBlueprint(b.Trash, makeExtendEntityPath('BP_Trash'), 'Switcher');
-registerBlueprint(b.Mineral, makeExtendEntityPath('BP_Mineral'), 'RefreshSingle');
-registerBlueprint(b.RefreshManage, makeExtendEntityPath('BP_RefreshManage'), 'RefreshEntity');
-
 export function getEntityTypeByBlueprintId(id: EBlueprintId): TEntityType | undefined {
     const record = blueprintById.get(id);
     return record ? record.EntityType : undefined;
@@ -226,6 +174,11 @@ export function getEntityTypeByClass(classObj: Class): TEntityType | undefined {
     return record ? record.EntityType : undefined;
 }
 
+export function getBlueprintIdByClass(classObj: Class): number | undefined {
+    const record = blueprintByClass.get(classObj);
+    return record ? record.Id : undefined;
+}
+
 export function getEntityTypeByActor(actor: Actor): TEntityType | undefined {
     return getEntityTypeByClass(actor.GetClass());
 }
@@ -234,3 +187,64 @@ export function getClassByBluprintId(id: EBlueprintId): Class | undefined {
     const record = blueprintById.get(id);
     return record ? record.ClassObj : undefined;
 }
+
+function makeTsClassPath(basePath: string, name: string, dir?: string): string {
+    if (dir) {
+        return `${basePath}${dir}/${name}.${name}_C`;
+    }
+    return `${basePath}${name}.${name}_C`;
+}
+
+const ENTITY_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Entity/';
+const classByEntityType: Map<TEntityType, Class> = new Map();
+function registerBaseBlueprint(id: EBlueprintId, name: string, entityType: TEntityType): void {
+    registerBlueprint(id, makeTsClassPath(ENTITY_BASE_PATH, name), entityType);
+    const classObj = getClassByBluprintId(id);
+    classByEntityType.set(entityType, classObj);
+}
+
+export function getClassByEntityType(entityType: TEntityType): Class {
+    return classByEntityType.get(entityType);
+}
+
+const ENTITY_EXTENDED_PATH = '/Game/Blueprints/ExtendedEntity/';
+function registerExtendedBlueprint(id: EBlueprintId, name: string, entityType: TEntityType): void {
+    registerBlueprint(id, makeTsClassPath(ENTITY_EXTENDED_PATH, name), entityType);
+}
+
+const b = EBlueprintId;
+
+registerBaseBlueprint(b.Entity, 'TsEntity', 'Entity');
+registerBaseBlueprint(b.CharacterEntity, 'TsCharacterEntity', 'CharacterEntity');
+registerBaseBlueprint(b.Npc, 'TsNpc', 'Npc');
+registerBaseBlueprint(b.Trigger, 'TsTrigger', 'Trigger');
+registerBaseBlueprint(b.TsSphereActor, 'TsSphereActor', 'SphereActor');
+registerBaseBlueprint(b.AiNpc, 'TsAiNpc', 'AiNpc');
+registerBaseBlueprint(b.Spring, 'TsSpring', 'Spring');
+registerBaseBlueprint(b.Rotator, 'TsRotator', 'Rotator');
+registerBaseBlueprint(b.Trample, 'TsTrample', 'Trample');
+registerBaseBlueprint(b.StateEntity, 'TsStateEntity', 'StateEntity');
+registerBaseBlueprint(b.SphereFactory, 'TsSphereFactory', 'SphereFactory');
+registerBaseBlueprint(b.Underground, 'TsUnderground', 'Underground');
+registerBaseBlueprint(b.Lamp, 'TsLamp', 'Lamp');
+registerBaseBlueprint(b.Switcher, 'TsSwitcher', 'Switcher');
+registerBaseBlueprint(b.SpringBoard, 'TsSpringBoard', 'SpringBoard');
+registerBaseBlueprint(b.RefreshSingle, 'TsRefreshSingle', 'RefreshSingle');
+registerBaseBlueprint(b.RefreshEntity, 'TsRefreshEntity', 'RefreshEntity');
+
+registerExtendedBlueprint(b.AiNpcGuard1, 'BP_AiNpcGuard1', 'AiNpc');
+registerExtendedBlueprint(b.AiNpcGuard2, 'BP_AiNpcGuard2', 'AiNpc');
+registerExtendedBlueprint(b.AiNpcAj, 'BP_AiNpcAj', 'AiNpc');
+registerExtendedBlueprint(b.AiNpcMother, 'BP_AiNpcMother', 'AiNpc');
+registerExtendedBlueprint(b.AiNpcVillageHead, 'BP_AiNpcVillageHead', 'AiNpc');
+registerExtendedBlueprint(b.AiNpcVillage1, 'BP_AiNpcVillage1', 'AiNpc');
+registerExtendedBlueprint(b.AiNpcVillage2, 'BP_AiNpcVillage2', 'AiNpc');
+registerExtendedBlueprint(b.Gate, 'BP_Gate', 'StateEntity');
+registerExtendedBlueprint(b.SteeringWheel, 'BP_SteeringWheel', 'Rotator');
+registerExtendedBlueprint(b.Switcher1, 'BP_Switcher1', 'Switcher');
+registerExtendedBlueprint(b.Screen, 'BP_Screen', 'StateEntity');
+registerExtendedBlueprint(b.AiNpcTrainer, 'BP_AiNpcTrainer', 'AiNpc');
+registerExtendedBlueprint(b.Invisible, 'BP_Invisible', 'StateEntity');
+registerExtendedBlueprint(b.Trash, 'BP_Trash', 'Switcher');
+registerExtendedBlueprint(b.Mineral, 'BP_Mineral', 'RefreshSingle');
+registerExtendedBlueprint(b.RefreshManage, 'BP_RefreshManage', 'RefreshEntity');

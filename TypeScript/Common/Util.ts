@@ -302,3 +302,13 @@ export function getTotalSecond(): number {
     const totalSecond = second + minute * 60 + hour * 3600 + day * 86400;
     return totalSecond;
 }
+
+export function isChildOfClass(childObj: UE.Object, parentClass: UE.Class): boolean {
+    const childClass = childObj.GetClass();
+    return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
+}
+
+export function getAssetPath(classObj: UE.Class): string {
+    const pkg = UE.EditorOperations.GetPackage(classObj);
+    return pkg.GetName();
+}

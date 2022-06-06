@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, edit_on_instance } from 'ue';
 
+import { getComponentClassesByEntity } from '../Component/Public';
 import { Entity, ITsEntity, TComponentClass } from '../Interface';
 import { deInitTsEntity, initTsEntity } from './Common';
 
@@ -41,7 +42,7 @@ export class TsEntity extends Actor implements ITsEntity {
 
     // @no-blueprint
     public GetComponentClasses(): TComponentClass[] {
-        return [];
+        return getComponentClassesByEntity(this);
     }
 }
 

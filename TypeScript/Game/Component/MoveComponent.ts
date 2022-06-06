@@ -11,14 +11,13 @@ import {
 } from 'ue';
 
 import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
-import { isChildOfClass } from '../../Common/Class';
 import { IPosA, toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
-import { calUpRotatorByPoints } from '../../Common/Util';
-import { TsCharacterEntity } from '../Entity/TsCharacterEntity';
+import { calUpRotatorByPoints, isChildOfClass } from '../../Common/Util';
 import { Component, gameContext } from '../Interface';
 import { IFaceToPos, IMoveToPosA } from '../Interface/Action';
 import { DEFAULT_INIT_SPEED, IMoveComponent } from '../Interface/Component';
+import { getClassByEntityType } from '../Interface/Entity';
 import { TweenItem } from '../Manager/TweenManager';
 import { StateComponent } from './StateComponent';
 
@@ -169,7 +168,7 @@ export class MoveComponent extends Component implements IMoveComponent {
     public SetPosA(posA: IPosA): void {
         // 如果是Character，则需要将其位置拉高
         const pos = toVector(posA);
-        if (isChildOfClass(this.Entity.Actor, TsCharacterEntity)) {
+        if (isChildOfClass(this.Entity.Actor, getClassByEntityType('CharacterEntity'))) {
             const charactor = this.Entity.Actor as Character;
             pos.Z += charactor.CapsuleComponent.GetUnscaledCapsuleHalfHeight();
         }

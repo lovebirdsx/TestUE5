@@ -1,6 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
-import { getBlueprintId } from '../../../Common/Class';
 import { toTransformInfo } from '../../../Common/Interface';
 import { warn } from '../../../Common/Log';
 import { deepEquals } from '../../../Common/Util';
@@ -9,7 +8,8 @@ import { TActionType } from '../../../Game/Interface/Action';
 import { TComponentType } from '../../../Game/Interface/Component';
 import {
     getActionsByEntityType,
-    getComponentsTypeByEntity,
+    getBlueprintIdByClass,
+    getComponentsTypeByEntityType,
     getEntityTypeByActor,
     TEntityType,
 } from '../../../Game/Interface/Entity';
@@ -30,7 +30,7 @@ class EntityRegistry {
     }
 
     public GetComponentTypes(entity: ITsEntity): TComponentType[] {
-        return getComponentsTypeByEntity(this.GetEntityType(entity));
+        return getComponentsTypeByEntityType(this.GetEntityType(entity));
     }
 
     public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
@@ -102,7 +102,7 @@ class EntityRegistry {
         return {
             Name: entity.ActorLabel,
             Id: entity.Id,
-            BlueprintId: getBlueprintId(entity.GetClass()),
+            BlueprintId: getBlueprintIdByClass(entity.GetClass()),
             Transform: toTransformInfo(entity.GetTransform()),
             ComponentsData: this.GenComponentsData(entity),
         };

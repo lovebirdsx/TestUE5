@@ -20,16 +20,16 @@ import {
     Vector,
 } from 'ue';
 
-import { getAssetPath, getBlueprintClass } from '../../Common/Class';
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
-import { deepEquals } from '../../Common/Util';
+import { deepEquals, getAssetPath } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
-import { isEntity } from '../../Game/Entity/EntityRegistry';
+import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { TComponentType } from '../../Game/Interface/Component';
+import { getClassByBluprintId } from '../../Game/Interface/Entity';
 import { currentLevelEntityIdGenerator, editorEntityOp } from './Operations/Entity';
 import { entityRegistry } from './Scheme/Entity';
 
@@ -191,7 +191,7 @@ class LevelEditorUtil {
         }
 
         const entity = EditorLevelLibrary.SpawnActorFromClass(
-            getBlueprintClass(template.BlueprintId),
+            getClassByBluprintId(template.BlueprintId),
             toVector(iTransform.Pos),
             toRotation(iTransform.Rot),
         ) as ITsEntity;

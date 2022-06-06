@@ -1,7 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
-import { getTsClassByUeClass } from '../Common/Class';
 import { ITransform } from '../Common/Interface';
 import { Event, parse } from '../Common/Util';
 import { IActionInfo, IInteract, TActionType } from './Interface/Action';
@@ -37,11 +36,6 @@ export interface ITsEntity extends Actor {
     LoadState: () => void;
     Start: () => void;
     Destroy: () => void;
-}
-
-export function getEntityName(entity: ITsEntity): string {
-    const classObj = getTsClassByUeClass(entity.GetClass());
-    return classObj.name;
 }
 
 export interface ITsTrigger {

@@ -1,32 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { BehaviorFlowComponent } from '../Component/BehaviorFlowComponent';
-import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
-import { FlowComponent } from '../Component/FlowComponent';
-import { MoveComponent } from '../Component/MoveComponent';
-import { NpcComponent } from '../Component/NpcComponent';
-import { StateComponent } from '../Component/StateComponent';
-import { TalkComponent } from '../Component/TalkComponent';
-import { ITsEntity, TComponentClass } from '../Interface';
-import { isEntity } from './EntityRegistry';
+import { ITsEntity } from '../Interface';
+import { isEntity } from './Common';
 import TsCharacterEntity from './TsCharacterEntity';
 
-export const aiNpcComponentClasses: TComponentClass[] = [
-    StateComponent,
-    FlowComponent,
-    BehaviorFlowComponent,
-    TalkComponent,
-    MoveComponent,
-    NpcComponent,
-    EntitySpawnerComponent,
-];
-
 class TsAiNpc extends TsCharacterEntity {
-    public GetComponentClasses(): TComponentClass[] {
-        return aiNpcComponentClasses;
-    }
-
     public ReceiveActorBeginOverlap(other: Actor): void {
         if (!this.Entity) {
             return;

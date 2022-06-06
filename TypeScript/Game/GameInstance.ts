@@ -1,7 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { initCommon } from '../Common/Init';
 import { log } from '../Common/Log';
-import { initEntity } from './Entity/Public';
 import { initFlow } from './Flow/Public';
 import { GameController } from './GameController';
 import { gameContext } from './Interface';
@@ -27,7 +26,6 @@ export class GameInstance {
     public Init(): void {
         initCommon();
         initFlow();
-        initEntity(); // import Entity/Public 并不一定会调用initEntity,所以在此处强制调用
 
         // 如果在TweenManager内部进行赋值, 则会出现循环依赖, 故而在此赋值
         gameContext.TweenManager = this.TweenManager;

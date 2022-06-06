@@ -1,25 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
-import { SimpleComponent } from '../Component/SimpleComponent';
-import { StateComponent } from '../Component/StateComponent';
 import { TrampleComponent } from '../Component/TrampleComponent';
-import { ITsEntity, TComponentClass } from '../Interface';
-import { isEntity } from './EntityRegistry';
+import { ITsEntity } from '../Interface';
+import { isEntity } from './Common';
 import TsEntity from './TsEntity';
 
-export const trampleComponentClasses: TComponentClass[] = [
-    TrampleComponent,
-    SimpleComponent,
-    StateComponent,
-];
-
 class TsTrample extends TsEntity {
-    // @no-blueprint
-    public GetComponentClasses(): TComponentClass[] {
-        return trampleComponentClasses;
-    }
-
     public ReceiveActorBeginOverlap(other: Actor): void {
         if (!this.Entity) {
             return;

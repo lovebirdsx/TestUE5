@@ -1,27 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { EntitySpawnerComponent } from '../Component/EntitySpawnerComponent';
-import { EventComponent } from '../Component/EventComponent';
-import { SphereFactoryComponent } from '../Component/SphereFactoryComponent';
-import { StateComponent } from '../Component/StateComponent';
-import { ITsEntity, TComponentClass } from '../Interface';
-import { isEntity } from './EntityRegistry';
+import { ITsEntity } from '../Interface';
+import { isEntity } from './Common';
 import TsEntity from './TsEntity';
 
-export const sphereFactoryComponentClasses: TComponentClass[] = [
-    SphereFactoryComponent,
-    EntitySpawnerComponent,
-    EventComponent,
-    StateComponent,
-];
-
 class TsSphereFactory extends TsEntity {
-    // @no-blueprint
-    public GetComponentClasses(): TComponentClass[] {
-        return sphereFactoryComponentClasses;
-    }
-
     public ReceiveActorBeginOverlap(other: Actor): void {
         if (!this.Entity) {
             return;

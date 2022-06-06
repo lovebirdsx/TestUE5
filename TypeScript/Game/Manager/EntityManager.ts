@@ -35,7 +35,7 @@ export class EntityManager implements IManager, IEntityMananger {
 
     private readonly DestroyRecord = new Map<number, TDestroyType>();
 
-    private readonly GuidsBySpawn = new Set<number>();
+    private readonly SpawnRecord = new Map<number, TSpawnType>();
 
     public constructor() {
         gameContext.EntityManager = this;
@@ -51,9 +51,14 @@ export class EntityManager implements IManager, IEntityMananger {
         return this.Entities;
     }
 
-    public SpawnEntity(data: IEntityData, transform: Transform): ITsEntity {
+    public SpawnEntity(
+        data: IEntityData,
+        transform: Transform,
+        spawnType: TSpawnType = 'user',
+    ): ITsEntity {
         const entity = entitySerializer.SpawnEntityByData(data, transform);
         this.EntitiesToSpawn.push(entity);
+        this.SpawnRecord.set(entity.Id, spawnType);
         log(`Spawn entity ${entity.Entity.Name}} [${entity.Id}]`);
         return entity;
     }
@@ -70,7 +75,7 @@ export class EntityManager implements IManager, IEntityMananger {
     }
 
     public GetSpawnType(id: number): TSpawnType {
-        return this.GuidsBySpawn.has(id) ? 'user' : 'streaming';
+        return this.SpawnRecord.get(id) || 'streaming';
     }
 
     public RegisterEntity(entity: ITsEntity): boolean {
@@ -117,7 +122,7 @@ export class EntityManager implements IManager, IEntityMananger {
 
                     // 等外部处理完成EntityRemove的消息, 则可以移除销毁的记录了
                     this.DestroyRecord.delete(id);
-                    this.GuidsBySpawn.delete(id);
+                    this.SpawnRecord.delete(id);
                 }
             });
         }
@@ -125,7 +130,6 @@ export class EntityManager implements IManager, IEntityMananger {
         if (this.EntitiesToSpawn.length > 0) {
             const entities = this.EntitiesToSpawn.splice(0);
             entities.forEach((entity) => {
-                this.GuidsBySpawn.add(entity.Id);
                 this.EntityAdded.Invoke(entity);
             });
         }

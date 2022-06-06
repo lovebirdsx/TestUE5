@@ -67,7 +67,7 @@ export interface IEntityMananger {
     EntityDeregistered: Event<ITsEntity>;
     RegisterEntity: (entity: ITsEntity) => boolean;
     UnregisterEntity: (entity: ITsEntity) => boolean;
-    SpawnEntity: (data: IEntityData, transform: Transform) => ITsEntity;
+    SpawnEntity: (data: IEntityData, transform: Transform, spawnType?: TSpawnType) => ITsEntity;
     RemoveEntity: (entity: ITsEntity, destroyType: TDestroyType) => void;
     GetDestoryType: (id: number) => TDestroyType;
     GetSpawnType: (id: number) => TSpawnType;

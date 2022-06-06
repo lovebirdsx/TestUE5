@@ -2,6 +2,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { KismetMathLibrary, Vector } from 'ue';
+
 import { toTransform, toTransformInfo } from '../../Common/Interface';
 import { getTotalSecond } from '../../Common/Util';
 import { entityRegistry } from '../../Editor/Common/Scheme/Entity';
@@ -299,7 +300,7 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
                 transform.SetLocation(vector);
             }
             gameContext.StateManager.DeleteState(data.Id);
-            gameContext.EntityManager.SpawnEntity(data, transform);
+            gameContext.EntityManager.SpawnEntity(data, transform, 'streaming');
         }
     }
 }

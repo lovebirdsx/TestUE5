@@ -7,6 +7,10 @@ import { IProps, TModifyType } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import { IEntityData } from '../../../../Game/Interface';
 import { ITempleGuid } from '../../../../Game/Interface/Component';
+import {
+    getComponentsTypeByEntity,
+    getEntityTypeByBlueprintId,
+} from '../../../../Game/Interface/Entity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
@@ -36,25 +40,25 @@ export class TempleData extends React.Component<IProps<ITempleGuid>, IState> {
     };
 
     private readonly OnTempleModify = (data: IEntityData, type: TModifyType): void => {
-        // 保存进temple的 json
+        // 1. 保存进编辑器 2.保存进temple的 json
+        // this.props.OnModify(data, type);
     };
 
     private CreateTemple(): JSX.Element {
         // Todo 展示模板信息，且支持修改保存
         const template = EntityTemplateOp.GetTemplateById(this.props.Value.TempleGuid);
         const componentsState = template.ComponentsData;
-        // const actorClass = getBlueprintClass(template.PrefabId);
-        // const tsClassObj = getTsClassByUeClass(actorClass);
-        // const componentClassObjs = entityRegistry.GetComponentClassesByTsClass(tsClassObj);
+        const entityType = getEntityTypeByBlueprintId(template.BlueprintId);
+        const componentClassObjs = getComponentsTypeByEntity(entityType);
 
         return (
             <VerticalBox>
                 <ComponentsData
                     Value={componentsState}
-                    ComponentTypes={undefined}
+                    ComponentTypes={componentClassObjs}
                     OnModify={(componentState, type): void => {
                         const newData = produce(template, (draft) => {
-                            //draft.ComponentsData = componentState;
+                            draft.ComponentsData = componentState;
                         });
                         this.OnTempleModify(newData, type);
                     }}

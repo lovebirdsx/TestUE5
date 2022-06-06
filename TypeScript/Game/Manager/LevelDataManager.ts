@@ -10,6 +10,10 @@ import { IManager } from './Interface';
 export class LevelDataManager implements IManager, ILevelDataManager {
     private readonly EntityDataMap: Map<number, IEntityData> = new Map();
 
+    public constructor() {
+        gameContext.LevelDataManager = this;
+    }
+
     public Init(): void {
         const world = gameContext.World;
         const levelName = tryGetWorldLevelName(world.GetName());

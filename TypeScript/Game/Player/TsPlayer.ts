@@ -42,7 +42,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
 
     // @no-blueprint
     public Init(): void {
-        initTsEntity(this);
+        initTsEntity(this, true);
     }
 
     // @no-blueprint

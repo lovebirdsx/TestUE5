@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsSphereFactory13",
+  "Name": "TsSphereFactory13",
+  "Id": 3000038,
+  "BlueprintId": 11,
   "Transform": {
     "Pos": {
       "X": -7077.999985,
@@ -10,7 +12,6 @@
       "Z": 179.999999
     }
   },
-  "PrefabId": 11,
   "ComponentsData": {
     "SphereFactoryComponent": {
       "SphereLocation": {
@@ -21,6 +22,5 @@
       "SphereGuid": 3,
       "Disabled": false
     }
-  },
-  "Id": 3000038
+  }
 }

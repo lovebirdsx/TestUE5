@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "流浪汉",
+  "Name": "流浪汉",
+  "Id": 3000068,
+  "BlueprintId": 1005,
   "Transform": {
     "Pos": {
       "X": 2355.5644914396894,
@@ -10,7 +12,6 @@
       "Z": -179.99999860565535
     }
   },
-  "PrefabId": 1005,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -280,6 +281,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000068
+  }
 }

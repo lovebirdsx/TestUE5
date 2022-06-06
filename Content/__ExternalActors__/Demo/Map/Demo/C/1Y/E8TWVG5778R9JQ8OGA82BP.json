@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "大门男",
+  "Name": "大门男",
+  "Id": 3000073,
+  "BlueprintId": 1006,
   "Transform": {
     "Pos": {
       "X": 542.739014587477,
@@ -10,7 +12,6 @@
       "Z": 89.9999993028268
     }
   },
-  "PrefabId": 1006,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -120,6 +121,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000073
+  }
 }

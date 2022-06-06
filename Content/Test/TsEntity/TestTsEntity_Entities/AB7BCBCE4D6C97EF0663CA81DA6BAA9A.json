@@ -1,12 +1,13 @@
 ﻿{
-  "Lable": "BP_Gate",
+  "Name": "BP_Gate",
+  "Id": 3000009,
+  "BlueprintId": 1008,
   "Transform": {
     "Pos": {
       "X": -1430,
       "Y": -1120
     }
   },
-  "PrefabId": 1008,
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle"
@@ -97,6 +98,5 @@
         }
       ]
     }
-  },
-  "Id": 3000009
+  }
 }

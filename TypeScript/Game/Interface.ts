@@ -23,8 +23,8 @@ export function parseComponentsData(json: string): TComponentsData {
 
 export interface IEntityData {
     Id: number;
-    Lable?: string;
-    PrefabId: number;
+    Name?: string;
+    BlueprintId: number;
     Transform?: ITransform;
     ComponentsData: TComponentsData;
 }

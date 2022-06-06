@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "开关4",
+  "Name": "开关4",
+  "Id": 3000054,
+  "BlueprintId": 1010,
   "Transform": {
     "Pos": {
       "X": 2080,
@@ -7,7 +9,6 @@
       "Z": 99.99999968672671
     }
   },
-  "PrefabId": 1010,
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Close",
@@ -72,6 +73,5 @@
       "Content": "",
       "Icon": ""
     }
-  },
-  "Id": 3000054
+  }
 }

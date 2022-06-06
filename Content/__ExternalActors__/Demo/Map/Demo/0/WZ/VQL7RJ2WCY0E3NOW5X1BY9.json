@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "村长",
+  "Name": "村长",
+  "Id": 3000067,
+  "BlueprintId": 1005,
   "Transform": {
     "Pos": {
       "X": 5794.565166224007,
@@ -10,7 +12,6 @@
       "Z": -179.99999860565364
     }
   },
-  "PrefabId": 1005,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -44,6 +45,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000067
+  }
 }

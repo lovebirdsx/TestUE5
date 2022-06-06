@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "菜园女",
+  "Name": "菜园女",
+  "Id": 3000060,
+  "BlueprintId": 1007,
   "Transform": {
     "Pos": {
       "X": 1737.0000054755856,
@@ -10,7 +12,6 @@
       "Z": 90.00000209151966
     }
   },
-  "PrefabId": 1007,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -99,6 +100,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000060
+  }
 }

@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsTrigger4",
+  "Name": "TsTrigger4",
+  "Id": 3000008,
+  "BlueprintId": 2,
   "Transform": {
     "Pos": {
       "X": 835.044343,
@@ -7,7 +9,6 @@
       "Z": -0.499903
     }
   },
-  "PrefabId": 2,
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 1,
@@ -73,6 +74,5 @@
       },
       "IsNotLoad": false
     }
-  },
-  "Id": 3000008
+  }
 }

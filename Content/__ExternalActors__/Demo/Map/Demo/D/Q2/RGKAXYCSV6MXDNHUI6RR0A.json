@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "水池男",
+  "Name": "水池男",
+  "Id": 3000074,
+  "BlueprintId": 1006,
   "Transform": {
     "Pos": {
       "X": 3728.8870592776957,
@@ -10,7 +12,6 @@
       "Z": -89.99999900000012
     }
   },
-  "PrefabId": 1006,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -44,6 +45,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000074
+  }
 }

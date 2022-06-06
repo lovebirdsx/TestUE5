@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "老太婆",
+  "Name": "老太婆",
+  "Id": 3000075,
+  "BlueprintId": 1004,
   "Transform": {
     "Pos": {
       "X": 2793.6444276619163,
@@ -10,7 +12,6 @@
       "Z": -89.99999930282684
     }
   },
-  "PrefabId": 1004,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -191,6 +192,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000075
+  }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { warn } from '../../../Common/Log';
-import { genGuid, readJsonObj, writeJson } from '../../../Common/Util';
+import { readJsonObj, writeJson } from '../../../Common/Util';
 import { EntityTemplateOp, IEntityTemplate } from '../../../Game/Common/Operations/EntityTemplate';
 import { IEntityData } from '../../../Game/Interface';
 import { LevelTools } from '../../EntityEditor/LevelTools';
@@ -22,18 +22,17 @@ class TemplateIdGenerator extends CustomSegmentIdGenerator {
 export const templateIdGenerator = new TemplateIdGenerator('entityTemplate');
 
 export class EditorEntityTemplateOp {
-    public static Gen(data: IEntityData, guid?: string): IEntityTemplate {
+    public static Gen(data: IEntityData, id?: number): IEntityTemplate {
         return {
-            Guid: guid || genGuid(),
-            Id: templateIdGenerator.GenOne(),
-            PrefabId: data.PrefabId,
+            Id: id || templateIdGenerator.GenOne(),
+            BlueprintId: data.BlueprintId,
             ComponentsData: data.ComponentsData,
         };
     }
 
     public static Save(data: IEntityData, path: string): void {
         const existTemplate = EntityTemplateOp.Load(path);
-        const template = this.Gen(data, existTemplate ? existTemplate.Guid : undefined);
+        const template = this.Gen(data, existTemplate ? existTemplate.Id : undefined);
         writeJson(template, path, true);
     }
 

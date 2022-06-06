@@ -1,6 +1,5 @@
 ﻿{
-  "Guid": "0B98C77D45CF767B37234BBFC019848E",
-  "PrefabId": 6,
+  "BlueprintId": 6,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

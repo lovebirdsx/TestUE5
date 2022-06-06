@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsEntity24",
+  "Name": "TsEntity24",
+  "Id": 3000001,
+  "BlueprintId": 0,
   "Transform": {
     "Pos": {
       "X": -5258.000023,
@@ -10,7 +12,5 @@
       "Z": 179.999999
     }
   },
-  "PrefabId": 0,
-  "ComponentsData": {},
-  "Id": 3000001
+  "ComponentsData": {}
 }

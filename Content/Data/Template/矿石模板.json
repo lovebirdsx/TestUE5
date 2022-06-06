@@ -1,6 +1,5 @@
 ﻿{
-  "Guid": "78F868F24B65F2DC628BD593F6C9447C",
-  "PrefabId": 1014,
+  "BlueprintId": 1014,
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",

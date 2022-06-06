@@ -1,6 +1,5 @@
 ﻿{
-  "Guid": "C840869B4F19C6E45B3804BCA07D4992",
-  "PrefabId": 2,
+  "BlueprintId": 2,
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 1,

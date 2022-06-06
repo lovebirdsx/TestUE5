@@ -212,7 +212,7 @@ class LevelEditorUtil {
         }
 
         const entity = EditorLevelLibrary.SpawnActorFromClass(
-            getBlueprintClass(template.PrefabId),
+            getBlueprintClass(template.BlueprintId),
             toVector(iTransform.Pos),
             toRotation(iTransform.Rot),
         ) as ITsEntity;

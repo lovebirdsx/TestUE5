@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "训练导师",
+  "Name": "训练导师",
+  "Id": 3000070,
+  "BlueprintId": 1012,
   "Transform": {
     "Pos": {
       "X": -2110,
@@ -10,7 +12,6 @@
       "Z": 89.99999930282695
     }
   },
-  "PrefabId": 1012,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -44,6 +45,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000070
+  }
 }

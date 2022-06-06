@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsAiNpc",
+  "Name": "TsAiNpc",
+  "Id": 3000011,
+  "BlueprintId": 6,
   "Transform": {
     "Pos": {
       "X": 235.04434450803416,
@@ -10,7 +12,6 @@
       "Z": -89.9999993028273
     }
   },
-  "PrefabId": 6,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -42,6 +43,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000011
+  }
 }

@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "守卫左",
+  "Name": "守卫左",
+  "Id": 3000065,
+  "BlueprintId": 1001,
   "Transform": {
     "Pos": {
       "X": -889.3863730545602,
@@ -7,7 +9,6 @@
       "Z": 188.00000346876453
     }
   },
-  "PrefabId": 1001,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -41,6 +42,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000065
+  }
 }

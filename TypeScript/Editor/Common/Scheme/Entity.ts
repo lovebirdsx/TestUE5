@@ -11,17 +11,26 @@ import {
     getActionsByEntityType,
     getComponentsTypeByEntity,
     getEntityTypeByActor,
+    TEntityType,
 } from '../../../Game/Interface/Entity';
 import { editorEntityOp } from '../Operations/Entity';
 import { componentRegistry } from './Component/ComponentRegistry';
 
 class EntityRegistry {
+    public GetEntityType(entity: ITsEntity): TEntityType {
+        const entityType = getEntityTypeByActor(entity);
+        if (!entityType) {
+            throw new Error(`No entity type for entity [${entity.ActorLabel}] [${entity.Id}]`);
+        }
+        return entityType;
+    }
+
     public GetActions(entity: ITsEntity): TActionType[] {
-        return getActionsByEntityType(getEntityTypeByActor(entity));
+        return getActionsByEntityType(this.GetEntityType(entity));
     }
 
     public GetComponentTypes(entity: ITsEntity): TComponentType[] {
-        return getComponentsTypeByEntity(getEntityTypeByActor(entity));
+        return getComponentsTypeByEntity(this.GetEntityType(entity));
     }
 
     public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
@@ -91,10 +100,10 @@ class EntityRegistry {
 
     public GenData(obj: ITsEntity): IEntityData {
         return {
-            Lable: obj.ActorLabel,
-            Transform: toTransformInfo(obj.GetTransform()),
-            PrefabId: getBlueprintId(obj.GetClass()),
+            Name: obj.ActorLabel,
             Id: obj.Id,
+            BlueprintId: getBlueprintId(obj.GetClass()),
+            Transform: toTransformInfo(obj.GetTransform()),
             ComponentsData: this.GenComponentsData(obj),
         };
     }

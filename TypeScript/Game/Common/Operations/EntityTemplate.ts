@@ -9,9 +9,8 @@ import { TComponentType } from '../../Interface/Component';
 import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
-    Guid: string;
     Id: number;
-    PrefabId: number;
+    BlueprintId: number;
     ComponentsData: TComponentsData;
 }
 

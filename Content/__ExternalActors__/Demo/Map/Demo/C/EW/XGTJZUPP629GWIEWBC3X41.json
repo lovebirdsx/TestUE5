@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsTrample20",
+  "Name": "TsTrample20",
+  "Id": 3000014,
+  "BlueprintId": 9,
   "Transform": {
     "Pos": {
       "X": -7479.999894001665,
@@ -14,8 +16,6 @@
       "Y": 0.7391304347826088
     }
   },
-  "PrefabId": 9,
-  "Id": 3000014,
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": false,

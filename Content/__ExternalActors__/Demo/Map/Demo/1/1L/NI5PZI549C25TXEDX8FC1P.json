@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsUnderground2",
+  "Name": "TsUnderground2",
+  "Id": 3000040,
+  "BlueprintId": 12,
   "Transform": {
     "Pos": {
       "X": -7357.999974,
@@ -10,7 +12,6 @@
       "Z": 179.999999
     }
   },
-  "PrefabId": 12,
   "ComponentsData": {
     "UndergroundComponent": {
       "TestState": -1,
@@ -94,6 +95,5 @@
       "IsRestartPlayer": false,
       "Disabled": false
     }
-  },
-  "Id": 3000040
+  }
 }

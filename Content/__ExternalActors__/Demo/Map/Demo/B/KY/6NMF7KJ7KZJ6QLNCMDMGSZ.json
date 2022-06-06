@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "BP_SteeringWheel13",
+  "Name": "BP_SteeringWheel13",
+  "Id": 3000049,
+  "BlueprintId": 1009,
   "Transform": {
     "Pos": {
       "X": -2958.000034,
@@ -10,7 +12,6 @@
       "Z": 179.999999
     }
   },
-  "PrefabId": 1009,
   "ComponentsData": {
     "RotatorComponent": {
       "RotatorSpeed": {
@@ -46,6 +47,5 @@
       "IsLockZ": false,
       "IsRecovery": false
     }
-  },
-  "Id": 3000049
+  }
 }

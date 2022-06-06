@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "大门女",
+  "Name": "大门女",
+  "Id": 3000059,
+  "BlueprintId": 1007,
   "Transform": {
     "Pos": {
       "X": -78.63748094543729,
@@ -7,8 +9,6 @@
       "Z": 188.1251077532517
     }
   },
-  "PrefabId": 1007,
-  "Id": 3000059,
   "ComponentsData": {
     "BehaviorFlowComponent": {
       "InitStateId": 0,

@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsStateEntity",
+  "Name": "TsStateEntity",
+  "Id": 3000032,
+  "BlueprintId": 10,
   "Transform": {
     "Pos": {
       "X": -5310,
@@ -7,7 +9,6 @@
       "Z": 1260
     }
   },
-  "PrefabId": 10,
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",
@@ -121,6 +122,5 @@
       ],
       "Disabled": false
     }
-  },
-  "Id": 3000032
+  }
 }

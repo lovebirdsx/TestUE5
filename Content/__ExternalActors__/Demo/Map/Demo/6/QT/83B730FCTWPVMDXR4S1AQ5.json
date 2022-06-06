@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "菜园男",
+  "Name": "菜园男",
+  "Id": 3000072,
+  "BlueprintId": 1006,
   "Transform": {
     "Pos": {
       "X": 1164.8861814340157,
@@ -10,7 +12,6 @@
       "Z": -89.99999930282667
     }
   },
-  "PrefabId": 1006,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -44,6 +45,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000072
+  }
 }

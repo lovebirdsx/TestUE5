@@ -47,13 +47,6 @@ export class LevelTools {
             log(`Entity [${ed.Id}] [${ed.Guid}]`);
         });
 
-        // 记录所有Template的Guid和Id的对应关系
-        const templates = this.GetAllEntityTemplate();
-        templates.forEach((t) => {
-            replaceMap.set(`"${t.Guid}"`, t.Id.toString());
-            log(`Template [${t.Id}] [${t.Guid}]`);
-        });
-
         entityDatas.forEach((ed, id) => {
             // 去掉Guid
             ed.Guid = undefined;
@@ -69,7 +62,7 @@ export class LevelTools {
                 }
             });
 
-            log(`[${ed.Lable}] replaceCount=${replaceCount}`);
+            log(`[${ed.Name}] replaceCount=${replaceCount}`);
             MyFileHelper.Write(entityPaths[id], edJson);
         });
 

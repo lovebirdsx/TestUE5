@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "TsSpringBoard20",
+  "Name": "TsSpringBoard20",
+  "Id": 3000029,
+  "BlueprintId": 16,
   "Transform": {
     "Pos": {
       "X": -3170,
@@ -10,7 +12,5 @@
       "Y": 39.99999969014546
     }
   },
-  "PrefabId": 16,
-  "ComponentsData": {},
-  "Id": 3000029
+  "ComponentsData": {}
 }

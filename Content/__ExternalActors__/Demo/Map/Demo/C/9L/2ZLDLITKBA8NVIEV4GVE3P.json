@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "水池女1",
+  "Name": "水池女1",
+  "Id": 3000063,
+  "BlueprintId": 1007,
   "Transform": {
     "Pos": {
       "X": 4044.0182386816555,
@@ -10,7 +12,6 @@
       "Z": 130.00000208449117
     }
   },
-  "PrefabId": 1007,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -101,6 +102,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000063
+  }
 }

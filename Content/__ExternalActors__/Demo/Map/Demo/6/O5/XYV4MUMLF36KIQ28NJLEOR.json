@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "大门",
+  "Name": "大门",
+  "Id": 3000050,
+  "BlueprintId": 1008,
   "Transform": {
     "Pos": {
       "X": -1152.5810737164852,
@@ -7,7 +9,6 @@
       "Z": 100.12510003910495
     }
   },
-  "PrefabId": 1008,
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",
@@ -221,6 +222,5 @@
       ],
       "Disabled": false
     }
-  },
-  "Id": 3000050
+  }
 }

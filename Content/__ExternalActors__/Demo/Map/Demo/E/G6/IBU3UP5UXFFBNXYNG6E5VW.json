@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "王大妈",
+  "Name": "王大妈",
+  "Id": 3000076,
+  "BlueprintId": 1004,
   "Transform": {
     "Pos": {
       "X": 3113.28724374377,
@@ -10,7 +12,6 @@
       "Z": 90.00000209151933
     }
   },
-  "PrefabId": 1004,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -44,6 +45,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000076
+  }
 }

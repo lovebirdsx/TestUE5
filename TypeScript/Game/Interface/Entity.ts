@@ -6,6 +6,7 @@ import { baseActions, getActionsByComponentType, TComponentType } from './Compon
 
 export type TEntityType =
     | 'AiNpc'
+    | 'Entity'
     | 'Lamp'
     | 'Npc'
     | 'RefreshEntity'
@@ -31,6 +32,7 @@ export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
         'NpcComponent',
         'EntitySpawnerComponent',
     ],
+    Entity: [],
     Lamp: ['LampComponent', 'EventComponent', 'StateComponent'],
     Npc: [
         'StateComponent',
@@ -175,6 +177,7 @@ function makeBaseEntityPath(name: string): string {
 
 const b = EBlueprintId;
 
+registerBlueprint(b.Entity, makeBaseEntityPath('TsEntity'), 'Entity');
 registerBlueprint(b.Npc, makeBaseEntityPath('TsNpc'), 'Npc');
 registerBlueprint(b.Trigger, makeBaseEntityPath('TsTrigger'), 'Trigger');
 registerBlueprint(b.TsSphereActor, makeBaseEntityPath('TsSphereActor'), 'SphereActor');

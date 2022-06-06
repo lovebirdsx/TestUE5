@@ -10,7 +10,7 @@ import { gameContext, IEntityData } from '../Interface';
 
 class EntitySerializer {
     public SpawnEntityByData(entityData: IEntityData, transform: Transform): TsEntity {
-        const actorClass = getBlueprintClass(entityData.PrefabId);
+        const actorClass = getBlueprintClass(entityData.BlueprintId);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
             gameContext.World,
             actorClass,

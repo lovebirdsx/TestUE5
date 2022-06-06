@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "桌子1男",
+  "Name": "桌子1男",
+  "Id": 3000062,
+  "BlueprintId": 1007,
   "Transform": {
     "Pos": {
       "X": 5030.594613940559,
@@ -10,7 +12,6 @@
       "Z": -89.99999908449134
     }
   },
-  "PrefabId": 1007,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -44,6 +45,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000062
+  }
 }

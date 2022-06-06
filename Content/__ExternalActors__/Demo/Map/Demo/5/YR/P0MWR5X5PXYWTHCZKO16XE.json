@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "显示屏",
+  "Name": "显示屏",
+  "Id": 3000052,
+  "BlueprintId": 1011,
   "Transform": {
     "Pos": {
       "X": 1943.893743837218,
@@ -7,7 +9,6 @@
       "Z": 99.9999765323605
     }
   },
-  "PrefabId": 1011,
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",
@@ -190,6 +191,5 @@
       ],
       "Disabled": false
     }
-  },
-  "Id": 3000052
+  }
 }

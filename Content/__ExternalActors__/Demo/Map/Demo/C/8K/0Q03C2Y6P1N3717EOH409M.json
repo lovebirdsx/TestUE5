@@ -1,5 +1,7 @@
 ﻿{
-  "Lable": "二狗",
+  "Name": "二狗",
+  "Id": 3000064,
+  "BlueprintId": 1003,
   "Transform": {
     "Pos": {
       "X": 3395.193333421648,
@@ -10,7 +12,6 @@
       "Z": 89.99999930282684
     }
   },
-  "PrefabId": 1003,
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -166,6 +167,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000064
+  }
 }

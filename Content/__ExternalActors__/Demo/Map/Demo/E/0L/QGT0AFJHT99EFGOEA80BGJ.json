@@ -8,6 +8,7 @@
     }
   },
   "PrefabId": 1007,
+  "Id": 3000059,
   "ComponentsData": {
     "BehaviorFlowComponent": {
       "InitStateId": 0,
@@ -160,6 +161,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 3000059
+  }
 }

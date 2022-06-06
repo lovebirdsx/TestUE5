@@ -15,6 +15,7 @@
     }
   },
   "PrefabId": 9,
+  "Id": 3000009,
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": false,
@@ -59,6 +60,5 @@
       "RecoveryActions": [],
       "Disabled": false
     }
-  },
-  "Id": 3000009
+  }
 }

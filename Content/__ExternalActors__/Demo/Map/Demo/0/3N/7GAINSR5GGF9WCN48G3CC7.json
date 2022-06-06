@@ -2,7 +2,7 @@
   "Lable": "TsTrample21",
   "Transform": {
     "Pos": {
-      "X": -7887.999977999798,
+      "X": -7887.999977999796,
       "Y": -7019.999989,
       "Z": 651
     },
@@ -11,6 +11,7 @@
     }
   },
   "PrefabId": 9,
+  "Id": 3000007,
   "ComponentsData": {
     "TrampleComponent": {
       "IsDisposable": false,
@@ -46,6 +47,5 @@
       ],
       "Disabled": false
     }
-  },
-  "Id": 3000007
+  }
 }

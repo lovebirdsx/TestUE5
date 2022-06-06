@@ -3,7 +3,8 @@
 import { EditorLevelLibrary, EditorOperations, EFileRoot, MyFileHelper } from 'ue';
 
 import { getDir } from '../../../Common/File';
-import { readJsonObj } from '../../../Common/Util';
+import { log } from '../../../Common/Log';
+import { readJsonObj, writeJson } from '../../../Common/Util';
 import { IEntityData, ITsEntity } from '../../../Game/Interface';
 import { CustomSegmentIdGenerator } from '../SegmentIdGenerator';
 
@@ -35,9 +36,15 @@ class EditorEntityOp {
         return `${mapDir}/${world.GetName()}_Entities/${entity.ActorGuid.ToString()}.json`;
     }
 
-    public GetEntityData(entity: ITsEntity): IEntityData {
+    public LoadEntityData(entity: ITsEntity): IEntityData {
         const path = this.GetEntityJsonPath(entity);
         return readJsonObj(path);
+    }
+
+    public SaveEntityData(entity: ITsEntity, data: IEntityData): void {
+        const path = this.GetEntityJsonPath(entity);
+        writeJson(data, path, true);
+        log(`Save [${entity.ActorLabel}:${entity.Id}]: ${path}`);
     }
 }
 

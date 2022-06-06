@@ -3,14 +3,8 @@
 import { getBlueprintId } from '../../../Common/Class';
 import { toTransformInfo } from '../../../Common/Interface';
 import { warn } from '../../../Common/Log';
-import { stringify } from '../../../Common/Util';
-import {
-    IEntityData,
-    ITsEntity,
-    parseComponentsData,
-    TComponentData,
-    TComponentsData,
-} from '../../../Game/Interface';
+import { deepEquals } from '../../../Common/Util';
+import { IEntityData, ITsEntity, TComponentData, TComponentsData } from '../../../Game/Interface';
 import { TActionType } from '../../../Game/Interface/Action';
 import { TComponentType } from '../../../Game/Interface/Component';
 import {
@@ -72,10 +66,8 @@ class EntityRegistry {
     }
 
     private GenComponentsData(entity: ITsEntity): TComponentsData {
-        const entityData = editorEntityOp.GetEntityData(entity);
-        const componentsData = entityData
-            ? entityData.ComponentsData
-            : parseComponentsData(entity.ComponentsDataJson);
+        const entityData = editorEntityOp.LoadEntityData(entity);
+        const componentsData = entityData.ComponentsData;
         const componentTypes = this.GetComponentTypes(entity);
 
         // 移除不存在的Component配置
@@ -106,38 +98,20 @@ class EntityRegistry {
         return componentsData;
     }
 
-    public GenData(obj: ITsEntity): IEntityData {
+    public GenData(entity: ITsEntity): IEntityData {
         return {
-            Name: obj.ActorLabel,
-            Id: obj.Id,
-            BlueprintId: getBlueprintId(obj.GetClass()),
-            Transform: toTransformInfo(obj.GetTransform()),
-            ComponentsData: this.GenComponentsData(obj),
+            Name: entity.ActorLabel,
+            Id: entity.Id,
+            BlueprintId: getBlueprintId(entity.GetClass()),
+            Transform: toTransformInfo(entity.GetTransform()),
+            ComponentsData: this.GenComponentsData(entity),
         };
     }
 
-    public ApplyData<T extends ITsEntity>(data: IEntityData, obj: T): boolean {
-        let modifyCount = 0;
-        if (obj.Id !== data.Id) {
-            obj.Id = data.Id;
-            modifyCount++;
-        }
-        const newDataJson = stringify(data.ComponentsData, true);
-        if (obj.ComponentsDataJson !== newDataJson) {
-            obj.ComponentsDataJson = newDataJson;
-            modifyCount++;
-        }
-        if (obj.ComponentsDataJson !== newDataJson) {
-            obj.ComponentsDataJson = newDataJson;
-            modifyCount++;
-        }
-        return modifyCount > 0;
-    }
-
-    // 判断data数据是否和entity自身携带的数据一致
+    // 判断entity当前的数据和data中的数据是否一致
     public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
-        const componentsDataJson = stringify(data.ComponentsData);
-        return componentsDataJson !== entity.ComponentsDataJson || entity.Id !== data.Id;
+        const oldData = editorEntityOp.LoadEntityData(entity);
+        return entity.Id !== data.Id || !deepEquals(data, oldData);
     }
 }
 

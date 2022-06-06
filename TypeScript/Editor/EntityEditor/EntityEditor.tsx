@@ -28,6 +28,7 @@ import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { editorEntityOp } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { segmentIdGeneratorManager } from '../Common/SegmentIdGenerator';
@@ -158,8 +159,12 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private GenEntityState(entity: ITsEntity): IEntityState {
         const data = entityRegistry.GenData(entity);
         if (entityRegistry.IsDataModified(entity, data)) {
-            entityRegistry.ApplyData(data, entity);
-            EditorOperations.MarkPackageDirty(entity);
+            if (entity.Id !== data.Id) {
+                entity.Id = data.Id;
+                EditorOperations.MarkPackageDirty(entity);
+            }
+
+            editorEntityOp.SaveEntityData(entity, data);
             warn(`[${entity.ActorLabel}]: Auto fix entity data`);
         }
 
@@ -337,8 +342,12 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        if (entityRegistry.ApplyData(es.Data, es.Entity)) {
-            EditorOperations.MarkPackageDirty(es.Entity);
+        if (entityRegistry.IsDataModified(es.Entity, es.Data)) {
+            if (es.Entity.Id !== es.Data.Id) {
+                es.Entity.Id = es.Data.Id;
+                EditorOperations.MarkPackageDirty(es.Entity);
+            }
+            editorEntityOp.SaveEntityData(es.Entity, es.Data);
         }
 
         this.LastApplyEntityState = es;

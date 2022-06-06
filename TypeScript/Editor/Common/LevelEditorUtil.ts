@@ -21,16 +21,16 @@ import {
 } from 'ue';
 
 import { getAssetPath, getBlueprintClass } from '../../Common/Class';
-import { getDir } from '../../Common/File';
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
-import { writeJson } from '../../Common/Util';
+import { deepEquals } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/EntityRegistry';
-import { Component, ITsEntity, parseComponentsData } from '../../Game/Interface';
-import { currentLevelEntityIdGenerator } from './Operations/Entity';
+import { ITsEntity } from '../../Game/Interface';
+import { TComponentType } from '../../Game/Interface/Component';
+import { currentLevelEntityIdGenerator, editorEntityOp } from './Operations/Entity';
 import { entityRegistry } from './Scheme/Entity';
 
 class LevelEditorUtil {
@@ -94,12 +94,9 @@ class LevelEditorUtil {
         return entities.find((entity) => entity.Id === id);
     }
 
-    public static GetEntityComponentData<T extends Component>(
-        entity: ITsEntity,
-        componentClass: new () => T,
-    ): T {
-        const componentsState = parseComponentsData(entity.ComponentsDataJson);
-        return componentsState[componentClass.name] as T;
+    public static GetEntityComponentData<T>(entity: ITsEntity, componentType: TComponentType): T {
+        const data = editorEntityOp.LoadEntityData(entity);
+        return data.ComponentsData[componentType] as T;
     }
 
     public static GetSelectedEntity(): ITsEntity {
@@ -120,19 +117,6 @@ class LevelEditorUtil {
         return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
     }
 
-    public static GetEntityJsonPath(entity: ITsEntity): string {
-        const externActorPath = EditorOperations.GetExternActorSavePath(entity);
-        if (externActorPath) {
-            return this.GetExternEntityJsonPath(externActorPath);
-        }
-
-        const world = EditorLevelLibrary.GetEditorWorld();
-        const mapPath = EditorOperations.GetPackagePath(world);
-        const mapDir = getDir(mapPath);
-
-        return `${mapDir}/${world.GetName()}_Entities/${entity.ActorGuid.ToString()}.json`;
-    }
-
     public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
         if (!isForce && !EditorOperations.IsActorDirty(entity)) {
             return;
@@ -143,16 +127,11 @@ class LevelEditorUtil {
             EditorOperations.MarkPackageDirty(entity);
         }
 
-        const entityJsonPath = this.GetEntityJsonPath(entity);
-        const entityData = entityRegistry.GenData(entity);
-        if (entityRegistry.ApplyData(entityData, entity)) {
-            EditorOperations.MarkPackageDirty(entity);
+        const currentData = entityRegistry.GenData(entity);
+        const savedData = editorEntityOp.LoadEntityData(entity);
+        if (!deepEquals(currentData, savedData)) {
+            editorEntityOp.SaveEntityData(entity, currentData);
         }
-        entityData.Id = entity.Id;
-
-        writeJson(entityData, entityJsonPath, true);
-
-        log(`Write: ${entityJsonPath}`);
     }
 
     // 尝试移除package对应的Entity配置数据

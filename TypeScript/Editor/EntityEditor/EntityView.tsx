@@ -11,6 +11,7 @@ import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { editorEntityOp } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
@@ -34,7 +35,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
     };
 
     private readonly OnClickBtnOpenJson = (): void => {
-        const entityEditorSavePath = LevelEditorUtil.GetEntityJsonPath(this.props.Entity);
+        const entityEditorSavePath = editorEntityOp.GetEntityJsonPath(this.props.Entity);
         openFile(entityEditorSavePath);
     };
 

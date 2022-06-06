@@ -32,9 +32,6 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     // @no-blueprint
     private InitSpeed: number;
 
-    @edit_on_instance()
-    public ComponentsDataJson = '';
-
     // @no-blueprint
     public Entity: Entity;
 

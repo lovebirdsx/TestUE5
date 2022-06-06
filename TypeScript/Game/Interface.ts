@@ -31,7 +31,6 @@ export interface IEntityData {
 
 export interface ITsEntity extends Actor {
     Id: number;
-    ComponentsDataJson: string;
     Entity: Entity;
     GetComponentClasses: () => TComponentClass[];
     Init: () => void;

@@ -81,13 +81,13 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
         const componentTypes = this.props.ComponentTypes;
         const components = this.props.Value;
 
-        const elements = componentTypes.map((type, id): JSX.Element => {
-            if (!componentRegistry.HasScheme(type)) {
+        const elements = componentTypes.map((componentType, id): JSX.Element => {
+            if (!componentRegistry.HasScheme(componentType)) {
                 return undefined;
             }
 
-            const scheme = componentRegistry.GetScheme(type);
-            let value = components[type];
+            const scheme = componentRegistry.GetScheme(componentType);
+            let value = components[componentType];
             if (!value) {
                 value = scheme.CreateDefault() as TComponentData;
             }
@@ -95,12 +95,12 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
             return (
                 <VerticalBox key={id}>
                     <Any
-                        PrefixElement={this.RenderPrefix(value, type)}
+                        PrefixElement={this.RenderPrefix(value, componentType)}
                         Value={value}
                         Scheme={scheme}
                         OnModify={(obj, type): void => {
                             const newComponentData = produce(this.props.Value, (draft) => {
-                                draft[type] = obj as TComponentData;
+                                draft[componentType] = obj as TComponentData;
                             });
                             this.props.OnModify(newComponentData, type);
                         }}

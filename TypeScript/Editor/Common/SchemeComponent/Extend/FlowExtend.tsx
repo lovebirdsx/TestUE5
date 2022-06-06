@@ -8,8 +8,6 @@ import { IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
 import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
-import { BehaviorFlowComponent } from '../../../../Game/Component/BehaviorFlowComponent';
-import { FlowComponent } from '../../../../Game/Component/FlowComponent';
 import { ITsEntity } from '../../../../Game/Interface';
 import {
     IFlowInfo,
@@ -19,7 +17,7 @@ import {
     parseFlowInfo,
     parsePlayFlow,
 } from '../../../../Game/Interface/Action';
-import { IBehaviorFlowComponent } from '../../../../Game/Interface/Component';
+import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Game/Interface/Component';
 import {
     Btn,
     COLOR_LEVEL1,
@@ -67,7 +65,10 @@ function renderStateIdForInvokeChangeState(
     invoke: IInvoke,
     props: IProps<number>,
 ): JSX.Element {
-    const flowComponent = LevelEditorUtil.GetEntityComponentData(entity, FlowComponent);
+    const flowComponent = LevelEditorUtil.GetEntityComponentData<IFlowComponent>(
+        entity,
+        'FlowComponent',
+    );
     if (!flowComponent) {
         return <ErrorText Text={`对应实体不存在FlowComponent配置`} />;
     }
@@ -94,7 +95,10 @@ function renderStateIdForInvokeChangeBehaviorState(
     invoke: IInvoke,
     props: IProps<number>,
 ): JSX.Element {
-    const behaviorComponent = LevelEditorUtil.GetEntityComponentData(entity, BehaviorFlowComponent);
+    const behaviorComponent = LevelEditorUtil.GetEntityComponentData<IBehaviorFlowComponent>(
+        entity,
+        'BehaviorFlowComponent',
+    );
     if (!behaviorComponent) {
         return <ErrorText Text={`实体[${entity.ActorLabel}]不存在BehaviorFlowComponent配置`} />;
     }

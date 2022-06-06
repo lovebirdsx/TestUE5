@@ -1,12 +1,19 @@
+/* eslint-disable import/no-restricted-paths */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { KismetMathLibrary, Vector } from 'ue';
 import { toTransform, toTransformInfo } from '../../Common/Interface';
 import { getTotalSecond } from '../../Common/Util';
+import { entityRegistry } from '../../Editor/Common/Scheme/Entity';
 import { deInitTsEntity } from '../Entity/Common';
-// import { entityRegistry } from '../Entity/EntityRegistry';
 import { Component, gameContext, IEntityData, ITimeCall } from '../Interface';
 import { ISpawn } from '../Interface/Action';
-import { IRefreshGroup, IRefreshSingleComponent, ITempleGuid } from '../Interface/Component';
+import {
+    ICylinder,
+    IRefreshGroup,
+    IRefreshSingleComponent,
+    ITempleGuid,
+} from '../Interface/Component';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';
 
@@ -146,6 +153,8 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
 
     public EntityIdList: number[];
 
+    public IsUesCylinder: ICylinder;
+
     private State: StateComponent;
 
     private RefreshTimes = 0;
@@ -203,8 +212,8 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
             this.EntityIdList.forEach((guid) => {
                 const tsEntity = gameContext.EntityManager.GetEntity(guid);
                 if (tsEntity) {
-                    // const data = entityRegistry.GenData(tsEntity);
-                    // entitylist.push(data);
+                    const data = entityRegistry.GenData(tsEntity);
+                    entitylist.push(data);
                 }
             });
             this.State.SetState('SpawnRecord', entitylist);
@@ -276,6 +285,19 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
         const data = this.OriginEntityMap.get(id);
         if (data) {
             const transform = toTransform(data.Transform);
+            if (this.IsUesCylinder.IsUse) {
+                // 随机取点
+                const theta = 2 * 3.14 * KismetMathLibrary.RandomInteger(360);
+                const radius = KismetMathLibrary.RandomInteger(this.IsUesCylinder.Radius);
+                const height = KismetMathLibrary.RandomInteger(this.IsUesCylinder.Height);
+                const pos = this.IsUesCylinder.CylinderPos;
+                const vector = new Vector(
+                    pos.X + radius * KismetMathLibrary.Cos(theta),
+                    pos.Y + radius * KismetMathLibrary.Sin(theta),
+                    pos.Z + height,
+                );
+                transform.SetLocation(vector);
+            }
             gameContext.StateManager.DeleteState(data.Id);
             gameContext.EntityManager.SpawnEntity(data, transform);
         }

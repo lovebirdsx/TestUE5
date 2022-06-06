@@ -1,4 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
+import { IPosA } from '../../Common/Interface';
 import { IVectorType } from '../../Common/Type';
 import {
     IActionInfo,
@@ -131,11 +132,19 @@ export interface IRefreshSingle {
     TemplateGuid: ITempleGuid;
 }
 
+export interface ICylinder {
+    IsUse: boolean;
+    Radius: number;
+    Height: number;
+    CylinderPos: IPosA;
+}
+
 export interface IRefreshGroup {
     RefreshInterval: number;
     MaxRefreshTimes: number;
     DelayRefresh: boolean;
     EntityIdList: number[];
+    IsUesCylinder: ICylinder;
 }
 
 export interface IRefreshSingleComponent {

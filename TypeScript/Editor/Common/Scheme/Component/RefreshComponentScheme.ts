@@ -7,11 +7,13 @@ import {
 } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import {
+    ICylinder,
     IRefreshGroup,
     IRefreshSingleComponent,
     ITempleGuid,
 } from '../../../../Game/Interface/Component';
 import { entityIdScheme } from '../Action/Invoke';
+import { posScheme } from '../Action/Move';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const templeGuidScheme = createObjectScheme<ITempleGuid>({
@@ -50,6 +52,29 @@ export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingle
     NewLine: true,
 });
 
+const randomPointScheme = createObjectScheme<ICylinder>({
+    CnName: '是否使用随机位置',
+    Fields: {
+        IsUse: createBooleanScheme({
+            CnName: '是否使用随机位置？',
+            CreateDefault: () => false,
+            ShowName: true,
+        }),
+        Radius: createIntScheme({
+            CnName: '半径',
+            ShowName: true,
+            NewLine: true,
+        }),
+        Height: createIntScheme({
+            CnName: '高',
+            ShowName: true,
+            NewLine: true,
+        }),
+        CylinderPos: posScheme,
+    },
+    NewLine: true,
+});
+
 export const refreshEntityComponentScheme = createComponentScheme<IRefreshGroup>({
     Fields: {
         RefreshInterval: createIntScheme({
@@ -73,6 +98,7 @@ export const refreshEntityComponentScheme = createComponentScheme<IRefreshGroup>
             NewLine: true,
             Element: entityIdScheme,
         }),
+        IsUesCylinder: randomPointScheme,
     },
     NewLine: true,
 });

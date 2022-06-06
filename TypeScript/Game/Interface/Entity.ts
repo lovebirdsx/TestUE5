@@ -214,7 +214,7 @@ registerBlueprint(b.AiNpcTrainer, makeExtendEntityPath('BP_AiNpcTrainer'), 'AiNp
 registerBlueprint(b.Invisible, makeExtendEntityPath('BP_Invisible'), 'StateEntity');
 registerBlueprint(b.Trash, makeExtendEntityPath('BP_Trash'), 'Switcher');
 registerBlueprint(b.Mineral, makeExtendEntityPath('BP_Mineral'), 'RefreshSingle');
-// registerBlueprint(b.RefreshManage, makeExtendEntityPath('BP_RefreshManage'), 'RefreshEntity');
+registerBlueprint(b.RefreshManage, makeExtendEntityPath('BP_RefreshManage'), 'RefreshEntity');
 
 export function getEntityTypeByBlueprintId(id: EBlueprintId): TEntityType | undefined {
     const record = blueprintById.get(id);

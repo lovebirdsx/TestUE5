@@ -4,7 +4,13 @@ import { getBlueprintId } from '../../../Common/Class';
 import { toTransformInfo } from '../../../Common/Interface';
 import { warn } from '../../../Common/Log';
 import { stringify } from '../../../Common/Util';
-import { IEntityData, ITsEntity, TComponentData, TComponentsData } from '../../../Game/Interface';
+import {
+    IEntityData,
+    ITsEntity,
+    parseComponentsData,
+    TComponentData,
+    TComponentsData,
+} from '../../../Game/Interface';
 import { TActionType } from '../../../Game/Interface/Action';
 import { TComponentType } from '../../../Game/Interface/Component';
 import {
@@ -67,7 +73,9 @@ class EntityRegistry {
 
     private GenComponentsData(entity: ITsEntity): TComponentsData {
         const entityData = editorEntityOp.GetEntityData(entity);
-        const componentsData = entityData.ComponentsData;
+        const componentsData = entityData
+            ? entityData.ComponentsData
+            : parseComponentsData(entity.ComponentsDataJson);
         const componentTypes = this.GetComponentTypes(entity);
 
         // 移除不存在的Component配置

@@ -9,12 +9,7 @@ import { entityRegistry } from '../../Editor/Common/Scheme/Entity';
 import { deInitTsEntity } from '../Entity/Common';
 import { Component, gameContext, IEntityData, ITimeCall } from '../Interface';
 import { ISpawn } from '../Interface/Action';
-import {
-    ICylinder,
-    IRefreshGroup,
-    IRefreshSingleComponent,
-    ITempleGuid,
-} from '../Interface/Component';
+import { ICylinder, IRefreshGroup, IRefreshSingleComponent } from '../Interface/Component';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';
 
@@ -30,7 +25,7 @@ export class RefreshSingleComponent
 
     public DelayRefresh: boolean;
 
-    public TemplateGuid: ITempleGuid;
+    public TemplateGuid: number;
 
     private State: StateComponent;
 
@@ -133,7 +128,7 @@ export class RefreshSingleComponent
         const transformInfo = toTransformInfo(this.Entity.Actor.GetTransform());
         if (this.TemplateGuid) {
             const spawn: ISpawn = {
-                TemplateGuid: this.TemplateGuid.TempleGuid,
+                TemplateGuid: this.TemplateGuid,
                 Transform: transformInfo,
             };
             this.Spawn.Spawn(spawn);

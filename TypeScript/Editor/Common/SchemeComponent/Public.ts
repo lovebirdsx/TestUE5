@@ -8,7 +8,7 @@ import {
     ITriggerActions,
     TVar,
 } from '../../../Game/Interface/Action';
-import { IBehaviorFlowComponent, ITempleGuid } from '../../../Game/Interface/Component';
+import { IBehaviorFlowComponent } from '../../../Game/Interface/Component';
 import { varValueScheme } from '../Scheme/Action/Calculate';
 import { playFlowScheme } from '../Scheme/Action/Flow';
 import { invokeScheme } from '../Scheme/Action/Invoke';
@@ -72,7 +72,7 @@ renderRegistry.RegComponent<IInvoke>(invokeScheme, RenderInvoke);
 renderRegistry.RegComponent<IVectorInfo>(posScheme, Point);
 renderRegistry.RegComponent<IVectorInfo>(dirScheme, Direction);
 renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
-renderRegistry.RegComponent<ITempleGuid>(templeGuidScheme, TempleData);
+renderRegistry.RegComponent<number>(templeGuidScheme, TempleData);
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 
 export * from './Basic/Public';

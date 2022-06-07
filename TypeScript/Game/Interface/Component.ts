@@ -150,7 +150,7 @@ export interface IRefreshSingleComponent {
     RefreshInterval: number;
     MaxRefreshTimes: number;
     DelayRefresh: boolean;
-    TemplateGuid: ITempleGuid;
+    TemplateGuid: number;
 }
 
 export interface IEventRotator {

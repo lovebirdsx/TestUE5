@@ -10,24 +10,18 @@ import {
     ICylinder,
     IRefreshGroup,
     IRefreshSingleComponent,
-    ITempleGuid,
 } from '../../../../Game/Interface/Component';
 import { entityIdScheme } from '../Action/Invoke';
 import { posScheme } from '../Action/Move';
 import { createComponentScheme } from './ComponentRegistry';
 
-export const templeGuidScheme = createObjectScheme<ITempleGuid>({
-    Fields: {
-        TempleGuid: createIntScheme({
-            CnName: '创建模板',
-            NewLine: true,
-            ShowName: true,
-            CreateDefault: () => {
-                return EntityTemplateOp.GenDefaultId();
-            },
-        }),
-    },
+export const templeGuidScheme = createIntScheme({
+    CnName: '创建模板',
     NewLine: true,
+    ShowName: true,
+    CreateDefault: () => {
+        return EntityTemplateOp.GenDefaultId();
+    },
 });
 
 export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingleComponent>({

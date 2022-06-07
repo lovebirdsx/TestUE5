@@ -1,0 +1,171 @@
+syntax = "proto3";
+
+import "Action.proto";
+
+package aki;
+
+// Component类型
+enum EComponent {
+    ActorStateComponent = 0;
+    BehaviorFlowComponent = 1;
+    CalculateComponent = 2;
+    EntitySpawnerComponent = 3;
+    EventComponent = 4;
+    FlowComponent = 5;
+    GrabComponent = 6;
+    InteractiveComponent = 7;
+    LampComponent = 8;
+    MoveComponent = 9;
+    NpcComponent = 10;
+    RefreshEntityComponent = 11;
+    RefreshSingleComponent = 12;
+    RotatorComponent = 13;
+    SimpleComponent = 14;
+    SphereComponent = 15;
+    SphereFactoryComponent = 16;
+    SpringBoardComponent = 17;
+    SpringComponent = 18;
+    StateComponent = 19;
+    SwitcherComponent = 20;
+    TalkComponent = 21;
+    TrampleComponent = 22;
+    TriggerComponent = 23;
+    UndergroundComponent = 24;
+}
+
+message IActionTypeList {
+    // EActionType中定义的Action枚举名字
+    repeated string Actions = 1;
+}
+
+message IComponentsConfig {
+    IActionTypeList BaseActions = 1;
+    // key为EComponent中定义的枚举名字
+    map<string, IActionTypeList> ActionsByComponent = 2;
+}
+
+message IBehaviorFlowComponent {
+    uint32 InitStateId = 1;
+    IFlowInfo FlowInfo = 2;
+}
+
+message IFlowComponent {
+    IPlayFlow InitState = 1;
+}
+
+message ITriggerComponent {
+    int32 MaxTriggerTimes = 1;
+    bool IsNotLoad = 2;
+    ITriggerActions TriggerActions = 3;
+}
+
+message ISwitcherComponent {
+    string Content = 1;
+    string Icon = 2;
+    repeated IActionInfo OnActions = 3;
+    repeated IActionInfo OffActions = 4;
+}
+
+message IMoveComponent {
+    int32 InitSpeed = 1;
+}
+
+message IActorStateComponent {
+    EActorState InitState = 2;
+}
+
+message ICalculateComponent {
+    repeated INumberVar Vars = 1;
+    repeated IFunction Functions = 2;
+}
+
+message IRefreshSingle {
+    int32 RefreshInterval = 1;
+    int32 MaxRefreshTimes = 2;
+    bool DelayRefresh = 3;
+    uint32 TemplateGuid = 4;
+}
+
+message ICylinder {
+    bool IsUse = 1;
+    int32 Radius = 2;
+    int32 Height = 3;
+    IPosA CylinderPos = 4;
+}
+
+message IRefreshGroup {
+    int32 RefreshInterval = 1;
+    int32 MaxRefreshTimes = 2;
+    bool DelayRefresh = 3;
+    repeated uint32 EntityIdList = 4;
+    ICylinder Cylinder = 5;
+}
+
+message IRefreshSingleComponent {
+    int32 RefreshInterval = 1;
+    int32 MaxRefreshTimes = 2;
+    bool DelayRefresh = 3;
+    uint32 TemplateGuid = 4;
+}
+
+message IEventRotator {
+    repeated IActionInfo StartActions = 1;
+    repeated IActionInfo EndActions = 2;
+}
+
+message IRotatorComponent {
+    string Content = 1;
+    string Icon = 2;
+    IVectorInfo RotatorSpeed = 3;
+    IVectorInfo LocationOffset = 4;
+    IVectorInfo RotationOffset = 5;
+    IVectorInfo RotationMapping = 6;
+    bool IsLocalSpace = 7;
+    uint32 EntityId = 8;
+    bool IsRotatorSelf = 9;
+    IEventRotator InteractAction = 10;
+    bool IsLockZ = 11;
+    bool IsRecovery = 12;
+}
+
+message ISphereFactoryComponent {
+    IVectorInfo SphereLocation = 1;
+    uint32 SphereGuid = 2;
+}
+
+message ISettingSpringDir {
+    bool IsSettingDir = 1;
+    bool IsRotator = 2;
+    IVectorInfo SpringDir = 3;
+}
+
+message ISpringComponent {
+    bool IsNormalSpring = 1;
+    bool IsHitNormalSpring = 2;
+    ISettingSpringDir SettingDir = 3;
+    int32 SpringPow = 4;
+}
+
+message ITrampleComponent {
+    bool IsDisposable = 1;
+    repeated IActionInfo TriggerActions = 2;
+    repeated IActionInfo RecoveryActions = 3;
+}
+
+message IUndergroundComponent {
+    message IStateInfo {
+        uint32 StateId = 1;
+        IVectorInfo RestartPos = 2;
+    }
+
+    uint32 TestState  =1;
+    bool IsRestartPlayer = 2;
+    repeated string DestroyTag = 3;
+    repeated IStateInfo StateInfo = 4;
+}
+
+message IGrabComponent {
+    IVectorInfo GrabPos = 1;
+    int32 ThrowPow = 2;
+    int32 ThrowHight = 3;
+}

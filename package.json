@@ -5,7 +5,8 @@
     "@types/react-reconciler": "^0.18.0",
     "@types/redux": "^3.6.0",
     "immer": "^9.0.12",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "ts-proto": "^1.115.4"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",

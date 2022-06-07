@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+import "Action.proto";
+import "google/protobuf/struct.proto";
+
+package aki;
+
+// Entity类型
+enum EEntity {
+    AiNpc = 0;
+    CharacterEntity = 1;
+    Entity = 2;
+    Lamp = 3;
+    Npc = 4;
+    RefreshEntity = 5;
+    RefreshSingle = 6;
+    Rotator = 7;
+    SphereActor = 8;
+    SphereFactory = 9;
+    Spring = 10;
+    SpringBoard = 11;
+    StateEntity = 12;
+    Switcher = 13;
+    Trample = 14;
+    Trigger = 15;
+    Underground = 16;
+}
+
+// 蓝图类型
+enum EBlueprint {
+    BpEntity = 0;
+    BpNpc = 1;
+    BpTrigger = 2;
+    BpPlayer = 3;
+    BpTsSphereActor = 4;
+    BpCharacterEntity = 5;
+    BpAiNpc = 6;
+    BpSpring = 7;
+    BpRotator = 8;
+    BpTrample = 9;
+    BpStateEntity = 10;
+    BpSphereFactory = 11;
+    BpUnderground = 12;
+    BpLamp = 13;
+    BpSwitcher = 15;
+    BpSpringBoard = 16;
+    BpRefreshSingle = 17;
+    BpRefreshEntity = 18;
+
+    // ExtendedEntity
+
+    BpAiNpcGuard1 = 1001;
+    BpAiNpcGuard2 = 1002;
+    BpAiNpcAj = 1003;
+    BpAiNpcMother = 1004;
+    BpAiNpcVillageHead = 1005;
+    BpAiNpcVillage1 = 1006;
+    BpAiNpcVillage2 = 1007;
+    BpGate = 1008;
+    BpSteeringWheel = 1009;
+    BpSwitcher1 = 1010;
+    BpScreen = 1011;
+    BpAiNpcTrainer = 1012;
+    BpInvisible = 1013;
+    BpTrash = 1014;
+    BpMineral = 1015;
+    BpRefreshManage = 1016;
+}
+
+message IComponentsList {
+    // EComponent中定义的枚举名字
+    repeated string Components = 1;
+}
+
+message IEntityConfig {
+    // key为EEntity中的枚举名字
+    map<string, IComponentsList> ComponentsByEntity = 1;
+
+    // key为EBlueprint中定义的枚举名字
+    // value为EEntity中的枚举名字
+    map<string, string> EntityByBlueprint = 2;
+}
+
+message IEntityData {
+    uint32 Id = 1;
+    optional string Name = 2;
+    // EBlueprint中定义的枚举名字
+    string Blueprint = 3;
+    optional ITransform Transform = 4;
+
+    // key为EComponent中定义的枚举值
+    map<int32, google.protobuf.Struct> ComponentsData = 5;
+}
+
+message IMap {
+    repeated IEntityData EntityDatas = 1;
+}

@@ -1,13 +1,11 @@
 {
     "terminal.integrated.defaultProfile.windows": "Git Bash",
-    "runOnSave.statusMessageTimeout": 3000,
-    "runOnSave.commands": [
+    "filewatcher.commands": [
         {
-            "match": ".*\\.ts", // 没有以'ts$'结尾是为了同时匹配ts和tsx
-            // "command": "node ./Tools/send_editor_command.js 1000 RestartEditor",
-            "runIn": "backend",
-            "runningStatusMessage": "RestartEditor...",
-            "finishStatusMessage": "RestartEditor OK :)",
+            "match": "\\.proto",
+            "event": "onFileChange",
+            "cmd": "${workspaceRoot}\\Proto\\protoc --plugin=protoc-gen-ts_proto=${workspaceRoot}\\node_modules\\.bin\\protoc-gen-ts_proto.cmd --proto_path=${workspaceRoot}\\Proto --ts_proto_opt=onlyTypes=true --ts_proto_out=${workspaceRoot}\\TypeScript\\Game\\Interface2 ${file}"
         }
-    ]
+    ],
+    "filewatcher.autoClearConsole": false
 }

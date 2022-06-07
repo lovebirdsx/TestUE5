@@ -3,10 +3,9 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { log } from '../../../../Common/Log';
 import { IProps, TModifyType } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
-import { IEntityData } from '../../../../Game/Interface';
+import { IEntityData, TComponentsData } from '../../../../Game/Interface';
 import {
     getComponentsTypeByEntityType,
     getEntityTypeByBlueprintId,
@@ -20,6 +19,7 @@ import { openFile } from '../../Util';
 interface IState {
     IsFolded: boolean;
     StepId: number;
+    TempleData: TComponentsData;
 }
 
 export class TempleData extends React.Component<IProps<number>, IState> {
@@ -27,6 +27,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
         super(props);
         this.state = {
             IsFolded: false,
+            TempleData: null,
             StepId: 0,
         };
     }
@@ -43,28 +44,35 @@ export class TempleData extends React.Component<IProps<number>, IState> {
     };
 
     private readonly OnTempleModify = (data: IEntityData, type: TModifyType): void => {
-        // 1. 保存进编辑器 2.保存进temple的 json
-        // this.props.OnModify(data, type);
-        // const path = EntityTemplateOp.GetPath(this.props.Value);
-        // log(`OnTempleModify ${type} ${path} ${this.props.Value}`);
-        // if (path) {
-        //     log(`saveTemple ${this.props.Value}`);
-        //     EditorEntityTemplateOp.Save(data, path);
-        // }
+        // 保存json
+        const id = this.props.Value;
+        const path = EntityTemplateOp.GetPath(id);
+        if (path) {
+            EditorEntityTemplateOp.Save(data, path);
+        }
+        EntityTemplateOp.RefreshTemplate(id);
 
-        // this.setState({
-        //     IsFolded: this.state.IsFolded,
-        //     StepId: this.state.StepId + 1,
-        // });
+        // 更新
+        this.setState((state) => {
+            const newState = produce(this.state, (draft) => {
+                draft.TempleData = data.ComponentsData;
+                draft.StepId++;
+            });
+            return newState;
+        });
     };
 
-    private CreateTemple(): JSX.Element {
-        // Todo 展示模板信息，且支持修改保存
+    private RenderTemple(): JSX.Element {
         const template = EntityTemplateOp.GetTemplateById(this.props.Value);
-        const componentsState = template.ComponentsData;
+        if (!template) {
+            return undefined;
+        }
+        const componentsState = this.state.TempleData
+            ? this.state.TempleData
+            : template.ComponentsData;
         const entityType = getEntityTypeByBlueprintId(template.BlueprintId);
         const componentClassObjs = getComponentsTypeByEntityType(entityType);
-        log(`CreateTemple ${template.BlueprintId}`);
+
         return (
             <VerticalBox>
                 <ComponentsData
@@ -104,7 +112,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
                     <Btn Text={'◉'} OnClick={this.OpenEntityTemplate} Tip={'打开实体模板'} />
                 </HorizontalBox>
                 <VerticalBox RenderTransform={{ Translation: { X: TAB_OFFSET } }}>
-                    {!this.state.IsFolded && this.CreateTemple()}
+                    {!this.state.IsFolded && this.RenderTemple()}
                 </VerticalBox>
             </VerticalBox>
         );

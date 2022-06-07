@@ -127,6 +127,14 @@ export class EntityTemplateOp {
         });
         return newData;
     }
+
+    public static RefreshTemplate(id: number): void {
+        const file = this.GetPath(id);
+        if (file && this.IdMap.has(id)) {
+            const template = this.Load(file);
+            this.IdMap.set(id, template);
+        }
+    }
 }
 
 EntityTemplateOp.RefreshTemplates();

@@ -16,9 +16,7 @@ import { posScheme } from '../Action/Move';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const templeGuidScheme = createIntScheme({
-    CnName: '创建模板',
     NewLine: true,
-    ShowName: true,
     CreateDefault: () => {
         return EntityTemplateOp.GenDefaultId();
     },

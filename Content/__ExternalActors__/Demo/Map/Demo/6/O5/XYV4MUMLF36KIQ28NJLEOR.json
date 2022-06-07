@@ -1,7 +1,7 @@
 ﻿{
   "Name": "大门",
   "Id": 3000050,
-  "BlueprintId": 1008,
+  "BlueprintType": "BpGate",
   "Transform": {
     "Pos": {
       "X": -1152.5810737164852,

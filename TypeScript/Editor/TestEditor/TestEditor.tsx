@@ -55,6 +55,14 @@ function fixEntityIds(): void {
     LevelTools.FixAllEntityDataId();
 }
 
+function fixFlowLists(): void {
+    LevelTools.FixAllFlowList();
+}
+
+function fixEntityTemplates(): void {
+    LevelTools.FixAllEntityTempalte();
+}
+
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
     { Name: 'testConfig', Fun: testConfig },
@@ -72,6 +80,8 @@ const allTests: ITest[] = [
     { Name: 'testOpenFileDialog', Fun: testOpenFileDialog, ManualRun: true },
     { Name: 'testCloseFileDialog', Fun: testSaveFileDialog, ManualRun: true },
     { Name: 'fixEntityIds', Fun: fixEntityIds, ManualRun: true },
+    { Name: 'fixFlowLists', Fun: fixFlowLists, ManualRun: true },
+    { Name: 'fixEntityTemplates', Fun: fixEntityTemplates, ManualRun: true },
 ];
 
 export class TestEditor extends React.Component<unknown, ITestEditorState> {

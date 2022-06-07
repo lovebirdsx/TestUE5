@@ -1,7 +1,7 @@
 ﻿{
   "Name": "二狗",
   "Id": 3000064,
-  "BlueprintId": 1003,
+  "BlueprintType": "BpAiNpcAj",
   "Transform": {
     "Pos": {
       "X": 3395.193333421648,

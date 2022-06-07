@@ -1,5 +1,5 @@
 ﻿{
-  "BlueprintId": 4,
-  "ComponentsData": {},
-  "Id": 3
+  "Id": 3,
+  "BlueprintType": "BpTsSphereActor",
+  "ComponentsData": {}
 }

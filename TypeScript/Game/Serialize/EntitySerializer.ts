@@ -5,13 +5,13 @@ import { Actor, Character, GameplayStatics, Transform } from 'ue';
 import { isChildOfClass, stringify } from '../../Common/Util';
 import TsEntity from '../Entity/TsEntity';
 import { gameContext, IEntityData } from '../Interface';
-import { getClassByBluprintId, getClassByEntityType } from '../Interface/Entity';
+import { getClassByBluprintType, getClassByEntityType } from '../Interface/Entity';
 
 const characterEntityClass = getClassByEntityType('CharacterEntity');
 
 class EntitySerializer {
     public SpawnEntityByData(entityData: IEntityData, transform: Transform): TsEntity {
-        const actorClass = getClassByBluprintId(entityData.BlueprintId);
+        const actorClass = getClassByBluprintType(entityData.BlueprintType);
         const entity = GameplayStatics.BeginDeferredActorSpawnFromClass(
             gameContext.World,
             actorClass,

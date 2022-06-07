@@ -1,7 +1,7 @@
 ﻿{
   "Name": "交谈女1",
   "Id": 3000057,
-  "BlueprintId": 1007,
+  "BlueprintType": "BpAiNpcVillage2",
   "Transform": {
     "Pos": {
       "X": -197.6323577191755,

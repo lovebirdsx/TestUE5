@@ -1,7 +1,7 @@
 ﻿{
   "Name": "显示屏",
   "Id": 3000052,
-  "BlueprintId": 1011,
+  "BlueprintType": "BpScreen",
   "Transform": {
     "Pos": {
       "X": 1943.893743837218,

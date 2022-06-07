@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsStateEntity",
   "Id": 3000032,
-  "BlueprintId": 10,
+  "BlueprintType": "BpStateEntity",
   "Transform": {
     "Pos": {
       "X": -5310,

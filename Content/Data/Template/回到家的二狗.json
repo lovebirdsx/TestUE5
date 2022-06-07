@@ -1,5 +1,6 @@
 ﻿{
-  "BlueprintId": 1003,
+  "Id": 5,
+  "BlueprintType": "BpAiNpcAj",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -28,6 +29,5 @@
       },
       "Disabled": true
     }
-  },
-  "Id": 5
+  }
 }

@@ -1,5 +1,6 @@
 ﻿{
-  "BlueprintId": 1012,
+  "Id": 6,
+  "BlueprintType": "BpAiNpcTrainer",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -33,6 +34,5 @@
       "Icon": "",
       "Disabled": false
     }
-  },
-  "Id": 6
+  }
 }

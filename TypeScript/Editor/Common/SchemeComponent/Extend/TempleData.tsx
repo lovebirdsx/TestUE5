@@ -70,7 +70,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
         const componentsState = this.state.TempleData
             ? this.state.TempleData
             : template.ComponentsData;
-        const entityType = getEntityTypeByBlueprintId(template.BlueprintId);
+        const entityType = getEntityTypeByBlueprintId(template.BlueprintType);
         const componentClassObjs = getComponentsTypeByEntityType(entityType);
 
         return (

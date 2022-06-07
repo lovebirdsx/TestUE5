@@ -29,7 +29,7 @@ import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { TComponentType } from '../../Game/Interface/Component';
-import { getClassByBluprintId } from '../../Game/Interface/Entity';
+import { getClassByBluprintType } from '../../Game/Interface/Entity';
 import { currentLevelEntityIdGenerator, editorEntityOp } from './Operations/Entity';
 import { entityRegistry } from './Scheme/Entity';
 
@@ -162,6 +162,18 @@ class LevelEditorUtil {
         });
     }
 
+    public static SaveEntityData(entity: ITsEntity): void {
+        const currentData = entityRegistry.GenData(entity);
+        editorEntityOp.SaveEntityData(entity, currentData);
+    }
+
+    public static SaveAllEntityData(): void {
+        const entities = this.GetAllEntitiesByEditorWorld();
+        entities.forEach((entity) => {
+            this.SaveEntityData(entity);
+        });
+    }
+
     public static CheckEntity(entity: ITsEntity): number {
         const entityData = entityRegistry.GenData(entity);
         const messages: string[] = [];
@@ -191,7 +203,7 @@ class LevelEditorUtil {
         }
 
         const entity = EditorLevelLibrary.SpawnActorFromClass(
-            getClassByBluprintId(template.BlueprintId),
+            getClassByBluprintType(template.BlueprintType),
             toVector(iTransform.Pos),
             toRotation(iTransform.Rot),
         ) as ITsEntity;

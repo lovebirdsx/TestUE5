@@ -39,6 +39,7 @@ import { LevelEditor } from './LevelEditor';
 import { tempEntities } from './TempEntities';
 
 const contextCmdList = [
+    '重新保存所有实体数据',
     '检查当前实体数据',
     '检查所有实体数据',
     '修复并导出所有实体数据',
@@ -489,6 +490,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private readonly OnContextCmd = (cmd: TContextCmd): void => {
         switch (cmd) {
+            case '重新保存所有实体数据':
+                LevelEditorUtil.SaveAllEntityData();
+                break;
+
             case '检查当前实体数据':
                 if (this.state.Entity) {
                     LevelEditorUtil.CheckEntity(this.state.Entity);

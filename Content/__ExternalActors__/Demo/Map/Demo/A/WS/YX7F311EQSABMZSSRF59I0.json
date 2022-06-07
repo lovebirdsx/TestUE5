@@ -1,7 +1,7 @@
 ﻿{
   "Name": "训练导师",
   "Id": 3000070,
-  "BlueprintId": 1012,
+  "BlueprintType": "BpAiNpcTrainer",
   "Transform": {
     "Pos": {
       "X": -2110,

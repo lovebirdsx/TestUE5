@@ -8,7 +8,7 @@ import { TActionType } from '../../../Game/Interface/Action';
 import { TComponentType } from '../../../Game/Interface/Component';
 import {
     getActionsByEntityType,
-    getBlueprintIdByClass,
+    getBlueprintTypeByClass,
     getComponentsTypeByEntityType,
     getEntityTypeByActor,
     TEntityType,
@@ -102,7 +102,7 @@ class EntityRegistry {
         return {
             Name: entity.ActorLabel,
             Id: entity.Id,
-            BlueprintId: getBlueprintIdByClass(entity.GetClass()),
+            BlueprintType: getBlueprintTypeByClass(entity.GetClass()),
             Transform: toTransformInfo(entity.GetTransform()),
             ComponentsData: this.GenComponentsData(entity),
         };

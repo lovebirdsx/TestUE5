@@ -25,7 +25,7 @@ export class EditorEntityTemplateOp {
     public static Gen(data: IEntityData, id?: number): IEntityTemplate {
         return {
             Id: id || templateIdGenerator.GenOne(),
-            BlueprintId: data.BlueprintId,
+            BlueprintType: data.BlueprintType,
             ComponentsData: data.ComponentsData,
         };
     }

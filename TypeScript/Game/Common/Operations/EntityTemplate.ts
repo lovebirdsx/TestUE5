@@ -6,11 +6,12 @@ import { warn } from '../../../Common/Log';
 import { deepEquals, readJsonObj } from '../../../Common/Util';
 import { IEntityData, TComponentsData } from '../../Interface';
 import { TComponentType } from '../../Interface/Component';
+import { TBlueprintType } from '../../Interface/Entity';
 import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
     Id: number;
-    BlueprintId: number;
+    BlueprintType: TBlueprintType;
     ComponentsData: TComponentsData;
 }
 

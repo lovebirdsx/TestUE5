@@ -1,5 +1,6 @@
 ﻿{
-  "BlueprintId": 1,
+  "Id": 2,
+  "BlueprintType": "BpNpc",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -8,6 +9,5 @@
         "StateId": 1
       }
     }
-  },
-  "Id": 2
+  }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { ITransform } from "./Action";
+import type { ITransform } from "./ActionPb";
 
 export const protobufPackage = "aki";
 

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "菜园男",
   "Id": 3000072,
-  "BlueprintId": 1006,
+  "BlueprintType": "BpAiNpcVillage1",
   "Transform": {
     "Pos": {
       "X": 1164.8861814340157,

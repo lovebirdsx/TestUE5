@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsNpc2",
   "Id": 3000000,
-  "BlueprintId": 1,
+  "BlueprintType": "BpNpc",
   "Transform": {
     "Pos": {
       "X": -949.999999,

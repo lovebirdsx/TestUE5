@@ -1,5 +1,6 @@
 ﻿{
-  "BlueprintId": 1014,
+  "Id": 8,
+  "BlueprintType": "BpTrash",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle"
@@ -27,6 +28,5 @@
       ],
       "OffActions": []
     }
-  },
-  "Id": 8
+  }
 }

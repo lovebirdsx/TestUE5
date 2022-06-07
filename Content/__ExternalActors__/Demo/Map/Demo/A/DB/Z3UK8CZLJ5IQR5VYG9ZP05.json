@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsSpringBoard23",
   "Id": 3000027,
-  "BlueprintId": 16,
+  "BlueprintType": "BpSpringBoard",
   "Transform": {
     "Pos": {
       "X": -4280,

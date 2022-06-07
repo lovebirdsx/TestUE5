@@ -1,5 +1,6 @@
 ﻿{
-  "BlueprintId": 6,
+  "Id": 1,
+  "BlueprintType": "BpAiNpc",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {
@@ -10,6 +11,5 @@
       "AutoRun": false,
       "Continuable": false
     }
-  },
-  "Id": 1
+  }
 }

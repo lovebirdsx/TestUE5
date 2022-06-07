@@ -1,7 +1,7 @@
 ﻿{
   "Name": "老太婆",
   "Id": 3000075,
-  "BlueprintId": 1004,
+  "BlueprintType": "BpAiNpcMother",
   "Transform": {
     "Pos": {
       "X": 2793.6444276619163,

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsTrample16",
   "Id": 3000011,
-  "BlueprintId": 9,
+  "BlueprintType": "BpTrample",
   "Transform": {
     "Pos": {
       "X": -3594.1802602037496,

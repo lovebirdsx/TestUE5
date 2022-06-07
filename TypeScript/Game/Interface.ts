@@ -5,6 +5,7 @@ import { ITransform } from '../Common/Interface';
 import { Event, parse } from '../Common/Util';
 import { IActionInfo, IInteract, TActionType } from './Interface/Action';
 import { IInteractiveComponent } from './Interface/Component';
+import { TBlueprintType } from './Interface/Entity';
 import { TweenManager } from './Manager/TweenManager';
 
 export type TComponentData = Record<string, unknown> & {
@@ -23,7 +24,7 @@ export function parseComponentsData(json: string): TComponentsData {
 export interface IEntityData {
     Id: number;
     Name?: string;
-    BlueprintId: number;
+    BlueprintType: TBlueprintType;
     Transform?: ITransform;
     ComponentsData: TComponentsData;
 }

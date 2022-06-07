@@ -9,7 +9,7 @@ import type {
   IFunction,
   IPosA,
   IVectorInfo,
-} from "./Action";
+} from "./ActionPb";
 
 export const protobufPackage = "aki";
 

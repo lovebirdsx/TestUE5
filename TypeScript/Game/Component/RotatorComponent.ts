@@ -16,8 +16,7 @@ import {
 } from 'ue';
 
 import { createSignal, ISignal } from '../../Common/Async';
-import { toVector } from '../../Common/Interface';
-import { IVectorType } from '../../Common/Type';
+import { IVectorInfo, toVector } from '../../Common/Interface';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import { IInteract } from '../Interface/Action';
@@ -33,7 +32,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     private InteractUi: Game.Demo.UI.UI_Rotator.UI_Rotator_C;
 
-    public RotatorSpeed: IVectorType;
+    public RotatorSpeed: IVectorInfo;
 
     private Runner: ActionRunner;
 
@@ -43,9 +42,9 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     private StateId = 0;
 
-    public LocationOffset: IVectorType;
+    public LocationOffset: IVectorInfo;
 
-    public RotationOffset: IVectorType;
+    public RotationOffset: IVectorInfo;
 
     public EntityId: number;
 
@@ -53,7 +52,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public InteractAction: IEventRotator;
 
-    public RotationMapping: IVectorType;
+    public RotationMapping: IVectorInfo;
 
     public IsLocalSpace: boolean;
 

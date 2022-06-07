@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { TColor } from './Color';
+import { IVectorInfo } from './Interface';
 import { error, warn } from './Log';
 
 export type TElementRenderType =
@@ -415,16 +416,10 @@ export function createCsvIndexValueScheme<T extends TCsvValueType>(
 }
 
 // ============================================================================
-export interface IVectorType {
-    X: number;
-    Y: number;
-    Z: number;
-}
-
-export class VectorScheme extends Scheme<IVectorType> {
+export class VectorScheme extends Scheme<IVectorInfo> {
     public RenderType: TElementRenderType = 'vector';
 
-    public CreateDefault(): IVectorType {
+    public CreateDefault(): IVectorInfo {
         return {
             X: 0,
             Y: 0,

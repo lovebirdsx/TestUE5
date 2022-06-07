@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createIntScheme, createVectorScheme, IVectorType } from '../../../../Common/Type';
+import { IVectorInfo } from '../../../../Common/Interface';
+import { createIntScheme, createVectorScheme } from '../../../../Common/Type';
 import { IGrabComponent } from '../../../../Game/Interface/Component';
 import { createComponentScheme } from './ComponentRegistry';
 
@@ -11,7 +12,7 @@ export const grabComponentScheme = createComponentScheme<IGrabComponent>({
             ShowName: true,
             NewLine: true,
             Tip: '抓取位置',
-            CreateDefault(): IVectorType {
+            CreateDefault(): IVectorInfo {
                 return {
                     X: 100,
                     Y: 0,

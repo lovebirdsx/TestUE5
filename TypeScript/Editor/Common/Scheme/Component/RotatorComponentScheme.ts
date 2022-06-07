@@ -1,11 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
+import { IVectorInfo } from '../../../../Common/Interface';
 import {
     createArrayScheme,
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
     createVectorScheme,
-    IVectorType,
 } from '../../../../Common/Type';
 import { IEventRotator, IRotatorComponent } from '../../../../Game/Interface/Component';
 import { trampleActionScheme } from '../Action/Action';
@@ -41,7 +41,7 @@ export const rotatorComponentScheme = createComponentScheme<IRotatorComponent>({
             ShowName: true,
             NewLine: true,
             Tip: '设定单个轴旋转时的速度',
-            CreateDefault(): IVectorType {
+            CreateDefault(): IVectorInfo {
                 return {
                     X: 100,
                     Y: 100,
@@ -66,7 +66,7 @@ export const rotatorComponentScheme = createComponentScheme<IRotatorComponent>({
             ShowName: true,
             NewLine: true,
             Tip: '调整鼠标的竖直和横向移动调整哪个轴',
-            CreateDefault(): IVectorType {
+            CreateDefault(): IVectorInfo {
                 return {
                     X: 1,
                     Y: 2,

@@ -2,13 +2,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, KismetMathLibrary, PrimitiveComponent, Rotator, Vector } from 'ue';
 
-import { IVectorType } from '../../Common/Type';
+import { IVectorInfo } from '../../Common/Interface';
 import { Component, gameContext, ITickable } from '../Interface';
 import { IGrabComponent } from '../Interface/Component';
 import TsPlayer from '../Player/TsPlayer';
 
 export class GrabComponent extends Component implements IGrabComponent, ITickable {
-    public GrabPos: IVectorType;
+    public GrabPos: IVectorInfo;
 
     public ThrowHight: number;
 

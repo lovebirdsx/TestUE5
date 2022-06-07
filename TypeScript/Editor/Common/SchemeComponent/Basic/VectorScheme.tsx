@@ -3,10 +3,11 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Vector } from 'ue';
 
-import { IProps, IVectorType } from '../../../../Common/Type';
+import { IVectorInfo } from '../../../../Common/Interface';
+import { IProps } from '../../../../Common/Type';
 import { EditorBox } from '../../BaseComponent/CommonComponent';
 
-export class VectorScheme extends React.Component<IProps<IVectorType>> {
+export class VectorScheme extends React.Component<IProps<IVectorInfo>> {
     private readonly OnModifyX = (text: string): void => {
         const newPos = Object.assign({}, this.props.Value);
         newPos.X = parseFloat(text);
@@ -26,7 +27,7 @@ export class VectorScheme extends React.Component<IProps<IVectorType>> {
     };
 
     private SetVector(vec: Vector): void {
-        const pos: IVectorType = { X: vec.X, Y: vec.Y, Z: vec.Z };
+        const pos: IVectorInfo = { X: vec.X, Y: vec.Y, Z: vec.Z };
         this.props.OnModify(pos, 'normal');
     }
 

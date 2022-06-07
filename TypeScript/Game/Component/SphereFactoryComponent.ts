@@ -2,8 +2,7 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { createSignal, ISignal } from '../../Common/Async';
-import { toTransformInfo } from '../../Common/Interface';
-import { IVectorType } from '../../Common/Type';
+import { IVectorInfo, toTransformInfo } from '../../Common/Interface';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import { IInteract, ISpawn } from '../Interface/Action';
 import { ISphereFactoryComponent } from '../Interface/Component';
@@ -14,7 +13,7 @@ export class SphereFactoryComponent
     extends InteractiveComponent
     implements ISphereFactoryComponent
 {
-    public SphereLocation: IVectorType; // 用自己位置
+    public SphereLocation: IVectorInfo; // 用自己位置
 
     public SphereGuid: number;
 

@@ -1,6 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IPosA } from '../../Common/Interface';
-import { IVectorType } from '../../Common/Type';
+import { IPosA, IVectorInfo } from '../../Common/Interface';
 import {
     IActionInfo,
     IFlowInfo,
@@ -160,11 +159,10 @@ export interface IEventRotator {
 }
 
 export interface IRotatorComponent extends IInteractiveComponent {
-    // fix: 使用IVectorInfo
-    RotatorSpeed: IVectorType;
-    LocationOffset: IVectorType;
-    RotationOffset: IVectorType;
-    RotationMapping: IVectorType;
+    RotatorSpeed: IVectorInfo;
+    LocationOffset: IVectorInfo;
+    RotationOffset: IVectorInfo;
+    RotationMapping: IVectorInfo;
     IsLocalSpace: boolean;
     EntityId: number;
     IsRotatorSelf: boolean;
@@ -174,14 +172,14 @@ export interface IRotatorComponent extends IInteractiveComponent {
 }
 
 export interface ISphereFactoryComponent {
-    SphereLocation: IVectorType;
+    SphereLocation: IVectorInfo;
     SphereGuid: number;
 }
 
 export interface ISettingSpringDir {
     IsSettingDir: boolean;
     IsRotator: boolean;
-    SpringDir: IVectorType;
+    SpringDir: IVectorInfo;
 }
 
 export interface ISpringComponent {
@@ -199,7 +197,7 @@ export interface ITrampleComponent {
 
 export interface IStateInfo {
     StateId: number;
-    RestartPos: IVectorType;
+    RestartPos: IVectorInfo;
 }
 
 export interface IUndergroundComponent {
@@ -210,7 +208,7 @@ export interface IUndergroundComponent {
 }
 
 export interface IGrabComponent {
-    GrabPos: IVectorType;
+    GrabPos: IVectorInfo;
     ThrowPow: number;
     ThrowHight: number;
 }

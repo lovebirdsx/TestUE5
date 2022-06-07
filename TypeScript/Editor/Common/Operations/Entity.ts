@@ -6,11 +6,19 @@ import { getDir } from '../../../Common/File';
 import { log } from '../../../Common/Log';
 import { readJsonObj, writeJson } from '../../../Common/Util';
 import { IEntityData, ITsEntity } from '../../../Game/Interface';
+import { LevelTools } from '../../EntityEditor/LevelTools';
 import { CustomSegmentIdGenerator } from '../SegmentIdGenerator';
 
 export class EntityIdGenerator extends CustomSegmentIdGenerator {
     protected GetMaxIdGenerated(): number {
-        return -1;
+        const entityDatas = LevelTools.GetAllEntityDataOfCurrentLevel();
+        let result = -1;
+        entityDatas.forEach((ed) => {
+            if (this.ContainsId(ed.Id) && ed.Id > result) {
+                result = ed.Id;
+            }
+        });
+        return result;
     }
 }
 

@@ -4,11 +4,11 @@
   "BlueprintType": "Npc",
   "Transform": {
     "Pos": {
-      "X": -949.999999,
-      "Y": 49.999980580877825
+      "X": -950,
+      "Y": 50
     },
     "Rot": {
-      "Z": -89.999999
+      "Z": -90
     }
   },
   "ComponentsData": {

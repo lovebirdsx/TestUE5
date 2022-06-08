@@ -4,9 +4,9 @@
   "BlueprintType": "Trigger",
   "Transform": {
     "Pos": {
-      "X": 1445.044343,
-      "Y": 1208.7843699999999,
-      "Z": -0.499903
+      "X": 1445.04,
+      "Y": 1208.78,
+      "Z": -0.5
     }
   },
   "ComponentsData": {

@@ -4,12 +4,12 @@
   "BlueprintType": "SteeringWheel",
   "Transform": {
     "Pos": {
-      "X": -6567.999927,
-      "Y": -4960.000014,
+      "X": -6568,
+      "Y": -4960,
       "Z": 530
     },
     "Rot": {
-      "Z": 179.999999
+      "Z": 180
     }
   },
   "ComponentsData": {

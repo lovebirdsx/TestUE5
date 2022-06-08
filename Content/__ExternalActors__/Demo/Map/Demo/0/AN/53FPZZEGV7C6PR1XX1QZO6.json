@@ -4,12 +4,12 @@
   "BlueprintType": "SphereFactory",
   "Transform": {
     "Pos": {
-      "X": -5878.000023,
-      "Y": -7710.000039,
+      "X": -5878,
+      "Y": -7710,
       "Z": 1830
     },
     "Rot": {
-      "Z": 179.999999
+      "Z": 180
     }
   },
   "ComponentsData": {

@@ -4,12 +4,12 @@
   "BlueprintType": "Entity",
   "Transform": {
     "Pos": {
-      "X": -7227.999982,
-      "Y": -7409.999998,
+      "X": -7228,
+      "Y": -7410,
       "Z": 600
     },
     "Rot": {
-      "Z": 179.999999
+      "Z": 180
     }
   },
   "ComponentsData": {}

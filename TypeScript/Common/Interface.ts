@@ -30,13 +30,18 @@ export function eqn(a: number, b: number): boolean {
     return ab < 0.0001;
 }
 
+// 将number转换位精确到1/100的浮点型
+function toFloat(n: number): number {
+    return Math.round(n * 100) / 100;
+}
+
 export function toVectorInfo(vec: Vector, defalut?: IVectorInfo): IVectorInfo {
     // eslint-disable-next-line no-param-reassign
     defalut = defalut || defaultVec;
 
-    const x = eqn(vec.X, defalut.X) ? undefined : vec.X;
-    const y = eqn(vec.Y, defalut.Y) ? undefined : vec.Y;
-    const z = eqn(vec.Z, defalut.Z) ? undefined : vec.Z;
+    const x = eqn(vec.X, defalut.X) ? undefined : toFloat(vec.X);
+    const y = eqn(vec.Y, defalut.Y) ? undefined : toFloat(vec.Y);
+    const z = eqn(vec.Z, defalut.Z) ? undefined : toFloat(vec.Z);
 
     if (x === undefined && y === undefined && z === undefined) {
         return undefined;

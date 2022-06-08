@@ -4,12 +4,12 @@
   "BlueprintType": "Underground",
   "Transform": {
     "Pos": {
-      "X": -7357.999974,
-      "Y": -5680.000026,
+      "X": -7358,
+      "Y": -5680,
       "Z": 110
     },
     "Rot": {
-      "Z": 179.999999
+      "Z": 180
     }
   },
   "ComponentsData": {

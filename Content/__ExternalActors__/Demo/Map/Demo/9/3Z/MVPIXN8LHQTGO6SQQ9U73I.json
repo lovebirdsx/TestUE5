@@ -4,12 +4,12 @@
   "BlueprintType": "Trample",
   "Transform": {
     "Pos": {
-      "X": -5668.000053,
-      "Y": -8930.000044,
+      "X": -5668,
+      "Y": -8930,
       "Z": 841
     },
     "Rot": {
-      "Z": 179.999999
+      "Z": 180
     }
   },
   "ComponentsData": {

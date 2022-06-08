@@ -95,12 +95,12 @@ export interface IEntityData {
   /** EBlueprint中定义的枚举名字 */
   Blueprint: string;
   Transform?: ITransform | undefined;
-  /** key为EComponent中定义的枚举值 */
-  ComponentsData: { [key: number]: { [key: string]: any } | undefined };
+  /** key为EComponent中定义的枚举名字 */
+  ComponentsData: { [key: string]: { [key: string]: any } | undefined };
 }
 
 export interface IEntityData_ComponentsDataEntry {
-  key: number;
+  key: string;
   value: { [key: string]: any } | undefined;
 }
 

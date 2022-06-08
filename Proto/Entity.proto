@@ -88,8 +88,8 @@ message IEntityData {
     string Blueprint = 3;
     optional ITransform Transform = 4;
 
-    // key为EComponent中定义的枚举值
-    map<int32, google.protobuf.Struct> ComponentsData = 5;
+    // key为EComponent中定义的枚举名字
+    map<string, google.protobuf.Struct> ComponentsData = 5;
 }
 
 message IMap {

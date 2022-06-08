@@ -14,6 +14,7 @@ import { EventComponent } from './EventComponent';
 import { FlowComponent } from './FlowComponent';
 import { GrabComponent } from './GrabComponent';
 import { LampComponent } from './LampComponent';
+import { ModelComponent } from './ModelComponent';
 import { MoveComponent } from './MoveComponent';
 import { NpcComponent } from './NpcComponent';
 import { RefreshEntityComponent, RefreshSingleComponent } from './RefreshComponent';
@@ -56,6 +57,7 @@ export const componentByType: { [key in TComponentType]: TComponentClass } = {
     TrampleComponent: TrampleComponent,
     TriggerComponent: TriggerComponent,
     UndergroundComponent: UndergroundComponent,
+    ModelComponent: ModelComponent,
 };
 
 const componentsByEntity: Map<TEntityType, TComponentClass[]> = new Map();

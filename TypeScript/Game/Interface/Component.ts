@@ -21,6 +21,7 @@ export type TComponentType =
     | 'GrabComponent'
     | 'InteractiveComponent'
     | 'LampComponent'
+    | 'ModelComponent'
     | 'MoveComponent'
     | 'NpcComponent'
     | 'RefreshEntityComponent'
@@ -72,6 +73,7 @@ export const actionsByComponent: { [key in TComponentType]: TActionType[] } = {
     TalkComponent: [],
     LampComponent: [],
     SpringBoardComponent: [],
+    ModelComponent: [],
 };
 
 export function getActionsByComponentType(component: TComponentType): TActionType[] {
@@ -211,4 +213,9 @@ export interface IGrabComponent {
     GrabPos: IVectorInfo;
     ThrowPow: number;
     ThrowHight: number;
+}
+
+export interface IModelComponent {
+    MeshClass: string;
+    AbpClass: string;
 }

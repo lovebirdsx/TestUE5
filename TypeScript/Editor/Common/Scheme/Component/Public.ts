@@ -5,6 +5,7 @@ import { componentRegistry } from './ComponentRegistry';
 import { behaviorFlowComponentScheme, flowComponentScheme } from './FlowComponentScheme';
 import { grabComponentScheme } from './GrabComponentScheme';
 import { npcComponentScheme, sphereComponentScheme } from './InteractComponentScheme';
+import { modelComponentScheme } from './ModelComponentScheme';
 import { moveComponentScheme } from './MoveComponentScheme';
 import {
     refreshEntityComponentScheme,
@@ -35,11 +36,13 @@ componentRegistry.RegisterClass('NpcComponent', npcComponentScheme);
 componentRegistry.RegisterClass('SphereComponent', sphereComponentScheme);
 componentRegistry.RegisterClass('RefreshSingleComponent', refreshSingleComponentScheme);
 componentRegistry.RegisterClass('RefreshEntityComponent', refreshEntityComponentScheme);
+componentRegistry.RegisterClass('ModelComponent', modelComponentScheme);
 
 export * from './ActorStateComponentScheme';
 export * from './ComponentRegistry';
 export * from './FlowComponentScheme';
 export * from './GrabComponentScheme';
+export * from './ModelComponentScheme';
 export * from './MoveComponentScheme';
 export * from './RotatorComponentScheme';
 export * from './SphereFactoryScheme';

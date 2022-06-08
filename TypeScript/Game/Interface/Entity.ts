@@ -32,6 +32,7 @@ export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
         'MoveComponent',
         'NpcComponent',
         'EntitySpawnerComponent',
+        'ModelComponent',
     ],
     CharacterEntity: [],
     Entity: [],

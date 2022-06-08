@@ -1,6 +1,7 @@
 #include "EditorEvent.h"
 
 #include "KuroEditorCommon.h"
+#include "LevelEditor.h"
 #include "Selection.h"
 #include "UnrealEdGlobals.h"
 #include "Editor/TransBuffer.h"
@@ -8,7 +9,7 @@
 
 void UEditorEvent::Initialize()
 {
-	USelection::SelectionChangedEvent.AddUObject(this, &UEditorEvent::OnLevelSelectionChanged);
+	USelection::SelectionChangedEvent.AddUObject(this, &UEditorEvent::OnLevelSelectionChanged);	
 	FEditorDelegates::PreBeginPIE.AddUObject(this, &UEditorEvent::OnPreBeginPieOccured);
 	FEditorDelegates::BeginPIE.AddUObject(this, &UEditorEvent::OnBeginPieOccured);
 	FEditorDelegates::EndPIE.AddUObject(this, &UEditorEvent::OnEndPieOccured);
@@ -51,6 +52,9 @@ void UEditorEvent::LaterInitialize()
 		UTransBuffer* TransBuffer = CastChecked<UTransBuffer>(GEditor->Trans);
 		TransBuffer->OnTransactionStateChanged().AddUObject(this, &UEditorEvent::OnTransactionStateChangedOccurd);		
 	}
+
+	FLevelEditorModule& LevelEditorModule = FModuleManager::GetModuleChecked<FLevelEditorModule>( "LevelEditor");
+	LevelEditorModule.OnMapChanged().AddUObject(this, &UEditorEvent::OnMapChangedOccured);
 	
 	bLaterInitOk = true;
 }
@@ -73,6 +77,9 @@ void UEditorEvent::LaterDeinitialize()
 		UTransBuffer* TransBuffer = CastChecked<UTransBuffer>(GEditor->Trans);
 		TransBuffer->OnTransactionStateChanged().RemoveAll(this);
 	}
+
+	FLevelEditorModule& LevelEditorModule = FModuleManager::GetModuleChecked<FLevelEditorModule>( "LevelEditor");
+	LevelEditorModule.OnMapChanged().RemoveAll(this);
 	
 	bLaterInitOk = false;
 }
@@ -81,7 +88,7 @@ void UEditorEvent::Deinitialize()
 {
 	LaterDeinitialize();
 	
-	USelection::SelectionChangedEvent.RemoveAll(this);
+	USelection::SelectionChangedEvent.RemoveAll(this);	
 	FEditorDelegates::PreBeginPIE.RemoveAll(this);
 	FEditorDelegates::BeginPIE.RemoveAll(this);
 	FEditorDelegates::EndPIE.RemoveAll(this);
@@ -107,6 +114,23 @@ void UEditorEvent::Deinitialize()
 void UEditorEvent::OnLevelSelectionChanged(UObject* InObject)
 {
 	OnSelectionChanged.Broadcast();
+}
+
+EMapChangeTypeBP FormatMapChangeType(const EMapChangeType Type)
+{
+	switch (Type)
+	{
+	case EMapChangeType::LoadMap: return EMapChangeTypeBP::LoadMap;
+	case EMapChangeType::NewMap: return EMapChangeTypeBP::NewMap;
+	case EMapChangeType::SaveMap: return EMapChangeTypeBP::SaveMap;
+	case EMapChangeType::TearDownWorld: return EMapChangeTypeBP::TearDownWorld;
+		default: return EMapChangeTypeBP::Unkown;
+	}
+}
+
+void UEditorEvent::OnMapChangedOccured(UWorld* World, EMapChangeType ChangeType)
+{
+	OnMapChanged.Broadcast(World, FormatMapChangeType(ChangeType));
 }
 
 void UEditorEvent::OnPreBeginPieOccured(const bool bSimulating)

@@ -25,6 +25,24 @@ enum class ETransactionStateEventTypeBP : uint8
 	Unknown = 100 UMETA(DisplayName = "Unknwon"),
 };
 
+UENUM(BlueprintType)
+enum class EMapChangeTypeBP : uint8
+{
+	/** Map has just been loaded*/
+	LoadMap = 0 UMETA(DisplayName = "LoadMap"),
+
+	/** Map is about to be saved*/
+	SaveMap = 1 UMETA(DisplayName = "SaveMap"),
+
+	/** A new map is loaded*/
+	NewMap = 2 UMETA(DisplayName = "NewMap"),
+
+	/** The world is about to be torn down */
+	TearDownWorld = 3 UMETA(DisplayName = "TearDownWorld"),
+
+	Unkown = 100 UMETA(DisplayName = "Unkown"),
+};
+
 UCLASS(BlueprintType)
 class KUROEDITORCOMMON_API UEditorEvent: public UObject
 {
@@ -36,81 +54,85 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEvent, const AActor*, Actor);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPackageEvent, const UPackage*, Package);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWorldEvent, const UWorld*, World);	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWorldEvent2, const UWorld*, World, EMapChangeTypeBP, ChangeType);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTransactionStateChangedEvent, const FString&, Title, const FGuid&, Guid, ETransactionStateEventTypeBP, EventType);	
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnSelectionChanged;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FWorldEvent2 OnMapChanged;
+
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnPreSaveWorld;	
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 ActorPropertiesChange;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnEditCutActorsBegin;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnEditCutActorsEnd;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnEditCopyActorsBegin;
 	
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnEditCopyActorsEnd;	
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnEditPasteActorsBegin;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnEditPasteActorsEnd;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnDuplicateActorsBegin;
 	
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnDuplicateActorsEnd;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnDeleteActorsBegin;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnDeleteActorsEnd;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnNewActorsDropped OnNewActorsDropped;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnPieEvent OnPreBeginPie;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnPieEvent OnBeginPie;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnPieEvent OnEndPie;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnPieEvent OnPausePie;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnPieEvent OnResumePie;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FActorEvent	OnActorMoved;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FActorEvent	OnActorAdded;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FActorEvent	OnActorDeleted;
 	
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FPackageEvent OnPackageRemoved;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FWorldEvent OnPreSaveExternalActors;
 
-	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FTransactionStateChangedEvent OnTransactionStateChanged;
 	
 	void Initialize();
@@ -123,6 +145,7 @@ public:
 
 private:
 	void OnLevelSelectionChanged(UObject* InObject);
+	void OnMapChangedOccured(UWorld* World, EMapChangeType ChangeType);
 	void OnPreBeginPieOccured(bool bSimulating);
 	void OnBeginPieOccured(bool bSimulating);
 	void OnEndPieOccured(bool bSimulating);

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "BP_SteeringWheel12",
   "Id": 3000042,
-  "BlueprintType": "BpSteeringWheel",
+  "BlueprintType": "SteeringWheel",
   "Transform": {
     "Pos": {
       "X": -3328.000099,

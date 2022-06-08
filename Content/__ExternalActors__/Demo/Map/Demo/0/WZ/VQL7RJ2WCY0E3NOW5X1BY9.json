@@ -1,7 +1,7 @@
 ﻿{
   "Name": "村长",
   "Id": 3000067,
-  "BlueprintType": "BpAiNpcVillageHead",
+  "BlueprintType": "AiNpcVillageHead",
   "Transform": {
     "Pos": {
       "X": 5794.565166224007,

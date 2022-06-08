@@ -1,7 +1,7 @@
 ﻿{
   "Name": "水池男",
   "Id": 3000074,
-  "BlueprintType": "BpAiNpcVillage1",
+  "BlueprintType": "AiNpcVillage1",
   "Transform": {
     "Pos": {
       "X": 3728.8870592776957,

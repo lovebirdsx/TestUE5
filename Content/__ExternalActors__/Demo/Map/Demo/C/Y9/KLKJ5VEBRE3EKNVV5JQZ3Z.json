@@ -1,7 +1,7 @@
 ﻿{
   "Name": "开关1",
   "Id": 3000055,
-  "BlueprintType": "BpSwitcher1",
+  "BlueprintType": "Switcher1",
   "Transform": {
     "Pos": {
       "X": 2080,

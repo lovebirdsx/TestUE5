@@ -1,7 +1,7 @@
 ﻿{
   "Name": "守卫左",
   "Id": 3000065,
-  "BlueprintType": "BpAiNpcGuard1",
+  "BlueprintType": "AiNpcGuard1",
   "Transform": {
     "Pos": {
       "X": -889.3863730545602,

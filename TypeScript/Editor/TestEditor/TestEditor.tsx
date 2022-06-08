@@ -51,8 +51,8 @@ interface ITestEditorState {
     Tests: ITest[];
 }
 
-function fixEntityIds(): void {
-    LevelTools.FixAllEntityDataId();
+function fixEntities(): void {
+    LevelTools.FixAllEntityData();
 }
 
 function fixFlowLists(): void {
@@ -79,7 +79,7 @@ const allTests: ITest[] = [
     { Name: 'testTextListCSV', Fun: testTextListCsv },
     { Name: 'testOpenFileDialog', Fun: testOpenFileDialog, ManualRun: true },
     { Name: 'testCloseFileDialog', Fun: testSaveFileDialog, ManualRun: true },
-    { Name: 'fixEntityIds', Fun: fixEntityIds, ManualRun: true },
+    { Name: 'fixEntities', Fun: fixEntities, ManualRun: true },
     { Name: 'fixFlowLists', Fun: fixFlowLists, ManualRun: true },
     { Name: 'fixEntityTemplates', Fun: fixEntityTemplates, ManualRun: true },
 ];

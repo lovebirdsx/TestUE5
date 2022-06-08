@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsTrigger4",
   "Id": 3000008,
-  "BlueprintType": "BpTrigger",
+  "BlueprintType": "Trigger",
   "Transform": {
     "Pos": {
       "X": 835.044343,

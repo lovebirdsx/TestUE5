@@ -1,6 +1,6 @@
 ﻿{
   "Id": 2,
-  "BlueprintType": "BpNpc",
+  "BlueprintType": "Npc",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

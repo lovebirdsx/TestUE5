@@ -3,7 +3,6 @@ import { Actor, Class } from 'ue';
 
 import { TActionType } from './Action';
 import { baseActions, getActionsByComponentType, TComponentType } from './Component';
-import { EBlueprint } from './EntityPb';
 
 export type TEntityType =
     | 'AiNpc'
@@ -97,47 +96,44 @@ export function getActionsByEntityType(entity: TEntityType): TActionType[] {
 }
 
 // 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
-export enum EBlueprintId {
-    BpEntity = 0,
-    BpNpc = 1,
-    BpTrigger = 2,
-    BpPlayer = 3,
-    BpTsSphereActor = 4,
-    BpCharacterEntity = 5,
-    BpAiNpc = 6,
-    BpSpring = 7,
-    BpRotator = 8,
-    BpTrample = 9,
-    BpStateEntity = 10,
-    BpSphereFactory = 11,
-    BpUnderground = 12,
-    BpLamp = 13,
-    // Maze = 14,
-    BpSwitcher = 15,
-    BpSpringBoard = 16,
-    BpRefreshSingle = 17,
-    BpRefreshEntity = 18,
+export type TBlueprintType =
+    // eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
+    | 'Entity'
+    | 'Npc'
+    | 'Trigger'
+    | 'Player'
+    | 'TsSphereActor'
+    | 'CharacterEntity'
+    | 'AiNpc'
+    | 'Spring'
+    | 'Rotator'
+    | 'Trample'
+    | 'StateEntity'
+    | 'SphereFactory'
+    | 'Underground'
+    | 'Lamp'
+    | 'Switcher'
+    | 'SpringBoard'
+    | 'RefreshSingle'
+    | 'RefreshEntity'
 
     // ExtendedEntity
-    BpAiNpcGuard1 = 1001,
-    BpAiNpcGuard2 = 1002,
-    BpAiNpcAj = 1003,
-    BpAiNpcMother = 1004,
-    BpAiNpcVillageHead = 1005,
-    BpAiNpcVillage1 = 1006,
-    BpAiNpcVillage2 = 1007,
-    BpGate = 1008,
-    BpSteeringWheel = 1009,
-    BpSwitcher1 = 1010,
-    BpScreen = 1011,
-    BpAiNpcTrainer = 1012,
-    BpInvisible = 1013,
-    BpTrash = 1014,
-    BpMineral = 1015,
-    BpRefreshManage = 1016,
-}
-
-export type TBlueprintType = keyof typeof EBlueprint;
+    | 'AiNpcGuard1'
+    | 'AiNpcGuard2'
+    | 'AiNpcAj'
+    | 'AiNpcMother'
+    | 'AiNpcVillageHead'
+    | 'AiNpcVillage1'
+    | 'AiNpcVillage2'
+    | 'Gate'
+    | 'SteeringWheel'
+    | 'Switcher1'
+    | 'Screen'
+    | 'AiNpcTrainer'
+    | 'Invisible'
+    | 'Trash'
+    | 'Mineral'
+    | 'RefreshManage';
 
 interface IBlueprintRecord {
     Type: TBlueprintType;
@@ -216,39 +212,39 @@ function registerExtendedBlueprint(
     registerBlueprint(type, makeTsClassPath(ENTITY_EXTENDED_PATH, name), entityType);
 }
 
-registerBaseBlueprint('BpEntity', 'TsEntity', 'Entity');
-registerBaseBlueprint('BpCharacterEntity', 'TsCharacterEntity', 'CharacterEntity');
-registerBaseBlueprint('BpNpc', 'TsNpc', 'Npc');
-registerBaseBlueprint('BpTrigger', 'TsTrigger', 'Trigger');
-registerBaseBlueprint('BpTsSphereActor', 'TsSphereActor', 'SphereActor');
-registerBaseBlueprint('BpAiNpc', 'TsAiNpc', 'AiNpc');
-registerBaseBlueprint('BpSpring', 'TsSpring', 'Spring');
-registerBaseBlueprint('BpRotator', 'TsRotator', 'Rotator');
-registerBaseBlueprint('BpTrample', 'TsTrample', 'Trample');
-registerBaseBlueprint('BpStateEntity', 'TsStateEntity', 'StateEntity');
-registerBaseBlueprint('BpSphereFactory', 'TsSphereFactory', 'SphereFactory');
-registerBaseBlueprint('BpUnderground', 'TsUnderground', 'Underground');
-registerBaseBlueprint('BpLamp', 'TsLamp', 'Lamp');
-registerBaseBlueprint('BpSwitcher', 'TsSwitcher', 'Switcher');
-registerBaseBlueprint('BpSpringBoard', 'TsSpringBoard', 'SpringBoard');
-registerBaseBlueprint('BpRefreshSingle', 'TsRefreshSingle', 'RefreshSingle');
-registerBaseBlueprint('BpRefreshEntity', 'TsRefreshEntity', 'RefreshEntity');
+registerBaseBlueprint('Entity', 'TsEntity', 'Entity');
+registerBaseBlueprint('CharacterEntity', 'TsCharacterEntity', 'CharacterEntity');
+registerBaseBlueprint('Npc', 'TsNpc', 'Npc');
+registerBaseBlueprint('Trigger', 'TsTrigger', 'Trigger');
+registerBaseBlueprint('TsSphereActor', 'TsSphereActor', 'SphereActor');
+registerBaseBlueprint('AiNpc', 'TsAiNpc', 'AiNpc');
+registerBaseBlueprint('Spring', 'TsSpring', 'Spring');
+registerBaseBlueprint('Rotator', 'TsRotator', 'Rotator');
+registerBaseBlueprint('Trample', 'TsTrample', 'Trample');
+registerBaseBlueprint('StateEntity', 'TsStateEntity', 'StateEntity');
+registerBaseBlueprint('SphereFactory', 'TsSphereFactory', 'SphereFactory');
+registerBaseBlueprint('Underground', 'TsUnderground', 'Underground');
+registerBaseBlueprint('Lamp', 'TsLamp', 'Lamp');
+registerBaseBlueprint('Switcher', 'TsSwitcher', 'Switcher');
+registerBaseBlueprint('SpringBoard', 'TsSpringBoard', 'SpringBoard');
+registerBaseBlueprint('RefreshSingle', 'TsRefreshSingle', 'RefreshSingle');
+registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity', 'RefreshEntity');
 
-registerExtendedBlueprint('BpAiNpcGuard1', 'BP_AiNpcGuard1', 'AiNpc');
-registerExtendedBlueprint('BpAiNpcGuard2', 'BP_AiNpcGuard2', 'AiNpc');
-registerExtendedBlueprint('BpAiNpcAj', 'BP_AiNpcAj', 'AiNpc');
-registerExtendedBlueprint('BpAiNpcMother', 'BP_AiNpcMother', 'AiNpc');
-registerExtendedBlueprint('BpAiNpcVillageHead', 'BP_AiNpcVillageHead', 'AiNpc');
-registerExtendedBlueprint('BpAiNpcVillage1', 'BP_AiNpcVillage1', 'AiNpc');
-registerExtendedBlueprint('BpAiNpcVillage2', 'BP_AiNpcVillage2', 'AiNpc');
-registerExtendedBlueprint('BpGate', 'BP_Gate', 'StateEntity');
-registerExtendedBlueprint('BpSteeringWheel', 'BP_SteeringWheel', 'Rotator');
-registerExtendedBlueprint('BpSwitcher1', 'BP_Switcher1', 'Switcher');
-registerExtendedBlueprint('BpScreen', 'BP_Screen', 'StateEntity');
-registerExtendedBlueprint('BpAiNpcTrainer', 'BP_AiNpcTrainer', 'AiNpc');
-registerExtendedBlueprint('BpInvisible', 'BP_Invisible', 'StateEntity');
-registerExtendedBlueprint('BpTrash', 'BP_Trash', 'Switcher');
-registerExtendedBlueprint('BpMineral', 'BP_Mineral', 'RefreshSingle');
-registerExtendedBlueprint('BpRefreshManage', 'BP_RefreshManage', 'RefreshEntity');
+registerExtendedBlueprint('AiNpcGuard1', 'BP_AiNpcGuard1', 'AiNpc');
+registerExtendedBlueprint('AiNpcGuard2', 'BP_AiNpcGuard2', 'AiNpc');
+registerExtendedBlueprint('AiNpcAj', 'BP_AiNpcAj', 'AiNpc');
+registerExtendedBlueprint('AiNpcMother', 'BP_AiNpcMother', 'AiNpc');
+registerExtendedBlueprint('AiNpcVillageHead', 'BP_AiNpcVillageHead', 'AiNpc');
+registerExtendedBlueprint('AiNpcVillage1', 'BP_AiNpcVillage1', 'AiNpc');
+registerExtendedBlueprint('AiNpcVillage2', 'BP_AiNpcVillage2', 'AiNpc');
+registerExtendedBlueprint('Gate', 'BP_Gate', 'StateEntity');
+registerExtendedBlueprint('SteeringWheel', 'BP_SteeringWheel', 'Rotator');
+registerExtendedBlueprint('Switcher1', 'BP_Switcher1', 'Switcher');
+registerExtendedBlueprint('Screen', 'BP_Screen', 'StateEntity');
+registerExtendedBlueprint('AiNpcTrainer', 'BP_AiNpcTrainer', 'AiNpc');
+registerExtendedBlueprint('Invisible', 'BP_Invisible', 'StateEntity');
+registerExtendedBlueprint('Trash', 'BP_Trash', 'Switcher');
+registerExtendedBlueprint('Mineral', 'BP_Mineral', 'RefreshSingle');
+registerExtendedBlueprint('RefreshManage', 'BP_RefreshManage', 'RefreshEntity');
 
 export * from './EntityPb';

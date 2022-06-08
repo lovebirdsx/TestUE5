@@ -1,7 +1,7 @@
 ﻿{
   "Name": "水池女1",
   "Id": 3000063,
-  "BlueprintType": "BpAiNpcVillage2",
+  "BlueprintType": "AiNpcVillage2",
   "Transform": {
     "Pos": {
       "X": 4044.0182386816555,

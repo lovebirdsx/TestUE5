@@ -1,7 +1,7 @@
 ﻿{
   "Name": "大门女",
   "Id": 3000059,
-  "BlueprintType": "BpAiNpcVillage2",
+  "BlueprintType": "AiNpcVillage2",
   "Transform": {
     "Pos": {
       "X": -78.63748094543729,

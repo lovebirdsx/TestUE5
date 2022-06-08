@@ -1,6 +1,6 @@
 ﻿{
   "Id": 5,
-  "BlueprintType": "BpAiNpcAj",
+  "BlueprintType": "AiNpcAj",
   "ComponentsData": {
     "FlowComponent": {
       "InitState": {

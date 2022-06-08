@@ -1,7 +1,7 @@
 ﻿{
   "Name": "菜园女",
   "Id": 3000060,
-  "BlueprintType": "BpAiNpcVillage2",
+  "BlueprintType": "AiNpcVillage2",
   "Transform": {
     "Pos": {
       "X": 1737.0000054755856,

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "大门男",
   "Id": 3000073,
-  "BlueprintType": "BpAiNpcVillage1",
+  "BlueprintType": "AiNpcVillage1",
   "Transform": {
     "Pos": {
       "X": 542.739014587477,

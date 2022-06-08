@@ -1,7 +1,7 @@
 ﻿{
   "Name": "流浪汉",
   "Id": 3000068,
-  "BlueprintType": "BpAiNpcVillageHead",
+  "BlueprintType": "AiNpcVillageHead",
   "Transform": {
     "Pos": {
       "X": 2355.5644914396894,

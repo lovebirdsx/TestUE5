@@ -1,7 +1,7 @@
 ﻿{
   "Name": "桌子1女",
   "Id": 3000071,
-  "BlueprintType": "BpAiNpcVillage1",
+  "BlueprintType": "AiNpcVillage1",
   "Transform": {
     "Pos": {
       "X": 5038.134051720225,

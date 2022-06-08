@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsSphereFactory9",
   "Id": 3000036,
-  "BlueprintType": "BpSphereFactory",
+  "BlueprintType": "SphereFactory",
   "Transform": {
     "Pos": {
       "X": -5878.000018,

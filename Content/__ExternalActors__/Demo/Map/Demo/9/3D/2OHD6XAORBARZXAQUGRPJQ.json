@@ -1,7 +1,7 @@
 ﻿{
   "Name": "清理垃圾任务",
   "Id": 3000051,
-  "BlueprintType": "BpInvisible",
+  "BlueprintType": "Invisible",
   "Transform": {
     "Pos": {
       "X": 3579.4367614257676,

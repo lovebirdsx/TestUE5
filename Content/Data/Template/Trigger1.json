@@ -1,6 +1,6 @@
 ﻿{
   "Id": 4,
-  "BlueprintType": "BpTrigger",
+  "BlueprintType": "Trigger",
   "ComponentsData": {
     "TriggerComponent": {
       "MaxTriggerTimes": 1,

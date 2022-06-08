@@ -1,7 +1,7 @@
 ﻿{
   "Name": "王大妈",
   "Id": 3000076,
-  "BlueprintType": "BpAiNpcMother",
+  "BlueprintType": "AiNpcMother",
   "Transform": {
     "Pos": {
       "X": 3113.28724374377,

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "桌子1男",
   "Id": 3000062,
-  "BlueprintType": "BpAiNpcVillage2",
+  "BlueprintType": "AiNpcVillage2",
   "Transform": {
     "Pos": {
       "X": 5030.594613940559,

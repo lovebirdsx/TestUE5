@@ -2,7 +2,7 @@
 import { EditorLevelLibrary } from 'ue';
 
 import { listFiles } from '../../Common/File';
-import { readJsonObj } from '../../Common/Util';
+import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { IEntityTemplate } from '../../Game/Common/Operations/EntityTemplate';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
@@ -39,10 +39,11 @@ export class LevelTools {
 
         entityDatas.forEach((ed, id) => {
             // 此处可以加入针对EntityData处理的代码
+            writeJson(ed, entityPaths[id]);
         });
     }
 
-    public static FixAllEntityDataId(): void {
+    public static FixAllEntityData(): void {
         this.GetAllLevelNames().forEach((levelName) => {
             this.FixEntityDataId(levelName);
         });
@@ -59,6 +60,7 @@ export class LevelTools {
         const templates = templatePaths.map((tp) => readJsonObj<IEntityTemplate>(tp));
         templates.forEach((t, id) => {
             // 此处可以加入针对Template处理的代码
+            writeJson(t, templatePaths[id]);
         });
     }
 }

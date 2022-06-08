@@ -1,6 +1,6 @@
 ﻿{
   "Id": 8,
-  "BlueprintType": "BpTrash",
+  "BlueprintType": "Trash",
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle"

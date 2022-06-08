@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsAiNpc2",
   "Id": 3000012,
-  "BlueprintType": "BpAiNpc",
+  "BlueprintType": "AiNpc",
   "Transform": {
     "Pos": {
       "X": 927.6524064095945,

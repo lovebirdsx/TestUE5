@@ -1,7 +1,7 @@
 ﻿{
   "Name": "TsEntity22",
   "Id": 3000005,
-  "BlueprintType": "BpEntity",
+  "BlueprintType": "Entity",
   "Transform": {
     "Pos": {
       "X": -5397.999969,

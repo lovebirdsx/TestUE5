@@ -246,5 +246,3 @@ registerExtendedBlueprint('Invisible', 'BP_Invisible', 'StateEntity');
 registerExtendedBlueprint('Trash', 'BP_Trash', 'Switcher');
 registerExtendedBlueprint('Mineral', 'BP_Mineral', 'RefreshSingle');
 registerExtendedBlueprint('RefreshManage', 'BP_RefreshManage', 'RefreshEntity');
-
-export * from './EntityPb';

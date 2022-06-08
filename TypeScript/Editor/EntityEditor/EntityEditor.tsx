@@ -31,7 +31,6 @@ import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { editorEntityOp } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
-import { segmentIdGeneratorManager } from '../Common/SegmentIdGenerator';
 import { mergeEditorToConfig, openFile } from '../Common/Util';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
@@ -434,7 +433,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         // }
         //
         // Test Case 6
-        segmentIdGeneratorManager.ShowInfo();
+        // segmentIdGeneratorManager.ShowInfo();
+        //
+        // Test Case 7
+        this.LevelEditor.Test();
     };
 
     private readonly GetUndoStateStr = (): string => {

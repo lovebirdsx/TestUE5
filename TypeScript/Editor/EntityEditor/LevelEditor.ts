@@ -1,10 +1,17 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
+import {
+    Actor,
+    EditorLevelLibrary,
+    EditorOperations,
+    ETransactionStateEventTypeBP,
+    Guid,
+    TArray,
+} from 'ue';
 
 import { delay } from '../../Common/Async';
-import { error, log } from '../../Common/Log';
+import { error, log, warn } from '../../Common/Log';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
@@ -20,6 +27,10 @@ export class LevelEditor {
         editorEvent.OnDuplicateActorsEnd.Add(this.OnDuplicateActorsEnd.bind(this));
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
+
+        editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
+        editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
+        editorEvent.OnTransactionStateChanged.Add(this.OnTransactionStateChanged.bind(this));
     }
 
     public GetMapDataPath(): string {
@@ -92,5 +103,25 @@ export class LevelEditor {
             const actor = actors.Get(i);
             this.CheckEntityInit(actor);
         }
+    }
+
+    public Test(): void {
+        //
+    }
+
+    private OnActorAdded(actor: Actor): void {
+        warn(`Add [${actor.ActorLabel}]`);
+    }
+
+    private OnActorDeleted(actor: Actor): void {
+        warn(`Del [${actor.ActorLabel}]`);
+    }
+
+    private OnTransactionStateChanged(
+        title: string,
+        guid: Guid,
+        eventType: ETransactionStateEventTypeBP,
+    ): void {
+        warn(`[${title}: ${eventType}] ${guid.ToString()}`);
     }
 }

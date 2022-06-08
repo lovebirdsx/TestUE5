@@ -3,6 +3,28 @@
 #include "CoreMinimal.h"
 #include "EditorEvent.generated.h"
 
+// ETransactionStateEventType不能直接被BP调用, 所以多声明一份
+UENUM(BlueprintType)
+enum class ETransactionStateEventTypeBP : uint8
+{
+	/** A transaction has been started. This will be followed by a TransactionCanceled or TransactionFinalized event. */
+	TransactionStarted = 0 UMETA(DisplayName = "TransactionStarted"),
+
+	/** A transaction was canceled. */
+	TransactionCanceled = 1 UMETA(DisplayName = "TransactionCanceled"),
+
+	/** A transaction was finalized. */
+	TransactionFinalized = 2 UMETA(DisplayName = "TransactionFinalized"),
+
+	/** A transaction will be used used in an undo/redo operation. This will be followed by a UndoRedoFinalized event. */
+	UndoRedoStarted = 3 UMETA(DisplayName = "UndoRedoStarted"),
+
+	/** A transaction has been used in an undo/redo operation. */
+	UndoRedoFinalized = 4 UMETA(DisplayName = "UndoRedoFinalized"),
+
+	Unknown = 100 UMETA(DisplayName = "Unknwon"),
+};
+
 UCLASS(BlueprintType)
 class KUROEDITORCOMMON_API UEditorEvent: public UObject
 {
@@ -14,6 +36,7 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEvent, const AActor*, Actor);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPackageEvent, const UPackage*, Package);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWorldEvent, const UWorld*, World);	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTransactionStateChangedEvent, const FString&, Title, const FGuid&, Guid, ETransactionStateEventTypeBP, EventType);	
 
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 OnSelectionChanged;
@@ -86,6 +109,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FWorldEvent OnPreSaveExternalActors;
+
+	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FTransactionStateChangedEvent OnTransactionStateChanged;
 	
 	void Initialize();
 
@@ -116,10 +142,12 @@ private:
 	void OnDeleteActorsEndOccurd();
 	void OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors);
 	void OnActorMovedOccued(AActor* Actor);
+	void OnActorsMovedOccued(TArray<AActor*>& Actors);
 	void OnActorAddedOccued(AActor* Actor);
 	void OnActorDeletedOccued(AActor* Actor);
 	void OnPackageRemoveOccurd(UPackage *Package);
 	void OnPreSaveExternalActorsOccurd(UWorld *World);
+	void OnTransactionStateChangedOccurd(const FTransactionContext& InTransactionContext, const ETransactionStateEventType InTransactionState);
 
 	bool bLaterInitOk = false;
 };

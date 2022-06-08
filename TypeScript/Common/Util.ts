@@ -312,3 +312,15 @@ export function getAssetPath(classObj: UE.Class): string {
     const pkg = UE.EditorOperations.GetPackage(classObj);
     return pkg.GetName();
 }
+
+export function isValidActor(actor: UE.Actor): boolean {
+    let hasError = false;
+    try {
+        // eslint-disable-next-line no-self-assign
+        actor.ActorLabel = actor.ActorLabel;
+    } catch (e) {
+        hasError = true;
+    }
+
+    return !hasError;
+}

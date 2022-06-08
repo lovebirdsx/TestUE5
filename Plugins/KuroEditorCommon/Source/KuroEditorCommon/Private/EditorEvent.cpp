@@ -2,6 +2,8 @@
 
 #include "KuroEditorCommon.h"
 #include "Selection.h"
+#include "UnrealEdGlobals.h"
+#include "Editor/TransBuffer.h"
 #include "UObject/ObjectSaveContext.h"
 
 void UEditorEvent::Initialize()
@@ -40,8 +42,16 @@ void UEditorEvent::LaterInitialize()
 		return;
 	
 	GEngine->OnActorMoved().AddUObject(this, &UEditorEvent::OnActorMovedOccued);
+	GEngine->OnActorsMoved().AddUObject(this, &UEditorEvent::OnActorsMovedOccued);
 	GEngine->OnLevelActorAdded().AddUObject(this, &UEditorEvent::OnActorAddedOccued);
 	GEngine->OnLevelActorDeleted().AddUObject(this, &UEditorEvent::OnActorDeletedOccued);
+
+	if (GEditor != nullptr && GEditor->Trans != nullptr)
+	{
+		UTransBuffer* TransBuffer = CastChecked<UTransBuffer>(GEditor->Trans);
+		TransBuffer->OnTransactionStateChanged().AddUObject(this, &UEditorEvent::OnTransactionStateChangedOccurd);		
+	}
+	
 	bLaterInitOk = true;
 }
 
@@ -54,8 +64,16 @@ void UEditorEvent::LaterDeinitialize()
 		return;
 
 	GEngine->OnActorMoved().RemoveAll(this);
+	GEngine->OnActorsMoved().RemoveAll(this);
 	GEngine->OnLevelActorAdded().RemoveAll(this);
 	GEngine->OnLevelActorDeleted().RemoveAll(this);
+
+	if (GEditor != nullptr && GEditor->Trans != nullptr)
+	{
+		UTransBuffer* TransBuffer = CastChecked<UTransBuffer>(GEditor->Trans);
+		TransBuffer->OnTransactionStateChanged().RemoveAll(this);
+	}
+	
 	bLaterInitOk = false;
 }
 
@@ -174,6 +192,14 @@ void UEditorEvent::OnActorMovedOccued(AActor* Actor)
 	OnActorMoved.Broadcast(Actor);
 }
 
+void UEditorEvent::OnActorsMovedOccued(TArray<AActor*>& Actors)
+{
+	for (const AActor* Actor : Actors)
+	{
+		OnActorMoved.Broadcast(Actor);
+	}
+}
+
 void UEditorEvent::OnActorAddedOccued(AActor* Actor)
 {
 	OnActorAdded.Broadcast(Actor);
@@ -192,4 +218,23 @@ void UEditorEvent::OnPackageRemoveOccurd(UPackage* Package)
 void UEditorEvent::OnPreSaveExternalActorsOccurd(UWorld* World)
 {
 	OnPreSaveExternalActors.Broadcast(World);
+}
+
+ETransactionStateEventTypeBP FormatTransactionStateEventType(const ETransactionStateEventType Type)
+{
+	switch (Type)
+	{
+	case ETransactionStateEventType::TransactionStarted: return ETransactionStateEventTypeBP::TransactionStarted;
+	case ETransactionStateEventType::TransactionCanceled: return ETransactionStateEventTypeBP::TransactionCanceled;
+	case ETransactionStateEventType::TransactionFinalized: return ETransactionStateEventTypeBP::TransactionFinalized;
+	case ETransactionStateEventType::UndoRedoStarted: return ETransactionStateEventTypeBP::UndoRedoStarted;
+	case ETransactionStateEventType::UndoRedoFinalized: return ETransactionStateEventTypeBP::UndoRedoFinalized;
+		default: return ETransactionStateEventTypeBP::Unknown;
+	}
+}
+
+void UEditorEvent::OnTransactionStateChangedOccurd(const FTransactionContext& InTransactionContext,
+	const ETransactionStateEventType InTransactionState)
+{	
+	OnTransactionStateChanged.Broadcast(InTransactionContext.Title.ToString(), InTransactionContext.TransactionId, FormatTransactionStateEventType(InTransactionState));
 }

@@ -40,6 +40,8 @@ void UEditorEvent::LaterInitialize()
 		return;
 	
 	GEngine->OnActorMoved().AddUObject(this, &UEditorEvent::OnActorMovedOccued);
+	GEngine->OnLevelActorAdded().AddUObject(this, &UEditorEvent::OnActorAddedOccued);
+	GEngine->OnLevelActorDeleted().AddUObject(this, &UEditorEvent::OnActorDeletedOccued);
 	bLaterInitOk = true;
 }
 
@@ -52,6 +54,8 @@ void UEditorEvent::LaterDeinitialize()
 		return;
 
 	GEngine->OnActorMoved().RemoveAll(this);
+	GEngine->OnLevelActorAdded().RemoveAll(this);
+	GEngine->OnLevelActorDeleted().RemoveAll(this);
 	bLaterInitOk = false;
 }
 
@@ -168,6 +172,16 @@ void UEditorEvent::OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArra
 void UEditorEvent::OnActorMovedOccued(AActor* Actor)
 {
 	OnActorMoved.Broadcast(Actor);
+}
+
+void UEditorEvent::OnActorAddedOccued(AActor* Actor)
+{
+	OnActorAdded.Broadcast(Actor);
+}
+
+void UEditorEvent::OnActorDeletedOccued(AActor* Actor)
+{
+	OnActorDeleted.Broadcast(Actor);
 }
 
 void UEditorEvent::OnPackageRemoveOccurd(UPackage* Package)

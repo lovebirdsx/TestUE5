@@ -32,6 +32,9 @@ export class TestMap extends React.Component {
         editorEvent.OnEndPie.Add(this.OnEndPie.bind(this));
         editorEvent.OnPausePie.Add(this.OnPausePie.bind(this));
         editorEvent.OnResumePie.Add(this.OnResumePie.bind(this));
+
+        editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
+        editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
     }
 
     private readonly OnGetAllEntities = (): void => {
@@ -137,5 +140,13 @@ export class TestMap extends React.Component {
 
     private OnResumePie(): void {
         log('OnResumePie');
+    }
+
+    private OnActorAdded(actor: Actor): void {
+        log(`Add actor [${actor.ActorLabel}]`);
+    }
+
+    private OnActorDeleted(actor: Actor): void {
+        log(`Delete actor [${actor.ActorLabel}]`);
     }
 }

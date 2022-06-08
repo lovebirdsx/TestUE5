@@ -74,6 +74,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FActorEvent	OnActorMoved;
+
+	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FActorEvent	OnActorAdded;
+
+	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FActorEvent	OnActorDeleted;
 	
 	UPROPERTY(EditAnywhere, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FPackageEvent OnPackageRemoved;
@@ -110,6 +116,8 @@ private:
 	void OnDeleteActorsEndOccurd();
 	void OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors);
 	void OnActorMovedOccued(AActor* Actor);
+	void OnActorAddedOccued(AActor* Actor);
+	void OnActorDeletedOccued(AActor* Actor);
 	void OnPackageRemoveOccurd(UPackage *Package);
 	void OnPreSaveExternalActorsOccurd(UWorld *World);
 

@@ -1,14 +1,7 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import {
-    Actor,
-    EditorLevelLibrary,
-    EditorOperations,
-    ETransactionStateEventTypeBP,
-    Guid,
-    TArray,
-} from 'ue';
+import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
 import { error, log, warn } from '../../Common/Log';
@@ -18,9 +11,12 @@ import { ITsEntity } from '../../Game/Interface';
 import { saveLevelData, tryGetWorldLevelName } from '../../Game/Interface/Level';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
 import { openFile } from '../Common/Util';
+import { ActorTransactionManager } from './ActorTransactionManager';
 import { tempEntities } from './TempEntities';
 
 export class LevelEditor {
+    private readonly ActorTransactionMananger = new ActorTransactionManager();
+
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
@@ -30,7 +26,10 @@ export class LevelEditor {
 
         editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
         editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
-        editorEvent.OnTransactionStateChanged.Add(this.OnTransactionStateChanged.bind(this));
+
+        this.ActorTransactionMananger.Init();
+        this.ActorTransactionMananger.ActorAdded.AddCallback(this.OnActorAdded.bind(this));
+        this.ActorTransactionMananger.ActorDeleted.AddCallback(this.OnActorDeleted.bind(this));
     }
 
     public GetMapDataPath(): string {
@@ -115,13 +114,5 @@ export class LevelEditor {
 
     private OnActorDeleted(actor: Actor): void {
         warn(`Del [${actor.ActorLabel}]`);
-    }
-
-    private OnTransactionStateChanged(
-        title: string,
-        guid: Guid,
-        eventType: ETransactionStateEventTypeBP,
-    ): void {
-        warn(`[${title}: ${eventType}] ${guid.ToString()}`);
     }
 }

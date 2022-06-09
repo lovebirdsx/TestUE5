@@ -316,8 +316,7 @@ export function getAssetPath(classObj: UE.Class): string {
 export function isValidActor(actor: UE.Actor): boolean {
     let hasError = false;
     try {
-        // eslint-disable-next-line no-self-assign
-        actor.ActorLabel = actor.ActorLabel;
+        actor.GetTransform();
     } catch (e) {
         hasError = true;
     }

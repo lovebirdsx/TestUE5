@@ -20,7 +20,7 @@ import {
 import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
 import { toUeArray } from '../../Common/UeHelper';
-import { deepEquals, getAssetPath } from '../../Common/Util';
+import { deepEquals, getAssetPath, isValidActor } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/Common';
@@ -102,7 +102,7 @@ class LevelEditorUtil {
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
             if (isEntity(actor)) {
-                return actor as ITsEntity;
+                return isValidActor(actor) ? (actor as ITsEntity) : undefined;
             }
         }
 

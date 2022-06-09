@@ -136,6 +136,24 @@ export class ActorTransactionManager {
         }
     }
 
+    private GenOkCommands(commands: ICommand[]): ICommand[] {
+        // 如果在同一个transaction中同时存在对同一个Actor进行Move和Add/Delelete操作, 则忽略Move
+        // 否则回调时会造成访问不存在的Actor
+        const okCommands: ICommand[] = [];
+        commands.forEach((cmd) => {
+            if (
+                cmd.Type === 'moveActor' &&
+                commands.find((cmd0) => cmd0.Type !== 'moveActor' && cmd0.Actor === cmd.Actor)
+            ) {
+                return;
+            }
+
+            okCommands.push(cmd);
+        });
+
+        return okCommands;
+    }
+
     private OnTransactionStateChanged(
         title: string,
         guid: Guid,
@@ -152,6 +170,7 @@ export class ActorTransactionManager {
                 break;
             case ETransactionStateEventTypeBP.TransactionFinalized:
                 if (this.CurrentRecord.Commands.length > 0) {
+                    this.CurrentRecord.Commands = this.GenOkCommands(this.CurrentRecord.Commands);
                     this.RecordMap.set(this.CurrentRecord.Guid, this.CurrentRecord);
                     this.CurrentRecord = undefined;
                 }

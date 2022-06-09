@@ -94,12 +94,6 @@ public:
 	FEvent0 OnDuplicateActorsEnd;
 
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
-	FEvent0 OnDeleteActorsBegin;
-
-	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
-	FEvent0 OnDeleteActorsEnd;
-
-	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FOnNewActorsDropped OnNewActorsDropped;
 
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
@@ -161,8 +155,6 @@ private:
 	void OnEditPasteActorsEndOccurd();
 	void OnDuplicateActorsBeginOccurd();
 	void OnDuplicateActorsEndOccurd();
-	void OnDeleteActorsBeginOccurd();
-	void OnDeleteActorsEndOccurd();
 	void OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors);
 	void OnActorMovedOccued(AActor* Actor);
 	void OnActorsMovedOccued(TArray<AActor*>& Actors);
@@ -173,4 +165,5 @@ private:
 	void OnTransactionStateChangedOccurd(const FTransactionContext& InTransactionContext, const ETransactionStateEventType InTransactionState);
 
 	bool bLaterInitOk = false;
+	bool IsInPie = false;
 };

@@ -24,9 +24,7 @@ void UEditorEvent::Initialize()
 	FEditorDelegates::OnEditPasteActorsBegin.AddUObject(this, &UEditorEvent::OnEditPasteActorsBeginOccurd);
 	FEditorDelegates::OnEditPasteActorsEnd.AddUObject(this, &UEditorEvent::OnEditPasteActorsEndOccurd);
 	FEditorDelegates::OnDuplicateActorsBegin.AddUObject(this, &UEditorEvent::OnDuplicateActorsBeginOccurd);
-	FEditorDelegates::OnDuplicateActorsEnd.AddUObject(this, &UEditorEvent::OnDuplicateActorsEndOccurd);
-	FEditorDelegates::OnDeleteActorsBegin.AddUObject(this, &UEditorEvent::OnDeleteActorsBeginOccurd);
-	FEditorDelegates::OnDeleteActorsEnd.AddUObject(this, &UEditorEvent::OnDeleteActorsEndOccurd);
+	FEditorDelegates::OnDuplicateActorsEnd.AddUObject(this, &UEditorEvent::OnDuplicateActorsEndOccurd);	
 	FEditorDelegates::OnNewActorsDropped.AddUObject(this, &UEditorEvent::OnNewActorsDroppedOccurd);
 	FEditorDelegates::OnPackageDeleted.AddUObject(this, &UEditorEvent::OnPackageRemoveOccurd);
 	FEditorDelegates::PreSaveExternalActors.AddUObject(this, &UEditorEvent::OnPreSaveExternalActorsOccurd);
@@ -104,8 +102,6 @@ void UEditorEvent::Deinitialize()
 	FEditorDelegates::OnEditPasteActorsEnd.RemoveAll(this);
 	FEditorDelegates::OnDuplicateActorsBegin.RemoveAll(this);
 	FEditorDelegates::OnDuplicateActorsEnd.RemoveAll(this);
-	FEditorDelegates::OnDeleteActorsBegin.RemoveAll(this);
-	FEditorDelegates::OnDeleteActorsEnd.RemoveAll(this);
 	FEditorDelegates::OnNewActorsDropped.RemoveAll(this);
 	FEditorDelegates::OnPackageDeleted.RemoveAll(this);
 	FEditorDelegates::PreSaveExternalActors.RemoveAll(this);
@@ -135,16 +131,18 @@ void UEditorEvent::OnMapChangedOccured(UWorld* World, EMapChangeType ChangeType)
 
 void UEditorEvent::OnPreBeginPieOccured(const bool bSimulating)
 {
+	IsInPie = true;
 	OnPreBeginPie.Broadcast(bSimulating);	
 }
 
 void UEditorEvent::OnBeginPieOccured(const bool bSimulating)
-{
+{	
 	OnBeginPie.Broadcast(bSimulating);
 }
 
 void UEditorEvent::OnEndPieOccured(const bool bSimulating)
 {
+	IsInPie = false;
 	OnEndPie.Broadcast(bSimulating);
 }
 
@@ -199,14 +197,6 @@ void UEditorEvent::OnDuplicateActorsEndOccurd() {
 	OnDuplicateActorsEnd.Broadcast();
 }
 
-void UEditorEvent::OnDeleteActorsBeginOccurd() {
-	OnDeleteActorsBegin.Broadcast();
-}
-
-void UEditorEvent::OnDeleteActorsEndOccurd() {
-	OnDeleteActorsEnd.Broadcast();
-}
-
 void UEditorEvent::OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArray<AActor*>& Actors) {
 	OnNewActorsDropped.Broadcast(Actors);
 }
@@ -226,12 +216,20 @@ void UEditorEvent::OnActorsMovedOccued(TArray<AActor*>& Actors)
 
 void UEditorEvent::OnActorAddedOccued(AActor* Actor)
 {
-	OnActorAdded.Broadcast(Actor);
+	// 只在非Pie模式下才发送Actor添加消息, 否则会出现导致引擎奔溃的bug
+	if (!IsInPie)
+	{
+		OnActorAdded.Broadcast(Actor);
+	}
 }
 
 void UEditorEvent::OnActorDeletedOccued(AActor* Actor)
 {
-	OnActorDeleted.Broadcast(Actor);
+	// 只在非Pie模式下才发送Actor添加消息, 否则会出现导致引擎奔溃的bug
+	if (!IsInPie)
+	{
+		OnActorDeleted.Broadcast(Actor);
+	}
 }
 
 void UEditorEvent::OnPackageRemoveOccurd(UPackage* Package)

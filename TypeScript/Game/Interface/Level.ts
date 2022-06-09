@@ -5,7 +5,7 @@ import { listFiles } from '../../Common/File';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { IEntityData } from '../Interface';
 
-export type TLevelName = 'Demo' | 'TestTsEntity';
+export type TLevelName = 'Demo' | 'TestTsEntity' | 'WorldPartition';
 
 export interface ILevelConfig {
     Name: TLevelName;
@@ -15,6 +15,11 @@ export interface ILevelConfig {
 
 export const levelConfigs: ILevelConfig[] = [
     { Name: 'Demo', ContentPath: 'Demo/Map/Demo', IsPartition: true },
+    {
+        Name: 'WorldPartition',
+        ContentPath: 'Test/WorldPartition/WorldPartition',
+        IsPartition: true,
+    },
     { Name: 'TestTsEntity', ContentPath: 'Test/TsEntity/TestTsEntity', IsPartition: false },
 ];
 

@@ -21,11 +21,6 @@ export class TestMap extends React.Component {
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnDuplicateActorsBegin.Add(this.OnDuplicateActorsBegin.bind(this));
         editorEvent.OnDuplicateActorsEnd.Add(this.OnDuplicateActorsEnd.bind(this));
-
-        // Delete Actor的消息并没有正常触发
-        editorEvent.OnDeleteActorsBegin.Add(this.OnDeleteActorsBegin.bind(this));
-        editorEvent.OnDeleteActorsEnd.Add(this.OnDeleteActorsEnd.bind(this));
-
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
         editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
         editorEvent.OnBeginPie.Add(this.OnBeginPie.bind(this));
@@ -104,14 +99,6 @@ export class TestMap extends React.Component {
 
     private OnDuplicateActorsEnd(): void {
         log('OnDuplicateActorsEnd');
-    }
-
-    private OnDeleteActorsBegin(): void {
-        log('OnDeleteActorsBegin');
-    }
-
-    private OnDeleteActorsEnd(): void {
-        log('OnDeleteActorsEnd');
     }
 
     private OnNewActorsDropped(actors: TArray<Actor>): void {

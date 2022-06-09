@@ -1,4 +1,3 @@
-/* eslint-disable spellcheck/spell-checker */
 import * as UE from 'ue';
 import { Character, SkeletalMesh } from 'ue';
 
@@ -6,13 +5,13 @@ import { Component } from '../Interface';
 import { IModelComponent } from '../Interface/Component';
 
 export class ModelComponent extends Component implements IModelComponent {
+    public AnimClass: string;
+
     public MeshClass: string;
 
-    public AbpClass: string;
-
     public OnStart(): void {
-        // todo check 和设置不同才替换
         const actor = this.Entity.Actor as Character;
+
         if (this.MeshClass) {
             const mesh = SkeletalMesh.Load(this.MeshClass);
             if (mesh) {
@@ -20,8 +19,8 @@ export class ModelComponent extends Component implements IModelComponent {
             }
         }
 
-        if (this.AbpClass) {
-            const classObj = UE.Class.Load(this.AbpClass);
+        if (this.AnimClass) {
+            const classObj = UE.Class.Load(this.AnimClass + '_C');
             if (classObj) {
                 actor.Mesh.SetAnimClass(classObj);
             }

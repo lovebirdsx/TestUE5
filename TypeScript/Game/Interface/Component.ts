@@ -217,5 +217,5 @@ export interface IGrabComponent {
 
 export interface IModelComponent {
     MeshClass: string;
-    AbpClass: string;
+    AnimClass: string;
 }

@@ -26,6 +26,7 @@ import { centerTextIdScheme } from '../Scheme/Action/ShowText';
 import { spawnChildScheme } from '../Scheme/Action/Spawn';
 import { stateIdScheme } from '../Scheme/Action/State';
 import { behaviorFlowComponentScheme } from '../Scheme/Component/FlowComponentScheme';
+import { animScheme, meshScheme } from '../Scheme/Component/ModelComponentScheme';
 import { templeGuidScheme } from '../Scheme/Component/RefreshComponentScheme';
 import { triggerActionsScheme } from '../Scheme/Component/TriggerComponentSheme';
 import { csvFollowCellScheme } from '../Scheme/Csv/CsvCell';
@@ -39,6 +40,7 @@ import {
     RenderStateId,
     RenderTriggerActions,
 } from './Extend/FlowExtend';
+import { AnimSelector, MeshSelector } from './Extend/Model';
 import { Point } from './Extend/Point';
 import { RenderWhoIdsScheme } from './Extend/Sequence';
 import { Spawn } from './Extend/Spawn';
@@ -74,6 +76,8 @@ renderRegistry.RegComponent<IVectorInfo>(dirScheme, Direction);
 renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
 renderRegistry.RegComponent<number>(templeGuidScheme, TempleData);
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
+renderRegistry.RegComponent<string>(meshScheme, MeshSelector);
+renderRegistry.RegComponent<string>(animScheme, AnimSelector);
 
 export * from './Basic/Public';
 export * from './Extend/FlowList';

@@ -183,4 +183,16 @@ export abstract class CustomSegmentIdGenerator extends SegmentIdGenerator {
 
     // 返回当前已经生成的最大id, 若不存在, 则返回-1
     protected abstract GetMaxIdGenerated(): number;
+
+    // 重新扫描已经生成的id, 忽略存档文件中的记录
+    public ReScan(): void {
+        let id = this.GetMaxIdGenerated();
+        if (id < 0) {
+            id = this.MinId;
+        }
+
+        this.SaveWithId(id);
+
+        log(`Id Generator [${this.Name}] scan id to [${id}]`);
+    }
 }

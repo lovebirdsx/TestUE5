@@ -16,16 +16,16 @@ interface IEntityRecord {
 }
 
 export class LevelDataManager {
-    private MyEntityDataMap: Map<number, IEntityRecord> = undefined;
+    private MyEntityRecordMap: Map<number, IEntityRecord> = undefined;
 
     // 确保第一次保存总是能够成功
     private IsDirty = true;
 
-    private get EntityDataMap(): Map<number, IEntityRecord> {
-        if (!this.MyEntityDataMap) {
-            this.MyEntityDataMap = this.CreateEntityDataMap();
+    private get EntityRecordMap(): Map<number, IEntityRecord> {
+        if (!this.MyEntityRecordMap) {
+            this.MyEntityRecordMap = this.CreateEntityDataMap();
         }
-        return this.MyEntityDataMap;
+        return this.MyEntityRecordMap;
     }
 
     private GetAllEntityPathForNormalLevel(world: World): string[] {
@@ -76,7 +76,7 @@ export class LevelDataManager {
     }
 
     public LoadEntityData(entity: ITsEntity): IEntityData {
-        const record = this.EntityDataMap.get(entity.Id);
+        const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
             throw new Error(`No entity data for id [${entity.Id}]`);
         }
@@ -88,7 +88,7 @@ export class LevelDataManager {
         writeJson(data, path, true);
         this.IsDirty = true;
 
-        this.EntityDataMap.set(data.Id, {
+        this.EntityRecordMap.set(data.Id, {
             Path: path,
             EntityData: data,
         });
@@ -97,14 +97,14 @@ export class LevelDataManager {
     }
 
     public RemoveEntityData(entity: ITsEntity): void {
-        if (!this.EntityDataMap.has(entity.Id)) {
+        if (!this.EntityRecordMap.has(entity.Id)) {
             throw new Error(`Remove entity data while id [${entity.Id}] not found`);
         }
-        this.EntityDataMap.delete(entity.Id);
+        this.EntityRecordMap.delete(entity.Id);
     }
 
     public GetEntityData(id: number): IEntityData {
-        const result = this.EntityDataMap.get(id);
+        const result = this.EntityRecordMap.get(id);
         if (!result) {
             throw new Error(`No entity data found for id [${id}]`);
         }
@@ -121,10 +121,16 @@ export class LevelDataManager {
         openFile(this.GetMapDataPath());
     }
 
+    public ForeachEntityData(cb: (ed: IEntityData, path: string) => void): void {
+        this.EntityRecordMap.forEach((record) => {
+            cb(record.EntityData, record.Path);
+        });
+    }
+
     private SaveImpl(): void {
         const savePath = this.GetMapDataPath();
         const entityDatas: IEntityData[] = [];
-        this.EntityDataMap.forEach((record) => {
+        this.EntityRecordMap.forEach((record) => {
             entityDatas.push(record.EntityData);
         });
 

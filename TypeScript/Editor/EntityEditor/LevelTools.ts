@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EditorLevelLibrary, EFileRoot, MyFileHelper } from 'ue';
+import { EFileRoot, MyFileHelper } from 'ue';
 
 import { listFiles } from '../../Common/File';
 import { readJsonObj, writeJson } from '../../Common/Util';
@@ -69,16 +69,6 @@ export function saveLevelData(levelName: TLevelName, path: string): void {
 export class LevelTools {
     public static GetAllLevelNames(): TLevelName[] {
         return levelConfigs.map((level) => level.Name);
-    }
-
-    public static GetAllEntityDataPathOfCurrentLevel(): string[] {
-        const world = EditorLevelLibrary.GetEditorWorld();
-        return getAllEntityDataPath(world.GetName() as TLevelName);
-    }
-
-    public static GetAllEntityDataOfCurrentLevel(): IEntityData[] {
-        const paths = this.GetAllEntityDataPathOfCurrentLevel();
-        return paths.map((path) => readJsonObj<IEntityData>(path));
     }
 
     public static GetAllEntityTemplatePath(): string[] {

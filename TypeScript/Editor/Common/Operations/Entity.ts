@@ -2,14 +2,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary } from 'ue';
 
-import { LevelTools } from '../../EntityEditor/LevelTools';
+import { levelDataManager } from '../LevelDataManager';
 import { CustomSegmentIdGenerator } from '../SegmentIdGenerator';
 
 export class EntityIdGenerator extends CustomSegmentIdGenerator {
     protected GetMaxIdGenerated(): number {
-        const entityDatas = LevelTools.GetAllEntityDataOfCurrentLevel();
         let result = -1;
-        entityDatas.forEach((ed) => {
+        levelDataManager.ForeachEntityData((ed, path) => {
             if (this.ContainsId(ed.Id) && ed.Id > result) {
                 result = ed.Id;
             }

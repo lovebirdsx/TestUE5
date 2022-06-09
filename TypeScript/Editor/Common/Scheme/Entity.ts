@@ -66,7 +66,7 @@ class EntityRegistry {
     }
 
     private GenComponentsData(entity: ITsEntity): TComponentsData {
-        const entityData = levelDataManager.LoadEntityData(entity);
+        const entityData = levelDataManager.TryGetEntityData(entity);
         const componentsData: TComponentsData = entityData ? entityData.ComponentsData : {};
         const componentTypes = this.GetComponentTypes(entity);
 
@@ -110,7 +110,7 @@ class EntityRegistry {
 
     // 判断entity当前的数据和data中的数据是否一致
     public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
-        const oldData = levelDataManager.LoadEntityData(entity);
+        const oldData = levelDataManager.GetEntityData(entity);
         return entity.Id !== data.Id || !deepEquals(data, oldData);
     }
 }

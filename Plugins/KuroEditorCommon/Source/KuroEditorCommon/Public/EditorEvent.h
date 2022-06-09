@@ -64,7 +64,10 @@ public:
 	FWorldEvent2 OnMapChanged;
 
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
-	FEvent0 OnPreSaveWorld;	
+	FEvent0 OnPreSaveWorld;
+
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FEvent0 OnPostSaveWorld;	
 
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FEvent0 ActorPropertiesChange;
@@ -145,7 +148,8 @@ private:
 	void OnEndPieOccured(bool bSimulating);
 	void OnPausePieOccured(bool bSimulating);
 	void OnResumePiePieOccured(bool bSimulating);
-	void OnPreSaveWorldWithContextOccurd(UWorld* World, FObjectPreSaveContext Context);	
+	void OnPreSaveWorldWithContextOccurd(UWorld* World, FObjectPreSaveContext Context);
+	void OnPostSaveWorldWithContextOccurd(UWorld* World, FObjectPostSaveContext ObjectSaveContext);
 	void ActorPropertiesChangeOccurd();
 	void OnEditCutActorsBeginOccurd();
 	void OnEditCutActorsEndOccurd();

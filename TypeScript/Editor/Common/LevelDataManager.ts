@@ -18,8 +18,14 @@ interface IEntityRecord {
 export class LevelDataManager {
     private MyEntityRecordMap: Map<number, IEntityRecord> = undefined;
 
-    // 确保第一次保存总是能够成功
-    private IsDirty = true;
+    private readonly AddRecords: Map<number, IEntityRecord> = new Map();
+
+    private readonly DelRecords: Map<number, IEntityRecord> = new Map();
+
+    private readonly ModRecords: Map<number, IEntityRecord> = new Map();
+
+    // 第一次总是能保存成功
+    private NeedSaveMapData = true;
 
     private get EntityRecordMap(): Map<number, IEntityRecord> {
         if (!this.MyEntityRecordMap) {
@@ -75,7 +81,12 @@ export class LevelDataManager {
         return `${mapDir}/${world.GetName()}_Entities/${entity.ActorGuid.ToString()}.json`;
     }
 
-    public LoadEntityData(entity: ITsEntity): IEntityData {
+    public TryGetEntityData(entity: ITsEntity): IEntityData | undefined {
+        const record = this.EntityRecordMap.get(entity.Id);
+        return record ? record.EntityData : undefined;
+    }
+
+    public GetEntityData(entity: ITsEntity): IEntityData {
         const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
             throw new Error(`No entity data for id [${entity.Id}]`);
@@ -83,27 +94,58 @@ export class LevelDataManager {
         return record.EntityData;
     }
 
-    public SaveEntityData(entity: ITsEntity, data: IEntityData): void {
-        const path = this.GetEntityJsonPath(entity);
-        writeJson(data, path, true);
-        this.IsDirty = true;
+    public AddEntityData(entity: ITsEntity, data: IEntityData): void {
+        const oldRecord = this.EntityRecordMap.get(entity.Id);
+        if (oldRecord) {
+            throw new Error(
+                `Add entity data for [${entity.ActorLabel}:${entity.Id}] while already exist`,
+            );
+        }
 
-        this.EntityRecordMap.set(data.Id, {
-            Path: path,
+        const newRecord = {
+            Path: this.GetEntityJsonPath(entity),
             EntityData: data,
-        });
+        };
 
-        log(`Save [${entity.ActorLabel}:${entity.Id}]: ${path}`);
+        this.EntityRecordMap.set(entity.Id, newRecord);
+
+        this.AddRecords.set(data.Id, newRecord);
+        this.DelRecords.delete(data.Id);
+        this.NeedSaveMapData = true;
     }
 
-    public RemoveEntityData(entity: ITsEntity): void {
-        if (!this.EntityRecordMap.has(entity.Id)) {
+    public ModifyEntityData(entity: ITsEntity, data: IEntityData): void {
+        const record = this.EntityRecordMap.get(entity.Id);
+        if (!record) {
+            throw new Error(
+                `Modify entity data for [${entity.ActorLabel}: ${entity.Id}] while not exist`,
+            );
+        }
+
+        record.EntityData = data;
+
+        // 新添加的Entity, 在没有保存为uasset前, 不保存其EntityData, 确保两个数据同时存在
+        if (!this.AddRecords.has(entity.Id)) {
+            writeJson(record.EntityData, record.Path);
+        }
+
+        this.ModRecords.set(entity.Id, record);
+        this.NeedSaveMapData = true;
+    }
+
+    public DelEntityData(entity: ITsEntity): void {
+        const record = this.EntityRecordMap.get(entity.Id);
+        if (!record) {
             throw new Error(`Remove entity data while id [${entity.Id}] not found`);
         }
+
         this.EntityRecordMap.delete(entity.Id);
+        this.DelRecords.set(entity.Id, record);
+        this.AddRecords.delete(entity.Id);
+        this.NeedSaveMapData = true;
     }
 
-    public GetEntityData(id: number): IEntityData {
+    public GetEntityDataById(id: number): IEntityData {
         const result = this.EntityRecordMap.get(id);
         if (!result) {
             throw new Error(`No entity data found for id [${id}]`);
@@ -127,7 +169,12 @@ export class LevelDataManager {
         });
     }
 
-    private SaveImpl(): void {
+    public SaveMapData(): void {
+        if (!this.NeedSaveMapData) {
+            log('Save map date ignored because no modification exist');
+            return;
+        }
+
         const savePath = this.GetMapDataPath();
         const entityDatas: IEntityData[] = [];
         this.EntityRecordMap.forEach((record) => {
@@ -138,17 +185,28 @@ export class LevelDataManager {
             EntityDatas: entityDatas,
         };
         writeJson(levelData, savePath);
+        this.NeedSaveMapData = false;
         log(`Save level data to ${savePath}`);
     }
 
-    public Save(): void {
-        if (!this.IsDirty) {
-            log('Save map date ignored because no modification exist');
-            return;
-        }
+    private SaveAddAndDelEntities(): void {
+        this.AddRecords.forEach((record) => {
+            writeJson(record.EntityData, record.Path);
+            log(`Save [${record.EntityData.Name}:${record.EntityData.Id}]: ${record.Path}`);
+        });
 
-        this.SaveImpl();
-        this.IsDirty = false;
+        this.DelRecords.forEach((record) => {
+            MyFileHelper.Remove(record.Path);
+            log(`Remove [${record.EntityData.Name}:${record.EntityData.Id}]: ${record.Path}`);
+        });
+
+        this.AddRecords.clear();
+        this.DelRecords.clear();
+    }
+
+    public Save(): void {
+        this.SaveMapData();
+        this.SaveAddAndDelEntities();
     }
 }
 

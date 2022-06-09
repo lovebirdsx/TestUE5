@@ -39,7 +39,7 @@ class ActionsCache {
             return this.GetActionsByEntityType('AiNpc', scheme);
         }
 
-        const entityData = levelDataManager.GetEntityData(entityId);
+        const entityData = levelDataManager.GetEntityDataById(entityId);
         const entityType = getEntityTypeByBlueprintType(entityData.BlueprintType);
         if (!isInvoke) {
             return this.GetActionsByEntityType(entityType, scheme);

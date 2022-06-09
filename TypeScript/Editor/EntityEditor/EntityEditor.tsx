@@ -20,6 +20,7 @@ import { TModifyType } from '../../Common/Type';
 import { msgbox } from '../../Common/UeHelper';
 import { readJsonObj, stringifyEditor } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
+import { isEntity } from '../../Game/Entity/Common';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
@@ -33,6 +34,7 @@ import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { mergeEditorToConfig, openFile } from '../Common/Util';
+import { actorTransactionManager } from './ActorTransactionManager';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
@@ -166,7 +168,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 EditorOperations.MarkPackageDirty(entity);
             }
 
-            levelDataManager.SaveEntityData(entity, data);
+            levelDataManager.ModifyEntityData(entity, data);
             warn(`[${entity.ActorLabel}]: Auto fix entity data`);
         }
 
@@ -255,6 +257,18 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }, MS_PER_SEC * 0.2);
     };
 
+    private readonly OnPreBeginPie = (): void => {
+        levelDataManager.SaveMapData();
+    };
+
+    private readonly OnPostSaveWorld = (): void => {
+        levelDataManager.Save();
+    };
+
+    private readonly OnPreSaveExternalActors = (world: World): void => {
+        levelDataManager.Save();
+    };
+
     private readonly OnBeginPie = (): void => {
         this.setState({
             IsEditorPlaying: true,
@@ -270,32 +284,83 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }, 100);
     };
 
-    private readonly OnPreSaveExternalActors = (world: World): void => {
-        this.SaveCurrentEntity();
+    private CastToEntity(actor: Actor): ITsEntity | undefined {
+        if (!isEntity(actor)) {
+            return undefined;
+        }
+
+        const entity = actor as ITsEntity;
+        if (tempEntities.Contains(entity)) {
+            return undefined;
+        }
+
+        return entity;
+    }
+
+    private readonly OnActorAdded = (actor: Actor): void => {
+        const entity = this.CastToEntity(actor);
+        if (!entity) {
+            return;
+        }
+
+        if (!entity.Id) {
+            entity.Id = currentLevelEntityIdGenerator.GenOne();
+        }
+
+        const entityData = entityRegistry.GenData(entity);
+        levelDataManager.AddEntityData(entity, entityData);
     };
 
-    private readonly OnPackageRemoved = (pkg: Package): void => {
-        LevelEditorUtil.TryRemoveEntityByPackage(pkg);
-        this.TryRemoveEntityEditorDataByPackage(pkg);
+    private readonly OnActorDeleted = (actor: Actor): void => {
+        const entity = this.CastToEntity(actor);
+        if (!entity) {
+            return;
+        }
+
+        levelDataManager.DelEntityData(entity);
+    };
+
+    private readonly OnActorMoved = (actor: Actor): void => {
+        const entity = this.CastToEntity(actor);
+        if (!entity) {
+            return;
+        }
+
+        const entityData = entityRegistry.GenData(entity);
+        levelDataManager.ModifyEntityData(entity, entityData);
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public UNSAFE_componentWillMount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Add(this.OnSelectionChanged);
+        editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie);
         editorEvent.OnBeginPie.Add(this.OnBeginPie);
         editorEvent.OnEndPie.Add(this.OnEndPie);
+
+        // WP地图中, 如果只修改了External Actor, 是不会触发SaveWorld
+        // 故而需要再两个地方都处理EntityData的保存过程
+        editorEvent.OnPostSaveWorld.Add(this.OnPostSaveWorld);
         editorEvent.OnPreSaveExternalActors.Add(this.OnPreSaveExternalActors);
-        editorEvent.OnPackageRemoved.Add(this.OnPackageRemoved);
+
+        actorTransactionManager.ActorMoved.AddCallback(this.OnActorMoved);
+        actorTransactionManager.ActorAdded.AddCallback(this.OnActorAdded);
+        actorTransactionManager.ActorDeleted.AddCallback(this.OnActorDeleted);
     }
 
     public ComponentWillUnmount(): void {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnSelectionChanged.Remove(this.OnSelectionChanged);
+        editorEvent.OnPreBeginPie.Remove(this.OnPreBeginPie);
         editorEvent.OnBeginPie.Remove(this.OnBeginPie);
         editorEvent.OnEndPie.Remove(this.OnEndPie);
+
+        editorEvent.OnPostSaveWorld.Remove(this.OnPostSaveWorld);
         editorEvent.OnPreSaveExternalActors.Remove(this.OnPreSaveExternalActors);
-        editorEvent.OnPackageRemoved.Remove(this.OnPackageRemoved);
+
+        actorTransactionManager.ActorMoved.RemoveCallBack(this.OnActorMoved);
+        actorTransactionManager.ActorAdded.RemoveCallBack(this.OnActorAdded);
+        actorTransactionManager.ActorDeleted.RemoveCallBack(this.OnActorDeleted);
     }
 
     private get EntityState(): IEntityState {
@@ -349,7 +414,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 es.Entity.Id = es.Data.Id;
                 EditorOperations.MarkPackageDirty(es.Entity);
             }
-            levelDataManager.SaveEntityData(es.Entity, es.Data);
+            levelDataManager.ModifyEntityData(es.Entity, es.Data);
         }
 
         this.LastApplyEntityState = es;
@@ -540,9 +605,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 <HorizontalBox>
                     <Text Text={'数据文件:'} Tip={levelDataManager.GetMapDataPath()} />
                     <Btn
-                        Text={'保存'}
+                        Text={'重新生成'}
                         OnClick={(): void => {
-                            this.LevelEditor.SaveMapData();
+                            levelDataManager.SaveMapData();
                         }}
                         Tip={`保存场景状态`}
                     />

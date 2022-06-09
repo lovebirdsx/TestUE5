@@ -8,13 +8,10 @@ import {
     EditorLevelLibrary,
     EditorOperations,
     EDrawDebugTrace,
-    EFileRoot,
     ETraceTypeQuery,
     HitResult,
     KismetSystemLibrary,
-    MyFileHelper,
     NewArray,
-    Package,
     Rotator,
     Transform,
     Vector,
@@ -31,7 +28,6 @@ import { ITsEntity } from '../../Game/Interface';
 import { TComponentType } from '../../Game/Interface/Component';
 import { getClassByBluprintType } from '../../Game/Interface/Entity';
 import { levelDataManager } from './LevelDataManager';
-import { currentLevelEntityIdGenerator } from './Operations/Entity';
 import { entityRegistry } from './Scheme/Entity';
 
 class LevelEditorUtil {
@@ -96,7 +92,7 @@ class LevelEditorUtil {
     }
 
     public static GetEntityComponentData<T>(entity: ITsEntity, componentType: TComponentType): T {
-        const data = levelDataManager.LoadEntityData(entity);
+        const data = levelDataManager.GetEntityData(entity);
         return data.ComponentsData[componentType] as T;
     }
 
@@ -113,47 +109,16 @@ class LevelEditorUtil {
         return undefined;
     }
 
-    private static GetExternEntityJsonPath(pkgPath: string): string {
-        const pathBaseOnContent = pkgPath.substring(6);
-        return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
-    }
-
     public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
         if (!isForce && !EditorOperations.IsActorDirty(entity)) {
             return;
         }
 
-        if (!entity.Id) {
-            entity.Id = currentLevelEntityIdGenerator.GenOne();
-            EditorOperations.MarkPackageDirty(entity);
-        }
-
         const currentData = entityRegistry.GenData(entity);
-        const savedData = levelDataManager.LoadEntityData(entity);
+        const savedData = levelDataManager.GetEntityData(entity);
         if (!deepEquals(currentData, savedData)) {
-            levelDataManager.SaveEntityData(entity, currentData);
+            levelDataManager.ModifyEntityData(entity, currentData);
         }
-    }
-
-    // 尝试移除package对应的Entity配置数据
-    public static TryRemoveEntityByPackage(pkg: Package): void {
-        const pkgPath = pkg.GetName();
-        if (!pkgPath.includes('__ExternalActors__')) {
-            return;
-        }
-
-        const entityJsonPath = this.GetExternEntityJsonPath(pkg.GetName());
-        MyFileHelper.Remove(entityJsonPath);
-        log(`Remove: ${entityJsonPath}`);
-    }
-
-    public static CheckAndSaveCurrentEntityData(): void {
-        const entity = this.GetSelectedEntity();
-        if (!entity) {
-            return;
-        }
-
-        this.CheckAndSaveEntityData(entity, true);
     }
 
     public static CheckAndSaveAllEntityData(): void {
@@ -165,7 +130,7 @@ class LevelEditorUtil {
 
     public static SaveEntityData(entity: ITsEntity): void {
         const currentData = entityRegistry.GenData(entity);
-        levelDataManager.SaveEntityData(entity, currentData);
+        levelDataManager.ModifyEntityData(entity, currentData);
     }
 
     public static SaveAllEntityData(): void {

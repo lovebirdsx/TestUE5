@@ -16,6 +16,7 @@ void UEditorEvent::Initialize()
 	FEditorDelegates::PausePIE.AddUObject(this, &UEditorEvent::OnPausePieOccured);
 	FEditorDelegates::ResumePIE.AddUObject(this, &UEditorEvent::OnResumePiePieOccured);
 	FEditorDelegates::PreSaveWorldWithContext.AddUObject(this, &UEditorEvent::OnPreSaveWorldWithContextOccurd);	
+	FEditorDelegates::PostSaveWorldWithContext.AddUObject(this, &UEditorEvent::OnPostSaveWorldWithContextOccurd);	
 	FEditorDelegates::ActorPropertiesChange.AddUObject(this, &UEditorEvent::ActorPropertiesChangeOccurd);
 	FEditorDelegates::OnEditCutActorsBegin.AddUObject(this, &UEditorEvent::OnEditCutActorsBeginOccurd);
 	FEditorDelegates::OnEditCutActorsEnd.AddUObject(this, &UEditorEvent::OnEditCutActorsEndOccurd);
@@ -93,6 +94,7 @@ void UEditorEvent::Deinitialize()
 	FEditorDelegates::PausePIE.RemoveAll(this);
 	FEditorDelegates::ResumePIE.RemoveAll(this);
 	FEditorDelegates::PreSaveWorldWithContext.RemoveAll(this);	
+	FEditorDelegates::PostSaveWorldWithContext.RemoveAll(this);	
 	FEditorDelegates::ActorPropertiesChange.RemoveAll(this);
 	FEditorDelegates::OnEditCutActorsBegin.RemoveAll(this);
 	FEditorDelegates::OnEditCutActorsEnd.RemoveAll(this);
@@ -161,6 +163,11 @@ void UEditorEvent::OnPreSaveWorldWithContextOccurd(class UWorld* World, FObjectP
 	OnPreSaveWorld.Broadcast();
 }
 
+void UEditorEvent::OnPostSaveWorldWithContextOccurd(UWorld* World, FObjectPostSaveContext ObjectSaveContext)
+{
+	OnPostSaveWorld.Broadcast();
+}
+
 void UEditorEvent::ActorPropertiesChangeOccurd() {
 	ActorPropertiesChange.Broadcast();
 }
@@ -203,7 +210,11 @@ void UEditorEvent::OnNewActorsDroppedOccurd(const TArray<UObject*>&, const TArra
 
 void UEditorEvent::OnActorMovedOccued(AActor* Actor)
 {
-	OnActorMoved.Broadcast(Actor);
+	// 只在非Pie模式下才发送Actor添加消息, 否则会出现导致引擎奔溃的bug
+	if (!IsInPie)
+	{
+		OnActorMoved.Broadcast(Actor);		
+	}
 }
 
 void UEditorEvent::OnActorsMovedOccued(TArray<AActor*>& Actors)

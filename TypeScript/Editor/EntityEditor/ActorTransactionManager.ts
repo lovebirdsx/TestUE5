@@ -3,7 +3,7 @@ import { Actor, EditorOperations, ETransactionStateEventTypeBP, Guid } from 'ue'
 
 import { Event } from '../../Common/Util';
 
-type TCommandType = 'addActor' | 'deleteActor';
+type TCommandType = 'addActor' | 'deleteActor' | 'moveActor';
 
 interface ICommand {
     Type: TCommandType;
@@ -22,6 +22,8 @@ export class ActorTransactionManager {
 
     public readonly ActorDeleted = new Event<Actor>('ActorDeleted');
 
+    public readonly ActorMoved = new Event<Actor>('ActorMoved');
+
     private readonly RecordMap: Map<string, ITransactionRecord> = new Map();
 
     private CurrentRecord: ITransactionRecord;
@@ -30,7 +32,21 @@ export class ActorTransactionManager {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
         editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
+        editorEvent.OnActorMoved.Add(this.OnActorMoved.bind(this));
         editorEvent.OnTransactionStateChanged.Add(this.OnTransactionStateChanged.bind(this));
+
+        editorEvent.OnPostSaveWorld.Add(this.OnPostSaveWorld.bind(this));
+        editorEvent.OnPreSaveExternalActors.Add(this.OnPreSaveExternalActors.bind(this));
+    }
+
+    private OnPostSaveWorld(): void {
+        // UE在Save之后, 就清理了redo 和 undo的序列
+        this.RecordMap.clear();
+    }
+
+    private OnPreSaveExternalActors(): void {
+        // UE在Save之后, 就清理了redo 和 undo的序列
+        this.RecordMap.clear();
     }
 
     private OnActorAdded(actor: Actor): void {
@@ -59,6 +75,19 @@ export class ActorTransactionManager {
         this.ActorDeleted.Invoke(actor);
     }
 
+    private OnActorMoved(actor: Actor): void {
+        if (!this.CurrentRecord) {
+            return;
+        }
+
+        this.CurrentRecord.Commands.push({
+            Type: 'moveActor',
+            Actor: actor,
+        });
+
+        this.ActorMoved.Invoke(actor);
+    }
+
     private OnUndoRedo(guid: string, isStarted: boolean): void {
         if (this.RecordMap.has(guid)) {
             const record = this.RecordMap.get(guid);
@@ -85,6 +114,12 @@ export class ActorTransactionManager {
                             if (isStarted) {
                                 this.ActorDeleted.Invoke(cmd.Actor);
                             }
+                        }
+                        break;
+
+                    case 'moveActor':
+                        if (!isStarted) {
+                            this.ActorMoved.Invoke(cmd.Actor);
                         }
                         break;
 

@@ -12,6 +12,9 @@ export class ModelComponent extends Component implements IModelComponent {
     public OnStart(): void {
         const actor = this.Entity.Actor as Character;
 
+        if (actor.bHidden) {
+            return;
+        }
         if (this.MeshClass) {
             const mesh = SkeletalMesh.Load(this.MeshClass);
             if (mesh) {

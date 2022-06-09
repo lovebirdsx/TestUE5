@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { EditorOperations } from 'ue';
+import { $ref } from 'puerts';
+import { ARFilter, AssetData, AssetRegistryHelpers, EditorOperations, NewArray } from 'ue';
 
 import { error, log } from '../../Common/Log';
 import { loadClass } from '../../Common/Util';
@@ -64,6 +66,31 @@ class AssetListCache {
             Assets: assets,
         });
 
+        return assets;
+    }
+
+    public FindAssets(path: string, className: string): IAsset[] {
+        // 软获取，不需要加载资源进入内存
+        const assetManage = AssetRegistryHelpers.GetAssetRegistry();
+        const filter = new ARFilter();
+        if (className) {
+            filter.ClassNames.Add(className);
+        }
+        if (path) {
+            filter.ObjectPaths.Add(path);
+        }
+        const resultArray = NewArray(AssetData);
+        const result = assetManage.GetAssets(filter, $ref(resultArray));
+        const assets: IAsset[] = [];
+        if (result) {
+            for (let i = 0; i < resultArray.Num(); i++) {
+                const ad = resultArray.Get(i);
+                assets.push({
+                    Name: ad.AssetName,
+                    Path: ad.ObjectPath,
+                });
+            }
+        }
         return assets;
     }
 }

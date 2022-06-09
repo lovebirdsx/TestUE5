@@ -23,7 +23,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
 
     private get SelectedName(): string {
         const props = this.props;
-        const assets = assetListCache.LoadAssets(props.Path, props.ClassType);
+        const assets = assetListCache.FindAssets(props.Path, props.ClassType);
         const selected = assets.find(
             (assetData: IAsset) => assetData.Path === props.SelectedObjectPath,
         );
@@ -32,7 +32,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
 
     private readonly OnSelectChanged = (name: string): void => {
         const props = this.props;
-        const assets = assetListCache.LoadAssets(props.Path, props.ClassType);
+        const assets = assetListCache.FindAssets(props.Path, props.ClassType);
         const selected = assets.find((assetData: IAsset) => assetData.Name === name);
         this.props.OnObjectPathChanged(selected ? selected.Path : '');
     };
@@ -59,7 +59,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
         }
 
         this.CachedNames = [];
-        const assets = assetListCache.LoadAssets(path, classType);
+        const assets = assetListCache.FindAssets(path, classType);
         assets.forEach((asset: IAsset) => this.CachedNames.push(asset.Name));
         return this.CachedNames;
     }

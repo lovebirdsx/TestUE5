@@ -44,6 +44,11 @@
       "Content": "",
       "Icon": "",
       "Disabled": false
+    },
+    "ModelComponent": {
+      "MeshClass": "",
+      "AnimClass": "",
+      "Disabled": false
     }
   }
 }

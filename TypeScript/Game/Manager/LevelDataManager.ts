@@ -4,7 +4,7 @@ import { GameConfig } from '../Common/GameConfig';
 import { entityIdAllocator } from '../Common/Operations/Entity';
 import { EntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { gameContext, IEntityData, ILevelDataManager } from '../Interface';
-import { ILevelData, tryGetWorldLevelName } from '../Interface/Level';
+import { ILevelData } from '../Interface/Level';
 import { IManager } from './Interface';
 
 export class LevelDataManager implements IManager, ILevelDataManager {
@@ -16,14 +16,11 @@ export class LevelDataManager implements IManager, ILevelDataManager {
 
     public Init(): void {
         const world = gameContext.World;
-        const levelName = tryGetWorldLevelName(world.GetName());
-        if (levelName) {
-            const levelDataPath = GameConfig.GetCurrentLevelDataPath(world);
-            const levelData = readJsonObj<ILevelData>(levelDataPath, { EntityDatas: [] });
-            levelData.EntityDatas.forEach((ed) => {
-                this.EntityDataMap.set(ed.Id, ed);
-            });
-        }
+        const levelDataPath = GameConfig.GetCurrentLevelDataPath(world);
+        const levelData = readJsonObj<ILevelData>(levelDataPath, { EntityDatas: [] });
+        levelData.EntityDatas.forEach((ed) => {
+            this.EntityDataMap.set(ed.Id, ed);
+        });
     }
 
     public Exit(): void {}

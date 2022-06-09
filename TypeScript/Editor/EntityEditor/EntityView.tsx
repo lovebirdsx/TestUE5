@@ -10,8 +10,8 @@ import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { IEntityData, ITsEntity } from '../../Game/Interface';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
+import { levelDataManager } from '../Common/LevelDataManager';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { editorEntityOp } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
@@ -35,7 +35,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
     };
 
     private readonly OnClickBtnOpenJson = (): void => {
-        const entityEditorSavePath = editorEntityOp.GetEntityJsonPath(this.props.Entity);
+        const entityEditorSavePath = levelDataManager.GetEntityJsonPath(this.props.Entity);
         openFile(entityEditorSavePath);
     };
 

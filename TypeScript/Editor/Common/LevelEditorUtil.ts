@@ -30,7 +30,8 @@ import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { TComponentType } from '../../Game/Interface/Component';
 import { getClassByBluprintType } from '../../Game/Interface/Entity';
-import { currentLevelEntityIdGenerator, editorEntityOp } from './Operations/Entity';
+import { levelDataManager } from './LevelDataManager';
+import { currentLevelEntityIdGenerator } from './Operations/Entity';
 import { entityRegistry } from './Scheme/Entity';
 
 class LevelEditorUtil {
@@ -95,7 +96,7 @@ class LevelEditorUtil {
     }
 
     public static GetEntityComponentData<T>(entity: ITsEntity, componentType: TComponentType): T {
-        const data = editorEntityOp.LoadEntityData(entity);
+        const data = levelDataManager.LoadEntityData(entity);
         return data.ComponentsData[componentType] as T;
     }
 
@@ -128,9 +129,9 @@ class LevelEditorUtil {
         }
 
         const currentData = entityRegistry.GenData(entity);
-        const savedData = editorEntityOp.LoadEntityData(entity);
+        const savedData = levelDataManager.LoadEntityData(entity);
         if (!deepEquals(currentData, savedData)) {
-            editorEntityOp.SaveEntityData(entity, currentData);
+            levelDataManager.SaveEntityData(entity, currentData);
         }
     }
 
@@ -164,7 +165,7 @@ class LevelEditorUtil {
 
     public static SaveEntityData(entity: ITsEntity): void {
         const currentData = entityRegistry.GenData(entity);
-        editorEntityOp.SaveEntityData(entity, currentData);
+        levelDataManager.SaveEntityData(entity, currentData);
     }
 
     public static SaveAllEntityData(): void {

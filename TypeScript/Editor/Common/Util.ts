@@ -1,7 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { EditorOperations, EFileRoot, MyFileHelper, PythonScriptLibrary } from 'ue';
+import {
+    EditorOperations,
+    EFileRoot,
+    MyFileHelper,
+    Object as UeObject,
+    PythonScriptLibrary,
+} from 'ue';
 
 import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Util';
 
@@ -99,4 +105,11 @@ export function setMacAddress(addr: string): void {
 
 export function getMacAddress(): string {
     return macAddress;
+}
+
+// 获得对象所在资源相对于Content目录的路径(不包含扩展名)
+// eg. /Game/Demo/Map/Demo => Demo/Map/Demo
+export function getContentPackageName(obj: UeObject): string {
+    const pkg = EditorOperations.GetPackage(obj);
+    return pkg.GetName().substring(6);
 }

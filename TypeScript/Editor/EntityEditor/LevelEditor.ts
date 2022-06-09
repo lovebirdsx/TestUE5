@@ -4,19 +4,17 @@
 import { Actor, EditorLevelLibrary, EditorOperations, TArray } from 'ue';
 
 import { delay } from '../../Common/Async';
-import { error, log, warn } from '../../Common/Log';
+import { log, warn } from '../../Common/Log';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
-import { saveLevelData, tryGetWorldLevelName } from '../../Game/Interface/Level';
+import { levelDataManager } from '../Common/LevelDataManager';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
-import { openFile } from '../Common/Util';
-import { ActorTransactionManager } from './ActorTransactionManager';
+import { getContentPackageName } from '../Common/Util';
+import { actorTransactionManager } from './ActorTransactionManager';
 import { tempEntities } from './TempEntities';
 
 export class LevelEditor {
-    private readonly ActorTransactionMananger = new ActorTransactionManager();
-
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnPreBeginPie.Add(this.OnPreBeginPie.bind(this));
@@ -24,34 +22,12 @@ export class LevelEditor {
         editorEvent.OnEditPasteActorsEnd.Add(this.OnEditPasteActorsEnd.bind(this));
         editorEvent.OnNewActorsDropped.Add(this.OnNewActorsDropped.bind(this));
 
-        editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
-        editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
-
-        this.ActorTransactionMananger.Init();
-        this.ActorTransactionMananger.ActorAdded.AddCallback(this.OnActorAdded.bind(this));
-        this.ActorTransactionMananger.ActorDeleted.AddCallback(this.OnActorDeleted.bind(this));
-    }
-
-    public GetMapDataPath(): string {
-        const world = EditorLevelLibrary.GetEditorWorld() || EditorLevelLibrary.GetGameWorld();
-        return GameConfig.GetCurrentLevelDataPath(world);
+        actorTransactionManager.ActorAdded.AddCallback(this.OnActorAdded.bind(this));
+        actorTransactionManager.ActorDeleted.AddCallback(this.OnActorDeleted.bind(this));
     }
 
     public SaveMapData(): void {
-        const world = EditorLevelLibrary.GetEditorWorld() || EditorLevelLibrary.GetGameWorld();
-        const levelName = tryGetWorldLevelName(world.GetName());
-        if (!levelName) {
-            error(`Can not save map data, no level name for world [${world.GetName()}]`);
-            return;
-        }
-
-        const savePath = this.GetMapDataPath();
-        saveLevelData(levelName, savePath);
-        log(`Save level data to ${savePath}`);
-    }
-
-    public OpenMapDataFile(): void {
-        openFile(this.GetMapDataPath());
+        levelDataManager.Save();
     }
 
     public GetMapSavePath(): string {
@@ -105,7 +81,10 @@ export class LevelEditor {
     }
 
     public Test(): void {
-        //
+        const world = EditorLevelLibrary.GetEditorWorld();
+        log(`Is in WPLevel = ${EditorOperations.IsInWpLevel(world)}`);
+        log(getContentPackageName(world));
+        log(EditorOperations.GetPackage(world).GetName());
     }
 
     private OnActorAdded(actor: Actor): void {

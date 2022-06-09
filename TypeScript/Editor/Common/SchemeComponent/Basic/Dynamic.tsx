@@ -9,11 +9,11 @@ import { addArray, subArray } from '../../../../Common/Util';
 import { IActionInfo, IInvoke, TActionType } from '../../../../Game/Interface/Action';
 import {
     getActionsByEntityType,
-    getEntityTypeByActor,
+    getEntityTypeByBlueprintType,
     TEntityType,
 } from '../../../../Game/Interface/Entity';
 import { Check, COLOR_LEVEL3, List, Text } from '../../BaseComponent/CommonComponent';
-import { entityListCache } from '../../EntityListCache';
+import { levelDataManager } from '../../LevelDataManager';
 import { ActionScheme } from '../../Scheme/Action/Action';
 import { actionRegistry } from '../../Scheme/Action/Public';
 import { entityIdContext, invokeContext } from '../Context';
@@ -39,12 +39,8 @@ class ActionsCache {
             return this.GetActionsByEntityType('AiNpc', scheme);
         }
 
-        const entity = entityListCache.GetEntityById(entityId);
-        if (!entity) {
-            return [];
-        }
-
-        const entityType = getEntityTypeByActor(entity);
+        const entityData = levelDataManager.GetEntityData(entityId);
+        const entityType = getEntityTypeByBlueprintType(entityData.BlueprintType);
         if (!isInvoke) {
             return this.GetActionsByEntityType(entityType, scheme);
         }

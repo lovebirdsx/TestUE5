@@ -27,8 +27,8 @@ import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
+import { levelDataManager } from '../Common/LevelDataManager';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { editorEntityOp } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { mergeEditorToConfig, openFile } from '../Common/Util';
@@ -164,7 +164,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 EditorOperations.MarkPackageDirty(entity);
             }
 
-            editorEntityOp.SaveEntityData(entity, data);
+            levelDataManager.SaveEntityData(entity, data);
             warn(`[${entity.ActorLabel}]: Auto fix entity data`);
         }
 
@@ -347,7 +347,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 es.Entity.Id = es.Data.Id;
                 EditorOperations.MarkPackageDirty(es.Entity);
             }
-            editorEntityOp.SaveEntityData(es.Entity, es.Data);
+            levelDataManager.SaveEntityData(es.Entity, es.Data);
         }
 
         this.LastApplyEntityState = es;
@@ -532,7 +532,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return (
             <VerticalBox>
                 <HorizontalBox>
-                    <Text Text={'数据文件:'} Tip={this.LevelEditor.GetMapDataPath()} />
+                    <Text Text={'数据文件:'} Tip={levelDataManager.GetMapDataPath()} />
                     <Btn
                         Text={'保存'}
                         OnClick={(): void => {
@@ -543,7 +543,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     <Btn
                         Text={'打开'}
                         OnClick={(): void => {
-                            this.LevelEditor.OpenMapDataFile();
+                            levelDataManager.OpenMapDataFile();
                         }}
                         Tip={`打开地图配置文件`}
                     />

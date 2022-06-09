@@ -26,21 +26,14 @@ export class ActorTransactionManager {
 
     private CurrentRecord: ITransactionRecord;
 
-    public Init(): void {
+    public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
-        editorEvent.OnActorAdded.Add(this.OnActorAdded);
-        editorEvent.OnActorDeleted.Add(this.OnActorDeleted);
-        editorEvent.OnTransactionStateChanged.Add(this.OnTransactionStateChanged);
+        editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
+        editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
+        editorEvent.OnTransactionStateChanged.Add(this.OnTransactionStateChanged.bind(this));
     }
 
-    public Exit(): void {
-        const editorEvent = EditorOperations.GetEditorEvent();
-        editorEvent.OnActorAdded.Remove(this.OnActorAdded);
-        editorEvent.OnActorDeleted.Remove(this.OnActorDeleted);
-        editorEvent.OnTransactionStateChanged.Remove(this.OnTransactionStateChanged);
-    }
-
-    private readonly OnActorAdded = (actor: Actor): void => {
+    private OnActorAdded(actor: Actor): void {
         if (!this.CurrentRecord) {
             return;
         }
@@ -49,9 +42,11 @@ export class ActorTransactionManager {
             Type: 'addActor',
             Actor: actor,
         });
-    };
 
-    private readonly OnActorDeleted = (actor: Actor): void => {
+        this.ActorAdded.Invoke(actor);
+    }
+
+    private OnActorDeleted(actor: Actor): void {
         if (!this.CurrentRecord) {
             return;
         }
@@ -60,7 +55,9 @@ export class ActorTransactionManager {
             Type: 'deleteActor',
             Actor: actor,
         });
-    };
+
+        this.ActorDeleted.Invoke(actor);
+    }
 
     private OnUndoRedo(guid: string, isStarted: boolean): void {
         if (this.RecordMap.has(guid)) {
@@ -104,11 +101,11 @@ export class ActorTransactionManager {
         }
     }
 
-    private readonly OnTransactionStateChanged = (
+    private OnTransactionStateChanged(
         title: string,
         guid: Guid,
         eventType: ETransactionStateEventTypeBP,
-    ): void => {
+    ): void {
         switch (eventType) {
             case ETransactionStateEventTypeBP.TransactionStarted:
                 this.CurrentRecord = {
@@ -134,5 +131,7 @@ export class ActorTransactionManager {
             default:
                 break;
         }
-    };
+    }
 }
+
+export const actorTransactionManager = new ActorTransactionManager();

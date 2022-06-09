@@ -228,3 +228,8 @@ UPackage* UEditorOperations::GetPackage(UObject* Object)
 {
 	return Object->GetPackage();
 }
+
+bool UEditorOperations::IsInWpLevel(const UWorld* World)
+{
+	return World->PersistentLevel->IsUsingExternalActors();	
+}

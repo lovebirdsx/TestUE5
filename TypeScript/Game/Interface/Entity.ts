@@ -161,7 +161,7 @@ function registerBlueprint(type: TBlueprintType, classPath: string, entityType: 
     blueprintByClass.set(classObj, record);
 }
 
-export function getEntityTypeByBlueprintId(id: TBlueprintType): TEntityType | undefined {
+export function getEntityTypeByBlueprintType(id: TBlueprintType): TEntityType | undefined {
     const record = blueprintByType.get(id);
     return record ? record.EntityType : undefined;
 }

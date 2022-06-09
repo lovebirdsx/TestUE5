@@ -13,7 +13,7 @@ import {
     getEntityTypeByActor,
     TEntityType,
 } from '../../../Game/Interface/Entity';
-import { editorEntityOp } from '../Operations/Entity';
+import { levelDataManager } from '../LevelDataManager';
 import { componentRegistry } from './Component/ComponentRegistry';
 
 class EntityRegistry {
@@ -66,7 +66,7 @@ class EntityRegistry {
     }
 
     private GenComponentsData(entity: ITsEntity): TComponentsData {
-        const entityData = editorEntityOp.LoadEntityData(entity);
+        const entityData = levelDataManager.LoadEntityData(entity);
         const componentsData: TComponentsData = entityData ? entityData.ComponentsData : {};
         const componentTypes = this.GetComponentTypes(entity);
 
@@ -110,7 +110,7 @@ class EntityRegistry {
 
     // 判断entity当前的数据和data中的数据是否一致
     public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
-        const oldData = editorEntityOp.LoadEntityData(entity);
+        const oldData = levelDataManager.LoadEntityData(entity);
         return entity.Id !== data.Id || !deepEquals(data, oldData);
     }
 }

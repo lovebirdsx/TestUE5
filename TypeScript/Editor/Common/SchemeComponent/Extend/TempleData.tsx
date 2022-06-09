@@ -8,7 +8,7 @@ import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTempl
 import { IEntityData, TComponentsData } from '../../../../Game/Interface';
 import {
     getComponentsTypeByEntityType,
-    getEntityTypeByBlueprintId,
+    getEntityTypeByBlueprintType,
 } from '../../../../Game/Interface/Entity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
@@ -70,7 +70,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
         const componentsState = this.state.TempleData
             ? this.state.TempleData
             : template.ComponentsData;
-        const entityType = getEntityTypeByBlueprintId(template.BlueprintType);
+        const entityType = getEntityTypeByBlueprintType(template.BlueprintType);
         const componentClassObjs = getComponentsTypeByEntityType(entityType);
 
         return (

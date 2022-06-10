@@ -111,7 +111,7 @@ class EntityRegistry {
     // 判断entity当前的数据和data中的数据是否一致
     public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
         const oldData = levelDataManager.GetEntityData(entity);
-        return entity.Id !== data.Id || !deepEquals(data, oldData);
+        return !deepEquals(data, oldData);
     }
 }
 

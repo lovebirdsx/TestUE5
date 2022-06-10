@@ -158,7 +158,7 @@ class LevelEditorUtil {
         entities.forEach((entity) => {
             totalErrorCount += this.CheckEntity(entity);
         });
-        log(`检查完毕, 实体树:${entities.length} 错误数:${totalErrorCount}`);
+        log(`检查完毕, 实体数:${entities.length} 错误数:${totalErrorCount}`);
     }
 
     public static SpawnEntity(templateId: number, iTransform: ITransform): ITsEntity {

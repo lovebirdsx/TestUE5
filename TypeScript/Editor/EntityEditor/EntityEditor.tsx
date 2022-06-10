@@ -3,19 +3,11 @@
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import {
-    Actor,
-    EditorOperations,
-    EFileRoot,
-    ESlateSizeRule,
-    MyFileHelper,
-    Package,
-    World,
-} from 'ue';
+import { Actor, EditorOperations, EFileRoot, ESlateSizeRule, MyFileHelper, World } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
 import { formatColor } from '../../Common/Color';
-import { log, warn } from '../../Common/Log';
+import { log } from '../../Common/Log';
 import { TModifyType } from '../../Common/Type';
 import { msgbox } from '../../Common/UeHelper';
 import { readJsonObj, stringifyEditor } from '../../Common/Util';
@@ -33,7 +25,7 @@ import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
-import { mergeEditorToConfig, openFile } from '../Common/Util';
+import { deepCopyData, getContentPackageName, mergeEditorToConfig, openFile } from '../Common/Util';
 import { actorTransactionManager } from './ActorTransactionManager';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';
@@ -77,8 +69,6 @@ function canRedo(state: IEntityEditorState): boolean {
 }
 
 export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
-    private LastApplyEntityState: IEntityState;
-
     private LastSavedEntityState: IEntityState;
 
     private readonly LevelEditor: LevelEditor = new LevelEditor();
@@ -96,7 +86,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             IdToSearch: editorConfig.EntityIdToSearch || 1,
             EntityRecords: editorConfig.EntityRecords,
         };
-        this.LastApplyEntityState = initEntityState;
     }
 
     private get IsLocked(): boolean {
@@ -122,13 +111,16 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private GenEntityEditorJsonPath(entity: ITsEntity): string | undefined {
+        // WP 类型的entity
         const pkgPath = EditorOperations.GetExternActorSavePath(entity);
-        if (!pkgPath) {
-            return undefined;
+        if (pkgPath) {
+            const pathBaseOnContent = pkgPath.substring(6);
+            return MyFileHelper.GetPath(EFileRoot.Save, pathBaseOnContent) + '.json';
         }
 
-        const pathBaseOnContent = pkgPath.substring(6);
-        return MyFileHelper.GetPath(EFileRoot.Save, pathBaseOnContent) + '.json';
+        // 非WP类型的entity
+        const mapContentPath = getContentPackageName(entity);
+        return MyFileHelper.GetPath(EFileRoot.Save, `${mapContentPath}_Entities/${entity.Id}.json`);
     }
 
     private LoadEntityEditorData(entity: ITsEntity): IEntityData | undefined {
@@ -140,58 +132,35 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return readJsonObj(path);
     }
 
-    private TryRemoveEntityEditorDataByPackage(pkg: Package): void {
-        const pkgPath = pkg.GetName();
-        if (!pkgPath.includes('__ExternalActors__')) {
-            return;
-        }
-
-        const pathBaseOnContent = pkgPath.substring(6);
-        const path = MyFileHelper.GetPath(EFileRoot.Save, pathBaseOnContent) + '.json';
-        MyFileHelper.Remove(path);
-    }
-
     private SaveEntityEditorData(entity: ITsEntity, data: IEntityData): void {
         const entityEditorSavePath = this.GenEntityEditorJsonPath(entity);
-        if (!entityEditorSavePath) {
-            return;
-        }
-
         MyFileHelper.Write(entityEditorSavePath, stringifyEditor(data));
     }
 
+    private DeleteEntityEditorData(entity: ITsEntity): void {
+        const entityEditorSavePath = this.GenEntityEditorJsonPath(entity);
+        MyFileHelper.Remove(entityEditorSavePath);
+    }
+
     private GenEntityState(entity: ITsEntity): IEntityState {
-        const data = entityRegistry.GenData(entity);
-        if (entityRegistry.IsDataModified(entity, data)) {
-            if (entity.Id !== data.Id) {
-                entity.Id = data.Id;
-                EditorOperations.MarkPackageDirty(entity);
-            }
-
-            levelDataManager.ModifyEntityData(entity, data);
-            warn(`[${entity.ActorLabel}]: Auto fix entity data`);
-        }
-
-        const editorData = this.LoadEntityEditorData(entity);
-        if (editorData) {
-            mergeEditorToConfig(data, editorData);
-        }
+        // 此处不能直接使用LevelDataManager中获得的EntityData
+        // 因为其可能由produce产生, 从而不能进行修改操作
+        const data = deepCopyData(levelDataManager.GetEntityData(entity));
+        const editorData = this.LoadEntityEditorData(entity) || {};
 
         return {
             Entity: entity,
-            Data: data,
+            Data: mergeEditorToConfig(data, editorData),
         };
     }
 
-    private SaveCurrentEntity(): void {
+    private SaveCurrentEntityEditorData(): void {
         const entityState = this.EntityState;
         if (!entityState || !entityState.Entity || this.LastSavedEntityState === entityState) {
             return;
         }
 
         this.LastSavedEntityState = entityState;
-        LevelEditorUtil.CheckAndSaveEntityData(entityState.Entity);
-
         this.SaveEntityEditorData(entityState.Entity, entityState.Data);
     }
 
@@ -243,13 +212,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 return;
             }
 
-            this.SaveCurrentEntity();
+            log(`[${entity.ActorLabel} ${entity.Id}] Selected`);
+
+            this.SaveCurrentEntityEditorData();
 
             const entityState = this.GenEntityState(entity);
-
-            // 记录状态是为了正确更新Actor是否被修改,避免错误标记Actor的dirty状态
-            this.LastApplyEntityState = entityState;
-
             this.RecordEntityState(entityState, 'normal');
 
             entity.OnDestroyed.Remove(this.OnEntityDestory);
@@ -303,10 +270,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        if (!entity.Id) {
-            entity.Id = currentLevelEntityIdGenerator.GenOne();
-        }
-
+        entity.Id = currentLevelEntityIdGenerator.GenOne();
+        log(`[${entity.ActorLabel} ${entity.Id}] Added`);
         const entityData = entityRegistry.GenData(entity);
         levelDataManager.AddEntityData(entity, entityData);
     };
@@ -317,7 +282,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
+        log(`[${entity.ActorLabel} ${entity.Id}] Deleted`);
         levelDataManager.DelEntityData(entity);
+        this.DeleteEntityEditorData(entity);
+
+        // 如果删除的是当前选择的Entity, 则需要重新更新选择
+        if (this.EntityState.Entity === entity) {
+            this.OnEntityDestory(entity);
+        }
     };
 
     private readonly OnActorMoved = (actor: Actor): void => {
@@ -405,19 +377,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         const es = this.EntityState;
-        if (es === this.LastApplyEntityState || !es.Entity) {
+        if (!es.Entity) {
             return;
         }
 
-        if (entityRegistry.IsDataModified(es.Entity, es.Data)) {
-            if (es.Entity.Id !== es.Data.Id) {
-                es.Entity.Id = es.Data.Id;
-                EditorOperations.MarkPackageDirty(es.Entity);
-            }
-            levelDataManager.ModifyEntityData(es.Entity, es.Data);
-        }
-
-        this.LastApplyEntityState = es;
+        levelDataManager.ModifyEntityData(es.Entity, es.Data);
     }
 
     private RenderEntity(): JSX.Element {

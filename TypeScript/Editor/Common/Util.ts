@@ -65,7 +65,11 @@ export function pasteObject<T>(type: string): T {
     return data as T;
 }
 
-export function mergeEditorToConfig(config: unknown, editor: unknown): object {
+export function deepCopyData<T>(data: T): T {
+    return JSON.parse(JSON.stringify(data)) as T;
+}
+
+export function mergeEditorToConfig<T>(config: T, editor: unknown): T {
     if (typeof config !== 'object' || typeof editor !== 'object') {
         throw new Error('Can only merge object');
     }
@@ -77,10 +81,7 @@ export function mergeEditorToConfig(config: unknown, editor: unknown): object {
             // editor有可能落后于config,从而出现editor中多出的object
             // 由于editor的字段只可能存在于已有的config的object中,故而忽略
             if (typeof v1 === 'object') {
-                config[key] = mergeEditorToConfig(
-                    v1 as Record<string, unknown>,
-                    v2 as Record<string, unknown>,
-                );
+                config[key] = mergeEditorToConfig(v1, v2);
             }
         } else {
             if (v1 === undefined) {

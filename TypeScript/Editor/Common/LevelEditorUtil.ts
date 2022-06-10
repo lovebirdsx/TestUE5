@@ -101,8 +101,8 @@ class LevelEditorUtil {
 
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
-            if (isEntity(actor)) {
-                return isValidActor(actor) ? (actor as ITsEntity) : undefined;
+            if (isEntity(actor) && isValidActor(actor)) {
+                return actor as ITsEntity;
             }
         }
 

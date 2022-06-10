@@ -73,6 +73,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private readonly LevelEditor: LevelEditor = new LevelEditor();
 
+    private readonly EntityAddRecrod: Set<ITsEntity> = new Set();
+
     public constructor(props: unknown) {
         super(props);
         const initEntityState = this.GenEntityStateBySelect();
@@ -191,6 +193,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         entity.OnDestroyed.Remove(this.OnEntityDestory);
     };
 
+    private InitForNewlyAddedEntity(entity: ITsEntity): void {
+        entity.Id = currentLevelEntityIdGenerator.GenOne();
+        const entityData = entityRegistry.GenData(entity);
+        levelDataManager.AddEntityData(entity, entityData);
+        log(`[${entity.ActorLabel} ${entity.Id}] Added`);
+    }
+
     private readonly OnSelectionChanged = (): void => {
         // 不是马上执行,而延迟一下,是为了避免以下情况:
         // 拷贝粘贴Actor时,此时的Selection还没有转移到新的Actor身上
@@ -210,6 +219,15 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
             if (tempEntities.Contains(entity)) {
                 return;
+            }
+
+            // 当在编辑器中直接拷贝Entity时, 在AddActor回调后会以被拷贝的Entity进行赋值, 所以在该
+            // 回调中进行的赋值操作会被覆盖, 故而在此统一做初始化操作
+            if (this.EntityAddRecrod.size > 0) {
+                this.EntityAddRecrod.forEach((entity) => {
+                    this.InitForNewlyAddedEntity(entity);
+                });
+                this.EntityAddRecrod.clear();
             }
 
             log(`[${entity.ActorLabel} ${entity.Id}] Selected`);
@@ -270,10 +288,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        entity.Id = currentLevelEntityIdGenerator.GenOne();
-        log(`[${entity.ActorLabel} ${entity.Id}] Added`);
-        const entityData = entityRegistry.GenData(entity);
-        levelDataManager.AddEntityData(entity, entityData);
+        this.EntityAddRecrod.add(entity);
     };
 
     private readonly OnActorDeleted = (actor: Actor): void => {
@@ -295,6 +310,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private readonly OnActorMoved = (actor: Actor): void => {
         const entity = this.CastToEntity(actor);
         if (!entity) {
+            return;
+        }
+
+        // 新增加的Entity还没有正确初始化, levelDataManager不能对其进行操作
+        if (this.EntityAddRecrod.has(entity)) {
             return;
         }
 

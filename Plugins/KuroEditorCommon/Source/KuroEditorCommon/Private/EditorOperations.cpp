@@ -138,8 +138,53 @@ void UEditorOperations::WriteNumberConfig(const FString Key, const float Value)
 	FKuroEditorCommonModule::GetInstance()->SaveJsonConfig();
 }
 
+FString UEditorOperations::ReadStringIni(const FString Section, const FString Key)
+{
+	const auto IniConfig = FKuroEditorCommonModule::GetInstance()->GetIniConfig();
+	FString Result;
+	IniConfig->GetString(*Section, *Key, Result);	
+	return Result;	
+}
+
+bool UEditorOperations::ReadBoolIni(FString Section, FString Key)
+{
+	const auto IniConfig = FKuroEditorCommonModule::GetInstance()->GetIniConfig();
+	bool Result = false;
+	IniConfig->GetBool(*Section, *Key, Result);	
+	return Result;
+}
+
+float UEditorOperations::ReadNumberIni(FString Section, FString Key)
+{
+	const auto IniConfig = FKuroEditorCommonModule::GetInstance()->GetIniConfig();
+	float Result;
+	IniConfig->GetFloat(*Section, *Key, Result);	
+	return Result;
+}
+
+void UEditorOperations::WriteStringIni(FString Section, FString Key, FString Value)
+{
+	const auto IniConfig = FKuroEditorCommonModule::GetInstance()->GetIniConfig();	
+	IniConfig->SetString(*Section, *Key, *Value);
+	FKuroEditorCommonModule::GetInstance()->SaveIniConfig();
+}
+
+void UEditorOperations::WriteBoolIni(FString Section, FString Key, bool Value)
+{
+	const auto IniConfig = FKuroEditorCommonModule::GetInstance()->GetIniConfig();	
+	IniConfig->SetBool(*Section, *Key, Value);
+	FKuroEditorCommonModule::GetInstance()->SaveIniConfig();
+}
+
+void UEditorOperations::WriteNumberIni(FString Section, FString Key, float Value)
+{
+	const auto IniConfig = FKuroEditorCommonModule::GetInstance()->GetIniConfig();	
+	IniConfig->SetFloat(*Section, *Key, Value);
+	FKuroEditorCommonModule::GetInstance()->SaveIniConfig();
+}
+
 bool UEditorOperations::OpenFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes,
-	TArray<FString>& OutFilenames)
+                                       TArray<FString>& OutFilenames)
 {
 	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
 	const void* ParentWindowWindowHandle = FSlateApplication::Get().FindBestParentWindowHandleForDialogs(nullptr);

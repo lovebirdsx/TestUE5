@@ -9,6 +9,8 @@ DEFINE_LOG_CATEGORY(KuroEditorCommon);
 
 #define JSON_CONFIG_PATH "EditorSave.json"
 
+#define INT_CONFIG_PATH "Editor.ini"
+
 static FKuroEditorCommonModule* Instance;
 
 void FKuroEditorCommonModule::StartupModule()
@@ -23,6 +25,9 @@ void FKuroEditorCommonModule::StartupModule()
 
 	JsonConfig = new UE::FJsonConfig();
 	JsonConfig->LoadFromFile(UMyFileHelper::GetPath(EFileRoot::Save, JSON_CONFIG_PATH));
+
+	IniConfig = new FConfigFile();
+	IniConfig->Read(UMyFileHelper::GetPath(EFileRoot::Save, INT_CONFIG_PATH));
 }
 
 void FKuroEditorCommonModule::ShutdownModule()
@@ -32,7 +37,8 @@ void FKuroEditorCommonModule::ShutdownModule()
 	EditorEvent->RemoveFromRoot();
 	Instance = nullptr;
 
-	delete JsonConfig;	 
+	delete JsonConfig;
+	delete IniConfig;
 }
 
 FKuroEditorCommonModule* FKuroEditorCommonModule::GetInstance()
@@ -76,6 +82,11 @@ bool FKuroEditorCommonModule::GetIfWaitJSDebug()
 void FKuroEditorCommonModule::SaveJsonConfig()
 {
 	JsonConfig->SaveToFile(UMyFileHelper::GetPath(EFileRoot::Save, JSON_CONFIG_PATH));
+}
+
+void FKuroEditorCommonModule::SaveIniConfig()
+{
+	IniConfig->Write(UMyFileHelper::GetPath(EFileRoot::Save, INT_CONFIG_PATH));
 }
 
 void FKuroEditorCommonModule::StopAllJsEnv()

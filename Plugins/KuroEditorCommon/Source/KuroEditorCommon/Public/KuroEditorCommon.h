@@ -32,7 +32,11 @@ public:
 
 	FJsonConfig* GetJsonConfig() { return JsonConfig; }
 
+	FConfigFile* GetIniConfig() { return IniConfig; }
+
 	void SaveJsonConfig();
+
+	void SaveIniConfig();
 
 private:
 	void StopAllJsEnv();	
@@ -40,4 +44,5 @@ private:
 	bool bWaitJSDebug = false;
 	UEditorEvent *EditorEvent = nullptr;
 	FJsonConfig *JsonConfig = nullptr;
+	FConfigFile *IniConfig = nullptr;
 };

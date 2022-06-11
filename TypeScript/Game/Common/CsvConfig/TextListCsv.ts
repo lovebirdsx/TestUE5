@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { createCsvFieldEx, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 
 export interface TextRow extends TCsvRowBase {
     Key: bigint;
@@ -11,29 +11,29 @@ export interface TextRow extends TCsvRowBase {
 }
 
 const textListCsvFields: ICsvField[] = [
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Key',
         CnName: '主键',
         Type: 'Long',
         Filter: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'FlowListId',
         CnName: '剧情名',
         Filter: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Id',
         CnName: '文本Id',
         Type: 'Int',
         Filter: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Text',
         CnName: '文本内容',
         Localization: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Sound',
         CnName: '声音',
     }),

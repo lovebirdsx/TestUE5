@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
-    createCsvFieldEx,
+    createCsvField,
     CsvLoader,
     GlobalCsv,
     ICsv,
@@ -20,7 +20,7 @@ export interface GlobalConfigRow extends TCsvRowBase {
 }
 
 const globalConfigCsvFields: ICsvField[] = [
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Id',
         CnName: 'Id',
         Type: 'Int',
@@ -28,24 +28,24 @@ const globalConfigCsvFields: ICsvField[] = [
         Condition: 'notEmpty && unique',
         RenderType: 'Int',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Name',
         CnName: '变量名',
         Filter: '1',
         Condition: 'notEmpty && unique',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Desc',
         CnName: '说明',
         Filter: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Type',
         CnName: '变量类型',
         Condition: 'notEmpty',
         RenderType: 'CellType',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Value',
         CnName: '值',
         Localization: '1',

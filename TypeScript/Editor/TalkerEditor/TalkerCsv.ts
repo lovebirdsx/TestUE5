@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { createCsvFieldEx, CsvLoader, ICsvField, TCsvRowBase } from '../../Common/CsvLoader';
+import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from '../../Common/CsvLoader';
 
 export interface TalkerRow extends TCsvRowBase {
     Id: number;
@@ -10,7 +10,7 @@ export interface TalkerRow extends TCsvRowBase {
 }
 
 const textListCsvFields: ICsvField[] = [
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Id',
         CnName: 'Id',
         Type: 'Int',
@@ -18,16 +18,16 @@ const textListCsvFields: ICsvField[] = [
         Condition: 'notEmpty && unique',
         RenderType: 'Int',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Name',
         CnName: '说话人',
         Localization: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'CameraBindTag',
         CnName: '镜头绑定Tag',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'HeadIconAsset',
         CnName: '头像资源',
         RenderType: 'HeadIcon',

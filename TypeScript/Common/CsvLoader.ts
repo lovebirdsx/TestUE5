@@ -117,7 +117,7 @@ function createDefaultCsvFiledEx(): ICsvField {
     };
 }
 
-export function createCsvFieldEx(
+export function createCsvField(
     value: RequiredField<Partial<ICsvField>, 'CnName' | 'Name'>,
 ): ICsvField {
     const result = createDefaultCsvFiledEx();

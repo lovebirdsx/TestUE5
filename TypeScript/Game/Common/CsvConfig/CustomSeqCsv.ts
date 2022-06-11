@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { createCsvFieldEx, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 
 export interface CustomSeqRow extends TCsvRowBase {
     Id: number;
@@ -10,7 +10,7 @@ export interface CustomSeqRow extends TCsvRowBase {
 }
 
 const customSeqCsvFields: ICsvField[] = [
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Id',
         CnName: 'Id',
         Type: 'Int',
@@ -18,19 +18,19 @@ const customSeqCsvFields: ICsvField[] = [
         Condition: 'notEmpty && unique',
         RenderType: 'Int',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'Name',
         CnName: '名字',
         Filter: '1',
         Localization: '1',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'SeqDataPath',
         CnName: 'SeqData文件',
         Filter: '0',
         RenderType: 'SequenceData',
     }),
-    createCsvFieldEx({
+    createCsvField({
         Name: 'BinderType',
         CnName: '目标绑定类型',
         Filter: '0',

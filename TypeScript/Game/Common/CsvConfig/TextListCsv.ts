@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { CsvLoader, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvFieldEx, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 
 export interface TextRow extends TCsvRowBase {
     Key: bigint;
@@ -10,57 +10,33 @@ export interface TextRow extends TCsvRowBase {
     Sound: string;
 }
 
-const textListCsvFields: ICsvFieldEx[] = [
-    {
-        ExportType: 'C',
+const textListCsvFields: ICsvField[] = [
+    createCsvFieldEx({
         Name: 'Key',
+        CnName: '主键',
         Type: 'Long',
         Filter: '1',
-        Localization: '0',
-        Condition: '',
-        Default: '',
-        CnName: '主键',
-    },
-    {
-        ExportType: 'C',
+    }),
+    createCsvFieldEx({
         Name: 'FlowListId',
-        Type: 'String',
-        Filter: '1',
-        Localization: '0',
-        Condition: '',
-        Default: '',
         CnName: '剧情名',
-    },
-    {
-        ExportType: 'C',
+        Filter: '1',
+    }),
+    createCsvFieldEx({
         Name: 'Id',
+        CnName: '文本Id',
         Type: 'Int',
         Filter: '1',
-        Localization: '0',
-        Condition: '',
-        Default: '',
-        CnName: '文本Id',
-    },
-    {
-        ExportType: 'C',
+    }),
+    createCsvFieldEx({
         Name: 'Text',
-        Type: 'String',
-        Filter: '0',
-        Localization: '1',
-        Condition: '',
-        Default: '',
         CnName: '文本内容',
-    },
-    {
-        ExportType: 'C',
+        Localization: '1',
+    }),
+    createCsvFieldEx({
         Name: 'Sound',
-        Type: 'String',
-        Filter: '0',
-        Localization: '0',
-        Condition: '',
-        Default: '',
         CnName: '声音',
-    },
+    }),
 ];
 
 export class TextListCsvLoader extends CsvLoader<TextRow> {

@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvFieldEx, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 
 export interface IFlowListRow extends TCsvRowBase {
     Id: string;
@@ -7,26 +7,17 @@ export interface IFlowListRow extends TCsvRowBase {
 }
 
 const flowListCsvFields: ICsvField[] = [
-    {
-        ExportType: 'C',
+    createCsvFieldEx({
         Name: 'Id',
-        Type: 'String',
-        Filter: '1',
-        Localization: '0',
-        Condition: 'notEmpty && unique',
-        Default: '',
         CnName: 'Id',
-    },
-    {
-        ExportType: 'C',
+        Filter: '1',
+        Condition: 'notEmpty && unique',
+    }),
+    createCsvFieldEx({
         Name: 'Json',
-        Type: 'String',
-        Filter: '0',
-        Localization: '0',
-        Condition: '',
-        Default: '',
         CnName: 'Json字符串',
-    },
+        Filter: '0',
+    }),
 ];
 
 export class FlowListCsvLoader extends CsvLoader<IFlowListRow> {

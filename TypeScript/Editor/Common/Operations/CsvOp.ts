@@ -2,7 +2,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 
-import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
+import { ICsv, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TCsvValueType } from '../../../Common/Type';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
@@ -22,11 +22,11 @@ class EditorCsvOp {
         });
     }
 
-    public IsIndexField(field: ICsvFieldEx): boolean {
+    public IsIndexField(field: ICsvField): boolean {
         return field.Filter === '1' && (field.Type === 'Int' || field.Type === 'Long');
     }
 
-    public GetIndexField(csv: ICsv): ICsvFieldEx {
+    public GetIndexField(csv: ICsv): ICsvField {
         return csv.FiledTypes.find((field) => this.IsIndexField(field));
     }
 
@@ -74,7 +74,7 @@ class EditorCsvOp {
                     row[field.Name] = maxId + 1n;
                 }
             } else {
-                const typeData = csvScheme.GetSchme(field.Meta);
+                const typeData = csvScheme.GetSchme(field.RenderType);
                 row[field.Name] = typeData.CreateDefault() as TCsvValueType;
             }
         });

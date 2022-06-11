@@ -5,14 +5,14 @@ import * as React from 'react';
 import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
 
 import { TColor } from '../../../Common/Color';
-import { ICsv, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
+import { ICsv, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log } from '../../../Common/Log';
 import { TCsvValueType, TModifyType } from '../../../Common/Type';
 import { editorCsvOp } from '../Operations/CsvOp';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
 import { Any } from '../SchemeComponent/Basic/Public';
 import { csvCellContext } from '../SchemeComponent/Context';
-import { Btn, EditorBox, SlotText, Text } from './CommonComponent';
+import { Btn, EditorBox, SlotText } from './CommonComponent';
 import { ContextBtn } from './ContextBtn';
 
 export interface ICsvViewProps {
@@ -71,7 +71,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         this.props.OnModify(newCsv);
     }
 
-    private RenderFilter(fieldTypes: ICsvFieldEx[]): JSX.Element[] {
+    private RenderFilter(fieldTypes: ICsvField[]): JSX.Element[] {
         const gridRowId = this.CurrGridRowId++;
         const filterTexts = this.props.FilterTexts;
         const result = fieldTypes.map((field, index) => {
@@ -100,7 +100,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         return result;
     }
 
-    private RenderHead(fieldTypes: ICsvFieldEx[]): JSX.Element[] {
+    private RenderHead(fieldTypes: ICsvField[]): JSX.Element[] {
         const gridRowId = this.CurrGridRowId++;
         const result = fieldTypes.map((field, index) => {
             const slot: GridSlot = { Row: gridRowId, Column: index };
@@ -136,7 +136,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         this.props.OnModify(newCsv);
     }
 
-    private IsInFilter(fieldTypes: ICsvFieldEx[], row: TCsvRowBase): boolean {
+    private IsInFilter(fieldTypes: ICsvField[], row: TCsvRowBase): boolean {
         const filterTexts = this.props.FilterTexts;
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < fieldTypes.length; i++) {
@@ -151,7 +151,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         return true;
     }
 
-    private RenderRow(fieldTypes: ICsvFieldEx[], row: TCsvRowBase, rowId: number): JSX.Element[] {
+    private RenderRow(fieldTypes: ICsvField[], row: TCsvRowBase, rowId: number): JSX.Element[] {
         if (!this.IsInFilter(fieldTypes, row)) {
             return [];
         }
@@ -160,16 +160,6 @@ export class CsvView extends React.Component<ICsvViewProps> {
         const gridRowId = this.CurrGridRowId++;
         const result = fieldTypes.map((field, index) => {
             const slot: GridSlot = { Row: gridRowId, Column: index };
-            if (!field.Meta) {
-                return (
-                    <Text
-                        Text={'未知类型'}
-                        Tip={'请配置对应Csv字段的Meta成员'}
-                        Slot={slot}
-                        key={`${rowId}-${index}`}
-                    />
-                );
-            }
 
             // 索引字段不能直接修改
             if (editorCsvOp.IsIndexField(field)) {
@@ -202,7 +192,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
                         <Any
                             Color={color}
                             Value={row[field.Name]}
-                            Scheme={csvScheme.GetSchme(field.Meta)}
+                            Scheme={csvScheme.GetSchme(field.RenderType)}
                             OnModify={(value: unknown, type: TModifyType): void => {
                                 this.ModifyValue(rowId, field.Name, value as TCsvValueType);
                             }}
@@ -214,7 +204,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         return result;
     }
 
-    private RenderRows(fieldTypes: ICsvFieldEx[], rows: TCsvRowBase[]): JSX.Element[] {
+    private RenderRows(fieldTypes: ICsvField[], rows: TCsvRowBase[]): JSX.Element[] {
         const result: JSX.Element[] = [];
         rows.forEach((row, id) => {
             result.push(...this.RenderRow(fieldTypes, row, id));

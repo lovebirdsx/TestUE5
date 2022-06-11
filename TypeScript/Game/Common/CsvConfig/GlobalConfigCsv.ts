@@ -1,11 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
+    createCsvFieldEx,
     CsvLoader,
-    ECsvCellRenderType,
     GlobalCsv,
     ICsv,
-    ICsvFieldEx,
+    ICsvField,
     parseCsvValue,
     TCsvCellType,
     TCsvRowBase,
@@ -19,72 +19,38 @@ export interface GlobalConfigRow extends TCsvRowBase {
     Value: string;
 }
 
-const globalConfigCsvFields: ICsvFieldEx[] = [
-    {
-        ExportType: 'C',
+const globalConfigCsvFields: ICsvField[] = [
+    createCsvFieldEx({
         Name: 'Id',
+        CnName: 'Id',
         Type: 'Int',
         Filter: '1',
-        Localization: '0',
         Condition: 'notEmpty && unique',
-        Default: '',
-        CnName: 'Id',
-        Meta: {
-            RenderType: ECsvCellRenderType.Int,
-        },
-    },
-    {
-        ExportType: 'C',
+        RenderType: 'Int',
+    }),
+    createCsvFieldEx({
         Name: 'Name',
-        Type: 'String',
-        Filter: '1',
-        Localization: '0',
-        Condition: 'notEmpty && unique',
-        Default: '',
         CnName: '变量名',
-        Meta: {
-            RenderType: ECsvCellRenderType.String,
-        },
-    },
-    {
-        ExportType: 'C',
-        Name: 'Desc',
-        Type: 'String',
         Filter: '1',
-        Localization: '0',
-        Condition: '',
-        Default: '',
+        Condition: 'notEmpty && unique',
+    }),
+    createCsvFieldEx({
+        Name: 'Desc',
         CnName: '说明',
-        Meta: {
-            RenderType: ECsvCellRenderType.String,
-        },
-    },
-    {
-        ExportType: 'C',
+        Filter: '1',
+    }),
+    createCsvFieldEx({
         Name: 'Type',
-        Type: 'String',
-        Filter: '0',
-        Localization: '0',
-        Condition: 'notEmpty',
-        Default: '',
         CnName: '变量类型',
-        Meta: {
-            RenderType: ECsvCellRenderType.CellType,
-        },
-    },
-    {
-        ExportType: 'C',
+        Condition: 'notEmpty',
+        RenderType: 'CellType',
+    }),
+    createCsvFieldEx({
         Name: 'Value',
-        Type: 'String',
-        Filter: '0',
-        Localization: '1',
-        Condition: '',
-        Default: '',
         CnName: '值',
-        Meta: {
-            RenderType: ECsvCellRenderType.FollowCell,
-        },
-    },
+        Localization: '1',
+        RenderType: 'FollowCell',
+    }),
 ];
 
 export class GlobalConfigCsvLoader extends CsvLoader<GlobalConfigRow> {

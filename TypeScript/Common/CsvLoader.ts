@@ -5,6 +5,7 @@ import { MyFileHelper } from 'ue';
 import { LineReader, LineWriter } from './LineStream';
 import { log, warn } from './Log';
 import { TCsvValueType } from './Type';
+import { RequiredField } from './Util';
 
 export const csvCellTypeConfig = {
     Int: {
@@ -45,6 +46,17 @@ export type TExportType = typeof exportType[number];
 export type TValueType = typeof valueType[number];
 export type TBoolType = typeof boolType[number];
 
+export type TCsvCellRenderType =
+    | 'Boolean'
+    | 'CameraBinderMode'
+    | 'CellType'
+    | 'Float'
+    | 'FollowCell'
+    | 'HeadIcon'
+    | 'Int'
+    | 'SequenceData'
+    | 'String';
+
 export interface ICsvField {
     ExportType: TExportType;
     Name: string;
@@ -54,6 +66,7 @@ export interface ICsvField {
     Condition: string;
     Default: string;
     CnName: string;
+    RenderType: TCsvCellRenderType;
 }
 
 type TCsvFieldKey = keyof ICsvField;
@@ -61,6 +74,7 @@ type TCsvFieldKey = keyof ICsvField;
 interface IValidateType {
     CnName: string;
     Range?: readonly string[];
+    IgnoreSerialize?: boolean;
 }
 
 const csvFieldValidValues: { [key in keyof ICsvField]: IValidateType } = {
@@ -72,6 +86,7 @@ const csvFieldValidValues: { [key in keyof ICsvField]: IValidateType } = {
     Condition: { CnName: '条件检查' },
     Default: { CnName: '默认值' },
     CnName: { CnName: '#' },
+    RenderType: { CnName: '', IgnoreSerialize: true },
 };
 
 export enum ECsvCellRenderType {
@@ -86,26 +101,40 @@ export enum ECsvCellRenderType {
     String,
 }
 
-export interface ICsvMeta {
-    RenderType: ECsvCellRenderType;
-}
-
 export type TCsvRowBase = Record<string, TCsvValueType>;
 
-export interface ICsvFieldEx extends ICsvField {
-    Meta?: ICsvMeta;
+function createDefaultCsvFiledEx(): ICsvField {
+    return {
+        ExportType: 'C',
+        Name: 'default',
+        Type: 'String',
+        Filter: '0',
+        Localization: '0',
+        Condition: '',
+        Default: '',
+        CnName: '未知',
+        RenderType: 'String',
+    };
+}
+
+export function createCsvFieldEx(
+    value: RequiredField<Partial<ICsvField>, 'CnName' | 'Name'>,
+): ICsvField {
+    const result = createDefaultCsvFiledEx();
+    Object.assign(result, value);
+    return result;
 }
 
 export interface ICsv {
     Name: string;
-    FiledTypes: ICsvFieldEx[];
+    FiledTypes: ICsvField[];
     Rows: TCsvRowBase[];
 }
 
 export class GlobalCsv implements ICsv {
     public Name: string;
 
-    public FiledTypes: ICsvFieldEx[];
+    public FiledTypes: ICsvField[];
 
     public Rows: TCsvRowBase[];
 
@@ -115,16 +144,16 @@ export class GlobalCsv implements ICsv {
 }
 
 export class CsvLoader<TCsvRow extends TCsvRowBase> {
-    public readonly FiledTypes: ICsvFieldEx[];
+    public readonly FiledTypes: ICsvField[];
 
     public readonly Name: string;
 
     // 每一列对应的FieldName
     private ColumeNames: string[];
 
-    private readonly FieldMap = new Map<string, ICsvFieldEx>();
+    private readonly FieldMap = new Map<string, ICsvField>();
 
-    public constructor(name: string, fieldTypes: ICsvFieldEx[]) {
+    public constructor(name: string, fieldTypes: ICsvField[]) {
         // 检查是否存在索引,filter字段用于表示该功能
         let filterCount = 0;
         fieldTypes.forEach((e) => {
@@ -191,11 +220,17 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
 
     private ReadHeader(reader: LineReader): void {
         for (const key in csvFieldValidValues) {
+            const validater = csvFieldValidValues[key as TCsvFieldKey];
+            if (validater.IgnoreSerialize) {
+                continue;
+            }
+
             if (reader.isEnd) {
                 throw new Error(
                     `CSV [${this.Name}] header row count [${reader.totalLine}] not enough`,
                 );
             }
+
             const tockens = reader.readNext();
             this.CheckHeadline(tockens, key as TCsvFieldKey);
         }
@@ -243,7 +278,10 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
 
     private WriteHeader(writer: LineWriter): void {
         for (const key in csvFieldValidValues) {
-            this.WriteHeadLine(writer, key as TCsvFieldKey);
+            const validater = csvFieldValidValues[key as TCsvFieldKey];
+            if (!validater.IgnoreSerialize) {
+                this.WriteHeadLine(writer, key as TCsvFieldKey);
+            }
         }
     }
 

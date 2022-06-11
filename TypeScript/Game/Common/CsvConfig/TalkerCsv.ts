@@ -1,65 +1,36 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { CsvLoader, ECsvCellRenderType, ICsvFieldEx, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvFieldEx, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
 
 export interface TalkerRow extends TCsvRowBase {
     Id: number;
     Name: string;
 }
 
-const textListCsvFields: ICsvFieldEx[] = [
-    {
-        ExportType: 'C',
+const textListCsvFields: ICsvField[] = [
+    createCsvFieldEx({
         Name: 'Id',
+        CnName: 'Id',
         Type: 'Int',
         Filter: '1',
-        Localization: '0',
         Condition: 'notEmpty && unique',
-        Default: '',
-        CnName: 'Id',
-        Meta: {
-            RenderType: ECsvCellRenderType.Int,
-        },
-    },
-    {
-        ExportType: 'C',
+        RenderType: 'Int',
+    }),
+    createCsvFieldEx({
         Name: 'Name',
-        Type: 'String',
+        CnName: '说话人',
         Filter: '1',
         Localization: '1',
-        Condition: '',
-        Default: '',
-        CnName: '说话人',
-        Meta: {
-            RenderType: ECsvCellRenderType.String,
-        },
-    },
-    {
-        ExportType: 'C',
+    }),
+    createCsvFieldEx({
         Name: 'CameraBindTag',
-        Type: 'String',
-        Filter: '0',
-        Localization: '0',
-        Condition: '',
-        Default: '',
         CnName: '镜头绑定Tag',
-        Meta: {
-            RenderType: ECsvCellRenderType.String,
-        },
-    },
-    {
-        ExportType: 'C',
+    }),
+    createCsvFieldEx({
         Name: 'HeadIconAsset',
-        Type: 'String',
-        Filter: '0',
-        Localization: '0',
-        Condition: '',
-        Default: '',
         CnName: '头像资源',
-        Meta: {
-            RenderType: ECsvCellRenderType.HeadIcon,
-        },
-    },
+        RenderType: 'HeadIcon',
+    }),
 ];
 
 export class TalkerCsvLoader extends CsvLoader<TalkerRow> {

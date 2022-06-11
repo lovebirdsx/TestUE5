@@ -1,0 +1,9 @@
+﻿客户端/服务端 使用,C,C,C,C
+字段名,Id,Name,EntityBp,EntityTemplateId
+字段数据类型,String,String,String,String
+该字段是否用于条件筛选,1,0,0,0
+是否导出多语言,0,0,0,0
+条件检查,,,,
+默认值,,,,
+#,Id,名字,蓝图,实体模板
+,Test,测试,/Game/Blueprints/ExtendedEntity/BP_AiNpcGuard1.BP_AiNpcGuard1,0

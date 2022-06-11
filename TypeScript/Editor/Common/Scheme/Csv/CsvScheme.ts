@@ -7,6 +7,7 @@ import {
     Scheme,
     stringScheme,
 } from '../../../../Common/Type';
+import { entityBpScheme, entityTemplateIdScheme } from '../Action/Entity';
 import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
 import { headIconScheme } from '../Action/Talker';
 import { csvCellTypeScheme, csvFollowCellScheme } from './CsvCell';
@@ -21,6 +22,8 @@ const csvSchemaMap: { [key in TCsvCellRenderType]: Scheme } = {
     FollowCell: csvFollowCellScheme,
     SequenceData: seqDataScheme,
     HeadIcon: headIconScheme,
+    EntityBp: entityBpScheme,
+    EntityTemplateId: entityTemplateIdScheme,
 };
 
 /* eslint-disable spellcheck/spell-checker */

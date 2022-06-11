@@ -28,7 +28,7 @@ import { CsvView } from '../Common/BaseComponent/CsvView';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
-import { openDirOfFile } from '../Common/Util';
+import { openDirOfFile, openFile } from '../Common/Util';
 
 interface ICsvState {
     Name: ECsvName;
@@ -232,6 +232,12 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         return (
             <HorizontalBox>
                 <SlotText Text={this.NeedSave() ? '*' + path : path} />
+                <Btn
+                    Text={'打开'}
+                    OnClick={(): void => {
+                        openFile(path);
+                    }}
+                />
                 <Btn
                     Text={'目录'}
                     OnClick={(): void => {

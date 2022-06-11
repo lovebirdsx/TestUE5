@@ -9,6 +9,7 @@ import {
     setNumberVarScheme,
     syncVarToActorStateScheme,
 } from './Calculate';
+import { destroyAllChildScheme, spawnChildScheme } from './Entity';
 import { destroyScheme, interactScheme, invokeScheme } from './Invoke';
 import { finishTalkScheme, jumpTalkScheme } from './JumpTalk';
 import { logScheme, showMssageScheme, waitScheme } from './Misc';
@@ -23,7 +24,6 @@ import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from 
 import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
-import { destroyAllChildScheme, spawnChildScheme } from './Spawn';
 import {
     changeActorStateScheme,
     changeBehaviorStateScheme,

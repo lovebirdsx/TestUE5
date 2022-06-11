@@ -104,7 +104,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         const gridRowId = this.CurrGridRowId++;
         const result = fieldTypes.map((field, index) => {
             const slot: GridSlot = { Row: gridRowId, Column: index };
-            if (editorCsvOp.IsIndexField(field)) {
+            if (index === 0) {
                 return (
                     <HorizontalBox key={field.Name} Slot={slot}>
                         <Btn

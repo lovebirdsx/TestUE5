@@ -18,8 +18,8 @@ const DEFAULT_SEQUENCEDATA_PATH = '/Game/Test/CustomSequence/Sequence1.Sequence1
 export const seqDataScheme = createAssetScheme({
     Name: 'SeqData',
     CreateDefault: () => DEFAULT_SEQUENCEDATA_PATH,
-    SearchPath: 'Test/CustomSequence',
-    ClassPath: `Blueprint'/Game/Test/CustomSequence/CustomSequence.CustomSequence'`,
+    SearchPath: '/Game/Test/CustomSequence',
+    ClassPath: 'CustomSequence_C',
 });
 
 export const playSequenceDataScheme = createObjectScheme<IPlaySequenceData>({

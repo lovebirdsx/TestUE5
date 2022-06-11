@@ -50,6 +50,8 @@ export type TCsvCellRenderType =
     | 'Boolean'
     | 'CameraBinderMode'
     | 'CellType'
+    | 'EntityBp'
+    | 'EntityTemplateId'
     | 'Float'
     | 'FollowCell'
     | 'HeadIcon'

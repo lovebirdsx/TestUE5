@@ -1,10 +1,19 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createDefaultTransform, ITransform } from '../../../../Common/Interface';
-import { createIntScheme, createObjectScheme } from '../../../../Common/Type';
+import { createAssetScheme, createIntScheme, createObjectScheme } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import { ISpawn } from '../../../../Game/Interface/Action';
 
-export const templateGuidScheme = createIntScheme({
+const DEFAULT_ENTITY_BP_PATH = '/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj';
+
+export const entityBpScheme = createAssetScheme({
+    CnName: '实体蓝图',
+    CreateDefault: () => DEFAULT_ENTITY_BP_PATH,
+    SearchPath: '/Game/Blueprints',
+    ClassPath: 'Blueprint',
+});
+
+export const entityTemplateIdScheme = createIntScheme({
     CnName: '实体模板',
     RenderType: 'entityTemplateId',
     CreateDefault: () => {
@@ -23,7 +32,7 @@ export const spawnChildScheme = createObjectScheme<ISpawn>({
     CnName: '生成子实体',
     Tip: '在对应的位置,生成模板中包含的实体',
     Fields: {
-        TemplateGuid: templateGuidScheme,
+        TemplateGuid: entityTemplateIdScheme,
         Transform: transformScheme,
     },
 });

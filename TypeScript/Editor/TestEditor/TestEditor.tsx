@@ -9,7 +9,7 @@ import {
     VerticalBox,
     VerticalBoxSlot,
 } from 'react-umg';
-import { ESlateSizeRule, ReactUMGStarter } from 'ue';
+import { Class, ESlateSizeRule, ReactUMGStarter } from 'ue';
 
 import { log } from '../../Common/Log';
 import { getTestErrorRecords } from '../../Common/Test';
@@ -22,6 +22,7 @@ import testTextListCsv, {
     writeTextListCsv,
 } from '../../Editor/UnitTest/TestTextListCsv';
 import { ReactUMG } from '../../react-umg/react-umg';
+import { assetListCache } from '../Common/AssetListCache';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
 import { LevelTools } from '../EntityEditor/LevelTools';
 import testConfig from '../UnitTest/Common/TestConfig';
@@ -63,6 +64,23 @@ function fixEntityTemplates(): void {
     LevelTools.FixAllEntityTempalte();
 }
 
+function outputClassName(): void {
+    const classObj = Class.Load(
+        `Blueprint'/Game/Blueprints/TypeScript/Game/Entity/TsEntity.TsEntity_C'`,
+    );
+    log(`TsEntity class name = ${classObj.GetName()}`);
+}
+
+function getAssetList(): void {
+    const searchPath = '/Game/Blueprints';
+    const searchClass = 'Blueprint';
+    const assertList = assetListCache.GetAssets(searchPath, searchClass);
+    log(`searchPath: ${searchPath} searchClass: ${searchClass} count: ${assertList.length}`);
+    assertList.forEach((a) => {
+        log(`Name: ${a.AssetName} AssetClass: ${a.AssetClass} ObjectPath: ${a.ObjectPath}`);
+    });
+}
+
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
     { Name: 'testConfig', Fun: testConfig },
@@ -82,6 +100,8 @@ const allTests: ITest[] = [
     { Name: 'fixEntities', Fun: fixEntities, ManualRun: true },
     { Name: 'fixFlowLists', Fun: fixFlowLists, ManualRun: true },
     { Name: 'fixEntityTemplates', Fun: fixEntityTemplates, ManualRun: true },
+    { Name: 'outputClassName', Fun: outputClassName, ManualRun: true },
+    { Name: 'getAssetList', Fun: getAssetList, ManualRun: true },
 ];
 
 export class TestEditor extends React.Component<unknown, ITestEditorState> {

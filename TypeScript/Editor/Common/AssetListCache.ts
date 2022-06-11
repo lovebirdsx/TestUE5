@@ -4,11 +4,12 @@ import { $ref } from 'puerts';
 import { ARFilter, AssetData, AssetRegistryHelpers, EditorOperations, NewArray } from 'ue';
 
 import { error, log } from '../../Common/Log';
+import { toTsArray } from '../../Common/UeHelper';
 import { loadClass } from '../../Common/Util';
 
 export interface IAsset {
-    Name: string;
-    Path: string;
+    AssetName: string;
+    ObjectPath: string;
 }
 
 interface IItem {
@@ -55,8 +56,8 @@ class AssetListCache {
         for (let i = 0; i < assetDatas.Num(); i++) {
             const ad = assetDatas.Get(i);
             assets.push({
-                Name: ad.AssetName,
-                Path: ad.ObjectPath,
+                AssetName: ad.AssetName,
+                ObjectPath: ad.ObjectPath,
             });
         }
 
@@ -69,29 +70,27 @@ class AssetListCache {
         return assets;
     }
 
-    public FindAssets(path: string, className: string): IAsset[] {
-        // 软获取，不需要加载资源进入内存
-        const assetManage = AssetRegistryHelpers.GetAssetRegistry();
+    /**
+     * AssetData的字段示例
+     *  AssetName Sequence1
+     *  AssetClass CustomSequence_C
+     *  ObjectPath /Game/Test/CustomSequence/Sequence1.Sequence1
+     *  PackageName /Game/Test/CustomSequence/Sequence1
+     *  PackagePath /Game/Test/CustomSequence
+     */
+    public GetAssets(searchPath: string, className: string): AssetData[] {
         const filter = new ARFilter();
-        if (className) {
-            filter.ClassNames.Add(className);
+        filter.ClassNames.Add(className);
+        if (searchPath) {
+            filter.PackagePaths.Add(searchPath);
         }
-        if (path) {
-            filter.ObjectPaths.Add(path);
-        }
+        filter.bRecursivePaths = true;
         const resultArray = NewArray(AssetData);
-        const result = assetManage.GetAssets(filter, $ref(resultArray));
-        const assets: IAsset[] = [];
-        if (result) {
-            for (let i = 0; i < resultArray.Num(); i++) {
-                const ad = resultArray.Get(i);
-                assets.push({
-                    Name: ad.AssetName,
-                    Path: ad.ObjectPath,
-                });
-            }
+        const getOk = AssetRegistryHelpers.GetAssetRegistry().GetAssets(filter, $ref(resultArray));
+        if (getOk) {
+            return toTsArray(resultArray);
         }
-        return assets;
+        return [];
     }
 }
 

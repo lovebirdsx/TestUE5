@@ -10,6 +10,7 @@ import {
 } from '../../../Game/Interface/Action';
 import { IBehaviorFlowComponent } from '../../../Game/Interface/Component';
 import { varValueScheme } from '../Scheme/Action/Calculate';
+import { spawnChildScheme } from '../Scheme/Action/Entity';
 import { playFlowScheme } from '../Scheme/Action/Flow';
 import { invokeScheme } from '../Scheme/Action/Invoke';
 import { jumpIdScheme } from '../Scheme/Action/JumpTalk';
@@ -23,7 +24,6 @@ import {
     talkOptionTextIdScheme,
 } from '../Scheme/Action/ShowTalk';
 import { centerTextIdScheme } from '../Scheme/Action/ShowText';
-import { spawnChildScheme } from '../Scheme/Action/Spawn';
 import { stateIdScheme } from '../Scheme/Action/State';
 import { behaviorFlowComponentScheme } from '../Scheme/Component/FlowComponentScheme';
 import { animScheme, meshScheme } from '../Scheme/Component/ModelComponentScheme';

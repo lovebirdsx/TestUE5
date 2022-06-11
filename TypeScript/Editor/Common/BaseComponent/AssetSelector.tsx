@@ -23,18 +23,18 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
 
     private get SelectedName(): string {
         const props = this.props;
-        const assets = assetListCache.FindAssets(props.Path, props.ClassType);
+        const assets = assetListCache.GetAssets(props.Path, props.ClassType);
         const selected = assets.find(
-            (assetData: IAsset) => assetData.Path === props.SelectedObjectPath,
+            (assetData: IAsset) => assetData.ObjectPath === props.SelectedObjectPath,
         );
-        return selected ? selected.Name : '';
+        return selected ? selected.AssetName : '';
     }
 
     private readonly OnSelectChanged = (name: string): void => {
         const props = this.props;
-        const assets = assetListCache.FindAssets(props.Path, props.ClassType);
-        const selected = assets.find((assetData: IAsset) => assetData.Name === name);
-        this.props.OnObjectPathChanged(selected ? selected.Path : '');
+        const assets = assetListCache.GetAssets(props.Path, props.ClassType);
+        const selected = assets.find((assetData: IAsset) => assetData.AssetName === name);
+        this.props.OnObjectPathChanged(selected ? selected.ObjectPath : '');
     };
 
     private readonly OnClickBtnNav = (): void => {
@@ -59,8 +59,8 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
         }
 
         this.CachedNames = [];
-        const assets = assetListCache.FindAssets(path, classType);
-        assets.forEach((asset: IAsset) => this.CachedNames.push(asset.Name));
+        const assets = assetListCache.GetAssets(path, classType);
+        assets.forEach((asset: IAsset) => this.CachedNames.push(asset.AssetName));
         return this.CachedNames;
     }
 

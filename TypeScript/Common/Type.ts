@@ -382,6 +382,7 @@ export enum ECsvName {
     Global = '全局配置',
     Talker = '对话人',
     CustomSeq = '自定义序列',
+    ExtendedEntityBp = '扩展实体蓝图',
 }
 
 export type TCsvValueType = bigint | boolean | number | string;

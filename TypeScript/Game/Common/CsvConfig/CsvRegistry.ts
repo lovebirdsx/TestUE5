@@ -5,6 +5,7 @@ import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from '../../../Common/CsvLoad
 import { error, log, warn } from '../../../Common/Log';
 import { ECsvName } from '../../../Common/Type';
 import { CustomSeqCsvLoader } from './CustomSeqCsv';
+import { ExtendedEntityBpCsvLoader } from './ExtendedEntityBpCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
 import { TalkerCsvLoader } from './TalkerCsv';
 
@@ -25,6 +26,12 @@ const configs: ICsvFileConfig[] = [
         Path: 'q.全局配置.csv',
         CsvLoaderClass: GlobalConfigCsvLoader,
         CsvClass: GlobalConfigCsv,
+    },
+    {
+        Name: ECsvName.ExtendedEntityBp,
+        Path: 'd.扩展实体蓝图.csv',
+        CsvLoaderClass: ExtendedEntityBpCsvLoader,
+        CsvClass: undefined,
     },
     {
         Name: ECsvName.Talker,

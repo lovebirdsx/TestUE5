@@ -10,8 +10,6 @@ export class GameConfig {
 
     public static readonly FlowListPrefix = '流程_';
 
-    public static readonly LevelDataDir = MyFileHelper.GetPath(EFileRoot.Save, 'MapData');
-
     public static readonly LevelSaveDir = MyFileHelper.GetPath(EFileRoot.Save, 'Map');
 
     public static readonly EntityTemplateDir = MyFileHelper.GetPath(
@@ -38,10 +36,6 @@ export class GameConfig {
 
     public Save(): void {
         writeJson(this, GameConfig.SavePath);
-    }
-
-    public static GetCurrentLevelDataPath(world: World): string {
-        return `${this.LevelDataDir}/${world.GetName()}.json`;
     }
 
     public static GetCurrentLevelSavePath(world: World): string {

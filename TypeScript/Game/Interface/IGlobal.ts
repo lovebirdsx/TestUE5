@@ -1,5 +1,5 @@
-// 全局配置的存放位置: Content/Data/Global.json
-export const GLOBAL_CONFIG_PATH = 'Content/Data/Global.json';
+// 全局配置的存放位置
+export const GLOBAL_CONFIG_PATH = 'Content/Data/Json/Global.json';
 
 // 全局配置, 路径相对于Content目录
 export interface IGlobalConfig {
@@ -13,7 +13,10 @@ export interface IGlobalConfig {
     EntityBpConfigPath: string;
 
     // 地图配置(CSV)
-    LevelConfigPath: string;
+    LevelsConfigPath: string;
+
+    // 地图目录
+    LevelsDataDir: string;
 
     // 模板配置(Json)
     TemplateConfigPath: string;

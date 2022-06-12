@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { $ref } from 'puerts';
 import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
@@ -8,7 +9,7 @@ import {
     listFiles,
     removeExtension,
 } from '../../../Common/File';
-import { assertEq, assertFalse, assertTrue, test } from '../../../Common/Test';
+import { assertEq, assertFalse, assertGt, assertTrue, test } from '../../../Common/Test';
 import { toTsArray } from '../../../Common/Util';
 
 export default function testFile(): void {
@@ -73,5 +74,13 @@ export default function testFile(): void {
         assertEq(files2.length, 1, 'file count must equal');
         assertTrue(files2.includes(file1), `result must contain ${file1}`);
         assertFalse(files2.includes(fileSub1), `result must contain ${fileSub1}`);
+    });
+
+    test('get file modify tick', () => {
+        const file = MyFileHelper.GetPath(EFileRoot.Save, 'Test/TestModifyTick/file1.txt');
+        const tick1 = MyFileHelper.GetFileModifyTick(file);
+        MyFileHelper.Write(file, 'hello');
+        const tick2 = MyFileHelper.GetFileModifyTick(file);
+        assertGt(tick2, tick1, `tick2 > tick1`);
     });
 }

@@ -1,0 +1,62 @@
+﻿{
+  "BaseActions": [
+    "Invoke",
+    "Log",
+    "Wait",
+    "ShowMessage"
+  ],
+  "ActionsByComponent": {
+    "ActorStateComponent": [
+      "ChangeActorState"
+    ],
+    "BehaviorFlowComponent": [
+      "ChangeBehaviorState",
+      "SetBehaviorIsPaused"
+    ],
+    "CalculateComponent": [
+      "SetNumberVar",
+      "SyncVarToActorState",
+      "DoCalculate",
+      "CallFunction",
+      "CallByCondition"
+    ],
+    "EntitySpawnerComponent": [
+      "SpawnChild",
+      "Destroy",
+      "DestroyAllChild"
+    ],
+    "EventComponent": [
+      "Activate"
+    ],
+    "FlowComponent": [
+      "ChangeState"
+    ],
+    "InteractiveComponent": [],
+    "MoveComponent": [
+      "MoveToPos",
+      "SetPos",
+      "FaceToPos",
+      "SetMoveSpeed"
+    ],
+    "RefreshSingleComponent": [],
+    "RotatorComponent": [],
+    "SimpleComponent": [
+      "SimpleMove"
+    ],
+    "SphereFactoryComponent": [],
+    "SpringComponent": [],
+    "SwitcherComponent": [],
+    "TrampleComponent": [],
+    "TriggerComponent": [],
+    "UndergroundComponent": [],
+    "GrabComponent": [],
+    "NpcComponent": [],
+    "RefreshEntityComponent": [],
+    "SphereComponent": [],
+    "StateComponent": [],
+    "TalkComponent": [],
+    "LampComponent": [],
+    "SpringBoardComponent": [],
+    "ModelComponent": []
+  }
+}

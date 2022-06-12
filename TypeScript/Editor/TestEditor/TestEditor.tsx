@@ -24,6 +24,7 @@ import testTextListCsv, {
 import { ReactUMG } from '../../react-umg/react-umg';
 import { assetListCache } from '../Common/AssetListCache';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
+import { configExporter } from '../Common/ConfigExporter';
 import { LevelTools } from '../EntityEditor/LevelTools';
 import testConfig from '../UnitTest/Common/TestConfig';
 import { testUtil } from '../UnitTest/Engine/TestUtil';
@@ -81,6 +82,10 @@ function getAssetList(): void {
     });
 }
 
+function exportConfig(): void {
+    configExporter.Export();
+}
+
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
     { Name: 'testConfig', Fun: testConfig },
@@ -102,6 +107,7 @@ const allTests: ITest[] = [
     { Name: 'fixEntityTemplates', Fun: fixEntityTemplates, ManualRun: true },
     { Name: 'outputClassName', Fun: outputClassName, ManualRun: true },
     { Name: 'getAssetList', Fun: getAssetList, ManualRun: true },
+    { Name: 'exportConfig', Fun: exportConfig, ManualRun: true },
 ];
 
 export class TestEditor extends React.Component<unknown, ITestEditorState> {

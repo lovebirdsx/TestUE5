@@ -10,7 +10,8 @@ enum class EFileRoot : uint8
 {
 	Absolute = 0 UMETA(DisplayName = "Absolute"),
 	Content = 1 UMETA(DisplayName = "Content"),
-	Save = 2 UMETA(DisplayName = "Save"),	
+	Save = 2 UMETA(DisplayName = "Save"),
+	Project = 3 UMETA(DisplayName = "Project"),
 };
 
 UCLASS()
@@ -30,6 +31,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
 	static FString Read(FString Path);
+
+	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	static int64 GetFileModifyTick(const FString& Path);
+
+	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	static void Touch(const FString& Path);
 	
 	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
 	static bool Exist(FString Path);

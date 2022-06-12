@@ -1,5 +1,5 @@
 import { $ref } from 'puerts';
-import { BuiltinString, MyFileHelper, NewArray } from 'ue';
+import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
 
 import { toTsArray } from './Util';
 
@@ -44,4 +44,16 @@ export function listFiles(dir: string, ext?: string, recursive?: boolean): strin
         MyFileHelper.FindFiles($ref(resultArray), dir, ext);
     }
     return toTsArray(resultArray);
+}
+
+export function getContentPath(file: string): string {
+    return MyFileHelper.GetPath(EFileRoot.Content, file);
+}
+
+export function getSavePath(file: string): string {
+    return MyFileHelper.GetPath(EFileRoot.Save, file);
+}
+
+export function getProjectPath(file: string): string {
+    return MyFileHelper.GetPath(EFileRoot.Project, file);
 }

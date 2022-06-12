@@ -1,0 +1,88 @@
+﻿{
+  "ComponentsByEntity": {
+    "AiNpc": [
+      "StateComponent",
+      "FlowComponent",
+      "BehaviorFlowComponent",
+      "TalkComponent",
+      "MoveComponent",
+      "NpcComponent",
+      "EntitySpawnerComponent",
+      "ModelComponent"
+    ],
+    "CharacterEntity": [],
+    "Entity": [],
+    "Lamp": [
+      "LampComponent",
+      "EventComponent",
+      "StateComponent"
+    ],
+    "Npc": [
+      "StateComponent",
+      "FlowComponent",
+      "BehaviorFlowComponent",
+      "TalkComponent",
+      "NpcComponent",
+      "EntitySpawnerComponent"
+    ],
+    "RefreshSingle": [
+      "RefreshSingleComponent",
+      "StateComponent",
+      "EntitySpawnerComponent"
+    ],
+    "RefreshEntity": [
+      "RefreshEntityComponent",
+      "StateComponent"
+    ],
+    "Rotator": [
+      "RotatorComponent",
+      "StateComponent",
+      "EventComponent"
+    ],
+    "SphereActor": [
+      "SphereComponent",
+      "GrabComponent"
+    ],
+    "SphereFactory": [
+      "SphereFactoryComponent",
+      "EntitySpawnerComponent",
+      "EventComponent",
+      "StateComponent"
+    ],
+    "Spring": [
+      "SpringComponent"
+    ],
+    "SpringBoard": [
+      "SpringBoardComponent",
+      "StateComponent",
+      "SimpleComponent"
+    ],
+    "StateEntity": [
+      "StateComponent",
+      "ActorStateComponent",
+      "CalculateComponent",
+      "EntitySpawnerComponent"
+    ],
+    "Switcher": [
+      "StateComponent",
+      "ActorStateComponent",
+      "SwitcherComponent",
+      "EntitySpawnerComponent"
+    ],
+    "Trample": [
+      "TrampleComponent",
+      "SimpleComponent",
+      "StateComponent"
+    ],
+    "Trigger": [
+      "StateComponent",
+      "TriggerComponent",
+      "EntitySpawnerComponent"
+    ],
+    "Underground": [
+      "UndergroundComponent",
+      "StateComponent",
+      "EventComponent"
+    ]
+  }
+}

@@ -1553,13 +1553,6 @@ declare module "react-umg" {
         nativePtr: UE.Game.Editor.CsvEditor.CsvEditor_C;
     }
 
-    interface TestEditor_CProps extends EditorUtilityWidgetProps {
-    }
-
-    class TestEditor_C extends React.Component<TestEditor_CProps> {
-        nativePtr: UE.Game.Editor.TestEditor.TestEditor_C;
-    }
-
     interface FlowEditor_CProps extends EditorUtilityWidgetProps {
     }
 
@@ -1584,6 +1577,13 @@ declare module "react-umg" {
 
     class Test_C extends React.Component<Test_CProps> {
         nativePtr: UE.Game.Editor.Test.Test_C;
+    }
+
+    interface TestEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class TestEditor_C extends React.Component<TestEditor_CProps> {
+        nativePtr: UE.Game.Editor.TestEditor.TestEditor_C;
     }
 
     interface UI_TalkOptionButton_CProps extends UserWidgetProps {
@@ -1635,6 +1635,8 @@ declare module "react-umg" {
         DisableCommandServiceKey?: string;
         EditorToRestartKey?: string;
         IsInitFinished?: boolean;
+        CheckCircularKey?: string;
+        RunLintKey?: string;
     }
 
     class EditorMap_C extends React.Component<EditorMap_CProps> {

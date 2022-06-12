@@ -1,0 +1,20 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "Demo",
+    "ContentPath": "Demo/Map/Demo",
+    "IsPartition": true
+  },
+  {
+    "Id": 2,
+    "Name": "WorldPartition",
+    "ContentPath": "Test/WorldPartition/WorldPartition",
+    "IsPartition": true
+  },
+  {
+    "Id": 3,
+    "Name": "TestTsEntity",
+    "ContentPath": "Test/TsEntity/TestTsEntity",
+    "IsPartition": false
+  }
+]

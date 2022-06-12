@@ -8,24 +8,7 @@ import { IEntityTemplate } from '../../Game/Common/Operations/EntityTemplate';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { ILevelData } from '../../Game/Interface/ILevel';
-
-export type TLevelName = 'Demo' | 'TestTsEntity' | 'WorldPartition';
-
-export interface ILevelConfig {
-    Name: TLevelName;
-    ContentPath: string;
-    IsPartition: boolean;
-}
-
-export const levelConfigs: ILevelConfig[] = [
-    { Name: 'Demo', ContentPath: 'Demo/Map/Demo', IsPartition: true },
-    {
-        Name: 'WorldPartition',
-        ContentPath: 'Test/WorldPartition/WorldPartition',
-        IsPartition: true,
-    },
-    { Name: 'TestTsEntity', ContentPath: 'Test/TsEntity/TestTsEntity', IsPartition: false },
-];
+import { levelConfigs } from '../../Game/Interface/Level';
 
 function getAllEntityDataPathForPartitionLevel(contentPath: string): string[] {
     const actorsDir = MyFileHelper.GetPath(EFileRoot.Content, `__ExternalActors__/${contentPath}`);
@@ -37,7 +20,7 @@ function getAllEntityDataPathForNormalLevel(contentPath: string): string[] {
     return listFiles(levelDir, 'json', false);
 }
 
-export function getAllEntityDataPath(levelName: TLevelName): string[] {
+export function getAllEntityDataPath(levelName: string): string[] {
     const levelConfig = levelConfigs.find((config) => config.Name === levelName);
     if (!levelConfig) {
         throw new Error(`No Level for name [${levelName}]`);
@@ -49,17 +32,17 @@ export function getAllEntityDataPath(levelName: TLevelName): string[] {
     return getAllEntityDataPathForNormalLevel(levelConfig.ContentPath);
 }
 
-function getAllEntityData(levelName: TLevelName): IEntityData[] {
+function getAllEntityData(levelName: string): IEntityData[] {
     const paths = getAllEntityDataPath(levelName);
     return paths.map((path) => readJsonObj<IEntityData>(path));
 }
 
-export function tryGetWorldLevelName(worldName: string): TLevelName | undefined {
+export function tryGetWorldLevelName(worldName: string): string | undefined {
     const config = levelConfigs.find((config) => config.Name === worldName);
     return config ? config.Name : undefined;
 }
 
-export function saveLevelData(levelName: TLevelName, path: string): void {
+export function saveLevelData(levelName: string, path: string): void {
     const levelData: ILevelData = {
         EntityDatas: getAllEntityData(levelName),
     };
@@ -67,7 +50,7 @@ export function saveLevelData(levelName: TLevelName, path: string): void {
 }
 
 export class LevelTools {
-    public static GetAllLevelNames(): TLevelName[] {
+    public static GetAllLevelNames(): string[] {
         return levelConfigs.map((level) => level.Name);
     }
 
@@ -80,7 +63,7 @@ export class LevelTools {
         return templatePaths.map((tp) => readJsonObj<IEntityTemplate>(tp));
     }
 
-    public static FixEntityDataId(levelName: TLevelName): void {
+    public static FixEntityDataId(levelName: string): void {
         const entityPaths = getAllEntityDataPath(levelName);
         const entityDatas = entityPaths.map((path) => readJsonObj<IEntityData>(path));
 

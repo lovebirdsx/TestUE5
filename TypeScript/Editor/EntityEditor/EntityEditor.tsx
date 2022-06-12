@@ -16,6 +16,7 @@ import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/C
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { formatColor } from '../Common/Color';
+import { configExporter } from '../Common/ConfigExporter';
 import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
@@ -249,7 +250,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private readonly OnPreBeginPie = (): void => {
-        levelDataManager.SaveMapData();
+        configExporter.Export();
     };
 
     private readonly OnPostSaveWorld = (): void => {

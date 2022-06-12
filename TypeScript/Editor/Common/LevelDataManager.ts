@@ -2,13 +2,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary, EditorOperations, EFileRoot, MyFileHelper, World } from 'ue';
 
-import { getDir, listFiles } from '../../Common/File';
+import { getDir, getSavePath, listFiles } from '../../Common/File';
 import { log } from '../../Common/Log';
 import { readJsonObj, writeJson } from '../../Common/Util';
-import { GameConfig } from '../../Game/Common/GameConfig';
 import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { ILevelData } from '../../Game/Interface/ILevel';
+import { getLevelDataPath } from '../../Game/Interface/Level';
 import { getContentPackageName, openFile } from './Util';
 
 interface IEntityRecord {
@@ -25,8 +25,18 @@ export class LevelDataManager {
 
     private readonly ModRecords: Map<number, IEntityRecord> = new Map();
 
-    // 第一次总是能保存成功
-    private NeedSaveMapData = true;
+    public readonly DirtyReocrdPath: string;
+
+    public constructor() {
+        this.DirtyReocrdPath = this.GetDirtyRocordPath();
+        if (!MyFileHelper.Exist(this.DirtyReocrdPath)) {
+            MyFileHelper.Touch(this.DirtyReocrdPath);
+        }
+    }
+
+    private MarkDrity(): void {
+        MyFileHelper.Touch(this.DirtyReocrdPath);
+    }
 
     private get EntityRecordMap(): Map<number, IEntityRecord> {
         if (!this.MyEntityRecordMap) {
@@ -112,7 +122,7 @@ export class LevelDataManager {
 
         this.AddRecords.set(data.Id, newRecord);
         this.DelRecords.delete(data.Id);
-        this.NeedSaveMapData = true;
+        this.MarkDrity();
     }
 
     public ModifyEntityData(entity: ITsEntity, data: IEntityData): void {
@@ -131,7 +141,7 @@ export class LevelDataManager {
         }
 
         this.ModRecords.set(entity.Id, record);
-        this.NeedSaveMapData = true;
+        this.MarkDrity();
     }
 
     public DelEntityData(entity: ITsEntity): void {
@@ -143,7 +153,7 @@ export class LevelDataManager {
         this.EntityRecordMap.delete(entity.Id);
         this.DelRecords.set(entity.Id, record);
         this.AddRecords.delete(entity.Id);
-        this.NeedSaveMapData = true;
+        this.MarkDrity();
     }
 
     public GetEntityDataById(id: number): IEntityData {
@@ -155,9 +165,14 @@ export class LevelDataManager {
         return result.EntityData;
     }
 
+    private GetDirtyRocordPath(): string {
+        const world = EditorLevelLibrary.GetEditorWorld();
+        return getSavePath(`LevelDirtyReocrd/${world.GetName()}`);
+    }
+
     public GetMapDataPath(): string {
         const world = EditorLevelLibrary.GetEditorWorld();
-        return GameConfig.GetCurrentLevelDataPath(world);
+        return getLevelDataPath(world);
     }
 
     public OpenMapDataFile(): void {
@@ -171,11 +186,6 @@ export class LevelDataManager {
     }
 
     public SaveMapData(): void {
-        if (!this.NeedSaveMapData) {
-            log('Save map date ignored because no modification exist');
-            return;
-        }
-
         const savePath = this.GetMapDataPath();
         const entityDatas: IEntityData[] = [];
         this.EntityRecordMap.forEach((record) => {
@@ -186,7 +196,6 @@ export class LevelDataManager {
             EntityDatas: entityDatas,
         };
         writeJson(levelData, savePath);
-        this.NeedSaveMapData = false;
         log(`Save level data to ${savePath}`);
     }
 
@@ -206,7 +215,6 @@ export class LevelDataManager {
     }
 
     public Save(): void {
-        this.SaveMapData();
         this.SaveAddAndDelEntities();
     }
 }

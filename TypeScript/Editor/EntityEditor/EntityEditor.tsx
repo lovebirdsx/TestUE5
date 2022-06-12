@@ -23,7 +23,6 @@ import { getCommandKeyDesc } from '../Common/KeyCommands';
 import { levelDataManager } from '../Common/LevelDataManager';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
-import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { TModifyType } from '../Common/Type';
 import {
@@ -45,7 +44,6 @@ const contextCmdList = [
     '检查所有实体数据',
     '修复并导出所有实体数据',
     '检查并修复当前实体数据',
-    '修复所有实体模板',
     '重新扫描实体生成id',
 ] as const;
 
@@ -576,10 +574,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                 LevelEditorUtil.CheckAndSaveAllEntityData();
                 break;
 
-            case '修复所有实体模板':
-                EditorEntityTemplateOp.FixAllTemplateId();
-                break;
-
             case '重新扫描实体生成id':
                 currentLevelEntityIdGenerator.ReScan();
                 break;
@@ -598,7 +592,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     <Btn
                         Text={'重新生成'}
                         OnClick={(): void => {
-                            levelDataManager.SaveMapData();
+                            levelDataManager.Export();
                         }}
                         Tip={`保存场景状态`}
                     />

@@ -167,7 +167,7 @@ export class LevelDataManager {
 
     private GetDirtyRocordPath(): string {
         const world = EditorLevelLibrary.GetEditorWorld();
-        return getSavePath(`LevelDirtyReocrd/${world.GetName()}`);
+        return getSavePath(`DirtyRecord/Level/${world.GetName()}`);
     }
 
     public GetMapDataPath(): string {
@@ -185,12 +185,13 @@ export class LevelDataManager {
         });
     }
 
-    public SaveMapData(): void {
+    public Export(): void {
         const savePath = this.GetMapDataPath();
         const entityDatas: IEntityData[] = [];
         this.EntityRecordMap.forEach((record) => {
             entityDatas.push(record.EntityData);
         });
+        entityDatas.sort((a, b) => a.Id - b.Id);
 
         const levelData: ILevelData = {
             EntityDatas: entityDatas,

@@ -1,5 +1,6 @@
 ﻿{
   "Id": 5,
+  "Name": "回到家的二狗",
   "BlueprintType": "AiNpcAj",
   "ComponentsData": {
     "FlowComponent": {

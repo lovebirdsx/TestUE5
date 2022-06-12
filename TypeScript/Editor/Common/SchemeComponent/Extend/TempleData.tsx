@@ -3,7 +3,6 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import {
     getComponentsTypeByEntityType,
     getEntityTypeByBlueprintType,
@@ -12,7 +11,7 @@ import { IEntityData, TComponentsData } from '../../../../Game/Interface/IEntity
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
-import { EditorEntityTemplateOp } from '../../Operations/EntityTemplate';
+import { entityTemplateManager } from '../../EntityTemplateManager';
 import { IProps, TModifyType } from '../../Type';
 import { openFile } from '../../Util';
 
@@ -33,7 +32,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
     }
 
     private readonly OpenEntityTemplate = (): void => {
-        const templateFile = EntityTemplateOp.GetPath(this.props.Value);
+        const templateFile = entityTemplateManager.GetPath(this.props.Value);
         openFile(templateFile);
     };
 
@@ -44,13 +43,9 @@ export class TempleData extends React.Component<IProps<number>, IState> {
     };
 
     private readonly OnTempleModify = (data: IEntityData, type: TModifyType): void => {
-        // 保存json
-        const id = this.props.Value;
-        const path = EntityTemplateOp.GetPath(id);
-        if (path) {
-            EditorEntityTemplateOp.Save(data, path);
+        if (type === 'normal') {
+            entityTemplateManager.Modify(data);
         }
-        EntityTemplateOp.RefreshTemplate(id);
 
         // 更新
         this.setState((state) => {
@@ -63,7 +58,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
     };
 
     private RenderTemple(): JSX.Element {
-        const template = EntityTemplateOp.GetTemplateById(this.props.Value);
+        const template = entityTemplateManager.GetTemplateById(this.props.Value);
         if (!template) {
             return undefined;
         }
@@ -103,10 +98,10 @@ export class TempleData extends React.Component<IProps<number>, IState> {
                     <Text Text={'模板：'} />
                     <FilterableList
                         Tip={'实体模板名字'}
-                        Items={EntityTemplateOp.Names}
-                        Selected={EntityTemplateOp.GetNameById(this.props.Value)}
+                        Items={entityTemplateManager.Names}
+                        Selected={entityTemplateManager.GetNameById(this.props.Value)}
                         OnSelectChanged={(name: string): void => {
-                            this.props.OnModify(EntityTemplateOp.GetIdByName(name), 'normal');
+                            this.props.OnModify(entityTemplateManager.GetIdByName(name), 'normal');
                         }}
                     />
                     <Btn Text={'◉'} OnClick={this.OpenEntityTemplate} Tip={'打开实体模板'} />

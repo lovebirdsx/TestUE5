@@ -10,6 +10,7 @@ import { entityConfig } from '../../Game/Interface/Entity';
 import { globalConfig } from '../../Game/Interface/Global';
 import { GLOBAL_CONFIG_PATH } from '../../Game/Interface/IGlobal';
 import { levelConfigs } from '../../Game/Interface/Level';
+import { ENTITY_TEMPLATE_DIRTY_RECORD_FILE, entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
 
 interface IExportItem {
@@ -88,6 +89,14 @@ const items: IExportItem[] = [
         },
     },
     {
+        Name: 'Entity Template',
+        SourceFiles: [ENTITY_TEMPLATE_DIRTY_RECORD_FILE],
+        DestFiles: getProjectPaths(globalConfig.TemplateConfigPath),
+        ExportFun: (): void => {
+            entityTemplateManager.Export();
+        },
+    },
+    {
         Name: 'Levels',
         SourceFiles: getProjectPaths('TypeScript/Game/Interface/Level.ts'),
         DestFiles: getProjectPaths(globalConfig.LevelsConfigPath),
@@ -100,7 +109,7 @@ const items: IExportItem[] = [
         SourceFiles: [levelDataManager.DirtyReocrdPath],
         DestFiles: [levelDataManager.GetMapDataPath()],
         ExportFun: (): void => {
-            levelDataManager.SaveMapData();
+            levelDataManager.Export();
         },
     },
 ];

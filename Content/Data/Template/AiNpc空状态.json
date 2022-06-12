@@ -1,5 +1,6 @@
 ﻿{
   "Id": 1,
+  "Name": "AiNpc空状态",
   "BlueprintType": "AiNpc",
   "ComponentsData": {
     "FlowComponent": {

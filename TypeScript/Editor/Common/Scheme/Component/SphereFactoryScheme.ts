@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import { ISphereFactoryComponent } from '../../../../Game/Interface/IComponent';
+import { entityTemplateManager } from '../../EntityTemplateManager';
 import { createIntScheme, createVectorScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
@@ -18,7 +18,7 @@ export const sphereFactorComponentScheme = createComponentScheme<ISphereFactoryC
             NewLine: true,
             ShowName: true,
             CreateDefault: () => {
-                return EntityTemplateOp.GenDefaultId();
+                return entityTemplateManager.GenDefaultId();
             },
         }),
     },

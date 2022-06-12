@@ -1,0 +1,192 @@
+﻿{
+  "Templates": [
+    {
+      "Id": 0,
+      "Name": "AiNpc",
+      "BlueprintType": "AiNpc",
+      "ComponentsData": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_移动测试",
+            "FlowId": 3,
+            "StateId": 1
+          },
+          "AutoRun": true,
+          "Continuable": false
+        }
+      }
+    },
+    {
+      "Id": 1,
+      "Name": "AiNpc空状态",
+      "BlueprintType": "AiNpc",
+      "ComponentsData": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_移动测试",
+            "FlowId": 2,
+            "StateId": 1
+          },
+          "AutoRun": false,
+          "Continuable": false
+        }
+      }
+    },
+    {
+      "Id": 2,
+      "Name": "Npc",
+      "BlueprintType": "Npc",
+      "ComponentsData": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_测试",
+            "FlowId": 4,
+            "StateId": 1
+          }
+        }
+      }
+    },
+    {
+      "Id": 3,
+      "Name": "SphereTemplate",
+      "BlueprintType": "TsSphereActor",
+      "ComponentsData": {}
+    },
+    {
+      "Id": 5,
+      "Name": "回到家的二狗",
+      "BlueprintType": "AiNpcAj",
+      "ComponentsData": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_关键NPC",
+            "FlowId": 6,
+            "StateId": 5
+          }
+        },
+        "MoveComponent": {
+          "InitSpeed": 500,
+          "Disabled": true
+        },
+        "BehaviorFlowComponent": {
+          "InitStateId": 0,
+          "FlowInfo": {
+            "Id": 0,
+            "Name": "Empty",
+            "StateGenId": 1,
+            "States": [
+              {
+                "Id": 0,
+                "Name": "状态1",
+                "Actions": []
+              }
+            ]
+          },
+          "Disabled": true
+        }
+      }
+    },
+    {
+      "Id": 6,
+      "Name": "完成挑战的训练导师",
+      "BlueprintType": "AiNpcTrainer",
+      "ComponentsData": {
+        "FlowComponent": {
+          "InitState": {
+            "FlowListName": "流程_通过新手关",
+            "FlowId": 1,
+            "StateId": 3
+          }
+        },
+        "BehaviorFlowComponent": {
+          "InitStateId": 0,
+          "FlowInfo": {
+            "Id": 0,
+            "Name": "Empty",
+            "StateGenId": 1,
+            "States": [
+              {
+                "Id": 0,
+                "Name": "状态1",
+                "Actions": []
+              }
+            ]
+          },
+          "Disabled": false
+        },
+        "MoveComponent": {
+          "InitSpeed": 150,
+          "Disabled": false
+        },
+        "NpcComponent": {
+          "Content": "",
+          "Icon": "",
+          "Disabled": false
+        }
+      }
+    },
+    {
+      "Id": 7,
+      "Name": "矿石模板",
+      "BlueprintType": "Trash",
+      "ComponentsData": {
+        "ActorStateComponent": {
+          "InitState": "Idle",
+          "Disabled": false
+        },
+        "SwitcherComponent": {
+          "Content": "采集",
+          "Icon": "",
+          "OnActions": [
+            {
+              "Name": "Log",
+              "Params": {
+                "Level": "Info",
+                "Content": "你采集了物体"
+              }
+            },
+            {
+              "Name": "Destroy",
+              "Params": {}
+            }
+          ],
+          "OffActions": [],
+          "Disabled": false
+        }
+      }
+    },
+    {
+      "Id": 8,
+      "Name": "老太婆的垃圾",
+      "BlueprintType": "Trash",
+      "ComponentsData": {
+        "ActorStateComponent": {
+          "InitState": "Idle"
+        },
+        "SwitcherComponent": {
+          "IsInitOn": false,
+          "AutoExecuteOnLoad": false,
+          "OnActions": [
+            {
+              "Name": "Invoke",
+              "Params": {
+                "Who": 3000051,
+                "ActionInfo": {
+                  "Name": "CallFunction",
+                  "Params": {
+                    "Name": "收集垃圾"
+                  }
+                }
+              }
+            },
+            {
+              "Name": "Destroy",
+              "Params": {}
+            }
+          ],
+          "OffActions": []
+        }
+      }
+    }
+  ]
+}

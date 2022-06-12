@@ -56,10 +56,11 @@ void UMyFileHelper::Touch(const FString& Path)
 	IPlatformFile& PlatformFile	 = FPlatformFileManager::Get().GetPlatformFile();
 	if (!PlatformFile.FileExists(*Path))
 	{
-		Write("", *Path);		
+		Write(*Path, "");
 	}
 	else
-	{		
+	{
+		// 注意此处要使用标准时间, 而非本地时间
 		PlatformFile.SetTimeStamp(*Path, FDateTime::UtcNow());	
 	}
 }

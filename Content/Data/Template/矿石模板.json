@@ -1,5 +1,6 @@
 ﻿{
   "Id": 7,
+  "Name": "矿石模板",
   "BlueprintType": "Trash",
   "ComponentsData": {
     "ActorStateComponent": {

@@ -20,13 +20,13 @@ import {
 import { error, log } from '../../Common/Log';
 import { deepEquals, getAssetPath, isValidActor, toUeArray } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
-import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { toRotation, toTransform, toVector } from '../../Game/Interface/Action';
 import { getClassByBluprintType } from '../../Game/Interface/Entity';
 import { ITransform } from '../../Game/Interface/IAction';
 import { TComponentType } from '../../Game/Interface/IComponent';
+import { entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
 import { entityRegistry } from './Scheme/Entity';
 
@@ -162,7 +162,7 @@ class LevelEditorUtil {
     }
 
     public static SpawnEntity(templateId: number, iTransform: ITransform): ITsEntity {
-        const template = EntityTemplateOp.GetTemplateById(templateId);
+        const template = entityTemplateManager.GetTemplateById(templateId);
         if (!template) {
             error(`生成Entity失败:无法找到id为[${templateId}]的模板配置`);
             return undefined;

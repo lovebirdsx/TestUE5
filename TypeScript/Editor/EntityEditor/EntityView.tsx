@@ -4,18 +4,17 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { error } from '../../Common/Log';
-import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
+import { entityTemplateManager } from '../Common/EntityTemplateManager';
 import { levelDataManager } from '../Common/LevelDataManager';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
 import { TModifyType } from '../Common/Type';
-import { openFile, openLoadJsonFileDialog, openSaveJsonFileDialog } from '../Common/Util';
+import { openFile, openSaveJsonFileDialog } from '../Common/Util';
 import { ComponentsData } from './ComponentsData';
 
 export interface IEntityViewProps {
@@ -43,29 +42,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const path = openSaveJsonFileDialog(editorConfig.LastEntityTemplatePath);
         if (path) {
             editorConfig.LastEntityTemplatePath = path;
-            EditorEntityTemplateOp.Save(this.props.Data, path);
-        }
-    };
-
-    private readonly OnClickLoadTemplate = (): void => {
-        const path = openLoadJsonFileDialog(editorConfig.LastEntityTemplatePath);
-        if (!path) {
-            return;
-        }
-
-        const template = EntityTemplateOp.Load(path);
-        if (!template) {
-            return;
-        }
-
-        editorConfig.LastEntityTemplatePath = path;
-        const newData = EntityTemplateOp.ProduceEntityData(
-            template,
-            entityRegistry.GetComponentTypes(this.props.Entity),
-            this.props.Data,
-        );
-        if (newData !== this.props.Data) {
-            this.props.OnModify(newData, 'normal');
+            entityTemplateManager.Add(this.props.Data, path);
         }
     };
 
@@ -102,7 +79,6 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 />
                 <Btn Text={'J'} OnClick={this.OnClickBtnOpenJson} Tip={'打开实体对应的Json配置'} />
                 <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
-                <Btn Text={'L'} Tip={'从模板读取'} OnClick={this.OnClickLoadTemplate} />
             </HorizontalBox>
         );
     }

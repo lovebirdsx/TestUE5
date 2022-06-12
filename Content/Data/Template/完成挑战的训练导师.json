@@ -1,5 +1,6 @@
 ﻿{
   "Id": 6,
+  "Name": "完成挑战的训练导师",
   "BlueprintType": "AiNpcTrainer",
   "ComponentsData": {
     "FlowComponent": {

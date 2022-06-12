@@ -35,10 +35,21 @@ export type TComponentData = Record<string, unknown> & {
 // key为Component的名字
 export type TComponentsData = Record<string, TComponentData>;
 
+export interface IEntityTemplate {
+    Id: number;
+    Name?: string;
+    BlueprintType: string;
+    ComponentsData: TComponentsData;
+}
+
 export interface IEntityData {
     Id: number;
     Name?: string;
     BlueprintType: string;
     Transform?: ITransform;
     ComponentsData: TComponentsData;
+}
+
+export interface IEntityTemplateConfig {
+    Templates: IEntityTemplate[];
 }

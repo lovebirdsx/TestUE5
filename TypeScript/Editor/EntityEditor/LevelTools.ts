@@ -4,9 +4,8 @@ import { EFileRoot, MyFileHelper } from 'ue';
 import { listFiles } from '../../Common/File';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
-import { IEntityTemplate } from '../../Game/Common/Operations/EntityTemplate';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
-import { IEntityData } from '../../Game/Interface/IEntity';
+import { IEntityData, IEntityTemplate } from '../../Game/Interface/IEntity';
 import { ILevelData } from '../../Game/Interface/ILevel';
 import { levelConfigs } from '../../Game/Interface/Level';
 

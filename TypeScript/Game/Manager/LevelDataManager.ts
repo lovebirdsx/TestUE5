@@ -1,15 +1,17 @@
 /* eslint-disable spellcheck/spell-checker */
 import { readJsonObj } from '../../Common/Util';
 import { entityIdAllocator } from '../Common/Operations/Entity';
-import { EntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { gameContext, ILevelDataManager } from '../Interface';
-import { IEntityData } from '../Interface/IEntity';
+import { loadEntityTemplateConfig } from '../Interface/Entity';
+import { IEntityData, IEntityTemplate } from '../Interface/IEntity';
 import { ILevelData } from '../Interface/ILevel';
 import { getLevelDataPath } from '../Interface/Level';
 import { IManager } from './Interface';
 
 export class LevelDataManager implements IManager, ILevelDataManager {
     private readonly EntityDataMap: Map<number, IEntityData> = new Map();
+
+    private readonly TemplateMap: Map<number, IEntityTemplate> = new Map();
 
     public constructor() {
         gameContext.LevelDataManager = this;
@@ -22,6 +24,11 @@ export class LevelDataManager implements IManager, ILevelDataManager {
         levelData.EntityDatas.forEach((ed) => {
             this.EntityDataMap.set(ed.Id, ed);
         });
+
+        const templateConfig = loadEntityTemplateConfig();
+        templateConfig.Templates.forEach((tp) => {
+            this.TemplateMap.set(tp.Id, tp);
+        });
     }
 
     public Exit(): void {}
@@ -31,7 +38,7 @@ export class LevelDataManager implements IManager, ILevelDataManager {
     }
 
     public GenEntityData(templateId: number, entityId?: number): IEntityData {
-        const template = EntityTemplateOp.GetTemplateById(templateId);
+        const template = this.TemplateMap.get(templateId);
         const entityData: IEntityData = {
             Id: entityId || entityIdAllocator.Alloc(),
             BlueprintType: template.BlueprintType,

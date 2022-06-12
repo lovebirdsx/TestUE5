@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import { createDefaultTransform } from '../../../../Game/Interface/Action';
 import { ISpawn, ITransform } from '../../../../Game/Interface/IAction';
+import { entityTemplateManager } from '../../EntityTemplateManager';
 import { createAssetScheme, createIntScheme, createObjectScheme } from '../../Type';
 
 const DEFAULT_ENTITY_BP_PATH = '/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj';
@@ -17,7 +17,7 @@ export const entityTemplateIdScheme = createIntScheme({
     CnName: '实体模板',
     RenderType: 'entityTemplateId',
     CreateDefault: () => {
-        return EntityTemplateOp.GenDefaultId();
+        return entityTemplateManager.GenDefaultId();
     },
 });
 

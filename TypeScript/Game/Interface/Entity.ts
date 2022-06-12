@@ -1,10 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Class } from 'ue';
 
+import { getProjectPath } from '../../Common/File';
+import { readJsonObj } from '../../Common/Util';
 import { baseActions, getActionsByComponentType } from './Component';
+import { globalConfig } from './Global';
 import { TActionType } from './IAction';
 import { TComponentType } from './IComponent';
-import { IEntityConfig, TComponentsByEntity, TEntityType } from './IEntity';
+import { IEntityConfig, IEntityTemplateConfig, TComponentsByEntity, TEntityType } from './IEntity';
 
 export const componentsByEntity: TComponentsByEntity = {
     AiNpc: [
@@ -233,3 +236,8 @@ registerExtendedBlueprint('Invisible', 'BP_Invisible', 'StateEntity');
 registerExtendedBlueprint('Trash', 'BP_Trash', 'Switcher');
 registerExtendedBlueprint('Mineral', 'BP_Mineral', 'RefreshSingle');
 registerExtendedBlueprint('RefreshManage', 'BP_RefreshManage', 'RefreshEntity');
+
+export function loadEntityTemplateConfig(): IEntityTemplateConfig {
+    const path = getProjectPath(globalConfig.TemplateConfigPath);
+    return readJsonObj(path);
+}

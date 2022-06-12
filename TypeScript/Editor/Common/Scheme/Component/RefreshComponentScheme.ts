@@ -1,10 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import {
     ICylinder,
     IRefreshGroup,
     IRefreshSingleComponent,
 } from '../../../../Game/Interface/IComponent';
+import { entityTemplateManager } from '../../EntityTemplateManager';
 import {
     createArrayScheme,
     createBooleanScheme,
@@ -18,7 +18,7 @@ import { createComponentScheme } from './ComponentRegistry';
 export const templeGuidScheme = createIntScheme({
     NewLine: true,
     CreateDefault: () => {
-        return EntityTemplateOp.GenDefaultId();
+        return entityTemplateManager.GenDefaultId();
     },
 });
 

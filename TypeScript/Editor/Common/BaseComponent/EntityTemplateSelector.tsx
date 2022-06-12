@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { EntityTemplateOp } from '../../../Game/Common/Operations/EntityTemplate';
+import { entityTemplateManager } from '../EntityTemplateManager';
 import { openFile } from '../Util';
 import { Btn } from './CommonComponent';
 import { FilterableList } from './FilterableList';
@@ -14,7 +14,7 @@ export interface IEntityTemplateSelectorProps {
 
 export class EntityTemplateSelector extends React.Component<IEntityTemplateSelectorProps> {
     private readonly OpenEntityTemplate = (): void => {
-        const templateFile = EntityTemplateOp.GetPath(this.props.Id);
+        const templateFile = entityTemplateManager.GetPath(this.props.Id);
         openFile(templateFile);
     };
 
@@ -24,10 +24,10 @@ export class EntityTemplateSelector extends React.Component<IEntityTemplateSelec
             <HorizontalBox>
                 <FilterableList
                     Tip={'实体模板名字'}
-                    Items={EntityTemplateOp.Names}
-                    Selected={EntityTemplateOp.GetNameById(this.props.Id)}
+                    Items={entityTemplateManager.Names}
+                    Selected={entityTemplateManager.GetNameById(this.props.Id)}
                     OnSelectChanged={(name: string): void => {
-                        this.props.OnModify(EntityTemplateOp.GetIdByName(name));
+                        this.props.OnModify(entityTemplateManager.GetIdByName(name));
                     }}
                 />
                 <Btn Text={'◉'} OnClick={this.OpenEntityTemplate} Tip={'打开实体模板'} />

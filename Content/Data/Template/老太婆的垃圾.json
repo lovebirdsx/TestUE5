@@ -1,5 +1,6 @@
 ﻿{
   "Id": 8,
+  "Name": "老太婆的垃圾",
   "BlueprintType": "Trash",
   "ComponentsData": {
     "ActorStateComponent": {
@@ -12,7 +13,7 @@
         {
           "Name": "Invoke",
           "Params": {
-            "Who": "83B0DD754163760AE20CB981C2294E19",
+            "Who": 3000051,
             "ActionInfo": {
               "Name": "CallFunction",
               "Params": {

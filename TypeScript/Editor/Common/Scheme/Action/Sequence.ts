@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import {
-    createAssetScheme,
-    createEnumScheme,
-    createObjectScheme,
-    createScheme,
-} from '../../../../Common/Type';
-import {
     cameraBindModeConfig,
     IPlayCustomSequence,
     IPlaySequenceData,
-} from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/IAction';
+import { createAssetScheme, createEnumScheme, createObjectScheme, createScheme } from '../../Type';
 import { customSeqIdScheme } from '../Csv/CsvCell';
 
 const DEFAULT_SEQUENCEDATA_PATH = '/Game/Test/CustomSequence/Sequence1.Sequence1';

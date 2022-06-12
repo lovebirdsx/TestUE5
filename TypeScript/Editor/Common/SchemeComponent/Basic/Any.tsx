@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { TColor } from '../../../../Common/Color';
-import { IProps } from '../../../../Common/Type';
 import { Text } from '../../BaseComponent/CommonComponent';
+import { TColor } from '../../Color';
+import { IProps } from '../../Type';
 import { renderRegistry } from '../RenderRegistry';
 import { componentRegistry } from './ComponentRegistry';
 

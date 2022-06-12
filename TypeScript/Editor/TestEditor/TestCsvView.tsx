@@ -3,7 +3,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { ICsv } from '../../Common/CsvLoader';
+import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
 import { TalkerCsvLoader } from '../../Game/Common/CsvConfig/TalkerCsv';
 import { CsvView } from '../Common/BaseComponent/CsvView';
 import { editorCsvOp } from '../Common/Operations/CsvOp';

@@ -1,10 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { $ref, $unref } from 'puerts';
 import {
+    BuiltinString,
     EditorOperations,
     EFileRoot,
+    EMsgType,
     MyFileHelper,
+    NewArray,
     Object as UeObject,
     PythonScriptLibrary,
 } from 'ue';
@@ -113,4 +117,67 @@ export function getMacAddress(): string {
 export function getContentPackageName(obj: UeObject): string {
     const pkg = EditorOperations.GetPackage(obj);
     return pkg.GetName().substring(6);
+}
+
+export function openLoadJsonFileDialog(defaultFile: string): string | undefined {
+    const filesRef = $ref(NewArray(BuiltinString));
+    if (
+        EditorOperations.OpenFileDialog(
+            'Open Json File',
+            defaultFile,
+            'Json File | *.json',
+            filesRef,
+        )
+    ) {
+        return MyFileHelper.GetAbsolutePath($unref(filesRef).Get(0));
+    }
+    return undefined;
+}
+
+export function openSaveJsonFileDialog(defaultFile: string): string | undefined {
+    const filesRef = $ref(NewArray(BuiltinString));
+    if (
+        EditorOperations.SaveFileDialog(
+            'Select Json File To Save',
+            defaultFile,
+            'Json File | *.json',
+            filesRef,
+        )
+    ) {
+        return MyFileHelper.GetAbsolutePath($unref(filesRef).Get(0));
+    }
+    return undefined;
+}
+
+export function openLoadCsvFileDialog(defaultFile: string): string | undefined {
+    const filesRef = $ref(NewArray(BuiltinString));
+    if (
+        EditorOperations.OpenFileDialog('Open CSV File', defaultFile, 'CSV File | *.csv', filesRef)
+    ) {
+        return MyFileHelper.GetAbsolutePath($unref(filesRef).Get(0));
+    }
+    return undefined;
+}
+
+export function openSaveCsvFileDialog(defaultFile: string): string | undefined {
+    const filesRef = $ref(NewArray(BuiltinString));
+    if (
+        EditorOperations.SaveFileDialog(
+            'Select CSV File To Save',
+            defaultFile,
+            'CSV File | *.csv',
+            filesRef,
+        )
+    ) {
+        return MyFileHelper.GetAbsolutePath($unref(filesRef).Get(0));
+    }
+    return undefined;
+}
+
+export function msgbox(content: string): void {
+    EditorOperations.ShowMessage(EMsgType.Ok, content, '提示');
+}
+
+export function errorbox(content: string): void {
+    EditorOperations.ShowMessage(EMsgType.Ok, content, '错误');
 }

@@ -5,11 +5,11 @@ import * as React from 'react';
 import { Border, HorizontalBox, MyScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { ESlateSizeRule } from 'ue';
 
-import { formatColor } from '../../Common/Color';
 import { log } from '../../Common/Log';
 import { Btn, H1, H3 } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { formatColor } from '../Common/Color';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { talkerListContext } from '../Common/SchemeComponent/Context';

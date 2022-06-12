@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { IPosA, IVectorInfo } from '../../../../Common/Interface';
+import {
+    IFaceToPos,
+    IMoveToPosA,
+    IPosA,
+    ISetMoveSpeed,
+    ISetPosA,
+    ISimpleMove,
+    IVectorInfo,
+} from '../../../../Game/Interface/IAction';
 import {
     createFloatScheme,
     createIntScheme,
     createObjectScheme,
     optionalFloatScheme,
-} from '../../../../Common/Type';
-import {
-    IFaceToPos,
-    IMoveToPosA,
-    ISetMoveSpeed,
-    ISetPosA,
-    ISimpleMove,
-} from '../../../../Game/Interface/Action';
+} from '../../Type';
 
 export const posScheme = createObjectScheme<IPosA>({
     Name: 'PosA',

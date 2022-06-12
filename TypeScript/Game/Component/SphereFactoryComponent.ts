@@ -2,10 +2,10 @@
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { createSignal, ISignal } from '../../Common/Async';
-import { IVectorInfo, toTransformInfo } from '../../Common/Interface';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
-import { IInteract, ISpawn } from '../Interface/Action';
-import { ISphereFactoryComponent } from '../Interface/Component';
+import { toTransformInfo } from '../Interface/Action';
+import { IInteract, ISpawn, IVectorInfo } from '../Interface/IAction';
+import { ISphereFactoryComponent } from '../Interface/IComponent';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { EventComponent } from './EventComponent';
 

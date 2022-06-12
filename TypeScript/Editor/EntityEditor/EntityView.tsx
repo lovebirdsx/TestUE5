@@ -4,10 +4,9 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { error } from '../../Common/Log';
-import { TModifyType } from '../../Common/Type';
-import { openLoadJsonFileDialog, openSaveJsonFileDialog } from '../../Common/UeHelper';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
-import { IEntityData, ITsEntity } from '../../Game/Interface';
+import { ITsEntity } from '../../Game/Interface';
+import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { editorConfig } from '../Common/EditorConfig';
 import { levelDataManager } from '../Common/LevelDataManager';
@@ -15,7 +14,8 @@ import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
 import { entityIdContext } from '../Common/SchemeComponent/Context';
-import { openFile } from '../Common/Util';
+import { TModifyType } from '../Common/Type';
+import { openFile, openLoadJsonFileDialog, openSaveJsonFileDialog } from '../Common/Util';
 import { ComponentsData } from './ComponentsData';
 
 export interface IEntityViewProps {

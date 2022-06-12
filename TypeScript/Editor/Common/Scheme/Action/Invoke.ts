@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary } from 'ue';
 
-import { createIntScheme, createObjectScheme, createStringScheme } from '../../../../Common/Type';
 import { LevelUtil } from '../../../../Game/Common/LevelUtil';
-import { IActionInfo, IInteract, IInvoke } from '../../../../Game/Interface/Action';
+import { IActionInfo, IInteract, IInvoke } from '../../../../Game/Interface/IAction';
+import { createIntScheme, createObjectScheme, createStringScheme } from '../../Type';
 import { createActionScheme } from './Action';
 import { actionRegistry } from './ActionRegistry';
 import { setPosScheme } from './Move';

@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IEntityData } from '../Interface';
+import { IEntityData } from './IEntity';
 
 export interface ILevelData {
     EntityDatas: IEntityData[];

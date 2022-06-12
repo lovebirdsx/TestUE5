@@ -1,12 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { TCsvCellRenderType } from '../../../../Common/CsvLoader';
-import {
-    booleanScheme,
-    floatScheme,
-    intScheme,
-    Scheme,
-    stringScheme,
-} from '../../../../Common/Type';
+import { TCsvCellRenderType } from '../../../../Game/Common/CsvConfig/CsvLoader';
+import { booleanScheme, floatScheme, intScheme, Scheme, stringScheme } from '../../Type';
 import { entityBpScheme, entityTemplateIdScheme } from '../Action/Entity';
 import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
 import { headIconScheme } from '../Action/Talker';

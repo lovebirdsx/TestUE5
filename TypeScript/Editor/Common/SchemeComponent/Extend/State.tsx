@@ -4,14 +4,14 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { TModifyType } from '../../../../Common/Type';
-import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Interface/Action';
+import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Interface/IAction';
 import { Btn, COLOR_LEVEL2, EditorBox, Fold, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { editorFlowOp } from '../../Operations/Flow';
 import { ActionScheme } from '../../Scheme/Action/Action';
 import { flowContext } from '../../SchemeComponent/Context';
 import { Action } from '../../SchemeComponent/Extend/Action';
+import { TModifyType } from '../../Type';
 import { copyObject, pasteObject } from '../../Util';
 
 export interface IStateProps {

@@ -2,7 +2,7 @@
 import { PrimitiveComponent, Rotator, Vector } from 'ue';
 
 import { InteractiveComponent } from '../Interface';
-import { ISettingSpringDir, ISpringComponent } from '../Interface/Component';
+import { ISettingSpringDir, ISpringComponent } from '../Interface/IComponent';
 
 export class SpringComponent extends InteractiveComponent implements ISpringComponent {
     public IsNormalSpring: boolean;

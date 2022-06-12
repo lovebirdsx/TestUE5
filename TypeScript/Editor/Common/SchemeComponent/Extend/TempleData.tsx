@@ -3,17 +3,17 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { IProps, TModifyType } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
-import { IEntityData, TComponentsData } from '../../../../Game/Interface';
 import {
     getComponentsTypeByEntityType,
     getEntityTypeByBlueprintType,
 } from '../../../../Game/Interface/Entity';
+import { IEntityData, TComponentsData } from '../../../../Game/Interface/IEntity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
 import { EditorEntityTemplateOp } from '../../Operations/EntityTemplate';
+import { IProps, TModifyType } from '../../Type';
 import { openFile } from '../../Util';
 
 interface IState {

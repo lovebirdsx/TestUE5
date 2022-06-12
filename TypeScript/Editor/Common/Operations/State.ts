@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { TFixResult } from '../../../Common/Type';
-import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Interface/Action';
+import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Interface/IAction';
 import { actionRegistry } from '../Scheme/Action/Public';
+import { TFixResult } from '../Type';
 
 class StateOp {
     public Check(state: IStateInfo, errorMessages: string[]): number {

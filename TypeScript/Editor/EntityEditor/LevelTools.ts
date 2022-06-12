@@ -6,8 +6,8 @@ import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { IEntityTemplate } from '../../Game/Common/Operations/EntityTemplate';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
-import { IEntityData } from '../../Game/Interface';
-import { ILevelData } from '../../Game/Interface/Level';
+import { IEntityData } from '../../Game/Interface/IEntity';
+import { ILevelData } from '../../Game/Interface/ILevel';
 
 export type TLevelName = 'Demo' | 'TestTsEntity' | 'WorldPartition';
 

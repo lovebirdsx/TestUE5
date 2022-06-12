@@ -1,6 +1,6 @@
 import { error } from '../../../../Common/Log';
-import { createBooleanScheme, ObjectScheme } from '../../../../Common/Type';
-import { TComponentType } from '../../../../Game/Interface/Component';
+import { TComponentType } from '../../../../Game/Interface/IComponent';
+import { createBooleanScheme, ObjectScheme } from '../../Type';
 
 export class ComponentScheme<T> extends ObjectScheme<T> {}
 

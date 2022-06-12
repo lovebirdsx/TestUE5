@@ -3,13 +3,14 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { KismetMathLibrary, Vector } from 'ue';
 
-import { toTransform, toTransformInfo } from '../../Common/Interface';
 import { getTotalSecond } from '../../Common/Util';
 import { entityRegistry } from '../../Editor/Common/Scheme/Entity';
 import { deInitTsEntity } from '../Entity/Common';
-import { Component, gameContext, IEntityData, ITimeCall } from '../Interface';
-import { ISpawn } from '../Interface/Action';
-import { ICylinder, IRefreshGroup, IRefreshSingleComponent } from '../Interface/Component';
+import { Component, gameContext, ITimeCall } from '../Interface';
+import { toTransform, toTransformInfo } from '../Interface/Action';
+import { ISpawn } from '../Interface/IAction';
+import { ICylinder, IRefreshGroup, IRefreshSingleComponent } from '../Interface/IComponent';
+import { IEntityData } from '../Interface/IEntity';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';
 

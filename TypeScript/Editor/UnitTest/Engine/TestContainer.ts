@@ -2,7 +2,7 @@
 import { BuiltinInt } from 'ue';
 
 import { assertEq, test } from '../../../Common/Test';
-import { toTsArray, toUeArray } from '../../../Common/UeHelper';
+import { toTsArray, toUeArray } from '../../../Common/Util';
 
 export default function testContainer(): void {
     test('array', () => {

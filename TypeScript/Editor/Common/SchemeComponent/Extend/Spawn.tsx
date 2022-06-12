@@ -6,20 +6,19 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
 import { MS_PER_SEC } from '../../../../Common/Async';
+import { deepEquals } from '../../../../Common/Util';
+import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
 import {
+    alignVector,
     defalutRot,
     defalutScale,
     defaultVec,
-    IVectorInfo,
     toScaleInfo,
     toTransformInfo,
     toVector,
     toVectorInfo,
-} from '../../../../Common/Interface';
-import { IProps } from '../../../../Common/Type';
-import { alignVector, deepEquals } from '../../../../Common/Util';
-import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
-import { ISpawn } from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/Action';
+import { ISpawn, IVectorInfo } from '../../../../Game/Interface/IAction';
 import { tempEntities } from '../../../EntityEditor/TempEntities';
 import {
     Btn,
@@ -31,6 +30,7 @@ import {
 } from '../../BaseComponent/CommonComponent';
 import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';
 import LevelEditorUtil from '../../LevelEditorUtil';
+import { IProps } from '../../Type';
 
 interface IPointState {
     TipEntity: ITsEntity;

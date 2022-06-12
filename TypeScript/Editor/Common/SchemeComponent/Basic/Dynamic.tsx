@@ -4,18 +4,18 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { IProps, TModifyType } from '../../../../Common/Type';
 import { addArray, subArray } from '../../../../Common/Util';
-import { IActionInfo, IInvoke, TActionType } from '../../../../Game/Interface/Action';
 import {
     getActionsByEntityType,
     getEntityTypeByBlueprintType,
-    TEntityType,
 } from '../../../../Game/Interface/Entity';
+import { IActionInfo, IInvoke, TActionType } from '../../../../Game/Interface/IAction';
+import { TEntityType } from '../../../../Game/Interface/IEntity';
 import { Check, COLOR_LEVEL3, List, Text } from '../../BaseComponent/CommonComponent';
 import { levelDataManager } from '../../LevelDataManager';
 import { ActionScheme } from '../../Scheme/Action/Action';
 import { actionRegistry } from '../../Scheme/Action/Public';
+import { IProps, TModifyType } from '../../Type';
 import { entityIdContext, invokeContext } from '../Context';
 import { Any } from './Any';
 

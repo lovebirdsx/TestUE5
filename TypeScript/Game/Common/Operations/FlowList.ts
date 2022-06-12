@@ -4,9 +4,8 @@ import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
 import { getDir, getFileName, getFileNameWithOutExt } from '../../../Common/File';
 import { error, log, warn } from '../../../Common/Log';
-import { errorbox, toTsArray } from '../../../Common/UeHelper';
-import { calHash } from '../../../Common/Util';
-import { IFlowInfo, IFlowListInfo, ITextConfig } from '../../Interface/Action';
+import { calHash, toTsArray } from '../../../Common/Util';
+import { IFlowInfo, IFlowListInfo, ITextConfig } from '../../Interface/IAction';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
 import { Context, createEditorContext } from '../EditorContext';
@@ -111,7 +110,6 @@ class FlowListOp {
             row = flowListCsv.LoadOne(path);
         } catch (err) {
             error(err);
-            errorbox(`打开流程配置文件失败:\n${path}\n${error}`);
             row = null;
         }
 

@@ -3,7 +3,6 @@
 import { Class, KismetGuidLibrary } from 'ue';
 import * as UE from 'ue';
 
-import { IPosA, IVectorInfo } from './Interface';
 import { error } from './Log';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -201,29 +200,6 @@ export function alignNumber(value: number, len = 1): number {
     return Math.floor(value / len) * len;
 }
 
-export function alignVector(vec: IVectorInfo, len = 1): void {
-    if (!vec) {
-        return;
-    }
-
-    if (vec.X) {
-        vec.X = Math.floor(vec.X / len) * len;
-    }
-
-    if (vec.Y) {
-        vec.Y = Math.floor(vec.Y / len) * len;
-    }
-
-    if (vec.Z) {
-        vec.Z = Math.floor(vec.Z / len) * len;
-    }
-}
-
-export function alignPosA(posA: IPosA, len = 1): void {
-    alignVector(posA);
-    posA.A = alignNumber(posA.A);
-}
-
 export function calUpRotatorByPoints(from: UE.Vector, to: UE.Vector): UE.Rotator {
     const dir = to.op_Subtraction(from);
     dir.Z = 0;
@@ -322,4 +298,23 @@ export function isValidActor(actor: UE.Actor): boolean {
     }
 
     return !hasError;
+}
+
+export function toTsArray<T>(array: UE.TArray<T>): T[] {
+    const result = [] as T[];
+    for (let i = 0; i < array.Num(); i++) {
+        result.push(array.Get(i));
+    }
+    return result;
+}
+
+export function toUeArray<TR extends UE.SupportedContainerKVType, T extends UE.ContainerKVType<TR>>(
+    array: T[],
+    rt: TR,
+): UE.TArray<UE.ContainerKVType<TR>> {
+    const result = UE.NewArray(rt);
+    array.forEach((e) => {
+        result.Add(e);
+    });
+    return result;
 }

@@ -3,7 +3,7 @@
 import { MaterialInstanceDynamic, StaticMeshComponent } from 'ue';
 
 import { Component, IInteractCall } from '../Interface';
-import { IInteract } from '../Interface/Action';
+import { IInteract } from '../Interface/IAction';
 import { EventComponent } from './EventComponent';
 
 export class LampComponent extends Component {

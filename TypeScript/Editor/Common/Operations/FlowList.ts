@@ -14,7 +14,7 @@ import {
     IShowCenterText,
     IShowOption,
     IShowTalk,
-} from '../../../Game/Interface/Action';
+} from '../../../Game/Interface/IAction';
 import { mergeEditorToConfig } from '../Util';
 import { editorFlowOp } from './Flow';
 import { stateOp } from './State';

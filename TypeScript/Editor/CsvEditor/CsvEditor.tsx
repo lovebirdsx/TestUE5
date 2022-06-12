@@ -12,11 +12,9 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { formatColor } from '../../Common/Color';
-import { ICsv } from '../../Common/CsvLoader';
 import { log } from '../../Common/Log';
-import { ECsvName } from '../../Common/Type';
-import { csvRegistry } from '../../Game/Common/CsvConfig/CsvRegistry';
+import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
+import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import {
     Btn,
     DEFAULT_TEXT_COLOR,
@@ -26,6 +24,7 @@ import {
 } from '../Common/BaseComponent/CommonComponent';
 import { CsvView } from '../Common/BaseComponent/CsvView';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { formatColor } from '../Common/Color';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { openDirOfFile, openFile } from '../Common/Util';

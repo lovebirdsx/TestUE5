@@ -1,19 +1,19 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
-    createArrayScheme,
-    createBooleanScheme,
-    createEnumScheme,
-    createIntScheme,
-    createObjectScheme,
-} from '../../../../Common/Type';
-import {
     actorStateConfig,
     IChangeActorState,
     IChangeBehaviorState,
     IChangeRandomState,
     IChangeState,
     ISetBehaviorPaused,
-} from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/IAction';
+import {
+    createArrayScheme,
+    createBooleanScheme,
+    createEnumScheme,
+    createIntScheme,
+    createObjectScheme,
+} from '../../Type';
 
 export const finishStateScheme = createObjectScheme({
     CnName: '结束状态',

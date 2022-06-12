@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IVectorInfo } from '../../../../Common/Interface';
-import { createIntScheme, createVectorScheme } from '../../../../Common/Type';
-import { IGrabComponent } from '../../../../Game/Interface/Component';
+import { IVectorInfo } from '../../../../Game/Interface/IAction';
+import { IGrabComponent } from '../../../../Game/Interface/IComponent';
+import { createIntScheme, createVectorScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const grabComponentScheme = createComponentScheme<IGrabComponent>({

@@ -3,8 +3,9 @@ import { Actor, Class } from 'ue';
 
 import { isChildOfClass } from '../../Common/Util';
 import { StateComponent } from '../Component/StateComponent';
-import { Entity, gameContext, ITsEntity, TComponentsData } from '../Interface';
+import { Entity, gameContext, ITsEntity } from '../Interface';
 import { getClassByEntityType } from '../Interface/Entity';
+import { TComponentsData } from '../Interface/IEntity';
 
 function getComponentsData(entity: ITsEntity, isPlayer: boolean): TComponentsData {
     if (!isPlayer) {

@@ -4,7 +4,7 @@ import { Rotator, Vector } from 'ue';
 import { warn } from '../../Common/Log';
 import { actionRegistry } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
-import { IActionInfo } from '../Interface/Action';
+import { IActionInfo } from '../Interface/IAction';
 
 export type TEntityStateId =
     | 'ActionId'

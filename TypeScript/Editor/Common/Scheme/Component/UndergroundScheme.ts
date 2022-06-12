@@ -1,4 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
+import { IStateInfo, IUndergroundComponent } from '../../../../Game/Interface/IComponent';
 import {
     createArrayScheme,
     createBooleanScheme,
@@ -6,8 +7,7 @@ import {
     createObjectScheme,
     createStringScheme,
     createVectorScheme,
-} from '../../../../Common/Type';
-import { IStateInfo, IUndergroundComponent } from '../../../../Game/Interface/Component';
+} from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const stateInfoScheme = createObjectScheme<IStateInfo>({

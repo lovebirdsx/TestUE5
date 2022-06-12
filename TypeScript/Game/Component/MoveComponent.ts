@@ -11,13 +11,13 @@ import {
 } from 'ue';
 
 import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
-import { IPosA, toVector } from '../../Common/Interface';
 import { warn } from '../../Common/Log';
 import { calUpRotatorByPoints, isChildOfClass } from '../../Common/Util';
 import { Component, gameContext } from '../Interface';
-import { IFaceToPos, IMoveToPosA } from '../Interface/Action';
-import { DEFAULT_INIT_SPEED, IMoveComponent } from '../Interface/Component';
+import { toVector } from '../Interface/Action';
 import { getClassByEntityType } from '../Interface/Entity';
+import { IFaceToPos, IMoveToPosA, IPosA } from '../Interface/IAction';
+import { DEFAULT_INIT_SPEED, IMoveComponent } from '../Interface/IComponent';
 import { TweenItem } from '../Manager/TweenManager';
 import { StateComponent } from './StateComponent';
 

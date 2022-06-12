@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { createFloatScheme } from '../../../../Common/Type';
-import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../../../Game/Interface/Component';
+import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../../../Game/Interface/IComponent';
+import { createFloatScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const moveComponentScheme = createComponentScheme<IMoveComponent>({

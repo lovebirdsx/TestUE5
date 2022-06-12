@@ -1,6 +1,6 @@
-import { createArrayScheme, createFloatScheme, createObjectScheme } from '../../../../Common/Type';
-import { IActionInfo, IFunction, INumberVar } from '../../../../Game/Interface/Action';
-import { ICalculateComponent } from '../../../../Game/Interface/Component';
+import { IActionInfo, IFunction, INumberVar } from '../../../../Game/Interface/IAction';
+import { ICalculateComponent } from '../../../../Game/Interface/IComponent';
+import { createArrayScheme, createFloatScheme, createObjectScheme } from '../../Type';
 import { functionActionScheme } from '../Action/Action';
 import { functionNameScheme, varNameScheme } from '../Action/Calculate';
 import { createComponentScheme } from './ComponentRegistry';

@@ -1,17 +1,17 @@
 /* eslint-disable spellcheck/spell-checker */
-import { csvCellTypeConfig, TCsvCellType } from '../../../../Common/CsvLoader';
 import { error } from '../../../../Common/Log';
+import { csvCellTypeConfig, TCsvCellType } from '../../../../Game/Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import {
     booleanScheme,
     createCsvIndexValueScheme,
     createEnumScheme,
     createStringScheme,
-    ECsvName,
     floatScheme,
     intScheme,
     Scheme,
     stringScheme,
-} from '../../../../Common/Type';
+} from '../../Type';
 
 interface ICellConfigSlot {
     Desc: string;

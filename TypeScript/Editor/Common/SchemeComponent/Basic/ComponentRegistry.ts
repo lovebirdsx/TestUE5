@@ -1,7 +1,7 @@
 import { ComponentClass, FunctionComponent } from 'react';
 
 import { error } from '../../../../Common/Log';
-import { IProps, TElementRenderType } from '../../../../Common/Type';
+import { IProps, TElementRenderType } from '../../Type';
 
 type TComponentClass = ComponentClass<IProps> | FunctionComponent<IProps>;
 

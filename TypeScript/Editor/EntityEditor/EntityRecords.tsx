@@ -3,6 +3,11 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { Btn } from '../Common/BaseComponent/CommonComponent';
+import { IEntityRecord, IEntityRecords } from '../Common/Interface';
+import LevelEditorUtil from '../Common/LevelEditorUtil';
+import { Any, Obj } from '../Common/SchemeComponent/Public';
+import { renderRegistry } from '../Common/SchemeComponent/RenderRegistry';
 import {
     createArrayScheme,
     createIntScheme,
@@ -11,12 +16,7 @@ import {
     IProps,
     ObjectScheme,
     TModifyType,
-} from '../../Common/Type';
-import { Btn } from '../Common/BaseComponent/CommonComponent';
-import { IEntityRecord, IEntityRecords } from '../Common/Interface';
-import LevelEditorUtil from '../Common/LevelEditorUtil';
-import { Any, Obj } from '../Common/SchemeComponent/Public';
-import { renderRegistry } from '../Common/SchemeComponent/RenderRegistry';
+} from '../Common/Type';
 
 const entityRecordScheme = createObjectScheme<IEntityRecord>({
     Fields: {

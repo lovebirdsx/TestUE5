@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Component, IInteractCall } from '../Interface';
-import { IInteract } from '../Interface/Action';
+import { IInteract } from '../Interface/IAction';
 
 export class EventComponent extends Component {
     private readonly Interactcall = new Set<IInteractCall>();

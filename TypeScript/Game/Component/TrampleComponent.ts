@@ -12,8 +12,8 @@ import {
 
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, InteractiveComponent } from '../Interface';
-import { IActionInfo } from '../Interface/Action';
-import { ITrampleComponent } from '../Interface/Component';
+import { IActionInfo } from '../Interface/IAction';
+import { ITrampleComponent } from '../Interface/IComponent';
 import { StateComponent } from './StateComponent';
 
 export class TrampleComponent extends InteractiveComponent implements ITrampleComponent {

@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createIntScheme, createVectorScheme } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
-import { ISphereFactoryComponent } from '../../../../Game/Interface/Component';
+import { ISphereFactoryComponent } from '../../../../Game/Interface/IComponent';
+import { createIntScheme, createVectorScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const sphereFactorComponentScheme = createComponentScheme<ISphereFactoryComponent>({

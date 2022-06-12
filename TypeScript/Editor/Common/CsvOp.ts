@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ICsv } from './CsvLoader';
-import { error } from './Log';
-import { TCsvValueType } from './Type';
+import { error } from '../../Common/Log';
+import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
+import { TCsvValueType } from '../../Game/Interface/IAction';
 
 class CsvOp {
     private GetFieldIndex(csv: ICsv, fieldName: string, isIndex: boolean): number {

@@ -2,8 +2,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
-import { IActionInfo } from '../Interface/Action';
-import { ISwitcherComponent } from '../Interface/Component';
+import { IActionInfo } from '../Interface/IAction';
+import { ISwitcherComponent } from '../Interface/IComponent';
 import TsHud from '../Player/TsHud';
 import { ActorStateComponent } from './ActorStateComponent';
 import PlayerComponent from './PlayerComponent';

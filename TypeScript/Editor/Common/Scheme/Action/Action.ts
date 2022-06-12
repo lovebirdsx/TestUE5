@@ -1,12 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Scheme, TElementRenderType } from '../../../../Common/Type';
 import {
     IActionInfo,
     IJumpTalk,
     ILog,
     IShowTalk,
     TActionType,
-} from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/IAction';
+import { Scheme, TElementRenderType } from '../../Type';
 
 export type TActionQueryType = 'custom' | 'entity';
 

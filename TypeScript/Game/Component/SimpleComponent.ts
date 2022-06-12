@@ -3,10 +3,10 @@
 import { $ref, $unref } from "puerts";
 import { Actor, NewArray, StaticMeshComponent, Vector } from 'ue';
 
-import { toVector } from '../../Common/Interface';
 import { error } from '../../Common/Log';
 import { Component, gameContext, ITickable, ITsEntity } from '../Interface';
-import { ISimpleMove } from '../Interface/Action';
+import { toVector } from '../Interface/Action';
+import { ISimpleMove } from '../Interface/IAction';
 import { StateComponent, vectorToArray } from './StateComponent';
 
 export interface ISimpleMoveInfo {

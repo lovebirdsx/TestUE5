@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
+import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Game/Interface/IAction';
 import {
     createEnumScheme,
     createFloatScheme,
     createObjectScheme,
     createStringScheme,
-} from '../../../../Common/Type';
-import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Game/Interface/Action';
+} from '../../Type';
 
 export const logScheme = createObjectScheme<ILog>({
     CnName: '输出',

@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from './CsvLoader';
 
 export interface CustomSeqRow extends TCsvRowBase {
     Id: number;

@@ -1,16 +1,16 @@
 /* eslint-disable spellcheck/spell-checker */
-import {
-    createArrayScheme,
-    createBooleanScheme,
-    createIntScheme,
-    createObjectScheme,
-} from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
 import {
     ICylinder,
     IRefreshGroup,
     IRefreshSingleComponent,
-} from '../../../../Game/Interface/Component';
+} from '../../../../Game/Interface/IComponent';
+import {
+    createArrayScheme,
+    createBooleanScheme,
+    createIntScheme,
+    createObjectScheme,
+} from '../../Type';
 import { entityIdScheme } from '../Action/Invoke';
 import { posScheme } from '../Action/Move';
 import { createComponentScheme } from './ComponentRegistry';

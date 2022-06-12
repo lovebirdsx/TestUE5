@@ -5,14 +5,13 @@ import { BuiltinText, Game } from 'ue';
 
 import { createCancleableDelay, createSignal, delay } from '../../Common/Async';
 import { error } from '../../Common/Log';
-import { toUeArray } from '../../Common/UeHelper';
-import { calUpRotatorByPoints } from '../../Common/Util';
+import { calUpRotatorByPoints, toUeArray } from '../../Common/Util';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerListOp } from '../Common/Operations/TalkerList';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext } from '../Interface';
-import { IFlowListInfo, IShowTalk, ITalkItem } from '../Interface/Action';
+import { IFlowListInfo, IShowTalk, ITalkItem } from '../Interface/IAction';
 import TsHud from '../Player/TsHud';
 
 export class TalkComponent extends Component {

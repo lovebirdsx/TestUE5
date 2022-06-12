@@ -1,29 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Class } from 'ue';
 
-import { TActionType } from './Action';
-import { baseActions, getActionsByComponentType, TComponentType } from './Component';
+import { baseActions, getActionsByComponentType } from './Component';
+import { TActionType } from './IAction';
+import { TComponentType } from './IComponent';
+import { IEntityConfig, TComponentsByEntity, TEntityType } from './IEntity';
 
-export type TEntityType =
-    | 'AiNpc'
-    | 'CharacterEntity'
-    | 'Entity'
-    | 'Lamp'
-    | 'Npc'
-    | 'RefreshEntity'
-    | 'RefreshSingle'
-    | 'Rotator'
-    | 'SphereActor'
-    | 'SphereFactory'
-    | 'Spring'
-    | 'SpringBoard'
-    | 'StateEntity'
-    | 'Switcher'
-    | 'Trample'
-    | 'Trigger'
-    | 'Underground';
-
-export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
+export const componentsByEntity: TComponentsByEntity = {
     AiNpc: [
         'StateComponent',
         'FlowComponent',
@@ -74,8 +57,12 @@ export const entityConfig: { [key in TEntityType]: TComponentType[] } = {
     Underground: ['UndergroundComponent', 'StateComponent', 'EventComponent'],
 };
 
+export const entityConfig: IEntityConfig = {
+    ComponentsByEntity: componentsByEntity,
+};
+
 export function getComponentsTypeByEntityType(entity: TEntityType): TComponentType[] {
-    return entityConfig[entity];
+    return componentsByEntity[entity];
 }
 
 const actionsByEntity: Map<TEntityType, TActionType[]> = new Map();
@@ -84,7 +71,7 @@ export function getActionsByEntityType(entity: TEntityType): TActionType[] {
     let result = actionsByEntity.get(entity);
     if (!result) {
         const actions: TActionType[] = [...baseActions];
-        entityConfig[entity].forEach((componentType) => {
+        componentsByEntity[entity].forEach((componentType) => {
             actions.push(...getActionsByComponentType(componentType));
         });
         // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
@@ -96,7 +83,6 @@ export function getActionsByEntityType(entity: TEntityType): TActionType[] {
     return result;
 }
 
-// 注意: 由于序列化中会用到Entity的Id,故而新增类型不能改变已有id
 export type TBlueprintType =
     // eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
     | 'Entity'
@@ -161,8 +147,8 @@ function registerBlueprint(type: TBlueprintType, classPath: string, entityType: 
     blueprintByClass.set(classObj, record);
 }
 
-export function getEntityTypeByBlueprintType(id: TBlueprintType): TEntityType | undefined {
-    const record = blueprintByType.get(id);
+export function getEntityTypeByBlueprintType(id: string): TEntityType | undefined {
+    const record = blueprintByType.get(id as TBlueprintType);
     return record ? record.EntityType : undefined;
 }
 
@@ -180,8 +166,8 @@ export function getEntityTypeByActor(actor: Actor): TEntityType | undefined {
     return getEntityTypeByClass(actor.GetClass());
 }
 
-export function getClassByBluprintType(type: TBlueprintType): Class | undefined {
-    const record = blueprintByType.get(type);
+export function getClassByBluprintType(type: string): Class | undefined {
+    const record = blueprintByType.get(type as TBlueprintType);
     return record ? record.ClassObj : undefined;
 }
 

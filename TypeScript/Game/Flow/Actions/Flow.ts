@@ -9,7 +9,7 @@ import {
     IJumpTalk,
     ISetBehaviorPaused,
     IShowTalk,
-} from '../../Interface/Action';
+} from '../../Interface/IAction';
 import { Action } from '../ActionRunner';
 
 export class ChangeStateAction extends Action<IChangeState> {

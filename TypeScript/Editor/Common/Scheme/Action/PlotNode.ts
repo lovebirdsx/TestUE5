@@ -1,17 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import {
-    booleanHideNameScheme,
-    createEnumScheme,
-    createObjectScheme,
-} from '../../../../Common/Type';
-import {
     cameraModeConfig,
     flowBoolOptionConfig,
     ISetCameraMode,
     ISetFlowBoolOption,
     ISetPlotMode,
     plotModeConfig,
-} from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/IAction';
+import { booleanHideNameScheme, createEnumScheme, createObjectScheme } from '../../Type';
 
 export const setFlowBoolOptionScheme = createObjectScheme<ISetFlowBoolOption>({
     CnName: '设定剧情控制变量',

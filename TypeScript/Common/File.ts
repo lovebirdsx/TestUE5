@@ -1,7 +1,7 @@
 import { $ref } from 'puerts';
 import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
-import { toTsArray } from './UeHelper';
+import { toTsArray } from './Util';
 
 export function getFileName(path: string): string {
     // eslint-disable-next-line no-useless-escape

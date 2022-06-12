@@ -2,11 +2,12 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { csvOp } from '../../../../Common/CsvOp';
-import { CsvIndexValueScheme, IProps, TCsvValueType } from '../../../../Common/Type';
 import { csvRegistry } from '../../../../Game/Common/CsvConfig/CsvRegistry';
+import { TCsvValueType } from '../../../../Game/Interface/IAction';
 import { Btn, List } from '../../BaseComponent/CommonComponent';
+import { csvOp } from '../../CsvOp';
 import { editorConfig } from '../../EditorConfig';
+import { CsvIndexValueScheme, IProps } from '../../Type';
 import { sendEditorCommand } from '../../Util';
 
 function openCsvEditor(csvName: string): void {

@@ -1,11 +1,4 @@
 import {
-    createArrayScheme,
-    createEnumScheme,
-    createObjectScheme,
-    createScheme,
-    createStringScheme,
-} from '../../../../Common/Type';
-import {
     DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
     DEFUALT_VALUE_NAME_TEXT_WIDTH,
 } from '../../../../Game/Interface';
@@ -25,7 +18,14 @@ import {
     TCompare,
     TLogicOpType,
     TVar,
-} from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/IAction';
+import {
+    createArrayScheme,
+    createEnumScheme,
+    createObjectScheme,
+    createScheme,
+    createStringScheme,
+} from '../../Type';
 import { functionActionScheme } from './Action';
 
 export const varValueScheme = createScheme<TVar>({

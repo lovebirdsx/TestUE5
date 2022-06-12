@@ -9,7 +9,7 @@ import {
     removeExtension,
 } from '../../../Common/File';
 import { assertEq, assertFalse, assertTrue, test } from '../../../Common/Test';
-import { toTsArray } from '../../../Common/UeHelper';
+import { toTsArray } from '../../../Common/Util';
 
 export default function testFile(): void {
     test('read save file', () => {

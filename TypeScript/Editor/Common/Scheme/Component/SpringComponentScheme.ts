@@ -1,11 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
+import { ISettingSpringDir, ISpringComponent } from '../../../../Game/Interface/IComponent';
 import {
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
     createVectorScheme,
-} from '../../../../Common/Type';
-import { ISettingSpringDir, ISpringComponent } from '../../../../Game/Interface/Component';
+} from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const springSettingDirScheme = createObjectScheme<ISettingSpringDir>({

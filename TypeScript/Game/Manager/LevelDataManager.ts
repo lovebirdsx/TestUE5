@@ -3,8 +3,9 @@ import { readJsonObj } from '../../Common/Util';
 import { GameConfig } from '../Common/GameConfig';
 import { entityIdAllocator } from '../Common/Operations/Entity';
 import { EntityTemplateOp } from '../Common/Operations/EntityTemplate';
-import { gameContext, IEntityData, ILevelDataManager } from '../Interface';
-import { ILevelData } from '../Interface/Level';
+import { gameContext, ILevelDataManager } from '../Interface';
+import { IEntityData } from '../Interface/IEntity';
+import { ILevelData } from '../Interface/ILevel';
 import { IManager } from './Interface';
 
 export class LevelDataManager implements IManager, ILevelDataManager {

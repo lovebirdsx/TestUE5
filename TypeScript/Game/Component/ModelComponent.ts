@@ -2,7 +2,7 @@ import * as UE from 'ue';
 import { Character, SkeletalMesh } from 'ue';
 
 import { Component } from '../Interface';
-import { IModelComponent } from '../Interface/Component';
+import { IModelComponent } from '../Interface/IComponent';
 
 export class ModelComponent extends Component implements IModelComponent {
     public AnimClass: string;

@@ -4,10 +4,10 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { AnimBlueprint, Class, SkeletalMesh } from 'ue';
 
-import { IProps } from '../../../../Common/Type';
 import TsCharacterEntity from '../../../../Game/Entity/TsCharacterEntity';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { entityListCache } from '../../EntityListCache';
+import { IProps } from '../../Type';
 import { entityIdContext } from '../Context';
 
 export class MeshSelector extends React.Component<IProps<string>> {

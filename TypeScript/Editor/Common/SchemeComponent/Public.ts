@@ -1,14 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IVectorInfo } from '../../../Common/Interface';
 import {
     IInvoke,
     IPlayFlow,
     IShowTalk,
     ISpawn,
     ITriggerActions,
+    IVectorInfo,
     TVar,
-} from '../../../Game/Interface/Action';
-import { IBehaviorFlowComponent } from '../../../Game/Interface/Component';
+} from '../../../Game/Interface/IAction';
+import { IBehaviorFlowComponent } from '../../../Game/Interface/IComponent';
 import { varValueScheme } from '../Scheme/Action/Calculate';
 import { spawnChildScheme } from '../Scheme/Action/Entity';
 import { playFlowScheme } from '../Scheme/Action/Flow';

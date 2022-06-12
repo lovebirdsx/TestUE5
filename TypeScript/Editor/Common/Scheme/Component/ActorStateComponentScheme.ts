@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createEnumScheme } from '../../../../Common/Type';
-import { actorStateConfig } from '../../../../Game/Interface/Action';
-import { IActorStateComponent } from '../../../../Game/Interface/Component';
+import { actorStateConfig } from '../../../../Game/Interface/IAction';
+import { IActorStateComponent } from '../../../../Game/Interface/IComponent';
+import { createEnumScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const actorStateComponentScheme = createComponentScheme<IActorStateComponent>({

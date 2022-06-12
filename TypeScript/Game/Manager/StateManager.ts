@@ -4,7 +4,7 @@ import { MyFileHelper } from 'ue';
 import { log } from '../../Common/Log';
 import { GameConfig } from '../Common/GameConfig';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
-import { IActionInfo } from '../Interface/Action';
+import { IActionInfo } from '../Interface/IAction';
 import { IManager } from './Interface';
 
 interface ILevelState {

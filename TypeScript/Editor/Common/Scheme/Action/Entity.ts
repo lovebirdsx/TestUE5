@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createDefaultTransform, ITransform } from '../../../../Common/Interface';
-import { createAssetScheme, createIntScheme, createObjectScheme } from '../../../../Common/Type';
 import { EntityTemplateOp } from '../../../../Game/Common/Operations/EntityTemplate';
-import { ISpawn } from '../../../../Game/Interface/Action';
+import { createDefaultTransform } from '../../../../Game/Interface/Action';
+import { ISpawn, ITransform } from '../../../../Game/Interface/IAction';
+import { createAssetScheme, createIntScheme, createObjectScheme } from '../../Type';
 
 const DEFAULT_ENTITY_BP_PATH = '/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj';
 

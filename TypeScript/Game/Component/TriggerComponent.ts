@@ -2,8 +2,8 @@
 import { log } from '../../Common/Log';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, Entity } from '../Interface';
-import { ITriggerActions } from '../Interface/Action';
-import { ITriggerComponent } from '../Interface/Component';
+import { ITriggerActions } from '../Interface/IAction';
+import { ITriggerComponent } from '../Interface/IComponent';
 import PlayerComponent from './PlayerComponent';
 import { StateComponent } from './StateComponent';
 

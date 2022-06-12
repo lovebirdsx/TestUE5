@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ObjectScheme } from '../../../../Common/Type';
-import { TActionType } from '../../../../Game/Interface/Action';
+import { TActionType } from '../../../../Game/Interface/IAction';
+import { ObjectScheme } from '../../Type';
 import { actionRegistry } from './ActionRegistry';
 import {
     callByConditionScheme,

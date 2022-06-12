@@ -4,14 +4,13 @@ import produce from 'immer';
 import { getFileNameWithOutExt, listFiles } from '../../../Common/File';
 import { warn } from '../../../Common/Log';
 import { deepEquals, readJsonObj } from '../../../Common/Util';
-import { IEntityData, TComponentsData } from '../../Interface';
-import { TComponentType } from '../../Interface/Component';
-import { TBlueprintType } from '../../Interface/Entity';
+import { TComponentType } from '../../Interface/IComponent';
+import { IEntityData, TComponentsData } from '../../Interface/IEntity';
 import { GameConfig } from '../GameConfig';
 
 export interface IEntityTemplate {
     Id: number;
-    BlueprintType: TBlueprintType;
+    BlueprintType: string;
     ComponentsData: TComponentsData;
 }
 

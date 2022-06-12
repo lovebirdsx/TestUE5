@@ -3,9 +3,9 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Vector } from 'ue';
 
-import { IVectorInfo } from '../../../../Common/Interface';
-import { IProps } from '../../../../Common/Type';
+import { IVectorInfo } from '../../../../Game/Interface/IAction';
 import { EditorBox } from '../../BaseComponent/CommonComponent';
+import { IProps } from '../../Type';
 
 export class VectorScheme extends React.Component<IProps<IVectorInfo>> {
     private readonly OnModifyX = (text: string): void => {

@@ -5,21 +5,21 @@ import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
 import { MS_PER_SEC } from '../../../../Common/Async';
+import { loadClass } from '../../../../Common/Util';
+import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
 import {
+    alignPosA,
     defalutPosA,
-    IPosA,
-    IVectorInfo,
     posaToTransform,
     toPosA,
     toVector,
     transformToPosA,
-} from '../../../../Common/Interface';
-import { IProps } from '../../../../Common/Type';
-import { alignPosA, loadClass } from '../../../../Common/Util';
-import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
+} from '../../../../Game/Interface/Action';
+import { IPosA, IVectorInfo } from '../../../../Game/Interface/IAction';
 import { Btn, COLOR_LEVEL1, EditorBox } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import LevelEditorUtil from '../../LevelEditorUtil';
+import { IProps } from '../../Type';
 import { copyObject, pasteObject } from '../../Util';
 
 interface IPointState {

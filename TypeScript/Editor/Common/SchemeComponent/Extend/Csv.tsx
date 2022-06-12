@@ -2,9 +2,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { TCsvCellType } from '../../../../Common/CsvLoader';
-import { IProps, TCsvValueType } from '../../../../Common/Type';
+import { TCsvCellType } from '../../../../Game/Common/CsvConfig/CsvLoader';
+import { TCsvValueType } from '../../../../Game/Interface/IAction';
 import { getCsvCellSchemeByType } from '../../Scheme/Csv/CsvCell';
+import { IProps } from '../../Type';
 import { Any } from '../Basic/Any';
 import { csvCellContext, ICsvCellContext } from '../Context';
 

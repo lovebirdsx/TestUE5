@@ -5,7 +5,7 @@ import {
     IDoCalculate,
     ISetNumberVar,
     ISyncVarToActorState,
-} from '../../Interface/Action';
+} from '../../Interface/IAction';
 import { Action } from '../ActionRunner';
 
 export class SetNumberVarAction extends Action<ISetNumberVar> {

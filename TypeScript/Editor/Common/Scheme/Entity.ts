@@ -1,18 +1,23 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
-import { toTransformInfo } from '../../../Common/Interface';
 import { warn } from '../../../Common/Log';
 import { deepEquals } from '../../../Common/Util';
-import { IEntityData, ITsEntity, TComponentData, TComponentsData } from '../../../Game/Interface';
-import { TActionType } from '../../../Game/Interface/Action';
-import { TComponentType } from '../../../Game/Interface/Component';
+import { ITsEntity } from '../../../Game/Interface';
+import { toTransformInfo } from '../../../Game/Interface/Action';
 import {
     getActionsByEntityType,
     getBlueprintTypeByClass,
     getComponentsTypeByEntityType,
     getEntityTypeByActor,
-    TEntityType,
 } from '../../../Game/Interface/Entity';
+import { TActionType } from '../../../Game/Interface/IAction';
+import { TComponentType } from '../../../Game/Interface/IComponent';
+import {
+    IEntityData,
+    TComponentData,
+    TComponentsData,
+    TEntityType,
+} from '../../../Game/Interface/IEntity';
 import { levelDataManager } from '../LevelDataManager';
 import { componentRegistry } from './Component/ComponentRegistry';
 

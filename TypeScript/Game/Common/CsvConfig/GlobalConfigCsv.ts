@@ -1,5 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { error } from '../../../Common/Log';
 import {
     createCsvField,
     CsvLoader,
@@ -9,8 +10,7 @@ import {
     parseCsvValue,
     TCsvCellType,
     TCsvRowBase,
-} from '../../../Common/CsvLoader';
-import { error } from '../../../Common/Log';
+} from './CsvLoader';
 
 export interface GlobalConfigRow extends TCsvRowBase {
     Id: number;

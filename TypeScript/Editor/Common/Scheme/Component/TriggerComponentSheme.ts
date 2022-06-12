@@ -1,11 +1,11 @@
+import { ITriggerActions } from '../../../../Game/Interface/IAction';
+import { ITriggerComponent } from '../../../../Game/Interface/IComponent';
 import {
     createArrayScheme,
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
-} from '../../../../Common/Type';
-import { ITriggerActions } from '../../../../Game/Interface/Action';
-import { ITriggerComponent } from '../../../../Game/Interface/Component';
+} from '../../Type';
 import { triggerActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
 

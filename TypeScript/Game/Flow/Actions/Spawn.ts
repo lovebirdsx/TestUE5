@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EntitySpawnerComponent } from '../../Component/EntitySpawnerComponent';
-import { ISpawn } from '../../Interface/Action';
+import { ISpawn } from '../../Interface/IAction';
 import { Action } from '../ActionRunner';
 
 export class SpawnChildAction extends Action<ISpawn> {

@@ -1,13 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IVectorInfo } from '../../../../Common/Interface';
+import { IVectorInfo } from '../../../../Game/Interface/IAction';
+import { IEventRotator, IRotatorComponent } from '../../../../Game/Interface/IComponent';
 import {
     createArrayScheme,
     createBooleanScheme,
     createIntScheme,
     createObjectScheme,
     createVectorScheme,
-} from '../../../../Common/Type';
-import { IEventRotator, IRotatorComponent } from '../../../../Game/Interface/Component';
+} from '../../Type';
 import { trampleActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
 import { interactiveComponentFields } from './InteractComponentScheme';

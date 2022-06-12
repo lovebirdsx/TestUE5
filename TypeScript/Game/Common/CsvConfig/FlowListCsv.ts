@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from '../../../Common/CsvLoader';
+import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from './CsvLoader';
 
 export interface IFlowListRow extends TCsvRowBase {
     Id: string;

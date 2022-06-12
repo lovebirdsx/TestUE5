@@ -17,16 +17,16 @@ import {
     Vector,
 } from 'ue';
 
-import { ITransform, toRotation, toTransform, toVector } from '../../Common/Interface';
 import { error, log } from '../../Common/Log';
-import { toUeArray } from '../../Common/UeHelper';
-import { deepEquals, getAssetPath, isValidActor } from '../../Common/Util';
+import { deepEquals, getAssetPath, isValidActor, toUeArray } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { EntityTemplateOp } from '../../Game/Common/Operations/EntityTemplate';
 import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
-import { TComponentType } from '../../Game/Interface/Component';
+import { toRotation, toTransform, toVector } from '../../Game/Interface/Action';
 import { getClassByBluprintType } from '../../Game/Interface/Entity';
+import { ITransform } from '../../Game/Interface/IAction';
+import { TComponentType } from '../../Game/Interface/IComponent';
 import { levelDataManager } from './LevelDataManager';
 import { entityRegistry } from './Scheme/Entity';
 

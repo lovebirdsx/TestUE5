@@ -2,10 +2,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { LineReader, LineWriter } from './LineStream';
-import { log, warn } from './Log';
-import { TCsvValueType } from './Type';
-import { RequiredField } from './Util';
+import { LineReader, LineWriter } from '../../../Common/CsvParser';
+import { log, warn } from '../../../Common/Log';
+import { RequiredField } from '../../../Common/Util';
+import { TCsvValueType } from '../../Interface/IAction';
 
 export const csvCellTypeConfig = {
     Int: {
@@ -217,7 +217,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
         this.FiledTypes.forEach((fieldType) => {
             tockens.push(fieldType[fieldName]);
         });
-        writer.write(tockens);
+        writer.Write(tockens);
     }
 
     private ReadHeader(reader: LineReader): void {
@@ -227,19 +227,19 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
                 continue;
             }
 
-            if (reader.isEnd) {
+            if (reader.IsEnd) {
                 throw new Error(
-                    `CSV [${this.Name}] header row count [${reader.totalLine}] not enough`,
+                    `CSV [${this.Name}] header row count [${reader.TotalLine}] not enough`,
                 );
             }
 
-            const tockens = reader.readNext();
+            const tockens = reader.ReadNext();
             this.CheckHeadline(tockens, key as TCsvFieldKey);
         }
     }
 
     private ReadRow(reader: LineReader): TCsvRow {
-        const tockens = reader.readNext();
+        const tockens = reader.ReadNext();
 
         // 允许长度不一致
         // if (tockens.length !== this.FiledTypes.length + 1) {
@@ -271,7 +271,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
 
     private ReadRows(reader: LineReader): TCsvRow[] {
         const result: TCsvRow[] = [];
-        while (!reader.isEnd) {
+        while (!reader.IsEnd) {
             result.push(this.ReadRow(reader));
         }
 
@@ -300,7 +300,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
                 tockens.push(value.toString());
             }
         });
-        writer.write(tockens);
+        writer.Write(tockens);
     }
 
     private WriteRows(writer: LineWriter, rows: TCsvRow[]): void {
@@ -311,7 +311,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
 
     public Parse(content: string): TCsvRow[] {
         const reader = new LineReader(content);
-        if (reader.isValid) {
+        if (reader.IsValid) {
             this.ReadHeader(reader);
             return this.ReadRows(reader);
         }
@@ -321,7 +321,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
 
     public ParseOne(content: string): TCsvRow {
         const reader = new LineReader(content);
-        if (reader.isValid) {
+        if (reader.IsValid) {
             this.ReadHeader(reader);
             return this.ReadRow(reader);
         }
@@ -332,14 +332,14 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
         const writer = new LineWriter();
         this.WriteHeader(writer);
         this.WriteRows(writer, rows);
-        return writer.gen();
+        return writer.Gen();
     }
 
     public StringifyOne(row: TCsvRow): string {
         const writer = new LineWriter();
         this.WriteHeader(writer);
         this.WriteRow(writer, row);
-        return writer.gen();
+        return writer.Gen();
     }
 
     public Load(path: string): TCsvRow[] {

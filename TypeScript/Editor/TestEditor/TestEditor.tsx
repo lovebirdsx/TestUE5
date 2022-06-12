@@ -37,9 +37,9 @@ import { testOpenFileDialog, testSaveFileDialog } from './FileDialog';
 import { TestAssetSelector } from './TestAssetSelector';
 import { TestButton } from './TestButton';
 import { TestContextBtn } from './TestContextBtn';
+import { TestLevel } from './TestLevel';
 // import { TestCsvView } from './TestCsvView';
 import { TestListView } from './TestListView';
-import { TestMap } from './TestMap';
 import { TestMoveComponent } from './TestMoveComponent';
 
 interface ITest {
@@ -165,8 +165,8 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
                 {this.RenderUnitTestResults()}
                 <H3 Text={'Test Logic'} />
                 {this.RenderTest()}
-                <H3 Text={'Test Map'} />
-                <TestMap />
+                <H3 Text={'Test Level'} />
+                <TestLevel />
                 <H3 Text={'Test Button enabled'} />
                 <TestButton />
                 <H3 Text={'Test MoveComponent'} />

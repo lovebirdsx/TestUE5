@@ -6,8 +6,9 @@ import { getDir, listFiles } from '../../Common/File';
 import { log } from '../../Common/Log';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
-import { IEntityData, ITsEntity } from '../../Game/Interface';
-import { ILevelData } from '../../Game/Interface/Level';
+import { ITsEntity } from '../../Game/Interface';
+import { IEntityData } from '../../Game/Interface/IEntity';
+import { ILevelData } from '../../Game/Interface/ILevel';
 import { getContentPackageName, openFile } from './Util';
 
 interface IEntityRecord {

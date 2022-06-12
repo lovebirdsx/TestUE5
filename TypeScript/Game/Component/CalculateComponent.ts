@@ -13,8 +13,8 @@ import {
     INumberVar,
     ISyncVarToActorState,
     TVar,
-} from '../Interface/Action';
-import { ICalculateComponent } from '../Interface/Component';
+} from '../Interface/IAction';
+import { ICalculateComponent } from '../Interface/IComponent';
 import { ActorStateComponent } from './ActorStateComponent';
 import { StateComponent } from './StateComponent';
 

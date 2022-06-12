@@ -4,8 +4,7 @@ import { $ref } from 'puerts';
 import { ARFilter, AssetData, AssetRegistryHelpers, EditorOperations, NewArray } from 'ue';
 
 import { error, log } from '../../Common/Log';
-import { toTsArray } from '../../Common/UeHelper';
-import { loadClass } from '../../Common/Util';
+import { loadClass, toTsArray } from '../../Common/Util';
 
 export interface IAsset {
     AssetName: string;

@@ -3,13 +3,13 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { TModifyType } from '../../Common/Type';
-import { TComponentData, TComponentsData } from '../../Game/Interface';
-import { TComponentType } from '../../Game/Interface/Component';
+import { TComponentType } from '../../Game/Interface/IComponent';
+import { TComponentData, TComponentsData } from '../../Game/Interface/IEntity';
 import { Check, COLOR_DISABLE, COLOR_LEVEL4, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { componentRegistry } from '../Common/Scheme/Component/Public';
 import { Any } from '../Common/SchemeComponent/Basic/Public';
+import { TModifyType } from '../Common/Type';
 import { copyObject, pasteObject } from '../Common/Util';
 
 export interface IComponentsDataProps {

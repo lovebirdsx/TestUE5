@@ -1,7 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from '../../Common/CsvLoader';
+import {
+    createCsvField,
+    CsvLoader,
+    ICsvField,
+    TCsvRowBase,
+} from '../../Game/Common/CsvConfig/CsvLoader';
 
 export interface TalkerRow extends TCsvRowBase {
     Id: number;

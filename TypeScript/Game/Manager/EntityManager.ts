@@ -5,14 +5,8 @@ import { Transform } from 'ue';
 
 import { error, log } from '../../Common/Log';
 import { Event } from '../../Common/Util';
-import {
-    gameContext,
-    IEntityData,
-    IEntityMananger,
-    ITsEntity,
-    TDestroyType,
-    TSpawnType,
-} from '../Interface';
+import { gameContext, IEntityMananger, ITsEntity, TDestroyType, TSpawnType } from '../Interface';
+import { IEntityData } from '../Interface/IEntity';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { IManager } from './Interface';
 

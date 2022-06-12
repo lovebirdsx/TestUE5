@@ -2,7 +2,7 @@
 import { warn } from '../../../Common/Log';
 import { readJsonObj, writeJson } from '../../../Common/Util';
 import { EntityTemplateOp, IEntityTemplate } from '../../../Game/Common/Operations/EntityTemplate';
-import { IEntityData } from '../../../Game/Interface';
+import { IEntityData } from '../../../Game/Interface/IEntity';
 import { LevelTools } from '../../EntityEditor/LevelTools';
 import { CustomSegmentIdGenerator } from '../SegmentIdGenerator';
 

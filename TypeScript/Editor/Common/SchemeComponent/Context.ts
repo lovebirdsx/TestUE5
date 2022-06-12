@@ -1,10 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { ICsv } from '../../../Common/CsvLoader';
-import { ArrayScheme } from '../../../Common/Type';
-import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Interface/Action';
+import { ICsv } from '../../../Game/Common/CsvConfig/CsvLoader';
+import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Interface/IAction';
 import { ITalkerListInfo } from '../../TalkerEditor/TalkerList';
+import { ArrayScheme } from '../Type';
 
 export const flowContext = React.createContext<IFlowInfo>(undefined);
 

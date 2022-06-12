@@ -5,25 +5,26 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { formatColor } from '../../Common/Color';
 import { log } from '../../Common/Log';
-import { TModifyType } from '../../Common/Type';
-import {
-    errorbox,
-    msgbox,
-    openLoadCsvFileDialog,
-    openSaveCsvFileDialog,
-} from '../../Common/UeHelper';
 import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
-import { IFlowListInfo } from '../../Game/Interface/Action';
+import { IFlowListInfo } from '../../Game/Interface/IAction';
 import { Btn, Check, ErrorText, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { formatColor } from '../Common/Color';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
 import { FlowList } from '../Common/SchemeComponent/Public';
-import { openDirOfFile, openFile } from '../Common/Util';
+import { TModifyType } from '../Common/Type';
+import {
+    errorbox,
+    msgbox,
+    openDirOfFile,
+    openFile,
+    openLoadCsvFileDialog,
+    openSaveCsvFileDialog,
+} from '../Common/Util';
 import { TalkListTool } from './TalkListTool';
 
 interface IFlowEditorState {

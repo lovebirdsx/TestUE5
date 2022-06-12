@@ -1,9 +1,5 @@
-import {
-    createAssetScheme,
-    createBooleanScheme,
-    createObjectScheme,
-} from '../../../../Common/Type';
-import { ISetHeadIconVisible } from '../../../../Game/Interface/Action';
+import { ISetHeadIconVisible } from '../../../../Game/Interface/IAction';
+import { createAssetScheme, createBooleanScheme, createObjectScheme } from '../../Type';
 import { talkerIdScheme } from './ShowTalk';
 
 const DEFAULT_TEXTURE_PATH = '/Textures/J_01.J_01';

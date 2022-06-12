@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createArrayScheme, createBooleanScheme } from '../../../../Common/Type';
-import { ITrampleComponent } from '../../../../Game/Interface/Component';
+import { ITrampleComponent } from '../../../../Game/Interface/IComponent';
+import { createArrayScheme, createBooleanScheme } from '../../Type';
 import { trampleActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';
 

@@ -1,5 +1,5 @@
-import { createStringScheme } from '../../../../Common/Type';
-import { IModelComponent } from '../../../../Game/Interface/Component';
+import { IModelComponent } from '../../../../Game/Interface/IComponent';
+import { createStringScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 
 export const meshScheme = createStringScheme({

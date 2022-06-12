@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { BuiltinString, EditorAssetLibrary, EditorUtilityLibrary } from 'ue';
 
-import { toUeArray } from '../../../Common/UeHelper';
+import { toUeArray } from '../../../Common/Util';
 import { assetListCache, IAsset } from '../AssetListCache';
 import { Btn } from './CommonComponent';
 import { FilterableList } from './FilterableList';

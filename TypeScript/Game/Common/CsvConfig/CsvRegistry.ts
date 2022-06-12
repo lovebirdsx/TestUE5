@@ -1,15 +1,21 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from '../../../Common/CsvLoader';
 import { error, log, warn } from '../../../Common/Log';
-import { ECsvName } from '../../../Common/Type';
+import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsvLoader } from './CustomSeqCsv';
 import { ExtendedEntityBpCsvLoader } from './ExtendedEntityBpCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
 import { TalkerCsvLoader } from './TalkerCsv';
 
 export type TCsvClass = new () => GlobalCsv;
+
+export enum ECsvName {
+    Global = '全局配置',
+    Talker = '对话人',
+    CustomSeq = '自定义序列',
+    ExtendedEntityBp = '扩展实体蓝图',
+}
 
 interface ICsvFileConfig {
     Name: ECsvName;

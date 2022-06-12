@@ -1,7 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
+import { error, warn } from '../../Common/Log';
+import { ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
+import { IVectorInfo, TCsvValueType } from '../../Game/Interface/IAction';
 import { TColor } from './Color';
-import { IVectorInfo } from './Interface';
-import { error, warn } from './Log';
 
 export type TElementRenderType =
     | 'array'
@@ -377,15 +378,6 @@ export const optionalFloatScheme = createFloatScheme({
 });
 
 // ============================================================================
-
-export enum ECsvName {
-    Global = '全局配置',
-    Talker = '对话人',
-    CustomSeq = '自定义序列',
-    ExtendedEntityBp = '扩展实体蓝图',
-}
-
-export type TCsvValueType = bigint | boolean | number | string;
 
 export class CsvIndexValueScheme<T extends TCsvValueType> extends Scheme<T> {
     public RenderType: TElementRenderType = 'csvIndexValue';

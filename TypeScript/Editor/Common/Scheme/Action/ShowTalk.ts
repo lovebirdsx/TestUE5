@@ -1,20 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { globalContexts } from '../../../../Common/GlobalContext';
 import { warn } from '../../../../Common/Log';
-import {
-    createArrayScheme,
-    createAssetScheme,
-    createBooleanScheme,
-    createFloatScheme,
-    createIntScheme,
-    createObjectScheme,
-    createStringScheme,
-    IntScheme,
-    ObjectScheme,
-    TFixResult,
-    TObjectFields,
-} from '../../../../Common/Type';
 import {
     EFlowListAction,
     flowListContext,
@@ -28,7 +14,21 @@ import {
     IShowTalk,
     ITalkItem,
     ITalkOption,
-} from '../../../../Game/Interface/Action';
+} from '../../../../Game/Interface/IAction';
+import { globalContexts } from '../../GlobalContext';
+import {
+    createArrayScheme,
+    createAssetScheme,
+    createBooleanScheme,
+    createFloatScheme,
+    createIntScheme,
+    createObjectScheme,
+    createStringScheme,
+    IntScheme,
+    ObjectScheme,
+    TFixResult,
+    TObjectFields,
+} from '../../Type';
 import { talkActionScheme } from './Action';
 
 export function createTextIdScheme(defaultText: string, type: Partial<IntScheme>): IntScheme {

@@ -7,7 +7,7 @@ import { log, warn } from '../../Common/Log';
 import { getClassByEntityType } from '../../Game/Interface/Entity';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 
-export class TestMap extends React.Component {
+export class TestLevel extends React.Component {
     public constructor() {
         super(undefined);
         const editorEvent = EditorOperations.GetEditorEvent();

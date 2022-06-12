@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Class } from 'ue';
 
-import { toVector } from '../../Common/Interface';
 import { isChildOfClass } from '../../Common/Util';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
-import { IInteract } from '../Interface/Action';
-import { IStateInfo, IUndergroundComponent } from '../Interface/Component';
+import { toVector } from '../Interface/Action';
+import { IInteract } from '../Interface/IAction';
+import { IStateInfo, IUndergroundComponent } from '../Interface/IComponent';
 import { EventComponent } from './EventComponent';
 import { StateComponent } from './StateComponent';
 

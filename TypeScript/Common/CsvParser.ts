@@ -58,3 +58,53 @@ export function stringifyCsv(rows: string[][]): string {
     });
     return lines.join('\r\n');
 }
+
+export class LineReader {
+    private readonly Lines: string[][];
+
+    private Current: number;
+
+    public constructor(content: string) {
+        if (content) {
+            this.Lines = parseCsv(content);
+            this.Current = 0;
+        }
+    }
+
+    public ReadNext(): string[] | undefined {
+        if (!this.IsEnd) {
+            const tockens = this.Lines[this.Current];
+            this.Current++;
+            return tockens;
+        }
+        return undefined;
+    }
+
+    public get CurrentLineNumber(): number {
+        return this.Current;
+    }
+
+    public get TotalLine(): number {
+        return this.Lines.length;
+    }
+
+    public get IsEnd(): boolean {
+        return this.Current >= this.Lines.length;
+    }
+
+    public get IsValid(): boolean {
+        return this.Lines !== undefined;
+    }
+}
+
+export class LineWriter {
+    private readonly Lines: string[][] = [];
+
+    public Write(tockes: string[]): void {
+        this.Lines.push(tockes);
+    }
+
+    public Gen(): string {
+        return stringifyCsv(this.Lines);
+    }
+}

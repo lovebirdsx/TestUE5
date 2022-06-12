@@ -6,17 +6,16 @@ import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from '
 import { Actor, EditorOperations, EFileRoot, ESlateSizeRule, MyFileHelper, World } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
-import { formatColor } from '../../Common/Color';
 import { log } from '../../Common/Log';
-import { TModifyType } from '../../Common/Type';
-import { msgbox } from '../../Common/UeHelper';
 import { readJsonObj, stringifyEditor } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { isEntity } from '../../Game/Entity/Common';
-import { IEntityData, ITsEntity } from '../../Game/Interface';
+import { ITsEntity } from '../../Game/Interface';
+import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
+import { formatColor } from '../Common/Color';
 import { editorConfig } from '../Common/EditorConfig';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
@@ -25,7 +24,14 @@ import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
 import { EditorEntityTemplateOp } from '../Common/Operations/EntityTemplate';
 import { entityRegistry } from '../Common/Scheme/Entity';
-import { deepCopyData, getContentPackageName, mergeEditorToConfig, openFile } from '../Common/Util';
+import { TModifyType } from '../Common/Type';
+import {
+    deepCopyData,
+    getContentPackageName,
+    mergeEditorToConfig,
+    msgbox,
+    openFile,
+} from '../Common/Util';
 import { actorTransactionManager } from './ActorTransactionManager';
 import { EntityRecords } from './EntityRecords';
 import { EntityView } from './EntityView';

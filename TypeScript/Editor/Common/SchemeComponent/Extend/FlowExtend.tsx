@@ -4,20 +4,13 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { log } from '../../../../Common/Log';
-import { IProps, ObjectScheme, TModifyType } from '../../../../Common/Type';
 import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { ITsEntity } from '../../../../Game/Interface';
-import {
-    IFlowInfo,
-    IInvoke,
-    IPlayFlow,
-    ITriggerActions,
-    parseFlowInfo,
-    parsePlayFlow,
-} from '../../../../Game/Interface/Action';
-import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Game/Interface/Component';
+import { parseFlowInfo, parsePlayFlow } from '../../../../Game/Interface/Action';
+import { IFlowInfo, IInvoke, IPlayFlow, ITriggerActions } from '../../../../Game/Interface/IAction';
+import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Game/Interface/IComponent';
 import {
     Btn,
     COLOR_LEVEL1,
@@ -33,6 +26,7 @@ import { editorConfig } from '../../EditorConfig';
 import LevelEditorUtil from '../../LevelEditorUtil';
 import { behaviorFlowActionScheme } from '../../Scheme/Action/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../Scheme/Action/Flow';
+import { IProps, ObjectScheme, TModifyType } from '../../Type';
 import { sendEditorCommand } from '../../Util';
 import { Any, Obj } from '../Basic/Public';
 import { entityIdContext, flowContext, invokeContext } from '../Context';

@@ -16,11 +16,11 @@ import {
 } from 'ue';
 
 import { createSignal, ISignal } from '../../Common/Async';
-import { IVectorInfo, toVector } from '../../Common/Interface';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
-import { IInteract } from '../Interface/Action';
-import { IEventRotator, IRotatorComponent } from '../Interface/Component';
+import { toVector } from '../Interface/Action';
+import { IInteract, IVectorInfo } from '../Interface/IAction';
+import { IEventRotator, IRotatorComponent } from '../Interface/IComponent';
 import TsHud from '../Player/TsHud';
 import TsPlayerController from '../Player/TsPlayerController';
 import { EventComponent } from './EventComponent';

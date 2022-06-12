@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ITransform, toTransform } from '../../Common/Interface';
 import { Component, gameContext, ITsEntity } from '../Interface';
-import { ISpawn } from '../Interface/Action';
+import { toTransform } from '../Interface/Action';
+import { ISpawn, ITransform } from '../Interface/IAction';
 import { StateComponent } from './StateComponent';
 
 interface IEntitySpawnRecord {

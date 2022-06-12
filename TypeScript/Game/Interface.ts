@@ -1,32 +1,17 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
-import { ITransform } from '../Common/Interface';
 import { Event, parse } from '../Common/Util';
-import { IActionInfo, IInteract, TActionType } from './Interface/Action';
-import { IInteractiveComponent } from './Interface/Component';
-import { TBlueprintType } from './Interface/Entity';
+import { IActionInfo, IInteract, TActionType } from './Interface/IAction';
+import { IInteractiveComponent } from './Interface/IComponent';
+import { IEntityData, TComponentsData } from './Interface/IEntity';
 import { TweenManager } from './Manager/TweenManager';
-
-export type TComponentData = Record<string, unknown> & {
-    Disabled: boolean;
-};
-
-export type TComponentsData = Record<string, TComponentData>;
 
 export function parseComponentsData(json: string): TComponentsData {
     if (!json) {
         return {};
     }
     return parse(json, true) as TComponentsData;
-}
-
-export interface IEntityData {
-    Id: number;
-    Name?: string;
-    BlueprintType: TBlueprintType;
-    Transform?: ITransform;
-    ComponentsData: TComponentsData;
 }
 
 export interface ITsEntity extends Actor {

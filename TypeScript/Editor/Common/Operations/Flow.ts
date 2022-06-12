@@ -1,6 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
 import { warn } from '../../../Common/Log';
-import { TFixResult } from '../../../Common/Type';
 import {
     IActionInfo,
     IChangeRandomState,
@@ -8,7 +7,8 @@ import {
     IFlowInfo,
     IShowTalk,
     IStateInfo,
-} from '../../../Game/Interface/Action';
+} from '../../../Game/Interface/IAction';
+import { TFixResult } from '../Type';
 import { stateOp } from './State';
 
 class EditorFlowOp {

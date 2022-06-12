@@ -4,7 +4,9 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { globalContexts } from '../../../../Common/GlobalContext';
+import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
+import { ContextBtn } from '../../BaseComponent/ContextBtn';
+import { globalContexts } from '../../GlobalContext';
 import {
     ArrayScheme,
     getObjArrayRenderColorForField,
@@ -12,9 +14,7 @@ import {
     ObjectScheme,
     Scheme,
     TModifyType,
-} from '../../../../Common/Type';
-import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
-import { ContextBtn } from '../../BaseComponent/ContextBtn';
+} from '../../Type';
 import { arrayContext, IArrayContext } from '../Context';
 import { Any } from './Any';
 

@@ -4,7 +4,7 @@ import { EditorLevelLibrary, EditorOperations, EFileRoot, MyFileHelper, World } 
 
 import { getDir, getSavePath, listFiles } from '../../Common/File';
 import { log } from '../../Common/Log';
-import { readJsonObj, writeJson } from '../../Common/Util';
+import { deepEquals, readJsonObj, writeJson } from '../../Common/Util';
 import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { ILevelData } from '../../Game/Interface/ILevel';
@@ -131,6 +131,10 @@ export class LevelDataManager {
             throw new Error(
                 `Modify entity data for [${entity.ActorLabel}: ${entity.Id}] while not exist`,
             );
+        }
+
+        if (deepEquals(record.EntityData, data)) {
+            return;
         }
 
         record.EntityData = data;

@@ -4,7 +4,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 import { error, log, warn } from '../../../Common/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsvLoader } from './CustomSeqCsv';
-import { ExtendedEntityBpCsvLoader } from './ExtendedEntityBpCsv';
+import { EntityCsvLoader } from './ExtendEntityCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
 import { TalkerCsvLoader } from './TalkerCsv';
 
@@ -14,7 +14,7 @@ export enum ECsvName {
     Global = '全局配置',
     Talker = '对话人',
     CustomSeq = '自定义序列',
-    ExtendedEntityBp = '扩展实体蓝图',
+    ExtendedEntityBp = '扩展实体',
 }
 
 interface ICsvFileConfig {
@@ -35,8 +35,8 @@ const configs: ICsvFileConfig[] = [
     },
     {
         Name: ECsvName.ExtendedEntityBp,
-        Path: 'd.扩展实体蓝图.csv',
-        CsvLoaderClass: ExtendedEntityBpCsvLoader,
+        Path: 'd.实体.csv',
+        CsvLoaderClass: EntityCsvLoader,
         CsvClass: undefined,
     },
     {

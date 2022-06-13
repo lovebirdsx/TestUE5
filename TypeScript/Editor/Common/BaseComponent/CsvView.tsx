@@ -2,7 +2,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 import * as React from 'react';
-import { GridPanel, GridSlot, HorizontalBox, SizeBox } from 'react-umg';
+import { GridPanel, GridSlot, HorizontalBox } from 'react-umg';
 
 import { error, log } from '../../../Common/Log';
 import { ICsv, ICsvField, TCsvRowBase } from '../../../Game/Common/CsvConfig/CsvLoader';
@@ -163,7 +163,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
             const slot: GridSlot = { Row: gridRowId, Column: index };
 
             // 索引字段不能直接修改
-            if (editorCsvOp.IsIndexField(field)) {
+            if (index === 0 && editorCsvOp.IsIndexField(field)) {
                 return (
                     <HorizontalBox Slot={slot} key={`${rowId}-${index}`}>
                         <ContextBtn
@@ -188,7 +188,16 @@ export class CsvView extends React.Component<ICsvViewProps> {
             }
 
             return (
-                <SizeBox Slot={slot} key={`${rowId}-${index}`}>
+                <HorizontalBox Slot={slot} key={`${rowId}-${index}`}>
+                    {index === 0 && (
+                        <ContextBtn
+                            Commands={['上插', '下插', '移除', '上移', '下移']}
+                            OnCommand={(cmd): void => {
+                                this.OnContextCommand(rowId, cmd);
+                            }}
+                        />
+                    )}
+
                     <csvCellContext.Provider value={{ RowId: rowId, ColId: index, Csv: csv }}>
                         <Any
                             Color={color}
@@ -199,7 +208,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
                             }}
                         />
                     </csvCellContext.Provider>
-                </SizeBox>
+                </HorizontalBox>
             );
         });
         return result;

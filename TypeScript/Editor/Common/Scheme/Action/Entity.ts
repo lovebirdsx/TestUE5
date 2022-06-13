@@ -1,8 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 import { createDefaultTransform } from '../../../../Game/Interface/Action';
 import { ISpawn, ITransform } from '../../../../Game/Interface/IAction';
+import { entityTypeConfig } from '../../../../Game/Interface/IEntity';
 import { entityTemplateManager } from '../../EntityTemplateManager';
-import { createAssetScheme, createIntScheme, createObjectScheme } from '../../Type';
+import {
+    createAssetScheme,
+    createEnumScheme,
+    createIntScheme,
+    createObjectScheme,
+} from '../../Type';
 
 const DEFAULT_ENTITY_BP_PATH = '/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj';
 
@@ -19,6 +25,10 @@ export const entityTemplateIdScheme = createIntScheme({
     CreateDefault: () => {
         return entityTemplateManager.GenDefaultId();
     },
+});
+
+export const entityTypeScheme = createEnumScheme({
+    Config: entityTypeConfig,
 });
 
 const transformScheme = createObjectScheme<ITransform>({

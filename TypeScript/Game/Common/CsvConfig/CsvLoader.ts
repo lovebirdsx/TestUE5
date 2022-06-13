@@ -3,7 +3,7 @@
 import { MyFileHelper } from 'ue';
 
 import { LineReader, LineWriter } from '../../../Common/CsvParser';
-import { log, warn } from '../../../Common/Log';
+import { warn } from '../../../Common/Log';
 import { RequiredField } from '../../../Common/Util';
 import { TCsvValueType } from '../../Interface/IAction';
 
@@ -38,13 +38,13 @@ export function parseCsvValue<T extends TCsvCellType>(stringValue: string, type:
     return config.Prase(stringValue);
 }
 
-const exportType = ['C', 'S'] as const;
-const valueType = ['Int', 'String', 'Long'] as const;
-const boolType = ['1', '0', ''] as const;
+const customExportType = ['C', 'S'] as const;
+const customValueType = ['Int', 'String', 'Long', 'Bool', 'Float'] as const;
+const customBoolType = ['1', '0', ''] as const;
 
-export type TExportType = typeof exportType[number];
-export type TValueType = typeof valueType[number];
-export type TBoolType = typeof boolType[number];
+export type TCsvCustomExportType = typeof customExportType[number];
+export type TCsvCustomValueType = typeof customValueType[number];
+export type TCsvCustomBoolType = typeof customBoolType[number];
 
 export type TCsvCellRenderType =
     | 'Boolean'
@@ -52,6 +52,7 @@ export type TCsvCellRenderType =
     | 'CellType'
     | 'EntityBp'
     | 'EntityTemplateId'
+    | 'EntityType'
     | 'Float'
     | 'FollowCell'
     | 'HeadIcon'
@@ -59,12 +60,27 @@ export type TCsvCellRenderType =
     | 'SequenceData'
     | 'String';
 
+const valueTypeByRenderType: { [key in TCsvCellRenderType]: TCsvCustomValueType } = {
+    Boolean: 'Bool',
+    CameraBinderMode: 'String',
+    CellType: 'String',
+    EntityBp: 'String',
+    EntityTemplateId: 'Int',
+    EntityType: 'String',
+    Float: 'Float',
+    FollowCell: 'String',
+    HeadIcon: 'String',
+    Int: 'Int',
+    SequenceData: 'String',
+    String: 'String',
+};
+
 export interface ICsvField {
-    ExportType: TExportType;
+    ExportType: TCsvCustomExportType;
     Name: string;
-    Type: TValueType;
-    Filter: TBoolType;
-    Localization: TBoolType;
+    Type: TCsvCustomValueType;
+    Filter: TCsvCustomBoolType;
+    Localization: TCsvCustomBoolType;
     Condition: string;
     Default: string;
     CnName: string;
@@ -80,28 +96,16 @@ interface IValidateType {
 }
 
 const csvFieldValidValues: { [key in keyof ICsvField]: IValidateType } = {
-    ExportType: { CnName: '客户端/服务端 使用', Range: exportType },
+    ExportType: { CnName: '客户端/服务端 使用', Range: customExportType },
     Name: { CnName: '字段名' },
-    Type: { CnName: '字段数据类型', Range: valueType },
-    Filter: { CnName: '该字段是否用于条件筛选', Range: boolType },
-    Localization: { CnName: '是否导出多语言', Range: boolType },
+    Type: { CnName: '字段数据类型', Range: customValueType },
+    Filter: { CnName: '该字段是否用于条件筛选', Range: customBoolType },
+    Localization: { CnName: '是否导出多语言', Range: customBoolType },
     Condition: { CnName: '条件检查' },
     Default: { CnName: '默认值' },
     CnName: { CnName: '#' },
     RenderType: { CnName: '', IgnoreSerialize: true },
 };
-
-export enum ECsvCellRenderType {
-    Boolean,
-    CameraBinderMode,
-    CellType,
-    Float,
-    FollowCell,
-    Int,
-    SequenceData,
-    HeadIcon,
-    String,
-}
 
 export type TCsvRowBase = Record<string, TCsvValueType>;
 
@@ -156,22 +160,38 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
     private readonly FieldMap = new Map<string, ICsvField>();
 
     public constructor(name: string, fieldTypes: ICsvField[]) {
-        // 检查是否存在索引,filter字段用于表示该功能
-        let filterCount = 0;
-        fieldTypes.forEach((e) => {
-            if (e.Filter === '1') {
-                filterCount++;
-            }
-        });
-        if (filterCount <= 0) {
-            log(`[${name}]: No index key (field [filter] = 1)`);
-        }
-
         this.FiledTypes = fieldTypes.slice();
         this.Name = name;
 
         fieldTypes.forEach((fieldType) => {
             this.FieldMap.set(fieldType.Name, fieldType);
+        });
+
+        this.CheckHasFilter();
+        this.CheckRenderType();
+    }
+
+    private CheckHasFilter(): void {
+        // 检查是否存在索引,filter字段用于表示该功能
+        let filterCount = 0;
+        this.FiledTypes.forEach((t) => {
+            if (t.Filter === '1') {
+                filterCount++;
+            }
+        });
+        if (filterCount <= 0) {
+            throw new Error(`[${this.Name}]: No index key (field [filter] = 1)`);
+        }
+    }
+
+    private CheckRenderType(): void {
+        this.FiledTypes.forEach((t) => {
+            const vt = valueTypeByRenderType[t.RenderType];
+            if (vt !== t.Type) {
+                throw new Error(
+                    `[${this.Name}]: [${t.Name}] Type [${t.Type}] not match renderType [${t.RenderType}][${vt}]`,
+                );
+            }
         });
     }
 

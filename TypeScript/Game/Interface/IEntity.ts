@@ -1,24 +1,27 @@
 import { ITransform } from './IAction';
 import { TComponentType } from './IComponent';
 
-export type TEntityType =
-    | 'AiNpc'
-    | 'CharacterEntity'
-    | 'Entity'
-    | 'Lamp'
-    | 'Npc'
-    | 'RefreshEntity'
-    | 'RefreshSingle'
-    | 'Rotator'
-    | 'SphereActor'
-    | 'SphereFactory'
-    | 'Spring'
-    | 'SpringBoard'
-    | 'StateEntity'
-    | 'Switcher'
-    | 'Trample'
-    | 'Trigger'
-    | 'Underground';
+export const entityTypeConfig = {
+    AiNpc: 'AiNpc',
+    CharacterEntity: 'CharacterEntity',
+    Entity: 'Entity',
+    Lamp: 'Lamp',
+    Npc: 'Npc',
+    RefreshEntity: 'RefreshEntity',
+    RefreshSingle: 'RefreshSingle',
+    Rotator: 'Rotator',
+    SphereActor: 'SphereActor',
+    SphereFactory: 'SphereFactory',
+    Spring: 'Spring',
+    SpringBoard: 'SpringBoard',
+    StateEntity: 'StateEntity',
+    Switcher: 'Switcher',
+    Trample: 'Trample',
+    Trigger: 'Trigger',
+    Underground: 'Underground',
+};
+
+export type TEntityType = keyof typeof entityTypeConfig;
 
 export type TComponentsByEntity = { [key in TEntityType]: TComponentType[] };
 
@@ -37,7 +40,7 @@ export type TComponentsData = Record<string, TComponentData>;
 
 export interface IEntityTemplate {
     Id: number;
-    Name?: string;
+    Name: string;
     BlueprintType: string;
     ComponentsData: TComponentsData;
 }

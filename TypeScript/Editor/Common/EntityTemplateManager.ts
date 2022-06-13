@@ -126,7 +126,11 @@ export class EntityTemplateManager {
     }
 
     public GetTemplateById(id: number): IEntityTemplate {
-        return this.IdMap.get(id);
+        const result = this.IdMap.get(id);
+        if (!result) {
+            throw new Error(`No template for id [${id}]`);
+        }
+        return result;
     }
 
     public GetNameById(id: number): string {
@@ -151,14 +155,20 @@ export class EntityTemplateManager {
     }
 
     public Modify(data: IEntityData): void {
-        if (!this.IdMap.has(data.Id)) {
+        const td = this.IdMap.get(data.Id);
+        if (!td) {
             throw new Error(`Modify no exist entity data for id [${data.Id}]`);
         }
 
-        this.IdMap.set(data.Id, data);
-        this.NameMap.set(data.Name, data);
+        if (data.BlueprintType !== td.BlueprintType) {
+            throw new Error(
+                `Can only modify same bptype ed[${data.BlueprintType}] != td[${td.BlueprintType}]`,
+            );
+        }
 
-        writeJson(data, this.GetPath(data.Id), true);
+        td.ComponentsData = data.ComponentsData;
+
+        writeJson(td, this.GetPath(data.Id), true);
         this.MarkDirty();
     }
 

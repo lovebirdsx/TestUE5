@@ -9,7 +9,7 @@ import {
     VerticalBox,
     VerticalBoxSlot,
 } from 'react-umg';
-import { Class, ESlateSizeRule, ReactUMGStarter } from 'ue';
+import { Blueprint, Character, Class, EditorOperations, ESlateSizeRule, ReactUMGStarter } from 'ue';
 
 import { log } from '../../Common/Log';
 import { getTestErrorRecords } from '../../Common/Test';
@@ -82,6 +82,19 @@ function getAssetList(): void {
     });
 }
 
+function getDefaultObject(): void {
+    const bp = Blueprint.Load('/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj');
+    log(bp.GetName());
+    const character = EditorOperations.GetDefaultObject(bp.GeneratedClass) as Character;
+    log(`Name = ${character.GetName()}`);
+    const mesh = character.Mesh;
+    log(`SkeletalMesh = ${mesh.SkeletalMesh.GetName()}`);
+    log(`AnimClass = ${mesh.AnimClass.GetName()}`);
+    for (let i = 0; i < mesh.GetNumMaterials(); i++) {
+        log(`Material ${i} = ${mesh.GetMaterial(i).GetName()}`);
+    }
+}
+
 function exportConfig(): void {
     configExporter.Export();
 }
@@ -107,6 +120,7 @@ const allTests: ITest[] = [
     { Name: 'fixEntityTemplates', Fun: fixEntityTemplates, ManualRun: true },
     { Name: 'outputClassName', Fun: outputClassName, ManualRun: true },
     { Name: 'getAssetList', Fun: getAssetList, ManualRun: true },
+    { Name: 'getDefaultObject', Fun: getDefaultObject, ManualRun: true },
     { Name: 'exportConfig', Fun: exportConfig, ManualRun: true },
 ];
 

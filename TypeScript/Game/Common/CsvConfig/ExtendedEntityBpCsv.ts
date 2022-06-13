@@ -27,6 +27,7 @@ const extendedEntityBpCsvFields: ICsvField[] = [
         Name: 'EntityTemplateId',
         CnName: '实体模板',
         RenderType: 'EntityTemplateId',
+        Type: 'Int',
     }),
 ];
 

@@ -1,7 +1,7 @@
 // 全局配置的存放位置
 export const GLOBAL_CONFIG_PATH = 'Content/Data/Json/Global.json';
 
-// 全局配置, 路径相对于Content目录
+// 全局配置, 路径相对于Project目录
 export interface IGlobalConfig {
     // Component配置的路径(Json)
     ComponentConfigPath: string;

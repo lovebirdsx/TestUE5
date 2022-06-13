@@ -274,6 +274,11 @@ UPackage* UEditorOperations::GetPackage(UObject* Object)
 	return Object->GetPackage();
 }
 
+UObject* UEditorOperations::GetDefaultObject(TSubclassOf<UObject> ObjectClass)
+{
+	return ObjectClass.GetDefaultObject();
+}
+
 bool UEditorOperations::IsInWpLevel(const UWorld* World)
 {
 	return World->PersistentLevel->IsUsingExternalActors();	

@@ -131,5 +131,8 @@ public:
 	static UPackage* GetPackage(UObject *Object);
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static UObject* GetDefaultObject(TSubclassOf<UObject> ObjectClass);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static bool IsInWpLevel(const UWorld *World);
 };

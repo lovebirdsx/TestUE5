@@ -137,7 +137,7 @@ export class LevelDataManager {
 
         // 新添加的Entity, 在没有保存为uasset前, 不保存其EntityData, 确保两个数据同时存在
         if (!this.AddRecords.has(entity.Id)) {
-            writeJson(record.EntityData, record.Path);
+            writeJson(record.EntityData, record.Path, true);
         }
 
         this.ModRecords.set(entity.Id, record);

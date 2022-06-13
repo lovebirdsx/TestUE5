@@ -9,6 +9,7 @@ import { csvCellTypeScheme, csvFollowCellScheme } from './CsvCell';
 const csvSchemaMap: { [key in TCsvCellRenderType]: Scheme } = {
     String: stringScheme,
     Int: intScheme,
+    Long: intScheme,
     Float: floatScheme,
     Boolean: booleanScheme,
     CameraBinderMode: cameraBindModeScheme,

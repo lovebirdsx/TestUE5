@@ -1,8 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, Class } from 'ue';
+import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/File';
 import { readJsonObj } from '../../Common/Util';
+import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
+import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
 import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
@@ -86,55 +88,16 @@ export function getActionsByEntityType(entity: TEntityType): TActionType[] {
     return result;
 }
 
-export type TBlueprintType =
-    // eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
-    | 'Entity'
-    | 'Npc'
-    | 'Trigger'
-    | 'Player'
-    | 'TsSphereActor'
-    | 'CharacterEntity'
-    | 'AiNpc'
-    | 'Spring'
-    | 'Rotator'
-    | 'Trample'
-    | 'StateEntity'
-    | 'SphereFactory'
-    | 'Underground'
-    | 'Lamp'
-    | 'Switcher'
-    | 'SpringBoard'
-    | 'RefreshSingle'
-    | 'RefreshEntity'
-
-    // ExtendedEntity
-    | 'AiNpcGuard1'
-    | 'AiNpcGuard2'
-    | 'AiNpcAj'
-    | 'AiNpcMother'
-    | 'AiNpcVillageHead'
-    | 'AiNpcVillage1'
-    | 'AiNpcVillage2'
-    | 'Gate'
-    | 'SteeringWheel'
-    | 'Switcher1'
-    | 'Screen'
-    | 'AiNpcTrainer'
-    | 'Invisible'
-    | 'Trash'
-    | 'Mineral'
-    | 'RefreshManage';
-
 interface IBlueprintRecord {
-    Type: TBlueprintType;
+    Type: string;
     ClassObj: Class;
     EntityType: TEntityType;
 }
 
-const blueprintByType: Map<TBlueprintType, IBlueprintRecord> = new Map();
+const blueprintByType: Map<string, IBlueprintRecord> = new Map();
 const blueprintByClass: Map<Class, IBlueprintRecord> = new Map();
 
-function registerBlueprint(type: TBlueprintType, classPath: string, entityType: TEntityType): void {
+function registerBlueprint(type: string, classPath: string, entityType: TEntityType): void {
     const classObj = Class.Load(classPath);
     if (!classObj) {
         throw new Error(`No class found for path [${classPath}]`);
@@ -151,7 +114,7 @@ function registerBlueprint(type: TBlueprintType, classPath: string, entityType: 
 }
 
 export function getEntityTypeByBlueprintType(id: string): TEntityType | undefined {
-    const record = blueprintByType.get(id as TBlueprintType);
+    const record = blueprintByType.get(id);
     return record ? record.EntityType : undefined;
 }
 
@@ -160,7 +123,7 @@ export function getEntityTypeByClass(classObj: Class): TEntityType | undefined {
     return record ? record.EntityType : undefined;
 }
 
-export function getBlueprintTypeByClass(classObj: Class): TBlueprintType | undefined {
+export function getBlueprintTypeByClass(classObj: Class): string | undefined {
     const record = blueprintByClass.get(classObj);
     return record ? record.Type : undefined;
 }
@@ -170,7 +133,7 @@ export function getEntityTypeByActor(actor: Actor): TEntityType | undefined {
 }
 
 export function getClassByBluprintType(type: string): Class | undefined {
-    const record = blueprintByType.get(type as TBlueprintType);
+    const record = blueprintByType.get(type);
     return record ? record.ClassObj : undefined;
 }
 
@@ -183,7 +146,7 @@ function makeTsClassPath(basePath: string, name: string, dir?: string): string {
 
 const ENTITY_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Entity/';
 const classByEntityType: Map<TEntityType, Class> = new Map();
-function registerBaseBlueprint(type: TBlueprintType, name: string, entityType: TEntityType): void {
+function registerBaseBlueprint(type: string, name: string, entityType: TEntityType): void {
     registerBlueprint(type, makeTsClassPath(ENTITY_BASE_PATH, name), entityType);
     const classObj = getClassByBluprintType(type);
     classByEntityType.set(entityType, classObj);
@@ -191,15 +154,6 @@ function registerBaseBlueprint(type: TBlueprintType, name: string, entityType: T
 
 export function getClassByEntityType(entityType: TEntityType): Class {
     return classByEntityType.get(entityType);
-}
-
-const ENTITY_EXTENDED_PATH = '/Game/Blueprints/ExtendedEntity/';
-function registerExtendedBlueprint(
-    type: TBlueprintType,
-    name: string,
-    entityType: TEntityType,
-): void {
-    registerBlueprint(type, makeTsClassPath(ENTITY_EXTENDED_PATH, name), entityType);
 }
 
 registerBaseBlueprint('Entity', 'TsEntity', 'Entity');
@@ -220,22 +174,12 @@ registerBaseBlueprint('SpringBoard', 'TsSpringBoard', 'SpringBoard');
 registerBaseBlueprint('RefreshSingle', 'TsRefreshSingle', 'RefreshSingle');
 registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity', 'RefreshEntity');
 
-registerExtendedBlueprint('AiNpcGuard1', 'BP_AiNpcGuard1', 'AiNpc');
-registerExtendedBlueprint('AiNpcGuard2', 'BP_AiNpcGuard2', 'AiNpc');
-registerExtendedBlueprint('AiNpcAj', 'BP_AiNpcAj', 'AiNpc');
-registerExtendedBlueprint('AiNpcMother', 'BP_AiNpcMother', 'AiNpc');
-registerExtendedBlueprint('AiNpcVillageHead', 'BP_AiNpcVillageHead', 'AiNpc');
-registerExtendedBlueprint('AiNpcVillage1', 'BP_AiNpcVillage1', 'AiNpc');
-registerExtendedBlueprint('AiNpcVillage2', 'BP_AiNpcVillage2', 'AiNpc');
-registerExtendedBlueprint('Gate', 'BP_Gate', 'StateEntity');
-registerExtendedBlueprint('SteeringWheel', 'BP_SteeringWheel', 'Rotator');
-registerExtendedBlueprint('Switcher1', 'BP_Switcher1', 'Switcher');
-registerExtendedBlueprint('Screen', 'BP_Screen', 'StateEntity');
-registerExtendedBlueprint('AiNpcTrainer', 'BP_AiNpcTrainer', 'AiNpc');
-registerExtendedBlueprint('Invisible', 'BP_Invisible', 'StateEntity');
-registerExtendedBlueprint('Trash', 'BP_Trash', 'Switcher');
-registerExtendedBlueprint('Mineral', 'BP_Mineral', 'RefreshSingle');
-registerExtendedBlueprint('RefreshManage', 'BP_RefreshManage', 'RefreshEntity');
+const extendEntityCsv = csvRegistry.GetCsv(ExtendedEntityCsv);
+extendEntityCsv.Rows.forEach((row) => {
+    const blueprint = Blueprint.Load(row.Bp);
+    const entityType = getEntityTypeByClass(blueprint.ParentClass);
+    registerBlueprint(row.Id, `${row.Bp}_C`, entityType);
+});
 
 export function loadEntityTemplateConfig(): IEntityTemplateConfig {
     const path = getProjectPath(globalConfig.TemplateConfigPath);

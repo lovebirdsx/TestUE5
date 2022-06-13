@@ -4,7 +4,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 import { error, log, warn } from '../../../Common/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsvLoader } from './CustomSeqCsv';
-import { EntityCsvLoader } from './ExtendEntityCsv';
+import { ExtendedEntityCsv, ExtendedEntityCsvLoader } from './ExtendEntityCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
 import { TalkerCsvLoader } from './TalkerCsv';
 
@@ -36,8 +36,8 @@ const configs: ICsvFileConfig[] = [
     {
         Name: ECsvName.ExtendedEntityBp,
         Path: 'd.实体.csv',
-        CsvLoaderClass: EntityCsvLoader,
-        CsvClass: undefined,
+        CsvLoaderClass: ExtendedEntityCsvLoader,
+        CsvClass: ExtendedEntityCsv,
     },
     {
         Name: ECsvName.Talker,

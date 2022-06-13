@@ -12,7 +12,7 @@ import {
     TCsvRowBase,
 } from './CsvLoader';
 
-export interface GlobalConfigRow extends TCsvRowBase {
+export interface IGlobalConfigRow extends TCsvRowBase {
     Id: number;
     Type: TCsvCellType;
     Name: string;
@@ -53,7 +53,7 @@ const globalConfigCsvFields: ICsvField[] = [
     }),
 ];
 
-export class GlobalConfigCsvLoader extends CsvLoader<GlobalConfigRow> {
+export class GlobalConfigCsvLoader extends CsvLoader<IGlobalConfigRow> {
     public constructor() {
         super('GlobalConfigCsv', globalConfigCsvFields);
     }
@@ -74,13 +74,13 @@ const globalValueConfig = {
 export type TGlobalValueName = keyof typeof globalValueConfig;
 type TGlobalValueType<T extends TGlobalValueName> = typeof globalValueConfig[T]['Default'];
 
-export class GlobalConfigCsv extends GlobalCsv {
-    private readonly ConfigMap = new Map<TGlobalValueName, GlobalConfigRow>();
+export class GlobalConfigCsv extends GlobalCsv<IGlobalConfigRow> {
+    private readonly ConfigMap = new Map<TGlobalValueName, IGlobalConfigRow>();
 
     public Bind(csv: ICsv): void {
         super.Bind(csv);
 
-        const rows = csv.Rows as GlobalConfigRow[];
+        const rows = csv.Rows as IGlobalConfigRow[];
         const configs = globalValueConfig as Record<string, IConfigSlot>;
         Object.entries(configs).forEach(([name, config]) => {
             const row = rows.find((row) => row.Id === config.Id);

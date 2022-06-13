@@ -1,14 +1,7 @@
 ﻿{
+  "Id": 9,
   "Name": "大门",
-  "Id": 3000050,
   "BlueprintType": "Gate",
-  "Transform": {
-    "Pos": {
-      "X": -1152.58,
-      "Y": -2551.69,
-      "Z": 100.13
-    }
-  },
   "ComponentsData": {
     "ActorStateComponent": {
       "InitState": "Idle",

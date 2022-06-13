@@ -31,7 +31,7 @@ const extendedEntityBpCsvFields: ICsvField[] = [
     }),
 ];
 
-export class ExtendedEntityBpCsvLoader extends CsvLoader<IExtendedEntityBpRow> {
+export class ExtendEntityCsvLoader extends CsvLoader<IExtendedEntityBpRow> {
     public constructor() {
         super('ExtendedEntityBpCsv', extendedEntityBpCsvFields);
     }

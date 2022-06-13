@@ -57,6 +57,7 @@ export type TCsvCellRenderType =
     | 'FollowCell'
     | 'HeadIcon'
     | 'Int'
+    | 'Long'
     | 'SequenceData'
     | 'String';
 
@@ -71,6 +72,7 @@ const valueTypeByRenderType: { [key in TCsvCellRenderType]: TCsvCustomValueType 
     FollowCell: 'String',
     HeadIcon: 'String',
     Int: 'Int',
+    Long: 'Long',
     SequenceData: 'String',
     String: 'String',
 };
@@ -137,12 +139,12 @@ export interface ICsv {
     Rows: TCsvRowBase[];
 }
 
-export class GlobalCsv implements ICsv {
-    public Name: string;
+export class GlobalCsv<T extends TCsvRowBase = TCsvRowBase> implements ICsv {
+    public readonly Name: string;
 
-    public FiledTypes: ICsvField[];
+    public readonly FiledTypes: ICsvField[];
 
-    public Rows: TCsvRowBase[];
+    public readonly Rows: T[];
 
     public Bind(csv: ICsv): void {
         Object.assign(this, csv);

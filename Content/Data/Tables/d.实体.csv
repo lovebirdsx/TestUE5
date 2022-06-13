@@ -1,8 +1,24 @@
-﻿客户端/服务端 使用,C,C,C,C,C
-字段名,Id,Name,Bp,Type,TemplateId
-字段数据类型,String,String,String,String,Int
-该字段是否用于条件筛选,1,0,0,0,0
-是否导出多语言,0,0,0,0,0
-条件检查,,,,,
-默认值,,,,,
-#,Id,名字,蓝图,实体类型,实体模板
+﻿客户端/服务端 使用,C,C,C,C
+字段名,Id,Name,Bp,TemplateId
+字段数据类型,String,String,String,Int
+该字段是否用于条件筛选,1,0,0,0
+是否导出多语言,0,0,0,0
+条件检查,,,,
+默认值,,,,
+#,Id,名字,蓝图,实体模板
+,AiNpcGuard1,守卫1,/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj,0
+,AiNpcGuard2,守卫2,/Game/Blueprints/ExtendedEntity/BP_AiNpcGuard1.BP_AiNpcGuard1,0
+,AiNpcAj,小孩,/Game/Blueprints/ExtendedEntity/BP_AiNpcGuard2.BP_AiNpcGuard2,0
+,AiNpcMother,王大妈,/Game/Blueprints/ExtendedEntity/BP_AiNpcMother.BP_AiNpcMother,0
+,AiNpcVillageHead,村长,/Game/Blueprints/ExtendedEntity/BP_AiNpcVillageHead.BP_AiNpcVillageHead,0
+,AiNpcVillage1,村民1,/Game/Blueprints/ExtendedEntity/BP_AiNpcVillage1.BP_AiNpcVillage1,0
+,AiNpcVillage2,村民2,/Game/Blueprints/ExtendedEntity/BP_AiNpcVillage2.BP_AiNpcVillage2,0
+,Gate,大门,/Game/Blueprints/ExtendedEntity/BP_Gate.BP_Gate,9
+,SteeringWheel,控制台,/Game/Blueprints/ExtendedEntity/BP_SteeringWheel.BP_SteeringWheel,10
+,Switcher1,交互式开关,/Game/Blueprints/ExtendedEntity/BP_Switcher1.BP_Switcher1,11
+,Screen,显示屏,/Game/Blueprints/ExtendedEntity/BP_Screen.BP_Screen,12
+,AiNpcTrainer,训练员,/Game/Blueprints/ExtendedEntity/BP_AiNpcTrainer.BP_AiNpcTrainer,0
+,Invisible,隐藏实体,/Game/Blueprints/ExtendedEntity/BP_Invisible.BP_Invisible,9
+,Trash,垃圾,/Game/Blueprints/ExtendedEntity/BP_Trash.BP_Trash,11
+,Mineral,矿石,/Game/Blueprints/ExtendedEntity/BP_Mineral.BP_Mineral,0
+,RefreshManage,刷新器,/Game/Blueprints/ExtendedEntity/BP_RefreshManage.BP_RefreshManage,0

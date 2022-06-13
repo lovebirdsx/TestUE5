@@ -1,0 +1,41 @@
+﻿{
+  "Id": 10,
+  "Name": "控制台",
+  "BlueprintType": "SteeringWheel",
+  "ComponentsData": {
+    "RotatorComponent": {
+      "RotatorSpeed": {
+        "X": 100,
+        "Y": -100,
+        "Z": 50
+      },
+      "LocationOffset": {
+        "X": 0,
+        "Y": 600,
+        "Z": 600
+      },
+      "RotationOffset": {
+        "X": -45,
+        "Y": -90,
+        "Z": 0
+      },
+      "RotationMapping": {
+        "X": 2,
+        "Y": 1,
+        "Z": 0
+      },
+      "IsLocalSpace": false,
+      "EntityId": 3000028,
+      "IsRotatorSelf": false,
+      "InteractAction": {
+        "StartActions": [],
+        "EndActions": []
+      },
+      "Content": "",
+      "Icon": "",
+      "Disabled": false,
+      "IsLockZ": false,
+      "IsRecovery": false
+    }
+  }
+}

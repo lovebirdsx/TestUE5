@@ -16,6 +16,7 @@ const textListCsvFields: ICsvField[] = [
         CnName: '主键',
         Type: 'Long',
         Filter: '1',
+        RenderType: 'Long',
     }),
     createCsvField({
         Name: 'FlowListId',
@@ -27,6 +28,7 @@ const textListCsvFields: ICsvField[] = [
         CnName: '文本Id',
         Type: 'Int',
         Filter: '1',
+        RenderType: 'Int',
     }),
     createCsvField({
         Name: 'Text',

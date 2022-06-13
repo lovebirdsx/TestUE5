@@ -4,7 +4,6 @@ import { HorizontalBox } from 'react-umg';
 import { EditorAssetLibrary, Object, Struct } from 'ue';
 
 import { log } from '../../Common/Log';
-import { assetListCache } from '../Common/AssetListCache';
 import { AssetSelector, IAssetSelectorProps } from '../Common/BaseComponent/AssetSelector';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 
@@ -23,10 +22,6 @@ export class TestAssetSelector extends React.Component<unknown, IAssetSelectorPr
         this.setState({
             SelectedObjectPath: path,
         });
-    };
-
-    private readonly OnClickAssetListCache = (): void => {
-        assetListCache.Info();
     };
 
     private readonly TestLoadClass = (): void => {
@@ -51,7 +46,6 @@ export class TestAssetSelector extends React.Component<unknown, IAssetSelectorPr
         return (
             <HorizontalBox>
                 <AssetSelector {...this.state} />
-                <Btn Text={'AssetListCache'} OnClick={this.OnClickAssetListCache} />
                 <Btn Text={'LoadClass'} OnClick={this.TestLoadClass} />
             </HorizontalBox>
         );

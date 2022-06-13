@@ -4,9 +4,11 @@
 import { $ref, $unref } from 'puerts';
 import {
     BuiltinString,
+    EditorLevelLibrary,
     EditorOperations,
     EFileRoot,
     EMsgType,
+    KismetSystemLibrary,
     MyFileHelper,
     NewArray,
     Object as UeObject,
@@ -180,4 +182,8 @@ export function msgbox(content: string): void {
 
 export function errorbox(content: string): void {
     EditorOperations.ShowMessage(EMsgType.Ok, content, '错误');
+}
+
+export function getSeconds(): number {
+    return KismetSystemLibrary.GetGameTimeInSeconds(EditorLevelLibrary.GetEditorWorld());
 }

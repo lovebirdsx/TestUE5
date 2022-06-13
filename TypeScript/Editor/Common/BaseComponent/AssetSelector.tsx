@@ -3,7 +3,7 @@ import { HorizontalBox } from 'react-umg';
 import { BuiltinString, EditorAssetLibrary, EditorUtilityLibrary } from 'ue';
 
 import { toUeArray } from '../../../Common/Util';
-import { assetListCache, IAsset } from '../AssetListCache';
+import { assetListCache } from '../AssetListCache';
 import { Btn } from './CommonComponent';
 import { FilterableList } from './FilterableList';
 
@@ -25,7 +25,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
         const props = this.props;
         const assets = assetListCache.GetAssets(props.Path, props.ClassType);
         const selected = assets.find(
-            (assetData: IAsset) => assetData.ObjectPath === props.SelectedObjectPath,
+            (assetData) => assetData.ObjectPath === props.SelectedObjectPath,
         );
         return selected ? selected.AssetName : '';
     }
@@ -33,7 +33,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
     private readonly OnSelectChanged = (name: string): void => {
         const props = this.props;
         const assets = assetListCache.GetAssets(props.Path, props.ClassType);
-        const selected = assets.find((assetData: IAsset) => assetData.AssetName === name);
+        const selected = assets.find((assetData) => assetData.AssetName === name);
         this.props.OnObjectPathChanged(selected ? selected.ObjectPath : '');
     };
 
@@ -60,7 +60,7 @@ export class AssetSelector extends React.Component<IAssetSelectorProps> {
 
         this.CachedNames = [];
         const assets = assetListCache.GetAssets(path, classType);
-        assets.forEach((asset: IAsset) => this.CachedNames.push(asset.AssetName));
+        assets.forEach((asset) => this.CachedNames.push(asset.AssetName));
         return this.CachedNames;
     }
 

@@ -103,6 +103,10 @@ function registerBlueprint(type: string, classPath: string, entityType: TEntityT
         throw new Error(`No class found for path [${classPath}]`);
     }
 
+    if (blueprintByType.has(type)) {
+        throw new Error(`Duplicate blueprint type [${type}] for class [${classPath}]`);
+    }
+
     const record: IBlueprintRecord = {
         Type: type,
         ClassObj: classObj,

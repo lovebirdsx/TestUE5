@@ -14,7 +14,7 @@ export class GameConfig {
 
     public static readonly EntityTemplateDir = MyFileHelper.GetPath(
         EFileRoot.Content,
-        'Data/Template',
+        'Data/Template/',
     );
 
     // 退出Pie的时候是否自动保存游戏状态

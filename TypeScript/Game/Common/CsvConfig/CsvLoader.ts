@@ -149,6 +149,10 @@ export class GlobalCsv<T extends TCsvRowBase = TCsvRowBase> implements ICsv {
     public Bind(csv: ICsv): void {
         Object.assign(this, csv);
     }
+
+    public Check(messages: string[]): number {
+        return 0;
+    }
 }
 
 export class CsvLoader<TCsvRow extends TCsvRowBase> {

@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from './CsvLoader';
+import { createCsvField, CsvLoader, GlobalCsv, ICsvField, TCsvRowBase } from './CsvLoader';
 
-export interface CustomSeqRow extends TCsvRowBase {
+export interface ICustomSeqRow extends TCsvRowBase {
     Id: number;
     Name: string;
     SeqDataPath: string;
@@ -38,8 +38,10 @@ const customSeqCsvFields: ICsvField[] = [
     }),
 ];
 
-export class CustomSeqCsvLoader extends CsvLoader<CustomSeqRow> {
+export class CustomSeqCsvLoader extends CsvLoader<ICustomSeqRow> {
     public constructor() {
         super('CustomSeqCsv', customSeqCsvFields);
     }
 }
+
+export class CustomSeqCsv extends GlobalCsv<ICustomSeqRow> {}

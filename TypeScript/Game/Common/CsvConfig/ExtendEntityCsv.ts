@@ -1,4 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
+import { entityTypeConfig } from '../../Interface/IEntity';
 import { createCsvField, CsvLoader, GlobalCsv, ICsvField, TCsvRowBase } from './CsvLoader';
 
 export interface IExtendedEntityRow extends TCsvRowBase {
@@ -37,4 +38,19 @@ export class ExtendedEntityCsvLoader extends CsvLoader<IExtendedEntityRow> {
     }
 }
 
-export class ExtendedEntityCsv extends GlobalCsv<IExtendedEntityRow> {}
+export class ExtendedEntityCsv extends GlobalCsv<IExtendedEntityRow> {
+    private IsBaseEntityType(type: string): boolean {
+        return entityTypeConfig[type] !== undefined;
+    }
+
+    public Check(messages: string[]): number {
+        let errorCount = 0;
+        this.Rows.forEach((row) => {
+            if (this.IsBaseEntityType(row.Id)) {
+                messages.push(`Entity Id [${row.Id}] 非法, 已经被基础实体占用`);
+                errorCount++;
+            }
+        });
+        return errorCount;
+    }
+}

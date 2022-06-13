@@ -4,6 +4,7 @@ import * as React from 'react';
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import { TalkerCsvLoader } from '../../Game/Common/CsvConfig/TalkerCsv';
 import { CsvView } from '../Common/BaseComponent/CsvView';
 import { editorCsvOp } from '../Common/Operations/CsvOp';
@@ -12,6 +13,7 @@ const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
 
 interface ITestCsvState {
     Csv: ICsv;
+    Name: ECsvName;
     FilterTexts: string[];
 }
 
@@ -23,6 +25,7 @@ export class TestCsvView extends React.Component<unknown, ITestCsvState> {
         const csv = loader.LoadCsv(path);
         this.state = {
             Csv: csv,
+            Name: ECsvName.Talker,
             FilterTexts: csv.FiledTypes.map(() => ''),
         };
     }
@@ -44,6 +47,7 @@ export class TestCsvView extends React.Component<unknown, ITestCsvState> {
         return (
             <CsvView
                 Csv={this.state.Csv}
+                Name={this.state.Name}
                 OnModify={this.OnModify}
                 FilterTexts={this.state.FilterTexts}
                 OnModifyFilterTexts={this.OnModifyFilterTexts}

@@ -3,12 +3,12 @@ import { EFileRoot, MyFileHelper } from 'ue';
 
 import { error, log, warn } from '../../../Common/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
-import { CustomSeqCsvLoader } from './CustomSeqCsv';
+import { CustomSeqCsv, CustomSeqCsvLoader } from './CustomSeqCsv';
 import { ExtendedEntityCsv, ExtendedEntityCsvLoader } from './ExtendEntityCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
-import { TalkerCsvLoader } from './TalkerCsv';
+import { TalkerCsv, TalkerCsvLoader } from './TalkerCsv';
 
-export type TCsvClass = new () => GlobalCsv;
+export type TCsvClass<T extends TCsvRowBase = TCsvRowBase> = new () => GlobalCsv<T>;
 
 export enum ECsvName {
     Global = '全局配置',
@@ -43,13 +43,13 @@ const configs: ICsvFileConfig[] = [
         Name: ECsvName.Talker,
         Path: 'd.对话人.csv',
         CsvLoaderClass: TalkerCsvLoader,
-        CsvClass: undefined,
+        CsvClass: TalkerCsv,
     },
     {
         Name: ECsvName.CustomSeq,
         Path: 'z.自定义序列.csv',
         CsvLoaderClass: CustomSeqCsvLoader,
-        CsvClass: undefined,
+        CsvClass: CustomSeqCsv,
     },
 ];
 
@@ -137,6 +137,10 @@ class CsvRegistry {
         }
 
         return result as T;
+    }
+
+    public GetCsvClass<T extends TCsvRowBase>(name: ECsvName): TCsvClass<T> {
+        return this.ConfigMap.get(name).CsvClass as TCsvClass<T>;
     }
 }
 

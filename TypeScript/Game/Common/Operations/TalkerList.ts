@@ -2,7 +2,7 @@
 import { EFileRoot, MyFileHelper } from 'ue';
 
 import { log } from '../../../Common/Log';
-import { TalkerCsvLoader, TalkerRow } from '../CsvConfig/TalkerCsv';
+import { ITalkerRow, TalkerCsvLoader } from '../CsvConfig/TalkerCsv';
 
 export const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
 
@@ -71,7 +71,7 @@ export class TalkerListOp {
     public static Save(talkerList: ITalkerListInfo): void {
         const realPath = MyFileHelper.GetPath(EFileRoot.Content, TALKER_LIST_CSV_PATH);
         const talkerCsv = new TalkerCsvLoader();
-        const rows = [] as TalkerRow[];
+        const rows = [] as ITalkerRow[];
         talkerList.Talkers.forEach((talker) => {
             rows.push({
                 Id: talker.Id,

@@ -150,9 +150,9 @@ function makeTsClassPath(basePath: string, name: string, dir?: string): string {
 
 const ENTITY_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Entity/';
 const classByEntityType: Map<TEntityType, Class> = new Map();
-function registerBaseBlueprint(type: string, name: string, entityType: TEntityType): void {
-    registerBlueprint(type, makeTsClassPath(ENTITY_BASE_PATH, name), entityType);
-    const classObj = getClassByBluprintType(type);
+function registerBaseBlueprint(entityType: TEntityType, name: string): void {
+    registerBlueprint(entityType, makeTsClassPath(ENTITY_BASE_PATH, name), entityType);
+    const classObj = getClassByBluprintType(entityType);
     classByEntityType.set(entityType, classObj);
 }
 
@@ -160,23 +160,23 @@ export function getClassByEntityType(entityType: TEntityType): Class {
     return classByEntityType.get(entityType);
 }
 
-registerBaseBlueprint('Entity', 'TsEntity', 'Entity');
-registerBaseBlueprint('CharacterEntity', 'TsCharacterEntity', 'CharacterEntity');
-registerBaseBlueprint('Npc', 'TsNpc', 'Npc');
-registerBaseBlueprint('Trigger', 'TsTrigger', 'Trigger');
-registerBaseBlueprint('TsSphereActor', 'TsSphereActor', 'SphereActor');
-registerBaseBlueprint('AiNpc', 'TsAiNpc', 'AiNpc');
-registerBaseBlueprint('Spring', 'TsSpring', 'Spring');
-registerBaseBlueprint('Rotator', 'TsRotator', 'Rotator');
-registerBaseBlueprint('Trample', 'TsTrample', 'Trample');
-registerBaseBlueprint('StateEntity', 'TsStateEntity', 'StateEntity');
-registerBaseBlueprint('SphereFactory', 'TsSphereFactory', 'SphereFactory');
-registerBaseBlueprint('Underground', 'TsUnderground', 'Underground');
-registerBaseBlueprint('Lamp', 'TsLamp', 'Lamp');
-registerBaseBlueprint('Switcher', 'TsSwitcher', 'Switcher');
-registerBaseBlueprint('SpringBoard', 'TsSpringBoard', 'SpringBoard');
-registerBaseBlueprint('RefreshSingle', 'TsRefreshSingle', 'RefreshSingle');
-registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity', 'RefreshEntity');
+registerBaseBlueprint('Entity', 'TsEntity');
+registerBaseBlueprint('CharacterEntity', 'TsCharacterEntity');
+registerBaseBlueprint('Npc', 'TsNpc');
+registerBaseBlueprint('Trigger', 'TsTrigger');
+registerBaseBlueprint('SphereActor', 'TsSphereActor');
+registerBaseBlueprint('AiNpc', 'TsAiNpc');
+registerBaseBlueprint('Spring', 'TsSpring');
+registerBaseBlueprint('Rotator', 'TsRotator');
+registerBaseBlueprint('Trample', 'TsTrample');
+registerBaseBlueprint('StateEntity', 'TsStateEntity');
+registerBaseBlueprint('SphereFactory', 'TsSphereFactory');
+registerBaseBlueprint('Underground', 'TsUnderground');
+registerBaseBlueprint('Lamp', 'TsLamp');
+registerBaseBlueprint('Switcher', 'TsSwitcher');
+registerBaseBlueprint('SpringBoard', 'TsSpringBoard');
+registerBaseBlueprint('RefreshSingle', 'TsRefreshSingle');
+registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity');
 
 const extendEntityCsv = csvRegistry.GetCsv(ExtendedEntityCsv);
 extendEntityCsv.Rows.forEach((row) => {

@@ -49,7 +49,7 @@
     {
       "Id": 3,
       "Name": "SphereTemplate",
-      "BlueprintType": "TsSphereActor",
+      "BlueprintType": "SphereActor",
       "ComponentsData": {}
     },
     {

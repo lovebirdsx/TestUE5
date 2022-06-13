@@ -6,6 +6,7 @@ import { GridPanel, GridSlot, HorizontalBox } from 'react-umg';
 
 import { error, log } from '../../../Common/Log';
 import { ICsv, ICsvField, TCsvRowBase } from '../../../Game/Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../../Game/Common/CsvConfig/CsvRegistry';
 import { TCsvValueType } from '../../../Game/Interface/IAction';
 import { TColor } from '../Color';
 import { editorCsvOp } from '../Operations/CsvOp';
@@ -18,6 +19,7 @@ import { ContextBtn } from './ContextBtn';
 
 export interface ICsvViewProps {
     Csv: ICsv;
+    Name: ECsvName;
     FilterTexts: string[];
     OnModify: (csv: ICsv) => void;
     OnModifyFilterTexts: (id: number, text: string) => void;

@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { createCsvField, CsvLoader, ICsvField, TCsvRowBase } from './CsvLoader';
+import { createCsvField, CsvLoader, GlobalCsv, ICsvField, TCsvRowBase } from './CsvLoader';
 
-export interface TalkerRow extends TCsvRowBase {
+export interface ITalkerRow extends TCsvRowBase {
     Id: number;
     Name: string;
 }
@@ -33,8 +33,10 @@ const textListCsvFields: ICsvField[] = [
     }),
 ];
 
-export class TalkerCsvLoader extends CsvLoader<TalkerRow> {
+export class TalkerCsvLoader extends CsvLoader<ITalkerRow> {
     public constructor() {
         super('TalkerCsv', textListCsvFields);
     }
 }
+
+export class TalkerCsv extends GlobalCsv<ITalkerRow> {}

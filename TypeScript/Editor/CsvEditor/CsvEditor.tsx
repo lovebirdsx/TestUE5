@@ -18,6 +18,7 @@ import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import {
     Btn,
     DEFAULT_TEXT_COLOR,
+    ErrorText,
     HEADING_COLOR,
     SlotText,
     Text,
@@ -328,6 +329,24 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         return <GridPanel>{nameElements}</GridPanel>;
     }
 
+    private RenderErrors(): JSX.Element {
+        const classObj = csvRegistry.GetCsvClass(this.CurrentCsvState.Name);
+        const csv = new classObj();
+        csv.Bind(this.CurrentCsvState.Csv);
+        const messages: string[] = [];
+        if (csv.Check(messages) > 0) {
+            return (
+                <VerticalBox>
+                    {messages.map((msg) => (
+                        <ErrorText Text={msg} />
+                    ))}
+                </VerticalBox>
+            );
+        }
+
+        return undefined;
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         const scrollBoxSlot: VerticalBoxSlot = {
@@ -342,12 +361,14 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                             {this.RenderPath()}
                             {this.RenderToolbar()}
                             {this.RenderAllCsvEntries()}
+                            {this.RenderErrors()}
                         </VerticalBox>
                     </Border>
                     <ErrorBoundary>
                         <ScrollBox Slot={scrollBoxSlot}>
                             <CsvView
                                 Csv={this.CurrentCsvState.Csv}
+                                Name={this.CurrentCsvState.Name}
                                 FilterTexts={this.CurrentCsvState.FilterTexts}
                                 OnModify={this.OnModifyCsv}
                                 OnModifyFilterTexts={this.OnModifyFilterTexts}

@@ -9,7 +9,13 @@ import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
 import { TComponentType } from './IComponent';
-import { IEntityConfig, IEntityTemplateConfig, TComponentsByEntity, TEntityType } from './IEntity';
+import {
+    IBlueprintConfig,
+    IEntityConfig,
+    IEntityTemplateConfig,
+    TComponentsByEntity,
+    TEntityType,
+} from './IEntity';
 
 export const componentsByEntity: TComponentsByEntity = {
     AiNpc: [
@@ -188,4 +194,19 @@ extendEntityCsv.Rows.forEach((row) => {
 export function loadEntityTemplateConfig(): IEntityTemplateConfig {
     const path = getProjectPath(globalConfig.TemplateConfigPath);
     return readJsonObj(path);
+}
+
+export function genBlueprintConfig(): IBlueprintConfig {
+    const keys = Array.from(blueprintByType.keys());
+    // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
+    keys.sort();
+
+    const entityByBlueprint: Record<string, TEntityType> = {};
+    keys.forEach((key) => {
+        entityByBlueprint[key] = blueprintByType.get(key).EntityType;
+    });
+
+    return {
+        EntityByBlueprint: entityByBlueprint,
+    };
 }

@@ -25,9 +25,14 @@ export type TEntityType = keyof typeof entityTypeConfig;
 
 export type TComponentsByEntity = { [key in TEntityType]: TComponentType[] };
 
-// 服务器: IEntityConfig从Config/Entity.json中读取
+// 服务器: 从IGlobalConfig.EntityConfigPath中读取
 export interface IEntityConfig {
     ComponentsByEntity: TComponentsByEntity;
+}
+
+// 服务器: 从IGlobalConfig.BlueprintConfigPath中读取
+export interface IBlueprintConfig {
+    EntityByBlueprint: Record<string, TEntityType>;
 }
 
 export type TComponentData = Record<string, unknown> & {

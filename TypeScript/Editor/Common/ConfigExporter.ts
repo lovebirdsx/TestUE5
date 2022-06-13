@@ -5,8 +5,9 @@ import { MyFileHelper } from 'ue';
 import { getProjectPath } from '../../Common/File';
 import { log } from '../../Common/Log';
 import { writeJson } from '../../Common/Util';
+import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import { componentConfig } from '../../Game/Interface/Component';
-import { entityConfig } from '../../Game/Interface/Entity';
+import { entityConfig, genBlueprintConfig } from '../../Game/Interface/Entity';
 import { globalConfig } from '../../Game/Interface/Global';
 import { GLOBAL_CONFIG_PATH } from '../../Game/Interface/IGlobal';
 import { levelConfigs } from '../../Game/Interface/Level';
@@ -86,6 +87,17 @@ const items: IExportItem[] = [
         DestFiles: getProjectPaths(globalConfig.EntityConfigPath),
         ExportFun: (): void => {
             writeJson(entityConfig, getProjectPath(globalConfig.EntityConfigPath));
+        },
+    },
+    {
+        Name: 'Blueprint',
+        SourceFiles: [
+            csvRegistry.GetPath(ECsvName.ExtendedEntity),
+            getProjectPath('TypeScript/Game/Interface/Entity.ts'),
+        ],
+        DestFiles: getProjectPaths(globalConfig.BlueprintConfigPath),
+        ExportFun: (): void => {
+            writeJson(genBlueprintConfig(), getProjectPath(globalConfig.BlueprintConfigPath));
         },
     },
     {

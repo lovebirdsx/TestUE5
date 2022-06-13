@@ -14,7 +14,7 @@ export enum ECsvName {
     Global = '全局配置',
     Talker = '对话人',
     CustomSeq = '自定义序列',
-    ExtendedEntityBp = '扩展实体',
+    ExtendedEntity = '扩展实体',
 }
 
 interface ICsvFileConfig {
@@ -34,7 +34,7 @@ const configs: ICsvFileConfig[] = [
         CsvClass: GlobalConfigCsv,
     },
     {
-        Name: ECsvName.ExtendedEntityBp,
+        Name: ECsvName.ExtendedEntity,
         Path: 'd.实体.csv',
         CsvLoaderClass: ExtendedEntityCsvLoader,
         CsvClass: ExtendedEntityCsv,

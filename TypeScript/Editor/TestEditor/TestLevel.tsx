@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spell-checker */
 import { $ref } from 'puerts';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
@@ -30,6 +31,15 @@ export class TestLevel extends React.Component {
 
         editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
         editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
+        editorEvent.OnBlueprintPreCompile.Add((bp) => {
+            log(`OnBlueprintPreCompile ${bp.GetName()}`);
+        });
+        editorEvent.OnBlueprintCompiled.Add(() => {
+            log(`OnBlueprintCompiled`);
+        });
+        editorEvent.OnBlueprintReinstanced.Add(() => {
+            log(`OnBlueprintReinstanced`);
+        });
     }
 
     private readonly OnGetAllEntities = (): void => {

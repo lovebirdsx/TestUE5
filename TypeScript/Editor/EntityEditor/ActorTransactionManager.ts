@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, EditorOperations, ETransactionStateEventTypeBP, Guid } from 'ue';
+import { Actor, Blueprint, EditorOperations, ETransactionStateEventTypeBP, Guid } from 'ue';
 
 import { Event } from '../../Common/Util';
 
@@ -28,11 +28,15 @@ export class ActorTransactionManager {
 
     private CurrentRecord: ITransactionRecord;
 
+    private IsBlueprintCompiling = false;
+
     public constructor() {
         const editorEvent = EditorOperations.GetEditorEvent();
         editorEvent.OnActorAdded.Add(this.OnActorAdded.bind(this));
         editorEvent.OnActorDeleted.Add(this.OnActorDeleted.bind(this));
         editorEvent.OnActorMoved.Add(this.OnActorMoved.bind(this));
+        editorEvent.OnBlueprintPreCompile.Add(this.OnBlueprintPreCompile.bind(this));
+        editorEvent.OnBlueprintCompiled.Add(this.OnBlueprintCompiled.bind(this));
         editorEvent.OnTransactionStateChanged.Add(this.OnTransactionStateChanged.bind(this));
 
         editorEvent.OnPostSaveWorld.Add(this.OnPostSaveWorld.bind(this));
@@ -50,6 +54,10 @@ export class ActorTransactionManager {
     }
 
     private OnActorAdded(actor: Actor): void {
+        if (this.IsBlueprintCompiling) {
+            return;
+        }
+
         if (!this.CurrentRecord) {
             return;
         }
@@ -63,6 +71,10 @@ export class ActorTransactionManager {
     }
 
     private OnActorDeleted(actor: Actor): void {
+        if (this.IsBlueprintCompiling) {
+            return;
+        }
+
         if (!this.CurrentRecord) {
             return;
         }
@@ -86,6 +98,14 @@ export class ActorTransactionManager {
         });
 
         this.ActorMoved.Invoke(actor);
+    }
+
+    private OnBlueprintPreCompile(bp: Blueprint): void {
+        this.IsBlueprintCompiling = true;
+    }
+
+    private OnBlueprintCompiled(): void {
+        this.IsBlueprintCompiling = false;
     }
 
     private OnUndoRedo(guid: string, isStarted: boolean): void {

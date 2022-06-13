@@ -54,6 +54,7 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEvent, const AActor*, Actor);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPackageEvent, const UPackage*, Package);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWorldEvent, const UWorld*, World);	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBlueprintEvent, const UBlueprint*, Blueprint);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWorldEvent2, const UWorld*, World, EMapChangeTypeBP, ChangeType);	
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTransactionStateChangedEvent, const FString&, Title, const FGuid&, Guid, ETransactionStateEventTypeBP, EventType);	
 
@@ -131,6 +132,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
 	FTransactionStateChangedEvent OnTransactionStateChanged;
+
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FBlueprintEvent OnBlueprintPreCompile;
+
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FEvent0 OnBlueprintCompiled;
+
+	UPROPERTY(EditAnywhere, BlueprintAssignable, Category="KuroEditorCommon", meta=( IsBindableEvent="True" ))
+	FEvent0 OnBlueprintReinstanced;
+	
 	
 	void Initialize();
 
@@ -167,6 +178,9 @@ private:
 	void OnPackageRemoveOccurd(UPackage *Package);
 	void OnPreSaveExternalActorsOccurd(UWorld *World);
 	void OnTransactionStateChangedOccurd(const FTransactionContext& InTransactionContext, const ETransactionStateEventType InTransactionState);
+	void OnBlueprintPreCompileOccurd(UBlueprint *Blueprint);
+	void OnBlueprintCompiledOccurd();
+	void OnBlueprintReinstancedOccurd();
 
 	bool bLaterInitOk = false;
 	bool IsInPie = false;

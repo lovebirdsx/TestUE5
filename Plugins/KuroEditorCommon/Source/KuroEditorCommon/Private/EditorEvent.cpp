@@ -44,12 +44,19 @@ void UEditorEvent::LaterInitialize()
 	GEngine->OnActorMoved().AddUObject(this, &UEditorEvent::OnActorMovedOccued);
 	GEngine->OnActorsMoved().AddUObject(this, &UEditorEvent::OnActorsMovedOccued);
 	GEngine->OnLevelActorAdded().AddUObject(this, &UEditorEvent::OnActorAddedOccued);
-	GEngine->OnLevelActorDeleted().AddUObject(this, &UEditorEvent::OnActorDeletedOccued);
+	GEngine->OnLevelActorDeleted().AddUObject(this, &UEditorEvent::OnActorDeletedOccued);	
 
 	if (GEditor != nullptr && GEditor->Trans != nullptr)
 	{
 		UTransBuffer* TransBuffer = CastChecked<UTransBuffer>(GEditor->Trans);
 		TransBuffer->OnTransactionStateChanged().AddUObject(this, &UEditorEvent::OnTransactionStateChangedOccurd);		
+	}
+
+	if (GEditor != nullptr)
+	{
+		GEditor->OnBlueprintPreCompile().AddUObject(this, &UEditorEvent::OnBlueprintPreCompileOccurd);
+		GEditor->OnBlueprintCompiled().AddUObject(this, &UEditorEvent::OnBlueprintCompiledOccurd);
+		GEditor->OnBlueprintReinstanced().AddUObject(this, &UEditorEvent::OnBlueprintReinstancedOccurd);
 	}
 
 	FLevelEditorModule& LevelEditorModule = FModuleManager::GetModuleChecked<FLevelEditorModule>( "LevelEditor");
@@ -75,6 +82,13 @@ void UEditorEvent::LaterDeinitialize()
 	{
 		UTransBuffer* TransBuffer = CastChecked<UTransBuffer>(GEditor->Trans);
 		TransBuffer->OnTransactionStateChanged().RemoveAll(this);
+	}
+
+	if (GEditor != nullptr)
+	{
+		GEditor->OnBlueprintPreCompile().RemoveAll(this);
+		GEditor->OnBlueprintCompiled().RemoveAll(this);
+		GEditor->OnBlueprintReinstanced().RemoveAll(this);
 	}
 
 	FLevelEditorModule& LevelEditorModule = FModuleManager::GetModuleChecked<FLevelEditorModule>( "LevelEditor");
@@ -270,4 +284,19 @@ void UEditorEvent::OnTransactionStateChangedOccurd(const FTransactionContext& In
 	const ETransactionStateEventType InTransactionState)
 {	
 	OnTransactionStateChanged.Broadcast(InTransactionContext.Title.ToString(), InTransactionContext.TransactionId, FormatTransactionStateEventType(InTransactionState));
+}
+
+void UEditorEvent::OnBlueprintPreCompileOccurd(UBlueprint* Blueprint)
+{
+	OnBlueprintPreCompile.Broadcast(Blueprint);
+}
+
+void UEditorEvent::OnBlueprintCompiledOccurd()
+{
+	OnBlueprintCompiled.Broadcast();
+}
+
+void UEditorEvent::OnBlueprintReinstancedOccurd()
+{
+	OnBlueprintReinstanced.Broadcast();
 }

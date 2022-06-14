@@ -84,11 +84,9 @@ export class ExtendedEntityCsvLoader extends CsvLoader<IExtendedEntityRow> {
                 if (mesh) {
                     const parent = EditorOperations.GetDefaultObject(bp.ParentClass);
                     const anim = EditorOperations.GetDefaultObject(mesh.GetAnimClass());
-                    const materials = mesh.SkeletalMesh.GetMaterials();
                     const materialPaths: string[] = [];
-                    for (let i = 0; i < materials.Num(); i++) {
-                        const material = materials.Get(i).MaterialInterface;
-                        materialPaths.push(KismetSystemLibrary.GetPathName(material));
+                    for (let i = 0; i < mesh.GetNumMaterials(); i++) {
+                        materialPaths.push(KismetSystemLibrary.GetPathName(mesh.GetMaterial(i)));
                     }
                     const model: IModelExport = {
                         MeshPath: KismetSystemLibrary.GetPathName(mesh.SkeletalMesh),

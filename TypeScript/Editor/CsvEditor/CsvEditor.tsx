@@ -26,6 +26,7 @@ import {
 import { CsvView } from '../Common/BaseComponent/CsvView';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { formatColor } from '../Common/Color';
+import { configExporter } from '../Common/ConfigExporter';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
 import { openDirOfFile, openFile } from '../Common/Util';
@@ -188,6 +189,10 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         this.setState({
             LastLoadedCsvState: this.CurrentCsvState,
         });
+
+        if (this.CurrentCsvState.Name === ECsvName.ExtendedEntity) {
+            configExporter.Export();
+        }
     };
 
     private SetStep(newStepId: number): void {

@@ -12,6 +12,9 @@ export interface IGlobalConfig {
     // Entity蓝图配置(Json)
     BlueprintConfigPath: string;
 
+    // Entity模型配置(Json)
+    BlueprintModelConfigPath: string;
+
     // 地图配置(Json)
     LevelsConfigPath: string;
 

@@ -1,13 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import {
-    Blueprint,
-    Character,
-    EditorOperations,
-    EFileRoot,
-    KismetSystemLibrary,
-    MyFileHelper,
-} from 'ue';
+import { Blueprint, Character, EditorOperations, KismetSystemLibrary, MyFileHelper } from 'ue';
 
+import { getProjectPath } from '../../../Common/File';
+import { globalConfig } from '../../Interface/Global';
 import { entityTypeConfig } from '../../Interface/IEntity';
 import { createCsvField, CsvLoader, GlobalCsv, ICsvField, TCsvRowBase } from './CsvLoader';
 
@@ -17,11 +12,6 @@ export interface IExtendedEntityRow extends TCsvRowBase {
     Bp: string;
     TemplateId: number;
 }
-
-export const EXTEND_ENTITY_BP_PATH = MyFileHelper.GetPath(
-    EFileRoot.Save,
-    'ExtentedEntityBp/Config.json',
-);
 
 const extendedEntityBpCsvFields: ICsvField[] = [
     createCsvField({
@@ -100,7 +90,7 @@ export class ExtendedEntityCsvLoader extends CsvLoader<IExtendedEntityRow> {
             }
         });
         const content = JSON.stringify(models, null, 2);
-        MyFileHelper.Write(EXTEND_ENTITY_BP_PATH, content);
+        MyFileHelper.Write(getProjectPath(globalConfig.BlueprintModelConfigPath), content);
     }
 }
 

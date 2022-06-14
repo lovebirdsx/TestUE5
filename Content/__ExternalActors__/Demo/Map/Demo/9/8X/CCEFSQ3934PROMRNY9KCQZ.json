@@ -1,46 +1,13 @@
 ﻿{
   "Name": "守卫左",
   "Id": 3000065,
+  "TemplateId": 3000001,
   "BlueprintType": "AiNpcGuard1",
   "Transform": {
     "Pos": {
       "X": -889.39,
       "Y": -2359.65,
       "Z": 188
-    }
-  },
-  "ComponentsData": {
-    "FlowComponent": {
-      "InitState": {
-        "FlowListName": "流程_守卫",
-        "FlowId": 2,
-        "StateId": 1
-      }
-    },
-    "MoveComponent": {
-      "InitSpeed": 150,
-      "Disabled": true
-    },
-    "BehaviorFlowComponent": {
-      "InitStateId": 0,
-      "FlowInfo": {
-        "Id": 0,
-        "Name": "Empty",
-        "StateGenId": 1,
-        "States": [
-          {
-            "Name": "状态0",
-            "Actions": [],
-            "Id": 0
-          }
-        ]
-      },
-      "Disabled": true
-    },
-    "NpcComponent": {
-      "Content": "",
-      "Icon": "",
-      "Disabled": false
     }
   }
 }

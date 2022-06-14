@@ -150,6 +150,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const data = props.Data;
         const componentsState = data.ComponentsData;
         const componentTypes = entityRegistry.GetComponentTypes(entity);
+        const template = data.TemplateId && entityTemplateManager.GetTemplateById(data.TemplateId);
 
         return (
             <VerticalBox>
@@ -162,6 +163,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 <entityIdContext.Provider value={entity.Id}>
                     <ComponentsData
                         Value={componentsState}
+                        TemplateValue={template ? template.ComponentsData : undefined}
                         ComponentTypes={componentTypes}
                         OnModify={(componentState, type): void => {
                             const newData = produce(data, (draft) => {

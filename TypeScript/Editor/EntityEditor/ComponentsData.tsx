@@ -3,9 +3,16 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { deepEquals } from '../../Common/Util';
 import { TComponentType } from '../../Game/Interface/IComponent';
 import { TComponentData, TComponentsData } from '../../Game/Interface/IEntity';
-import { Check, COLOR_DISABLE, COLOR_LEVEL4, Text } from '../Common/BaseComponent/CommonComponent';
+import {
+    Btn,
+    Check,
+    COLOR_DISABLE,
+    COLOR_LEVEL4,
+    Text,
+} from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { componentRegistry } from '../Common/Scheme/Component/Public';
 import { Any } from '../Common/SchemeComponent/Basic/Public';
@@ -14,6 +21,7 @@ import { copyObject, pasteObject } from '../Common/Util';
 
 export interface IComponentsDataProps {
     Value: TComponentsData;
+    TemplateValue?: TComponentsData;
     ComponentTypes: TComponentType[];
     OnModify: (value: TComponentsData, type: TModifyType) => void;
 }
@@ -21,10 +29,14 @@ export interface IComponentsDataProps {
 export class ComponentsData extends React.Component<IComponentsDataProps> {
     private RenderPrefix(
         componentData: TComponentData,
+        templateComponentData: TComponentData,
         componentType: TComponentType,
     ): JSX.Element {
         const props = this.props;
         const componentsData = props.Value;
+        const needShowRevert =
+            templateComponentData !== undefined &&
+            !deepEquals(componentData, templateComponentData);
         return (
             <HorizontalBox>
                 <Check
@@ -71,6 +83,18 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
                         }
                     }}
                 />
+                {needShowRevert && (
+                    <Btn
+                        Text={'↻'}
+                        Tip={'撤销Component相对于模板的修改'}
+                        OnClick={function (): void {
+                            const newComponentsData = produce(componentsData, (draft) => {
+                                draft[componentType] = templateComponentData;
+                            });
+                            props.OnModify(newComponentsData, 'normal');
+                        }}
+                    />
+                )}
             </HorizontalBox>
         );
     }
@@ -79,6 +103,7 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
     public render(): JSX.Element {
         const componentTypes = this.props.ComponentTypes;
         const components = this.props.Value;
+        const templateComponents = this.props.TemplateValue;
 
         const elements = componentTypes.map((componentType, id): JSX.Element => {
             if (!componentRegistry.HasScheme(componentType)) {
@@ -86,16 +111,24 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
             }
 
             const scheme = componentRegistry.GetScheme(componentType);
-            let value = components[componentType];
-            if (!value) {
-                value = scheme.CreateDefault() as TComponentData;
+            let componentData = components[componentType];
+            if (!componentData) {
+                componentData = scheme.CreateDefault() as TComponentData;
             }
+
+            const templateComponentData = templateComponents
+                ? templateComponents[componentType]
+                : undefined;
 
             return (
                 <VerticalBox key={id}>
                     <Any
-                        PrefixElement={this.RenderPrefix(value, componentType)}
-                        Value={value}
+                        PrefixElement={this.RenderPrefix(
+                            componentData,
+                            templateComponentData,
+                            componentType,
+                        )}
+                        Value={componentData}
                         Scheme={scheme}
                         OnModify={(obj, type): void => {
                             const newComponentData = produce(this.props.Value, (draft) => {

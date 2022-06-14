@@ -2,6 +2,7 @@
 import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/File';
+import { error } from '../../Common/Log';
 import { readJsonObj } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
@@ -9,7 +10,6 @@ import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
 import { TComponentType } from './IComponent';
-import { error } from '../../Common/Log';
 import {
     IBlueprintConfig,
     IEntityConfig,

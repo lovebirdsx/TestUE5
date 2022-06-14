@@ -10,7 +10,7 @@ import {
     createObjectScheme,
 } from '../../Type';
 
-const DEFAULT_ENTITY_BP_PATH = '/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj';
+const DEFAULT_ENTITY_BP_PATH = '/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcAj.BP_AiNpcAj';
 
 export const entityBpScheme = createAssetScheme({
     CnName: '实体蓝图',

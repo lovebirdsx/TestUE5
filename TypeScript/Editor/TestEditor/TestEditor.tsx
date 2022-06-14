@@ -83,7 +83,7 @@ function getAssetList(): void {
 }
 
 function getDefaultObject(): void {
-    const bp = Blueprint.Load('/Game/Blueprints/ExtendedEntity/BP_AiNpcAj.BP_AiNpcAj');
+    const bp = Blueprint.Load('/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcAj.BP_AiNpcAj');
     log(bp.GetName());
     const character = EditorOperations.GetDefaultObject(bp.GeneratedClass) as Character;
     log(`Name = ${character.GetName()}`);

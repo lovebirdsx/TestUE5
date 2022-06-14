@@ -189,6 +189,9 @@ export abstract class CustomSegmentIdGenerator extends SegmentIdGenerator {
         let id = this.GetMaxIdGenerated();
         if (id < 0) {
             id = this.MinId;
+        } else {
+            // 下一次生成的id要变为当前最大id加1
+            id = id + 1;
         }
 
         this.SaveWithId(id);

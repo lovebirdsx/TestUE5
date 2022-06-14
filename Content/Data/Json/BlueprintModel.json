@@ -1,148 +1,84 @@
 ﻿[
   {
     "BluePrintId": "AiNpcGuard1",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/LightingExamples/Materials/MI_Color_Rd.MI_Color_Rd",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
+    "MeshPath": "/Game/Demo/Animations/Aj/aj.aj",
+    "AnimPath": "/Game/Demo/Animations/Aj/ABP_Aj.Default__ABP_Aj_C",
+    "Materials": [
+      "/Game/Demo/Animations/Aj/Boy01_Body_MAT.Boy01_Body_MAT",
+      "/Game/Demo/Animations/Aj/Boy01_Mouth_MAT1.Boy01_Mouth_MAT1",
+      "/Game/Demo/Animations/Aj/Boy01_Eyes_MAT1.Boy01_Eyes_MAT1",
+      "/Game/Demo/Animations/Aj/Boy01_Brows_MAT1.Boy01_Brows_MAT1"
+    ]
   },
   {
     "BluePrintId": "AiNpcGuard2",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Demo/Animations/Aj/aj.aj",
-      "AnimPath": "/Game/Demo/Animations/Aj/ABP_Aj.Default__ABP_Aj_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_2.M_Male_Body_Inst_2",
-        "/Game/Demo/Animations/Aj/Boy01_Mouth_MAT1.Boy01_Mouth_MAT1",
-        "/Game/Demo/Animations/Aj/Boy01_Eyes_MAT1.Boy01_Eyes_MAT1",
-        "/Game/Demo/Animations/Aj/Boy01_Brows_MAT1.Boy01_Brows_MAT1"
-      ]
-    }
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_2.M_Male_Body_Inst_2",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   },
   {
     "BluePrintId": "AiNpcAj",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/MI_Female_Body2.MI_Female_Body2",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/MI_Female_Body2.MI_Female_Body2",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   },
   {
     "BluePrintId": "AiNpcMother",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/MI_Female_Body7.MI_Female_Body7",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/MI_Female_Body7.MI_Female_Body7",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   },
   {
     "BluePrintId": "AiNpcVillageHead",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_7.M_Male_Body_Inst_7",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_7.M_Male_Body_Inst_7",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   },
   {
     "BluePrintId": "AiNpcVillage1",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_8.M_Male_Body_Inst_8",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_8.M_Male_Body_Inst_8",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   },
   {
     "BluePrintId": "AiNpcVillage2",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/MI_Female_Body8.MI_Female_Body8",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
-  },
-  {
-    "BluePrintId": "Gate",
-    "TemplateId": 9,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_Gate.Default__BP_Gate_C"
-  },
-  {
-    "BluePrintId": "SteeringWheel",
-    "TemplateId": 10,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_SteeringWheel.Default__BP_SteeringWheel_C"
-  },
-  {
-    "BluePrintId": "Switcher1",
-    "TemplateId": 11,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_Switcher1.Default__BP_Switcher1_C"
-  },
-  {
-    "BluePrintId": "Screen",
-    "TemplateId": 12,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_Screen.Default__BP_Screen_C"
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/MI_Female_Body8.MI_Female_Body8",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   },
   {
     "BluePrintId": "AiNpcTrainer",
-    "TemplateId": 0,
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "Model": {
-      "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
-      "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
-      "Materials": [
-        "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_2.M_Male_Body_Inst_2",
-        "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
-      ]
-    }
-  },
-  {
-    "BluePrintId": "Invisible",
-    "TemplateId": 9,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_Invisible.Default__BP_Invisible_C"
-  },
-  {
-    "BluePrintId": "Trash",
-    "TemplateId": 11,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_Trash.Default__BP_Trash_C"
-  },
-  {
-    "BluePrintId": "Mineral",
-    "TemplateId": 0,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_Mineral.Default__BP_Mineral_C"
-  },
-  {
-    "BluePrintId": "RefreshManage",
-    "TemplateId": 0,
-    "BluePrintClass": "/Game/Blueprints/ExtendedEntity/BP_RefreshManage.Default__BP_RefreshManage_C"
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
+    "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
+    "Materials": [
+      "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_2.M_Male_Body_Inst_2",
+      "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
+    ]
   }
 ]

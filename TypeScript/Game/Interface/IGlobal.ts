@@ -12,6 +12,9 @@ export interface IGlobalConfig {
     // Entity蓝图配置(Json)
     BlueprintConfigPath: string;
 
+    // 动态模型蓝图路径
+    DynamicModelBluePrintPath: string;
+
     // Entity模型配置(Json)
     BlueprintModelConfigPath: string;
 

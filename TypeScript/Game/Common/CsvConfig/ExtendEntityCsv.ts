@@ -38,12 +38,7 @@ const extendedEntityBpCsvFields: ICsvField[] = [
 
 interface IExport {
     BluePrintId: string;
-    TemplateId: number;
     BluePrintClass: string;
-    Model: IModelExport;
-}
-
-interface IModelExport {
     MeshPath: string;
     AnimPath: string;
     Materials: string[];
@@ -58,34 +53,23 @@ export class ExtendedEntityCsvLoader extends CsvLoader<IExtendedEntityRow> {
         const contents = this.Load(sourcePath);
         const models: IExport[] = [];
         contents.forEach((row) => {
-            // TODO dynamic 路径下才check mesh
-            // 复写了model才修改。 or  没有复写就取父类。 到时候和客户端聊过再决定
             const bp = Blueprint.Load(row.Bp);
-            const genclass = bp.GeneratedClass;
-            if (genclass) {
-                const character = EditorOperations.GetDefaultObject(genclass) as Character;
+            const character = EditorOperations.GetDefaultObject(bp.GeneratedClass) as Character;
+            const mesh = character.Mesh;
+            if (mesh && row.Bp.search(globalConfig.DynamicModelBluePrintPath) > 0) {
+                const parent = EditorOperations.GetDefaultObject(bp.ParentClass);
+                const anim = EditorOperations.GetDefaultObject(mesh.GetAnimClass());
+                const materialPaths: string[] = [];
+                for (let i = 0; i < mesh.GetNumMaterials(); i++) {
+                    materialPaths.push(KismetSystemLibrary.GetPathName(mesh.GetMaterial(i)));
+                }
                 const exportdata: IExport = {
                     BluePrintId: row.Id,
-                    TemplateId: row.TemplateId,
-                    BluePrintClass: KismetSystemLibrary.GetPathName(character),
-                    Model: undefined,
+                    BluePrintClass: KismetSystemLibrary.GetPathName(parent),
+                    MeshPath: KismetSystemLibrary.GetPathName(mesh.SkeletalMesh),
+                    AnimPath: KismetSystemLibrary.GetPathName(anim),
+                    Materials: materialPaths,
                 };
-                const mesh = character.Mesh;
-                if (mesh) {
-                    const parent = EditorOperations.GetDefaultObject(bp.ParentClass);
-                    const anim = EditorOperations.GetDefaultObject(mesh.GetAnimClass());
-                    const materialPaths: string[] = [];
-                    for (let i = 0; i < mesh.GetNumMaterials(); i++) {
-                        materialPaths.push(KismetSystemLibrary.GetPathName(mesh.GetMaterial(i)));
-                    }
-                    const model: IModelExport = {
-                        MeshPath: KismetSystemLibrary.GetPathName(mesh.SkeletalMesh),
-                        AnimPath: KismetSystemLibrary.GetPathName(anim),
-                        Materials: materialPaths,
-                    };
-                    exportdata.Model = model;
-                    exportdata.BluePrintClass = KismetSystemLibrary.GetPathName(parent);
-                }
                 models.push(exportdata);
             }
         });

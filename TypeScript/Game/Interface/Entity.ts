@@ -3,12 +3,13 @@ import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/File';
 import { readJsonObj } from '../../Common/Util';
-import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
+import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
 import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
 import { TComponentType } from './IComponent';
+import { error } from '../../Common/Log';
 import {
     IBlueprintConfig,
     IEntityConfig,
@@ -193,8 +194,15 @@ registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity');
 const extendEntityCsv = csvRegistry.GetCsv(ExtendedEntityCsv);
 extendEntityCsv.Rows.forEach((row) => {
     const blueprint = Blueprint.Load(row.Bp);
-    const entityType = getEntityTypeByClass(blueprint.ParentClass);
-    registerBlueprint(row.Id, `${row.Bp}_C`, entityType);
+    if (blueprint) {
+        const entityType = getEntityTypeByClass(blueprint.ParentClass);
+        registerBlueprint(row.Id, `${row.Bp}_C`, entityType);
+    } else {
+        error(
+            `blueprint path ${row.Bp} error，please check 
+            ${csvRegistry.GetPath(ECsvName.ExtendedEntity)} valid`,
+        );
+    }
 });
 
 export function loadEntityTemplateConfig(): IEntityTemplateConfig {

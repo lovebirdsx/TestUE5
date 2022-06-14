@@ -6,6 +6,10 @@ import { getProjectPath } from '../../Common/File';
 import { log } from '../../Common/Log';
 import { writeJson } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
+import {
+    EXTEND_ENTITY_BP_PATH,
+    ExtendedEntityCsvLoader,
+} from '../../Game/Common/CsvConfig/ExtendEntityCsv';
 import { componentConfig } from '../../Game/Interface/Component';
 import { entityConfig, genBlueprintConfig } from '../../Game/Interface/Entity';
 import { globalConfig } from '../../Game/Interface/Global';
@@ -122,6 +126,19 @@ const items: IExportItem[] = [
         DestFiles: [levelDataManager.GetMapDataPath()],
         ExportFun: (): void => {
             levelDataManager.Export();
+        },
+    },
+    {
+        Name: 'ExtendedEntityBp',
+        SourceFiles: [csvRegistry.GetPath(ECsvName.ExtendedEntity)],
+        DestFiles: [EXTEND_ENTITY_BP_PATH],
+        ExportFun: (): void => {
+            const loader = csvRegistry.GetLoaderByName(
+                ECsvName.ExtendedEntity,
+            ) as ExtendedEntityCsvLoader;
+            if (loader) {
+                loader.ExportData(csvRegistry.GetPath(ECsvName.ExtendedEntity));
+            }
         },
     },
 ];

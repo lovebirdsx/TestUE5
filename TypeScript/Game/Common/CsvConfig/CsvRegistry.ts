@@ -88,6 +88,10 @@ class CsvRegistry {
         return loader;
     }
 
+    public GetLoaderByName(name: string): CsvLoader<TCsvRowBase> {
+        return this.LoaderMap.get(name);
+    }
+
     public GetPath(name: ECsvName): string {
         const config = this.ConfigMap.get(name);
         return this.GetSavePath(config.Path);

@@ -3,7 +3,7 @@ import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/File';
 import { error } from '../../Common/Log';
-import { compressObjByField, decompressObjByField, readJsonObj } from '../../Common/Util';
+import { applyDiff, createDiff, readJsonObj } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
 import { baseActions, getActionsByComponentType } from './Component';
@@ -238,10 +238,7 @@ export function compressEntityData(ed: IEntityData, td: IEntityTemplate): IEntit
         TemplateId: td.Id,
         BlueprintType: ed.BlueprintType,
         Transform: ed.Transform,
-        ComponentsData: compressObjByField(
-            ed.ComponentsData,
-            td.ComponentsData,
-        ) as unknown as TComponentsData,
+        ComponentsData: createDiff(ed.ComponentsData, td.ComponentsData, true) as TComponentsData,
     };
 }
 
@@ -256,9 +253,6 @@ export function decompressEntityData(ed: IEntityData, td: IEntityTemplate): IEnt
         TemplateId: ed.TemplateId,
         BlueprintType: td.BlueprintType,
         Transform: ed.Transform,
-        ComponentsData: decompressObjByField(
-            ed.ComponentsData,
-            td.ComponentsData,
-        ) as unknown as TComponentsData,
+        ComponentsData: applyDiff(ed.ComponentsData, td.ComponentsData, true) as TComponentsData,
     };
 }

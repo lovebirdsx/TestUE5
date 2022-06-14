@@ -31,19 +31,31 @@ export function deepEquals<T>(x: T, y: T): boolean {
         return false;
     }
 
-    if (typeX !== 'object' || x === null || y === null) {
+    if (typeX !== 'object' || x === undefined || y === undefined) {
         return false;
     }
 
-    for (const p in x) {
-        if (!deepEquals(x[p], y[p])) {
+    if (x instanceof Array) {
+        if (x.length !== (y as unknown as unknown[]).length) {
             return false;
         }
-    }
 
-    for (const p in y) {
-        if (x[p] === undefined) {
-            return false;
+        for (let i = 0; i < x.length; i++) {
+            if (!deepEquals(x[i], y[i])) {
+                return false;
+            }
+        }
+    } else {
+        for (const p in x) {
+            if (!deepEquals(x[p], y[p])) {
+                return false;
+            }
+        }
+
+        for (const p in y) {
+            if (x[p] === undefined) {
+                return false;
+            }
         }
     }
 
@@ -319,14 +331,13 @@ export function toUeArray<TR extends UE.SupportedContainerKVType, T extends UE.C
     return result;
 }
 
-export type TObject = Record<string, unknown>;
-export function compressObjByField(origin: TObject, base: TObject): TObject {
-    if (base === undefined) {
+export function createDiff(origin: unknown, base: unknown, ignoreUnderScore?: boolean): unknown {
+    if (base === undefined || origin === undefined) {
         return origin;
     }
 
-    if (origin === undefined) {
-        throw new Error(`Compress object failed: from can not be undefined`);
+    if (typeof origin !== 'object' || typeof base !== 'object') {
+        return origin;
     }
 
     let differentFileds = 0;
@@ -334,24 +345,30 @@ export function compressObjByField(origin: TObject, base: TObject): TObject {
 
     // 仅from有的字段
     for (const key in origin) {
+        if (ignoreUnderScore && key.startsWith('_')) {
+            continue;
+        }
         if (base[key] === undefined) {
-            result[key] = origin[key];
+            result[key] = origin[key] as unknown;
             differentFileds++;
         }
     }
 
     for (const key in base) {
-        const vFrom = origin[key];
-        const vTo = base[key];
+        if (ignoreUnderScore && key.startsWith('_')) {
+            continue;
+        }
+        const vFrom = origin[key] as unknown;
+        const vTo = base[key] as unknown;
 
         // 双方都有的字段
         if (vFrom !== undefined) {
             const typeFrom = typeof vFrom;
             const typeTo = typeof vTo;
             if (typeFrom === typeTo && typeFrom === 'object') {
-                const data = compressObjByField(vFrom as TObject, vTo as TObject);
+                const data = createDiff(vFrom, vTo, ignoreUnderScore);
+                result[key] = data;
                 if (data !== undefined) {
-                    result[key] = data;
                     differentFileds++;
                 }
             } else {
@@ -367,10 +384,14 @@ export function compressObjByField(origin: TObject, base: TObject): TObject {
         return undefined;
     }
 
+    if (base instanceof Array) {
+        return Object.values(result);
+    }
+
     return result;
 }
 
-export function decompressObjByField(data: TObject, base: TObject): TObject {
+export function applyDiff(data: unknown, base: unknown, ignoreUnderScore?: boolean): unknown {
     if (data === undefined) {
         return base;
     }
@@ -379,18 +400,34 @@ export function decompressObjByField(data: TObject, base: TObject): TObject {
         return data;
     }
 
+    if (typeof data !== 'object') {
+        return data;
+    }
+
+    if (typeof base !== 'object') {
+        return data;
+    }
+
     const result = {};
 
     // 仅data中存在的字段
     for (const key in data) {
+        if (ignoreUnderScore && key.startsWith('_')) {
+            continue;
+        }
+
         if (base[key] === undefined) {
-            result[key] = data[key];
+            result[key] = data[key] as unknown;
         }
     }
 
     for (const key in base) {
-        const vData = data[key];
-        const vBase = base[key];
+        if (ignoreUnderScore && key.startsWith('_')) {
+            continue;
+        }
+
+        const vData = data[key] as unknown;
+        const vBase = base[key] as unknown;
         if (vData === undefined) {
             // 仅base中存在的字段
             result[key] = vBase;
@@ -401,12 +438,16 @@ export function decompressObjByField(data: TObject, base: TObject): TObject {
                 result[key] = vData;
             } else {
                 if (typeData === 'object') {
-                    result[key] = decompressObjByField(vData as TObject, vBase as TObject);
+                    result[key] = applyDiff(vData, vBase, ignoreUnderScore);
                 } else {
                     result[key] = vData;
                 }
             }
         }
+    }
+
+    if (base instanceof Array) {
+        return Object.values(result);
     }
 
     return result;

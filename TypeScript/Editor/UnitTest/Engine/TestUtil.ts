@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { log } from '../../../Common/Log';
-import { assertEq, assertNe, test } from '../../../Common/Test';
+import { assertEq, assertNe, assertTrue, test } from '../../../Common/Test';
 import {
-    compressObjByField,
-    decompressObjByField,
+    applyDiff,
+    createDiff,
+    deepEquals,
     parse,
     stringify,
     stringifyEditor,
     subArray,
-    TObject,
 } from '../../../Common/Util';
 import { getMacAddress } from '../../Common/Util';
 
@@ -25,6 +25,17 @@ interface IFoo {
 }
 
 export function testUtil(): void {
+    test('deep equals', () => {
+        function testFor(a: unknown, b: unknown): void {
+            assertTrue(deepEquals(a, b), `${JSON.stringify(a)} == ${JSON.stringify(b)}`);
+        }
+
+        testFor([undefined, undefined, 'a'], [undefined, undefined, 'a']);
+        testFor({ A: 1 }, { A: 1 });
+        testFor(undefined, undefined);
+        testFor({ A: [undefined, { B: 1 }] }, { A: [undefined, { B: 1 }] });
+    });
+
     test('stringify filter underScore', () => {
         const foo: IFoo = { Name: 'foo', _Folded: false };
         const fooJson = stringify(foo, true);
@@ -95,9 +106,14 @@ export function testUtil(): void {
         log(mac);
     });
 
-    test('compress by field', () => {
-        function testFor(origin: TObject, base: TObject, data: TObject): void {
-            const result = compressObjByField(origin, base);
+    test('create diff', () => {
+        function testFor(
+            origin: unknown,
+            base: unknown,
+            data: unknown,
+            ignoreUnderScore?: boolean,
+        ): void {
+            const result = createDiff(origin, base, ignoreUnderScore);
             assertEq(result, data, `compress(${JSON.stringify(origin)}, ${JSON.stringify(base)})`);
         }
 
@@ -110,16 +126,36 @@ export function testUtil(): void {
         testFor({ A: false }, { A: 1 }, { A: false });
         testFor({ A: false }, { A: [1, 2] }, { A: false });
         testFor({ A: false }, { A: { A: 1 } }, { A: false });
+        testFor({ A: [1, 2] }, { A: [1, 2] }, undefined);
+        testFor({ A: [{ B: 1 }, { B: 2 }] }, { A: [{ B: 1 }, { B: 2 }] }, undefined);
+        testFor({ E: { C: { Vars: [{ B: 1 }] } } }, { E: { C: { Vars: [{ B: 1 }] } } }, undefined);
+
+        // 数组
+        testFor(
+            [{ A: 1 }, { A: 2 }, { A: 3 }],
+            [{ A: 1 }, { A: 2 }, { A: 2 }],
+            [undefined, undefined, { A: 3 }],
+        );
 
         // 嵌套
         testFor({ A: { B: 1 } }, { A: { B: 1 } }, undefined);
         testFor({ A: { B: 1, C: 1 } }, { A: { B: 1 } }, { A: { C: 1 } });
         testFor({ A: { B: 1, C: 1 } }, { A: {} }, { A: { B: 1, C: 1 } });
+
+        // 下划线
+        testFor({ A: 1 }, { _C: 1 }, { A: 1 }, true);
+        testFor({ A: { B: 1, C: 1 }, _C: 1 }, { A: {} }, { A: { B: 1, C: 1 } }, true);
+        testFor({ A: { B: 1, C: 1 }, _C: 1 }, { A: { _C: 1 } }, { A: { B: 1, C: 1 } }, true);
     });
 
-    test('decompress by field', () => {
-        function testFor(data: TObject, base: TObject, origin: TObject): void {
-            const result = decompressObjByField(data, base);
+    test('apply diff', () => {
+        function testFor(
+            data: unknown,
+            base: unknown,
+            origin: unknown,
+            ignoreUnderScore?: boolean,
+        ): void {
+            const result = applyDiff(data, base, ignoreUnderScore);
             assertEq(
                 result,
                 origin,
@@ -140,5 +176,10 @@ export function testUtil(): void {
         testFor(undefined, { A: { B: 1 } }, { A: { B: 1 } });
         testFor({ A: { C: 1 } }, { A: { B: 1 } }, { A: { B: 1, C: 1 } });
         testFor({ A: { B: 1, C: 1 } }, { A: {} }, { A: { B: 1, C: 1 } });
+
+        // 下划线
+        testFor({ A: 1 }, { _C: 1 }, { A: 1 }, true);
+        testFor({ A: { B: 1, C: 1 }, _C: 1 }, { A: {} }, { A: { B: 1, C: 1 } }, true);
+        testFor({ A: { B: 1, C: 1 }, _C: 1 }, { A: { _C: 1 } }, { A: { B: 1, C: 1 } }, true);
     });
 }

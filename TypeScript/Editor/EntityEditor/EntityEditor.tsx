@@ -18,6 +18,7 @@ import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { formatColor } from '../Common/Color';
 import { configExporter } from '../Common/ConfigExporter';
 import { editorConfig } from '../Common/EditorConfig';
+import { entityTemplateManager } from '../Common/EntityTemplateManager';
 import { IEntityRecords } from '../Common/Interface';
 import { getCommandKeyDesc } from '../Common/KeyCommands';
 import { levelDataManager } from '../Common/LevelDataManager';
@@ -39,12 +40,12 @@ import { LevelEditor } from './LevelEditor';
 import { tempEntities } from './TempEntities';
 
 const contextCmdList = [
-    '重新保存所有实体数据',
-    '检查当前实体数据',
-    '检查所有实体数据',
-    '修复并导出所有实体数据',
-    '检查并修复当前实体数据',
-    '重新扫描实体生成id',
+    '【实体】检查当前',
+    '【实体】检查所有',
+    '【实体】修复当前',
+    '【实体】修复所有',
+    '【实体】重新扫描生成id',
+    '【模板】重导所有',
 ] as const;
 
 type TContextCmd = typeof contextCmdList[number];
@@ -548,34 +549,34 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private readonly OnContextCmd = (cmd: TContextCmd): void => {
         switch (cmd) {
-            case '重新保存所有实体数据':
-                LevelEditorUtil.SaveAllEntityData();
-                break;
-
-            case '检查当前实体数据':
+            case '【实体】检查当前':
                 if (this.state.Entity) {
                     LevelEditorUtil.CheckEntity(this.state.Entity);
                     log(`检查[${this.state.Entity.ActorLabel}]完毕`);
                 }
                 break;
 
-            case '检查所有实体数据':
+            case '【实体】检查所有':
                 LevelEditorUtil.CheckAllEntityData();
                 break;
 
-            case '检查并修复当前实体数据':
+            case '【实体】修复当前':
                 if (this.state.Entity) {
                     LevelEditorUtil.CheckAndSaveEntityData(this.state.Entity);
                     log(`检查修复[${this.state.Entity.ActorLabel}]完毕`);
                 }
                 break;
 
-            case '修复并导出所有实体数据':
+            case '【实体】修复所有':
                 LevelEditorUtil.CheckAndSaveAllEntityData();
                 break;
 
-            case '重新扫描实体生成id':
+            case '【实体】重新扫描生成id':
                 currentLevelEntityIdGenerator.ReScan();
+                break;
+
+            case '【模板】重导所有':
+                entityTemplateManager.FixAndExport();
                 break;
         }
     };

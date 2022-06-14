@@ -2,6 +2,7 @@
 import { MyFileHelper } from 'ue';
 
 import { getFileNameWithOutExt, getProjectPath, getSavePath, listFiles } from '../../Common/File';
+import { warn } from '../../Common/Log';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import {
@@ -16,6 +17,7 @@ import {
     IEntityTemplateConfig,
     TEntityType,
 } from '../../Game/Interface/IEntity';
+import { entityRegistry } from './Scheme/Entity';
 import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
 
 function getEntityTemplateFiles(): string[] {
@@ -184,22 +186,22 @@ export class EntityTemplateManager {
     }
 
     public Modify(data: IEntityTemplate): void {
-        const td = this.IdMap.get(data.Id);
-        if (!td) {
+        const template = this.IdMap.get(data.Id);
+        if (!template) {
             throw new Error(`Modify no exist template data for id [${data.Id}]`);
         }
 
-        if (!isBlueprintTypeTheSameEntity(data.BlueprintType, td.BlueprintType)) {
+        if (!isBlueprintTypeTheSameEntity(data.BlueprintType, template.BlueprintType)) {
             const et1 = getEntityTypeByBlueprintType(data.BlueprintType);
-            const et2 = getEntityTypeByBlueprintType(td.BlueprintType);
+            const et2 = getEntityTypeByBlueprintType(template.BlueprintType);
             throw new Error(
-                `Can only modify same bptype: ed[${data.BlueprintType}][${et1}] != td[${td.BlueprintType}][${et2}]`,
+                `Can only modify same bptype: ed[${data.BlueprintType}][${et1}] != td[${template.BlueprintType}][${et2}]`,
             );
         }
 
-        td.ComponentsData = data.ComponentsData;
+        template.ComponentsData = data.ComponentsData;
 
-        writeJson(td, this.GetPath(data.Id), true);
+        writeJson(template, this.GetPath(data.Id), true);
         this.MarkDirty();
     }
 
@@ -220,24 +222,43 @@ export class EntityTemplateManager {
             throw new Error(`Add entity template failed: name [${name}] already exist`);
         }
 
-        const td: IEntityTemplate = {
+        const template: IEntityTemplate = {
             Id: templateIdGenerator.GenOne(),
             Name: name,
             BlueprintType: data.BlueprintType,
             ComponentsData: data.ComponentsData,
         };
 
-        this.IdMap.set(td.Id, td);
-        this.NameMap.set(name, td);
+        this.IdMap.set(template.Id, template);
+        this.NameMap.set(name, template);
         this.Names.push(name);
         // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
         this.Names.sort();
 
         const relativePath = MyFileHelper.GetPathRelativeTo(path, GameConfig.EntityTemplateDir);
-        this.PathById.set(td.Id, relativePath);
+        this.PathById.set(template.Id, relativePath);
 
-        writeJson(td, path, true);
+        writeJson(template, path, true);
         this.MarkDirty();
+    }
+
+    private Fix(): void {
+        let fixTemplateCount = 0;
+        this.IdMap.forEach((et) => {
+            const entityType = getEntityTypeByBlueprintType(et.BlueprintType);
+            const fixCount = entityRegistry.FixComponentsData(entityType, et.ComponentsData);
+            if (fixCount > 0) {
+                warn(`====修复Template[${et.Name}]完毕`);
+                writeJson(et, this.GetPath(et.Id), true);
+                fixTemplateCount++;
+            }
+        });
+        warn(`****修复了${fixTemplateCount}个实体模板`);
+    }
+
+    public FixAndExport(): void {
+        this.Fix();
+        this.Export();
     }
 
     public Export(): void {

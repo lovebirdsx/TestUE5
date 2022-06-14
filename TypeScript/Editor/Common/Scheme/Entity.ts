@@ -71,9 +71,10 @@ class EntityRegistry {
         return errorCount;
     }
 
-    private FixComponentsData(entityType: TEntityType, componentsData: TComponentsData): void {
+    public FixComponentsData(entityType: TEntityType, componentsData: TComponentsData): number {
         const componentTypes = getComponentsTypeByEntityType(entityType);
 
+        let fixCount = 0;
         // 移除不存在的Component配置
         Object.keys(componentsData).forEach((key) => {
             const componentType = key as TComponentType;
@@ -81,6 +82,7 @@ class EntityRegistry {
             if (!isExist || !componentRegistry.HasScheme(componentType)) {
                 warn(`移除不存在的Component配置[${componentType}]`);
                 delete componentsData[componentType];
+                fixCount++;
             }
         });
 
@@ -90,14 +92,19 @@ class EntityRegistry {
                 // 存在则尝试修复, 否则构造一个新的ComponentData
                 const scheme = componentRegistry.GetScheme(componentType);
                 if (componentsData[componentType]) {
-                    scheme.Fix(componentsData[componentType]);
+                    if (scheme.Fix(componentsData[componentType]) === 'fixed') {
+                        fixCount++;
+                        warn(`修复Component[${componentType}]`);
+                    }
                 } else {
                     const componentData = scheme.CreateDefault() as TComponentData;
-                    componentData.Disabled = false;
                     componentsData[componentType] = componentData;
+                    fixCount++;
+                    warn(`添加缺失的Component[${componentType}]`);
                 }
             }
         });
+        return fixCount;
     }
 
     public GenDataForNewlyCreated(entity: ITsEntity): IEntityData {

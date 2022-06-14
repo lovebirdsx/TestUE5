@@ -7,8 +7,6 @@
       "InitState": "Idle"
     },
     "SwitcherComponent": {
-      "IsInitOn": false,
-      "AutoExecuteOnLoad": false,
       "OnActions": [
         {
           "Name": "Invoke",
@@ -27,7 +25,9 @@
           "Params": {}
         }
       ],
-      "OffActions": []
+      "OffActions": [],
+      "Content": "",
+      "Icon": ""
     }
   }
 }

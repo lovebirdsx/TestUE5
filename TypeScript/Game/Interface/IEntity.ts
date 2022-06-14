@@ -36,7 +36,7 @@ export interface IBlueprintConfig {
 }
 
 export type TComponentData = Record<string, unknown> & {
-    Disabled: boolean;
+    Disabled?: boolean;
 };
 
 // 代表Entity中所有组件的配置数据

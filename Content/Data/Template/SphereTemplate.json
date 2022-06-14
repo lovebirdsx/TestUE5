@@ -2,5 +2,19 @@
   "Id": 3,
   "Name": "SphereTemplate",
   "BlueprintType": "SphereActor",
-  "ComponentsData": {}
+  "ComponentsData": {
+    "SphereComponent": {
+      "Content": "",
+      "Icon": ""
+    },
+    "GrabComponent": {
+      "GrabPos": {
+        "X": 100,
+        "Y": 0,
+        "Z": 50
+      },
+      "ThrowPow": 0,
+      "ThrowHight": 0
+    }
+  }
 }

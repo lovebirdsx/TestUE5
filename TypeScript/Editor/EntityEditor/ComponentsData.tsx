@@ -42,7 +42,6 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
                             const newComponentsData = produce(componentsData, (draft) => {
                                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                                 const componentData = scheme.CreateDefault() as TComponentData;
-                                componentData.Disabled = false;
                                 draft[componentType] = componentData;
                             });
                             this.props.OnModify(newComponentsData, 'normal');

@@ -129,13 +129,6 @@ class LevelEditorUtil {
         levelDataManager.ModifyEntityData(entity, currentData);
     }
 
-    public static SaveAllEntityData(): void {
-        const entities = this.GetAllEntitiesByEditorWorld();
-        entities.forEach((entity) => {
-            this.SaveEntityData(entity);
-        });
-    }
-
     public static CheckEntity(entity: ITsEntity): number {
         const entityData = entityRegistry.GenData(entity);
         const messages: string[] = [];

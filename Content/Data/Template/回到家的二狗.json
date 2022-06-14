@@ -29,6 +29,10 @@
         ]
       },
       "Disabled": true
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": ""
     }
   }
 }

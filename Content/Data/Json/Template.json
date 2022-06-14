@@ -10,9 +10,29 @@
             "FlowListName": "流程_移动测试",
             "FlowId": 3,
             "StateId": 1
-          },
-          "AutoRun": true,
-          "Continuable": false
+          }
+        },
+        "BehaviorFlowComponent": {
+          "InitStateId": 0,
+          "FlowInfo": {
+            "Id": 0,
+            "Name": "Empty",
+            "StateGenId": 1,
+            "States": [
+              {
+                "Id": 0,
+                "Name": "状态1",
+                "Actions": []
+              }
+            ]
+          }
+        },
+        "MoveComponent": {
+          "InitSpeed": 150
+        },
+        "NpcComponent": {
+          "Content": "",
+          "Icon": ""
         }
       }
     },
@@ -26,9 +46,29 @@
             "FlowListName": "流程_移动测试",
             "FlowId": 2,
             "StateId": 1
-          },
-          "AutoRun": false,
-          "Continuable": false
+          }
+        },
+        "BehaviorFlowComponent": {
+          "InitStateId": 0,
+          "FlowInfo": {
+            "Id": 0,
+            "Name": "Empty",
+            "StateGenId": 1,
+            "States": [
+              {
+                "Id": 0,
+                "Name": "状态1",
+                "Actions": []
+              }
+            ]
+          }
+        },
+        "MoveComponent": {
+          "InitSpeed": 150
+        },
+        "NpcComponent": {
+          "Content": "",
+          "Icon": ""
         }
       }
     },
@@ -43,6 +83,25 @@
             "FlowId": 4,
             "StateId": 1
           }
+        },
+        "BehaviorFlowComponent": {
+          "InitStateId": 0,
+          "FlowInfo": {
+            "Id": 0,
+            "Name": "Empty",
+            "StateGenId": 1,
+            "States": [
+              {
+                "Id": 0,
+                "Name": "状态1",
+                "Actions": []
+              }
+            ]
+          }
+        },
+        "NpcComponent": {
+          "Content": "",
+          "Icon": ""
         }
       }
     },
@@ -50,7 +109,21 @@
       "Id": 3,
       "Name": "SphereTemplate",
       "BlueprintType": "SphereActor",
-      "ComponentsData": {}
+      "ComponentsData": {
+        "SphereComponent": {
+          "Content": "",
+          "Icon": ""
+        },
+        "GrabComponent": {
+          "GrabPos": {
+            "X": 100,
+            "Y": 0,
+            "Z": 50
+          },
+          "ThrowPow": 0,
+          "ThrowHight": 0
+        }
+      }
     },
     {
       "Id": 5,
@@ -83,6 +156,10 @@
             ]
           },
           "Disabled": true
+        },
+        "NpcComponent": {
+          "Content": "",
+          "Icon": ""
         }
       }
     },
@@ -164,8 +241,6 @@
           "InitState": "Idle"
         },
         "SwitcherComponent": {
-          "IsInitOn": false,
-          "AutoExecuteOnLoad": false,
           "OnActions": [
             {
               "Name": "Invoke",
@@ -184,7 +259,9 @@
               "Params": {}
             }
           ],
-          "OffActions": []
+          "OffActions": [],
+          "Content": "",
+          "Icon": ""
         }
       }
     },

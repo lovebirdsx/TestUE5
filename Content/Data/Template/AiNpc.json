@@ -8,9 +8,29 @@
         "FlowListName": "流程_移动测试",
         "FlowId": 3,
         "StateId": 1
-      },
-      "AutoRun": true,
-      "Continuable": false
+      }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      }
+    },
+    "MoveComponent": {
+      "InitSpeed": 150
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": ""
     }
   }
 }

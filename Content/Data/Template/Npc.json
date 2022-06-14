@@ -9,6 +9,25 @@
         "FlowId": 4,
         "StateId": 1
       }
+    },
+    "BehaviorFlowComponent": {
+      "InitStateId": 0,
+      "FlowInfo": {
+        "Id": 0,
+        "Name": "Empty",
+        "StateGenId": 1,
+        "States": [
+          {
+            "Id": 0,
+            "Name": "状态1",
+            "Actions": []
+          }
+        ]
+      }
+    },
+    "NpcComponent": {
+      "Content": "",
+      "Icon": ""
     }
   }
 }

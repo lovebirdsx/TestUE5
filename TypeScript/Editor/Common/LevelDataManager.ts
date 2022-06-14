@@ -138,16 +138,16 @@ export class LevelDataManager {
 
     private CompressEntityData(data: IEntityData): IEntityData {
         if (data.TemplateId !== undefined) {
-            const td = entityTemplateManager.GetTemplateById(data.TemplateId);
-            return compressEntityData(data, td);
+            const template = entityTemplateManager.GetTemplateById(data.TemplateId);
+            return compressEntityData(data, template);
         }
         return data;
     }
 
     private DecompressEntityData(data: IEntityData): IEntityData {
         if (data.TemplateId !== undefined) {
-            const td = entityTemplateManager.GetTemplateById(data.TemplateId);
-            return decompressEntityData(data, td);
+            const tempalte = entityTemplateManager.GetTemplateById(data.TemplateId);
+            return decompressEntityData(data, tempalte);
         }
         return data;
     }

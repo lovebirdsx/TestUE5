@@ -8,7 +8,7 @@ import { CustomSegmentIdGenerator } from '../SegmentIdGenerator';
 export class EntityIdGenerator extends CustomSegmentIdGenerator {
     protected GetMaxIdGenerated(): number {
         let result = -1;
-        levelDataManager.ForeachEntityData((ed, path) => {
+        levelDataManager.ForeachCompressedEntityData((ed, path) => {
             if (this.ContainsId(ed.Id) && ed.Id > result) {
                 result = ed.Id;
             }

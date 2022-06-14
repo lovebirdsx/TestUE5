@@ -6,9 +6,11 @@ import { getDir, getSavePath, listFiles } from '../../Common/File';
 import { log } from '../../Common/Log';
 import { deepEquals, readJsonObj, writeJson } from '../../Common/Util';
 import { ITsEntity } from '../../Game/Interface';
+import { compressEntityData, decompressEntityData } from '../../Game/Interface/Entity';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { ILevelData } from '../../Game/Interface/ILevel';
 import { getLevelDataPath } from '../../Game/Interface/Level';
+import { entityTemplateManager } from './EntityTemplateManager';
 import { deepCopyData, getContentPackageName, openFile } from './Util';
 
 interface IEntityRecord {
@@ -94,7 +96,7 @@ export class LevelDataManager {
 
     public TryGetEntityData(entity: ITsEntity): IEntityData | undefined {
         const record = this.EntityRecordMap.get(entity.Id);
-        return record ? record.EntityData : undefined;
+        return record ? this.DecompressEntityData(record.EntityData) : undefined;
     }
 
     public GetEntityData(entity: ITsEntity): IEntityData {
@@ -102,7 +104,7 @@ export class LevelDataManager {
         if (!record) {
             throw new Error(`Get error: No entity data for id [${entity.Id}]`);
         }
-        return record.EntityData;
+        return this.DecompressEntityData(record.EntityData);
     }
 
     public CloneEntityData(entity: ITsEntity): IEntityData {
@@ -110,7 +112,7 @@ export class LevelDataManager {
         if (!record) {
             throw new Error(`Clone error: No entity data for id [${entity.Id}]`);
         }
-        return deepCopyData(record.EntityData);
+        return this.DecompressEntityData(deepCopyData(record.EntityData));
     }
 
     public AddEntityData(entity: ITsEntity, data: IEntityData): void {
@@ -121,16 +123,33 @@ export class LevelDataManager {
             );
         }
 
+        const compressData = this.CompressEntityData(data);
         const newRecord = {
             Path: this.GetEntityJsonPath(entity),
-            EntityData: data,
+            EntityData: compressData,
         };
 
         this.EntityRecordMap.set(entity.Id, newRecord);
 
-        this.AddRecords.set(data.Id, newRecord);
-        this.DelRecords.delete(data.Id);
+        this.AddRecords.set(compressData.Id, newRecord);
+        this.DelRecords.delete(compressData.Id);
         this.MarkDrity();
+    }
+
+    private CompressEntityData(data: IEntityData): IEntityData {
+        if (data.TemplateId !== undefined) {
+            const td = entityTemplateManager.GetTemplateById(data.TemplateId);
+            return compressEntityData(data, td);
+        }
+        return data;
+    }
+
+    private DecompressEntityData(data: IEntityData): IEntityData {
+        if (data.TemplateId) {
+            const td = entityTemplateManager.GetTemplateById(data.TemplateId);
+            return decompressEntityData(data, td);
+        }
+        return data;
     }
 
     public ModifyEntityData(entity: ITsEntity, data: IEntityData): void {
@@ -141,11 +160,12 @@ export class LevelDataManager {
             );
         }
 
-        if (deepEquals(record.EntityData, data)) {
+        const compressData = this.CompressEntityData(data);
+        if (deepEquals(record.EntityData, compressData)) {
             return;
         }
 
-        record.EntityData = data;
+        record.EntityData = compressData;
 
         // 新添加的Entity, 在没有保存为uasset前, 不保存其EntityData, 确保两个数据同时存在
         if (!this.AddRecords.has(entity.Id)) {
@@ -174,7 +194,7 @@ export class LevelDataManager {
             throw new Error(`No entity data found for id [${id}]`);
         }
 
-        return result.EntityData;
+        return this.DecompressEntityData(result.EntityData);
     }
 
     private GetDirtyRocordPath(): string {
@@ -191,7 +211,7 @@ export class LevelDataManager {
         openFile(this.GetMapDataPath());
     }
 
-    public ForeachEntityData(cb: (ed: IEntityData, path: string) => void): void {
+    public ForeachCompressedEntityData(cb: (ed: IEntityData, path: string) => void): void {
         this.EntityRecordMap.forEach((record) => {
             cb(record.EntityData, record.Path);
         });

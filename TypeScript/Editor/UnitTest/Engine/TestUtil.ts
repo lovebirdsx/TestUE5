@@ -2,7 +2,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { log } from '../../../Common/Log';
 import { assertEq, assertNe, test } from '../../../Common/Test';
-import { parse, stringify, stringifyEditor, subArray } from '../../../Common/Util';
+import {
+    compressObjByField,
+    decompressObjByField,
+    parse,
+    stringify,
+    stringifyEditor,
+    subArray,
+    TObject,
+} from '../../../Common/Util';
 import { getMacAddress } from '../../Common/Util';
 
 interface IFoo {
@@ -85,5 +93,52 @@ export function testUtil(): void {
         assertNe(mac, undefined, 'mac must not undefined');
         assertEq(mac.length, 12, 'mac string length must be 12');
         log(mac);
+    });
+
+    test('compress by field', () => {
+        function testFor(origin: TObject, base: TObject, data: TObject): void {
+            const result = compressObjByField(origin, base);
+            assertEq(result, data, `compress(${JSON.stringify(origin)}, ${JSON.stringify(base)})`);
+        }
+
+        // 普通
+        testFor({ A: 1 }, undefined, { A: 1 });
+        testFor({ A: 1 }, { A: 1 }, undefined);
+        testFor({ A: 1 }, { A: 1, B: 2 }, undefined);
+        testFor({ A: 0 }, { A: 1 }, { A: 0 });
+        testFor({ A: 1, B: 1 }, { A: 1 }, { B: 1 });
+        testFor({ A: false }, { A: 1 }, { A: false });
+        testFor({ A: false }, { A: [1, 2] }, { A: false });
+        testFor({ A: false }, { A: { A: 1 } }, { A: false });
+
+        // 嵌套
+        testFor({ A: { B: 1 } }, { A: { B: 1 } }, undefined);
+        testFor({ A: { B: 1, C: 1 } }, { A: { B: 1 } }, { A: { C: 1 } });
+        testFor({ A: { B: 1, C: 1 } }, { A: {} }, { A: { B: 1, C: 1 } });
+    });
+
+    test('decompress by field', () => {
+        function testFor(data: TObject, base: TObject, origin: TObject): void {
+            const result = decompressObjByField(data, base);
+            assertEq(
+                result,
+                origin,
+                `decompress(${JSON.stringify(data)}, ${JSON.stringify(base)})`,
+            );
+        }
+
+        // 普通
+        testFor({ A: 1 }, undefined, { A: 1 });
+        testFor(undefined, { A: 1 }, { A: 1 });
+        testFor({ A: 0 }, { A: 1 }, { A: 0 });
+        testFor({ B: 1 }, { A: 1, B: 1 }, { A: 1, B: 1 });
+        testFor({ A: false }, { A: 1 }, { A: false });
+        testFor({ A: false }, { A: [1, 2] }, { A: false });
+        testFor({ A: false }, { A: { A: 1 } }, { A: false });
+
+        // 嵌套
+        testFor(undefined, { A: { B: 1 } }, { A: { B: 1 } });
+        testFor({ A: { C: 1 } }, { A: { B: 1 } }, { A: { B: 1, C: 1 } });
+        testFor({ A: { B: 1, C: 1 } }, { A: {} }, { A: { B: 1, C: 1 } });
     });
 }

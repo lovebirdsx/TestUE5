@@ -106,7 +106,10 @@ export class EntityView extends React.Component<IEntityViewProps> {
         const ed = this.props.Data;
         const newPureData = produce(ed, (draft) => {
             if (checked) {
-                const prevTemplateId = ed._prevTemplateId || entityTemplateManager.GenDefaultId();
+                const entityType = getEntityTypeByBlueprintType(ed.BlueprintType);
+                const prevTemplateId =
+                    ed._prevTemplateId ||
+                    entityTemplateManager.GetDefaultIdByEntityType(entityType);
                 draft.TemplateId = prevTemplateId;
             } else {
                 draft._prevTemplateId = ed.TemplateId;

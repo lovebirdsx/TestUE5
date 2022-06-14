@@ -56,7 +56,6 @@
     "StateComponent": [],
     "TalkComponent": [],
     "LampComponent": [],
-    "SpringBoardComponent": [],
-    "ModelComponent": []
+    "SpringBoardComponent": []
   }
 }

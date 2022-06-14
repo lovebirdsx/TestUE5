@@ -2807,11 +2807,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -2860,11 +2855,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -3031,11 +3021,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -3139,11 +3124,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -3249,11 +3229,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -3302,11 +3277,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -3413,11 +3383,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -3590,17 +3555,13 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
     {
       "Name": "守卫左",
       "Id": 3000065,
+      "TemplateId": 3000001,
       "BlueprintType": "AiNpcGuard1",
       "Transform": {
         "Pos": {
@@ -3608,50 +3569,12 @@
           "Y": -2359.65,
           "Z": 188
         }
-      },
-      "ComponentsData": {
-        "FlowComponent": {
-          "InitState": {
-            "FlowListName": "流程_守卫",
-            "FlowId": 2,
-            "StateId": 1
-          }
-        },
-        "MoveComponent": {
-          "InitSpeed": 150,
-          "Disabled": true
-        },
-        "BehaviorFlowComponent": {
-          "InitStateId": 0,
-          "FlowInfo": {
-            "Id": 0,
-            "Name": "Empty",
-            "StateGenId": 1,
-            "States": [
-              {
-                "Name": "状态0",
-                "Actions": [],
-                "Id": 0
-              }
-            ]
-          },
-          "Disabled": true
-        },
-        "NpcComponent": {
-          "Content": "",
-          "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
-        }
       }
     },
     {
       "Name": "守卫右",
       "Id": 3000066,
+      "TemplateId": 3000001,
       "BlueprintType": "AiNpcGuard1",
       "Transform": {
         "Pos": {
@@ -3663,97 +3586,9 @@
       "ComponentsData": {
         "FlowComponent": {
           "InitState": {
-            "FlowListName": "流程_守卫",
             "FlowId": 1,
             "StateId": 3
           }
-        },
-        "BehaviorFlowComponent": {
-          "InitStateId": 0,
-          "FlowInfo": {
-            "Id": 0,
-            "Name": "Empty",
-            "StateGenId": 2,
-            "States": [
-              {
-                "Name": "函数1",
-                "Actions": [
-                  {
-                    "Name": "Invoke",
-                    "Params": {
-                      "Who": 3000050,
-                      "ActionInfo": {
-                        "Name": "CallFunction",
-                        "Params": {
-                          "Name": "函数2"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "Name": "Wait",
-                    "Params": {
-                      "Time": 1
-                    }
-                  },
-                  {
-                    "Name": "ChangeBehaviorState",
-                    "Params": {
-                      "StateId": 1,
-                      "IsInstant": false
-                    }
-                  }
-                ],
-                "Id": 0
-              },
-              {
-                "Name": "函数2",
-                "Actions": [
-                  {
-                    "Name": "Invoke",
-                    "Params": {
-                      "Who": 3000050,
-                      "ActionInfo": {
-                        "Name": "CallFunction",
-                        "Params": {
-                          "Name": "函数2"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "Name": "Wait",
-                    "Params": {
-                      "Time": 1
-                    }
-                  },
-                  {
-                    "Name": "ChangeBehaviorState",
-                    "Params": {
-                      "StateId": 0,
-                      "IsInstant": false
-                    }
-                  }
-                ],
-                "Id": 1
-              }
-            ]
-          },
-          "Disabled": true
-        },
-        "MoveComponent": {
-          "InitSpeed": 150,
-          "Disabled": true
-        },
-        "NpcComponent": {
-          "Content": "",
-          "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -3802,11 +3637,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -4093,11 +3923,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -4146,11 +3971,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -4201,11 +4021,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -4255,11 +4070,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -4308,11 +4118,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -4439,11 +4244,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -4492,11 +4292,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }
@@ -4694,11 +4489,6 @@
           "Content": "",
           "Icon": "",
           "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
-          "Disabled": false
         }
       }
     },
@@ -4747,11 +4537,6 @@
         "NpcComponent": {
           "Content": "",
           "Icon": "",
-          "Disabled": false
-        },
-        "ModelComponent": {
-          "MeshClass": "",
-          "AnimClass": "",
           "Disabled": false
         }
       }

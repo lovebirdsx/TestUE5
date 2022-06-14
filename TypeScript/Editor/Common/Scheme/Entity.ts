@@ -51,7 +51,7 @@ class EntityRegistry {
         // 冗余的配置
         Object.keys(data.ComponentsData).forEach((componentType) => {
             if (!componentTypes.find((type) => type === componentType)) {
-                messages.push(`Component ${componentType}配置了数据, 但是找不到对应的类型数据`);
+                messages.push(`Component ${componentType} 配置了数据, 但是找不到对应的类型数据`);
             }
         });
 

@@ -119,7 +119,7 @@ export class LevelDataManager {
         const oldRecord = this.EntityRecordMap.get(entity.Id);
         if (oldRecord) {
             throw new Error(
-                `Add entity data for [${entity.ActorLabel}:${entity.Id}] while already exist`,
+                `Add entity data for [${entity.ActorLabel}:${entity.Id}] failed: [${oldRecord.EntityData.Name}: ${entity.Id}] already exist`,
             );
         }
 

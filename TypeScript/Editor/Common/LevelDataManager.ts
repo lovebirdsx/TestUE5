@@ -145,7 +145,7 @@ export class LevelDataManager {
     }
 
     private DecompressEntityData(data: IEntityData): IEntityData {
-        if (data.TemplateId) {
+        if (data.TemplateId !== undefined) {
             const td = entityTemplateManager.GetTemplateById(data.TemplateId);
             return decompressEntityData(data, td);
         }

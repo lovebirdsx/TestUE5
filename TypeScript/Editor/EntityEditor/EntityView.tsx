@@ -6,7 +6,8 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import { error } from '../../Common/Log';
 import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
-import { Btn, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
+import { Btn, Check, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
+import { EntityTemplateSelector } from '../Common/BaseComponent/EntityTemplateSelector';
 import { editorConfig } from '../Common/EditorConfig';
 import { entityTemplateManager } from '../Common/EntityTemplateManager';
 import { levelDataManager } from '../Common/LevelDataManager';
@@ -22,6 +23,10 @@ export interface IEntityViewProps {
     Data: IEntityData;
     OnModify: (data: IEntityData, type: TModifyType) => void;
 }
+
+const TIP_FOR_TEMPLATE = `是否启用模板, 如果启用, 则实体的默认数据从模板中读取.
+实体中只保存相对模板改变的数据, 若模板的配置A改变, 且
+实体没有改变配置A, 那么实体最终将使用模板的配置A.`;
 
 export class EntityView extends React.Component<IEntityViewProps> {
     private readonly OnClickBtnNav = (): void => {
@@ -68,6 +73,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
     }
 
     private RenderEntityInfo(): JSX.Element {
+        const ed = this.props.Data;
         return (
             <HorizontalBox>
                 {this.RenderId()}
@@ -79,9 +85,41 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 />
                 <Btn Text={'J'} OnClick={this.OnClickBtnOpenJson} Tip={'打开实体对应的Json配置'} />
                 <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
+                <Text Text={'模板'} Tip={TIP_FOR_TEMPLATE} />
+                <Check
+                    UnChecked={ed.TemplateId === undefined}
+                    OnChecked={this.OnToggleUseTemplate}
+                />
+                {ed.TemplateId !== undefined && (
+                    <EntityTemplateSelector
+                        Id={ed.TemplateId}
+                        OnModify={this.OnTemplateIdModifiled}
+                    />
+                )}
             </HorizontalBox>
         );
     }
+
+    private readonly OnToggleUseTemplate = (checked: boolean): void => {
+        const ed = this.props.Data;
+        const newPureData = produce(ed, (draft) => {
+            if (checked) {
+                const prevTemplateId = ed._prevTemplateId || entityTemplateManager.GenDefaultId();
+                draft.TemplateId = prevTemplateId;
+            } else {
+                draft._prevTemplateId = ed.TemplateId;
+                draft.TemplateId = undefined;
+            }
+        });
+        this.props.OnModify(newPureData, 'normal');
+    };
+
+    private readonly OnTemplateIdModifiled = (id: number): void => {
+        const newPureData = produce(this.props.Data, (draft) => {
+            draft.TemplateId = id;
+        });
+        this.props.OnModify(newPureData, 'normal');
+    };
 
     private RenderEntityError(): JSX.Element {
         const errorMessages: string[] = [];

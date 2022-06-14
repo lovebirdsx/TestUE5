@@ -7,7 +7,7 @@ import {
     getComponentsTypeByEntityType,
     getEntityTypeByBlueprintType,
 } from '../../../../Game/Interface/Entity';
-import { IEntityData, TComponentsData } from '../../../../Game/Interface/IEntity';
+import { IEntityTemplate, TComponentsData } from '../../../../Game/Interface/IEntity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
@@ -42,7 +42,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
         });
     };
 
-    private readonly OnTempleModify = (data: IEntityData, type: TModifyType): void => {
+    private readonly OnTempleModify = (data: IEntityTemplate, type: TModifyType): void => {
         if (type === 'normal') {
             entityTemplateManager.Modify(data);
         }

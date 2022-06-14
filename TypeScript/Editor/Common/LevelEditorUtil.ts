@@ -18,7 +18,7 @@ import {
 } from 'ue';
 
 import { error, log } from '../../Common/Log';
-import { deepEquals, getAssetPath, isValidActor, toUeArray } from '../../Common/Util';
+import { getAssetPath, isValidActor, toUeArray } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
@@ -109,14 +109,10 @@ class LevelEditorUtil {
         return undefined;
     }
 
-    public static CheckAndSaveEntityData(entity: ITsEntity, isForce?: boolean): void {
-        if (!isForce && !EditorOperations.IsActorDirty(entity)) {
-            return;
-        }
-
+    public static CheckAndSaveEntityData(entity: ITsEntity): void {
         const currentData = entityRegistry.GenData(entity);
         const savedData = levelDataManager.GetEntityData(entity);
-        if (!deepEquals(currentData, savedData)) {
+        if (JSON.stringify(currentData) !== JSON.stringify(savedData)) {
             levelDataManager.ModifyEntityData(entity, currentData);
         }
     }
@@ -124,7 +120,7 @@ class LevelEditorUtil {
     public static CheckAndSaveAllEntityData(): void {
         const entities = this.GetAllEntitiesByEditorWorld();
         entities.forEach((entity) => {
-            this.CheckAndSaveEntityData(entity, true);
+            this.CheckAndSaveEntityData(entity);
         });
     }
 

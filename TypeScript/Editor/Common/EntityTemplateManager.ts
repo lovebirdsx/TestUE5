@@ -4,7 +4,11 @@ import { MyFileHelper } from 'ue';
 import { getFileNameWithOutExt, getProjectPath, getSavePath, listFiles } from '../../Common/File';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
-import { loadEntityTemplateConfig } from '../../Game/Interface/Entity';
+import {
+    getEntityTypeByBlueprintType,
+    isBlueprintTypeTheSameEntity,
+    loadEntityTemplateConfig,
+} from '../../Game/Interface/Entity';
 import { globalConfig } from '../../Game/Interface/Global';
 import { IEntityData, IEntityTemplate, IEntityTemplateConfig } from '../../Game/Interface/IEntity';
 import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
@@ -154,15 +158,17 @@ export class EntityTemplateManager {
         MyFileHelper.Touch(ENTITY_TEMPLATE_DIRTY_RECORD_FILE);
     }
 
-    public Modify(data: IEntityData): void {
+    public Modify(data: IEntityTemplate): void {
         const td = this.IdMap.get(data.Id);
         if (!td) {
-            throw new Error(`Modify no exist entity data for id [${data.Id}]`);
+            throw new Error(`Modify no exist template data for id [${data.Id}]`);
         }
 
-        if (data.BlueprintType !== td.BlueprintType) {
+        if (!isBlueprintTypeTheSameEntity(data.BlueprintType, td.BlueprintType)) {
+            const et1 = getEntityTypeByBlueprintType(data.BlueprintType);
+            const et2 = getEntityTypeByBlueprintType(td.BlueprintType);
             throw new Error(
-                `Can only modify same bptype ed[${data.BlueprintType}] != td[${td.BlueprintType}]`,
+                `Can only modify same bptype: ed[${data.BlueprintType}][${et1}] != td[${td.BlueprintType}][${et2}]`,
             );
         }
 

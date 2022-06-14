@@ -6,7 +6,6 @@ import { ITsEntity } from '../../../Game/Interface';
 import { toTransformInfo } from '../../../Game/Interface/Action';
 import {
     getActionsByEntityType,
-    getBlueprintTypeByClass,
     getComponentsTypeByEntityType,
     getEntityTypeByActor,
 } from '../../../Game/Interface/Entity';
@@ -70,10 +69,8 @@ class EntityRegistry {
         return errorCount;
     }
 
-    private GenComponentsData(entity: ITsEntity): TComponentsData {
-        const entityData = levelDataManager.TryGetEntityData(entity);
-        const componentsData: TComponentsData = entityData ? entityData.ComponentsData : {};
-        const componentTypes = this.GetComponentTypes(entity);
+    private FixComponentsData(entityType: TEntityType, componentsData: TComponentsData): void {
+        const componentTypes = getComponentsTypeByEntityType(entityType);
 
         // 移除不存在的Component配置
         Object.keys(componentsData).forEach((key) => {
@@ -99,17 +96,22 @@ class EntityRegistry {
                 }
             }
         });
-
-        return componentsData;
     }
 
     public GenData(entity: ITsEntity): IEntityData {
+        const entityData = levelDataManager.CloneEntityData(entity);
+        const entityType = getEntityTypeByActor(entity);
+
+        this.FixComponentsData(entityType, entityData.ComponentsData);
+
+        // 返回一个新的, 确保保存的Json按照此格式来排列
         return {
             Name: entity.ActorLabel,
-            Id: entity.Id,
-            BlueprintType: getBlueprintTypeByClass(entity.GetClass()),
+            Id: entityData.Id,
+            BlueprintType: entityData.BlueprintType,
+            TemplateId: entityData.TemplateId,
             Transform: toTransformInfo(entity.GetTransform()),
-            ComponentsData: this.GenComponentsData(entity),
+            ComponentsData: entityData.ComponentsData,
         };
     }
 

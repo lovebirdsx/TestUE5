@@ -9,7 +9,7 @@ import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { ILevelData } from '../../Game/Interface/ILevel';
 import { getLevelDataPath } from '../../Game/Interface/Level';
-import { getContentPackageName, openFile } from './Util';
+import { deepCopyData, getContentPackageName, openFile } from './Util';
 
 interface IEntityRecord {
     EntityData: IEntityData;
@@ -100,9 +100,17 @@ export class LevelDataManager {
     public GetEntityData(entity: ITsEntity): IEntityData {
         const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
-            throw new Error(`No entity data for id [${entity.Id}]`);
+            throw new Error(`Get error: No entity data for id [${entity.Id}]`);
         }
         return record.EntityData;
+    }
+
+    public CloneEntityData(entity: ITsEntity): IEntityData {
+        const record = this.EntityRecordMap.get(entity.Id);
+        if (!record) {
+            throw new Error(`Clone error: No entity data for id [${entity.Id}]`);
+        }
+        return deepCopyData(record.EntityData);
     }
 
     public AddEntityData(entity: ITsEntity, data: IEntityData): void {

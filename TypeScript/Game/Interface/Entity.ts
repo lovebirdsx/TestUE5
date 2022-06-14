@@ -128,6 +128,12 @@ export function getEntityTypeByBlueprintType(id: string): TEntityType | undefine
     return record ? record.EntityType : undefined;
 }
 
+export function isBlueprintTypeTheSameEntity(bp1: string, bp2: string): boolean {
+    const et1 = getEntityTypeByBlueprintType(bp1);
+    const et2 = getEntityTypeByBlueprintType(bp2);
+    return et1 !== undefined && et1 === et2;
+}
+
 export function getEntityTypeByClass(classObj: Class): TEntityType | undefined {
     const record = blueprintByClass.get(classObj);
     return record ? record.EntityType : undefined;

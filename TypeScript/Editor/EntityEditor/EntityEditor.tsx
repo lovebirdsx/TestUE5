@@ -200,7 +200,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private InitForNewlyAddedEntity(entity: ITsEntity): void {
         entity.Id = currentLevelEntityIdGenerator.GenOne();
-        const entityData = entityRegistry.GenData(entity);
+        const entityData = entityRegistry.GenDataForNewlyCreated(entity);
         levelDataManager.AddEntityData(entity, entityData);
         log(`[${entity.ActorLabel} ${entity.Id}] Added`);
     }

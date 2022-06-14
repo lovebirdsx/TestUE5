@@ -6,6 +6,7 @@ import { error } from '../../Common/Log';
 import { applyDiff, createDiff, readJsonObj } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
+import { ITsEntity } from '../Interface';
 import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
@@ -145,6 +146,10 @@ export function getEntityTypeByClass(classObj: Class): TEntityType | undefined {
 export function getBlueprintTypeByClass(classObj: Class): string | undefined {
     const record = blueprintByClass.get(classObj);
     return record ? record.Type : undefined;
+}
+
+export function getBlueprintType(entity: ITsEntity): string | undefined {
+    return getBlueprintTypeByClass(entity.GetClass());
 }
 
 export function getEntityTypeByActor(actor: Actor): TEntityType | undefined {

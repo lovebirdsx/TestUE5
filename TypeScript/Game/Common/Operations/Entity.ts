@@ -99,7 +99,3 @@ export class GameIdAllocator {
 }
 
 export const entityIdAllocator = new GameIdAllocator('entity');
-
-class EntityOp {}
-
-export const entityOp = new EntityOp();

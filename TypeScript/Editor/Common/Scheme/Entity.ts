@@ -6,6 +6,7 @@ import { ITsEntity } from '../../../Game/Interface';
 import { toTransformInfo } from '../../../Game/Interface/Action';
 import {
     getActionsByEntityType,
+    getBlueprintType,
     getComponentsTypeByEntityType,
     getEntityTypeByActor,
 } from '../../../Game/Interface/Entity';
@@ -17,6 +18,7 @@ import {
     TComponentsData,
     TEntityType,
 } from '../../../Game/Interface/IEntity';
+import { entityTemplateManager } from '../EntityTemplateManager';
 import { levelDataManager } from '../LevelDataManager';
 import { componentRegistry } from './Component/ComponentRegistry';
 
@@ -98,10 +100,25 @@ class EntityRegistry {
         });
     }
 
+    public GenDataForNewlyCreated(entity: ITsEntity): IEntityData {
+        const entityType = getEntityTypeByActor(entity);
+        const tid = entityTemplateManager.GetDefaultIdByEntityType(entityType);
+
+        const cd = tid ? entityTemplateManager.GetTemplateById(tid).ComponentsData : {};
+
+        return {
+            Name: entity.ActorLabel,
+            Id: entity.Id,
+            TemplateId: tid,
+            BlueprintType: getBlueprintType(entity),
+            Transform: toTransformInfo(entity.GetTransform()),
+            ComponentsData: cd,
+        };
+    }
+
     public GenData(entity: ITsEntity): IEntityData {
         const entityData = levelDataManager.CloneEntityData(entity);
         const entityType = getEntityTypeByActor(entity);
-
         this.FixComponentsData(entityType, entityData.ComponentsData);
 
         // 返回一个新的, 确保保存的Json按照此格式来排列

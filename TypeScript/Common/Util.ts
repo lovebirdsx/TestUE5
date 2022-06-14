@@ -318,3 +318,96 @@ export function toUeArray<TR extends UE.SupportedContainerKVType, T extends UE.C
     });
     return result;
 }
+
+export type TObject = Record<string, unknown>;
+export function compressObjByField(origin: TObject, base: TObject): TObject {
+    if (base === undefined) {
+        return origin;
+    }
+
+    if (origin === undefined) {
+        throw new Error(`Compress object failed: from can not be undefined`);
+    }
+
+    let differentFileds = 0;
+    const result = {};
+
+    // 仅from有的字段
+    for (const key in origin) {
+        if (base[key] === undefined) {
+            result[key] = origin[key];
+            differentFileds++;
+        }
+    }
+
+    for (const key in base) {
+        const vFrom = origin[key];
+        const vTo = base[key];
+
+        // 双方都有的字段
+        if (vFrom !== undefined) {
+            const typeFrom = typeof vFrom;
+            const typeTo = typeof vTo;
+            if (typeFrom === typeTo && typeFrom === 'object') {
+                const data = compressObjByField(vFrom as TObject, vTo as TObject);
+                if (data !== undefined) {
+                    result[key] = data;
+                    differentFileds++;
+                }
+            } else {
+                if (vFrom !== vTo) {
+                    result[key] = vFrom;
+                    differentFileds++;
+                }
+            }
+        }
+    }
+
+    if (differentFileds === 0) {
+        return undefined;
+    }
+
+    return result;
+}
+
+export function decompressObjByField(data: TObject, base: TObject): TObject {
+    if (data === undefined) {
+        return base;
+    }
+
+    if (base === undefined) {
+        return data;
+    }
+
+    const result = {};
+
+    // 仅data中存在的字段
+    for (const key in data) {
+        if (base[key] === undefined) {
+            result[key] = data[key];
+        }
+    }
+
+    for (const key in base) {
+        const vData = data[key];
+        const vBase = base[key];
+        if (vData === undefined) {
+            // 仅base中存在的字段
+            result[key] = vBase;
+        } else {
+            const typeData = typeof vData;
+            const typeBase = typeof vBase;
+            if (typeData !== typeBase) {
+                result[key] = vData;
+            } else {
+                if (typeData === 'object') {
+                    result[key] = decompressObjByField(vData as TObject, vBase as TObject);
+                } else {
+                    result[key] = vData;
+                }
+            }
+        }
+    }
+
+    return result;
+}

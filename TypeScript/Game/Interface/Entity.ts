@@ -3,7 +3,7 @@ import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/File';
 import { error } from '../../Common/Log';
-import { readJsonObj } from '../../Common/Util';
+import { compressObjByField, decompressObjByField, readJsonObj } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
 import { baseActions, getActionsByComponentType } from './Component';
@@ -13,8 +13,11 @@ import { TComponentType } from './IComponent';
 import {
     IBlueprintConfig,
     IEntityConfig,
+    IEntityData,
+    IEntityTemplate,
     IEntityTemplateConfig,
     TComponentsByEntity,
+    TComponentsData,
     TEntityType,
 } from './IEntity';
 
@@ -222,5 +225,41 @@ export function genBlueprintConfig(): IBlueprintConfig {
 
     return {
         EntityByBlueprint: entityByBlueprint,
+    };
+}
+
+export function compressEntityData(ed: IEntityData, td: IEntityTemplate): IEntityData {
+    if (td === undefined) {
+        return ed;
+    }
+
+    return {
+        Name: ed.Name,
+        Id: ed.Id,
+        TemplateId: td.Id,
+        BlueprintType: ed.BlueprintType,
+        Transform: ed.Transform,
+        ComponentsData: compressObjByField(
+            ed.ComponentsData,
+            td.ComponentsData,
+        ) as unknown as TComponentsData,
+    };
+}
+
+export function decompressEntityData(ed: IEntityData, td: IEntityTemplate): IEntityData {
+    if (td === undefined) {
+        return ed;
+    }
+
+    return {
+        Name: ed.Name,
+        Id: ed.Id,
+        TemplateId: ed.TemplateId,
+        BlueprintType: td.BlueprintType,
+        Transform: ed.Transform,
+        ComponentsData: decompressObjByField(
+            ed.ComponentsData,
+            td.ComponentsData,
+        ) as unknown as TComponentsData,
     };
 }

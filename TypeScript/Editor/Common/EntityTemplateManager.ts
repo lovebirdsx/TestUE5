@@ -69,6 +69,15 @@ export class EntityTemplateManager {
         );
     }
 
+    public GetDefaultIdByEntityType(entityType: TEntityType): number | undefined {
+        const names = this.GetNamesByEntityType(entityType);
+        if (names.length <= 0) {
+            return undefined;
+        }
+
+        return this.GetIdByName(names[0]);
+    }
+
     // 检查是否存在脏状态
     private CheckDirty(srcFiles: string[]): void {
         // 目标文件不存在

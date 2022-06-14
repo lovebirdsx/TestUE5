@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
+import { error } from '../../../Common/Log';
 import { Btn, H1, H2 } from './CommonComponent';
 
 interface IErrorBoundaryState {
@@ -15,9 +16,11 @@ export class ErrorBoundary extends React.Component<unknown, IErrorBoundaryState>
     }
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    public componentDidCatch(err: Error, errorInfo: React.ErrorInfo): void {
+        error(err.message);
+        error(err.stack);
         this.setState({
-            Error: error,
+            Error: err,
             ErrorInfo: errorInfo,
         });
     }

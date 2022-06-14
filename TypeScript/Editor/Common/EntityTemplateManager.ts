@@ -10,7 +10,12 @@ import {
     loadEntityTemplateConfig,
 } from '../../Game/Interface/Entity';
 import { globalConfig } from '../../Game/Interface/Global';
-import { IEntityData, IEntityTemplate, IEntityTemplateConfig } from '../../Game/Interface/IEntity';
+import {
+    IEntityData,
+    IEntityTemplate,
+    IEntityTemplateConfig,
+    TEntityType,
+} from '../../Game/Interface/IEntity';
 import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
 
 function getEntityTemplateFiles(): string[] {
@@ -51,6 +56,17 @@ export class EntityTemplateManager {
         const files = getEntityTemplateFiles();
         this.Init(files);
         this.CheckDirty(files);
+    }
+
+    public GetNamesByEntityType(entityType?: TEntityType): string[] {
+        if (!entityType) {
+            return this.Names;
+        }
+
+        return this.Names.filter(
+            (name) =>
+                getEntityTypeByBlueprintType(this.NameMap.get(name).BlueprintType) === entityType,
+        );
     }
 
     // 检查是否存在脏状态

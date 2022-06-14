@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { TEntityType } from '../../../Game/Interface/IEntity';
 import { entityTemplateManager } from '../EntityTemplateManager';
 import { openFile } from '../Util';
 import { Btn } from './CommonComponent';
@@ -9,6 +10,7 @@ import { FilterableList } from './FilterableList';
 
 export interface IEntityTemplateSelectorProps {
     Id: number;
+    EntityType?: TEntityType;
     OnModify: (id: number) => void;
 }
 
@@ -24,7 +26,7 @@ export class EntityTemplateSelector extends React.Component<IEntityTemplateSelec
             <HorizontalBox>
                 <FilterableList
                     Tip={'实体模板名字'}
-                    Items={entityTemplateManager.Names}
+                    Items={entityTemplateManager.GetNamesByEntityType(this.props.EntityType)}
                     Selected={entityTemplateManager.GetNameById(this.props.Id)}
                     OnSelectChanged={(name: string): void => {
                         this.props.OnModify(entityTemplateManager.GetIdByName(name));

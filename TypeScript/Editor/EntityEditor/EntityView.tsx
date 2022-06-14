@@ -5,6 +5,7 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import { error } from '../../Common/Log';
 import { ITsEntity } from '../../Game/Interface';
+import { getEntityTypeByBlueprintType } from '../../Game/Interface/Entity';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, Check, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
 import { EntityTemplateSelector } from '../Common/BaseComponent/EntityTemplateSelector';
@@ -93,6 +94,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 {ed.TemplateId !== undefined && (
                     <EntityTemplateSelector
                         Id={ed.TemplateId}
+                        EntityType={getEntityTypeByBlueprintType(ed.BlueprintType)}
                         OnModify={this.OnTemplateIdModifiled}
                     />
                 )}

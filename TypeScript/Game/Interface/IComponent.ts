@@ -22,7 +22,6 @@ export type TComponentType =
     | 'GrabComponent'
     | 'InteractiveComponent'
     | 'LampComponent'
-    | 'ModelComponent'
     | 'MoveComponent'
     | 'NpcComponent'
     | 'RefreshEntityComponent'
@@ -180,9 +179,4 @@ export interface IGrabComponent {
     GrabPos: IVectorInfo;
     ThrowPow: number;
     ThrowHight: number;
-}
-
-export interface IModelComponent {
-    MeshClass: string;
-    AnimClass: string;
 }

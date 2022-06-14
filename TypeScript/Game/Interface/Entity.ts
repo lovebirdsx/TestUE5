@@ -27,7 +27,6 @@ export const componentsByEntity: TComponentsByEntity = {
         'MoveComponent',
         'NpcComponent',
         'EntitySpawnerComponent',
-        'ModelComponent',
     ],
     CharacterEntity: [],
     Entity: [],

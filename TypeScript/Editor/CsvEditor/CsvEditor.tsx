@@ -189,10 +189,6 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         this.setState({
             LastLoadedCsvState: this.CurrentCsvState,
         });
-
-        if (this.CurrentCsvState.Name === ECsvName.ExtendedEntity) {
-            configExporter.Export();
-        }
     };
 
     private SetStep(newStepId: number): void {
@@ -221,6 +217,10 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         }
 
         this.SetStep(this.state.StepId + 1);
+    };
+
+    private readonly ExportModel = (): void => {
+        configExporter.Export();
     };
 
     private NeedSave(): boolean {
@@ -278,6 +278,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                     Disabled={!canRedo(this.state)}
                     Tip={`重做 ${getCommandKeyDesc('Redo')}`}
                 />
+                <Btn Text={'导出蓝图模型配置'} OnClick={this.ExportModel} />
             </HorizontalBox>
         );
     }

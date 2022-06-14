@@ -36,7 +36,6 @@ export const actionsByComponent: { [key in TComponentType]: TActionType[] } = {
     TalkComponent: [],
     LampComponent: [],
     SpringBoardComponent: [],
-    ModelComponent: [],
 };
 
 export function getActionsByComponentType(component: TComponentType): TActionType[] {

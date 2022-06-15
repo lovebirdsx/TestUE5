@@ -14,6 +14,7 @@ import { GLOBAL_CONFIG_PATH } from '../../Game/Interface/IGlobal';
 import { levelConfigs } from '../../Game/Interface/Level';
 import { ENTITY_TEMPLATE_DIRTY_RECORD_FILE, entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
+import { msgbox } from './Util';
 
 interface IExportItem {
     Name: string;
@@ -46,18 +47,28 @@ class ConfigExporter {
         this.Items = items;
     }
 
-    public Export(): void {
+    public Export(messages?: string[], isForce?: boolean): number {
         let count = 0;
         this.Items.forEach((item) => {
-            if (calNeedExport(item.SourceFiles, item.DestFiles)) {
+            if (isForce || calNeedExport(item.SourceFiles, item.DestFiles)) {
                 item.ExportFun();
                 count++;
+                if (messages) {
+                    messages.push(`[${item.Name}]`);
+                }
                 log(`Export ${item.Name}`);
             }
         });
         if (count === 0) {
             log(`No config need export: all new`);
         }
+        return count;
+    }
+
+    public ExportByUser(isForce?: boolean): void {
+        const messages: string[] = [];
+        const count = this.Export(messages, isForce);
+        msgbox(`导出了[${count}]个配置:\n${messages.join('\n')}`);
     }
 }
 
@@ -126,7 +137,7 @@ const items: IExportItem[] = [
         },
     },
     {
-        Name: 'ExtendedEntityBp',
+        Name: 'ExtendedEntity',
         SourceFiles: [csvRegistry.GetPath(ECsvName.ExtendedEntity)],
         DestFiles: getProjectPaths(globalConfig.BlueprintModelConfigPath),
         ExportFun: (): void => {

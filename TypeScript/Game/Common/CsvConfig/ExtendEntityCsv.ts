@@ -1,7 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Blueprint, Character, EditorOperations, KismetSystemLibrary, MyFileHelper } from 'ue';
+import { Blueprint, Character, EditorOperations, KismetSystemLibrary } from 'ue';
 
 import { getProjectPath } from '../../../Common/File';
+import { writeJson } from '../../../Common/Util';
 import { globalConfig } from '../../Interface/Global';
 import { entityTypeConfig } from '../../Interface/IEntity';
 import { createCsvField, CsvLoader, GlobalCsv, ICsvField, TCsvRowBase } from './CsvLoader';
@@ -46,7 +47,7 @@ interface IExport {
 
 export class ExtendedEntityCsvLoader extends CsvLoader<IExtendedEntityRow> {
     public constructor() {
-        super('ExtendedEntityBpCsv', extendedEntityBpCsvFields);
+        super('ExtendedEntityCsv', extendedEntityBpCsvFields);
     }
 
     public ExportData(sourcePath: string): void {
@@ -73,8 +74,7 @@ export class ExtendedEntityCsvLoader extends CsvLoader<IExtendedEntityRow> {
                 models.push(exportdata);
             }
         });
-        const content = JSON.stringify(models, null, 2);
-        MyFileHelper.Write(getProjectPath(globalConfig.BlueprintModelConfigPath), content);
+        writeJson(models, getProjectPath(globalConfig.BlueprintModelConfigPath));
     }
 }
 

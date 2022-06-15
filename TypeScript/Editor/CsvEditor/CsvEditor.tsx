@@ -219,10 +219,6 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         this.SetStep(this.state.StepId + 1);
     };
 
-    private readonly ExportModel = (): void => {
-        configExporter.Export();
-    };
-
     private NeedSave(): boolean {
         return this.CurrentCsvState !== this.state.LastLoadedCsvState;
     }
@@ -278,7 +274,20 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                     Disabled={!canRedo(this.state)}
                     Tip={`重做 ${getCommandKeyDesc('Redo')}`}
                 />
-                <Btn Text={'导出蓝图模型配置'} OnClick={this.ExportModel} />
+                <Btn
+                    Text={'导出'}
+                    Tip={'导出所有配置, 未修改的不导出'}
+                    OnClick={(): void => {
+                        configExporter.ExportByUser();
+                    }}
+                />
+                <Btn
+                    Text={'重导'}
+                    Tip={'强制导出所有配置, 忽略是否修改'}
+                    OnClick={(): void => {
+                        configExporter.ExportByUser(true);
+                    }}
+                />
             </HorizontalBox>
         );
     }

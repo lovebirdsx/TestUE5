@@ -579,10 +579,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         Name: '【实体】修复所有',
                         Fun: () => LevelEditorUtil.CheckAndSaveAllEntityData(),
                     },
-                    {
-                        Name: '【实体】重新扫描生成id',
-                        Fun: () => currentLevelEntityIdGenerator.ReScan(),
-                    },
+                    // {
+                    //     Name: '【实体】重新扫描生成id',
+                    //     Fun: () => currentLevelEntityIdGenerator.ReScan(),
+                    // },
                     {
                         Name: '【模板】重导所有',
                         Fun: () => entityTemplateManager.FixAndExport(),

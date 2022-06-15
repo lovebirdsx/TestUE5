@@ -120,11 +120,15 @@ export class SegmentIdGenerator {
         return this.MinId <= id && id < this.MaxId;
     }
 
-    public SaveWithId(id: number): void {
+    public SetId(id: number): void {
         if (!this.ContainsId(id)) {
             throw new Error(`[${this.Name}] id[${id}] 超出范围 [${this.MinId}, ${this.MaxId})`);
         }
         this.Id = id;
+    }
+
+    public SaveWithId(id: number): void {
+        this.SetId(id);
         this.Save();
     }
 
@@ -141,15 +145,6 @@ export class SegmentIdGenerator {
         const result = this.IncreaseAndGen();
         this.Save();
         return result;
-    }
-
-    public GenMany(count: number): number[] {
-        const ids: number[] = [];
-        for (let i = 0; i < count; i++) {
-            ids.push(this.IncreaseAndGen());
-        }
-        this.Save();
-        return ids;
     }
 }
 
@@ -172,20 +167,19 @@ export const segmentIdGeneratorManager = new SegmentIdGeneratorManager();
 export abstract class CustomSegmentIdGenerator extends SegmentIdGenerator {
     public constructor(name: string) {
         super(name);
-        if (!CustomSegmentIdGenerator.HasRecordForConfig(name)) {
-            const id = this.GetMaxIdGenerated();
-            if (id > 0) {
-                this.SaveWithId(id + 1);
-            }
-        }
+        this.ReScan();
         segmentIdGeneratorManager.AddGenerator(this);
     }
 
     // 返回当前已经生成的最大id, 若不存在, 则返回-1
     protected abstract GetMaxIdGenerated(): number;
 
-    // 重新扫描已经生成的id, 忽略存档文件中的记录
-    public ReScan(): void {
+    public GenOne(): number {
+        this.SetId(this.ScanId());
+        return super.GenOne();
+    }
+
+    private ScanId(): number {
         let id = this.GetMaxIdGenerated();
         if (id < 0) {
             id = this.MinId;
@@ -193,7 +187,12 @@ export abstract class CustomSegmentIdGenerator extends SegmentIdGenerator {
             // 下一次生成的id要变为当前最大id加1
             id = id + 1;
         }
+        return id;
+    }
 
+    // 重新扫描已经生成的id, 忽略存档文件中的记录
+    public ReScan(): void {
+        const id = this.ScanId();
         this.SaveWithId(id);
 
         log(`Id Generator [${this.Name}] scan id to [${id}]`);

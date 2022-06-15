@@ -36,7 +36,7 @@ export class ComponentsData extends React.Component<IComponentsDataProps> {
         const componentsData = props.Value;
         const needShowRevert =
             templateComponentData !== undefined &&
-            !deepEquals(componentData, templateComponentData);
+            !deepEquals(componentData, templateComponentData, true);
         return (
             <HorizontalBox>
                 <Check

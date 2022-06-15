@@ -19,7 +19,7 @@ export function getEnumNames(enumType: Record<number, string>): string[] {
     return names;
 }
 
-export function deepEquals<T>(x: T, y: T): boolean {
+export function deepEquals<T>(x: T, y: T, ignoreUnderScore?: boolean): boolean {
     if (x === y) {
         return true;
     }
@@ -46,14 +46,22 @@ export function deepEquals<T>(x: T, y: T): boolean {
             }
         }
     } else {
-        for (const p in x) {
-            if (!deepEquals(x[p], y[p])) {
+        for (const key in x) {
+            if (ignoreUnderScore && key.startsWith('_')) {
+                continue;
+            }
+
+            if (!deepEquals(x[key], y[key])) {
                 return false;
             }
         }
 
-        for (const p in y) {
-            if (x[p] === undefined) {
+        for (const key in y) {
+            if (ignoreUnderScore && key.startsWith('_')) {
+                continue;
+            }
+
+            if (x[key] === undefined) {
                 return false;
             }
         }

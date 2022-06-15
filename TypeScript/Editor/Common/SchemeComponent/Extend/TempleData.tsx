@@ -5,14 +5,12 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 
 import {
     getComponentsTypeByEntityType,
-    getEntityTypeByActor,
     getEntityTypeByBlueprintType,
 } from '../../../../Game/Interface/Entity';
 import { IEntityTemplate, TComponentsData } from '../../../../Game/Interface/IEntity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';
-import { entityListCache } from '../../EntityListCache';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import { IProps, TModifyType } from '../../Type';
 import { openFile } from '../../Util';
@@ -88,8 +86,6 @@ export class TempleData extends React.Component<IProps<number>, IState> {
     }
 
     private RenderSelect(entityId): JSX.Element {
-        const entity = entityListCache.GetEntityById(entityId);
-        const type = getEntityTypeByActor(entity);
         return (
             <HorizontalBox>
                 <Fold
@@ -101,7 +97,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
                 <Text Text={'模板：'} />
                 <FilterableList
                     Tip={'实体模板名字'}
-                    Items={entityTemplateManager.GetNamesByEntityType(type)}
+                    Items={entityTemplateManager.GetNamesByEntityType()}
                     Selected={entityTemplateManager.GetNameById(this.props.Value)}
                     OnSelectChanged={(name: string): void => {
                         this.props.OnModify(entityTemplateManager.GetIdByName(name), 'normal');

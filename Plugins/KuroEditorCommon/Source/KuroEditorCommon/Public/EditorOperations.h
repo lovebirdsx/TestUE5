@@ -119,7 +119,7 @@ public:
 	static FString GetExternActorSavePath(AActor *Actor);
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
-	static bool IsActorDirty(AActor *Actor);
+	static bool IsDirty(UObject *Object);
 	
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static FString GetMacAddress();

@@ -253,9 +253,9 @@ FString UEditorOperations::GetExternActorSavePath(AActor* Actor)
 	}
 }
 
-bool UEditorOperations::IsActorDirty(AActor* Actor)
+bool UEditorOperations::IsDirty(UObject *Object)
 {
-	return Actor->GetPackage()->IsDirty();
+	return Object->GetPackage()->IsDirty();
 }
 
 FString UEditorOperations::GetMacAddress()

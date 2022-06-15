@@ -620,7 +620,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                             if (entity) {
                                 log(`${entity.ActorLabel}:`);
                                 log(`  ${EditorOperations.GetExternActorSavePath(entity)}`);
-                                log(`  Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
+                                log(`  Is dirty = ${EditorOperations.IsDirty(entity)}`);
                             }
                         },
                     },

@@ -20,7 +20,10 @@ export class EntitySelector extends React.Component<IEntitySelectorProps> {
     private get SelectedName(): string {
         const props = this.props;
         const entity = entityListCache.GetEntityById(props.Id);
-        return entity ? entity.ActorLabel : '';
+        if (entity) {
+            return entity.ActorLabel ? entity.ActorLabel : '';
+        }
+        return '';
     }
 
     private readonly OnClickBtnAssign = (): void => {

@@ -209,8 +209,8 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
             this.EntityIdList.forEach((guid) => {
                 const tsEntity = gameContext.EntityManager.GetEntity(guid);
                 if (tsEntity) {
-                    const data = entityRegistry.GenData(tsEntity);
-                    entitylist.push(data);
+                    //const data = entityRegistry.GenData(tsEntity);
+                    //entitylist.push(data);
                 }
             });
             this.State.SetState('SpawnRecord', entitylist);

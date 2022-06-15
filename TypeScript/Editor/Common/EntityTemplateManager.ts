@@ -156,6 +156,10 @@ export class EntityTemplateManager {
         }
     }
 
+    public HasId(id: number): boolean {
+        return this.IdMap.has(id);
+    }
+
     public GetTemplateById(id: number): IEntityTemplate {
         const result = this.IdMap.get(id);
         if (!result) {
@@ -165,7 +169,10 @@ export class EntityTemplateManager {
     }
 
     public GetNameById(id: number): string {
-        return this.GetTemplateById(id).Name;
+        if (this.HasId(id)) {
+            return this.GetTemplateById(id).Name;
+        }
+        return '';
     }
 
     public GetIdByName(name: string): number {

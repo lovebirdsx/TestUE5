@@ -1546,6 +1546,30 @@ declare module "react-umg" {
         nativePtr: UE.Game.Editor.TalkerEditor.TalkerEditor_C;
     }
 
+    interface PointerToUberGraphFrame {
+    }
+
+    interface EditorMap_CProps extends EditorUtilityWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+        TestEditorTab?: string;
+        TalkerEditorTab?: string;
+        FlowEditorTab?: string;
+        CsvEditorTab?: string;
+        EntityEditorTab?: string;
+        bDisableCommandService?: boolean;
+        EditorToRestart?: string;
+        WaitDebugKey?: string;
+        DisableCommandServiceKey?: string;
+        EditorToRestartKey?: string;
+        IsInitFinished?: boolean;
+        CheckCircularKey?: string;
+        RunLintKey?: string;
+    }
+
+    class EditorMap_C extends React.Component<EditorMap_CProps> {
+        nativePtr: UE.Game.Editor.EditorMap.EditorMap_C;
+    }
+
     interface CsvEditor_CProps extends EditorUtilityWidgetProps {
     }
 
@@ -1558,6 +1582,13 @@ declare module "react-umg" {
 
     class TestEditor_C extends React.Component<TestEditor_CProps> {
         nativePtr: UE.Game.Editor.TestEditor.TestEditor_C;
+    }
+
+    interface UMGTest_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class UMGTest_C extends React.Component<UMGTest_CProps> {
+        nativePtr: UE.Game.Editor.UMGTest.UMGTest_C;
     }
 
     interface FlowEditor_CProps extends EditorUtilityWidgetProps {
@@ -1574,7 +1605,11 @@ declare module "react-umg" {
         nativePtr: UE.Game.Editor.EntityEditor.EntityEditor_C;
     }
 
-    interface PointerToUberGraphFrame {
+    interface UITest_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class UITest_C extends React.Component<UITest_CProps> {
+        nativePtr: UE.Game.Editor.UITest.UITest_C;
     }
 
     interface Test_CProps extends EditorUtilityWidgetProps {
@@ -1608,39 +1643,22 @@ declare module "react-umg" {
         nativePtr: UE.Game.Demo.UI.UI_TalkDisplayer.UI_TalkDisplayer_C;
     }
 
-    interface UITest_CProps extends EditorUtilityWidgetProps {
-    }
-
-    class UITest_C extends React.Component<UITest_CProps> {
-        nativePtr: UE.Game.Editor.UITest.UITest_C;
-    }
-
-    interface UMGTest_CProps extends EditorUtilityWidgetProps {
-    }
-
-    class UMGTest_C extends React.Component<UMGTest_CProps> {
-        nativePtr: UE.Game.Editor.UMGTest.UMGTest_C;
-    }
-
-    interface EditorMap_CProps extends EditorUtilityWidgetProps {
+    interface UI_Interacttiem_CProps extends UserWidgetProps {
         UberGraphFrame?: PointerToUberGraphFrame;
-        TestEditorTab?: string;
-        TalkerEditorTab?: string;
-        FlowEditorTab?: string;
-        CsvEditorTab?: string;
-        EntityEditorTab?: string;
-        bDisableCommandService?: boolean;
-        EditorToRestart?: string;
-        WaitDebugKey?: string;
-        DisableCommandServiceKey?: string;
-        EditorToRestartKey?: string;
-        IsInitFinished?: boolean;
-        CheckCircularKey?: string;
-        RunLintKey?: string;
     }
 
-    class EditorMap_C extends React.Component<EditorMap_CProps> {
-        nativePtr: UE.Game.Editor.EditorMap.EditorMap_C;
+    class UI_Interacttiem_C extends React.Component<UI_Interacttiem_CProps> {
+        nativePtr: UE.Game.Demo.UI.UI_Interacttiem.UI_Interacttiem_C;
+    }
+
+    interface UI_Interact_CProps extends UserWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+        IsActive?: boolean;
+        SelectIndex?: number;
+    }
+
+    class UI_Interact_C extends React.Component<UI_Interact_CProps> {
+        nativePtr: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
     }
 
     interface WBP_Button_CProps extends UserWidgetProps {
@@ -1677,24 +1695,6 @@ declare module "react-umg" {
 
     class UI_Rotator_C extends React.Component<UI_Rotator_CProps> {
         nativePtr: UE.Game.Demo.UI.UI_Rotator.UI_Rotator_C;
-    }
-
-    interface UI_Interacttiem_CProps extends UserWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-    }
-
-    class UI_Interacttiem_C extends React.Component<UI_Interacttiem_CProps> {
-        nativePtr: UE.Game.Demo.UI.UI_Interacttiem.UI_Interacttiem_C;
-    }
-
-    interface UI_Interact_CProps extends UserWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-        IsActive?: boolean;
-        SelectIndex?: number;
-    }
-
-    class UI_Interact_C extends React.Component<UI_Interact_CProps> {
-        nativePtr: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
     }
 
     interface TestKuroEditorCommon_CProps extends EditorUtilityWidgetProps {

@@ -3,6 +3,7 @@
 #include "KuroEditorCommon.h"
 #include "DesktopPlatformModule.h"
 #include "EditorDirectories.h"
+#include "FileHelpers.h"
 #include "LevelEditorActions.h"
 #include "OutputLogModule.h"
 #include "Engine/ObjectLibrary.h"
@@ -282,4 +283,9 @@ UObject* UEditorOperations::GetDefaultObject(TSubclassOf<UObject> ObjectClass)
 bool UEditorOperations::IsInWpLevel(const UWorld* World)
 {
 	return World->PersistentLevel->IsUsingExternalActors();	
+}
+
+bool UEditorOperations::SaveCurrentLevel()
+{
+	return FEditorFileUtils::SaveCurrentLevel();
 }

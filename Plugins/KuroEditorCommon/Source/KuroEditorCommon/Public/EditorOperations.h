@@ -135,4 +135,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static bool IsInWpLevel(const UWorld *World);
+	
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
+	static bool SaveCurrentLevel();
 };

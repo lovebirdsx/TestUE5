@@ -415,7 +415,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private RenderEntity(): JSX.Element {
         if (this.state.IsEditorPlaying) {
-            return <SlotText Text={'编辑器正在运行,无法进行编辑'} />;
+            return undefined;
         }
 
         const es = this.EntityState;
@@ -647,11 +647,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return (
             <VerticalBox>
                 <HorizontalBox>
-                    {this.RenderLevelMenu()}
-                    {this.RenderDataMenu()}
-                    {this.RenderTestMenu()}
-                </HorizontalBox>
-                <HorizontalBox>
                     <Btn
                         Text={'↻'}
                         OnClick={this.Undo}
@@ -705,7 +700,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             <ErrorBoundary>
                 <VerticalBox>
                     <Border BrushColor={formatColor('#060606 ue back')}>
-                        <VerticalBox>{this.RenderToolbar()}</VerticalBox>
+                        <VerticalBox>
+                            <HorizontalBox>
+                                {this.RenderLevelMenu()}
+                                {this.RenderDataMenu()}
+                                {this.RenderTestMenu()}
+                            </HorizontalBox>
+                            {this.RenderToolbar()}
+                        </VerticalBox>
                     </Border>
                     <ErrorBoundary>
                         <ScrollBox Slot={scrollBoxSlot}>{this.RenderEntity()}</ScrollBox>

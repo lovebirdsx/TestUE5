@@ -112,22 +112,28 @@ export function Asset(props: IProps<string, AssetScheme>): JSX.Element {
 
 export function EntityId(props: IProps<number>): JSX.Element {
     return (
-        <EntitySelector
-            Id={props.Value}
-            OnEntityChanged={(guid): void => {
-                props.OnModify(guid, 'normal');
-            }}
-        />
+        <HorizontalBox>
+            {props.PrefixElement}
+            <EntitySelector
+                Id={props.Value}
+                OnEntityChanged={(guid): void => {
+                    props.OnModify(guid, 'normal');
+                }}
+            />
+        </HorizontalBox>
     );
 }
 
 export function EntityTemplateId(props: IProps<number>): JSX.Element {
     return (
-        <EntityTemplateSelector
-            Id={props.Value}
-            OnModify={(id): void => {
-                props.OnModify(id, 'normal');
-            }}
-        />
+        <HorizontalBox>
+            {props.PrefixElement}
+            <EntityTemplateSelector
+                Id={props.Value}
+                OnModify={(id): void => {
+                    props.OnModify(id, 'normal');
+                }}
+            />
+        </HorizontalBox>
     );
 }

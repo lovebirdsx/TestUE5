@@ -5,7 +5,7 @@ import { getProjectPath } from '../../Common/File';
 import { error, log } from '../../Common/Log';
 import { applyDiff, createDiff, readJsonObj } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
-import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
+import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendedEntityCsv';
 import { ITsEntity } from '../Interface';
 import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';

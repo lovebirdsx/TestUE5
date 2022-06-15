@@ -6,7 +6,7 @@ import { getProjectPath } from '../../Common/File';
 import { log } from '../../Common/Log';
 import { writeJson } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
-import { ExtendedEntityCsvLoader } from '../../Game/Common/CsvConfig/ExtendEntityCsv';
+import { ExtendedEntityCsvLoader } from '../../Game/Common/CsvConfig/ExtendedEntityCsv';
 import { componentConfig } from '../../Game/Interface/Component';
 import { entityConfig, genBlueprintConfig } from '../../Game/Interface/Entity';
 import { globalConfig } from '../../Game/Interface/Global';

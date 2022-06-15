@@ -1,24 +1,16 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
-import { warn } from '../../../Common/Log';
 import { deepEquals } from '../../../Common/Util';
 import { ITsEntity } from '../../../Game/Interface';
 import { toTransformInfo } from '../../../Game/Interface/Action';
 import {
     getActionsByEntityType,
-    getBlueprintType,
     getComponentsTypeByEntityType,
     getEntityTypeByActor,
 } from '../../../Game/Interface/Entity';
 import { TActionType } from '../../../Game/Interface/IAction';
 import { TComponentType } from '../../../Game/Interface/IComponent';
-import {
-    IEntityData,
-    TComponentData,
-    TComponentsData,
-    TEntityType,
-} from '../../../Game/Interface/IEntity';
-import { entityTemplateManager } from '../EntityTemplateManager';
+import { IEntityData, TEntityType } from '../../../Game/Interface/IEntity';
 import { levelDataManager } from '../LevelDataManager';
 import { componentRegistry } from './Component/ComponentRegistry';
 
@@ -71,62 +63,10 @@ class EntityRegistry {
         return errorCount;
     }
 
-    public FixComponentsData(entityType: TEntityType, componentsData: TComponentsData): number {
-        const componentTypes = getComponentsTypeByEntityType(entityType);
-
-        let fixCount = 0;
-        // 移除不存在的Component配置
-        Object.keys(componentsData).forEach((key) => {
-            const componentType = key as TComponentType;
-            const isExist = componentTypes.find((type) => type === componentType) !== undefined;
-            if (!isExist || !componentRegistry.HasScheme(componentType)) {
-                warn(`移除不存在的Component配置[${componentType}]`);
-                delete componentsData[componentType];
-                fixCount++;
-            }
-        });
-
-        // 填充需要的Component配置
-        componentTypes.forEach((componentType) => {
-            if (componentRegistry.HasScheme(componentType)) {
-                // 存在则尝试修复, 否则构造一个新的ComponentData
-                const scheme = componentRegistry.GetScheme(componentType);
-                if (componentsData[componentType]) {
-                    if (scheme.Fix(componentsData[componentType]) === 'fixed') {
-                        fixCount++;
-                        warn(`修复Component[${componentType}]`);
-                    }
-                } else {
-                    const componentData = scheme.CreateDefault() as TComponentData;
-                    componentsData[componentType] = componentData;
-                    fixCount++;
-                    warn(`添加缺失的Component[${componentType}]`);
-                }
-            }
-        });
-        return fixCount;
-    }
-
-    public GenDataForNewlyCreated(entity: ITsEntity): IEntityData {
-        const entityType = getEntityTypeByActor(entity);
-        const tid = entityTemplateManager.GetDefaultIdByEntityType(entityType);
-
-        const cd = tid ? entityTemplateManager.GetTemplateById(tid).ComponentsData : {};
-
-        return {
-            Name: entity.ActorLabel,
-            Id: entity.Id,
-            BlueprintType: getBlueprintType(entity),
-            TemplateId: tid,
-            Transform: toTransformInfo(entity.GetTransform()),
-            ComponentsData: cd,
-        };
-    }
-
     public GenData(entity: ITsEntity): IEntityData {
         const entityData = levelDataManager.CloneEntityData(entity);
         const entityType = getEntityTypeByActor(entity);
-        this.FixComponentsData(entityType, entityData.ComponentsData);
+        componentRegistry.FixComponentsData(entityType, entityData.ComponentsData);
 
         // 返回一个新的, 确保保存的Json按照此格式来排列
         return {

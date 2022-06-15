@@ -29,6 +29,7 @@ import { formatColor } from '../Common/Color';
 import { configExporter } from '../Common/ConfigExporter';
 import { editorConfig } from '../Common/EditorConfig';
 import { getCommandKeyDesc, KeyCommands } from '../Common/KeyCommands';
+import { editorCsvRegistry } from '../Common/Scheme/Csv/CsvRegistry';
 import { openDirOfFile, openFile } from '../Common/Util';
 
 interface ICsvState {
@@ -345,11 +346,9 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
     }
 
     private RenderErrors(): JSX.Element {
-        const classObj = csvRegistry.GetCsvClass(this.CurrentCsvState.Name);
-        const csv = new classObj();
-        csv.Bind(this.CurrentCsvState.Csv);
+        const state = this.CurrentCsvState;
         const messages: string[] = [];
-        if (csv.Check(messages) > 0) {
+        if (editorCsvRegistry.Check(state.Name, state.Csv, messages) > 0) {
             return (
                 <VerticalBox>
                     {messages.map((msg) => (

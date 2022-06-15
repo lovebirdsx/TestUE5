@@ -4,7 +4,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 import { error, log, warn } from '../../../Common/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsv, CustomSeqCsvLoader } from './CustomSeqCsv';
-import { ExtendedEntityCsv, ExtendedEntityCsvLoader } from './ExtendEntityCsv';
+import { ExtendedEntityCsv, ExtendedEntityCsvLoader } from './ExtendedEntityCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
 import { TalkerCsv, TalkerCsvLoader } from './TalkerCsv';
 

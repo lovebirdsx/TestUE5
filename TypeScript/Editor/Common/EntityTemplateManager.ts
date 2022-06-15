@@ -5,7 +5,11 @@ import { getFileNameWithOutExt, getProjectPath, getSavePath, listFiles } from '.
 import { warn } from '../../Common/Log';
 import { readJsonObj, writeJson } from '../../Common/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
+import { ITsEntity } from '../../Game/Interface';
+import { toTransformInfo } from '../../Game/Interface/Action';
 import {
+    getBlueprintType,
+    getEntityTypeByActor,
     getEntityTypeByBlueprintType,
     isBlueprintTypeTheSameEntity,
     loadEntityTemplateConfig,
@@ -17,7 +21,7 @@ import {
     IEntityTemplateConfig,
     TEntityType,
 } from '../../Game/Interface/IEntity';
-import { entityRegistry } from './Scheme/Entity';
+import { componentRegistry } from './Scheme/Component/ComponentRegistry';
 import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
 
 function getEntityTemplateFiles(): string[] {
@@ -78,6 +82,20 @@ export class EntityTemplateManager {
         }
 
         return this.GetIdByName(names[0]);
+    }
+
+    public GetEntityType(tId: number): TEntityType {
+        const template = this.GetTemplateById(tId);
+        return getEntityTypeByBlueprintType(template.BlueprintType);
+    }
+
+    public IsSameEntityType(bpType: string, tId: number): boolean {
+        if (tId === undefined) {
+            return false;
+        }
+
+        const tempalte = this.GetTemplateById(tId);
+        return isBlueprintTypeTheSameEntity(bpType, tempalte.BlueprintType);
     }
 
     // 检查是否存在脏状态
@@ -188,6 +206,22 @@ export class EntityTemplateManager {
         return this.GetIdByName(this.Names[0]);
     }
 
+    public GenEntityData(entity: ITsEntity): IEntityData {
+        const entityType = getEntityTypeByActor(entity);
+        const tid = this.GetDefaultIdByEntityType(entityType);
+
+        const cd = tid ? this.GetTemplateById(tid).ComponentsData : {};
+
+        return {
+            Name: entity.ActorLabel,
+            Id: entity.Id,
+            BlueprintType: getBlueprintType(entity),
+            TemplateId: tid,
+            Transform: toTransformInfo(entity.GetTransform()),
+            ComponentsData: cd,
+        };
+    }
+
     private MarkDirty(): void {
         MyFileHelper.Touch(ENTITY_TEMPLATE_DIRTY_RECORD_FILE);
     }
@@ -254,7 +288,7 @@ export class EntityTemplateManager {
         let fixTemplateCount = 0;
         this.IdMap.forEach((et) => {
             const entityType = getEntityTypeByBlueprintType(et.BlueprintType);
-            const fixCount = entityRegistry.FixComponentsData(entityType, et.ComponentsData);
+            const fixCount = componentRegistry.FixComponentsData(entityType, et.ComponentsData);
             if (fixCount > 0) {
                 warn(`====修复Template[${et.Name}]完毕`);
                 writeJson(et, this.GetPath(et.Id), true);

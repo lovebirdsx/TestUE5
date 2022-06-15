@@ -1,5 +1,7 @@
-import { error } from '../../../../Common/Log';
+import { error, warn } from '../../../../Common/Log';
+import { getComponentsTypeByEntityType } from '../../../../Game/Interface/Entity';
 import { TComponentType } from '../../../../Game/Interface/IComponent';
+import { TComponentData, TComponentsData, TEntityType } from '../../../../Game/Interface/IEntity';
 import { createBooleanScheme, ObjectScheme } from '../../Type';
 
 export class ComponentScheme<T> extends ObjectScheme<T> {}
@@ -42,6 +44,43 @@ class ComponentRegistry {
 
     public TryGetScheme<T>(type: TComponentType): ComponentScheme<T> {
         return this.SchemeMap.get(type) as ComponentScheme<T>;
+    }
+
+    public FixComponentsData(entityType: TEntityType, componentsData: TComponentsData): number {
+        const componentTypes = getComponentsTypeByEntityType(entityType);
+
+        let fixCount = 0;
+        // 移除不存在的Component配置
+        Object.keys(componentsData).forEach((key) => {
+            const componentType = key as TComponentType;
+            const isExist = componentTypes.find((type) => type === componentType) !== undefined;
+            if (!isExist || !this.HasScheme(componentType)) {
+                warn(`移除不存在的Component配置[${componentType}]`);
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                delete componentsData[componentType];
+                fixCount++;
+            }
+        });
+
+        // 填充需要的Component配置
+        componentTypes.forEach((componentType) => {
+            if (this.HasScheme(componentType)) {
+                // 存在则尝试修复, 否则构造一个新的ComponentData
+                const scheme = this.GetScheme(componentType);
+                if (componentsData[componentType]) {
+                    if (scheme.Fix(componentsData[componentType]) === 'fixed') {
+                        fixCount++;
+                        warn(`修复Component[${componentType}]`);
+                    }
+                } else {
+                    const componentData = scheme.CreateDefault() as TComponentData;
+                    componentsData[componentType] = componentData;
+                    fixCount++;
+                    warn(`添加缺失的Component[${componentType}]`);
+                }
+            }
+        });
+        return fixCount;
     }
 }
 

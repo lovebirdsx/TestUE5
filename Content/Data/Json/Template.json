@@ -594,6 +594,30 @@
       }
     },
     {
+      "Id": 2000013,
+      "Name": "实体刷新器模板",
+      "BlueprintType": "RefreshEntity",
+      "ComponentsData": {
+        "RefreshEntityComponent": {
+          "RefreshInterval": 0,
+          "MaxRefreshTimes": 0,
+          "DelayRefresh": false,
+          "EntityIdList": [],
+          "IsUesCylinder": {
+            "IsUse": false,
+            "Radius": 0,
+            "Height": 0,
+            "CylinderPos": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "A": 0
+            }
+          }
+        }
+      }
+    },
+    {
       "Id": 3000001,
       "Name": "静止的Npc",
       "BlueprintType": "AiNpcGuard1",

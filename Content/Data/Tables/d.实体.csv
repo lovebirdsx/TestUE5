@@ -21,3 +21,4 @@
 ,Invisible,隐藏实体,/Game/Blueprints/ExtendedEntity/Static/BP_Invisible.BP_Invisible,9
 ,Trash,垃圾,/Game/Blueprints/ExtendedEntity/Static/BP_Trash.BP_Trash,11
 ,Refresh,矿石刷新,/Game/Blueprints/ExtendedEntity/Static/BP_Mineral.BP_Mineral,2000012
+,RefreshManager,实体刷新管理,/Game/Blueprints/ExtendedEntity/Static/BP_RefreshManage.BP_RefreshManage,2000013

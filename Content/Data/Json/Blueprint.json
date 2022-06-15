@@ -15,6 +15,7 @@
     "Invisible": "StateEntity",
     "Lamp": "Lamp",
     "Npc": "Npc",
+    "Refresh": "RefreshSingle",
     "RefreshEntity": "RefreshEntity",
     "RefreshSingle": "RefreshSingle",
     "Rotator": "Rotator",

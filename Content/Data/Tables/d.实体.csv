@@ -6,9 +6,9 @@
 条件检查,,,,
 默认值,,,,
 #,Id,名字,蓝图,实体模板
-,AiNpcGuard1,守卫1,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcAj.BP_AiNpcAj,0
+,AiNpcGuard1,守卫1,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcGuard1.BP_AiNpcGuard1,0
 ,AiNpcGuard2,守卫2,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcGuard1.BP_AiNpcGuard1,0
-,AiNpcAj,小孩,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcGuard2.BP_AiNpcGuard2,0
+,AiNpcAj,小孩,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcAj.BP_AiNpcAj,0
 ,AiNpcMother,王大妈,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcMother.BP_AiNpcMother,0
 ,AiNpcVillageHead,村长,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcVillageHead.BP_AiNpcVillageHead,0
 ,AiNpcVillage1,村民1,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcVillage1.BP_AiNpcVillage1,0

@@ -38,6 +38,7 @@ import { segmentIdGeneratorManager } from '../Common/SegmentIdGenerator';
 import { TModifyType } from '../Common/Type';
 import {
     deepCopyData,
+    genConfigWithoutEditor,
     getContentPackageName,
     mergeEditorToConfig,
     msgbox,
@@ -410,7 +411,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
-        levelDataManager.ModifyEntityData(es.Entity, es.Data);
+        const filteredData = genConfigWithoutEditor(es.Data);
+        levelDataManager.ModifyEntityData(es.Entity, filteredData);
     }
 
     private RenderEntity(): JSX.Element {

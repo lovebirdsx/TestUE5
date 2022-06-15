@@ -34,6 +34,7 @@ export function testUtil(): void {
         testFor({ A: 1 }, { A: 1 });
         testFor(undefined, undefined);
         testFor({ A: [undefined, { B: 1 }] }, { A: [undefined, { B: 1 }] });
+        testFor({ A: undefined }, { A: undefined });
     });
 
     test('stringify filter underScore', () => {

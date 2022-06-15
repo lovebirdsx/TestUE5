@@ -116,8 +116,8 @@ class EntityRegistry {
         return {
             Name: entity.ActorLabel,
             Id: entity.Id,
-            TemplateId: tid,
             BlueprintType: getBlueprintType(entity),
+            TemplateId: tid,
             Transform: toTransformInfo(entity.GetTransform()),
             ComponentsData: cd,
         };

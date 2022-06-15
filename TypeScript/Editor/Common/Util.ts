@@ -98,6 +98,32 @@ export function mergeEditorToConfig<T>(config: T, editor: unknown): T {
     return config;
 }
 
+export function genConfigWithoutEditor<T>(config: T): T {
+    if (typeof config !== 'object') {
+        throw new Error(`config type [${typeof config}] != object`);
+    }
+
+    const result: Record<string, unknown> = {};
+    for (const key in config) {
+        if (key.startsWith('_')) {
+            continue;
+        }
+
+        const v = config[key];
+        if (typeof v === 'object') {
+            result[key] = genConfigWithoutEditor(v);
+        } else {
+            result[key] = v;
+        }
+    }
+
+    if (config instanceof Array) {
+        return Object.values(result) as unknown as T;
+    }
+
+    return result as T;
+}
+
 export function wirteEditorConfig(config: unknown, path: string): void {
     MyFileHelper.Write(stringifyEditor(config), path);
 }

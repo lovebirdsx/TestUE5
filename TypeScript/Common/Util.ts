@@ -61,7 +61,7 @@ export function deepEquals<T>(x: T, y: T, ignoreUnderScore?: boolean): boolean {
                 continue;
             }
 
-            if (x[key] === undefined) {
+            if (x[key] === undefined && y[key] !== undefined) {
                 return false;
             }
         }

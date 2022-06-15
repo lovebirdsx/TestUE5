@@ -1,9 +1,18 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
-import { Actor, EditorOperations, EFileRoot, ESlateSizeRule, MyFileHelper, World } from 'ue';
+import {
+    Actor,
+    EditorLevelLibrary,
+    EditorOperations,
+    EFileRoot,
+    ESlateSizeRule,
+    MyFileHelper,
+    World,
+} from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
 import { log } from '../../Common/Log';
@@ -13,7 +22,7 @@ import { isEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
-import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
+import { MenuBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { formatColor } from '../Common/Color';
 import { configExporter } from '../Common/ConfigExporter';
@@ -25,6 +34,7 @@ import { levelDataManager } from '../Common/LevelDataManager';
 import LevelEditorUtil from '../Common/LevelEditorUtil';
 import { currentLevelEntityIdGenerator } from '../Common/Operations/Entity';
 import { entityRegistry } from '../Common/Scheme/Entity';
+import { segmentIdGeneratorManager } from '../Common/SegmentIdGenerator';
 import { TModifyType } from '../Common/Type';
 import {
     deepCopyData,
@@ -39,17 +49,6 @@ import { EntityView } from './EntityView';
 import { LevelEditor } from './LevelEditor';
 import { tempEntities } from './TempEntities';
 
-const contextCmdList = [
-    '【实体】检查当前',
-    '【实体】检查所有',
-    '【实体】修复当前',
-    '【实体】修复所有',
-    '【实体】重新扫描生成id',
-    '【模板】重导所有',
-] as const;
-
-type TContextCmd = typeof contextCmdList[number];
-
 interface IEntityState {
     Entity: ITsEntity;
     Data: IEntityData;
@@ -61,6 +60,7 @@ interface IEntityEditorState {
     Histories: IEntityState[];
     StepId: number;
     IsEditorPlaying: boolean;
+    AutoSaveGame: boolean;
     ShowExtended: boolean;
     IdToSearch: number;
     EntityRecords: IEntityRecords;
@@ -89,6 +89,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             Entity: LevelEditorUtil.GetSelectedEntity(),
             Histories: [initEntityState],
             StepId: 0,
+            AutoSaveGame: this.IsSaveWhileExitPie,
             IsEditorPlaying: LevelEditorUtil.IsPlaying,
             ShowExtended: editorConfig.IsEntityEditorShowExtendToolBar,
             IdToSearch: editorConfig.EntityIdToSearch || 1,
@@ -114,8 +115,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private set IsSaveWhileExitPie(value: boolean) {
-        gameConfig.IsSaveWhileExitPie = value;
-        gameConfig.Save();
+        if (gameConfig.IsSaveWhileExitPie !== value) {
+            gameConfig.IsSaveWhileExitPie = value;
+            gameConfig.Save();
+        }
     }
 
     private GenEntityEditorJsonPath(entity: ITsEntity): string | undefined {
@@ -457,45 +460,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         this.SetStep(this.state.StepId + 1);
     };
 
-    private readonly Info = (): void => {
-        log(JSON.stringify(this.state.Histories, null, 2));
-    };
-
-    private readonly Test = (): void => {
-        // Test Case 1
-        // log(`is playing = ${LevelEditorUtil.IsPlaying}`);
-        //
-        // Test Case 2
-        // const entity = LevelEditorUtil.GetSelectedEntity();
-        // if (entity) {
-        //     log(`${entity.ActorLabel}: ${EditorOperations.GetExternActorSavePath(entity)}`);
-        //     log(`${entity.ActorLabel}: ${LevelEditorUtil.GetEntityJsonPath(entity)}`);
-        //     log(`${entity.ActorLabel}: Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
-        // }
-        //
-        // Test Case 3
-        // const world = EditorLevelLibrary.GetEditorWorld();
-        // log(`World: ${world.GetName()} Package Path: ${EditorOperations.GetPackagePath(world)}`);
-        //
-        // Test Case 4
-        // const entityDatas = LevelTools.GetAllEntityTemplatePath();
-        // entityDatas.forEach((data) => {
-        //     log(data);
-        // });
-        //
-        // Test Case 5
-        // const entity = LevelEditorUtil.GetSelectedEntity();
-        // if (entity) {
-        //     log(`[${entity.ActorLabel}] [${entity.Id}]`);
-        // }
-        //
-        // Test Case 6
-        // segmentIdGeneratorManager.ShowInfo();
-        //
-        // Test Case 7
-        this.LevelEditor.Test();
-    };
-
     private readonly GetUndoStateStr = (): string => {
         const { state } = this;
         return `${state.StepId + 1} / ${state.Histories.length}`;
@@ -547,39 +511,133 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         );
     }
 
-    private readonly OnContextCmd = (cmd: TContextCmd): void => {
-        switch (cmd) {
-            case '【实体】检查当前':
-                if (this.state.Entity) {
-                    LevelEditorUtil.CheckEntity(this.state.Entity);
-                    log(`检查[${this.state.Entity.ActorLabel}]完毕`);
-                }
-                break;
+    private RenderLevelMenu(): JSX.Element {
+        return (
+            <MenuBtn
+                Name={'地图'}
+                Items={[
+                    {
+                        Name: '【地图配置】生成',
+                        Fun: () => levelDataManager.Export(),
+                    },
+                    {
+                        Name: '【地图配置】打开',
+                        Fun: () => levelDataManager.OpenMapDataFile(),
+                    },
+                    {
+                        Name: '【存档】打开',
+                        Fun: this.OpenSavaFile,
+                    },
+                    {
+                        Name: '【存档】删除',
+                        Fun: this.RemoveSavaFile,
+                    },
+                    {
+                        Name: this.state.AutoSaveGame ? '【自动保存】[✓]' : '【自动保存】[  ]',
+                        Fun: () =>
+                            this.setState((state) => {
+                                return { AutoSaveGame: !state.AutoSaveGame };
+                            }),
+                    },
+                ]}
+            />
+        );
+    }
 
-            case '【实体】检查所有':
-                LevelEditorUtil.CheckAllEntityData();
-                break;
+    private RenderDataMenu(): JSX.Element {
+        return (
+            <MenuBtn
+                Name={'数据'}
+                Items={[
+                    {
+                        Name: '【实体】检查当前',
+                        Fun: (): void => {
+                            if (this.state.Entity) {
+                                LevelEditorUtil.CheckEntity(this.state.Entity);
+                                log(`检查[${this.state.Entity.ActorLabel}]完毕`);
+                            }
+                        },
+                    },
+                    {
+                        Name: '【实体】检查所有',
+                        Fun: (): void => {
+                            LevelEditorUtil.CheckAllEntityData();
+                        },
+                    },
+                    {
+                        Name: '【实体】修复当前',
+                        Fun: (): void => {
+                            if (this.state.Entity) {
+                                LevelEditorUtil.CheckAndSaveEntityData(this.state.Entity);
+                                log(`检查修复[${this.state.Entity.ActorLabel}]完毕`);
+                            }
+                        },
+                    },
+                    {
+                        Name: '【实体】修复所有',
+                        Fun: () => LevelEditorUtil.CheckAndSaveAllEntityData(),
+                    },
+                    {
+                        Name: '【实体】重新扫描生成id',
+                        Fun: () => currentLevelEntityIdGenerator.ReScan(),
+                    },
+                    {
+                        Name: '【模板】重导所有',
+                        Fun: () => entityTemplateManager.FixAndExport(),
+                    },
+                    {
+                        Name: '【配置】导出',
+                        Fun: () => configExporter.ExportByUser(),
+                    },
+                    {
+                        Name: '【配置】重导',
+                        Fun: () => configExporter.ExportByUser(true),
+                    },
+                ]}
+            />
+        );
+    }
 
-            case '【实体】修复当前':
-                if (this.state.Entity) {
-                    LevelEditorUtil.CheckAndSaveEntityData(this.state.Entity);
-                    log(`检查修复[${this.state.Entity.ActorLabel}]完毕`);
-                }
-                break;
-
-            case '【实体】修复所有':
-                LevelEditorUtil.CheckAndSaveAllEntityData();
-                break;
-
-            case '【实体】重新扫描生成id':
-                currentLevelEntityIdGenerator.ReScan();
-                break;
-
-            case '【模板】重导所有':
-                entityTemplateManager.FixAndExport();
-                break;
-        }
-    };
+    private RenderTestMenu(): JSX.Element {
+        return (
+            <MenuBtn
+                Name={'测试'}
+                Items={[
+                    {
+                        Name: '【地图】输出信息',
+                        Fun: (): void => {
+                            const world = EditorLevelLibrary.GetEditorWorld();
+                            log(`World: ${world.GetName()}`);
+                            log(`Package Path: ${EditorOperations.GetPackagePath(world)}`);
+                        },
+                    },
+                    {
+                        Name: '【实体】输出信息',
+                        Fun: (): void => {
+                            const entity = LevelEditorUtil.GetSelectedEntity();
+                            if (entity) {
+                                log(`${entity.ActorLabel}:`);
+                                log(`  ${EditorOperations.GetExternActorSavePath(entity)}`);
+                                log(`  Is dirty = ${EditorOperations.IsActorDirty(entity)}`);
+                            }
+                        },
+                    },
+                    {
+                        Name: '【Id Generator】输出信息',
+                        Fun: (): void => {
+                            segmentIdGeneratorManager.ShowInfo();
+                        },
+                    },
+                    {
+                        Name: '【实体编辑器】输出信息',
+                        Fun: (): void => {
+                            log(JSON.stringify(this.state.Histories, null, 2));
+                        },
+                    },
+                ]}
+            />
+        );
+    }
 
     private RenderToolbar(): JSX.Element {
         if (this.state.IsEditorPlaying) {
@@ -589,38 +647,9 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return (
             <VerticalBox>
                 <HorizontalBox>
-                    <Text Text={'数据文件:'} Tip={levelDataManager.GetMapDataPath()} />
-                    <Btn
-                        Text={'重新生成'}
-                        OnClick={(): void => {
-                            levelDataManager.Export();
-                        }}
-                        Tip={`保存场景状态`}
-                    />
-                    <Btn
-                        Text={'打开'}
-                        OnClick={(): void => {
-                            levelDataManager.OpenMapDataFile();
-                        }}
-                        Tip={`打开地图配置文件`}
-                    />
-                </HorizontalBox>
-                <HorizontalBox>
-                    <Text Text={'存档文件:'} Tip={this.LevelEditor.GetMapSavePath()} />
-                    <Btn Text={'打开'} OnClick={this.OpenSavaFile} Tip={'打开游戏存档文件'} />
-                    <Btn Text={'删除'} OnClick={this.RemoveSavaFile} Tip={'删除游戏存档文件'} />
-                    <Text Text={'保存游戏'} Tip={'退出Pie时,是否自动保存游戏'} />
-                    <Check
-                        UnChecked={!this.IsSaveWhileExitPie}
-                        OnChecked={(checked: boolean): void => {
-                            this.IsSaveWhileExitPie = checked;
-                        }}
-                        Tip={'退出Pie时,是否自动保存游戏'}
-                    />
-                    <ContextBtn
-                        Commands={contextCmdList as unknown as string[]}
-                        OnCommand={this.OnContextCmd}
-                    />
+                    {this.RenderLevelMenu()}
+                    {this.RenderDataMenu()}
+                    {this.RenderTestMenu()}
                 </HorizontalBox>
                 <HorizontalBox>
                     <Btn
@@ -647,8 +676,6 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                         }}
                         Tip={'锁定后,选择其它Entity将不会改变当前编辑的Entity'}
                     />
-                    <Btn Text={'状态'} OnClick={this.Info} Tip={`输出状态`} />
-                    <Btn Text={'测试'} OnClick={this.Test} Tip={`测试`} />
                     <Text Text={'扩展栏'} Tip={'是否显示扩展工具栏'} />
                     <Check
                         UnChecked={!this.state.ShowExtended}
@@ -668,6 +695,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     public render(): JSX.Element {
         this.ApplyEntityChange();
+        this.IsSaveWhileExitPie = this.state.AutoSaveGame;
 
         const scrollBoxSlot: VerticalBoxSlot = {
             Size: { SizeRule: ESlateSizeRule.Fill },

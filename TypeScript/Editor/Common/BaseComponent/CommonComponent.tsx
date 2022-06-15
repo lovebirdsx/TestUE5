@@ -8,6 +8,7 @@ import {
     ComboBoxString,
     ComboBoxStyle,
     EditableTextBox,
+    HorizontalBoxSlot,
     Margin,
     SizeBox,
     SlateBrush,
@@ -25,6 +26,7 @@ import {
     ESlateBrushImageType,
     ESlateBrushTileType,
     ESlateColorStylingMode,
+    EVerticalAlignment,
 } from 'ue';
 
 import { toUeArray } from '../../../Common/Util';
@@ -335,10 +337,19 @@ const defalutListRowStyle: TableRowStyle = {
     TextColor: defaultTintTextColor,
 };
 
+const defalutListSlot: HorizontalBoxSlot = {
+    HorizontalAlignment: EHorizontalAlignment.HAlign_Center,
+    VerticalAlignment: EVerticalAlignment.VAlign_Center,
+};
+
 export function List(props: IListProps): JSX.Element {
     const arrayItems = toUeArray(props.Items, BuiltinString);
     return (
-        <SizeBox bOverride_WidthOverride={!!props.Width} WidthOverride={props.Width}>
+        <SizeBox
+            bOverride_WidthOverride={!!props.Width}
+            WidthOverride={props.Width}
+            Slot={defalutListSlot}
+        >
             <ComboBoxString
                 WidgetStyle={defaultListStyle}
                 ForegroundColor={createSlateColor(props.Color || DEFAULT_TEXT_COLOR)}

@@ -24,6 +24,7 @@ import testTextListCsv, {
 import { ReactUMG } from '../../react-umg/react-umg';
 import { assetListCache } from '../Common/AssetListCache';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
+import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
 import { configExporter } from '../Common/ConfigExporter';
 import { LevelTools } from '../EntityEditor/LevelTools';
 import testConfig from '../UnitTest/Common/TestConfig';
@@ -132,7 +133,7 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
         };
     }
 
-    private RenderTest(): JSX.Element {
+    private RenderTestButtons(): JSX.Element {
         const row = 4;
         const testElements = this.state.Tests.map((test, id) => {
             const slot: GridSlot = {
@@ -179,12 +180,9 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
         );
     }
 
-    private RenderTests(): JSX.Element {
+    private RenderUiTests(): JSX.Element {
         return (
             <VerticalBox>
-                {this.RenderUnitTestResults()}
-                <H3 Text={'Test Logic'} />
-                {this.RenderTest()}
                 <H3 Text={'Test Level'} />
                 <TestLevel />
                 <H3 Text={'Test Button enabled'} />
@@ -201,6 +199,16 @@ export class TestEditor extends React.Component<unknown, ITestEditorState> {
                 {this.RenderReadWriteCsv()}
                 {/* <H3 Text={'Test Csv View'} />
                 <TestCsvView /> */}
+            </VerticalBox>
+        );
+    }
+
+    private RenderTests(): JSX.Element {
+        return (
+            <VerticalBox>
+                {this.RenderUnitTestResults()}
+                {this.RenderTestButtons()}
+                <ErrorBoundary>{this.RenderUiTests()}</ErrorBoundary>
             </VerticalBox>
         );
     }

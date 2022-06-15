@@ -33,12 +33,11 @@ export const flowComponentScheme = createComponentScheme<IFlowComponent>({
 export const behaviorFlowComponentScheme = createComponentScheme<IBehaviorFlowComponent>({
     Name: 'BehaviorFlowComponent',
     CreateDefault: () => {
-        return {
+        const flowInfo: IBehaviorFlowComponent = {
             InitStateId: 0,
             FlowInfo: {
                 Id: 0,
                 Name: 'Empty',
-                StateGenId: 1,
                 States: [
                     {
                         Id: 0,
@@ -48,6 +47,7 @@ export const behaviorFlowComponentScheme = createComponentScheme<IBehaviorFlowCo
                 ],
             },
         };
+        return flowInfo;
     },
     NewLine: true,
     Fields: {

@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { assertEq, test } from '../../Common/Test';
-import { deepEqualsIgnore } from '../../Common/Util';
+import { deepEquals } from '../../Common/Util';
 import { TalkListCsvFile } from '../../Editor/FlowEditor/TalkListTool';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
 import { TalkerListOp } from '../../Game/Common/Operations/TalkerList';
@@ -15,7 +15,7 @@ import {
 import { editorFlowOp } from '../Common/Operations/Flow';
 
 function flowListEqual(f1: IFlowListInfo, f2: IFlowListInfo): boolean {
-    return deepEqualsIgnore(f1, f2, ['flowGenId', 'stateGenId']);
+    return deepEquals(f1, f2);
 }
 
 interface ICreateConfig {

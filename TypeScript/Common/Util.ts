@@ -62,45 +62,6 @@ export function deepEquals<T>(x: T, y: T): boolean {
     return true;
 }
 
-export function deepEqualsIgnore<T>(x: T, y: T, ignoreFields: string[]): boolean {
-    if (x === y) {
-        return true;
-    }
-
-    const typeX = typeof x;
-    const typeY = typeof y;
-
-    if (typeX !== typeY) {
-        return false;
-    }
-
-    if (typeX !== 'object' || x === null || y === null) {
-        return false;
-    }
-
-    for (const p in x) {
-        if (ignoreFields.includes(p)) {
-            continue;
-        }
-
-        if (!deepEqualsIgnore(x[p], y[p], ignoreFields)) {
-            return false;
-        }
-    }
-
-    for (const p in y) {
-        if (ignoreFields.includes(p)) {
-            continue;
-        }
-
-        if (x[p] === undefined) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 export function subArray<T>(a: T[], b: T[]): T[] {
     if (b.length <= 0) {
         return a;

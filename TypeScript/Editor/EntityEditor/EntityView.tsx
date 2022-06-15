@@ -92,7 +92,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 />
                 <Btn
                     Text={'O'}
-                    Tip={'以当前实体的数据覆盖引用的模板'}
+                    Tip={'【Override】以当前实体的数据覆盖引用的模板'}
                     OnClick={function (): void {
                         const et = entityTemplateManager.GetTemplateById(ed.TemplateId);
                         if (
@@ -136,8 +136,12 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     OnClick={this.OnClickBtnFocusBlueprint}
                     Tip={'浏览到Entity蓝图所在位置'}
                 />
-                <Btn Text={'J'} OnClick={this.OnClickBtnOpenJson} Tip={'打开实体对应的Json配置'} />
-                <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
+                <Btn
+                    Text={'J'}
+                    OnClick={this.OnClickBtnOpenJson}
+                    Tip={'【JSON】打开实体对应的Json配置'}
+                />
+                <Btn Text={'S'} Tip={'【Save】存储为模板'} OnClick={this.OnClickSaveTemplate} />
             </HorizontalBox>
         );
     }

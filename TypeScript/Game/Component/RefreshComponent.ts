@@ -4,7 +4,6 @@
 import { KismetMathLibrary, Vector } from 'ue';
 
 import { getTotalSecond } from '../../Common/Util';
-import { entityRegistry } from '../../Editor/Common/Scheme/Entity';
 import { deInitTsEntity } from '../Entity/Common';
 import { Component, gameContext, ITimeCall } from '../Interface';
 import { toTransform, toTransformInfo } from '../Interface/Action';

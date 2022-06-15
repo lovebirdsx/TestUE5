@@ -48,6 +48,7 @@ export class LevelDataManager implements IManager, ILevelDataManager {
     public GenEntityData(templateId: number, entityId?: number): IEntityData {
         const template = this.TemplateMap.get(templateId);
         const entityData: IEntityData = {
+            Name: '',
             Id: entityId || entityIdAllocator.Alloc(),
             BlueprintType: template.BlueprintType,
             ComponentsData: template.ComponentsData,

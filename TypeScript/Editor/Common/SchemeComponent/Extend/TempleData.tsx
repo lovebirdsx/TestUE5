@@ -45,7 +45,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
 
     private readonly OnTempleModify = (data: IEntityTemplate, type: TModifyType): void => {
         if (type === 'normal') {
-            entityTemplateManager.Modify(data);
+            entityTemplateManager.OverrideByEntityData(data);
         }
 
         // 更新

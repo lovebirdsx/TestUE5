@@ -51,11 +51,11 @@ export interface IEntityTemplate {
 }
 
 export interface IEntityData {
+    Name: string;
     Id: number;
     TemplateId?: number;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _prevTemplateId?: number;
-    Name?: string;
     BlueprintType: string;
     Transform?: ITransform;
     ComponentsData: TComponentsData;

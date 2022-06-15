@@ -2,12 +2,20 @@
 import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
+import { EditorOperations, EMsgResult, EMsgType } from 'ue';
 
 import { error } from '../../Common/Log';
 import { ITsEntity } from '../../Game/Interface';
 import { getEntityTypeByBlueprintType } from '../../Game/Interface/Entity';
 import { IEntityData } from '../../Game/Interface/IEntity';
-import { Btn, Check, ErrorText, H3, Text } from '../Common/BaseComponent/CommonComponent';
+import {
+    Btn,
+    Check,
+    COLOR_LEVEL1,
+    ErrorText,
+    H3,
+    Text,
+} from '../Common/BaseComponent/CommonComponent';
 import { EntityTemplateSelector } from '../Common/BaseComponent/EntityTemplateSelector';
 import { editorConfig } from '../Common/EditorConfig';
 import { entityTemplateManager } from '../Common/EntityTemplateManager';
@@ -73,10 +81,54 @@ export class EntityView extends React.Component<IEntityViewProps> {
         return <Text Text={id.toString()} />;
     }
 
-    private RenderEntityInfo(): JSX.Element {
+    private RenderTemplateDetail(): JSX.Element {
         const ed = this.props.Data;
         return (
             <HorizontalBox>
+                <EntityTemplateSelector
+                    Id={ed.TemplateId}
+                    EntityType={getEntityTypeByBlueprintType(ed.BlueprintType)}
+                    OnModify={this.OnTemplateIdModifiled}
+                />
+                <Btn
+                    Text={'O'}
+                    Tip={'以当前实体的数据覆盖引用的模板'}
+                    OnClick={function (): void {
+                        const et = entityTemplateManager.GetTemplateById(ed.TemplateId);
+                        if (
+                            EditorOperations.ShowMessage(
+                                EMsgType.OkCancel,
+                                `实体[${ed.Name}]的数据将覆盖模板[${et.Name}]\n此操作不可撤销, 是否继续 ?`,
+                                '提示',
+                            ) === EMsgResult.Ok
+                        ) {
+                            entityTemplateManager.OverrideByEntityData(ed);
+                        }
+                    }}
+                />
+            </HorizontalBox>
+        );
+    }
+
+    private RenderTemplate(): JSX.Element {
+        const ed = this.props.Data;
+        return (
+            <HorizontalBox>
+                <Text Text={'模板:  '} Color={COLOR_LEVEL1} />
+                <Text Text={'启用'} Tip={TIP_FOR_TEMPLATE} />
+                <Check
+                    UnChecked={ed.TemplateId === undefined}
+                    OnChecked={this.OnToggleUseTemplate}
+                />
+                {ed.TemplateId !== undefined && this.RenderTemplateDetail()}
+            </HorizontalBox>
+        );
+    }
+
+    private RenderEntityInfo(): JSX.Element {
+        return (
+            <HorizontalBox>
+                <Text Text={'实体:  '} Color={COLOR_LEVEL1} />
                 {this.RenderId()}
                 <Btn Text={'◉'} OnClick={this.OnClickBtnNav} Tip={'在场景中选中对应的Entity'} />
                 <Btn
@@ -86,18 +138,6 @@ export class EntityView extends React.Component<IEntityViewProps> {
                 />
                 <Btn Text={'J'} OnClick={this.OnClickBtnOpenJson} Tip={'打开实体对应的Json配置'} />
                 <Btn Text={'S'} Tip={'存储为模板'} OnClick={this.OnClickSaveTemplate} />
-                <Text Text={'模板'} Tip={TIP_FOR_TEMPLATE} />
-                <Check
-                    UnChecked={ed.TemplateId === undefined}
-                    OnChecked={this.OnToggleUseTemplate}
-                />
-                {ed.TemplateId !== undefined && (
-                    <EntityTemplateSelector
-                        Id={ed.TemplateId}
-                        EntityType={getEntityTypeByBlueprintType(ed.BlueprintType)}
-                        OnModify={this.OnTemplateIdModifiled}
-                    />
-                )}
             </HorizontalBox>
         );
     }
@@ -158,6 +198,7 @@ export class EntityView extends React.Component<IEntityViewProps> {
                     {this.RenderEntityError()}
                     <H3 Text={`实体信息(${entity.ActorLabel})`} />
                     {this.RenderEntityInfo()}
+                    {this.RenderTemplate()}
                 </VerticalBox>
                 <H3 Text={'组件列表'} />
                 <entityIdContext.Provider value={entity.Id}>

@@ -185,8 +185,8 @@ export class EntityTemplateManager {
         MyFileHelper.Touch(ENTITY_TEMPLATE_DIRTY_RECORD_FILE);
     }
 
-    public Modify(data: IEntityTemplate): void {
-        const template = this.IdMap.get(data.Id);
+    public OverrideByEntityData(data: IEntityData): void {
+        const template = this.IdMap.get(data.TemplateId);
         if (!template) {
             throw new Error(`Modify no exist template data for id [${data.Id}]`);
         }
@@ -201,7 +201,7 @@ export class EntityTemplateManager {
 
         template.ComponentsData = data.ComponentsData;
 
-        writeJson(template, this.GetPath(data.Id), true);
+        writeJson(template, this.GetPath(template.Id), true);
         this.MarkDirty();
     }
 

@@ -20,5 +20,4 @@
 ,AiNpcTrainer,训练员,/Game/Blueprints/ExtendedEntity/Dynamic/BP_AiNpcTrainer.BP_AiNpcTrainer,0
 ,Invisible,隐藏实体,/Game/Blueprints/ExtendedEntity/Static/BP_Invisible.BP_Invisible,9
 ,Trash,垃圾,/Game/Blueprints/ExtendedEntity/Static/BP_Trash.BP_Trash,11
-,Mineral,矿石,/Game/Blueprints/ExtendedEntity/Static/BP_Mineral.BP_Mineral,0
-,RefreshManage,刷新器,/Game/Blueprints/ExtendedEntity/Static/BP_RefreshManage.BP_RefreshManage,0
+,Refresh,矿石刷新,/Game/Blueprints/ExtendedEntity/Static/BP_Mineral.BP_Mineral,2000012

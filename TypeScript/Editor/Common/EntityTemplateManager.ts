@@ -46,7 +46,7 @@ export const templateIdGenerator = new TemplateIdGenerator('entityTemplate');
 export const ENTITY_TEMPLATE_DIRTY_RECORD_FILE = getSavePath('DirtyRecord/EntityTemplate');
 
 export class EntityTemplateManager {
-    public readonly Names: string[] = [];
+    public Names: string[] = [];
 
     private readonly IdMap: Map<number, IEntityTemplate> = new Map();
 
@@ -231,6 +231,7 @@ export class EntityTemplateManager {
 
         this.IdMap.set(template.Id, template);
         this.NameMap.set(name, template);
+        this.Names = Object.assign([], this.Names);
         this.Names.push(name);
         // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
         this.Names.sort();

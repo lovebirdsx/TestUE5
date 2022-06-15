@@ -581,6 +581,19 @@
       }
     },
     {
+      "Id": 2000012,
+      "Name": "刷新single空模板",
+      "BlueprintType": "RefreshSingle",
+      "ComponentsData": {
+        "RefreshSingleComponent": {
+          "TemplateGuid": 0,
+          "RefreshInterval": 0,
+          "MaxRefreshTimes": 0,
+          "DelayRefresh": false
+        }
+      }
+    },
+    {
       "Id": 3000001,
       "Name": "静止的Npc",
       "BlueprintType": "AiNpcGuard1",

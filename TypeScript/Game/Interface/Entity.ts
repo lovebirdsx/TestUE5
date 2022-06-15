@@ -2,7 +2,7 @@
 import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/File';
-import { error } from '../../Common/Log';
+import { error, log } from '../../Common/Log';
 import { applyDiff, createDiff, readJsonObj } from '../../Common/Util';
 import { csvRegistry, ECsvName } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendEntityCsv';
@@ -204,6 +204,7 @@ extendEntityCsv.Rows.forEach((row) => {
     if (blueprint) {
         const entityType = getEntityTypeByClass(blueprint.ParentClass);
         registerBlueprint(row.Id, `${row.Bp}_C`, entityType);
+        log(`registerBlueprint ${row.Id} ${row.Bp} ${entityType}`);
     } else {
         error(
             `blueprint path ${row.Bp} error，please check 

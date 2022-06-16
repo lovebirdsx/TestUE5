@@ -4,6 +4,7 @@ import { EFileRoot, MyFileHelper } from 'ue';
 import { error, log, warn } from '../Misc/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsv, CustomSeqCsvLoader } from './CustomSeqCsv';
+import { ExcelFormatCsv, ExcelFormatCsvLoader } from './ExcelFormatCsv';
 import { ExtendedEntityCsv, ExtendedEntityCsvLoader } from './ExtendedEntityCsv';
 import { GlobalConfigCsv, GlobalConfigCsvLoader } from './GlobalConfigCsv';
 import { TalkerCsv, TalkerCsvLoader } from './TalkerCsv';
@@ -15,6 +16,7 @@ export enum ECsvName {
     Talker = '对话人',
     CustomSeq = '自定义序列',
     ExtendedEntity = '扩展实体',
+    ExcelFormat = 'Excel通配符',
 }
 
 interface ICsvFileConfig {
@@ -50,6 +52,12 @@ const configs: ICsvFileConfig[] = [
         Path: 'z.自定义序列.csv',
         CsvLoaderClass: CustomSeqCsvLoader,
         CsvClass: CustomSeqCsv,
+    },
+    {
+        Name: ECsvName.ExcelFormat,
+        Path: 'e.Excel通配符.csv',
+        CsvLoaderClass: ExcelFormatCsvLoader,
+        CsvClass: ExcelFormatCsv,
     },
 ];
 

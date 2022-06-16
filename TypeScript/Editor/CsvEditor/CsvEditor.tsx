@@ -324,7 +324,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
     }
 
     private RenderAllCsvEntries(): JSX.Element {
-        const colCount = 4;
+        const colCount = 6;
         const currentName = this.CurrentCsvState.Name;
         const nameElements = csvRegistry.Names.map((name, id) => {
             const row = Math.floor(id / colCount);

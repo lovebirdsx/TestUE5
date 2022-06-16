@@ -2,10 +2,12 @@
 import { error } from '../../../../Common/Log';
 import { csvCellTypeConfig, TCsvCellType } from '../../../../Game/Common/CsvConfig/CsvLoader';
 import { ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
+import { entityTemplateManager } from '../../EntityTemplateManager';
 import {
     booleanScheme,
     createCsvIndexValueScheme,
     createEnumScheme,
+    createIntScheme,
     createStringScheme,
     floatScheme,
     intScheme,
@@ -63,4 +65,11 @@ export const customSeqIdScheme = createCsvIndexValueScheme<number>({
     IndexField: 'Id',
     ValueField: 'Name',
     IndexType: 'Int',
+});
+
+export const csvEntityTemplateIdScheme = createIntScheme({
+    Name: 'EntityTemplateId',
+    CreateDefault: () => {
+        return entityTemplateManager.GenDefaultId();
+    },
 });

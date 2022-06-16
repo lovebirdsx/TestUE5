@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { flowOp } from '../../../../Game/Common/Operations/Flow';
-import { IFlowInfo } from '../../../../Game/Interface/IAction';
-import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Game/Interface/IComponent';
+import { IFlowInfo } from '../../../../Common/Interface/IAction';
+import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Common/Interface/IComponent';
+import { flowOp } from '../../../../Common/Operation/Flow';
 import { editorFlowOp } from '../../Operations/Flow';
 import { createObjectScheme, intScheme } from '../../Type';
 import { playFlowScheme } from '../Action/Flow';

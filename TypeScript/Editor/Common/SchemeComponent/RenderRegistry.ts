@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IActionInfo } from '../../../Game/Interface/IAction';
+import { IActionInfo } from '../../../Common/Interface/IAction';
 import { ActionScheme } from '../Scheme/Action/Action';
 import { ArrayScheme, IProps, ObjectScheme, Scheme } from '../Type';
 

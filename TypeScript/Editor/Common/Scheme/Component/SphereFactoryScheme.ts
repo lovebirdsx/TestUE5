@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ISphereFactoryComponent } from '../../../../Game/Interface/IComponent';
+import { ISphereFactoryComponent } from '../../../../Common/Interface/IComponent';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import { createIntScheme, createVectorScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';

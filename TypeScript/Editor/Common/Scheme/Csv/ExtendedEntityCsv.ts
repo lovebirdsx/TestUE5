@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Blueprint } from 'ue';
 
-import { IExtendedEntityRow } from '../../../../Game/Common/CsvConfig/ExtendedEntityCsv';
-import { getEntityTypeByBlueprintType } from '../../../../Game/Interface/Entity';
-import { entityTypeConfig } from '../../../../Game/Interface/IEntity';
+import { IExtendedEntityRow } from '../../../../Common/CsvConfig/ExtendedEntityCsv';
+import { getEntityTypeByBlueprintType } from '../../../../Common/Interface/Entity';
+import { entityTypeConfig } from '../../../../Common/Interface/IEntity';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import { EditorGlobalCsv } from './Common';
 

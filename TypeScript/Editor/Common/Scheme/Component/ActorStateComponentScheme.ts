@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { actorStateConfig } from '../../../../Game/Interface/IAction';
-import { IActorStateComponent } from '../../../../Game/Interface/IComponent';
+import { actorStateConfig } from '../../../../Common/Interface/IAction';
+import { IActorStateComponent } from '../../../../Common/Interface/IComponent';
 import { createEnumScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 

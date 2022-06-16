@@ -1,18 +1,17 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Blueprint, Class } from 'ue';
 
-import { getProjectPath } from '../../Common/Misc/File';
-import { log } from '../../Common/Misc/Log';
+import { csvRegistry } from '../CsvConfig/CsvRegistry';
+import { ExtendedEntityCsv } from '../CsvConfig/ExtendedEntityCsv';
+import { getProjectPath } from '../Misc/File';
+import { log } from '../Misc/Log';
 import {
     applyDiff,
     createDiff,
     isChildOfClass,
     isObjChildOfClass,
     readJsonObj,
-} from '../../Common/Misc/Util';
-import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
-import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendedEntityCsv';
-import { ITsEntity } from '../Interface';
+} from '../Misc/Util';
 import { baseActions, getActionsByComponentType } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
@@ -155,16 +154,16 @@ export function getBlueprintTypeByClass(classObj: Class): string | undefined {
     return record ? record.Type : undefined;
 }
 
-export function getBlueprintType(entity: ITsEntity): string | undefined {
-    return getBlueprintTypeByClass(entity.GetClass());
+export function getBlueprintType(acotr: Actor): string | undefined {
+    return getBlueprintTypeByClass(acotr.GetClass());
 }
 
 export function getEntityTypeByActor(actor: Actor): TEntityType | undefined {
     return getEntityTypeByClass(actor.GetClass());
 }
 
-export function isRegistedEntity(entity: ITsEntity): boolean {
-    return getEntityTypeByActor(entity) !== undefined;
+export function isRegistedEntity(actor: Actor): boolean {
+    return getEntityTypeByActor(actor) !== undefined;
 }
 
 export function getClassByBluprintType(type: string): Class | undefined {

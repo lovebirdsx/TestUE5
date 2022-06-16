@@ -2,11 +2,11 @@
 
 import { Actor, Character, GameplayStatics, Transform } from 'ue';
 
+import { getClassByBluprintType, getClassByEntityType } from '../../Common/Interface/Entity';
+import { IEntityData } from '../../Common/Interface/IEntity';
 import { isObjChildOfClass, stringify } from '../../Common/Misc/Util';
 import TsEntity from '../Entity/TsEntity';
 import { gameContext } from '../Interface';
-import { getClassByBluprintType, getClassByEntityType } from '../Interface/Entity';
-import { IEntityData } from '../Interface/IEntity';
 
 const characterEntityClass = getClassByEntityType('CharacterEntity');
 

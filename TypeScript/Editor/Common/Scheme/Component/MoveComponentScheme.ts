@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../../../Game/Interface/IComponent';
+import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../../../Common/Interface/IComponent';
 import { createFloatScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 

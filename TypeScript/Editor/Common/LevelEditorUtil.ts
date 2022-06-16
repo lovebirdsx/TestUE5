@@ -9,22 +9,28 @@ import {
     EditorOperations,
     EDrawDebugTrace,
     ETraceTypeQuery,
+    GameplayStatics,
     HitResult,
     KismetSystemLibrary,
     NewArray,
     Rotator,
     Transform,
     Vector,
+    World,
 } from 'ue';
 
+import { toRotation, toTransform, toVector } from '../../Common/Interface/Action';
+import {
+    getClassByBluprintType,
+    getClassByEntityType,
+    isEntityClass,
+    isRegistedEntity,
+} from '../../Common/Interface/Entity';
+import { ITransform } from '../../Common/Interface/IAction';
+import { TComponentType } from '../../Common/Interface/IComponent';
+import { ITsEntityBase } from '../../Common/Interface/IEntity';
 import { error, log } from '../../Common/Misc/Log';
 import { getAssetPath, isValidActor, toUeArray } from '../../Common/Misc/Util';
-import { LevelUtil } from '../../Game/Common/LevelUtil';
-import { ITsEntity } from '../../Game/Interface';
-import { toRotation, toTransform, toVector } from '../../Game/Interface/Action';
-import { getClassByBluprintType, isEntityClass, isRegistedEntity } from '../../Game/Interface/Entity';
-import { ITransform } from '../../Game/Interface/IAction';
-import { TComponentType } from '../../Game/Interface/IComponent';
 import { entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
 import { entityRegistry } from './Scheme/Entity';
@@ -75,33 +81,61 @@ class LevelEditorUtil {
         return EditorOperations.GetEditorEngine().PlayWorld !== undefined;
     }
 
-    public static GetAllEntitiesByEditorWorld(): ITsEntity[] {
+    public static GetAllEntities(world: World): ITsEntityBase[] {
+        // Entity
+        const entities = NewArray(Actor);
+        GameplayStatics.GetAllActorsOfClass(world, getClassByEntityType('Entity'), $ref(entities));
+        const result: ITsEntityBase[] = [];
+        for (let i = 0; i < entities.Num(); i++) {
+            const entity = entities.Get(i);
+            result.push(entity as ITsEntityBase);
+        }
+
+        // Character Entity
+        const characterEntities = NewArray(Actor);
+        GameplayStatics.GetAllActorsOfClass(
+            world,
+            getClassByEntityType('CharacterEntity'),
+            $ref(characterEntities),
+        );
+        for (let i = 0; i < characterEntities.Num(); i++) {
+            const characterEntity = characterEntities.Get(i);
+            result.push(characterEntity as ITsEntityBase);
+        }
+
+        return result;
+    }
+
+    public static GetAllEntitiesByEditorWorld(): ITsEntityBase[] {
         const world = EditorLevelLibrary.GetEditorWorld();
         if (!world) {
             error('No editor world exist');
             return [];
         }
 
-        return LevelUtil.GetAllEntities(world);
+        return this.GetAllEntities(world);
     }
 
-    public static GetEntity(id: number): ITsEntity {
+    public static GetEntity(id: number): ITsEntityBase {
         const entities = this.GetAllEntitiesByEditorWorld();
         return entities.find((entity) => entity.Id === id);
     }
 
-    public static GetEntityComponentData<T>(entity: ITsEntity, componentType: TComponentType): T {
+    public static GetEntityComponentData<T>(
+        entity: ITsEntityBase,
+        componentType: TComponentType,
+    ): T {
         const data = levelDataManager.GetEntityData(entity);
         return data.ComponentsData[componentType] as T;
     }
 
-    public static GetSelectedEntity(): ITsEntity {
+    public static GetSelectedEntity(): ITsEntityBase {
         const actors = EditorLevelLibrary.GetSelectedLevelActors();
 
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
             if (isEntityClass(actor.GetClass()) && isValidActor(actor)) {
-                const entity = actor as ITsEntity;
+                const entity = actor as ITsEntityBase;
                 if (isRegistedEntity(entity)) {
                     return entity;
                 }
@@ -112,7 +146,7 @@ class LevelEditorUtil {
         return undefined;
     }
 
-    public static CheckAndSaveEntityData(entity: ITsEntity): void {
+    public static CheckAndSaveEntityData(entity: ITsEntityBase): void {
         const currentData = entityRegistry.GenData(entity);
         const savedData = levelDataManager.GetEntityData(entity);
         if (JSON.stringify(currentData) !== JSON.stringify(savedData)) {
@@ -127,12 +161,12 @@ class LevelEditorUtil {
         });
     }
 
-    public static SaveEntityData(entity: ITsEntity): void {
+    public static SaveEntityData(entity: ITsEntityBase): void {
         const currentData = entityRegistry.GenData(entity);
         levelDataManager.ModifyEntityData(entity, currentData);
     }
 
-    public static CheckEntity(entity: ITsEntity): number {
+    public static CheckEntity(entity: ITsEntityBase): number {
         const entityData = entityRegistry.GenData(entity);
         const messages: string[] = [];
         if (entityRegistry.Check(entityData, entity, messages) > 0) {
@@ -153,7 +187,7 @@ class LevelEditorUtil {
         log(`检查完毕, 实体数:${entities.length} 错误数:${totalErrorCount}`);
     }
 
-    public static SpawnEntity(templateId: number, iTransform: ITransform): ITsEntity {
+    public static SpawnEntity(templateId: number, iTransform: ITransform): ITsEntityBase {
         const template = entityTemplateManager.GetTemplateById(templateId);
         if (!template) {
             error(`生成Entity失败:无法找到id为[${templateId}]的模板配置`);
@@ -164,7 +198,7 @@ class LevelEditorUtil {
             getClassByBluprintType(template.BlueprintType),
             toVector(iTransform.Pos),
             toRotation(iTransform.Rot),
-        ) as ITsEntity;
+        ) as ITsEntityBase;
 
         return entity;
     }

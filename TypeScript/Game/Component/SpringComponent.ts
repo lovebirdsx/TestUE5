@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { PrimitiveComponent, Rotator, Vector } from 'ue';
 
+import { ISettingSpringDir, ISpringComponent } from '../../Common/Interface/IComponent';
 import { InteractiveComponent } from '../Interface';
-import { ISettingSpringDir, ISpringComponent } from '../Interface/IComponent';
 
 export class SpringComponent extends InteractiveComponent implements ISpringComponent {
     public IsNormalSpring: boolean;

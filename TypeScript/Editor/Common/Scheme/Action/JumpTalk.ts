@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IJumpTalk } from '../../../../Game/Interface/IAction';
+import { IJumpTalk } from '../../../../Common/Interface/IAction';
 import { createIntScheme, createObjectScheme } from '../../Type';
 
 export const jumpIdScheme = createIntScheme();

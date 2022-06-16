@@ -1,8 +1,4 @@
 import {
-    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
-    DEFUALT_VALUE_NAME_TEXT_WIDTH,
-} from '../../../../Game/Interface';
-import {
     calOpTypeConfig,
     compareTypeConfig,
     IActionInfo,
@@ -18,7 +14,11 @@ import {
     TCompare,
     TLogicOpType,
     TVar,
-} from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/IAction';
+import {
+    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
+    DEFUALT_VALUE_NAME_TEXT_WIDTH,
+} from '../../BaseComponent/CommonComponent';
 import {
     createArrayScheme,
     createEnumScheme,

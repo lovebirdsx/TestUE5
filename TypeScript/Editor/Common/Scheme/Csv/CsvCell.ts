@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
+import { csvCellTypeConfig, TCsvCellType } from '../../../../Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../../../Common/CsvConfig/CsvRegistry';
 import { error } from '../../../../Common/Misc/Log';
-import { csvCellTypeConfig, TCsvCellType } from '../../../../Game/Common/CsvConfig/CsvLoader';
-import { ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import {
     booleanScheme,

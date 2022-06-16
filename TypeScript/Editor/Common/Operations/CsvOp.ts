@@ -2,9 +2,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 
+import { ICsv, ICsvField, TCsvRowBase } from '../../../Common/CsvConfig/CsvLoader';
+import { TCsvValueType } from '../../../Common/Interface/IAction';
 import { error, log } from '../../../Common/Misc/Log';
-import { ICsv, ICsvField, TCsvRowBase } from '../../../Game/Common/CsvConfig/CsvLoader';
-import { TCsvValueType } from '../../../Game/Interface/IAction';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';
 
 class EditorCsvOp {

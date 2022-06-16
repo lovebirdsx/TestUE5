@@ -3,8 +3,8 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Common/Interface/IAction';
 import { log } from '../../../../Common/Misc/Log';
-import { IActionInfo, IFlowInfo, IStateInfo } from '../../../../Game/Interface/IAction';
 import { Btn, COLOR_LEVEL2, EditorBox, Fold, Text } from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import { editorFlowOp } from '../../Operations/Flow';

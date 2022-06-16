@@ -1,7 +1,7 @@
+import { getComponentsTypeByEntityType } from '../../../../Common/Interface/Entity';
+import { TComponentType } from '../../../../Common/Interface/IComponent';
+import { TComponentData, TComponentsData, TEntityType } from '../../../../Common/Interface/IEntity';
 import { error, warn } from '../../../../Common/Misc/Log';
-import { getComponentsTypeByEntityType } from '../../../../Game/Interface/Entity';
-import { TComponentType } from '../../../../Game/Interface/IComponent';
-import { TComponentData, TComponentsData, TEntityType } from '../../../../Game/Interface/IEntity';
 import { createBooleanScheme, ObjectScheme } from '../../Type';
 
 export class ComponentScheme<T> extends ObjectScheme<T> {}

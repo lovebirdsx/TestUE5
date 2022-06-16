@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
+import { ITsEntityBase } from '../../Common/Interface/IEntity';
 import { error } from '../../Common/Misc/Log';
-import { ITsEntity } from '../../Game/Interface';
 import LevelEditorUtil from './LevelEditorUtil';
 
 class EntityListCache {
@@ -8,11 +8,11 @@ class EntityListCache {
 
     private Ids: number[];
 
-    private Entities: ITsEntity[];
+    private Entities: ITsEntityBase[];
 
-    private readonly EntityByLabel = new Map<string, ITsEntity>();
+    private readonly EntityByLabel = new Map<string, ITsEntityBase>();
 
-    private readonly EntityById = new Map<number, ITsEntity>();
+    private readonly EntityById = new Map<number, ITsEntityBase>();
 
     public constructor() {
         this.RefreshCache();
@@ -42,15 +42,15 @@ class EntityListCache {
         return this.Ids;
     }
 
-    public GetAllEntities(): ITsEntity[] {
+    public GetAllEntities(): ITsEntityBase[] {
         return this.Entities;
     }
 
-    public GetEntityById(id: number): ITsEntity {
+    public GetEntityById(id: number): ITsEntityBase {
         return this.EntityById.get(id);
     }
 
-    public GetEntityByLable(name: string): ITsEntity {
+    public GetEntityByLable(name: string): ITsEntityBase {
         return this.EntityByLabel.get(name);
     }
 }

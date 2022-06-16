@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
+import { isEntity } from '../../Common/Interface/Entity';
 import { ITsEntity } from '../Interface';
-import { isEntity } from '../Interface/Entity';
 import TsCharacterEntity from './TsCharacterEntity';
 
 class TsAiNpc extends TsCharacterEntity {

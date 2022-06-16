@@ -2,16 +2,16 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
+import { csvRegistry, ECsvName } from '../../Common/CsvConfig/CsvRegistry';
+import { ExtendedEntityCsvLoader } from '../../Common/CsvConfig/ExtendedEntityCsv';
+import { componentConfig } from '../../Common/Interface/Component';
+import { entityConfig, genBlueprintConfig } from '../../Common/Interface/Entity';
+import { globalConfig } from '../../Common/Interface/Global';
+import { GLOBAL_CONFIG_PATH } from '../../Common/Interface/IGlobal';
+import { levelConfigs } from '../../Common/Interface/Level';
 import { getProjectPath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { writeJson } from '../../Common/Misc/Util';
-import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
-import { ExtendedEntityCsvLoader } from '../../Game/Common/CsvConfig/ExtendedEntityCsv';
-import { componentConfig } from '../../Game/Interface/Component';
-import { entityConfig, genBlueprintConfig } from '../../Game/Interface/Entity';
-import { globalConfig } from '../../Game/Interface/Global';
-import { GLOBAL_CONFIG_PATH } from '../../Game/Interface/IGlobal';
-import { levelConfigs } from '../../Game/Interface/Level';
 import { ENTITY_TEMPLATE_DIRTY_RECORD_FILE, entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
 import { msgbox } from './Util';

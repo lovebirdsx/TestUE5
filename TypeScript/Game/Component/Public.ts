@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
+import { getComponentsTypeByEntityType, getEntityTypeByActor } from '../../Common/Interface/Entity';
+import { TComponentType } from '../../Common/Interface/IComponent';
+import { TEntityType } from '../../Common/Interface/IEntity';
 import { InteractiveComponent, ITsEntity, TComponentClass } from '../Interface';
-import { getComponentsTypeByEntityType, getEntityTypeByActor } from '../Interface/Entity';
-import { TComponentType } from '../Interface/IComponent';
-import { TEntityType } from '../Interface/IEntity';
 import { ActorStateComponent } from './ActorStateComponent';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';
 import { CalculateComponent } from './CalculateComponent';

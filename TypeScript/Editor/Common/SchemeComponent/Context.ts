@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import * as React from 'react';
 
-import { ICsv } from '../../../Game/Common/CsvConfig/CsvLoader';
-import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Interface/IAction';
+import { ICsv } from '../../../Common/CsvConfig/CsvLoader';
+import { IFlowInfo, IInvoke, IShowTalk } from '../../../Common/Interface/IAction';
 import { ArrayScheme } from '../Type';
 
 export const flowContext = React.createContext<IFlowInfo>(undefined);

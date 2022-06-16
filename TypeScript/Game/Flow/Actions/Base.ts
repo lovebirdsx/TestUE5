@@ -1,10 +1,10 @@
 /* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
+import { IInvoke, ILog, IShowMessage, IWait } from '../../../Common/Interface/IAction';
 import { createSignal, ISignal, MS_PER_SEC } from '../../../Common/Misc/Async';
 import { error, log, warn } from '../../../Common/Misc/Log';
 import { Entity, gameContext } from '../../Interface';
-import { IInvoke, ILog, IShowMessage, IWait } from '../../Interface/IAction';
 import { Action, actionRegistry } from '../ActionRunner';
 
 export class LogAction extends Action<ILog> {

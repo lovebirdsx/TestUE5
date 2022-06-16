@@ -2,13 +2,13 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
+import { IShowTalk } from '../../../../Common/Interface/IAction';
 import {
     EFlowListAction,
     flowListContext,
     flowListOp,
-} from '../../../../Game/Common/Operations/FlowList';
-import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
-import { IShowTalk } from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Operation/FlowList';
+import { TalkerListOp } from '../../../../Common/Operation/TalkerList';
 import { AssetSelector } from '../../BaseComponent/AssetSelector';
 import { Btn, DEFAULT_EDIT_TEXT_COLOR, EditorBox, List } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';

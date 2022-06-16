@@ -3,9 +3,9 @@ import produce from 'immer';
 import * as React from 'react';
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
-import { ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
-import { TalkerCsvLoader } from '../../Game/Common/CsvConfig/TalkerCsv';
+import { ICsv } from '../../Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../Common/CsvConfig/CsvRegistry';
+import { TalkerCsvLoader } from '../../Common/CsvConfig/TalkerCsv';
 import { CsvView } from '../Common/BaseComponent/CsvView';
 import { editorCsvOp } from '../Common/Operations/CsvOp';
 

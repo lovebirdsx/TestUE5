@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as React from 'react';
 
-import { TVar } from '../../../../Game/Interface/IAction';
+import { TVar } from '../../../../Common/Interface/IAction';
 import { EditorBox } from '../../BaseComponent/CommonComponent';
 import { TColor } from '../../Color';
 import { IProps } from '../../Type';

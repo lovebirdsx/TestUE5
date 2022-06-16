@@ -3,9 +3,9 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { TCsvCellType } from '../../../../Game/Common/CsvConfig/CsvLoader';
-import { getEntityTypeByBlueprintType } from '../../../../Game/Interface/Entity';
-import { TCsvValueType } from '../../../../Game/Interface/IAction';
+import { TCsvCellType } from '../../../../Common/CsvConfig/CsvLoader';
+import { getEntityTypeByBlueprintType } from '../../../../Common/Interface/Entity';
+import { TCsvValueType } from '../../../../Common/Interface/IAction';
 import { EntityTemplateSelector } from '../../BaseComponent/EntityTemplateSelector';
 import { getCsvCellSchemeByType } from '../../Scheme/Csv/CsvCell';
 import { IProps } from '../../Type';

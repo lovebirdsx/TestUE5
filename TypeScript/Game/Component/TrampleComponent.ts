@@ -10,10 +10,10 @@ import {
     Vector,
 } from 'ue';
 
+import { IActionInfo } from '../../Common/Interface/IAction';
+import { ITrampleComponent } from '../../Common/Interface/IComponent';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, InteractiveComponent } from '../Interface';
-import { IActionInfo } from '../Interface/IAction';
-import { ITrampleComponent } from '../Interface/IComponent';
 import { StateComponent } from './StateComponent';
 
 export class TrampleComponent extends InteractiveComponent implements ITrampleComponent {

@@ -7,8 +7,8 @@ import {
     ITriggerActions,
     IVectorInfo,
     TVar,
-} from '../../../Game/Interface/IAction';
-import { IBehaviorFlowComponent } from '../../../Game/Interface/IComponent';
+} from '../../../Common/Interface/IAction';
+import { IBehaviorFlowComponent } from '../../../Common/Interface/IComponent';
 import { varValueScheme } from '../Scheme/Action/Calculate';
 import { spawnChildScheme } from '../Scheme/Action/Entity';
 import { playFlowScheme } from '../Scheme/Action/Flow';

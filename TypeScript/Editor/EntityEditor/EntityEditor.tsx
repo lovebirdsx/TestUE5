@@ -14,13 +14,12 @@ import {
     World,
 } from 'ue';
 
+import { gameConfig } from '../../Common/GameConfig';
+import { isEntityClass, isRegistedEntity } from '../../Common/Interface/Entity';
+import { IEntityData, ITsEntityBase } from '../../Common/Interface/IEntity';
 import { MS_PER_SEC } from '../../Common/Misc/Async';
 import { log, warn } from '../../Common/Misc/Log';
 import { readJsonObj, stringifyEditor } from '../../Common/Misc/Util';
-import { gameConfig } from '../../Game/Common/GameConfig';
-import { ITsEntity } from '../../Game/Interface';
-import { isEntityClass, isRegistedEntity } from '../../Game/Interface/Entity';
-import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { MenuBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';
@@ -51,13 +50,13 @@ import { LevelEditor } from './LevelEditor';
 import { tempEntities } from './TempEntities';
 
 interface IEntityState {
-    Entity: ITsEntity;
+    Entity: ITsEntityBase;
     Data: IEntityData;
 }
 
 interface IEntityEditorState {
     Name: string;
-    Entity: ITsEntity;
+    Entity: ITsEntityBase;
     Histories: IEntityState[];
     StepId: number;
     IsEditorPlaying: boolean;
@@ -80,7 +79,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
 
     private readonly LevelEditor: LevelEditor = new LevelEditor();
 
-    private readonly EntityAddRecrod: Set<ITsEntity> = new Set();
+    private readonly EntityAddRecrod: Set<ITsEntityBase> = new Set();
 
     public constructor(props: unknown) {
         super(props);
@@ -122,7 +121,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
     }
 
-    private GenEntityEditorJsonPath(entity: ITsEntity): string | undefined {
+    private GenEntityEditorJsonPath(entity: ITsEntityBase): string | undefined {
         // WP 类型的entity
         const pkgPath = EditorOperations.GetExternActorSavePath(entity);
         if (pkgPath) {
@@ -135,7 +134,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return MyFileHelper.GetPath(EFileRoot.Save, `${mapContentPath}_Entities/${entity.Id}.json`);
     }
 
-    private LoadEntityEditorData(entity: ITsEntity): IEntityData | undefined {
+    private LoadEntityEditorData(entity: ITsEntityBase): IEntityData | undefined {
         const path = this.GenEntityEditorJsonPath(entity);
         if (!path) {
             return undefined;
@@ -144,17 +143,17 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         return readJsonObj(path);
     }
 
-    private SaveEntityEditorData(entity: ITsEntity, data: IEntityData): void {
+    private SaveEntityEditorData(entity: ITsEntityBase, data: IEntityData): void {
         const entityEditorSavePath = this.GenEntityEditorJsonPath(entity);
         MyFileHelper.Write(entityEditorSavePath, stringifyEditor(data));
     }
 
-    private DeleteEntityEditorData(entity: ITsEntity): void {
+    private DeleteEntityEditorData(entity: ITsEntityBase): void {
         const entityEditorSavePath = this.GenEntityEditorJsonPath(entity);
         MyFileHelper.Remove(entityEditorSavePath);
     }
 
-    private GenEntityState(entity: ITsEntity): IEntityState {
+    private GenEntityState(entity: ITsEntityBase): IEntityState {
         // 此处不能直接使用LevelDataManager中获得的EntityData
         // 因为其可能由produce产生, 从而不能进行修改操作
         const data = deepCopyData(levelDataManager.GetEntityData(entity));
@@ -203,7 +202,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         entity.OnDestroyed.Remove(this.OnEntityDestory);
     };
 
-    private InitForNewlyAddedEntity(entity: ITsEntity): void {
+    private InitForNewlyAddedEntity(entity: ITsEntityBase): void {
         entity.Id = currentLevelEntityIdGenerator.GenOne();
         const entityData = entityTemplateManager.GenEntityData(entity);
         levelDataManager.AddEntityData(entity, entityData);
@@ -279,7 +278,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }, 100);
     };
 
-    private CastToEntity(actor: Actor): ITsEntity | undefined {
+    private CastToEntity(actor: Actor): ITsEntityBase | undefined {
         if (!actor) {
             return undefined;
         }
@@ -288,7 +287,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return undefined;
         }
 
-        const entity = actor as ITsEntity;
+        const entity = actor as ITsEntityBase;
         if (tempEntities.Contains(entity)) {
             return undefined;
         }

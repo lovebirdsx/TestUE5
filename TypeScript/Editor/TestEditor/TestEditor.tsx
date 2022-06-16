@@ -31,7 +31,6 @@ import testConfig from '../UnitTest/Common/TestConfig';
 import { testUtil } from '../UnitTest/Engine/TestUtil';
 import testClass from '../UnitTest/Game/TestClass';
 import testIdAllocator from '../UnitTest/Game/TestIdAllocator';
-import testTickManager from '../UnitTest/Game/TestTickManager';
 import testCsvParser from '../UnitTest/TestCsvParser';
 import testEntityScheme from '../UnitTest/TestEntityScheme';
 import testEvent from '../UnitTest/TestEvent';
@@ -109,7 +108,6 @@ const allTests: ITest[] = [
     { Name: 'testImmer', Fun: testImmer },
     { Name: 'testFile', Fun: testFile },
     { Name: 'testClass', Fun: testClass },
-    { Name: 'testTickManager', Fun: testTickManager },
     { Name: 'testEntityScheme', Fun: testEntityScheme },
     { Name: 'testCsvParser', Fun: testCsvParser },
     { Name: 'testTalkListTool', Fun: testTalkListTool },

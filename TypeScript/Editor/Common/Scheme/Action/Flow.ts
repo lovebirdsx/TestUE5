@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
-import { IPlayFlow } from '../../../../Game/Interface/IAction';
+import { IPlayFlow } from '../../../../Common/Interface/IAction';
+import { flowListOp } from '../../../../Common/Operation/FlowList';
 import { createObjectScheme, intScheme, stringScheme } from '../../Type';
 
 export function createDefaultPlayFlowFor(flowListName: string): IPlayFlow {

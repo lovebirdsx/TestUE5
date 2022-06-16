@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
+import { TextListCsvLoader, TextRow } from '../../Common/CsvConfig/TextListCsv';
 import { log } from '../../Common/Misc/Log';
 import { assertEq, test } from '../../Common/Misc/Test';
-import { TextListCsvLoader, TextRow } from '../../Game/Common/CsvConfig/TextListCsv';
 
 export default function testTextListCsv(): void {
     function testFor(textCount: number): void {

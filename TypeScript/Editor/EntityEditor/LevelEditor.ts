@@ -3,7 +3,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, EditorLevelLibrary } from 'ue';
 
-import { GameConfig } from '../../Game/Common/GameConfig';
+import { GameConfig } from '../../Common/GameConfig';
 import { actorTransactionManager } from './ActorTransactionManager';
 
 export class LevelEditor {

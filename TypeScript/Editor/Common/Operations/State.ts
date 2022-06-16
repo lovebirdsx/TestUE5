@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IActionInfo, IShowTalk, IStateInfo } from '../../../Game/Interface/IAction';
+import { IActionInfo, IShowTalk, IStateInfo } from '../../../Common/Interface/IAction';
 import { actionRegistry } from '../Scheme/Action/Public';
 import { TFixResult } from '../Type';
 

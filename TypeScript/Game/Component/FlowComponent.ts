@@ -1,11 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
+import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../../Common/Interface/IAction';
+import { IFlowComponent } from '../../Common/Interface/IComponent';
 import { error } from '../../Common/Misc/Log';
-import { flowListOp } from '../Common/Operations/FlowList';
+import { flowListOp } from '../../Common/Operation/FlowList';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
-import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../Interface/IAction';
-import { IFlowComponent } from '../Interface/IComponent';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';
 import { StateComponent } from './StateComponent';
 import { TalkComponent } from './TalkComponent';

@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { TActionType } from '../../../../Game/Interface/IAction';
+import { TActionType } from '../../../../Common/Interface/IAction';
 import { ObjectScheme } from '../../Type';
 import { actionRegistry } from './ActionRegistry';
 import {

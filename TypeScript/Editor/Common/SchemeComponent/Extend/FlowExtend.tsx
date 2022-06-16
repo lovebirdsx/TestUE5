@@ -3,14 +3,19 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { GameConfig } from '../../../../Common/GameConfig';
+import { parseFlowInfo, parsePlayFlow } from '../../../../Common/Interface/Action';
+import {
+    IFlowInfo,
+    IInvoke,
+    IPlayFlow,
+    ITriggerActions,
+} from '../../../../Common/Interface/IAction';
+import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Common/Interface/IComponent';
+import { ITsEntityBase } from '../../../../Common/Interface/IEntity';
 import { log } from '../../../../Common/Misc/Log';
-import { GameConfig } from '../../../../Game/Common/GameConfig';
-import { flowOp } from '../../../../Game/Common/Operations/Flow';
-import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
-import { ITsEntity } from '../../../../Game/Interface';
-import { parseFlowInfo, parsePlayFlow } from '../../../../Game/Interface/Action';
-import { IFlowInfo, IInvoke, IPlayFlow, ITriggerActions } from '../../../../Game/Interface/IAction';
-import { IBehaviorFlowComponent, IFlowComponent } from '../../../../Game/Interface/IComponent';
+import { flowOp } from '../../../../Common/Operation/Flow';
+import { flowListOp } from '../../../../Common/Operation/FlowList';
 import {
     Btn,
     COLOR_LEVEL1,
@@ -55,7 +60,7 @@ function renderStateIdForFlow(flowInfo: IFlowInfo, props: IProps<number>): JSX.E
 }
 
 function renderStateIdForInvokeChangeState(
-    entity: ITsEntity,
+    entity: ITsEntityBase,
     invoke: IInvoke,
     props: IProps<number>,
 ): JSX.Element {
@@ -85,7 +90,7 @@ function renderStateIdForInvokeChangeState(
 }
 
 function renderStateIdForInvokeChangeBehaviorState(
-    entity: ITsEntity,
+    entity: ITsEntityBase,
     invoke: IInvoke,
     props: IProps<number>,
 ): JSX.Element {

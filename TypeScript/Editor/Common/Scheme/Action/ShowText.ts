@@ -1,4 +1,4 @@
-import { IShowCenterText } from '../../../../Game/Interface/IAction';
+import { IShowCenterText } from '../../../../Common/Interface/IAction';
 import { createObjectScheme } from '../../Type';
 import { createTextIdScheme } from './ShowTalk';
 

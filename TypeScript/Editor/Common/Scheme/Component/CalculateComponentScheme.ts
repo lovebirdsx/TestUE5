@@ -1,5 +1,5 @@
-import { IActionInfo, IFunction, INumberVar } from '../../../../Game/Interface/IAction';
-import { ICalculateComponent } from '../../../../Game/Interface/IComponent';
+import { IActionInfo, IFunction, INumberVar } from '../../../../Common/Interface/IAction';
+import { ICalculateComponent } from '../../../../Common/Interface/IComponent';
 import { createArrayScheme, createFloatScheme, createObjectScheme } from '../../Type';
 import { functionActionScheme } from '../Action/Action';
 import { functionNameScheme, varNameScheme } from '../Action/Calculate';

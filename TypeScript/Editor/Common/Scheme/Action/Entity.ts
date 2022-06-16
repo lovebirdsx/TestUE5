@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { createDefaultTransform } from '../../../../Game/Interface/Action';
-import { ISpawn, ITransform } from '../../../../Game/Interface/IAction';
-import { entityTypeConfig } from '../../../../Game/Interface/IEntity';
+import { createDefaultTransform } from '../../../../Common/Interface/Action';
+import { ISpawn, ITransform } from '../../../../Common/Interface/IAction';
+import { entityTypeConfig } from '../../../../Common/Interface/IEntity';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import {
     createAssetScheme,

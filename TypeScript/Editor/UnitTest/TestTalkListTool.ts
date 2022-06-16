@@ -1,9 +1,4 @@
 /* eslint-disable spellcheck/spell-checker */
-import { assertEq, test } from '../../Common/Misc/Test';
-import { deepEquals } from '../../Common/Misc/Util';
-import { TalkListCsvFile } from '../../Editor/FlowEditor/TalkListTool';
-import { flowListOp } from '../../Game/Common/Operations/FlowList';
-import { TalkerListOp } from '../../Game/Common/Operations/TalkerList';
 import {
     IActionInfo,
     IFlowListInfo,
@@ -11,7 +6,12 @@ import {
     IShowTalk,
     ITalkItem,
     ITalkOption,
-} from '../../Game/Interface/IAction';
+} from '../../Common/Interface/IAction';
+import { assertEq, test } from '../../Common/Misc/Test';
+import { deepEquals } from '../../Common/Misc/Util';
+import { flowListOp } from '../../Common/Operation/FlowList';
+import { TalkerListOp } from '../../Common/Operation/TalkerList';
+import { TalkListCsvFile } from '../../Editor/FlowEditor/TalkListTool';
 import { editorFlowOp } from '../Common/Operations/Flow';
 
 function flowListEqual(f1: IFlowListInfo, f2: IFlowListInfo): boolean {

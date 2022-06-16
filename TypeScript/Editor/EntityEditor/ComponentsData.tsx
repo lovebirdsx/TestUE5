@@ -3,9 +3,9 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
+import { TComponentType } from '../../Common/Interface/IComponent';
+import { TComponentData, TComponentsData } from '../../Common/Interface/IEntity';
 import { deepEquals } from '../../Common/Misc/Util';
-import { TComponentType } from '../../Game/Interface/IComponent';
-import { TComponentData, TComponentsData } from '../../Game/Interface/IEntity';
 import {
     Btn,
     Check,

@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
+import { isEntity } from '../../Common/Interface/Entity';
 import { TrampleComponent } from '../Component/TrampleComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsTrample extends TsEntity {

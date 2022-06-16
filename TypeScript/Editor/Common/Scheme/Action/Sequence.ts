@@ -5,7 +5,7 @@ import {
     IPlayCustomSequence,
     IPlayMovie,
     IPlaySequenceData,
-} from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/IAction';
 import {
     createAssetScheme,
     createBooleanScheme,

@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { error } from '../../../Common/Misc/Log';
+import { error } from '../Misc/Log';
 import {
     createCsvField,
     CsvLoader,

@@ -1,9 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import { ActorStateComponent } from '../../Component/ActorStateComponent';
-import { EventComponent } from '../../Component/EventComponent';
-import { MoveComponent } from '../../Component/MoveComponent';
-import { SimpleComponent } from '../../Component/SimpleComponent';
 import {
     IChangeActorState,
     IFaceToPos,
@@ -12,7 +8,11 @@ import {
     ISetMoveSpeed,
     ISetPosA,
     ISimpleMove,
-} from '../../Interface/IAction';
+} from '../../../Common/Interface/IAction';
+import { ActorStateComponent } from '../../Component/ActorStateComponent';
+import { EventComponent } from '../../Component/EventComponent';
+import { MoveComponent } from '../../Component/MoveComponent';
+import { SimpleComponent } from '../../Component/SimpleComponent';
 import { Action } from '../ActionRunner';
 
 export class ChangeActorStateAction extends Action<IChangeActorState> {

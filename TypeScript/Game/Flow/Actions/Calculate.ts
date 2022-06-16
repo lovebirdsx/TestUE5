@@ -1,11 +1,11 @@
-import { CalculateComponent } from '../../Component/CalculateComponent';
 import {
     ICallByCondition,
     ICallFunction,
     IDoCalculate,
     ISetNumberVar,
     ISyncVarToActorState,
-} from '../../Interface/IAction';
+} from '../../../Common/Interface/IAction';
+import { CalculateComponent } from '../../Component/CalculateComponent';
 import { Action } from '../ActionRunner';
 
 export class SetNumberVarAction extends Action<ISetNumberVar> {

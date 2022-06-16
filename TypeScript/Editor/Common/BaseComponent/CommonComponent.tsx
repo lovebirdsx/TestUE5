@@ -32,6 +32,9 @@ import {
 import { toUeArray } from '../../../Common/Misc/Util';
 import { formatColor, TColor } from '../Color';
 
+export const DEFUALT_NUMBER_EDIT_TEXT_WIDTH = 40;
+export const DEFUALT_VALUE_NAME_TEXT_WIDTH = 40;
+
 // export { List } from './ListView';
 export const TAB_OFFSET = 20;
 

@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
+import { isEntity } from '../../Common/Interface/Entity';
 import { SphereComponent } from '../Component/SphereComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsSphereActor extends TsEntity {

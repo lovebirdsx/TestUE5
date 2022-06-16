@@ -1,4 +1,4 @@
-import { ISwitcherComponent } from '../../../../Game/Interface/IComponent';
+import { ISwitcherComponent } from '../../../../Common/Interface/IComponent';
 import { createArrayScheme } from '../../Type';
 import { triggerActionScheme } from '../Action/Action';
 import { createComponentScheme } from './ComponentRegistry';

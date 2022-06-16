@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ICsv, ICsvField, TCsvRowBase } from '../../../../Game/Common/CsvConfig/CsvLoader';
+import { ICsv, ICsvField, TCsvRowBase } from '../../../../Common/CsvConfig/CsvLoader';
 
 export class EditorGlobalCsv<T extends TCsvRowBase = TCsvRowBase> implements ICsv {
     public readonly Name: string;

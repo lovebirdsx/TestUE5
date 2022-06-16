@@ -1,3 +1,5 @@
+import { Actor } from 'ue';
+
 import { ITransform } from './IAction';
 import { TComponentType } from './IComponent';
 
@@ -60,6 +62,10 @@ export interface IEntityData {
     BlueprintType: string;
     Transform?: ITransform;
     ComponentsData: TComponentsData;
+}
+
+export interface ITsEntityBase extends Actor {
+    Id: number;
 }
 
 export interface IEntityTemplateConfig {

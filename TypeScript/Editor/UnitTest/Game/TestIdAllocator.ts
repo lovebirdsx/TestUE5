@@ -4,7 +4,7 @@ import {
     GameIdAllocator,
     MAX_GAME_GEN_ID,
     MIN_GAME_GEN_ID,
-} from '../../../Game/Common/Operations/Entity';
+} from '../../../Common/Operation/Entity';
 
 export default function testIdAllocator(): void {
     // 生成id, 释放id

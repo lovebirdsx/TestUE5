@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IInteractiveComponent } from '../../../../Game/Interface/IComponent';
+import { IInteractiveComponent } from '../../../../Common/Interface/IComponent';
 import { createStringScheme, TObjectFields } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 

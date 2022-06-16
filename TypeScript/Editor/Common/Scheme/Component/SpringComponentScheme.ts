@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ISettingSpringDir, ISpringComponent } from '../../../../Game/Interface/IComponent';
+import { ISettingSpringDir, ISpringComponent } from '../../../../Common/Interface/IComponent';
 import {
     createBooleanScheme,
     createIntScheme,

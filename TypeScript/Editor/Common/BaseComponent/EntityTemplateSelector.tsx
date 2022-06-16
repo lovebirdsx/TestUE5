@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { TEntityType } from '../../../Game/Interface/IEntity';
+import { TEntityType } from '../../../Common/Interface/IEntity';
 import { entityTemplateManager } from '../EntityTemplateManager';
 import { openFile } from '../Util';
 import { Btn } from './CommonComponent';

@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
+import { isEntity } from '../../Common/Interface/Entity';
 import { RotatorComponent } from '../Component/RotatorComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsRotator extends TsEntity {

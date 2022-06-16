@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
+import { ECsvName } from '../../Common/CsvConfig/CsvRegistry';
+import { IVectorInfo, TCsvValueType } from '../../Common/Interface/IAction';
 import { error, warn } from '../../Common/Misc/Log';
-import { ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
-import { IVectorInfo, TCsvValueType } from '../../Game/Interface/IAction';
 import { TColor } from './Color';
 
 export type TElementRenderType =

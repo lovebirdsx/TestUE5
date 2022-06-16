@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ICsv, TCsvRowBase } from '../../../../Game/Common/CsvConfig/CsvLoader';
-import { ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
+import { ICsv, TCsvRowBase } from '../../../../Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../../../Common/CsvConfig/CsvRegistry';
 import { EditorGlobalCsv } from './Common';
 import { EditorExtendedEntityCsv } from './ExtendedEntityCsv';
 

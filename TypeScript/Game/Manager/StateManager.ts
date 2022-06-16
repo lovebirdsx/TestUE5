@@ -1,10 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
+import { GameConfig } from '../../Common/GameConfig';
+import { IActionInfo } from '../../Common/Interface/IAction';
 import { log } from '../../Common/Misc/Log';
-import { GameConfig } from '../Common/GameConfig';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
-import { IActionInfo } from '../Interface/IAction';
 import { IManager } from './Interface';
 
 interface ILevelState {

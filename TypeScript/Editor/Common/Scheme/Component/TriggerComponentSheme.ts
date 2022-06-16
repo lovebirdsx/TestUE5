@@ -1,5 +1,5 @@
-import { ITriggerActions } from '../../../../Game/Interface/IAction';
-import { ITriggerComponent } from '../../../../Game/Interface/IComponent';
+import { ITriggerActions } from '../../../../Common/Interface/IAction';
+import { ITriggerComponent } from '../../../../Common/Interface/IComponent';
 import {
     createArrayScheme,
     createBooleanScheme,

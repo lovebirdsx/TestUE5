@@ -1,21 +1,20 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
-import { deepEquals } from '../../../Common/Misc/Util';
-import { ITsEntity } from '../../../Game/Interface';
-import { toTransformInfo } from '../../../Game/Interface/Action';
+import { toTransformInfo } from '../../../Common/Interface/Action';
 import {
     getActionsByEntityType,
     getComponentsTypeByEntityType,
     getEntityTypeByActor,
-} from '../../../Game/Interface/Entity';
-import { TActionType } from '../../../Game/Interface/IAction';
-import { TComponentType } from '../../../Game/Interface/IComponent';
-import { IEntityData, TEntityType } from '../../../Game/Interface/IEntity';
+} from '../../../Common/Interface/Entity';
+import { TActionType } from '../../../Common/Interface/IAction';
+import { TComponentType } from '../../../Common/Interface/IComponent';
+import { IEntityData, ITsEntityBase, TEntityType } from '../../../Common/Interface/IEntity';
+import { deepEquals } from '../../../Common/Misc/Util';
 import { levelDataManager } from '../LevelDataManager';
 import { componentRegistry } from './Component/ComponentRegistry';
 
 class EntityRegistry {
-    public GetEntityType(entity: ITsEntity): TEntityType {
+    public GetEntityType(entity: ITsEntityBase): TEntityType {
         const entityType = getEntityTypeByActor(entity);
         if (!entityType) {
             throw new Error(`No entity type for entity [${entity.ActorLabel}] [${entity.Id}]`);
@@ -23,15 +22,15 @@ class EntityRegistry {
         return entityType;
     }
 
-    public GetActions(entity: ITsEntity): TActionType[] {
+    public GetActions(entity: ITsEntityBase): TActionType[] {
         return getActionsByEntityType(this.GetEntityType(entity));
     }
 
-    public GetComponentTypes(entity: ITsEntity): TComponentType[] {
+    public GetComponentTypes(entity: ITsEntityBase): TComponentType[] {
         return getComponentsTypeByEntityType(this.GetEntityType(entity));
     }
 
-    public Check(data: IEntityData, entity: ITsEntity, messages: string[]): number {
+    public Check(data: IEntityData, entity: ITsEntityBase, messages: string[]): number {
         let errorCount = 0;
         if (data.Id !== entity.Id) {
             messages.push(`Id和Actor的Id不一致`);
@@ -63,7 +62,7 @@ class EntityRegistry {
         return errorCount;
     }
 
-    public GenData(entity: ITsEntity): IEntityData {
+    public GenData(entity: ITsEntityBase): IEntityData {
         const entityData = levelDataManager.CloneEntityData(entity);
         const entityType = getEntityTypeByActor(entity);
         componentRegistry.FixComponentsData(entityType, entityData.ComponentsData);
@@ -80,7 +79,7 @@ class EntityRegistry {
     }
 
     // 判断entity当前的数据和data中的数据是否一致
-    public IsDataModified(entity: ITsEntity, data: IEntityData): boolean {
+    public IsDataModified(entity: ITsEntityBase, data: IEntityData): boolean {
         const oldData = levelDataManager.GetEntityData(entity);
         return !deepEquals(data, oldData);
     }

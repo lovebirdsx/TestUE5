@@ -3,15 +3,15 @@
 import { $ref } from 'puerts';
 import { BuiltinText, Game } from 'ue';
 
+import { csvRegistry } from '../../Common/CsvConfig/CsvRegistry';
+import { GlobalConfigCsv } from '../../Common/CsvConfig/GlobalConfigCsv';
+import { IFlowListInfo, IShowTalk, ITalkItem } from '../../Common/Interface/IAction';
 import { createCancleableDelay, createSignal, delay } from '../../Common/Misc/Async';
 import { error } from '../../Common/Misc/Log';
 import { calUpRotatorByPoints, toUeArray } from '../../Common/Misc/Util';
-import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
-import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
-import { TalkerListOp } from '../Common/Operations/TalkerList';
+import { TalkerListOp } from '../../Common/Operation/TalkerList';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext } from '../Interface';
-import { IFlowListInfo, IShowTalk, ITalkItem } from '../Interface/IAction';
 import TsHud from '../Player/TsHud';
 
 export class TalkComponent extends Component {

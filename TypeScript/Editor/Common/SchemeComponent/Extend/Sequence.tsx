@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { csvRegistry, ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
-import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
-import { IPlayCustomSequence, TCameraBindMode } from '../../../../Game/Interface/IAction';
+import { csvRegistry, ECsvName } from '../../../../Common/CsvConfig/CsvRegistry';
+import { IPlayCustomSequence, TCameraBindMode } from '../../../../Common/Interface/IAction';
+import { TalkerListOp } from '../../../../Common/Operation/TalkerList';
 import { List } from '../../BaseComponent/CommonComponent';
 import { csvOp } from '../../CsvOp';
 import { IProps } from '../../Type';

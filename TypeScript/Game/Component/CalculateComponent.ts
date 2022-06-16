@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable spellcheck/spell-checker */
-import { log } from '../../Common/Misc/Log';
-import { Action, actionRegistry } from '../Flow/ActionRunner';
-import { Component } from '../Interface';
 import {
     ICallByCondition,
     ICallFunction,
@@ -13,8 +10,11 @@ import {
     INumberVar,
     ISyncVarToActorState,
     TVar,
-} from '../Interface/IAction';
-import { ICalculateComponent } from '../Interface/IComponent';
+} from '../../Common/Interface/IAction';
+import { ICalculateComponent } from '../../Common/Interface/IComponent';
+import { log } from '../../Common/Misc/Log';
+import { Action, actionRegistry } from '../Flow/ActionRunner';
+import { Component } from '../Interface';
 import { ActorStateComponent } from './ActorStateComponent';
 import { StateComponent } from './StateComponent';
 

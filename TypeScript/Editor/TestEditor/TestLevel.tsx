@@ -4,8 +4,8 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, GameplayStatics, NewArray, TArray } from 'ue';
 
+import { getClassByEntityType } from '../../Common/Interface/Entity';
 import { log, warn } from '../../Common/Misc/Log';
-import { getClassByEntityType } from '../../Game/Interface/Entity';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 
 export class TestLevel extends React.Component {

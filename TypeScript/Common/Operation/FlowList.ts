@@ -2,14 +2,14 @@
 import { $ref } from 'puerts';
 import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
-import { getDir, getFileName, getFileNameWithOutExt } from '../../../Common/Misc/File';
-import { error, log, warn } from '../../../Common/Misc/Log';
-import { calHash, toTsArray } from '../../../Common/Misc/Util';
-import { IFlowInfo, IFlowListInfo, ITextConfig } from '../../Interface/IAction';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
-import { Context, createEditorContext } from '../EditorContext';
 import { GameConfig } from '../GameConfig';
+import { IFlowInfo, IFlowListInfo, ITextConfig } from '../Interface/IAction';
+import { getDir, getFileName, getFileNameWithOutExt } from '../Misc/File';
+import { error, log, warn } from '../Misc/Log';
+import { calHash, toTsArray } from '../Misc/Util';
+import { Context, createEditorContext } from './EditorContext';
 
 export enum EFlowListAction {
     GenText,

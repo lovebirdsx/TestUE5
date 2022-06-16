@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IVectorInfo } from '../../../../Game/Interface/IAction';
-import { IGrabComponent } from '../../../../Game/Interface/IComponent';
+import { IVectorInfo } from '../../../../Common/Interface/IAction';
+import { IGrabComponent } from '../../../../Common/Interface/IComponent';
 import { createIntScheme, createVectorScheme } from '../../Type';
 import { createComponentScheme } from './ComponentRegistry';
 

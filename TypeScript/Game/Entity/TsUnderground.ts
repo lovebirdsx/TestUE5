@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
+import { isEntity } from '../../Common/Interface/Entity';
 import { UndergroundComponent } from '../Component/UndergroundComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsUnderground extends TsEntity {

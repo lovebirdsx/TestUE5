@@ -2,11 +2,8 @@
 import produce from 'immer';
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { getFileNameWithOutExt } from '../../../Common/Misc/File';
-import { error, log, warn } from '../../../Common/Misc/Log';
-import { FlowListCsvLoader } from '../../../Game/Common/CsvConfig/FlowListCsv';
-import { TextListCsvLoader, TextRow } from '../../../Game/Common/CsvConfig/TextListCsv';
-import { flowListOp } from '../../../Game/Common/Operations/FlowList';
+import { FlowListCsvLoader } from '../../../Common/CsvConfig/FlowListCsv';
+import { TextListCsvLoader, TextRow } from '../../../Common/CsvConfig/TextListCsv';
 import {
     IActionInfo,
     IFlowListInfo,
@@ -14,7 +11,10 @@ import {
     IShowCenterText,
     IShowOption,
     IShowTalk,
-} from '../../../Game/Interface/IAction';
+} from '../../../Common/Interface/IAction';
+import { getFileNameWithOutExt } from '../../../Common/Misc/File';
+import { error, log, warn } from '../../../Common/Misc/Log';
+import { flowListOp } from '../../../Common/Operation/FlowList';
 import { mergeEditorToConfig } from '../Util';
 import { editorFlowOp } from './Flow';
 import { stateOp } from './State';

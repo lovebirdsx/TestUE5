@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { warn } from '../../../../Common/Misc/Log';
-import {
-    EFlowListAction,
-    flowListContext,
-    flowListOp,
-} from '../../../../Game/Common/Operations/FlowList';
-import { TalkerListOp } from '../../../../Game/Common/Operations/TalkerList';
 import {
     IActionInfo,
     IJumpTalk,
@@ -14,7 +7,14 @@ import {
     IShowTalk,
     ITalkItem,
     ITalkOption,
-} from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/IAction';
+import { warn } from '../../../../Common/Misc/Log';
+import {
+    EFlowListAction,
+    flowListContext,
+    flowListOp,
+} from '../../../../Common/Operation/FlowList';
+import { TalkerListOp } from '../../../../Common/Operation/TalkerList';
 import { globalContexts } from '../../GlobalContext';
 import {
     createArrayScheme,

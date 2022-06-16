@@ -8,7 +8,7 @@ import {
     ISetPosA,
     ISimpleMove,
     IVectorInfo,
-} from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/IAction';
 import {
     createFloatScheme,
     createIntScheme,

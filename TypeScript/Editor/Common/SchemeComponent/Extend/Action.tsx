@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { IActionInfo } from '../../../../Game/Interface/IAction';
+import { IActionInfo } from '../../../../Common/Interface/IAction';
 import { TAB_OFFSET } from '../../BaseComponent/CommonComponent';
 import * as ContextBtn from '../../BaseComponent/ContextBtn';
 import { ActionScheme } from '../../Scheme/Action/Action';

@@ -4,9 +4,6 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
-import { MS_PER_SEC } from '../../../../Common/Misc/Async';
-import { loadClass } from '../../../../Common/Misc/Util';
-import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
 import {
     alignPosA,
     defalutPosA,
@@ -14,9 +11,16 @@ import {
     toPosA,
     toVector,
     transformToPosA,
-} from '../../../../Game/Interface/Action';
-import { IPosA, IVectorInfo } from '../../../../Game/Interface/IAction';
-import { Btn, COLOR_LEVEL1, EditorBox } from '../../BaseComponent/CommonComponent';
+} from '../../../../Common/Interface/Action';
+import { IPosA, IVectorInfo } from '../../../../Common/Interface/IAction';
+import { MS_PER_SEC } from '../../../../Common/Misc/Async';
+import { loadClass } from '../../../../Common/Misc/Util';
+import {
+    Btn,
+    COLOR_LEVEL1,
+    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
+    EditorBox,
+} from '../../BaseComponent/CommonComponent';
 import { ContextBtn } from '../../BaseComponent/ContextBtn';
 import LevelEditorUtil from '../../LevelEditorUtil';
 import { IProps } from '../../Type';

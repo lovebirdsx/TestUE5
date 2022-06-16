@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { error, log, warn } from '../../../Common/Misc/Log';
+import { error, log, warn } from '../Misc/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsv, CustomSeqCsvLoader } from './CustomSeqCsv';
 import { ExtendedEntityCsv, ExtendedEntityCsvLoader } from './ExtendedEntityCsv';

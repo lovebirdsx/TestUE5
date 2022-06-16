@@ -3,7 +3,7 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Vector } from 'ue';
 
-import { IVectorInfo } from '../../../../Game/Interface/IAction';
+import { IVectorInfo } from '../../../../Common/Interface/IAction';
 import { EditorBox } from '../../BaseComponent/CommonComponent';
 import { IProps } from '../../Type';
 

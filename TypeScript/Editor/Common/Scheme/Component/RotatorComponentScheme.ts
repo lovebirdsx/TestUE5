@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IVectorInfo } from '../../../../Game/Interface/IAction';
-import { IEventRotator, IRotatorComponent } from '../../../../Game/Interface/IComponent';
+import { IVectorInfo } from '../../../../Common/Interface/IAction';
+import { IEventRotator, IRotatorComponent } from '../../../../Common/Interface/IComponent';
 import {
     createArrayScheme,
     createBooleanScheme,

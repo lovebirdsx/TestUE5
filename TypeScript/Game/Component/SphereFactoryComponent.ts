@@ -1,11 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { toTransformInfo } from '../../Common/Interface/Action';
+import { IInteract, ISpawn, IVectorInfo } from '../../Common/Interface/IAction';
+import { ISphereFactoryComponent } from '../../Common/Interface/IComponent';
 import { createSignal, ISignal } from '../../Common/Misc/Async';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
-import { toTransformInfo } from '../Interface/Action';
-import { IInteract, ISpawn, IVectorInfo } from '../Interface/IAction';
-import { ISphereFactoryComponent } from '../Interface/IComponent';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { EventComponent } from './EventComponent';
 

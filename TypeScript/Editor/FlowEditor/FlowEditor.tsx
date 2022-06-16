@@ -5,9 +5,9 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
+import { IFlowListInfo } from '../../Common/Interface/IAction';
 import { log } from '../../Common/Misc/Log';
-import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
-import { IFlowListInfo } from '../../Game/Interface/IAction';
+import { EFlowListAction, flowListContext } from '../../Common/Operation/FlowList';
 import { Btn, Check, ErrorText, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
 import { ContextBtn } from '../Common/BaseComponent/ContextBtn';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';

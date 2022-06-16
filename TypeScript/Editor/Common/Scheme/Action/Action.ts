@@ -5,7 +5,7 @@ import {
     ILog,
     IShowTalk,
     TActionType,
-} from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/IAction';
 import { Scheme, TElementRenderType } from '../../Type';
 
 export type TActionQueryType = 'custom' | 'entity';

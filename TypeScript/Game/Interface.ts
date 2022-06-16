@@ -1,10 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
+import { IActionInfo, IInteract, TActionType } from '../Common/Interface/IAction';
+import { IInteractiveComponent } from '../Common/Interface/IComponent';
+import { IEntityData, TComponentsData } from '../Common/Interface/IEntity';
 import { Event, parse } from '../Common/Misc/Util';
-import { IActionInfo, IInteract, TActionType } from './Interface/IAction';
-import { IInteractiveComponent } from './Interface/IComponent';
-import { IEntityData, TComponentsData } from './Interface/IEntity';
 import { TweenManager } from './Manager/TweenManager';
 
 export function parseComponentsData(json: string): TComponentsData {
@@ -316,6 +316,3 @@ export class InteractiveComponent extends Component implements IInteractiveCompo
         return this.Icon ? this.Icon : this.DefalutIcon;
     }
 }
-
-export const DEFUALT_NUMBER_EDIT_TEXT_WIDTH = 40;
-export const DEFUALT_VALUE_NAME_TEXT_WIDTH = 40;

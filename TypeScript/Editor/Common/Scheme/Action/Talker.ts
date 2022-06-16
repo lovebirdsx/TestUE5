@@ -1,4 +1,4 @@
-import { ISetHeadIconVisible } from '../../../../Game/Interface/IAction';
+import { ISetHeadIconVisible } from '../../../../Common/Interface/IAction';
 import { createAssetScheme, createBooleanScheme, createObjectScheme } from '../../Type';
 import { talkerIdScheme } from './ShowTalk';
 

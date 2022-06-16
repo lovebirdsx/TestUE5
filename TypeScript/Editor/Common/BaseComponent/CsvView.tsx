@@ -4,10 +4,10 @@ import produce from 'immer';
 import * as React from 'react';
 import { GridPanel, GridSlot, HorizontalBox } from 'react-umg';
 
+import { ICsv, ICsvField, TCsvRowBase } from '../../../Common/CsvConfig/CsvLoader';
+import { ECsvName } from '../../../Common/CsvConfig/CsvRegistry';
+import { TCsvValueType } from '../../../Common/Interface/IAction';
 import { error, log } from '../../../Common/Misc/Log';
-import { ICsv, ICsvField, TCsvRowBase } from '../../../Game/Common/CsvConfig/CsvLoader';
-import { ECsvName } from '../../../Game/Common/CsvConfig/CsvRegistry';
-import { TCsvValueType } from '../../../Game/Interface/IAction';
 import { TColor } from '../Color';
 import { editorCsvOp } from '../Operations/CsvOp';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';

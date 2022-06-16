@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Blueprint, Character, EditorOperations, KismetSystemLibrary } from 'ue';
 
-import { getProjectPath } from '../../../Common/Misc/File';
-import { writeJson } from '../../../Common/Misc/Util';
-import { globalConfig } from '../../Interface/Global';
+import { globalConfig } from '../Interface/Global';
+import { getProjectPath } from '../Misc/File';
+import { writeJson } from '../Misc/Util';
 import { createCsvField, CsvLoader, GlobalCsv, ICsvField, TCsvRowBase } from './CsvLoader';
 
 export interface IExtendedEntityRow extends TCsvRowBase {

@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary } from 'ue';
 
-import { LevelUtil } from '../../../../Game/Common/LevelUtil';
-import { IActionInfo, IInteract, IInvoke } from '../../../../Game/Interface/IAction';
+import { IActionInfo, IInteract, IInvoke } from '../../../../Common/Interface/IAction';
+import LevelEditorUtil from '../../LevelEditorUtil';
 import { createIntScheme, createObjectScheme, createStringScheme } from '../../Type';
 import { createActionScheme } from './Action';
 import { actionRegistry } from './ActionRegistry';
@@ -15,7 +15,7 @@ export const entityIdScheme = createIntScheme({
         // 本来Game是不可以访问Editor模块的代码的
         // 但是此处为了确保EntityId的合法, 必须要这样处理
         const world = EditorLevelLibrary.GetEditorWorld();
-        const entities = LevelUtil.GetAllEntities(world);
+        const entities = LevelEditorUtil.GetAllEntities(world);
         return entities.length > 0 ? entities[0].Id : 0;
     },
     ShowName: true,

@@ -6,8 +6,8 @@ import { HorizontalBox, VerticalBox } from 'react-umg';
 import {
     getComponentsTypeByEntityType,
     getEntityTypeByBlueprintType,
-} from '../../../../Game/Interface/Entity';
-import { IEntityTemplate, TComponentsData } from '../../../../Game/Interface/IEntity';
+} from '../../../../Common/Interface/Entity';
+import { IEntityTemplate, TComponentsData } from '../../../../Common/Interface/IEntity';
 import { ComponentsData } from '../../../EntityEditor/ComponentsData';
 import { Btn, Fold, TAB_OFFSET, Text } from '../../BaseComponent/CommonComponent';
 import { FilterableList } from '../../BaseComponent/FilterableList';

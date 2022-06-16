@@ -1,10 +1,10 @@
+import { ITsEntityBase } from '../../Common/Interface/IEntity';
 import { error } from '../../Common/Misc/Log';
-import { ITsEntity } from '../../Game/Interface';
 
 class TempEntities {
-    private readonly Entities: Set<ITsEntity> = new Set();
+    private readonly Entities: Set<ITsEntityBase> = new Set();
 
-    public Add(entity: ITsEntity): void {
+    public Add(entity: ITsEntityBase): void {
         if (this.Entities.has(entity)) {
             error(`Add duplicate temp entity [${entity.GetName()}]`);
             return;
@@ -12,7 +12,7 @@ class TempEntities {
         this.Entities.add(entity);
     }
 
-    public Remove(entity: ITsEntity): void {
+    public Remove(entity: ITsEntityBase): void {
         if (!this.Entities.has(entity)) {
             error(`Remove no exist temp entity [${entity.GetName()}]`);
             return;
@@ -20,7 +20,7 @@ class TempEntities {
         this.Entities.delete(entity);
     }
 
-    public Contains(entity: ITsEntity): boolean {
+    public Contains(entity: ITsEntityBase): boolean {
         return this.Entities.has(entity);
     }
 }

@@ -5,9 +5,6 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
-import { MS_PER_SEC } from '../../../../Common/Misc/Async';
-import { deepEquals } from '../../../../Common/Misc/Util';
-import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
 import {
     alignVector,
     defalutRot,
@@ -17,12 +14,16 @@ import {
     toTransformInfo,
     toVector,
     toVectorInfo,
-} from '../../../../Game/Interface/Action';
-import { ISpawn, IVectorInfo } from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/Action';
+import { ISpawn, IVectorInfo } from '../../../../Common/Interface/IAction';
+import { ITsEntityBase } from '../../../../Common/Interface/IEntity';
+import { MS_PER_SEC } from '../../../../Common/Misc/Async';
+import { deepEquals } from '../../../../Common/Misc/Util';
 import { tempEntities } from '../../../EntityEditor/TempEntities';
 import {
     Btn,
     COLOR_LEVEL1,
+    DEFUALT_NUMBER_EDIT_TEXT_WIDTH,
     EditorBox,
     Fold,
     TAB_OFFSET,
@@ -33,7 +34,7 @@ import LevelEditorUtil from '../../LevelEditorUtil';
 import { IProps } from '../../Type';
 
 interface IPointState {
-    TipEntity: ITsEntity;
+    TipEntity: ITsEntityBase;
     IsFolded: boolean;
 }
 

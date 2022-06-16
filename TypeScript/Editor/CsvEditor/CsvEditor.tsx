@@ -12,9 +12,9 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
+import { ICsv } from '../../Common/CsvConfig/CsvLoader';
+import { csvRegistry, ECsvName } from '../../Common/CsvConfig/CsvRegistry';
 import { log } from '../../Common/Misc/Log';
-import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
-import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import {
     Btn,
     DEFAULT_TEXT_COLOR,

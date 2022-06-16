@@ -2,14 +2,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary, EditorOperations, EFileRoot, MyFileHelper, World } from 'ue';
 
+import { compressEntityData, decompressEntityData } from '../../Common/Interface/Entity';
+import { IEntityData, ITsEntityBase } from '../../Common/Interface/IEntity';
+import { ILevelData } from '../../Common/Interface/ILevel';
+import { getLevelDataPath } from '../../Common/Interface/Level';
 import { getDir, getSavePath, listFiles } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { deepEquals, readJsonObj, writeJson } from '../../Common/Misc/Util';
-import { ITsEntity } from '../../Game/Interface';
-import { compressEntityData, decompressEntityData } from '../../Game/Interface/Entity';
-import { IEntityData } from '../../Game/Interface/IEntity';
-import { ILevelData } from '../../Game/Interface/ILevel';
-import { getLevelDataPath } from '../../Game/Interface/Level';
 import { entityTemplateManager } from './EntityTemplateManager';
 import { deepCopyData, getContentPackageName, openFile } from './Util';
 
@@ -80,7 +79,7 @@ export class LevelDataManager {
         return result;
     }
 
-    public GetEntityJsonPath(entity: ITsEntity): string {
+    public GetEntityJsonPath(entity: ITsEntityBase): string {
         const externActorPath = EditorOperations.GetExternActorSavePath(entity);
         if (externActorPath) {
             const pathBaseOnContent = externActorPath.substring(6);
@@ -101,12 +100,12 @@ export class LevelDataManager {
         return this.EntityRecordMap.has(id);
     }
 
-    public TryGetEntityData(entity: ITsEntity): IEntityData | undefined {
+    public TryGetEntityData(entity: ITsEntityBase): IEntityData | undefined {
         const record = this.EntityRecordMap.get(entity.Id);
         return record ? this.DecompressEntityData(record.EntityData) : undefined;
     }
 
-    public GetEntityData(entity: ITsEntity): IEntityData {
+    public GetEntityData(entity: ITsEntityBase): IEntityData {
         const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
             throw new Error(`Get error: No entity data for id [${entity.Id}]`);
@@ -114,7 +113,7 @@ export class LevelDataManager {
         return this.DecompressEntityData(record.EntityData);
     }
 
-    public CloneEntityData(entity: ITsEntity): IEntityData {
+    public CloneEntityData(entity: ITsEntityBase): IEntityData {
         const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
             throw new Error(`Clone error: No entity data for id [${entity.Id}]`);
@@ -122,7 +121,7 @@ export class LevelDataManager {
         return this.DecompressEntityData(deepCopyData(record.EntityData));
     }
 
-    public AddEntityData(entity: ITsEntity, data: IEntityData): void {
+    public AddEntityData(entity: ITsEntityBase, data: IEntityData): void {
         const oldRecord = this.EntityRecordMap.get(entity.Id);
         if (oldRecord) {
             throw new Error(
@@ -159,7 +158,7 @@ export class LevelDataManager {
         return data;
     }
 
-    public ModifyEntityData(entity: ITsEntity, data: IEntityData): void {
+    public ModifyEntityData(entity: ITsEntityBase, data: IEntityData): void {
         const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
             throw new Error(
@@ -183,7 +182,7 @@ export class LevelDataManager {
         this.MarkDrity();
     }
 
-    public DelEntityData(entity: ITsEntity): void {
+    public DelEntityData(entity: ITsEntityBase): void {
         const record = this.EntityRecordMap.get(entity.Id);
         if (!record) {
             throw new Error(`Remove entity data while id [${entity.Id}] not found`);

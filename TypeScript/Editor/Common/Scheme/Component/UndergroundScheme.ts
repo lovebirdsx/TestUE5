@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { IStateInfo, IUndergroundComponent } from '../../../../Game/Interface/IComponent';
+import { IStateInfo, IUndergroundComponent } from '../../../../Common/Interface/IComponent';
 import {
     createArrayScheme,
     createBooleanScheme,

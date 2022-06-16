@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorOperations } from 'ue';
 
+import { gameConfig } from '../Common/GameConfig';
 import { isEditor } from '../Common/Misc/Util';
-import { gameConfig } from './Common/GameConfig';
-import { entityIdAllocator } from './Common/Operations/Entity';
+import { entityIdAllocator } from '../Common/Operation/Entity';
 import { StateComponent } from './Component/StateComponent';
 import { gameContext, IGameController, ITsEntity } from './Interface';
 

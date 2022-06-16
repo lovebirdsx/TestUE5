@@ -3,10 +3,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Transform } from 'ue';
 
+import { IEntityData } from '../../Common/Interface/IEntity';
 import { error, log } from '../../Common/Misc/Log';
 import { Event } from '../../Common/Misc/Util';
 import { gameContext, IEntityMananger, ITsEntity, TDestroyType, TSpawnType } from '../Interface';
-import { IEntityData } from '../Interface/IEntity';
 import { entitySerializer } from '../Serialize/EntitySerializer';
 import { IManager } from './Interface';
 

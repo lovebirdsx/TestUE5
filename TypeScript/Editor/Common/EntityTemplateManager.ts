@@ -1,6 +1,23 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
+import { GameConfig } from '../../Common/GameConfig';
+import { toTransformInfo } from '../../Common/Interface/Action';
+import {
+    getBlueprintType,
+    getEntityTypeByActor,
+    getEntityTypeByBlueprintType,
+    isBlueprintTypeTheSameEntity,
+    loadEntityTemplateConfig,
+} from '../../Common/Interface/Entity';
+import { globalConfig } from '../../Common/Interface/Global';
+import {
+    IEntityData,
+    IEntityTemplate,
+    IEntityTemplateConfig,
+    ITsEntityBase,
+    TEntityType,
+} from '../../Common/Interface/IEntity';
 import {
     getFileNameWithOutExt,
     getProjectPath,
@@ -9,23 +26,6 @@ import {
 } from '../../Common/Misc/File';
 import { warn } from '../../Common/Misc/Log';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
-import { GameConfig } from '../../Game/Common/GameConfig';
-import { ITsEntity } from '../../Game/Interface';
-import { toTransformInfo } from '../../Game/Interface/Action';
-import {
-    getBlueprintType,
-    getEntityTypeByActor,
-    getEntityTypeByBlueprintType,
-    isBlueprintTypeTheSameEntity,
-    loadEntityTemplateConfig,
-} from '../../Game/Interface/Entity';
-import { globalConfig } from '../../Game/Interface/Global';
-import {
-    IEntityData,
-    IEntityTemplate,
-    IEntityTemplateConfig,
-    TEntityType,
-} from '../../Game/Interface/IEntity';
 import { componentRegistry } from './Scheme/Component/ComponentRegistry';
 import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
 
@@ -211,7 +211,7 @@ export class EntityTemplateManager {
         return this.GetIdByName(this.Names[0]);
     }
 
-    public GenEntityData(entity: ITsEntity): IEntityData {
+    public GenEntityData(entity: ITsEntityBase): IEntityData {
         const entityType = getEntityTypeByActor(entity);
         const tid = this.GetDefaultIdByEntityType(entityType);
 

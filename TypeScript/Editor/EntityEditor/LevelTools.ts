@@ -1,13 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
+import { GameConfig } from '../../Common/GameConfig';
+import { IEntityData, IEntityTemplate } from '../../Common/Interface/IEntity';
+import { ILevelData } from '../../Common/Interface/ILevel';
+import { levelConfigs } from '../../Common/Interface/Level';
 import { listFiles } from '../../Common/Misc/File';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
-import { GameConfig } from '../../Game/Common/GameConfig';
-import { flowListOp } from '../../Game/Common/Operations/FlowList';
-import { IEntityData, IEntityTemplate } from '../../Game/Interface/IEntity';
-import { ILevelData } from '../../Game/Interface/ILevel';
-import { levelConfigs } from '../../Game/Interface/Level';
+import { flowListOp } from '../../Common/Operation/FlowList';
 
 function getAllEntityDataPathForPartitionLevel(contentPath: string): string[] {
     const actorsDir = MyFileHelper.GetPath(EFileRoot.Content, `__ExternalActors__/${contentPath}`);

@@ -1,11 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Actor, Class } from 'ue';
-
-import { isChildOfClass, isObjChildOfClass } from '../../Common/Misc/Util';
+import { TComponentsData } from '../../Common/Interface/IEntity';
 import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity } from '../Interface';
-import { getClassByEntityType, getEntityTypeByClass } from '../Interface/Entity';
-import { TComponentsData } from '../Interface/IEntity';
 
 function getComponentsData(entity: ITsEntity, isPlayer: boolean): TComponentsData {
     if (!isPlayer) {

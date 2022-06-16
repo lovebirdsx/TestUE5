@@ -3,8 +3,6 @@
 
 import { MyFileHelper } from 'ue';
 
-import { flowListOp } from '../../Game/Common/Operations/FlowList';
-import { TalkerListOp } from '../../Game/Common/Operations/TalkerList';
 import {
     IActionInfo,
     IFlowInfo,
@@ -16,7 +14,9 @@ import {
     ITalkItem,
     ITalkOption,
     TActionType,
-} from '../../Game/Interface/IAction';
+} from '../../Common/Interface/IAction';
+import { flowListOp } from '../../Common/Operation/FlowList';
+import { TalkerListOp } from '../../Common/Operation/TalkerList';
 import { editorFlowOp } from '../Common/Operations/Flow';
 
 type TCsvTalkType = '中心文本' | '对话' | '对话选项' | '独立选项';

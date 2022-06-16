@@ -6,7 +6,7 @@ import {
     IChangeRandomState,
     IChangeState,
     ISetBehaviorPaused,
-} from '../../../../Game/Interface/IAction';
+} from '../../../../Common/Interface/IAction';
 import {
     createArrayScheme,
     createBooleanScheme,

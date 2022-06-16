@@ -3,7 +3,7 @@ import {
     ICylinder,
     IRefreshGroup,
     IRefreshSingleComponent,
-} from '../../../../Game/Interface/IComponent';
+} from '../../../../Common/Interface/IComponent';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import {
     createArrayScheme,

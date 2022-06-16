@@ -1,15 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
-import { FlowComponent } from '../../Component/FlowComponent';
-import { TalkComponent } from '../../Component/TalkComponent';
 import {
     IChangeBehaviorState,
     IChangeState,
     IJumpTalk,
     ISetBehaviorPaused,
     IShowTalk,
-} from '../../Interface/IAction';
+} from '../../../Common/Interface/IAction';
+import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
+import { FlowComponent } from '../../Component/FlowComponent';
+import { TalkComponent } from '../../Component/TalkComponent';
 import { Action } from '../ActionRunner';
 
 export class ChangeStateAction extends Action<IChangeState> {

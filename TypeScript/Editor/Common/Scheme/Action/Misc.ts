@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Game/Interface/IAction';
+import { ILog, IShowMessage, IWait, logLeveConfig } from '../../../../Common/Interface/IAction';
 import {
     createEnumScheme,
     createFloatScheme,

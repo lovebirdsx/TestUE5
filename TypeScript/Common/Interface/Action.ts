@@ -3,7 +3,7 @@
 /* eslint-disable no-param-reassign */
 import { Quat, Rotator, Transform, Vector } from 'ue';
 
-import { alignNumber } from '../../Common/Misc/Util';
+import { alignNumber } from '../Misc/Util';
 import { IFlowInfo, IPlayFlow, IPosA, ITransform, IVectorInfo } from './IAction';
 
 export const defaultVec: IVectorInfo = { X: 0, Y: 0, Z: 0 };

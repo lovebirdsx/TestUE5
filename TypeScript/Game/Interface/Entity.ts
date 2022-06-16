@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Blueprint, Class } from 'ue';
 
-import { getProjectPath } from '../../Common/File';
-import { log } from '../../Common/Log';
-import { applyDiff, createDiff, readJsonObj } from '../../Common/Util';
+import { getProjectPath } from '../../Common/Misc/File';
+import { log } from '../../Common/Misc/Log';
+import { applyDiff, createDiff, readJsonObj } from '../../Common/Misc/Util';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendedEntityCsv';
 import { ITsEntity } from '../Interface';

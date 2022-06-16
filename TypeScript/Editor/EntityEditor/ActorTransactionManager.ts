@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Blueprint, EditorOperations, ETransactionStateEventTypeBP, Guid } from 'ue';
 
-import { Event } from '../../Common/Util';
+import { Event } from '../../Common/Misc/Util';
 
 type TCommandType = 'addActor' | 'deleteActor' | 'moveActor';
 

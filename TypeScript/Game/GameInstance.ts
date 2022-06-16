@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { initCommon } from '../Common/Init';
-import { log } from '../Common/Log';
+import { initCommon } from '../Common/Misc/Init';
+import { log } from '../Common/Misc/Log';
 import { initFlow } from './Flow/Public';
 import { GameController } from './GameController';
 import { gameContext } from './Interface';

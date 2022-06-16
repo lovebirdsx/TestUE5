@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Actor } from 'ue';
 
-import { delay } from '../../Common/Async';
-import { log } from '../../Common/Log';
+import { delay } from '../../Common/Misc/Async';
+import { log } from '../../Common/Misc/Log';
 
 class TsTestWait extends Actor {
     public ReceiveBeginPlay(): void {

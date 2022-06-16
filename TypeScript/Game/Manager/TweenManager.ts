@@ -2,8 +2,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Rotator, Vector } from 'ue';
 
-import { createSignal } from '../../Common/Async';
-import { clampAnge } from '../../Common/Util';
+import { createSignal } from '../../Common/Misc/Async';
+import { clampAnge } from '../../Common/Misc/Util';
 
 type TEvaluate<T> = (from: T, to: T, time: number) => T;
 type TCallBack<T> = (value: T) => void;

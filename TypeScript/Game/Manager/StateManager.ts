@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { GameConfig } from '../Common/GameConfig';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
 import { IActionInfo } from '../Interface/IAction';

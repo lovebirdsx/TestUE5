@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { listFiles } from '../../Common/File';
-import { readJsonObj, writeJson } from '../../Common/Util';
+import { listFiles } from '../../Common/Misc/File';
+import { readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { GameConfig } from '../../Game/Common/GameConfig';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
 import { IEntityData, IEntityTemplate } from '../../Game/Interface/IEntity';

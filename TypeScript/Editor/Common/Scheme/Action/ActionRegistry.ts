@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { error, log } from '../../../../Common/Log';
+import { error, log } from '../../../../Common/Misc/Log';
 import { IActionInfo, TActionType } from '../../../../Game/Interface/IAction';
 import { ObjectScheme, TFixResult } from '../../Type';
 

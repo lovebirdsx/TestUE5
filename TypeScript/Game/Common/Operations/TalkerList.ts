@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { log } from '../../../Common/Log';
+import { log } from '../../../Common/Misc/Log';
 import { ITalkerRow, TalkerCsvLoader } from '../CsvConfig/TalkerCsv';
 
 export const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';

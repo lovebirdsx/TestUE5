@@ -3,7 +3,7 @@
 import { $ref } from 'puerts';
 import { ARFilter, AssetData, AssetRegistryHelpers, NewArray } from 'ue';
 
-import { toTsArray } from '../../Common/Util';
+import { toTsArray } from '../../Common/Misc/Util';
 import { getSeconds } from './Util';
 
 interface IItem {

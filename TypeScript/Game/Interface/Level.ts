@@ -1,6 +1,6 @@
 import { World } from 'ue';
 
-import { getProjectPath } from '../../Common/File';
+import { getProjectPath } from '../../Common/Misc/File';
 import { globalConfig } from './Global';
 import { ILevelConfig, ILevelsConfig } from './ILevel';
 

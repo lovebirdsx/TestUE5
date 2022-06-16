@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { assertEq, assertError, assertGt, assertNe, test } from '../../../Common/Test';
+import { assertEq, assertError, assertGt, assertNe, test } from '../../../Common/Misc/Test';
 import { loadIdSegmentConfig, SegmentIdGenerator } from '../../Common/SegmentIdGenerator';
 import { getMacAddress, setMacAddress } from '../../Common/Util';
 

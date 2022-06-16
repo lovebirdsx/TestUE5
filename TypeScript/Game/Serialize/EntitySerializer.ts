@@ -2,7 +2,7 @@
 
 import { Actor, Character, GameplayStatics, Transform } from 'ue';
 
-import { isObjChildOfClass, stringify } from '../../Common/Util';
+import { isObjChildOfClass, stringify } from '../../Common/Misc/Util';
 import TsEntity from '../Entity/TsEntity';
 import { gameContext } from '../Interface';
 import { getClassByBluprintType, getClassByEntityType } from '../Interface/Entity';

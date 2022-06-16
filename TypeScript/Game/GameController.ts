@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorOperations } from 'ue';
 
-import { isEditor } from '../Common/Util';
+import { isEditor } from '../Common/Misc/Util';
 import { gameConfig } from './Common/GameConfig';
 import { entityIdAllocator } from './Common/Operations/Entity';
 import { StateComponent } from './Component/StateComponent';

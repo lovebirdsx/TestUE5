@@ -1,6 +1,6 @@
-import { log } from '../../Common/Log';
-import { assertEq, assertNe, test } from '../../Common/Test';
-import { Event } from '../../Common/Util';
+import { log } from '../../Common/Misc/Log';
+import { assertEq, assertNe, test } from '../../Common/Misc/Test';
+import { Event } from '../../Common/Misc/Util';
 
 export default function testEvent(): void {
     test('event basic', () => {

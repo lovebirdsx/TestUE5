@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
-import { deepEquals } from '../../../Common/Util';
+import { deepEquals } from '../../../Common/Misc/Util';
 import { ITsEntity } from '../../../Game/Interface';
 import { toTransformInfo } from '../../../Game/Interface/Action';
 import {

@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { createSignal, ISignal } from '../../Common/Async';
+import { createSignal, ISignal } from '../../Common/Misc/Async';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import { toTransformInfo } from '../Interface/Action';
 import { IInteract, ISpawn, IVectorInfo } from '../Interface/IAction';

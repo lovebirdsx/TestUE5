@@ -2,7 +2,7 @@
 import { argv } from 'puerts';
 import { ReactUMGStarter } from 'ue';
 
-import { initCommon } from '../../Common/Init';
+import { initCommon } from '../../Common/Misc/Init';
 import { runTestEditor } from './TestEditor';
 
 initCommon();

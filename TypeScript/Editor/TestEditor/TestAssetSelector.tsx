@@ -3,7 +3,7 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { EditorAssetLibrary, Object, Struct } from 'ue';
 
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { AssetSelector, IAssetSelectorProps } from '../Common/BaseComponent/AssetSelector';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 

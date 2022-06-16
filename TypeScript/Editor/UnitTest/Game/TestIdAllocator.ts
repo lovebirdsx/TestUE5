@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { assertEq, assertError, test } from '../../../Common/Test';
+import { assertEq, assertError, test } from '../../../Common/Misc/Test';
 import {
     GameIdAllocator,
     MAX_GAME_GEN_ID,

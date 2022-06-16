@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { error } from '../../../Common/Log';
-import { readJsonObj, writeJson } from '../../../Common/Util';
+import { error } from '../../../Common/Misc/Log';
+import { readJsonObj, writeJson } from '../../../Common/Misc/Util';
 
 interface IGameIdGeneratorSnapshot {
     LastGenId: number;

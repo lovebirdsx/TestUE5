@@ -17,8 +17,8 @@ import {
     Vector,
 } from 'ue';
 
-import { error, log } from '../../Common/Log';
-import { getAssetPath, isValidActor, toUeArray } from '../../Common/Util';
+import { error, log } from '../../Common/Misc/Log';
+import { getAssetPath, isValidActor, toUeArray } from '../../Common/Misc/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
 import { isEntityClass, isRegistedEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';

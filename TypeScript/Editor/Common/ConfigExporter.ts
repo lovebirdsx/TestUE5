@@ -2,9 +2,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { getProjectPath } from '../../Common/File';
-import { log } from '../../Common/Log';
-import { writeJson } from '../../Common/Util';
+import { getProjectPath } from '../../Common/Misc/File';
+import { log } from '../../Common/Misc/Log';
+import { writeJson } from '../../Common/Misc/Util';
 import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsvLoader } from '../../Game/Common/CsvConfig/ExtendedEntityCsv';
 import { componentConfig } from '../../Game/Interface/Component';

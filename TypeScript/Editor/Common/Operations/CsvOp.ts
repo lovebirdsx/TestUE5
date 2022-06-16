@@ -2,7 +2,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 
-import { error, log } from '../../../Common/Log';
+import { error, log } from '../../../Common/Misc/Log';
 import { ICsv, ICsvField, TCsvRowBase } from '../../../Game/Common/CsvConfig/CsvLoader';
 import { TCsvValueType } from '../../../Game/Interface/IAction';
 import { csvScheme } from '../Scheme/Csv/CsvScheme';

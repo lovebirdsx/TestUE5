@@ -1,5 +1,5 @@
 /* eslint-disable no-void */
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, Entity } from '../Interface';
 import { ITriggerActions } from '../Interface/IAction';

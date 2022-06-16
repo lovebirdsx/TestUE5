@@ -15,7 +15,7 @@ import {
     Vector,
 } from 'ue';
 
-import { createSignal, ISignal } from '../../Common/Async';
+import { createSignal, ISignal } from '../../Common/Misc/Async';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import { toVector } from '../Interface/Action';

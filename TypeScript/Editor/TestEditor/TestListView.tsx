@@ -4,7 +4,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { Btn, List } from '../Common/BaseComponent/CommonComponent';
 import { FilterableList } from '../Common/BaseComponent/FilterableList';
 

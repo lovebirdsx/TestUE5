@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { VerticalBox } from 'react-umg';
 
-import { error } from '../../../Common/Log';
+import { error } from '../../../Common/Misc/Log';
 import { Btn, H1, H2 } from './CommonComponent';
 
 interface IErrorBoundaryState {

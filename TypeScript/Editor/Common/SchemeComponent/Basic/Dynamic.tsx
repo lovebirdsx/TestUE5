@@ -4,7 +4,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { addArray, subArray } from '../../../../Common/Util';
+import { addArray, subArray } from '../../../../Common/Misc/Util';
 import {
     getActionsByEntityType,
     getEntityTypeByBlueprintType,

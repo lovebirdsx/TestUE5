@@ -29,7 +29,7 @@ import {
     EVerticalAlignment,
 } from 'ue';
 
-import { toUeArray } from '../../../Common/Util';
+import { toUeArray } from '../../../Common/Misc/Util';
 import { formatColor, TColor } from '../Color';
 
 // export { List } from './ListView';

@@ -2,9 +2,9 @@
 import { $ref } from 'puerts';
 import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
-import { getDir, getFileName, getFileNameWithOutExt } from '../../../Common/File';
-import { error, log, warn } from '../../../Common/Log';
-import { calHash, toTsArray } from '../../../Common/Util';
+import { getDir, getFileName, getFileNameWithOutExt } from '../../../Common/Misc/File';
+import { error, log, warn } from '../../../Common/Misc/Log';
+import { calHash, toTsArray } from '../../../Common/Misc/Util';
 import { IFlowInfo, IFlowListInfo, ITextConfig } from '../../Interface/IAction';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';

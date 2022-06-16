@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { warn } from '../../../Common/Log';
+import { warn } from '../../../Common/Misc/Log';
 import {
     IActionInfo,
     IChangeRandomState,

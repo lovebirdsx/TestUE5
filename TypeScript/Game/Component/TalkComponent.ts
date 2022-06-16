@@ -3,9 +3,9 @@
 import { $ref } from 'puerts';
 import { BuiltinText, Game } from 'ue';
 
-import { createCancleableDelay, createSignal, delay } from '../../Common/Async';
-import { error } from '../../Common/Log';
-import { calUpRotatorByPoints, toUeArray } from '../../Common/Util';
+import { createCancleableDelay, createSignal, delay } from '../../Common/Misc/Async';
+import { error } from '../../Common/Misc/Log';
+import { calUpRotatorByPoints, toUeArray } from '../../Common/Misc/Util';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { GlobalConfigCsv } from '../Common/CsvConfig/GlobalConfigCsv';
 import { TalkerListOp } from '../Common/Operations/TalkerList';

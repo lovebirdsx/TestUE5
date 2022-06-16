@@ -14,9 +14,9 @@ import {
     World,
 } from 'ue';
 
-import { MS_PER_SEC } from '../../Common/Async';
-import { log, warn } from '../../Common/Log';
-import { readJsonObj, stringifyEditor } from '../../Common/Util';
+import { MS_PER_SEC } from '../../Common/Misc/Async';
+import { log, warn } from '../../Common/Misc/Log';
+import { readJsonObj, stringifyEditor } from '../../Common/Misc/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { isEntityClass, isRegistedEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType } from 'ue';
 
-import { error } from '../../Common/Log';
+import { error } from '../../Common/Misc/Log';
 import { ITsEntity } from '../../Game/Interface';
 import { getEntityTypeByBlueprintType } from '../../Game/Interface/Entity';
 import { IEntityData } from '../../Game/Interface/IEntity';

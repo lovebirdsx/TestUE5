@@ -3,7 +3,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { deepEquals } from '../../Common/Util';
+import { deepEquals } from '../../Common/Misc/Util';
 import { TComponentType } from '../../Game/Interface/IComponent';
 import { TComponentData, TComponentsData } from '../../Game/Interface/IEntity';
 import {

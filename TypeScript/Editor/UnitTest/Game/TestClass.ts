@@ -2,8 +2,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Class, EditorOperations, Texture2D } from 'ue';
 
-import { assertEq, assertGt, test } from '../../../Common/Test';
-import { getFieldCount, loadClass } from '../../../Common/Util';
+import { assertEq, assertGt, test } from '../../../Common/Misc/Test';
+import { getFieldCount, loadClass } from '../../../Common/Misc/Util';
 
 export default function testClass(): void {
     test('load ue class', () => {

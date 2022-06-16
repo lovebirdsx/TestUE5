@@ -5,8 +5,8 @@ import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
-import { MS_PER_SEC } from '../../../../Common/Async';
-import { deepEquals } from '../../../../Common/Util';
+import { MS_PER_SEC } from '../../../../Common/Misc/Async';
+import { deepEquals } from '../../../../Common/Misc/Util';
 import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH, ITsEntity } from '../../../../Game/Interface';
 import {
     alignVector,

@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Class } from 'ue';
 
-import { isChildOfClass, isObjChildOfClass } from '../../Common/Util';
+import { isChildOfClass, isObjChildOfClass } from '../../Common/Misc/Util';
 import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity } from '../Interface';
 import {

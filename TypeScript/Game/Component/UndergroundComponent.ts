@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Class } from 'ue';
 
-import { isObjChildOfClass } from '../../Common/Util';
+import { isObjChildOfClass } from '../../Common/Misc/Util';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
 import { toVector } from '../Interface/Action';
 import { IInteract } from '../Interface/IAction';

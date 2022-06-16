@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { assertEq, test } from '../../../Common/Test';
+import { assertEq, test } from '../../../Common/Misc/Test';
 import { ITickable } from '../../../Game/Interface';
 import { TickManager } from '../../../Game/Manager/TickManager';
 

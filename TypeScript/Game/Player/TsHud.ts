@@ -4,8 +4,8 @@ import { $ref, $unref } from 'puerts';
 import { BuiltinText, HUD, UMGManager } from 'ue';
 import * as UE from 'ue';
 
-import { createSignal, delay } from '../../Common/Async';
-import { log } from '../../Common/Log';
+import { createSignal, delay } from '../../Common/Misc/Async';
+import { log } from '../../Common/Misc/Log';
 
 class TsHud extends HUD {
     // @no-blueprint

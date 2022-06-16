@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
-import { Event, parse } from '../Common/Util';
+import { Event, parse } from '../Common/Misc/Util';
 import { IActionInfo, IInteract, TActionType } from './Interface/IAction';
 import { IInteractiveComponent } from './Interface/IComponent';
 import { IEntityData, TComponentsData } from './Interface/IEntity';

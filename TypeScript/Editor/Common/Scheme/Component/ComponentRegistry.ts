@@ -1,4 +1,4 @@
-import { error, warn } from '../../../../Common/Log';
+import { error, warn } from '../../../../Common/Misc/Log';
 import { getComponentsTypeByEntityType } from '../../../../Game/Interface/Entity';
 import { TComponentType } from '../../../../Game/Interface/IComponent';
 import { TComponentData, TComponentsData, TEntityType } from '../../../../Game/Interface/IEntity';

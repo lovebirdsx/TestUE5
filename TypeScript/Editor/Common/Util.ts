@@ -15,7 +15,7 @@ import {
     PythonScriptLibrary,
 } from 'ue';
 
-import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Util';
+import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Misc/Util';
 
 export function openDirOfFile(filepath: string): void {
     const command = [

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { log } from '../../Common/Log';
-import { readJsonObj, writeJson } from '../../Common/Util';
+import { log } from '../../Common/Misc/Log';
+import { readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { getMacAddress } from './Util';
 
 interface IIdSegmentRow {

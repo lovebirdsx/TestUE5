@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { warn } from '../../../../Common/Log';
+import { warn } from '../../../../Common/Misc/Log';
 import {
     EFlowListAction,
     flowListContext,

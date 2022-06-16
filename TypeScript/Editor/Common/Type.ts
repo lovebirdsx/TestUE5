@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { error, warn } from '../../Common/Log';
+import { error, warn } from '../../Common/Misc/Log';
 import { ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import { IVectorInfo, TCsvValueType } from '../../Game/Interface/IAction';
 import { TColor } from './Color';

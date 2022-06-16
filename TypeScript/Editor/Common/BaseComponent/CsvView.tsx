@@ -4,7 +4,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { GridPanel, GridSlot, HorizontalBox } from 'react-umg';
 
-import { error, log } from '../../../Common/Log';
+import { error, log } from '../../../Common/Misc/Log';
 import { ICsv, ICsvField, TCsvRowBase } from '../../../Game/Common/CsvConfig/CsvLoader';
 import { ECsvName } from '../../../Game/Common/CsvConfig/CsvRegistry';
 import { TCsvValueType } from '../../../Game/Interface/IAction';

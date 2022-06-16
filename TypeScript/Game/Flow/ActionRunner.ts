@@ -4,7 +4,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable spellcheck/spell-checker */
-import { warn } from '../../Common/Log';
+import { warn } from '../../Common/Misc/Log';
 import { Entity } from '../Interface';
 import { IActionInfo, TActionType } from '../Interface/IAction';
 

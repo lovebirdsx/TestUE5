@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { log } from '../../../Common/Log';
-import { assertEq, assertNe, assertTrue, test } from '../../../Common/Test';
+import { log } from '../../../Common/Misc/Log';
+import { assertEq, assertNe, assertTrue, test } from '../../../Common/Misc/Test';
 import {
     applyDiff,
     createDiff,
@@ -10,7 +10,7 @@ import {
     stringify,
     stringifyEditor,
     subArray,
-} from '../../../Common/Util';
+} from '../../../Common/Misc/Util';
 import { getMacAddress } from '../../Common/Util';
 
 interface IFoo {

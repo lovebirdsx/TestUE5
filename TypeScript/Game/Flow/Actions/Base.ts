@@ -1,8 +1,8 @@
 /* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import { createSignal, ISignal, MS_PER_SEC } from '../../../Common/Async';
-import { error, log, warn } from '../../../Common/Log';
+import { createSignal, ISignal, MS_PER_SEC } from '../../../Common/Misc/Async';
+import { error, log, warn } from '../../../Common/Misc/Log';
 import { Entity, gameContext } from '../../Interface';
 import { IInvoke, ILog, IShowMessage, IWait } from '../../Interface/IAction';
 import { Action, actionRegistry } from '../ActionRunner';

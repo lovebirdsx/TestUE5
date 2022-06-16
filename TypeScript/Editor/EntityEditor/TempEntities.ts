@@ -1,4 +1,4 @@
-import { error } from '../../Common/Log';
+import { error } from '../../Common/Misc/Log';
 import { ITsEntity } from '../../Game/Interface';
 
 class TempEntities {

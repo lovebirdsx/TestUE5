@@ -1,7 +1,7 @@
 import { EFileRoot, MyFileHelper, World } from 'ue';
 
-import { log } from '../../Common/Log';
-import { writeJson } from '../../Common/Util';
+import { log } from '../../Common/Misc/Log';
+import { writeJson } from '../../Common/Misc/Util';
 
 export class GameConfig {
     public static readonly SavePath = MyFileHelper.GetPath(EFileRoot.Save, 'Game/Config.json');

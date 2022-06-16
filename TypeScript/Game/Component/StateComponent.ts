@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Rotator, Vector } from 'ue';
 
-import { warn } from '../../Common/Log';
+import { warn } from '../../Common/Misc/Log';
 import { actionRegistry } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
 import { IActionInfo } from '../Interface/IAction';

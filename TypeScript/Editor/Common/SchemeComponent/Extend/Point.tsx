@@ -4,8 +4,8 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, Vector } from 'ue';
 
-import { MS_PER_SEC } from '../../../../Common/Async';
-import { loadClass } from '../../../../Common/Util';
+import { MS_PER_SEC } from '../../../../Common/Misc/Async';
+import { loadClass } from '../../../../Common/Misc/Util';
 import { DEFUALT_NUMBER_EDIT_TEXT_WIDTH } from '../../../../Game/Interface';
 import {
     alignPosA,

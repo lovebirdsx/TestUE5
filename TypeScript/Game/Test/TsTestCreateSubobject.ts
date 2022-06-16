@@ -1,7 +1,7 @@
 // import { makeUClass } from 'puerts';
 import { Actor, Class } from 'ue';
 
-import { error, log } from '../../Common/Log';
+import { error, log } from '../../Common/Misc/Log';
 
 class TsTestCreateSubobject extends Actor {
     // private ActionRunner: TsActionRunner;

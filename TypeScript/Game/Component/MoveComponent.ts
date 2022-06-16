@@ -10,9 +10,9 @@ import {
     Vector,
 } from 'ue';
 
-import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
-import { warn } from '../../Common/Log';
-import { calUpRotatorByPoints, isObjChildOfClass } from '../../Common/Util';
+import { createCancleableDelay, createSignal, ISignal } from '../../Common/Misc/Async';
+import { warn } from '../../Common/Misc/Log';
+import { calUpRotatorByPoints, isObjChildOfClass } from '../../Common/Misc/Util';
 import { Component, gameContext } from '../Interface';
 import { toVector } from '../Interface/Action';
 import { getClassByEntityType } from '../Interface/Entity';

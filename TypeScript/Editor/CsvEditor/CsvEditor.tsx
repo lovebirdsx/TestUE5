@@ -12,7 +12,7 @@ import {
 } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { ICsv } from '../../Game/Common/CsvConfig/CsvLoader';
 import { csvRegistry, ECsvName } from '../../Game/Common/CsvConfig/CsvRegistry';
 import {

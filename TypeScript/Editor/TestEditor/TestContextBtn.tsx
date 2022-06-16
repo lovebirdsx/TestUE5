@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { ContextBtn, MenuBtn } from '../Common/BaseComponent/ContextBtn';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

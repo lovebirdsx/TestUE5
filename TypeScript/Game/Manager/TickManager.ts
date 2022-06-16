@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { error } from '../../Common/Log';
-import { getTotalSecond } from '../../Common/Util';
+import { error } from '../../Common/Misc/Log';
+import { getTotalSecond } from '../../Common/Misc/Util';
 import { gameContext, ITickable, ITickManager, ITimeCall } from '../Interface';
 import { IManager } from './Interface';
 

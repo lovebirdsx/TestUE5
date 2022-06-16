@@ -8,9 +8,9 @@ import {
     getFileNameWithOutExt,
     listFiles,
     removeExtension,
-} from '../../../Common/File';
-import { assertEq, assertFalse, assertGt, assertTrue, test } from '../../../Common/Test';
-import { toTsArray } from '../../../Common/Util';
+} from '../../../Common/Misc/File';
+import { assertEq, assertFalse, assertGt, assertTrue, test } from '../../../Common/Misc/Test';
+import { toTsArray } from '../../../Common/Misc/Util';
 
 export default function testFile(): void {
     test('read save file', () => {

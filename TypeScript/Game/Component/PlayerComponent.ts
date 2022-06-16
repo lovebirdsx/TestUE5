@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { error } from '../../Common/Log';
+import { error } from '../../Common/Misc/Log';
 import { Component, Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
 

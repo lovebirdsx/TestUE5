@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Border, HorizontalBox, ScrollBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 import { EditorOperations, EMsgResult, EMsgType, ESlateSizeRule } from 'ue';
 
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { EFlowListAction, flowListContext } from '../../Game/Common/Operations/FlowList';
 import { IFlowListInfo } from '../../Game/Interface/IAction';
 import { Btn, Check, ErrorText, SlotText, Text } from '../Common/BaseComponent/CommonComponent';

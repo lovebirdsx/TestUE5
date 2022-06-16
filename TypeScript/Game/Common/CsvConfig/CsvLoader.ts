@@ -2,9 +2,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { LineReader, LineWriter } from '../../../Common/CsvParser';
-import { warn } from '../../../Common/Log';
-import { RequiredField } from '../../../Common/Util';
+import { LineReader, LineWriter } from '../../../Common/Misc/CsvParser';
+import { warn } from '../../../Common/Misc/Log';
+import { RequiredField } from '../../../Common/Misc/Util';
 import { TCsvValueType } from '../../Interface/IAction';
 
 export const csvCellTypeConfig = {

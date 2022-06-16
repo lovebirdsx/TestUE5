@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EFileRoot, MyFileHelper } from 'ue';
 
-import { log } from '../../Common/Log';
-import { writeJson } from '../../Common/Util';
+import { log } from '../../Common/Misc/Log';
+import { writeJson } from '../../Common/Misc/Util';
 import { IPlayFlow } from '../../Game/Interface/IAction';
 import { IEntityRecords } from './Interface';
 

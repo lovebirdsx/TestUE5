@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { assertEq, test } from '../../Common/Test';
-import { deepEquals } from '../../Common/Util';
+import { assertEq, test } from '../../Common/Misc/Test';
+import { deepEquals } from '../../Common/Misc/Util';
 import { TalkListCsvFile } from '../../Editor/FlowEditor/TalkListTool';
 import { flowListOp } from '../../Game/Common/Operations/FlowList';
 import { TalkerListOp } from '../../Game/Common/Operations/TalkerList';

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable spellcheck/spell-checker */
-import { log } from '../../Common/Log';
+import { log } from '../../Common/Misc/Log';
 import { Action, actionRegistry } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
 import {

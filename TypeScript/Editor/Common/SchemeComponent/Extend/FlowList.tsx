@@ -3,7 +3,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox, VerticalBoxSlot } from 'react-umg';
 
-import { log } from '../../../../Common/Log';
+import { log } from '../../../../Common/Misc/Log';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';
 import { IFlowInfo, IFlowListInfo } from '../../../../Game/Interface/IAction';
 import { Btn } from '../../BaseComponent/CommonComponent';

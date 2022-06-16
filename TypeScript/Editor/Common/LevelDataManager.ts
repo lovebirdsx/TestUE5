@@ -2,9 +2,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorLevelLibrary, EditorOperations, EFileRoot, MyFileHelper, World } from 'ue';
 
-import { getDir, getSavePath, listFiles } from '../../Common/File';
-import { log } from '../../Common/Log';
-import { deepEquals, readJsonObj, writeJson } from '../../Common/Util';
+import { getDir, getSavePath, listFiles } from '../../Common/Misc/File';
+import { log } from '../../Common/Misc/Log';
+import { deepEquals, readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { ITsEntity } from '../../Game/Interface';
 import { compressEntityData, decompressEntityData } from '../../Game/Interface/Entity';
 import { IEntityData } from '../../Game/Interface/IEntity';

@@ -3,7 +3,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { log } from '../../../../Common/Log';
+import { log } from '../../../../Common/Misc/Log';
 import { GameConfig } from '../../../../Game/Common/GameConfig';
 import { flowOp } from '../../../../Game/Common/Operations/Flow';
 import { flowListOp } from '../../../../Game/Common/Operations/FlowList';

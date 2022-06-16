@@ -4,7 +4,7 @@ import * as React from 'react';
 import { HorizontalBox } from 'react-umg';
 import { Actor, EditorLevelLibrary, EditorOperations, GameplayStatics, NewArray, TArray } from 'ue';
 
-import { log, warn } from '../../Common/Log';
+import { log, warn } from '../../Common/Misc/Log';
 import { getClassByEntityType } from '../../Game/Interface/Entity';
 import { Btn } from '../Common/BaseComponent/CommonComponent';
 

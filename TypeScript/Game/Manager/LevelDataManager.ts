@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { readJsonObj } from '../../Common/Util';
+import { readJsonObj } from '../../Common/Misc/Util';
 import { entityIdAllocator } from '../Common/Operations/Entity';
 import { gameContext, ILevelDataManager } from '../Interface';
 import { decompressEntityData, loadEntityTemplateConfig } from '../Interface/Entity';

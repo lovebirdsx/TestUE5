@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { KismetMathLibrary, Vector } from 'ue';
 
-import { getTotalSecond } from '../../Common/Util';
+import { getTotalSecond } from '../../Common/Misc/Util';
 import { deInitTsEntity } from '../Entity/Common';
 import { Component, gameContext, ITimeCall } from '../Interface';
 import { toTransform, toTransformInfo } from '../Interface/Action';

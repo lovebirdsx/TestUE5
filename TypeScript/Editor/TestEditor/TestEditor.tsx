@@ -11,8 +11,8 @@ import {
 } from 'react-umg';
 import { Blueprint, Character, Class, EditorOperations, ESlateSizeRule, ReactUMGStarter } from 'ue';
 
-import { log } from '../../Common/Log';
-import { getTestErrorRecords } from '../../Common/Test';
+import { log } from '../../Common/Misc/Log';
+import { getTestErrorRecords } from '../../Common/Misc/Test';
 import testContainer from '../../Editor/UnitTest/Engine/TestContainer';
 import testFile from '../../Editor/UnitTest/Engine/TestFile';
 import testImmer from '../../Editor/UnitTest/TestImmer';

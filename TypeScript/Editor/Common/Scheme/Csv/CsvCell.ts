@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { error } from '../../../../Common/Log';
+import { error } from '../../../../Common/Misc/Log';
 import { csvCellTypeConfig, TCsvCellType } from '../../../../Game/Common/CsvConfig/CsvLoader';
 import { ECsvName } from '../../../../Game/Common/CsvConfig/CsvRegistry';
 import { entityTemplateManager } from '../../EntityTemplateManager';

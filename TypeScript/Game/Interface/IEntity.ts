@@ -2,6 +2,7 @@ import { ITransform } from './IAction';
 import { TComponentType } from './IComponent';
 
 export const entityTypeConfig = {
+    Player: 'Player',
     AiNpc: 'AiNpc',
     CharacterEntity: 'CharacterEntity',
     Entity: 'Entity',

@@ -15,6 +15,7 @@
     "Invisible": "StateEntity",
     "Lamp": "Lamp",
     "Npc": "Npc",
+    "Player": "Player",
     "Refresh": "RefreshSingle",
     "RefreshEntity": "RefreshEntity",
     "RefreshManager": "RefreshEntity",

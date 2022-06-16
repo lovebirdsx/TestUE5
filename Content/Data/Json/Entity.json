@@ -1,5 +1,6 @@
 ﻿{
   "ComponentsByEntity": {
+    "Player": [],
     "AiNpc": [
       "StateComponent",
       "FlowComponent",

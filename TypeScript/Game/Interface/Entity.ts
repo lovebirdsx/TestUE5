@@ -23,6 +23,7 @@ import {
 } from './IEntity';
 
 export const componentsByEntity: TComponentsByEntity = {
+    Player: [],
     AiNpc: [
         'StateComponent',
         'FlowComponent',
@@ -167,6 +168,13 @@ function makeTsClassPath(basePath: string, name: string, dir?: string): string {
     }
     return `${basePath}${name}.${name}_C`;
 }
+
+// 玩家对象
+registerBlueprint(
+    'Player',
+    '/Game/Blueprints/TypeScript/Game/Player/TsPlayer.TsPlayer_C',
+    'Player',
+);
 
 const ENTITY_BASE_PATH = '/Game/Blueprints/TypeScript/Game/Entity/';
 const classByEntityType: Map<TEntityType, Class> = new Map();

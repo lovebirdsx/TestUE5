@@ -20,10 +20,9 @@ import {
 import { error, log } from '../../Common/Misc/Log';
 import { getAssetPath, isValidActor, toUeArray } from '../../Common/Misc/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
-import { isEntityClass, isRegistedEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { toRotation, toTransform, toVector } from '../../Game/Interface/Action';
-import { getClassByBluprintType } from '../../Game/Interface/Entity';
+import { getClassByBluprintType, isEntityClass, isRegistedEntity } from '../../Game/Interface/Entity';
 import { ITransform } from '../../Game/Interface/IAction';
 import { TComponentType } from '../../Game/Interface/IComponent';
 import { entityTemplateManager } from './EntityTemplateManager';

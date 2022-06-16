@@ -2,7 +2,7 @@
 import { Actor } from 'ue';
 
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsCharacterEntity from './TsCharacterEntity';
 
 class TsAiNpc extends TsCharacterEntity {

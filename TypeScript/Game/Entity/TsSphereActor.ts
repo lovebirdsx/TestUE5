@@ -3,7 +3,7 @@ import { Actor } from 'ue';
 
 import { SphereComponent } from '../Component/SphereComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsSphereActor extends TsEntity {

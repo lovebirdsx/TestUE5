@@ -3,7 +3,7 @@ import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
 import { TrampleComponent } from '../Component/TrampleComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsTrample extends TsEntity {

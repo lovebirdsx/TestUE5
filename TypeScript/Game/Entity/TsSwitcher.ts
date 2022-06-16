@@ -2,7 +2,7 @@
 import { Actor } from 'ue';
 
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 export class TsSwitcher extends TsEntity {

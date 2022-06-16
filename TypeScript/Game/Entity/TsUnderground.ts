@@ -3,7 +3,7 @@ import { Actor } from 'ue';
 
 import { UndergroundComponent } from '../Component/UndergroundComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsUnderground extends TsEntity {

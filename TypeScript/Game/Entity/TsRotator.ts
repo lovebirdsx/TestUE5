@@ -3,7 +3,7 @@ import { Actor } from 'ue';
 
 import { RotatorComponent } from '../Component/RotatorComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsRotator extends TsEntity {

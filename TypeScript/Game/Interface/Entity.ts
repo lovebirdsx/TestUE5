@@ -3,7 +3,13 @@ import { Actor, Blueprint, Class } from 'ue';
 
 import { getProjectPath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
-import { applyDiff, createDiff, readJsonObj } from '../../Common/Misc/Util';
+import {
+    applyDiff,
+    createDiff,
+    isChildOfClass,
+    isObjChildOfClass,
+    readJsonObj,
+} from '../../Common/Misc/Util';
 import { csvRegistry } from '../Common/CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../Common/CsvConfig/ExtendedEntityCsv';
 import { ITsEntity } from '../Interface';
@@ -157,6 +163,10 @@ export function getEntityTypeByActor(actor: Actor): TEntityType | undefined {
     return getEntityTypeByClass(actor.GetClass());
 }
 
+export function isRegistedEntity(entity: ITsEntity): boolean {
+    return getEntityTypeByActor(entity) !== undefined;
+}
+
 export function getClassByBluprintType(type: string): Class | undefined {
     const record = blueprintByType.get(type);
     return record ? record.ClassObj : undefined;
@@ -220,6 +230,27 @@ extendEntityCsv.Rows.forEach((row) => {
 export function loadEntityTemplateConfig(): IEntityTemplateConfig {
     const path = getProjectPath(globalConfig.TemplateConfigPath);
     return readJsonObj(path);
+}
+
+const entityClass = getClassByEntityType('Entity');
+const characterEntityClass = getClassByEntityType('CharacterEntity');
+const playerClass = Class.Load('/Game/Blueprints/TypeScript/Game/Player/TsPlayer.TsPlayer_C');
+
+export function isEntityClass(classObj: Class): boolean {
+    return (
+        isChildOfClass(classObj, entityClass) ||
+        isChildOfClass(classObj, characterEntityClass) ||
+        isChildOfClass(classObj, playerClass)
+    );
+}
+
+export function isEntity(actor: Actor): boolean {
+    const actorClass = actor.GetClass();
+    return isEntityClass(actorClass) && getEntityTypeByClass(actorClass) !== undefined;
+}
+
+export function isPlayer(actor: Actor): boolean {
+    return isObjChildOfClass(actor, playerClass);
 }
 
 export function genBlueprintConfig(): IBlueprintConfig {

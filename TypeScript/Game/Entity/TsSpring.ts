@@ -3,7 +3,7 @@ import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
 import { SpringComponent } from '../Component/SpringComponent';
 import { ITsEntity } from '../Interface';
-import { isEntity } from './Common';
+import { isEntity } from '../Interface/Entity';
 import TsEntity from './TsEntity';
 
 class TsSpring extends TsEntity {

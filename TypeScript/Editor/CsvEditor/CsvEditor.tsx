@@ -6,7 +6,7 @@ import {
     GridPanel,
     GridSlot,
     HorizontalBox,
-    ScrollBox,
+    MyScrollBox,
     VerticalBox,
     VerticalBoxSlot,
 } from 'react-umg';
@@ -42,6 +42,7 @@ interface ICsvEditorState {
     LastLoadedCsvState: ICsvState;
     StepId: number;
     Histories: ICsvState[];
+    ScrollOffset: number;
 }
 
 function canUndo(state: ICsvEditorState): boolean {
@@ -61,6 +62,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
 
     private TimeSecond: number;
 
+    private ScrollOffset: number;
+
     public constructor(props: unknown) {
         super(props);
         this.state = this.LoadInitState();
@@ -74,10 +77,16 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             Csv: csv,
             FilterTexts: csv.FiledTypes.map(() => ''),
         };
+        let offset = 0;
+        if (editorConfig.ScrollOffset[csvState.Name]) {
+            offset = editorConfig.ScrollOffset[csvState.Name];
+        }
+        this.ScrollOffset = offset;
         return {
             StepId: 0,
             Histories: [csvState],
             LastLoadedCsvState: csvState,
+            ScrollOffset: offset,
         };
     }
 
@@ -152,12 +161,16 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             if (isSaved) {
                 draft.LastLoadedCsvState = csvState;
             }
+            draft.ScrollOffset = this.ScrollOffset;
         });
         this.setState(newEditorState);
         this.LastModifyTime = this.TimeSecond;
     }
 
-    private readonly OnModifyCsv = (csv: ICsv): void => {
+    private readonly OnModifyCsv = (csv: ICsv, isAdd = false): void => {
+        if (isAdd) {
+            this.ScrollOffset = this.state.ScrollOffset < 0 ? this.state.ScrollOffset - 1 : -1;
+        }
         this.RecordCsvState(
             {
                 Name: this.CurrentCsvState.Name,
@@ -181,7 +194,18 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
         csvRegistry.Save(state.Name, state.Csv);
     }
 
+    private SaveScrollOffset(): void {
+        const csvState = this.CurrentCsvState;
+        editorConfig.ScrollOffset[csvState.Name] = this.ScrollOffset;
+        editorConfig.Save();
+    }
+
+    private readonly OnUserScrolled = (currentOffset: number): void => {
+        this.ScrollOffset = currentOffset;
+    };
+
     private readonly Save = (): void => {
+        this.SaveScrollOffset();
         if (!this.NeedSave()) {
             return;
         }
@@ -200,6 +224,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                 StepId: newStepId,
                 LastLoadedCsvState:
                     oldCsvState.Name !== newCsvState.Name ? newCsvState : state.LastLoadedCsvState,
+                ScrollOffset: this.ScrollOffset,
             };
         });
     }
@@ -299,6 +324,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             return;
         }
 
+        //
         if (this.NeedSave()) {
             const result = EditorOperations.ShowMessage(
                 EMsgType.YesNoCancel,
@@ -367,6 +393,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             Size: { SizeRule: ESlateSizeRule.Fill },
         };
 
+        log(`renderrender ${this.state.ScrollOffset}`);
         return (
             <VerticalBox>
                 <ErrorBoundary>
@@ -379,7 +406,11 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                         </VerticalBox>
                     </Border>
                     <ErrorBoundary>
-                        <ScrollBox Slot={scrollBoxSlot}>
+                        <MyScrollBox
+                            Slot={scrollBoxSlot}
+                            ScrollOffset={this.state.ScrollOffset}
+                            OnUserScrolled={this.OnUserScrolled}
+                        >
                             <CsvView
                                 Csv={this.CurrentCsvState.Csv}
                                 Name={this.CurrentCsvState.Name}
@@ -387,7 +418,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
                                 OnModify={this.OnModifyCsv}
                                 OnModifyFilterTexts={this.OnModifyFilterTexts}
                             />
-                        </ScrollBox>
+                        </MyScrollBox>
                     </ErrorBoundary>
                 </ErrorBoundary>
             </VerticalBox>

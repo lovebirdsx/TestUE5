@@ -21,7 +21,7 @@ export interface ICsvViewProps {
     Csv: ICsv;
     Name: ECsvName;
     FilterTexts: string[];
-    OnModify: (csv: ICsv) => void;
+    OnModify: (csv: ICsv, isAdd: boolean) => void;
     OnModifyFilterTexts: (id: number, text: string) => void;
 }
 
@@ -55,12 +55,12 @@ export class CsvView extends React.Component<ICsvViewProps> {
 
     private InsertRow(rowId: number): void {
         const newCsv = editorCsvOp.MutableInsert(this.props.Csv, rowId);
-        this.props.OnModify(newCsv);
+        this.props.OnModify(newCsv, true);
     }
 
     private RemoveRow(rowId: number): void {
         const newCsv = editorCsvOp.MutableRemove(this.props.Csv, rowId);
-        this.props.OnModify(newCsv);
+        this.props.OnModify(newCsv, false);
     }
 
     private MoveRow(rowId: number, isUp: boolean): void {
@@ -71,7 +71,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         }
 
         const newCsv = editorCsvOp.MutableMove(this.props.Csv, rowId, isUp);
-        this.props.OnModify(newCsv);
+        this.props.OnModify(newCsv, false);
     }
 
     private RenderFilter(fieldTypes: ICsvField[]): JSX.Element[] {
@@ -136,7 +136,7 @@ export class CsvView extends React.Component<ICsvViewProps> {
         const newCsv = produce(this.props.Csv, (draft) => {
             draft.Rows[rowId][fieldName] = value;
         });
-        this.props.OnModify(newCsv);
+        this.props.OnModify(newCsv, false);
     }
 
     private IsInFilter(fieldTypes: ICsvField[], row: TCsvRowBase): boolean {

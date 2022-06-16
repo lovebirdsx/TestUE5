@@ -17,6 +17,7 @@
     "Npc": "Npc",
     "Refresh": "RefreshSingle",
     "RefreshEntity": "RefreshEntity",
+    "RefreshManager": "RefreshEntity",
     "RefreshSingle": "RefreshSingle",
     "Rotator": "Rotator",
     "Screen": "StateEntity",

@@ -12,10 +12,10 @@
   {
     "BluePrintId": "AiNpcGuard2",
     "BluePrintClass": "/Game/Blueprints/TypeScript/Game/Entity/TsAiNpc.Default__TsAiNpc_C",
-    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin",
+    "MeshPath": "/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female",
     "AnimPath": "/Game/Mannequin/Animations/ThirdPerson_AnimBP.Default__ThirdPerson_AnimBP_C",
     "Materials": [
-      "/Game/Mannequin/Character/Materials/M_Male_Body_Inst_2.M_Male_Body_Inst_2",
+      "/Game/Mannequin/Character/Materials/MI_Female_Body2.MI_Female_Body2",
       "/Game/Mannequin/Character/Materials/M_UE4Man_ChestLogo.M_UE4Man_ChestLogo"
     ]
   },

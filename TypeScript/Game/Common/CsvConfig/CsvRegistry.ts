@@ -101,7 +101,7 @@ class CsvRegistry {
         const config = this.ConfigMap.get(name);
         if (!config) {
             error(`Can not load csv for name [${name}]`);
-            return null;
+            return undefined;
         }
 
         const loader = this.GetLoader(config);

@@ -72,10 +72,10 @@ export class TalkListCsvFile {
         const flowList = flowListOp.Create();
         flowList.Flows = flows;
 
-        let lastAction: IActionInfo = null;
-        let lastFlow: IFlowInfo = null;
-        let lastState: IStateInfo = null;
-        let lastTalkItem: ITalkItem = null;
+        let lastAction: IActionInfo = undefined;
+        let lastFlow: IFlowInfo = undefined;
+        let lastState: IStateInfo = undefined;
+        let lastTalkItem: ITalkItem = undefined;
         let lastTalkId = 0;
         this.Rows.forEach((row) => {
             const {

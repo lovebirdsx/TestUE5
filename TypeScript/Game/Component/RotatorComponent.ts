@@ -63,7 +63,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
     public IsRecovery: boolean;
 
     public OnInit(): void {
-        this.InteractSignal = null;
+        this.InteractSignal = undefined;
         this.State = this.Entity.GetComponent(StateComponent);
         this.Event = this.Entity.GetComponent(EventComponent);
         const call: IInteractCall = {
@@ -117,7 +117,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
     }
 
     public Interacting(): void {
-        if (this.InteractSignal !== null) {
+        if (this.InteractSignal !== undefined) {
             this.InteractSignal.Emit(true);
         }
     }
@@ -195,9 +195,9 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
         newCamera.K2_DestroyActor();
 
         this.InteractUi.RemoveFromViewport();
-        this.InteractUi = null;
+        this.InteractUi = undefined;
         tsHud.ShowInteract();
-        this.InteractSignal = null;
+        this.InteractSignal = undefined;
     }
 
     public GetRotator(map: number): Rotator {
@@ -270,7 +270,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
     public RotateEntity(rotator: Rotator): void {
         const entity = gameContext.EntityManager.GetEntity(this.EntityId);
-        entity.K2_AddActorWorldRotation(rotator, false, null, false);
+        entity.K2_AddActorWorldRotation(rotator, false, undefined, false);
         const stateComponent = entity.Entity.TryGetComponent(StateComponent);
         if (stateComponent) {
             stateComponent.RecordRotation();
@@ -289,7 +289,7 @@ export class RotatorComponent extends InteractiveComponent implements IRotatorCo
 
         this.WakeRigidBodies();
         if (this.IsRotatorSelf) {
-            this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, null, false);
+            this.Entity.Actor.K2_AddActorWorldRotation(rotator, false, undefined, false);
         }
     }
 

@@ -24,7 +24,7 @@ export class SphereFactoryComponent
     private InteractSignal: ISignal<boolean>;
 
     public OnInit(): void {
-        this.InteractSignal = null;
+        this.InteractSignal = undefined;
         this.EntitySpawn = this.Entity.GetComponent(EntitySpawnerComponent);
         gameContext.EntityManager.EntityRemoved.AddCallback(this.OnEntityRemoved);
         this.Event = this.Entity.GetComponent(EventComponent);
@@ -72,7 +72,7 @@ export class SphereFactoryComponent
                 }
                 break;
             case `2`:
-                if (this.InteractSignal !== null) {
+                if (this.InteractSignal !== undefined) {
                     this.InteractSignal.Emit(true);
                 }
                 break;
@@ -93,6 +93,6 @@ export class SphereFactoryComponent
 
         // 销毁小球
         this.EntitySpawn.DestroyAllChild();
-        this.InteractSignal = null;
+        this.InteractSignal = undefined;
     }
 }

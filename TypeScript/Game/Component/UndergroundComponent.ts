@@ -86,7 +86,7 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
             const pos = toVector(info.RestartPos);
             const player = gameContext.Player;
             if (player) {
-                player.K2_SetActorLocation(pos, false, null, false);
+                player.K2_SetActorLocation(pos, false, undefined, false);
             }
         }
     }

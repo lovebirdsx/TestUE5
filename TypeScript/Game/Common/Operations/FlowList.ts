@@ -103,14 +103,14 @@ class FlowListOp {
     }
 
     public Load(path: string): IFlowListInfo {
-        let row: IFlowListRow = null;
-        let flowList: IFlowListInfo = null;
+        let row: IFlowListRow = undefined;
+        let flowList: IFlowListInfo = undefined;
         try {
             const flowListCsv = new FlowListCsvLoader();
             row = flowListCsv.LoadOne(path);
         } catch (err) {
             error(err);
-            row = null;
+            row = undefined;
         }
 
         if (!row) {

@@ -16,8 +16,8 @@ import * as UE from 'ue';
 
 import { error, log } from '../Common/Log';
 
-let world: UE.World = null;
-let reactUMGStarter: UE.ReactUMGStarter = null;
+let world: UE.World = undefined;
+let reactUMGStarter: UE.ReactUMGStarter = undefined;
 let isDebug = false;
 
 function log1(...data: string[]): void {
@@ -31,7 +31,7 @@ function log1(...data: string[]): void {
 // function toString<T>(obj: T): string {
 //     var cache = new Map();
 //     return JSON.stringify(obj, (_, value) => {
-//         if (typeof value === 'object' && value !== null) {
+//         if (typeof value === 'object' && value !== undefined) {
 //             if (cache.has(value)) {
 //                 return undefined;
 //             }
@@ -317,7 +317,7 @@ function compareWidgetProps<T>(x: T, y: T): boolean {
         return true;
     }
 
-    if (typeof x !== 'object' || x === null || typeof y !== 'object' || y === null) {
+    if (typeof x !== 'object' || x === undefined || typeof y !== 'object' || y === undefined) {
         return false;
     }
 
@@ -461,7 +461,7 @@ const hostConfig: Reconciler.HostConfig<
 };
 
 const reconciler = Reconciler(hostConfig);
-let umgRoot: UE.UMGRoot = null;
+let umgRoot: UE.UMGRoot = undefined;
 
 export const ReactUMG = {
     render(reactElement: React.ReactNode): void {
@@ -471,7 +471,7 @@ export const ReactUMG = {
 
         const root = new UEWidgetRoot(umgRoot);
         const container = reconciler.createContainer(root, false, false);
-        reconciler.updateContainer(reactElement, container, null, null);
+        reconciler.updateContainer(reactElement, container, undefined, undefined);
         reactUMGStarter.SetContent(root.nativePtr);
     },
 

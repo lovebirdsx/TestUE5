@@ -27,7 +27,7 @@ export class TempleData extends React.Component<IProps<number>, IState> {
         super(props);
         this.state = {
             IsFolded: false,
-            TempleData: null,
+            TempleData: undefined,
             StepId: 0,
         };
     }

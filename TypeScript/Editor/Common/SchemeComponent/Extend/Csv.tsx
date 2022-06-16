@@ -38,7 +38,7 @@ export function RenderCsvTemplateId(props: IProps<number>): JSX.Element {
                     <HorizontalBox>
                         <EntityTemplateSelector
                             Id={props.Value}
-                            EntityType={entityType ? entityType : null}
+                            EntityType={entityType ? entityType : undefined}
                             OnModify={(id): void => {
                                 props.OnModify(id, 'normal');
                             }}

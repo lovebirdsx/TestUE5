@@ -146,7 +146,7 @@ export class Obj<T> extends React.Component<IProps<T, ObjectScheme<T>>> {
     public render(): JSX.Element {
         const { Value: value, Scheme: type, PrefixElement: prefixElement } = this.props;
         if (!value) {
-            return <Text Text={'value is null'} Color="#FF0000 red"></Text>;
+            return <Text Text={'value is undefined'} Color="#FF0000 red"></Text>;
         }
 
         const objectType = type as ObjectScheme<unknown>;

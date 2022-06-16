@@ -5,8 +5,8 @@ import { createObjectScheme, intScheme, stringScheme } from '../../Type';
 
 export function createDefaultPlayFlowFor(flowListName: string): IPlayFlow {
     const flowList = flowListOp.LoadByName(flowListName);
-    const flow = flowList.Flows.length > 0 ? flowList.Flows[0] : null;
-    const state = flow && flow.States.length > 0 ? flow.States[0] : null;
+    const flow = flowList.Flows.length > 0 ? flowList.Flows[0] : undefined;
+    const state = flow && flow.States.length > 0 ? flow.States[0] : undefined;
     return {
         FlowListName: flowListName,
         FlowId: flow ? flow.Id : 0,

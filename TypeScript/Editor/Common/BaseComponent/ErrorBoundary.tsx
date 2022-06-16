@@ -12,7 +12,7 @@ interface IErrorBoundaryState {
 export class ErrorBoundary extends React.Component<unknown, IErrorBoundaryState> {
     public constructor(props: unknown) {
         super(props);
-        this.state = { Error: null, ErrorInfo: null };
+        this.state = { Error: undefined, ErrorInfo: undefined };
     }
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -27,8 +27,8 @@ export class ErrorBoundary extends React.Component<unknown, IErrorBoundaryState>
 
     private readonly Clear = (): void => {
         this.setState({
-            Error: null,
-            ErrorInfo: null,
+            Error: undefined,
+            ErrorInfo: undefined,
         });
     };
 

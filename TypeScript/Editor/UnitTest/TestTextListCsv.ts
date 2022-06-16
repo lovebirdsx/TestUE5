@@ -53,5 +53,5 @@ export function readTextListCsv(path: string): void {
     const csv = new TextListCsvLoader();
     const abPath = MyFileHelper.GetPath(EFileRoot.Save, path);
     const rows = csv.Load(abPath);
-    log(JSON.stringify(rows, null, 2));
+    log(JSON.stringify(rows, undefined, 2));
 }

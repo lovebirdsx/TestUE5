@@ -70,7 +70,7 @@ class PlayerComponent extends Component {
         this.MyIsInteracting = true;
         this.InteractingActer = interactor;
         await interactor.GetComponent(InteractiveComponent).Interact(this.Entity);
-        this.InteractingActer = null;
+        this.InteractingActer = undefined;
         this.MyIsInteracting = false;
     }
 }

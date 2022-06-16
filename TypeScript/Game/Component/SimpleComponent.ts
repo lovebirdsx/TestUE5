@@ -57,7 +57,7 @@ export class SimpleComponent extends Component implements ITickable {
                     if (location !== moveinfo.TargetPos) {
                         const offset = moveinfo.Speed.op_Multiply(deltaTime);
                         const newLocation = tsEntity.K2_GetActorLocation().op_Addition(offset);
-                        tsEntity.K2_SetActorLocation(newLocation, false, null, false);
+                        tsEntity.K2_SetActorLocation(newLocation, false, undefined, false);
                         moveinfo.Time = time - deltaTime;
                         // 移动时更新附近物体的物理
                         this.WakeRigidBodies(tsEntity);

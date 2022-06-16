@@ -211,7 +211,7 @@ export class State extends React.Component<IStateProps> {
                     </flowContext.Consumer>
                 </HorizontalBox>
                 {/* <VerticalBox RenderTransform={{ Translation: { X: tabOffset } }}> */}
-                <VerticalBox>{state._folded ? null : actions}</VerticalBox>
+                <VerticalBox>{state._folded ? undefined : actions}</VerticalBox>
             </VerticalBox>
         );
     }

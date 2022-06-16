@@ -350,7 +350,7 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
         editorConfig.CsvImportPath = path;
         editorConfig.Save();
 
-        let listInfo: IFlowListInfo = null;
+        let listInfo: IFlowListInfo = undefined;
         try {
             listInfo = TalkListTool.Import(path);
         } catch (e) {
@@ -389,12 +389,12 @@ export class FlowEditor extends React.Component<unknown, IFlowEditorState> {
 
     private readonly LogHistory = (): void => {
         EditorOperations.ClearLogWindow();
-        log(JSON.stringify(this.state.Histories, null, 2));
+        log(JSON.stringify(this.state.Histories, undefined, 2));
     };
 
     private readonly LogFlowInfo = (): void => {
         EditorOperations.ClearLogWindow();
-        log(JSON.stringify(this.FlowList, null, 2));
+        log(JSON.stringify(this.FlowList, undefined, 2));
     };
 
     private readonly ClearConsole = (): void => {

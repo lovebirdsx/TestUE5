@@ -197,7 +197,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
                     OnSelectChanged={function (flowName: string): void {
                         const newFlow = flowList.Flows.find((flow) => flow.Name === flowName);
                         const newState =
-                            newFlow && newFlow.States.length > 0 ? newFlow.States[0] : null;
+                            newFlow && newFlow.States.length > 0 ? newFlow.States[0] : undefined;
                         const newPlayFlow: IPlayFlow = {
                             FlowListName: playFlow.FlowListName,
                             FlowId: newFlow ? newFlow.Id : 0,
@@ -299,7 +299,7 @@ export function RenderTriggerActions(
                 Text={'输出'}
                 Tip={'输出动作Json'}
                 OnClick={(): void => {
-                    log(JSON.stringify(actions.Actions, null, 2));
+                    log(JSON.stringify(actions.Actions, undefined, 2));
                 }}
             />
         </HorizontalBox>

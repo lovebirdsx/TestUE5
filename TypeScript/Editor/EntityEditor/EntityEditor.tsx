@@ -193,8 +193,8 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return produce(state, (draft) => {
                 state.Histories.forEach((entityState, id) => {
                     if (entityState.Entity === entity) {
-                        draft.Histories[id].Entity = null;
-                        draft.Histories[id].Data = null;
+                        draft.Histories[id].Entity = undefined;
+                        draft.Histories[id].Data = undefined;
                     }
                 });
             });
@@ -651,7 +651,7 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
                     {
                         Name: '【实体编辑器】输出信息',
                         Fun: (): void => {
-                            log(JSON.stringify(this.state.Histories, null, 2));
+                            log(JSON.stringify(this.state.Histories, undefined, 2));
                         },
                     },
                 ]}

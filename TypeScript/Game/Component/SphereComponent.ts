@@ -28,7 +28,7 @@ export class SphereComponent extends InteractiveComponent {
     public OnInit(): void {
         this.State = EState.Down;
         this.Grab = this.Entity.GetComponent(GrabComponent);
-        this.InteractSignal = null;
+        this.InteractSignal = undefined;
     }
 
     public GetInteractContent(): string {
@@ -64,7 +64,7 @@ export class SphereComponent extends InteractiveComponent {
     }
 
     public Interacting(): void {
-        if (this.InteractSignal !== null) {
+        if (this.InteractSignal !== undefined) {
             this.InteractSignal.Emit(true);
         }
     }
@@ -90,8 +90,8 @@ export class SphereComponent extends InteractiveComponent {
         this.Entity.Actor.DisableInput(playerController);
 
         this.InteractUi.RemoveFromViewport();
-        this.InteractUi = null;
+        this.InteractUi = undefined;
         tsHud.ShowInteract();
-        this.InteractSignal = null;
+        this.InteractSignal = undefined;
     }
 }

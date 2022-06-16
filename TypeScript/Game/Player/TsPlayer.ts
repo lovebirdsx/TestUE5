@@ -100,7 +100,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
     }
 
     public SetGrab(actor: Actor): void {
-        if (!actor || actor === null) {
+        if (!actor || actor === undefined) {
             this.GrabHandle.ReleaseComponent();
             return;
         }
@@ -112,7 +112,7 @@ class TsPlayer extends TestUE5Character implements ITsEntity {
             const actorRotation: Rotator = component.K2_GetComponentRotation();
             this.GrabHandle.GrabComponentAtLocationWithRotation(
                 component,
-                null,
+                undefined,
                 actorLocation,
                 actorRotation,
             );

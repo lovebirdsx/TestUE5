@@ -17,7 +17,7 @@ export class GrabComponent extends Component implements IGrabComponent, ITickabl
     private GrabActor: Actor;
 
     public OnInit(): void {
-        this.GrabActor = null;
+        this.GrabActor = undefined;
     }
 
     public OnLoadState(): void {}
@@ -27,7 +27,7 @@ export class GrabComponent extends Component implements IGrabComponent, ITickabl
     public OnDestroy(): void {}
 
     public Grab(actor: Actor): void {
-        if (this.GrabActor !== null) {
+        if (this.GrabActor !== undefined) {
             this.CleanGrab();
         }
         this.GrabActor = actor;
@@ -38,9 +38,9 @@ export class GrabComponent extends Component implements IGrabComponent, ITickabl
 
     public CleanGrab(): void {
         gameContext.TickManager.RemoveTick(this);
-        this.GrabActor = null;
+        this.GrabActor = undefined;
         const player = gameContext.Player as TsPlayer;
-        player.SetGrab(null);
+        player.SetGrab(undefined);
     }
 
     public ReleaseGrab(): void {
@@ -63,7 +63,7 @@ export class GrabComponent extends Component implements IGrabComponent, ITickabl
     }
 
     public UpdateGradPos(): void {
-        if (this.GrabActor === null) {
+        if (this.GrabActor === undefined) {
             return;
         }
         const player = gameContext.Player as TsPlayer;
@@ -77,7 +77,7 @@ export class GrabComponent extends Component implements IGrabComponent, ITickabl
             );
             const rotation: Rotator = player.K2_GetActorRotation();
             //grab.SetTargetLocationAndRotation(vector, rotation);
-            component.K2_SetWorldLocationAndRotation(vector, rotation, false, null, false);
+            component.K2_SetWorldLocationAndRotation(vector, rotation, false, undefined, false);
         }
     }
 }

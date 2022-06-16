@@ -232,7 +232,7 @@ export class Entity {
         for (let i = this.MyComponents.length - 1; i >= 0; i--) {
             const component = this.MyComponents[i];
             if (component instanceof classObj) {
-                component.Entity = null;
+                component.Entity = undefined;
                 this.MyComponents.splice(i, 1);
                 this.AccessOptionalCallback(component, false);
                 break;

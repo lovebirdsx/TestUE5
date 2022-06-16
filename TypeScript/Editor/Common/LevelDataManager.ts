@@ -94,6 +94,13 @@ export class LevelDataManager {
         return `${mapDir}/${world.GetName()}_Entities/${entity.ActorGuid.ToString()}.json`;
     }
 
+    public ExistEntityId(id: number | undefined): boolean {
+        if (id === undefined) {
+            return false;
+        }
+        return this.EntityRecordMap.has(id);
+    }
+
     public TryGetEntityData(entity: ITsEntity): IEntityData | undefined {
         const record = this.EntityRecordMap.get(entity.Id);
         return record ? this.DecompressEntityData(record.EntityData) : undefined;

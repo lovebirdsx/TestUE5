@@ -15,7 +15,7 @@ import {
 } from 'ue';
 
 import { MS_PER_SEC } from '../../Common/Async';
-import { log } from '../../Common/Log';
+import { log, warn } from '../../Common/Log';
 import { readJsonObj, stringifyEditor } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
 import { isEntityClass, isRegistedEntity } from '../../Game/Entity/Common';
@@ -318,6 +318,14 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         }
 
         if (!isRegistedEntity(entity)) {
+            return;
+        }
+
+        // Unreal Editor有时会添加删除临时的Actor, 为了确保逻辑的正确, 需要将其
+        // 在添加列表中移除
+        this.EntityAddRecrod.delete(entity);
+        if (!levelDataManager.ExistEntityId(entity.Id)) {
+            warn(`Delete entity [${entity.ActorLabel}] with invalid id [${entity.Id}]`);
             return;
         }
 

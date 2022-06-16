@@ -109,10 +109,10 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")
 	static void WriteNumberIni(FString Section, FString Key, float Value);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static bool OpenFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static bool SaveFileDialog(const FString& DialogTitle, const FString& DefaultFilePath, const FString& FileTypes, TArray<FString>& OutFilenames);
 	
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "KuroEditorCommon")

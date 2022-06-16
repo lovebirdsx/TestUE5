@@ -12,20 +12,20 @@ DECLARE_LOG_CATEGORY_EXTERN(MyLog, Log, All);
  * 
  */
 UCLASS()
-class KUROGAMECOMMON_API UMyLog : public UObject
+class KUROEDITORCOMMON_API UMyLog : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void Log(FString Message);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void Warn(FString Message);
 	
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void Error(FString Message);
 	
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void Display(FString Message);
 };

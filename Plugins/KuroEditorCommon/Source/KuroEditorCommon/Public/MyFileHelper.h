@@ -15,41 +15,41 @@ enum class EFileRoot : uint8
 };
 
 UCLASS()
-class KUROGAMECOMMON_API UMyFileHelper : public UObject
+class KUROEDITORCOMMON_API UMyFileHelper : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static FString GetPath(EFileRoot Root, FString Path);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static FString GetPathRelativeTo(const FString& FromPath, const FString& ToPath);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static FString GetAbsolutePath(const FString& Path);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static FString Read(FString Path);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static int64 GetFileModifyTick(const FString& Path);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void Touch(const FString& Path);
 	
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static bool Exist(FString Path);
 	
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static bool Write(FString Path, FString Content);
 	
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static bool Remove(FString Path);	
 	
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void FindFiles(TArray<FString>& FoundFiles, const FString& Directory, const FString& FileExtension);
 
-	UFUNCTION(BlueprintCallable, Category = "KuroGameCommon")
+	UFUNCTION(BlueprintCallable, Category = "KuroEditorCommon")
 	static void FindFilesRecursively(TArray<FString>& FoundFiles, const FString& Directory, const FString& FileExtension);
 };

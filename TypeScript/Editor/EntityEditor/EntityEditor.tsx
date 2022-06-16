@@ -18,7 +18,7 @@ import { MS_PER_SEC } from '../../Common/Async';
 import { log } from '../../Common/Log';
 import { readJsonObj, stringifyEditor } from '../../Common/Util';
 import { gameConfig } from '../../Game/Common/GameConfig';
-import { isEntity } from '../../Game/Entity/Common';
+import { isEntityClass, isRegistedEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { IEntityData } from '../../Game/Interface/IEntity';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
@@ -280,7 +280,11 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     };
 
     private CastToEntity(actor: Actor): ITsEntity | undefined {
-        if (!isEntity(actor)) {
+        if (!actor) {
+            return undefined;
+        }
+
+        if (!isEntityClass(actor.GetClass())) {
             return undefined;
         }
 
@@ -298,12 +302,22 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
             return;
         }
 
+        if (!isRegistedEntity(entity)) {
+            msgbox(`你似乎拖入了尚未注册的实体[${actor.ActorLabel}]\n将被自动删除`);
+            EditorLevelLibrary.DestroyActor(actor);
+            return;
+        }
+
         this.EntityAddRecrod.add(entity);
     };
 
     private readonly OnActorDeleted = (actor: Actor): void => {
         const entity = this.CastToEntity(actor);
         if (!entity) {
+            return;
+        }
+
+        if (!isRegistedEntity(entity)) {
             return;
         }
 
@@ -320,6 +334,10 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     private readonly OnActorMoved = (actor: Actor): void => {
         const entity = this.CastToEntity(actor);
         if (!entity) {
+            return;
+        }
+
+        if (!isRegistedEntity(entity)) {
             return;
         }
 

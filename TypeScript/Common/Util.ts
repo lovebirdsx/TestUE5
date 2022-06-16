@@ -260,7 +260,11 @@ export function getTotalSecond(): number {
     return totalSecond;
 }
 
-export function isChildOfClass(childObj: UE.Object, parentClass: UE.Class): boolean {
+export function isChildOfClass(childClass: UE.Class, parentClass: UE.Class): boolean {
+    return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
+}
+
+export function isObjChildOfClass(childObj: UE.Object, parentClass: UE.Class): boolean {
     const childClass = childObj.GetClass();
     return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }

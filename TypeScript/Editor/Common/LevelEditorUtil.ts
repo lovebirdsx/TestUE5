@@ -20,7 +20,7 @@ import {
 import { error, log } from '../../Common/Log';
 import { getAssetPath, isValidActor, toUeArray } from '../../Common/Util';
 import { LevelUtil } from '../../Game/Common/LevelUtil';
-import { isEntity } from '../../Game/Entity/Common';
+import { isEntityClass, isRegistedEntity } from '../../Game/Entity/Common';
 import { ITsEntity } from '../../Game/Interface';
 import { toRotation, toTransform, toVector } from '../../Game/Interface/Action';
 import { getClassByBluprintType } from '../../Game/Interface/Entity';
@@ -101,8 +101,12 @@ class LevelEditorUtil {
 
         for (let i = 0; i < actors.Num(); i++) {
             const actor = actors.Get(i);
-            if (isEntity(actor) && isValidActor(actor)) {
-                return actor as ITsEntity;
+            if (isEntityClass(actor.GetClass()) && isValidActor(actor)) {
+                const entity = actor as ITsEntity;
+                if (isRegistedEntity(entity)) {
+                    return entity;
+                }
+                return undefined;
             }
         }
 

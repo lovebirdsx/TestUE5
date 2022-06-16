@@ -2,7 +2,7 @@
 
 import { Actor, Character, GameplayStatics, Transform } from 'ue';
 
-import { isChildOfClass, stringify } from '../../Common/Util';
+import { isObjChildOfClass, stringify } from '../../Common/Util';
 import TsEntity from '../Entity/TsEntity';
 import { gameContext } from '../Interface';
 import { getClassByBluprintType, getClassByEntityType } from '../Interface/Entity';
@@ -19,7 +19,7 @@ class EntitySerializer {
             transform,
         ) as TsEntity;
 
-        if (isChildOfClass(entity, characterEntityClass)) {
+        if (isObjChildOfClass(entity, characterEntityClass)) {
             const character = entity as Actor as Character;
             character.SpawnDefaultController();
         }

@@ -1,10 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, Class } from 'ue';
 
-import { isChildOfClass } from '../../Common/Util';
+import { isChildOfClass, isObjChildOfClass } from '../../Common/Util';
 import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity } from '../Interface';
-import { getClassByEntityType } from '../Interface/Entity';
+import {
+    getClassByEntityType,
+    getEntityTypeByActor,
+    getEntityTypeByClass,
+} from '../Interface/Entity';
 import { TComponentsData } from '../Interface/IEntity';
 
 function getComponentsData(entity: ITsEntity, isPlayer: boolean): TComponentsData {
@@ -65,14 +69,23 @@ const entityClass = getClassByEntityType('Entity');
 const characterEntityClass = getClassByEntityType('CharacterEntity');
 const playerClass = Class.Load('/Game/Blueprints/TypeScript/Game/Player/TsPlayer.TsPlayer_C');
 
-export function isEntity(actor: Actor): boolean {
+export function isEntityClass(classObj: Class): boolean {
     return (
-        isChildOfClass(actor, entityClass) ||
-        isChildOfClass(actor, characterEntityClass) ||
-        isChildOfClass(actor, playerClass)
+        isChildOfClass(classObj, entityClass) ||
+        isChildOfClass(classObj, characterEntityClass) ||
+        isChildOfClass(classObj, playerClass)
     );
 }
 
+export function isRegistedEntity(entity: ITsEntity): boolean {
+    return getEntityTypeByActor(entity) !== undefined;
+}
+
+export function isEntity(actor: Actor): boolean {
+    const actorClass = actor.GetClass();
+    return isEntityClass(actorClass) && getEntityTypeByClass(actorClass) !== undefined;
+}
+
 export function isPlayer(actor: Actor): boolean {
-    return isChildOfClass(actor, playerClass);
+    return isObjChildOfClass(actor, playerClass);
 }

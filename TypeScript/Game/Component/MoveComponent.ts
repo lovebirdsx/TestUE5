@@ -12,7 +12,7 @@ import {
 
 import { createCancleableDelay, createSignal, ISignal } from '../../Common/Async';
 import { warn } from '../../Common/Log';
-import { calUpRotatorByPoints, isChildOfClass } from '../../Common/Util';
+import { calUpRotatorByPoints, isObjChildOfClass } from '../../Common/Util';
 import { Component, gameContext } from '../Interface';
 import { toVector } from '../Interface/Action';
 import { getClassByEntityType } from '../Interface/Entity';
@@ -168,7 +168,7 @@ export class MoveComponent extends Component implements IMoveComponent {
     public SetPosA(posA: IPosA): void {
         // 如果是Character，则需要将其位置拉高
         const pos = toVector(posA);
-        if (isChildOfClass(this.Entity.Actor, getClassByEntityType('CharacterEntity'))) {
+        if (isObjChildOfClass(this.Entity.Actor, getClassByEntityType('CharacterEntity'))) {
             const charactor = this.Entity.Actor as Character;
             pos.Z += charactor.CapsuleComponent.GetUnscaledCapsuleHalfHeight();
         }

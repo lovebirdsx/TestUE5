@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Class } from 'ue';
 
-import { isChildOfClass } from '../../Common/Util';
+import { isObjChildOfClass } from '../../Common/Util';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
 import { toVector } from '../Interface/Action';
 import { IInteract } from '../Interface/IAction';
@@ -52,7 +52,7 @@ export class UndergroundComponent extends Component implements IUndergroundCompo
     }
 
     public ReceiveOverlap(other: ITsEntity): void {
-        if (isChildOfClass(other.Entity.Actor, playerClass)) {
+        if (isObjChildOfClass(other.Entity.Actor, playerClass)) {
             this.RestartPlayerPos();
         } else {
             //DestroyUnderground

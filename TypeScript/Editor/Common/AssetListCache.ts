@@ -17,6 +17,7 @@ class AssetListCache {
     private GetAssetsImpl(searchPath: string, className: string): AssetData[] {
         const filter = new ARFilter();
         filter.ClassNames.Add(className);
+        filter.bRecursiveClasses = true;
         if (searchPath) {
             filter.PackagePaths.Add(searchPath);
         }
@@ -46,7 +47,9 @@ class AssetListCache {
         }
 
         const datas = this.GetAssetsImpl(searchPath, className);
-        this.Cache.set(key, { Time: now, Assets: datas });
+        if (datas) {
+            this.Cache.set(key, { Time: now, Assets: datas });
+        }
         return datas;
     }
 }

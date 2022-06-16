@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { ICsv } from '../../../Game/Common/CsvConfig/CsvLoader';
 import { IFlowInfo, IInvoke, IShowTalk } from '../../../Game/Interface/IAction';
-import { ITalkerListInfo } from '../../TalkerEditor/TalkerList';
 import { ArrayScheme } from '../Type';
 
 export const flowContext = React.createContext<IFlowInfo>(undefined);
@@ -31,5 +30,3 @@ export const arrayContext = React.createContext<IArrayContext>({
 });
 
 export const entityIdContext = React.createContext<number>(undefined);
-
-export const talkerListContext = React.createContext<ITalkerListInfo>(undefined);

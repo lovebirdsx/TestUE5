@@ -20,6 +20,7 @@ export type TActionType =
     | 'Log'
     | 'MoveToPos'
     | 'PlayCustomSequence'
+    | 'PlayMovie'
     | 'PlaySequenceData'
     | 'SetBehaviorIsPaused'
     | 'SetCameraMode'
@@ -140,6 +141,10 @@ export interface IShowOption {
     TextId: number;
 }
 
+export interface IShowCenterText {
+    TextId: number;
+}
+
 export interface IChangeState {
     StateId: number;
 }
@@ -203,12 +208,18 @@ export interface ISetPlotMode {
 
 export interface IPlaySequenceData {
     Path: string;
+    ResetCamera?: boolean;
 }
 
 // 播放自定义Sequence,CustomSeqId对应[自定义序列]配表中的配置
 export interface IPlayCustomSequence {
     CustomSeqId: number;
     WhoIds: number[];
+    ResetCamera?: boolean;
+}
+
+export interface IPlayMovie {
+    VideoName: string;
 }
 
 // 等待一段时间

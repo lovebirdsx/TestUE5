@@ -21,7 +21,7 @@ import {
     simpleMoveScheme,
 } from './Move';
 import { setCameraModeScheme, setFlowBoolOptionScheme, setPlotModeScheme } from './PlotNode';
-import { playCustomSequenceScheme, playSequenceDataScheme } from './Sequence';
+import { playCustomSequenceScheme, playMovieScheme, playSequenceDataScheme } from './Sequence';
 import { showOptionScheme, showTalkScheme } from './ShowTalk';
 import { showCenterTextScheme } from './ShowText';
 import {
@@ -53,6 +53,7 @@ export const objectSchemeMap: { [key in TActionType]: ObjectScheme<unknown> } = 
     Log: logScheme,
     MoveToPos: moveToPosScheme,
     PlaySequenceData: playSequenceDataScheme,
+    PlayMovie: playMovieScheme,
     PlayCustomSequence: playCustomSequenceScheme,
     SetBehaviorIsPaused: setBehaviorIsPausedScheme,
     SetCameraMode: setCameraModeScheme,

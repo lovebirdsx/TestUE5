@@ -14,8 +14,8 @@ const puerts = require("puerts");
 const Reconciler = require("react-reconciler");
 const UE = require("ue");
 const Log_1 = require("../Common/Log");
-let world = null;
-let reactUMGStarter = null;
+let world = undefined;
+let reactUMGStarter = undefined;
 let isDebug = false;
 function log1(...data) {
     if (isDebug) {
@@ -27,7 +27,7 @@ function log1(...data) {
 // function toString<T>(obj: T): string {
 //     var cache = new Map();
 //     return JSON.stringify(obj, (_, value) => {
-//         if (typeof value === 'object' && value !== null) {
+//         if (typeof value === 'object' && value !== undefined) {
 //             if (cache.has(value)) {
 //                 return undefined;
 //             }
@@ -266,7 +266,7 @@ function compareWidgetProps(x, y) {
     if (x === y) {
         return true;
     }
-    if (typeof x !== 'object' || x === null || typeof y !== 'object' || y === null) {
+    if (typeof x !== 'object' || x === undefined || typeof y !== 'object' || y === undefined) {
         return false;
     }
     for (const p in x) {
@@ -363,7 +363,7 @@ const hostConfig = {
     },
 };
 const reconciler = Reconciler(hostConfig);
-let umgRoot = null;
+let umgRoot = undefined;
 exports.ReactUMG = {
     render(reactElement) {
         if (!reactUMGStarter) {
@@ -371,7 +371,7 @@ exports.ReactUMG = {
         }
         const root = new UEWidgetRoot(umgRoot);
         const container = reconciler.createContainer(root, false, false);
-        reconciler.updateContainer(reactElement, container, null, null);
+        reconciler.updateContainer(reactElement, container, undefined, undefined);
         reactUMGStarter.SetContent(root.nativePtr);
     },
     init(starter) {

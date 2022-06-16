@@ -9,6 +9,7 @@ import {
     IActionInfo,
     IFlowInfo,
     IFlowListInfo,
+    IShowCenterText,
     IShowOption,
     IShowTalk,
     IStateInfo,
@@ -18,7 +19,7 @@ import {
 } from '../../Game/Interface/IAction';
 import { editorFlowOp } from '../Common/Operations/Flow';
 
-type TCsvTalkType = '对话' | '对话选项' | '独立选项';
+type TCsvTalkType = '中心文本' | '对话' | '对话选项' | '独立选项';
 
 const csvRowConfig = {
     Flow: '剧情',
@@ -67,6 +68,15 @@ export class TalkListCsvFile {
         MyFileHelper.Write(path, this.Stringify());
     }
 
+    public GetactionType(talkType: TCsvTalkType): TActionType {
+        if (talkType === '独立选项') {
+            return 'ShowOption';
+        } else if (talkType === '中心文本') {
+            return 'ShowCenterText';
+        }
+        return 'ShowTalk';
+    }
+
     public Gen(): IFlowListInfo {
         const flows: IFlowInfo[] = [];
         const flowList = flowListOp.Create();
@@ -102,7 +112,7 @@ export class TalkListCsvFile {
                 lastState.Name = state;
             }
 
-            const actionType: TActionType = talkType === '独立选项' ? 'ShowOption' : 'ShowTalk';
+            const actionType: TActionType = this.GetactionType(talkType);
             if (!lastAction || actionType !== lastAction.Name) {
                 lastAction = {
                     Name: actionType,
@@ -115,6 +125,11 @@ export class TalkListCsvFile {
                 lastAction.Params = {
                     TextId: flowListOp.CreateText(flowList, optionContent),
                 } as IShowOption;
+                lastAction = undefined;
+            } else if (actionType === 'ShowCenterText') {
+                lastAction.Params = {
+                    TextId: flowListOp.CreateText(flowList, talkContent),
+                } as IShowCenterText;
                 lastAction = undefined;
             } else if (actionType === 'ShowTalk') {
                 if (!lastAction.Params) {
@@ -162,6 +177,14 @@ export class TalkListCsvFile {
                             State: state.Name,
                             TalkType: '独立选项',
                             OptionContent: flowList.Texts[showOption.TextId].Text,
+                        });
+                    } else if (action.Name === 'ShowCenterText') {
+                        const showCenterText = action.Params as IShowCenterText;
+                        rows.push({
+                            Flow: flow.Name,
+                            State: state.Name,
+                            TalkType: '中心文本',
+                            TalkContent: flowList.Texts[showCenterText.TextId].Text,
                         });
                     } else if (action.Name === 'ShowTalk') {
                         const showTalk = action.Params as IShowTalk;

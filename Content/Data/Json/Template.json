@@ -588,7 +588,6 @@
         "RefreshSingleComponent": {
           "TemplateGuid": 0,
           "RefreshInterval": 0,
-          "MaxRefreshTimes": 0,
           "DelayRefresh": false
         }
       }
@@ -600,7 +599,6 @@
       "ComponentsData": {
         "RefreshEntityComponent": {
           "RefreshInterval": 0,
-          "MaxRefreshTimes": 0,
           "DelayRefresh": false,
           "EntityIdList": [],
           "IsUesCylinder": {

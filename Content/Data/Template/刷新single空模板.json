@@ -6,7 +6,6 @@
     "RefreshSingleComponent": {
       "TemplateGuid": 0,
       "RefreshInterval": 0,
-      "MaxRefreshTimes": 0,
       "DelayRefresh": false
     }
   }

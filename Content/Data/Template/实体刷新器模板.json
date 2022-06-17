@@ -5,7 +5,6 @@
   "ComponentsData": {
     "RefreshEntityComponent": {
       "RefreshInterval": 0,
-      "MaxRefreshTimes": 0,
       "DelayRefresh": false,
       "EntityIdList": [],
       "IsUesCylinder": {

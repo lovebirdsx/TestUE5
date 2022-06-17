@@ -108,7 +108,6 @@ export interface ICylinder {
 
 export interface IRefreshGroup {
     RefreshInterval: number;
-    MaxRefreshTimes: number;
     DelayRefresh: boolean;
     EntityIdList: number[];
     IsUesCylinder: ICylinder;
@@ -116,7 +115,6 @@ export interface IRefreshGroup {
 
 export interface IRefreshSingleComponent {
     RefreshInterval: number;
-    MaxRefreshTimes: number;
     DelayRefresh: boolean;
     TemplateGuid: number;
 }

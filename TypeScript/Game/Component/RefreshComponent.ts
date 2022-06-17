@@ -12,7 +12,6 @@ import {
 } from '../../Common/Interface/IComponent';
 import { IEntityData } from '../../Common/Interface/IEntity';
 import { getTotalSecond } from '../../Common/Misc/Util';
-import { deInitTsEntity } from '../Entity/Common';
 import { Component, gameContext, ITimeCall } from '../Interface';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';
@@ -25,8 +24,6 @@ export class RefreshSingleComponent
 
     public RefreshInterval: number;
 
-    public MaxRefreshTimes: number;
-
     public DelayRefresh: boolean;
 
     public TemplateGuid: number;
@@ -34,8 +31,6 @@ export class RefreshSingleComponent
     private State: StateComponent;
 
     private Spawn: EntitySpawnerComponent;
-
-    private RefreshTimes = 0;
 
     private readonly MaxNum = 1;
 
@@ -49,13 +44,9 @@ export class RefreshSingleComponent
         if (this.State.HasState('RefreshTime')) {
             this.CallTime = this.State.GetState('RefreshTime');
         }
-        if (this.State.HasState('TriggerTimes')) {
-            this.RefreshTimes = this.State.GetState('TriggerTimes');
-        }
     }
 
     public OnDestroy(): void {
-        this.State.SetState('TriggerTimes', this.RefreshTimes);
         this.State.SetState('RefreshTime', this.CallTime);
         gameContext.EntityManager.EntityRemoved.RemoveCallBack(this.OnEntityRemoved);
         if (gameContext.TickManager.HasTimeCall(this)) {
@@ -80,16 +71,6 @@ export class RefreshSingleComponent
     };
 
     public OnStart(): void {
-        if (this.RefreshTimes >= this.MaxRefreshTimes && this.Spawn.GetChildNum() === 0) {
-            // 如果刷满且没有子实体了就删除实体;
-            const id = this.Entity.Id;
-            const tsEntity = gameContext.EntityManager.GetEntity(id);
-            if (tsEntity) {
-                deInitTsEntity(tsEntity);
-                tsEntity.K2_DestroyActor();
-            }
-            return;
-        }
         const second = getTotalSecond();
         if (second < this.CallTime) {
             this.AddCall();
@@ -103,9 +84,6 @@ export class RefreshSingleComponent
     };
 
     public AddCall(): void {
-        if (this.RefreshTimes >= this.MaxRefreshTimes) {
-            return;
-        }
         if (!gameContext.TickManager.HasTimeCall(this) && this.CallTime > 0) {
             gameContext.TickManager.AddTimeCall(this);
             this.State.SetState('RefreshTime', this.CallTime);
@@ -117,15 +95,9 @@ export class RefreshSingleComponent
         if (this.Spawn.GetChildNum() >= this.MaxNum) {
             return;
         }
-        // 次数刷满没
-        if (this.RefreshTimes >= this.MaxRefreshTimes) {
-            return;
-        }
         this.CreateSingle();
         this.CallTime = -1;
-        this.RefreshTimes += 1;
         this.State.SetState('RefreshTime', this.CallTime);
-        this.State.SetState('TriggerTimes', this.RefreshTimes);
     }
 
     public CreateSingle(): void {
@@ -147,8 +119,6 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
 
     public RefreshInterval: number;
 
-    public MaxRefreshTimes: number;
-
     public DelayRefresh: boolean;
 
     public EntityIdList: number[];
@@ -156,8 +126,6 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     public IsUesCylinder: ICylinder;
 
     private State: StateComponent;
-
-    private RefreshTimes = 0;
 
     private readonly OriginEntityMap = new Map<number, IEntityData>();
 
@@ -170,13 +138,9 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
         if (this.State.HasState('RefreshTime')) {
             this.CallTime = this.State.GetState('RefreshTime');
         }
-        if (this.State.HasState('TriggerTimes')) {
-            this.RefreshTimes = this.State.GetState('TriggerTimes');
-        }
     }
 
     public OnDestroy(): void {
-        this.State.SetState('TriggerTimes', this.RefreshTimes);
         this.State.SetState('RefreshTime', this.CallTime);
         gameContext.EntityManager.EntityRemoved.RemoveCallBack(this.OnEntityRemoved);
         if (gameContext.TickManager.HasTimeCall(this)) {
@@ -241,9 +205,6 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     };
 
     public AddCall(): void {
-        if (this.MaxRefreshTimes > 0 && this.RefreshTimes >= this.MaxRefreshTimes) {
-            return;
-        }
         if (!gameContext.TickManager.HasTimeCall(this) && this.CallTime > 0) {
             gameContext.TickManager.AddTimeCall(this);
             this.State.SetState('RefreshTime', this.CallTime);
@@ -251,15 +212,9 @@ export class RefreshEntityComponent extends Component implements IRefreshGroup, 
     }
 
     public Refresh(): void {
-        // 次数刷满没  todo 有的次数无限制 优化一下
-        if (this.MaxRefreshTimes > 0 && this.RefreshTimes >= this.MaxRefreshTimes) {
-            return;
-        }
         this.RefreshGroup();
         this.CallTime = -1;
-        this.RefreshTimes += 1;
         this.State.SetState('RefreshTime', this.CallTime);
-        this.State.SetState('TriggerTimes', this.RefreshTimes);
     }
 
     public RefreshGroup(): void {

@@ -30,11 +30,6 @@ export const refreshSingleComponentScheme = createComponentScheme<IRefreshSingle
             ShowName: true,
             NewLine: true,
         }),
-        MaxRefreshTimes: createIntScheme({
-            CnName: '最多刷新次数',
-            ShowName: true,
-            NewLine: true,
-        }),
         DelayRefresh: createBooleanScheme({
             CnName: '延时刷新？',
             ShowName: true,
@@ -71,11 +66,6 @@ export const refreshEntityComponentScheme = createComponentScheme<IRefreshGroup>
     Fields: {
         RefreshInterval: createIntScheme({
             CnName: '刷新间隔',
-            ShowName: true,
-            NewLine: true,
-        }),
-        MaxRefreshTimes: createIntScheme({
-            CnName: '最多刷新次数',
             ShowName: true,
             NewLine: true,
         }),

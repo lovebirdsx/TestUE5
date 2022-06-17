@@ -22,18 +22,22 @@ const excelFormatCsvFields: ICsvField[] = [
     createCsvField({
         Name: 'TargetPath',
         CnName: '输入文件',
+        RenderType: 'ExcelFormatCsv',
     }),
     createCsvField({
         Name: 'ConfigPath',
         CnName: '通配符文件',
+        RenderType: 'ExcelFormatCsv',
     }),
     createCsvField({
         Name: 'OutputPath',
         CnName: '输出文件',
+        RenderType: 'ExcelFormatCsv',
     }),
     createCsvField({
         Name: 'FormatBtn',
         CnName: '导出',
+        RenderType: 'ExcelFormatCsv',
     }),
 ];
 

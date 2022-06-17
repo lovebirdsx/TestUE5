@@ -73,3 +73,7 @@ export const csvEntityTemplateIdScheme = createIntScheme({
         return entityTemplateManager.GenDefaultId();
     },
 });
+
+export const csvExcelFormatScheme = createStringScheme({
+    Name: 'CsvExcelFormat',
+});

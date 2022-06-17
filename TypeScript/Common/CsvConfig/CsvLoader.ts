@@ -53,6 +53,7 @@ export type TCsvCellRenderType =
     | 'EntityBp'
     | 'EntityTemplateId'
     | 'EntityType'
+    | 'ExcelFormatCsv'
     | 'Float'
     | 'FollowCell'
     | 'HeadIcon'
@@ -67,6 +68,7 @@ const valueTypeByRenderType: { [key in TCsvCellRenderType]: TCsvCustomValueType 
     CellType: 'String',
     EntityBp: 'String',
     EntityTemplateId: 'Int',
+    ExcelFormatCsv: 'String',
     EntityType: 'String',
     Float: 'Float',
     FollowCell: 'String',

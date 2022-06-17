@@ -28,9 +28,13 @@ import { stateIdScheme } from '../Scheme/Action/State';
 import { behaviorFlowComponentScheme } from '../Scheme/Component/FlowComponentScheme';
 import { templeGuidScheme } from '../Scheme/Component/RefreshComponentScheme';
 import { triggerActionsScheme } from '../Scheme/Component/TriggerComponentSheme';
-import { csvEntityTemplateIdScheme, csvFollowCellScheme } from '../Scheme/Csv/CsvCell';
+import {
+    csvEntityTemplateIdScheme,
+    csvExcelFormatScheme,
+    csvFollowCellScheme,
+} from '../Scheme/Csv/CsvCell';
 import { RenderVarValue } from './Extend/Calculate';
-import { RenderCsvFollowCell, RenderCsvTemplateId } from './Extend/Csv';
+import { RenderCsvExcelFormat, RenderCsvFollowCell, RenderCsvTemplateId } from './Extend/Csv';
 import { Direction } from './Extend/Direction';
 import {
     RenderBehaviorFlow,
@@ -75,6 +79,7 @@ renderRegistry.RegComponent<ISpawn>(spawnChildScheme, Spawn);
 renderRegistry.RegComponent<number>(templeGuidScheme, TempleData);
 renderRegistry.RegComponent<number[]>(whoIdsScheme, RenderWhoIdsScheme);
 renderRegistry.RegComponent<number>(csvEntityTemplateIdScheme, RenderCsvTemplateId);
+renderRegistry.RegComponent<string>(csvExcelFormatScheme, RenderCsvExcelFormat);
 
 export * from './Basic/Public';
 export * from './Extend/FlowList';

@@ -4,7 +4,12 @@ import { booleanScheme, floatScheme, intScheme, Scheme, stringScheme } from '../
 import { entityBpScheme, entityTypeScheme } from '../Action/Entity';
 import { cameraBindModeScheme, seqDataScheme } from '../Action/Sequence';
 import { headIconScheme } from '../Action/Talker';
-import { csvCellTypeScheme, csvEntityTemplateIdScheme, csvFollowCellScheme } from './CsvCell';
+import {
+    csvCellTypeScheme,
+    csvEntityTemplateIdScheme,
+    csvExcelFormatScheme,
+    csvFollowCellScheme,
+} from './CsvCell';
 
 const csvSchemaMap: { [key in TCsvCellRenderType]: Scheme } = {
     String: stringScheme,
@@ -20,6 +25,7 @@ const csvSchemaMap: { [key in TCsvCellRenderType]: Scheme } = {
     EntityBp: entityBpScheme,
     EntityTemplateId: csvEntityTemplateIdScheme,
     EntityType: entityTypeScheme,
+    ExcelFormatCsv: csvExcelFormatScheme,
 };
 
 /* eslint-disable spellcheck/spell-checker */

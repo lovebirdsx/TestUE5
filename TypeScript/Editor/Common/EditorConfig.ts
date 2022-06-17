@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
+import { ECsvName } from '../../Common/CsvConfig/CsvRegistry';
 import { IPlayFlow } from '../../Common/Interface/IAction';
 import { getProjectPath, getSavePath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
@@ -44,7 +45,7 @@ export class EditorConfig {
     // EntityEditor中的编辑记录
     public EntityRecords: IEntityRecords = { Records: [] };
 
-    public ScrollOffset = {};
+    public CsvLoaderScrolls = {} as Record<ECsvName, number>;
 
     public IsDevelop: boolean;
 

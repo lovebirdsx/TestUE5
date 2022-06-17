@@ -78,8 +78,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             FilterTexts: csv.FiledTypes.map(() => ''),
         };
         let offset = 0;
-        if (editorConfig.ScrollOffset[csvState.Name]) {
-            offset = editorConfig.ScrollOffset[csvState.Name];
+        if (editorConfig.CsvLoaderScrolls[csvState.Name]) {
+            offset = editorConfig.CsvLoaderScrolls[csvState.Name];
         }
         this.ScrollOffset = offset;
         return {
@@ -196,7 +196,7 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
 
     private SaveScrollOffset(): void {
         const csvState = this.CurrentCsvState;
-        editorConfig.ScrollOffset[csvState.Name] = this.ScrollOffset;
+        editorConfig.CsvLoaderScrolls[csvState.Name] = this.ScrollOffset;
         editorConfig.Save();
     }
 
@@ -393,7 +393,6 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
             Size: { SizeRule: ESlateSizeRule.Fill },
         };
 
-        log(`renderrender ${this.state.ScrollOffset}`);
         return (
             <VerticalBox>
                 <ErrorBoundary>

@@ -42,7 +42,7 @@ export type TComponentType =
 // 服务器: IComponentConfig从Config/Component.json中读取
 export interface IComponentConfig {
     BaseActions: TActionType[];
-    ActionsByComponent: { [key in TComponentType]: TActionType[] };
+    ActionsByComponent: Partial<{ [key in TComponentType]: TActionType[] }>;
 }
 
 export interface IInteractiveComponent {

@@ -1,10 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
+import { isUe5 } from '../Init';
 import { TActionType } from './IAction';
 import { IComponentConfig, TComponentType } from './IComponent';
 
-export const baseActions: TActionType[] = ['Invoke', 'Log', 'Wait', 'ShowMessage'];
+const baseActionsUe5: TActionType[] = ['Log', 'Wait', 'ShowMessage'];
 
-export const actionsByComponent: { [key in TComponentType]: TActionType[] } = {
+const baseActionsAki: TActionType[] = ['Invoke', 'Log', 'Wait', 'ShowMessage'];
+
+const actionsByComponentAki: Partial<{ [key in TComponentType]: TActionType[] }> = {};
+
+const actionsByComponentUe5: Partial<{ [key in TComponentType]: TActionType[] }> = {
     ActorStateComponent: ['ChangeActorState'],
     BehaviorFlowComponent: ['ChangeBehaviorState', 'SetBehaviorIsPaused'],
     CalculateComponent: [
@@ -19,30 +24,18 @@ export const actionsByComponent: { [key in TComponentType]: TActionType[] } = {
     FlowComponent: ['ChangeState'],
     InteractiveComponent: [],
     MoveComponent: ['MoveToPos', 'SetPos', 'FaceToPos', 'SetMoveSpeed'],
-    RefreshSingleComponent: [],
-    RotatorComponent: [],
     SimpleComponent: ['SimpleMove'],
-    SphereFactoryComponent: [],
-    SpringComponent: [],
-    SwitcherComponent: [],
-    TrampleComponent: [],
-    TriggerComponent: [],
-    UndergroundComponent: [],
-    GrabComponent: [],
-    NpcComponent: [],
-    RefreshEntityComponent: [],
-    SphereComponent: [],
-    StateComponent: [],
-    TalkComponent: [],
-    LampComponent: [],
-    SpringBoardComponent: [],
 };
 
+export function getBaseActions(): TActionType[] {
+    return isUe5() ? baseActionsUe5 : baseActionsAki;
+}
+
 export function getActionsByComponentType(component: TComponentType): TActionType[] {
-    return actionsByComponent[component];
+    return actionsByComponentUe5[component] || [];
 }
 
 export const componentConfig: IComponentConfig = {
-    BaseActions: baseActions,
-    ActionsByComponent: actionsByComponent,
+    BaseActions: isUe5() ? baseActionsUe5 : baseActionsAki,
+    ActionsByComponent: isUe5() ? actionsByComponentUe5 : actionsByComponentAki,
 };

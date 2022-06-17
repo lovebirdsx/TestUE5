@@ -3,6 +3,7 @@ import { Actor, Blueprint, Class } from 'ue';
 
 import { csvRegistry } from '../CsvConfig/CsvRegistry';
 import { ExtendedEntityCsv } from '../CsvConfig/ExtendedEntityCsv';
+import { isUe5 } from '../Init';
 import { getProjectPath } from '../Misc/File';
 import { log } from '../Misc/Log';
 import {
@@ -12,7 +13,7 @@ import {
     isObjChildOfClass,
     readJsonObj,
 } from '../Misc/Util';
-import { baseActions, getActionsByComponentType } from './Component';
+import { getActionsByComponentType, getBaseActions } from './Component';
 import { globalConfig } from './Global';
 import { TActionType } from './IAction';
 import { TComponentType } from './IComponent';
@@ -27,7 +28,7 @@ import {
     TEntityType,
 } from './IEntity';
 
-export const componentsByEntity: TComponentsByEntity = {
+const componentsByEntityUe5: TComponentsByEntity = {
     Player: [],
     AiNpc: [
         'StateComponent',
@@ -78,12 +79,14 @@ export const componentsByEntity: TComponentsByEntity = {
     Underground: ['UndergroundComponent', 'StateComponent', 'EventComponent'],
 };
 
+const componentsByEntityAki: TComponentsByEntity = {};
+
 export const entityConfig: IEntityConfig = {
-    ComponentsByEntity: componentsByEntity,
+    ComponentsByEntity: isUe5() ? componentsByEntityUe5 : componentsByEntityAki,
 };
 
 export function getComponentsTypeByEntityType(entity: TEntityType): TComponentType[] {
-    return componentsByEntity[entity];
+    return entityConfig.ComponentsByEntity[entity] || [];
 }
 
 const actionsByEntity: Map<TEntityType, TActionType[]> = new Map();
@@ -91,8 +94,9 @@ const actionsByEntity: Map<TEntityType, TActionType[]> = new Map();
 export function getActionsByEntityType(entity: TEntityType): TActionType[] {
     let result = actionsByEntity.get(entity);
     if (!result) {
-        const actions: TActionType[] = [...baseActions];
-        componentsByEntity[entity].forEach((componentType) => {
+        const actions: TActionType[] = [...getBaseActions()];
+        const componentsType = getComponentsTypeByEntityType(entity);
+        componentsType.forEach((componentType) => {
             actions.push(...getActionsByComponentType(componentType));
         });
         // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
@@ -197,23 +201,25 @@ export function getClassByEntityType(entityType: TEntityType): Class {
     return classByEntityType.get(entityType);
 }
 
-registerBaseBlueprint('Entity', 'TsEntity');
-registerBaseBlueprint('CharacterEntity', 'TsCharacterEntity');
-registerBaseBlueprint('Npc', 'TsNpc');
-registerBaseBlueprint('Trigger', 'TsTrigger');
-registerBaseBlueprint('SphereActor', 'TsSphereActor');
-registerBaseBlueprint('AiNpc', 'TsAiNpc');
-registerBaseBlueprint('Spring', 'TsSpring');
-registerBaseBlueprint('Rotator', 'TsRotator');
-registerBaseBlueprint('Trample', 'TsTrample');
-registerBaseBlueprint('StateEntity', 'TsStateEntity');
-registerBaseBlueprint('SphereFactory', 'TsSphereFactory');
-registerBaseBlueprint('Underground', 'TsUnderground');
-registerBaseBlueprint('Lamp', 'TsLamp');
-registerBaseBlueprint('Switcher', 'TsSwitcher');
-registerBaseBlueprint('SpringBoard', 'TsSpringBoard');
-registerBaseBlueprint('RefreshSingle', 'TsRefreshSingle');
-registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity');
+if (isUe5()) {
+    registerBaseBlueprint('Entity', 'TsEntity');
+    registerBaseBlueprint('CharacterEntity', 'TsCharacterEntity');
+    registerBaseBlueprint('Npc', 'TsNpc');
+    registerBaseBlueprint('Trigger', 'TsTrigger');
+    registerBaseBlueprint('SphereActor', 'TsSphereActor');
+    registerBaseBlueprint('AiNpc', 'TsAiNpc');
+    registerBaseBlueprint('Spring', 'TsSpring');
+    registerBaseBlueprint('Rotator', 'TsRotator');
+    registerBaseBlueprint('Trample', 'TsTrample');
+    registerBaseBlueprint('StateEntity', 'TsStateEntity');
+    registerBaseBlueprint('SphereFactory', 'TsSphereFactory');
+    registerBaseBlueprint('Underground', 'TsUnderground');
+    registerBaseBlueprint('Lamp', 'TsLamp');
+    registerBaseBlueprint('Switcher', 'TsSwitcher');
+    registerBaseBlueprint('SpringBoard', 'TsSpringBoard');
+    registerBaseBlueprint('RefreshSingle', 'TsRefreshSingle');
+    registerBaseBlueprint('RefreshEntity', 'TsRefreshEntity');
+}
 
 const extendEntityCsv = csvRegistry.GetCsv(ExtendedEntityCsv);
 extendEntityCsv.Rows.forEach((row) => {
@@ -235,12 +241,20 @@ const entityClass = getClassByEntityType('Entity');
 const characterEntityClass = getClassByEntityType('CharacterEntity');
 const playerClass = Class.Load('/Game/Blueprints/TypeScript/Game/Player/TsPlayer.TsPlayer_C');
 
-export function isEntityClass(classObj: Class): boolean {
+export function isEntityClassUe5(classObj: Class): boolean {
     return (
         isChildOfClass(classObj, entityClass) ||
         isChildOfClass(classObj, characterEntityClass) ||
         isChildOfClass(classObj, playerClass)
     );
+}
+
+function isEntityClassAki(classObj: Class): boolean {
+    return false;
+}
+
+export function isEntityClass(classObj: Class): boolean {
+    return isUe5() ? isEntityClassUe5(classObj) : isEntityClassAki(classObj);
 }
 
 export function isEntity(actor: Actor): boolean {

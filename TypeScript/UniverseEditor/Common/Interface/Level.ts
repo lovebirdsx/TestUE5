@@ -1,10 +1,12 @@
+/* eslint-disable spellcheck/spell-checker */
 import { World } from 'ue';
 
+import { isUe5 } from '../Init';
 import { getProjectPath } from '../Misc/File';
 import { globalConfig } from './Global';
 import { ILevelConfig, ILevelsConfig } from './ILevel';
 
-export const levelConfigs: ILevelConfig[] = [
+const levelConfigsUe5: ILevelConfig[] = [
     {
         Id: 1,
         Name: 'Demo',
@@ -25,13 +27,15 @@ export const levelConfigs: ILevelConfig[] = [
     },
 ];
 
+const levelConfigAki: ILevelConfig[] = [];
+
 export const levelsConfig: ILevelsConfig = {
-    Levels: levelConfigs,
+    Levels: isUe5() ? levelConfigsUe5 : levelConfigAki,
 };
 
 function createLevelByName(): Map<string, ILevelConfig> {
     const result: Map<string, ILevelConfig> = new Map();
-    levelConfigs.forEach((config) => {
+    levelConfigsUe5.forEach((config) => {
         result.set(config.Name, config);
     });
     return result;

@@ -2,7 +2,7 @@
 import { Config } from '../../Common/Config';
 import { IEntityData, IEntityTemplate } from '../../Common/Interface/IEntity';
 import { ILevelData } from '../../Common/Interface/ILevel';
-import { levelConfigs } from '../../Common/Interface/Level';
+import { levelsConfig } from '../../Common/Interface/Level';
 import { getProjectPath } from '../../Common/Misc/File';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { editorFlowListOp } from '../Common/Operations/FlowList';
@@ -19,7 +19,7 @@ function getAllEntityDataPathForNormalLevel(contentPath: string): string[] {
 }
 
 export function getAllEntityDataPath(levelName: string): string[] {
-    const levelConfig = levelConfigs.find((config) => config.Name === levelName);
+    const levelConfig = levelsConfig.Levels.find((config) => config.Name === levelName);
     if (!levelConfig) {
         throw new Error(`No Level for name [${levelName}]`);
     }
@@ -36,7 +36,7 @@ function getAllEntityData(levelName: string): IEntityData[] {
 }
 
 export function tryGetWorldLevelName(worldName: string): string | undefined {
-    const config = levelConfigs.find((config) => config.Name === worldName);
+    const config = levelsConfig.Levels.find((config) => config.Name === worldName);
     return config ? config.Name : undefined;
 }
 
@@ -49,7 +49,7 @@ export function saveLevelData(levelName: string, path: string): void {
 
 export class LevelTools {
     public static GetAllLevelNames(): string[] {
-        return levelConfigs.map((level) => level.Name);
+        return levelsConfig.Levels.map((level) => level.Name);
     }
 
     public static GetAllEntityTemplatePath(): string[] {

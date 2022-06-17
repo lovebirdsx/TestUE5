@@ -7,7 +7,7 @@ import { componentConfig } from '../../Common/Interface/Component';
 import { entityConfig, genBlueprintConfig } from '../../Common/Interface/Entity';
 import { globalConfig } from '../../Common/Interface/Global';
 import { GLOBAL_CONFIG_PATH } from '../../Common/Interface/IGlobal';
-import { levelConfigs } from '../../Common/Interface/Level';
+import { levelsConfig } from '../../Common/Interface/Level';
 import { getProjectPath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { writeJson } from '../../Common/Misc/Util';
@@ -125,7 +125,7 @@ const items: IExportItem[] = [
         SourceFiles: getProjectPaths('TypeScript/Game/Interface/Level.ts'),
         DestFiles: getProjectPaths(globalConfig.LevelsConfigPath),
         ExportFun: (): void => {
-            writeJson(levelConfigs, getProjectPath(globalConfig.LevelsConfigPath));
+            writeJson(levelsConfig, getProjectPath(globalConfig.LevelsConfigPath));
         },
     },
     {

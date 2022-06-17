@@ -26,7 +26,7 @@ export const entityTypeConfig = {
 
 export type TEntityType = keyof typeof entityTypeConfig;
 
-export type TComponentsByEntity = { [key in TEntityType]: TComponentType[] };
+export type TComponentsByEntity = Partial<{ [key in TEntityType]: TComponentType[] }>;
 
 // 服务器: 从IGlobalConfig.EntityConfigPath中读取
 export interface IEntityConfig {

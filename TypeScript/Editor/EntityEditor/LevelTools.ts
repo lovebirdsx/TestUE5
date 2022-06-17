@@ -1,21 +1,19 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EFileRoot, MyFileHelper } from 'ue';
-
 import { GameConfig } from '../../Common/GameConfig';
 import { IEntityData, IEntityTemplate } from '../../Common/Interface/IEntity';
 import { ILevelData } from '../../Common/Interface/ILevel';
 import { levelConfigs } from '../../Common/Interface/Level';
-import { listFiles } from '../../Common/Misc/File';
+import { getProjectPath, listFiles } from '../../Common/Misc/File';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { flowListOp } from '../../Common/Operation/FlowList';
 
 function getAllEntityDataPathForPartitionLevel(contentPath: string): string[] {
-    const actorsDir = MyFileHelper.GetPath(EFileRoot.Content, `__ExternalActors__/${contentPath}`);
+    const actorsDir = getProjectPath(`Content/__ExternalActors__/${contentPath}`);
     return listFiles(actorsDir, 'json', true);
 }
 
 function getAllEntityDataPathForNormalLevel(contentPath: string): string[] {
-    const levelDir = MyFileHelper.GetPath(EFileRoot.Content, `${contentPath}_Entities`);
+    const levelDir = getProjectPath(`Content/${contentPath}_Entities`);
     return listFiles(levelDir, 'json', false);
 }
 

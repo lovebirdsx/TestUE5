@@ -6,7 +6,6 @@ import {
     BuiltinString,
     EditorLevelLibrary,
     EditorOperations,
-    EFileRoot,
     EMsgType,
     KismetSystemLibrary,
     MyFileHelper,
@@ -15,6 +14,7 @@ import {
     PythonScriptLibrary,
 } from 'ue';
 
+import { getSavePath } from '../../Common/Misc/File';
 import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Misc/Util';
 
 export function openDirOfFile(filepath: string): void {
@@ -48,7 +48,7 @@ interface IClipBoard {
     DataMap: Record<string, unknown>;
 }
 
-const CLIP_BOARD_SAVE_PATH = MyFileHelper.GetPath(EFileRoot.Save, 'ClipBoard.json');
+const CLIP_BOARD_SAVE_PATH = getSavePath('ClipBoard.json');
 const defalutClipBoard: IClipBoard = { DataMap: {} };
 
 function saveClipBoard(clipBoard: IClipBoard): void {

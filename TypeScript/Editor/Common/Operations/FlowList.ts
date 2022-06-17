@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
-import { EFileRoot, MyFileHelper } from 'ue';
+import { MyFileHelper } from 'ue';
 
 import { FlowListCsvLoader } from '../../../Common/CsvConfig/FlowListCsv';
 import { TextListCsvLoader, TextRow } from '../../../Common/CsvConfig/TextListCsv';
@@ -12,7 +12,7 @@ import {
     IShowOption,
     IShowTalk,
 } from '../../../Common/Interface/IAction';
-import { getFileNameWithOutExt } from '../../../Common/Misc/File';
+import { getFileNameWithOutExt, getSavePath } from '../../../Common/Misc/File';
 import { error, log, warn } from '../../../Common/Misc/Log';
 import { flowListOp } from '../../../Common/Operation/FlowList';
 import { mergeEditorToConfig } from '../Util';
@@ -169,10 +169,7 @@ class EditorFlowListOp {
     }
 
     private GetEditorSavePath(configPath: string): string {
-        return MyFileHelper.GetPath(
-            EFileRoot.Save,
-            `${FLOW_EDITOR_SAVE_BASE}/${getFileNameWithOutExt(configPath)}.json`,
-        );
+        return getSavePath(`${FLOW_EDITOR_SAVE_BASE}/${getFileNameWithOutExt(configPath)}.json`);
     }
 
     public SaveEditor(flowList: IFlowListInfo, path: string): void {

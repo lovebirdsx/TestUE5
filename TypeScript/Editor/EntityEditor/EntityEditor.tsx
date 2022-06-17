@@ -8,7 +8,6 @@ import {
     Actor,
     EditorLevelLibrary,
     EditorOperations,
-    EFileRoot,
     ESlateSizeRule,
     MyFileHelper,
     World,
@@ -18,6 +17,7 @@ import { gameConfig } from '../../Common/GameConfig';
 import { isEntityClass, isRegistedEntity } from '../../Common/Interface/Entity';
 import { IEntityData, ITsEntityBase } from '../../Common/Interface/IEntity';
 import { MS_PER_SEC } from '../../Common/Misc/Async';
+import { getSavePath } from '../../Common/Misc/File';
 import { log, warn } from '../../Common/Misc/Log';
 import { readJsonObj, stringifyEditor } from '../../Common/Misc/Util';
 import { Btn, Check, EditorBox, SlotText, Text } from '../Common/BaseComponent/CommonComponent';
@@ -126,12 +126,12 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
         const pkgPath = EditorOperations.GetExternActorSavePath(entity);
         if (pkgPath) {
             const pathBaseOnContent = pkgPath.substring(6);
-            return MyFileHelper.GetPath(EFileRoot.Save, pathBaseOnContent) + '.json';
+            return getSavePath(pathBaseOnContent) + '.json';
         }
 
         // 非WP类型的entity
         const mapContentPath = getContentPackageName(entity);
-        return MyFileHelper.GetPath(EFileRoot.Save, `${mapContentPath}_Entities/${entity.Id}.json`);
+        return getSavePath(`${mapContentPath}_Entities/${entity.Id}.json`);
     }
 
     private LoadEntityEditorData(entity: ITsEntityBase): IEntityData | undefined {

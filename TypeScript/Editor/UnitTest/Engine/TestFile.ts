@@ -1,11 +1,12 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { $ref } from 'puerts';
-import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
+import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
 import {
     getFileName,
     getFileNameWithOutExt,
+    getSavePath,
     listFiles,
     removeExtension,
 } from '../../../Common/Misc/File';
@@ -14,14 +15,14 @@ import { toTsArray } from '../../../Common/Misc/Util';
 
 export default function testFile(): void {
     test('read save file', () => {
-        const file = MyFileHelper.GetPath(EFileRoot.Save, 'Test/Foo.txt');
+        const file = getSavePath('Test/Foo.txt');
         MyFileHelper.Write(file, 'Hello Test');
         const content = MyFileHelper.Read(file);
         assertEq(content, 'Hello Test', 'file read must equal to write');
     });
 
     test('read content file', () => {
-        const file = MyFileHelper.GetPath(EFileRoot.Save, 'Test/Foo.txt');
+        const file = getSavePath('Test/Foo.txt');
         MyFileHelper.Write(file, 'Hello Test');
         const content = MyFileHelper.Read(file);
         assertEq(content, 'Hello Test', 'file read must equal to write');
@@ -34,7 +35,7 @@ export default function testFile(): void {
     });
 
     test('find files', () => {
-        const dir = MyFileHelper.GetPath(EFileRoot.Save, 'Test/TestFindFiles');
+        const dir = getSavePath('Test/TestFindFiles');
         for (let i = 0; i < 3; i++) {
             MyFileHelper.Write(`${dir}/test${i}.test`, `test ${i}`);
         }
@@ -53,7 +54,7 @@ export default function testFile(): void {
     });
 
     test('list file', () => {
-        const dir = MyFileHelper.GetPath(EFileRoot.Save, 'Test/TestListFiles');
+        const dir = getSavePath('Test/TestListFiles');
         const file1 = `${dir}/test1.test`;
         const file2 = `${dir}/test1/test1.json`;
 
@@ -77,7 +78,7 @@ export default function testFile(): void {
     });
 
     test('get file modify tick', () => {
-        const file = MyFileHelper.GetPath(EFileRoot.Save, 'Test/TestModifyTick/file1.txt');
+        const file = getSavePath('Test/TestModifyTick/file1.txt');
         const tick1 = MyFileHelper.GetFileModifyTick(file);
         MyFileHelper.Write(file, 'hello');
         const tick2 = MyFileHelper.GetFileModifyTick(file);

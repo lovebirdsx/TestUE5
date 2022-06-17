@@ -1,5 +1,5 @@
 import { $ref } from 'puerts';
-import { BuiltinString, EFileRoot, MyFileHelper, NewArray } from 'ue';
+import { BuiltinString, FileSystemOperation, MyFileHelper, NewArray } from 'ue';
 
 import { toTsArray } from './Util';
 
@@ -46,14 +46,12 @@ export function listFiles(dir: string, ext?: string, recursive?: boolean): strin
     return toTsArray(resultArray);
 }
 
-export function getContentPath(file: string): string {
-    return MyFileHelper.GetPath(EFileRoot.Content, file);
-}
-
-export function getSavePath(file: string): string {
-    return MyFileHelper.GetPath(EFileRoot.Save, file);
-}
-
+const PROJECT_PATH = FileSystemOperation.GetCurrentDirectory();
 export function getProjectPath(file: string): string {
-    return MyFileHelper.GetPath(EFileRoot.Project, file);
+    return `${PROJECT_PATH}/${file}`;
+}
+
+const SAVE_PATH = `${PROJECT_PATH}/Saved`;
+export function getSavePath(file: string): string {
+    return `${SAVE_PATH}/${file}`;
 }

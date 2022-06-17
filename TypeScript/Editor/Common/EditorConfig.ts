@@ -1,22 +1,20 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EFileRoot, MyFileHelper } from 'ue';
+import { MyFileHelper } from 'ue';
 
 import { IPlayFlow } from '../../Common/Interface/IAction';
+import { getProjectPath, getSavePath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { writeJson } from '../../Common/Misc/Util';
 import { IEntityRecords } from './Interface';
 
 function getDefaultFlowListPath(): string {
-    return MyFileHelper.GetPath(EFileRoot.Save, 'Editor/DefaultFlowList.csv');
+    return getSavePath('Editor/DefaultFlowList.csv');
 }
 
 export class EditorConfig {
-    public static readonly SavePath = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Config.json');
+    public static readonly SavePath = getSavePath('Editor/Config.json');
 
-    public static readonly LastEntityStateSavePath = MyFileHelper.GetPath(
-        EFileRoot.Save,
-        'Editor/LastEntity.json',
-    );
+    public static readonly LastEntityStateSavePath = getSavePath('Editor/LastEntity.json');
 
     // 剧情配置文件
     public FlowConfigPath: string = getDefaultFlowListPath();
@@ -56,10 +54,7 @@ export class EditorConfig {
 
     public get LastEntityTemplatePath(): string {
         if (!this.MyLastEntityTemplatePath) {
-            this.MyLastEntityTemplatePath = MyFileHelper.GetPath(
-                EFileRoot.Content,
-                'Data/Template/Default.json',
-            );
+            this.MyLastEntityTemplatePath = getProjectPath('Content/Data/Template/Default.json');
         }
         return this.MyLastEntityTemplatePath;
     }

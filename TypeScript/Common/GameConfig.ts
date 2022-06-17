@@ -1,21 +1,19 @@
-import { EFileRoot, MyFileHelper, World } from 'ue';
+import { MyFileHelper, World } from 'ue';
 
+import { getProjectPath, getSavePath } from './Misc/File';
 import { log } from './Misc/Log';
 import { writeJson } from './Misc/Util';
 
 export class GameConfig {
-    public static readonly SavePath = MyFileHelper.GetPath(EFileRoot.Save, 'Game/Config.json');
+    public static readonly SavePath = getSavePath('Game/Config.json');
 
-    public static readonly FlowListDir = MyFileHelper.GetPath(EFileRoot.Content, 'Data/FlowList');
+    public static readonly FlowListDir = getProjectPath('Content/Data/FlowList');
 
     public static readonly FlowListPrefix = '流程_';
 
-    public static readonly LevelSaveDir = MyFileHelper.GetPath(EFileRoot.Save, 'Map');
+    public static readonly LevelSaveDir = getSavePath('Map');
 
-    public static readonly EntityTemplateDir = MyFileHelper.GetPath(
-        EFileRoot.Content,
-        'Data/Template/',
-    );
+    public static readonly EntityTemplateDir = getProjectPath('Content/Data/Template/');
 
     // 退出Pie的时候是否自动保存游戏状态
     public IsSaveWhileExitPie: boolean;

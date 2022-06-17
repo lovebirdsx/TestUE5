@@ -1,6 +1,7 @@
 import { $ref, $unref } from 'puerts';
-import { BuiltinString, EditorOperations, EFileRoot, MyFileHelper, NewArray } from 'ue';
+import { BuiltinString, EditorOperations, MyFileHelper, NewArray } from 'ue';
 
+import { getProjectPath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 
 // Layer .raw files|*.raw|Layer .r8 files|*.r8|All files|*.*
@@ -11,12 +12,7 @@ export function testOpenFileDialog(): void {
     log(`file count ${files.Num()}`);
     for (let i = 0; i < files.Num(); i++) {
         const file = files.Get(i);
-        log(
-            `${file} ${MyFileHelper.GetPathRelativeTo(
-                file,
-                MyFileHelper.GetPath(EFileRoot.Content, ''),
-            )}`,
-        );
+        log(`${file} ${MyFileHelper.GetPathRelativeTo(file, getProjectPath(''))}`);
     }
 }
 
@@ -27,11 +23,6 @@ export function testSaveFileDialog(): void {
     log(`file count ${files.Num()}`);
     for (let i = 0; i < files.Num(); i++) {
         const file = files.Get(i);
-        log(
-            `${file} ${MyFileHelper.GetPathRelativeTo(
-                file,
-                MyFileHelper.GetPath(EFileRoot.Content, ''),
-            )}`,
-        );
+        log(`${file} ${MyFileHelper.GetPathRelativeTo(file, getProjectPath(''))}`);
     }
 }

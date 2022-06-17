@@ -1,15 +1,15 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
 import * as React from 'react';
-import { EFileRoot, MyFileHelper } from 'ue';
 
 import { ICsv } from '../../Common/CsvConfig/CsvLoader';
 import { ECsvName } from '../../Common/CsvConfig/CsvRegistry';
 import { TalkerCsvLoader } from '../../Common/CsvConfig/TalkerCsv';
+import { getProjectPath } from '../../Common/Misc/File';
 import { CsvView } from '../Common/BaseComponent/CsvView';
 import { editorCsvOp } from '../Common/Operations/CsvOp';
 
-const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
+const TALKER_LIST_CSV_PATH = 'Content/Data/Tables/d.对话人.csv';
 
 interface ITestCsvState {
     Csv: ICsv;
@@ -21,7 +21,7 @@ export class TestCsvView extends React.Component<unknown, ITestCsvState> {
     public constructor(props: unknown) {
         super(props);
         const loader = new TalkerCsvLoader();
-        const path = MyFileHelper.GetPath(EFileRoot.Content, TALKER_LIST_CSV_PATH);
+        const path = getProjectPath(TALKER_LIST_CSV_PATH);
         const csv = loader.LoadCsv(path);
         this.state = {
             Csv: csv,

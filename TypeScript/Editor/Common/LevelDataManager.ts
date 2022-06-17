@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { EditorLevelLibrary, EditorOperations, EFileRoot, MyFileHelper, World } from 'ue';
+import { EditorLevelLibrary, EditorOperations, MyFileHelper, World } from 'ue';
 
 import { compressEntityData, decompressEntityData } from '../../Common/Interface/Entity';
 import { IEntityData, ITsEntityBase } from '../../Common/Interface/IEntity';
 import { ILevelData } from '../../Common/Interface/ILevel';
 import { getLevelDataPath } from '../../Common/Interface/Level';
-import { getDir, getSavePath, listFiles } from '../../Common/Misc/File';
+import { getDir, getProjectPath, getSavePath, listFiles } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { deepEquals, readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { entityTemplateManager } from './EntityTemplateManager';
@@ -48,16 +48,13 @@ export class LevelDataManager {
 
     private GetAllEntityPathForNormalLevel(world: World): string[] {
         const pathBaseOnContent = getContentPackageName(world);
-        const levelDir = MyFileHelper.GetPath(EFileRoot.Content, `${pathBaseOnContent}_Entities`);
+        const levelDir = getProjectPath(`Content/${pathBaseOnContent}_Entities`);
         return listFiles(levelDir, 'json', false);
     }
 
     private GetAllEntityPathForWpLevel(world: World): string[] {
         const pathBaseOnContent = getContentPackageName(world);
-        const actorsDir = MyFileHelper.GetPath(
-            EFileRoot.Content,
-            `__ExternalActors__/${pathBaseOnContent}`,
-        );
+        const actorsDir = getProjectPath(`Content/__ExternalActors__/${pathBaseOnContent}`);
         return listFiles(actorsDir, 'json', true);
     }
 
@@ -83,7 +80,7 @@ export class LevelDataManager {
         const externActorPath = EditorOperations.GetExternActorSavePath(entity);
         if (externActorPath) {
             const pathBaseOnContent = externActorPath.substring(6);
-            return MyFileHelper.GetPath(EFileRoot.Content, pathBaseOnContent) + '.json';
+            return getProjectPath(`Content/${pathBaseOnContent}.json`);
         }
 
         const world = EditorLevelLibrary.GetEditorWorld() || EditorLevelLibrary.GetGameWorld();

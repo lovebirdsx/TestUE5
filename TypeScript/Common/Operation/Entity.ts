@@ -1,7 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { EFileRoot, MyFileHelper } from 'ue';
-
+import { getSavePath } from '../Misc/File';
 import { error } from '../Misc/Log';
 import { readJsonObj, writeJson } from '../Misc/Util';
 
@@ -19,7 +18,7 @@ const defaultSnapshot: IGameIdGeneratorSnapshot = {
 
 export class GameIdAllocator {
     public static GetSavePath(name: string): string {
-        const baseDir = MyFileHelper.GetPath(EFileRoot.Save, 'Game/Generator');
+        const baseDir = getSavePath('Game/Generator');
         return `${baseDir}/${name}.json`;
     }
 

@@ -1,6 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EFileRoot, MyFileHelper } from 'ue';
-
+import { getProjectPath } from '../Misc/File';
 import { error, log, warn } from '../Misc/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsv, CustomSeqCsvLoader } from './CustomSeqCsv';
@@ -26,7 +25,7 @@ interface ICsvFileConfig {
     CsvClass: TCsvClass;
 }
 
-const CSV_FILE_BASE_DIR = 'Data/Tables';
+const CSV_FILE_BASE_DIR = 'Content/Data/Tables';
 
 const configs: ICsvFileConfig[] = [
     {
@@ -80,7 +79,7 @@ class CsvRegistry {
             this.ConfigMapByCsvClass.set(file.CsvClass, file);
             this.Names.push(file.Name);
         });
-        this.BaseDir = MyFileHelper.GetPath(EFileRoot.Content, CSV_FILE_BASE_DIR);
+        this.BaseDir = getProjectPath(CSV_FILE_BASE_DIR);
     }
 
     private GetSavePath(path: string): string {

@@ -1,7 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EFileRoot, MyFileHelper } from 'ue';
-
 import { TextListCsvLoader, TextRow } from '../../Common/CsvConfig/TextListCsv';
+import { getSavePath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { assertEq, test } from '../../Common/Misc/Test';
 
@@ -32,7 +31,7 @@ export default function testTextListCsv(): void {
 }
 
 export function writeTextListCsv(path: string): void {
-    const abPath = MyFileHelper.GetPath(EFileRoot.Save, path);
+    const abPath = getSavePath(path);
     const textRows: TextRow[] = [];
     const addCount = 6;
     for (let i = 0; i < addCount; i++) {
@@ -51,7 +50,7 @@ export function writeTextListCsv(path: string): void {
 
 export function readTextListCsv(path: string): void {
     const csv = new TextListCsvLoader();
-    const abPath = MyFileHelper.GetPath(EFileRoot.Save, path);
+    const abPath = getSavePath(path);
     const rows = csv.Load(abPath);
     log(JSON.stringify(rows, undefined, 2));
 }

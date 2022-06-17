@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { EFileRoot, MyFileHelper } from 'ue';
+import { MyFileHelper } from 'ue';
 
+import { getProjectPath, getSavePath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { getMacAddress } from './Util';
@@ -12,7 +13,7 @@ interface IIdSegmentRow {
 }
 
 export function loadIdSegmentConfig(): IIdSegmentRow[] {
-    const path = MyFileHelper.GetPath(EFileRoot.Content, `Editor/Config/IdSegmentConfig.json`);
+    const path = getProjectPath(`Content/Editor/Config/IdSegmentConfig.json`);
     return readJsonObj<IIdSegmentRow[]>(path, []);
 }
 
@@ -50,7 +51,7 @@ interface IGeneratorSnapshot {
 
 export class SegmentIdGenerator {
     private static GetSavePath(configName: string): string {
-        const baseDir = MyFileHelper.GetPath(EFileRoot.Save, 'Editor/Generator');
+        const baseDir = getSavePath('Editor/Generator');
         return `${baseDir}/${configName}.json`;
     }
 

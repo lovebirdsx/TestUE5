@@ -1,10 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
-import { EFileRoot, MyFileHelper } from 'ue';
-
 import { ITalkerRow, TalkerCsvLoader } from '../CsvConfig/TalkerCsv';
+import { getProjectPath } from '../Misc/File';
 import { log } from '../Misc/Log';
 
-export const TALKER_LIST_CSV_PATH = 'Data/Tables/d.对话人.csv';
+export const TALKER_LIST_CSV_PATH = 'Content/Data/Tables/d.对话人.csv';
 
 export interface ITalkerInfo {
     Id: number;
@@ -46,7 +45,7 @@ export class TalkerListOp {
     }
 
     public static Load(): ITalkerListInfo {
-        const realPath = MyFileHelper.GetPath(EFileRoot.Content, TALKER_LIST_CSV_PATH);
+        const realPath = getProjectPath(TALKER_LIST_CSV_PATH);
         const talkerCsv = new TalkerCsvLoader();
         const rows = talkerCsv.Load(realPath);
         const talkers = [] as ITalkerInfo[];
@@ -69,7 +68,7 @@ export class TalkerListOp {
     }
 
     public static Save(talkerList: ITalkerListInfo): void {
-        const realPath = MyFileHelper.GetPath(EFileRoot.Content, TALKER_LIST_CSV_PATH);
+        const realPath = getProjectPath(TALKER_LIST_CSV_PATH);
         const talkerCsv = new TalkerCsvLoader();
         const rows = [] as ITalkerRow[];
         talkerList.Talkers.forEach((talker) => {

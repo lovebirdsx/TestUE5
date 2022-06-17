@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { GameConfig } from '../../Common/GameConfig';
+import { Config } from '../../Common/Config';
 import { toTransformInfo } from '../../Common/Interface/Action';
 import {
     getBlueprintType,
@@ -26,7 +26,7 @@ import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
 import { listFiles } from './Util';
 
 function getEntityTemplateFiles(): string[] {
-    const files = listFiles(GameConfig.EntityTemplateDir, 'json', true);
+    const files = listFiles(Config.EntityTemplateDir, 'json', true);
     // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
     files.sort();
     return files;
@@ -164,7 +164,7 @@ export class EntityTemplateManager {
                 throw new Error(`Duplicate template name [${name}]`);
             }
 
-            const relativePath = MyFileHelper.GetPathRelativeTo(file, GameConfig.EntityTemplateDir);
+            const relativePath = MyFileHelper.GetPathRelativeTo(file, Config.EntityTemplateDir);
             this.PathById.set(id, relativePath);
             this.IdMap.set(id, template);
             this.NameMap.set(name, template);
@@ -199,7 +199,7 @@ export class EntityTemplateManager {
     }
 
     public GetPath(id: number): string {
-        const dir = GameConfig.EntityTemplateDir;
+        const dir = Config.EntityTemplateDir;
         return `${dir}/${this.PathById.get(id)}`;
     }
 
@@ -253,9 +253,9 @@ export class EntityTemplateManager {
         }
 
         const abPath = MyFileHelper.GetAbsolutePath(path);
-        if (!abPath.includes(GameConfig.EntityTemplateDir)) {
+        if (!abPath.includes(Config.EntityTemplateDir)) {
             throw new Error(
-                `Add entity template failed: can only save under [${GameConfig.EntityTemplateDir}]`,
+                `Add entity template failed: can only save under [${Config.EntityTemplateDir}]`,
             );
         }
 
@@ -278,7 +278,7 @@ export class EntityTemplateManager {
         // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
         this.Names.sort();
 
-        const relativePath = MyFileHelper.GetPathRelativeTo(path, GameConfig.EntityTemplateDir);
+        const relativePath = MyFileHelper.GetPathRelativeTo(path, Config.EntityTemplateDir);
         this.PathById.set(template.Id, relativePath);
 
         writeJson(template, path, true);

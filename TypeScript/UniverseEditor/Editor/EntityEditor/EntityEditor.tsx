@@ -13,7 +13,7 @@ import {
     World,
 } from 'ue';
 
-import { gameConfig } from '../../Common/GameConfig';
+import { config } from '../../Common/Config';
 import { isEntityClass, isRegistedEntity } from '../../Common/Interface/Entity';
 import { IEntityData, ITsEntityBase } from '../../Common/Interface/IEntity';
 import { MS_PER_SEC } from '../../Common/Misc/Async';
@@ -111,13 +111,13 @@ export class EntityEditor extends React.Component<unknown, IEntityEditorState> {
     }
 
     private get IsSaveWhileExitPie(): boolean {
-        return gameConfig.IsSaveWhileExitPie;
+        return config.IsSaveWhileExitPie;
     }
 
     private set IsSaveWhileExitPie(value: boolean) {
-        if (gameConfig.IsSaveWhileExitPie !== value) {
-            gameConfig.IsSaveWhileExitPie = value;
-            gameConfig.Save();
+        if (config.IsSaveWhileExitPie !== value) {
+            config.IsSaveWhileExitPie = value;
+            config.Save();
         }
     }
 

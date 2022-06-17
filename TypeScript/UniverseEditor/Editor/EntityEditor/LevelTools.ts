@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { GameConfig } from '../../Common/GameConfig';
+import { Config } from '../../Common/Config';
 import { IEntityData, IEntityTemplate } from '../../Common/Interface/IEntity';
 import { ILevelData } from '../../Common/Interface/ILevel';
 import { levelConfigs } from '../../Common/Interface/Level';
@@ -53,7 +53,7 @@ export class LevelTools {
     }
 
     public static GetAllEntityTemplatePath(): string[] {
-        return listFiles(GameConfig.EntityTemplateDir, 'json', true);
+        return listFiles(Config.EntityTemplateDir, 'json', true);
     }
 
     public static GetAllEntityTemplate(): IEntityTemplate[] {

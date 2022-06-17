@@ -4,7 +4,7 @@ import { getProjectPath, getSavePath, readFile } from './Misc/File';
 import { log } from './Misc/Log';
 import { writeJson } from './Misc/Util';
 
-export class GameConfig {
+export class Config {
     public static readonly SavePath = getSavePath('Game/Config.json');
 
     public static readonly FlowListDir = getProjectPath('Content/Data/FlowList');
@@ -23,17 +23,17 @@ export class GameConfig {
     }
 
     private Load(): void {
-        const content = readFile(GameConfig.SavePath);
+        const content = readFile(Config.SavePath);
         if (content) {
             const obj = JSON.parse(content) as object;
             Object.assign(this, obj);
         }
 
-        log(`Load GameConfig: ${GameConfig.SavePath}`);
+        log(`Load GameConfig: ${Config.SavePath}`);
     }
 
     public Save(): void {
-        writeJson(this, GameConfig.SavePath);
+        writeJson(this, Config.SavePath);
     }
 
     public static GetCurrentLevelSavePath(world: World): string {
@@ -41,4 +41,4 @@ export class GameConfig {
     }
 }
 
-export const gameConfig = new GameConfig();
+export const config = new Config();

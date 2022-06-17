@@ -3,9 +3,9 @@ import produce from 'immer';
 import { $ref } from 'puerts';
 import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
+import { Config } from '../../../Common/Config';
 import { FlowListCsvLoader } from '../../../Common/CsvConfig/FlowListCsv';
 import { TextListCsvLoader, TextRow } from '../../../Common/CsvConfig/TextListCsv';
-import { GameConfig } from '../../../Common/GameConfig';
 import {
     IActionInfo,
     IFlowListInfo,
@@ -25,13 +25,13 @@ import { stateOp } from './State';
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
 
 function getFlowListFiles(): string[] {
-    const dir = GameConfig.FlowListDir;
+    const dir = Config.FlowListDir;
     const array = NewArray(BuiltinString);
     MyFileHelper.FindFiles($ref(array), dir, 'csv');
     const files = toTsArray(array);
     const flowListFiles = files.filter((file) => {
         const fileName = getFileName(file);
-        return fileName.startsWith(GameConfig.FlowListPrefix);
+        return fileName.startsWith(Config.FlowListPrefix);
     });
     // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
     flowListFiles.sort();
@@ -57,9 +57,9 @@ class EditorFlowListOp {
     public GenNewFlowListPath(): string {
         let id = 1;
         while (true) {
-            const name = `${GameConfig.FlowListPrefix}${id++}`;
+            const name = `${Config.FlowListPrefix}${id++}`;
             if (!this.Names.includes(name)) {
-                return `${GameConfig.FlowListDir}/${name}.csv`;
+                return `${Config.FlowListDir}/${name}.csv`;
             }
         }
     }

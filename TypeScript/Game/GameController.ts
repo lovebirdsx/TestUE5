@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { EditorOperations } from 'ue';
 
-import { gameConfig } from '../UniverseEditor/Common/GameConfig';
+import { config } from '../UniverseEditor/Common/Config';
 import { entityIdAllocator } from '../UniverseEditor/Common/Operation/Entity';
 import { StateComponent } from './Component/StateComponent';
 import { gameContext, IGameController, ITsEntity } from './Interface';
@@ -15,7 +15,7 @@ export class GameController implements IGameController {
         gameContext.GameController = this;
 
         if (isEditor()) {
-            if (gameConfig.IsSaveWhileExitPie) {
+            if (config.IsSaveWhileExitPie) {
                 EditorOperations.GetEditorEvent().OnEndPie.Add(() => {
                     this.SaveGame();
                 });

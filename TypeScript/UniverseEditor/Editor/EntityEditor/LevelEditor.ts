@@ -3,7 +3,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, EditorLevelLibrary } from 'ue';
 
-import { GameConfig } from '../../Common/GameConfig';
+import { Config } from '../../Common/Config';
 import { actorTransactionManager } from './ActorTransactionManager';
 
 export class LevelEditor {
@@ -14,7 +14,7 @@ export class LevelEditor {
 
     public GetMapSavePath(): string {
         const world = EditorLevelLibrary.GetEditorWorld();
-        return GameConfig.GetCurrentLevelSavePath(world);
+        return Config.GetCurrentLevelSavePath(world);
     }
 
     private OnActorAdded(actor: Actor): void {

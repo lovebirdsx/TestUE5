@@ -3,7 +3,7 @@ import produce from 'immer';
 import * as React from 'react';
 import { HorizontalBox, VerticalBox } from 'react-umg';
 
-import { GameConfig } from '../../../../Common/GameConfig';
+import { Config } from '../../../../Common/Config';
 import { parseFlowInfo, parsePlayFlow } from '../../../../Common/Interface/Action';
 import {
     IFlowInfo,
@@ -244,7 +244,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
         <HorizontalBox>
             {props.PrefixElement}
             <Text
-                Text={`目录:[${GameConfig.FlowListDir}]\n不存在流程配置文件(前缀为[${GameConfig.FlowListPrefix}])`}
+                Text={`目录:[${Config.FlowListDir}]\n不存在流程配置文件(前缀为[${Config.FlowListPrefix}])`}
             />
         </HorizontalBox>
     );

@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { GameConfig } from '../../UniverseEditor/Common/GameConfig';
+import { Config } from '../../UniverseEditor/Common/Config';
 import { IActionInfo } from '../../UniverseEditor/Common/Interface/IAction';
 import { log } from '../../UniverseEditor/Common/Misc/Log';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
@@ -19,7 +19,7 @@ export class StateManager implements IManager, IStateManager {
     }
 
     private get SavePath(): string {
-        return GameConfig.GetCurrentLevelSavePath(gameContext.World);
+        return Config.GetCurrentLevelSavePath(gameContext.World);
     }
 
     public Init(): void {

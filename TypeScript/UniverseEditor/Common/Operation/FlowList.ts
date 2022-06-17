@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
+import { Config } from '../Config';
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
-import { GameConfig } from '../GameConfig';
 import { IFlowInfo, IFlowListInfo, ITextConfig } from '../Interface/IAction';
 import { getDir, getFileName } from '../Misc/File';
 import { error, log, warn } from '../Misc/Log';
@@ -78,7 +78,7 @@ class FlowListOp {
     }
 
     public LoadByName(name: string): IFlowListInfo {
-        const path = `${GameConfig.FlowListDir}/${name}.csv`;
+        const path = `${Config.FlowListDir}/${name}.csv`;
         return this.Load(path);
     }
 

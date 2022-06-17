@@ -41,7 +41,7 @@ const levelByName = createLevelByName();
 export function getLevelDataPath(world: World): string | undefined {
     const levelConfig = levelByName.get(world.GetName());
     if (levelConfig) {
-        return getProjectPath(`${globalConfig.LevelsDataDir}/${levelConfig.Id}/Map.json`);
+        return getProjectPath(`${globalConfig.LevelsDataDir}/${levelConfig.Id}/Level.json`);
     }
     return undefined;
 }

@@ -1,9 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
 import { MyFileHelper } from 'ue';
 
-import { GameConfig } from '../../Common/GameConfig';
-import { IActionInfo } from '../../Common/Interface/IAction';
-import { log } from '../../Common/Misc/Log';
+import { GameConfig } from '../../UniverseEditor/Common/GameConfig';
+import { IActionInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { log } from '../../UniverseEditor/Common/Misc/Log';
 import { gameContext, ISavedEntityState, IStateManager, TEntityState } from '../Interface';
 import { IManager } from './Interface';
 

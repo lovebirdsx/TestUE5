@@ -2,10 +2,13 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Class } from 'ue';
 
-import { toVector } from '../../Common/Interface/Action';
-import { IInteract } from '../../Common/Interface/IAction';
-import { IStateInfo, IUndergroundComponent } from '../../Common/Interface/IComponent';
-import { isObjChildOfClass } from '../../Common/Misc/Util';
+import { toVector } from '../../UniverseEditor/Common/Interface/Action';
+import { IInteract } from '../../UniverseEditor/Common/Interface/IAction';
+import {
+    IStateInfo,
+    IUndergroundComponent,
+} from '../../UniverseEditor/Common/Interface/IComponent';
+import { isObjChildOfClass } from '../../UniverseEditor/Common/Misc/Util';
 import { Component, gameContext, IInteractCall, ITsEntity } from '../Interface';
 import { EventComponent } from './EventComponent';
 import { StateComponent } from './StateComponent';

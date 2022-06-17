@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { TComponentsData } from '../../Common/Interface/IEntity';
+import { TComponentsData } from '../../UniverseEditor/Common/Interface/IEntity';
 import { StateComponent } from '../Component/StateComponent';
 import { Entity, gameContext, ITsEntity } from '../Interface';
 

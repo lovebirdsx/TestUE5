@@ -1,8 +1,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Rotator, Vector } from 'ue';
 
-import { IActionInfo } from '../../Common/Interface/IAction';
-import { warn } from '../../Common/Misc/Log';
+import { IActionInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { warn } from '../../UniverseEditor/Common/Misc/Log';
 import { actionRegistry } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
 

@@ -6,7 +6,7 @@ import {
     IJumpTalk,
     ISetBehaviorPaused,
     IShowTalk,
-} from '../../../Common/Interface/IAction';
+} from '../../../UniverseEditor/Common/Interface/IAction';
 import { BehaviorFlowComponent } from '../../Component/BehaviorFlowComponent';
 import { FlowComponent } from '../../Component/FlowComponent';
 import { TalkComponent } from '../../Component/TalkComponent';

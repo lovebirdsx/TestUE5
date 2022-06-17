@@ -2,8 +2,8 @@
 import { Class, Game } from 'ue';
 import BP_StateComponent = Game.Blueprints.Component.BP_StateComponent.BP_StateComponent_C;
 
-import { TActorState } from '../../Common/Interface/IAction';
-import { IActorStateComponent } from '../../Common/Interface/IComponent';
+import { TActorState } from '../../UniverseEditor/Common/Interface/IAction';
+import { IActorStateComponent } from '../../UniverseEditor/Common/Interface/IComponent';
 import { Component } from '../Interface';
 import { StateComponent } from './StateComponent';
 

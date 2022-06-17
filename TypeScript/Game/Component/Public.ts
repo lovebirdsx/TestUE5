@@ -1,7 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
-import { getComponentsTypeByEntityType, getEntityTypeByActor } from '../../Common/Interface/Entity';
-import { TComponentType } from '../../Common/Interface/IComponent';
-import { TEntityType } from '../../Common/Interface/IEntity';
+import {
+    getComponentsTypeByEntityType,
+    getEntityTypeByActor,
+} from '../../UniverseEditor/Common/Interface/Entity';
+import { TComponentType } from '../../UniverseEditor/Common/Interface/IComponent';
+import { TEntityType } from '../../UniverseEditor/Common/Interface/IEntity';
 import { InteractiveComponent, ITsEntity, TComponentClass } from '../Interface';
 import { ActorStateComponent } from './ActorStateComponent';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';

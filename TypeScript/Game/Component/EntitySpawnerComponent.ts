@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
-import { toTransform } from '../../Common/Interface/Action';
-import { ISpawn, ITransform } from '../../Common/Interface/IAction';
+import { toTransform } from '../../UniverseEditor/Common/Interface/Action';
+import { ISpawn, ITransform } from '../../UniverseEditor/Common/Interface/IAction';
 import { Component, gameContext, ITsEntity } from '../Interface';
 import { StateComponent } from './StateComponent';
 

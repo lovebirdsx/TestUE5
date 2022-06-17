@@ -1,10 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
-import { decompressEntityData, loadEntityTemplateConfig } from '../../Common/Interface/Entity';
-import { IEntityData, IEntityTemplate } from '../../Common/Interface/IEntity';
-import { ILevelData } from '../../Common/Interface/ILevel';
-import { getLevelDataPath } from '../../Common/Interface/Level';
-import { readJsonObj } from '../../Common/Misc/Util';
-import { entityIdAllocator } from '../../Common/Operation/Entity';
+import {
+    decompressEntityData,
+    loadEntityTemplateConfig,
+} from '../../UniverseEditor/Common/Interface/Entity';
+import { IEntityData, IEntityTemplate } from '../../UniverseEditor/Common/Interface/IEntity';
+import { ILevelData } from '../../UniverseEditor/Common/Interface/ILevel';
+import { getLevelDataPath } from '../../UniverseEditor/Common/Interface/Level';
+import { readJsonObj } from '../../UniverseEditor/Common/Misc/Util';
+import { entityIdAllocator } from '../../UniverseEditor/Common/Operation/Entity';
 import { gameContext, ILevelDataManager } from '../Interface';
 import { IManager } from './Interface';
 

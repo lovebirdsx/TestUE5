@@ -2,8 +2,8 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, KismetMathLibrary, PrimitiveComponent, Rotator, Vector } from 'ue';
 
-import { IVectorInfo } from '../../Common/Interface/IAction';
-import { IGrabComponent } from '../../Common/Interface/IComponent';
+import { IVectorInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { IGrabComponent } from '../../UniverseEditor/Common/Interface/IComponent';
 import { Component, gameContext, ITickable } from '../Interface';
 import TsPlayer from '../Player/TsPlayer';
 

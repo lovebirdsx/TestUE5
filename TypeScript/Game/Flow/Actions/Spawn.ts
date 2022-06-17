@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker */
-import { ISpawn } from '../../../Common/Interface/IAction';
+import { ISpawn } from '../../../UniverseEditor/Common/Interface/IAction';
 import { EntitySpawnerComponent } from '../../Component/EntitySpawnerComponent';
 import { Action } from '../ActionRunner';
 

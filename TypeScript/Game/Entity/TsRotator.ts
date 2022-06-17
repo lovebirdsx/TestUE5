@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor } from 'ue';
 
-import { isEntity } from '../../Common/Interface/Entity';
+import { isEntity } from '../../UniverseEditor/Common/Interface/Entity';
 import { RotatorComponent } from '../Component/RotatorComponent';
 import { ITsEntity } from '../Interface';
 import TsEntity from './TsEntity';

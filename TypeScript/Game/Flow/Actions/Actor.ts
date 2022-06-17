@@ -8,7 +8,7 @@ import {
     ISetMoveSpeed,
     ISetPosA,
     ISimpleMove,
-} from '../../../Common/Interface/IAction';
+} from '../../../UniverseEditor/Common/Interface/IAction';
 import { ActorStateComponent } from '../../Component/ActorStateComponent';
 import { EventComponent } from '../../Component/EventComponent';
 import { MoveComponent } from '../../Component/MoveComponent';

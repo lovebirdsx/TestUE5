@@ -3,9 +3,9 @@
 import { $ref, $unref } from "puerts";
 import { Actor, NewArray, StaticMeshComponent, Vector } from 'ue';
 
-import { toVector } from '../../Common/Interface/Action';
-import { ISimpleMove } from '../../Common/Interface/IAction';
-import { error } from '../../Common/Misc/Log';
+import { toVector } from '../../UniverseEditor/Common/Interface/Action';
+import { ISimpleMove } from '../../UniverseEditor/Common/Interface/IAction';
+import { error } from '../../UniverseEditor/Common/Misc/Log';
 import { Component, gameContext, ITickable, ITsEntity } from '../Interface';
 import { StateComponent, vectorToArray } from './StateComponent';
 

@@ -3,15 +3,15 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { KismetMathLibrary, Vector } from 'ue';
 
-import { toTransform, toTransformInfo } from '../../Common/Interface/Action';
-import { ISpawn } from '../../Common/Interface/IAction';
+import { toTransform, toTransformInfo } from '../../UniverseEditor/Common/Interface/Action';
+import { ISpawn } from '../../UniverseEditor/Common/Interface/IAction';
 import {
     ICylinder,
     IRefreshGroup,
     IRefreshSingleComponent,
-} from '../../Common/Interface/IComponent';
-import { IEntityData } from '../../Common/Interface/IEntity';
-import { getTotalSecond } from '../../Common/Misc/Util';
+} from '../../UniverseEditor/Common/Interface/IComponent';
+import { IEntityData } from '../../UniverseEditor/Common/Interface/IEntity';
+import { getTotalSecond } from '../../UniverseEditor/Common/Misc/Util';
 import { Component, gameContext, ITimeCall } from '../Interface';
 import { EntitySpawnerComponent } from './EntitySpawnerComponent';
 import { StateComponent } from './StateComponent';

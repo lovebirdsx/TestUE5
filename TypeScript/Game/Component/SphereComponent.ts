@@ -3,7 +3,7 @@
 import * as UE from 'ue';
 import { Game, UMGManager } from 'ue';
 
-import { createSignal, ISignal } from '../../Common/Misc/Async';
+import { createSignal, ISignal } from '../../UniverseEditor/Common/Misc/Async';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';
 import TsPlayerController from '../Player/TsPlayerController';

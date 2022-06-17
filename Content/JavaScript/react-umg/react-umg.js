@@ -13,7 +13,7 @@ exports.toggleUMGDebug = exports.ReactUMG = void 0;
 const puerts = require("puerts");
 const Reconciler = require("react-reconciler");
 const UE = require("ue");
-const Log_1 = require("../Common/Misc/Log");
+const Log_1 = require("../UniverseEditor/Common/Misc/Log");
 let world = undefined;
 let reactUMGStarter = undefined;
 let isDebug = false;

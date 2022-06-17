@@ -15,10 +15,10 @@ import {
     Vector,
 } from 'ue';
 
-import { toVector } from '../../Common/Interface/Action';
-import { IInteract, IVectorInfo } from '../../Common/Interface/IAction';
-import { IEventRotator, IRotatorComponent } from '../../Common/Interface/IComponent';
-import { createSignal, ISignal } from '../../Common/Misc/Async';
+import { toVector } from '../../UniverseEditor/Common/Interface/Action';
+import { IInteract, IVectorInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { IEventRotator, IRotatorComponent } from '../../UniverseEditor/Common/Interface/IComponent';
+import { createSignal, ISignal } from '../../UniverseEditor/Common/Misc/Async';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, IInteractCall, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';

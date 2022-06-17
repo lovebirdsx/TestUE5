@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { PrimitiveComponent, Rotator, Vector } from 'ue';
 
-import { ISettingSpringDir, ISpringComponent } from '../../Common/Interface/IComponent';
+import {
+    ISettingSpringDir,
+    ISpringComponent,
+} from '../../UniverseEditor/Common/Interface/IComponent';
 import { InteractiveComponent } from '../Interface';
 
 export class SpringComponent extends InteractiveComponent implements ISpringComponent {

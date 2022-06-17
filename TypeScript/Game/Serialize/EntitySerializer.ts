@@ -2,9 +2,12 @@
 
 import { Actor, Character, GameplayStatics, Transform } from 'ue';
 
-import { getClassByBluprintType, getClassByEntityType } from '../../Common/Interface/Entity';
-import { IEntityData } from '../../Common/Interface/IEntity';
-import { isObjChildOfClass, stringify } from '../../Common/Misc/Util';
+import {
+    getClassByBluprintType,
+    getClassByEntityType,
+} from '../../UniverseEditor/Common/Interface/Entity';
+import { IEntityData } from '../../UniverseEditor/Common/Interface/IEntity';
+import { isObjChildOfClass, stringify } from '../../UniverseEditor/Common/Misc/Util';
 import TsEntity from '../Entity/TsEntity';
 import { gameContext } from '../Interface';
 

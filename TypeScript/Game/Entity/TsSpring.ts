@@ -1,7 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, HitResult, PrimitiveComponent, Vector } from 'ue';
 
-import { isEntity } from '../../Common/Interface/Entity';
+import { isEntity } from '../../UniverseEditor/Common/Interface/Entity';
 import { SpringComponent } from '../Component/SpringComponent';
 import { ITsEntity } from '../Interface';
 import TsEntity from './TsEntity';

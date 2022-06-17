@@ -11,6 +11,7 @@ import {
 } from 'react-umg';
 import { Blueprint, Character, Class, EditorOperations, ESlateSizeRule, ReactUMGStarter } from 'ue';
 
+import { ReactUMG } from '../../../react-umg/react-umg';
 import { error, log, warn } from '../../Common/Misc/Log';
 import { getTestErrorRecords } from '../../Common/Misc/Test';
 import testContainer from '../../Editor/UnitTest/Engine/TestContainer';
@@ -21,7 +22,6 @@ import testTextListCsv, {
     readTextListCsv,
     writeTextListCsv,
 } from '../../Editor/UnitTest/TestTextListCsv';
-import { ReactUMG } from '../../react-umg/react-umg';
 import { assetListCache } from '../Common/AssetListCache';
 import { Btn, H3, H3_SIZE, Text } from '../Common/BaseComponent/CommonComponent';
 import { ErrorBoundary } from '../Common/BaseComponent/ErrorBoundary';

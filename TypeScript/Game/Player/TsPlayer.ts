@@ -12,7 +12,7 @@ import {
     Vector,
 } from 'ue';
 
-import { log } from '../../Common/Misc/Log';
+import { log } from '../../UniverseEditor/Common/Misc/Log';
 import PlayerComponent from '../Component/PlayerComponent';
 import { deInitTsEntity, initTsEntity } from '../Entity/Common';
 import { Entity, gameContext, ITsEntity, TComponentClass } from '../Interface';

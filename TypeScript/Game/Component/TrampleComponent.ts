@@ -10,8 +10,8 @@ import {
     Vector,
 } from 'ue';
 
-import { IActionInfo } from '../../Common/Interface/IAction';
-import { ITrampleComponent } from '../../Common/Interface/IComponent';
+import { IActionInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { ITrampleComponent } from '../../UniverseEditor/Common/Interface/IComponent';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, InteractiveComponent } from '../Interface';
 import { StateComponent } from './StateComponent';

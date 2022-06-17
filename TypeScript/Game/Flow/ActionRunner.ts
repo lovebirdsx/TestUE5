@@ -4,8 +4,8 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable spellcheck/spell-checker */
-import { IActionInfo, TActionType } from '../../Common/Interface/IAction';
-import { warn } from '../../Common/Misc/Log';
+import { IActionInfo, TActionType } from '../../UniverseEditor/Common/Interface/IAction';
+import { warn } from '../../UniverseEditor/Common/Misc/Log';
 import { Entity } from '../Interface';
 
 export class Action<T = unknown> {

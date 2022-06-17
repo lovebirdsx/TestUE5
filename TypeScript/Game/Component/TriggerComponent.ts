@@ -1,7 +1,7 @@
 /* eslint-disable no-void */
-import { ITriggerActions } from '../../Common/Interface/IAction';
-import { ITriggerComponent } from '../../Common/Interface/IComponent';
-import { log } from '../../Common/Misc/Log';
+import { ITriggerActions } from '../../UniverseEditor/Common/Interface/IAction';
+import { ITriggerComponent } from '../../UniverseEditor/Common/Interface/IComponent';
+import { log } from '../../UniverseEditor/Common/Misc/Log';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, Entity } from '../Interface';
 import PlayerComponent from './PlayerComponent';

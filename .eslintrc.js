@@ -30,10 +30,26 @@ module.exports = {
             {
                 basePath: './TypeScript',
                 zones: [
-                    { target: './Game', from: './Editor', message: 'Game不能访问Editor' },
-                    { target: './Editor', from: './Game', message: 'Editor不能访问Game' },
-                    { target: './Common', from: './Editor', message: 'Common不能访问Editor' },
-                    { target: './Common', from: './Game', message: 'Common不能访问Game' },
+                    {
+                        target: './Game',
+                        from: './UniverseEditor/Editor',
+                        message: 'Game不能访问Editor',
+                    },
+                    {
+                        target: './UniverseEditor/Editor',
+                        from: './Game',
+                        message: 'Editor不能访问Game',
+                    },
+                    {
+                        target: './UniverseEditor/Common',
+                        from: './UniverseEditor/Editor',
+                        message: 'Common不能访问Editor',
+                    },
+                    {
+                        target: './UniverseEditor/Common',
+                        from: './Game',
+                        message: 'Common不能访问Game',
+                    },
                 ],
             },
         ],

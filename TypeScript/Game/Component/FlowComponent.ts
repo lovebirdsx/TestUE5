@@ -1,9 +1,14 @@
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
-import { IFlowInfo, IFlowListInfo, IPlayFlow, IShowTalk } from '../../Common/Interface/IAction';
-import { IFlowComponent } from '../../Common/Interface/IComponent';
-import { error } from '../../Common/Misc/Log';
-import { flowListOp } from '../../Common/Operation/FlowList';
+import {
+    IFlowInfo,
+    IFlowListInfo,
+    IPlayFlow,
+    IShowTalk,
+} from '../../UniverseEditor/Common/Interface/IAction';
+import { IFlowComponent } from '../../UniverseEditor/Common/Interface/IComponent';
+import { error } from '../../UniverseEditor/Common/Misc/Log';
+import { flowListOp } from '../../UniverseEditor/Common/Operation/FlowList';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
 import { BehaviorFlowComponent } from './BehaviorFlowComponent';

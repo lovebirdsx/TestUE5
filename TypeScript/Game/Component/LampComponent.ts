@@ -2,7 +2,7 @@
 /* eslint-disable no-void */
 import { MaterialInstanceDynamic, StaticMeshComponent } from 'ue';
 
-import { IInteract } from '../../Common/Interface/IAction';
+import { IInteract } from '../../UniverseEditor/Common/Interface/IAction';
 import { Component, IInteractCall } from '../Interface';
 import { EventComponent } from './EventComponent';
 

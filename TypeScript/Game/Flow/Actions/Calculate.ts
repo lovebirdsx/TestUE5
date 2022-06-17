@@ -4,7 +4,7 @@ import {
     IDoCalculate,
     ISetNumberVar,
     ISyncVarToActorState,
-} from '../../../Common/Interface/IAction';
+} from '../../../UniverseEditor/Common/Interface/IAction';
 import { CalculateComponent } from '../../Component/CalculateComponent';
 import { Action } from '../ActionRunner';
 

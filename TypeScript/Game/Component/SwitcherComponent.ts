@@ -1,7 +1,7 @@
 /* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
-import { IActionInfo } from '../../Common/Interface/IAction';
-import { ISwitcherComponent } from '../../Common/Interface/IComponent';
+import { IActionInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { ISwitcherComponent } from '../../UniverseEditor/Common/Interface/IComponent';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Entity, gameContext, InteractiveComponent } from '../Interface';
 import TsHud from '../Player/TsHud';

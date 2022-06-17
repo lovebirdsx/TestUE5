@@ -10,9 +10,9 @@ import {
     INumberVar,
     ISyncVarToActorState,
     TVar,
-} from '../../Common/Interface/IAction';
-import { ICalculateComponent } from '../../Common/Interface/IComponent';
-import { log } from '../../Common/Misc/Log';
+} from '../../UniverseEditor/Common/Interface/IAction';
+import { ICalculateComponent } from '../../UniverseEditor/Common/Interface/IComponent';
+import { log } from '../../UniverseEditor/Common/Misc/Log';
 import { Action, actionRegistry } from '../Flow/ActionRunner';
 import { Component } from '../Interface';
 import { ActorStateComponent } from './ActorStateComponent';

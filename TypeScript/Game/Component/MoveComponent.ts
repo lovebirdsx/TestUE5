@@ -10,13 +10,20 @@ import {
     Vector,
 } from 'ue';
 
-import { toVector } from '../../Common/Interface/Action';
-import { getClassByEntityType } from '../../Common/Interface/Entity';
-import { IFaceToPos, IMoveToPosA, IPosA } from '../../Common/Interface/IAction';
-import { DEFAULT_INIT_SPEED, IMoveComponent } from '../../Common/Interface/IComponent';
-import { createCancleableDelay, createSignal, ISignal } from '../../Common/Misc/Async';
-import { warn } from '../../Common/Misc/Log';
-import { calUpRotatorByPoints, isObjChildOfClass } from '../../Common/Misc/Util';
+import { toVector } from '../../UniverseEditor/Common/Interface/Action';
+import { getClassByEntityType } from '../../UniverseEditor/Common/Interface/Entity';
+import { IFaceToPos, IMoveToPosA, IPosA } from '../../UniverseEditor/Common/Interface/IAction';
+import {
+    DEFAULT_INIT_SPEED,
+    IMoveComponent,
+} from '../../UniverseEditor/Common/Interface/IComponent';
+import {
+    createCancleableDelay,
+    createSignal,
+    ISignal,
+} from '../../UniverseEditor/Common/Misc/Async';
+import { warn } from '../../UniverseEditor/Common/Misc/Log';
+import { calUpRotatorByPoints, isObjChildOfClass } from '../../UniverseEditor/Common/Misc/Util';
 import { Component, gameContext } from '../Interface';
 import { TweenItem } from '../Manager/TweenManager';
 import { StateComponent } from './StateComponent';

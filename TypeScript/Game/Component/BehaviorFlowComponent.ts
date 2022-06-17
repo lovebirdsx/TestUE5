@@ -2,9 +2,9 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable no-void */
-import { IFlowInfo } from '../../Common/Interface/IAction';
-import { IBehaviorFlowComponent } from '../../Common/Interface/IComponent';
-import { error } from '../../Common/Misc/Log';
+import { IFlowInfo } from '../../UniverseEditor/Common/Interface/IAction';
+import { IBehaviorFlowComponent } from '../../UniverseEditor/Common/Interface/IComponent';
+import { error } from '../../UniverseEditor/Common/Misc/Log';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext, ITickable } from '../Interface';
 import { StateComponent } from './StateComponent';

@@ -3,13 +3,13 @@
 import { $ref } from 'puerts';
 import { BuiltinText, Game } from 'ue';
 
-import { csvRegistry } from '../../Common/CsvConfig/CsvRegistry';
-import { GlobalConfigCsv } from '../../Common/CsvConfig/GlobalConfigCsv';
-import { IFlowListInfo, IShowTalk, ITalkItem } from '../../Common/Interface/IAction';
-import { createCancleableDelay, createSignal, delay } from '../../Common/Misc/Async';
-import { error } from '../../Common/Misc/Log';
-import { calUpRotatorByPoints, toUeArray } from '../../Common/Misc/Util';
-import { TalkerListOp } from '../../Common/Operation/TalkerList';
+import { csvRegistry } from '../../UniverseEditor/Common/CsvConfig/CsvRegistry';
+import { GlobalConfigCsv } from '../../UniverseEditor/Common/CsvConfig/GlobalConfigCsv';
+import { IFlowListInfo, IShowTalk, ITalkItem } from '../../UniverseEditor/Common/Interface/IAction';
+import { createCancleableDelay, createSignal, delay } from '../../UniverseEditor/Common/Misc/Async';
+import { error } from '../../UniverseEditor/Common/Misc/Log';
+import { calUpRotatorByPoints, toUeArray } from '../../UniverseEditor/Common/Misc/Util';
+import { TalkerListOp } from '../../UniverseEditor/Common/Operation/TalkerList';
 import { ActionRunner } from '../Flow/ActionRunner';
 import { Component, gameContext } from '../Interface';
 import TsHud from '../Player/TsHud';

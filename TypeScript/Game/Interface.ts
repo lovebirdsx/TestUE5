@@ -1,10 +1,10 @@
 /* eslint-disable spellcheck/spell-checker */
 import { Actor, GameModeBase, PlayerController, Transform, World } from 'ue';
 
-import { IActionInfo, IInteract, TActionType } from '../Common/Interface/IAction';
-import { IInteractiveComponent } from '../Common/Interface/IComponent';
-import { IEntityData, TComponentsData } from '../Common/Interface/IEntity';
-import { Event, parse } from '../Common/Misc/Util';
+import { IActionInfo, IInteract, TActionType } from '../UniverseEditor/Common/Interface/IAction';
+import { IInteractiveComponent } from '../UniverseEditor/Common/Interface/IComponent';
+import { IEntityData, TComponentsData } from '../UniverseEditor/Common/Interface/IEntity';
+import { Event, parse } from '../UniverseEditor/Common/Misc/Util';
 import { TweenManager } from './Manager/TweenManager';
 
 export function parseComponentsData(json: string): TComponentsData {

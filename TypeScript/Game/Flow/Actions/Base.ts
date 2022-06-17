@@ -1,9 +1,14 @@
 /* eslint-disable no-void */
 /* eslint-disable spellcheck/spell-checker */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-import { IInvoke, ILog, IShowMessage, IWait } from '../../../Common/Interface/IAction';
-import { createSignal, ISignal, MS_PER_SEC } from '../../../Common/Misc/Async';
-import { error, log, warn } from '../../../Common/Misc/Log';
+import {
+    IInvoke,
+    ILog,
+    IShowMessage,
+    IWait,
+} from '../../../UniverseEditor/Common/Interface/IAction';
+import { createSignal, ISignal, MS_PER_SEC } from '../../../UniverseEditor/Common/Misc/Async';
+import { error, log, warn } from '../../../UniverseEditor/Common/Misc/Log';
 import { Entity, gameContext } from '../../Interface';
 import { Action, actionRegistry } from '../ActionRunner';
 

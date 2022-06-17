@@ -37,7 +37,7 @@ const configs: ICsvFileConfig[] = [
     },
     {
         Name: ECsvName.ExtendedEntity,
-        Path: 'd.实体.csv',
+        Path: 's.实体.csv',
         CsvLoaderClass: ExtendedEntityCsvLoader,
         CsvClass: ExtendedEntityCsv,
     },

@@ -1,6 +1,6 @@
-import { MyFileHelper, World } from 'ue';
+import { World } from 'ue';
 
-import { getProjectPath, getSavePath } from './Misc/File';
+import { getProjectPath, getSavePath, readFile } from './Misc/File';
 import { log } from './Misc/Log';
 import { writeJson } from './Misc/Util';
 
@@ -23,7 +23,7 @@ export class GameConfig {
     }
 
     private Load(): void {
-        const content = MyFileHelper.Read(GameConfig.SavePath);
+        const content = readFile(GameConfig.SavePath);
         if (content) {
             const obj = JSON.parse(content) as object;
             Object.assign(this, obj);

@@ -2,10 +2,13 @@
 import { EditorOperations } from 'ue';
 
 import { gameConfig } from '../Common/GameConfig';
-import { isEditor } from '../Common/Misc/Util';
 import { entityIdAllocator } from '../Common/Operation/Entity';
 import { StateComponent } from './Component/StateComponent';
 import { gameContext, IGameController, ITsEntity } from './Interface';
+
+function isEditor(): boolean {
+    return EditorOperations !== undefined;
+}
 
 export class GameController implements IGameController {
     public constructor() {

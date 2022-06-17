@@ -1,9 +1,18 @@
 /* eslint-disable spellcheck/spell-checker */
-import { Blueprint } from 'ue';
+import { Blueprint, Character, EditorOperations, KismetSystemLibrary } from 'ue';
 
-import { IExtendedEntityRow } from '../../../../Common/CsvConfig/ExtendedEntityCsv';
+import {
+    ExtendedEntityCsvLoader,
+    IExtendedEntityRow,
+} from '../../../../Common/CsvConfig/ExtendedEntityCsv';
 import { getEntityTypeByBlueprintType } from '../../../../Common/Interface/Entity';
-import { entityTypeConfig } from '../../../../Common/Interface/IEntity';
+import { globalConfig } from '../../../../Common/Interface/Global';
+import {
+    entityTypeConfig,
+    IEntityModel,
+    IEntityModelConfig,
+} from '../../../../Common/Interface/IEntity';
+import { writeJson } from '../../../../Common/Misc/Util';
 import { entityTemplateManager } from '../../EntityTemplateManager';
 import { EditorGlobalCsv } from './Common';
 
@@ -34,5 +43,37 @@ export class EditorExtendedEntityCsv extends EditorGlobalCsv<IExtendedEntityRow>
             }
         });
         return errorCount;
+    }
+
+    public static Export(fromCsvPath: string, toJsonPath: string): void {
+        const loader = new ExtendedEntityCsvLoader();
+        const rows = loader.Load(fromCsvPath);
+        const models: IEntityModel[] = [];
+        rows.forEach((row) => {
+            const bp = Blueprint.Load(row.Bp);
+            const character = EditorOperations.GetDefaultObject(bp.GeneratedClass) as Character;
+            const mesh = character.Mesh;
+            if (mesh && row.Bp.search(globalConfig.DynamicModelBluePrintPath) > 0) {
+                const parent = EditorOperations.GetDefaultObject(bp.ParentClass);
+                const anim = EditorOperations.GetDefaultObject(mesh.GetAnimClass());
+                const materialPaths: string[] = [];
+                for (let i = 0; i < mesh.GetNumMaterials(); i++) {
+                    materialPaths.push(KismetSystemLibrary.GetPathName(mesh.GetMaterial(i)));
+                }
+                const exportdata: IEntityModel = {
+                    BluePrintId: row.Id,
+                    BluePrintClass: KismetSystemLibrary.GetPathName(parent),
+                    MeshPath: KismetSystemLibrary.GetPathName(mesh.SkeletalMesh),
+                    AnimPath: KismetSystemLibrary.GetPathName(anim),
+                    Materials: materialPaths,
+                };
+                models.push(exportdata);
+            }
+        });
+
+        const entityModelConfig: IEntityModelConfig = {
+            Models: models,
+        };
+        writeJson(entityModelConfig, toJsonPath);
     }
 }

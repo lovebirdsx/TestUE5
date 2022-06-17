@@ -71,3 +71,15 @@ export interface ITsEntityBase extends Actor {
 export interface IEntityTemplateConfig {
     Templates: IEntityTemplate[];
 }
+
+export interface IEntityModel {
+    BluePrintId: string;
+    BluePrintClass: string;
+    MeshPath: string;
+    AnimPath: string;
+    Materials: string[];
+}
+
+export interface IEntityModelConfig {
+    Models: IEntityModel[];
+}

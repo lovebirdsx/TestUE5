@@ -1,7 +1,23 @@
 /* eslint-disable spellcheck/spell-checker */
+import { getProjectPath, readFile } from '../../../Common/Misc/File';
 import { assertEq, assertError, assertGt, assertNe, test } from '../../../Common/Misc/Test';
 import { loadIdSegmentConfig, SegmentIdGenerator } from '../../Common/SegmentIdGenerator';
-import { getMacAddress, setMacAddress } from '../../Common/Util';
+import { getMacAddress, listFiles, setMacAddress } from '../../Common/Util';
+
+const editorModules: string[] = ['MyFileHelper', 'EditorOperations'];
+
+function getCommonReferenceEditorFiles(): string[] {
+    const codeFiles = listFiles(getProjectPath('TypeScript/Common'), 'ts', true);
+    const result: string[] = [];
+    const searchStr = editorModules.join('|');
+    codeFiles.forEach((file) => {
+        const content = readFile(file);
+        if (content.search(searchStr) >= 0) {
+            result.push(file);
+        }
+    });
+    return result;
+}
 
 export default function testConfig(): void {
     // 读取id生成器的配置
@@ -52,5 +68,11 @@ export default function testConfig(): void {
         const generator2 = new SegmentIdGenerator('entity');
         const id3 = generator2.GenOne();
         assertEq(id3, id2 + 1, 'Id gen while editor restart');
+    });
+
+    // Common中没有引用EditorCommon中的类
+    test('common code include no editor module', () => {
+        const files = getCommonReferenceEditorFiles();
+        assertEq(files.length, 0, `Common reference editor files count != 0:\n${files.join('\n')}`);
     });
 }

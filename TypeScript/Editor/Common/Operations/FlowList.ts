@@ -1,9 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
 import produce from 'immer';
-import { MyFileHelper } from 'ue';
+import { $ref } from 'puerts';
+import { BuiltinString, MyFileHelper, NewArray } from 'ue';
 
 import { FlowListCsvLoader } from '../../../Common/CsvConfig/FlowListCsv';
 import { TextListCsvLoader, TextRow } from '../../../Common/CsvConfig/TextListCsv';
+import { GameConfig } from '../../../Common/GameConfig';
 import {
     IActionInfo,
     IFlowListInfo,
@@ -12,8 +14,9 @@ import {
     IShowOption,
     IShowTalk,
 } from '../../../Common/Interface/IAction';
-import { getFileNameWithOutExt, getSavePath } from '../../../Common/Misc/File';
+import { getFileName, getFileNameWithOutExt, getSavePath } from '../../../Common/Misc/File';
 import { error, log, warn } from '../../../Common/Misc/Log';
+import { toTsArray } from '../../../Common/Misc/Util';
 import { flowListOp } from '../../../Common/Operation/FlowList';
 import { mergeEditorToConfig } from '../Util';
 import { editorFlowOp } from './Flow';
@@ -21,7 +24,55 @@ import { stateOp } from './State';
 
 const FLOW_EDITOR_SAVE_BASE = 'FlowEditor';
 
+function getFlowListFiles(): string[] {
+    const dir = GameConfig.FlowListDir;
+    const array = NewArray(BuiltinString);
+    MyFileHelper.FindFiles($ref(array), dir, 'csv');
+    const files = toTsArray(array);
+    const flowListFiles = files.filter((file) => {
+        const fileName = getFileName(file);
+        return fileName.startsWith(GameConfig.FlowListPrefix);
+    });
+    // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
+    flowListFiles.sort();
+    return flowListFiles;
+}
+
 class EditorFlowListOp {
+    public Names: string[];
+
+    public Files: string[];
+
+    public constructor() {
+        this.RefreshCache();
+    }
+
+    public RefreshCache(): void {
+        this.Files = getFlowListFiles();
+        this.Names = this.Files.map((file) => {
+            return getFileNameWithOutExt(file);
+        });
+    }
+
+    public GenNewFlowListPath(): string {
+        let id = 1;
+        while (true) {
+            const name = `${GameConfig.FlowListPrefix}${id++}`;
+            if (!this.Names.includes(name)) {
+                return `${GameConfig.FlowListDir}/${name}.csv`;
+            }
+        }
+    }
+
+    public GetPath(name: string): string {
+        const nameId = this.Names.indexOf(name);
+        if (nameId < 0) {
+            throw new Error(`Can not find flowlist for [${name}]`);
+        }
+
+        return this.Files[nameId];
+    }
+
     public Check(flowList: IFlowListInfo, errorMessages: string[]): number {
         let errorCount = 0;
         flowList.Flows.forEach((flow) => {
@@ -208,11 +259,15 @@ class EditorFlowListOp {
         return flowList;
     }
 
+    public LoadByName(name: string): IFlowListInfo {
+        return this.Load(this.GetPath(name));
+    }
+
     public GenNewFlowListFile(): string {
-        const newPath = flowListOp.GenNewFlowListPath();
+        const newPath = this.GenNewFlowListPath();
         const flowListInfo = flowListOp.Create();
         this.Save(flowListInfo, newPath);
-        flowListOp.RefreshCache();
+        this.RefreshCache();
         return newPath;
     }
 

@@ -1,14 +1,11 @@
 /* eslint-disable spellcheck/spell-checker */
-import { $ref } from 'puerts';
-import { BuiltinString, MyFileHelper, NewArray } from 'ue';
-
 import { FlowListCsvLoader, IFlowListRow } from '../CsvConfig/FlowListCsv';
 import { TextListCsvLoader } from '../CsvConfig/TextListCsv';
 import { GameConfig } from '../GameConfig';
 import { IFlowInfo, IFlowListInfo, ITextConfig } from '../Interface/IAction';
-import { getDir, getFileName, getFileNameWithOutExt } from '../Misc/File';
+import { getDir, getFileName } from '../Misc/File';
 import { error, log, warn } from '../Misc/Log';
-import { calHash, toTsArray } from '../Misc/Util';
+import { calHash } from '../Misc/Util';
 import { Context, createEditorContext } from './EditorContext';
 
 export enum EFlowListAction {
@@ -21,48 +18,9 @@ export const flowListContext: Context<IFlowListInfo, EFlowListAction> = createEd
     EFlowListAction
 >();
 
-function getFlowListFiles(): string[] {
-    const dir = GameConfig.FlowListDir;
-    const array = NewArray(BuiltinString);
-    MyFileHelper.FindFiles($ref(array), dir, 'csv');
-    const files = toTsArray(array);
-    const flowListFiles = files.filter((file) => {
-        const fileName = getFileName(file);
-        return fileName.startsWith(GameConfig.FlowListPrefix);
-    });
-    // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
-    flowListFiles.sort();
-    return flowListFiles;
-}
-
 const MAX_TEXT_ID = 1e8;
 
 class FlowListOp {
-    public Names: string[];
-
-    public Files: string[];
-
-    public constructor() {
-        this.RefreshCache();
-    }
-
-    public RefreshCache(): void {
-        this.Files = getFlowListFiles();
-        this.Names = this.Files.map((file) => {
-            return getFileNameWithOutExt(file);
-        });
-    }
-
-    public GenNewFlowListPath(): string {
-        let id = 1;
-        while (true) {
-            const name = `${GameConfig.FlowListPrefix}${id++}`;
-            if (!this.Names.includes(name)) {
-                return `${GameConfig.FlowListDir}/${name}.csv`;
-            }
-        }
-    }
-
     private GenNewFlowId(flowList: IFlowListInfo): number {
         let maxId = 0;
         flowList.Flows.forEach((flow) => {
@@ -98,10 +56,6 @@ class FlowListOp {
         };
     }
 
-    public LoadByName(name: string): IFlowListInfo {
-        return this.Load(this.GetPath(name));
-    }
-
     public Load(path: string): IFlowListInfo {
         let row: IFlowListRow = undefined;
         let flowList: IFlowListInfo = undefined;
@@ -121,6 +75,11 @@ class FlowListOp {
         }
 
         return flowList;
+    }
+
+    public LoadByName(name: string): IFlowListInfo {
+        const path = `${GameConfig.FlowListDir}/${name}.csv`;
+        return this.Load(path);
     }
 
     public GetTextListPath(configPath: string): string {
@@ -148,15 +107,6 @@ class FlowListOp {
         }
 
         flowList.Texts = texts;
-    }
-
-    public GetPath(name: string): string {
-        const nameId = this.Names.indexOf(name);
-        if (nameId < 0) {
-            throw new Error(`Can not find flowlist for [${name}]`);
-        }
-
-        return this.Files[nameId];
     }
 
     public GetFlowNames(flowList: IFlowListInfo): string[] {

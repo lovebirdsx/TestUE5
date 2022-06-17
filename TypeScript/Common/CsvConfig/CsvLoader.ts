@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { MyFileHelper } from 'ue';
-
 import { TCsvValueType } from '../Interface/IAction';
 import { LineReader, LineWriter } from '../Misc/CsvParser';
+import { readFile, writeFile } from '../Misc/File';
 import { warn } from '../Misc/Log';
 import { RequiredField } from '../Misc/Util';
 
@@ -371,7 +370,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
     }
 
     public Load(path: string): TCsvRow[] {
-        const content = MyFileHelper.Read(path);
+        const content = readFile(path);
         if (!content) {
             warn(`Can not read csv at [${path}]`);
             return [];
@@ -380,24 +379,24 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
     }
 
     public TryLoad(path: string): TCsvRow[] {
-        const content = MyFileHelper.Read(path);
+        const content = readFile(path);
         return content ? this.Parse(content) : [];
     }
 
     public LoadOne(path: string): TCsvRow {
-        const content = MyFileHelper.Read(path);
+        const content = readFile(path);
         if (!content) {
             return undefined;
         }
         return this.ParseOne(content);
     }
 
-    public Save(rows: TCsvRow[], path: string): boolean {
-        return MyFileHelper.Write(path, this.Stringify(rows));
+    public Save(rows: TCsvRow[], path: string): void {
+        writeFile(path, this.Stringify(rows));
     }
 
-    public SaveOne(row: TCsvRow, path: string): boolean {
-        return MyFileHelper.Write(path, this.StringifyOne(row));
+    public SaveOne(row: TCsvRow, path: string): void {
+        writeFile(path, this.StringifyOne(row));
     }
 
     public LoadCsv(path: string): ICsv {
@@ -408,7 +407,7 @@ export class CsvLoader<TCsvRow extends TCsvRowBase> {
         };
     }
 
-    public SaveCsv(csv: ICsv, path: string): boolean {
-        return this.Save(csv.Rows as TCsvRow[], path);
+    public SaveCsv(csv: ICsv, path: string): void {
+        this.Save(csv.Rows as TCsvRow[], path);
     }
 }

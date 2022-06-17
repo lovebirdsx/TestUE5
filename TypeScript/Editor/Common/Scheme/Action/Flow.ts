@@ -1,6 +1,7 @@
 /* eslint-disable spellcheck/spell-checker */
 import { IPlayFlow } from '../../../../Common/Interface/IAction';
 import { flowListOp } from '../../../../Common/Operation/FlowList';
+import { editorFlowListOp } from '../../Operations/FlowList';
 import { createObjectScheme, intScheme, stringScheme } from '../../Type';
 
 export function createDefaultPlayFlowFor(flowListName: string): IPlayFlow {
@@ -15,7 +16,7 @@ export function createDefaultPlayFlowFor(flowListName: string): IPlayFlow {
 }
 
 function createDefaultPlayFlow(): IPlayFlow {
-    if (flowListOp.Names.length <= 0) {
+    if (editorFlowListOp.Names.length <= 0) {
         return {
             FlowListName: '',
             FlowId: 0,
@@ -23,7 +24,7 @@ function createDefaultPlayFlow(): IPlayFlow {
         };
     }
 
-    return createDefaultPlayFlowFor(flowListOp.Names[0]);
+    return createDefaultPlayFlowFor(editorFlowListOp.Names[0]);
 }
 
 export const playFlowScheme = createObjectScheme<IPlayFlow>({

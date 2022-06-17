@@ -4,6 +4,7 @@
 import { $ref, $unref } from 'puerts';
 import {
     BuiltinString,
+    Class,
     EditorLevelLibrary,
     EditorOperations,
     EMsgType,
@@ -15,7 +16,22 @@ import {
 } from 'ue';
 
 import { getSavePath } from '../../Common/Misc/File';
-import { readJsonObj, stringifyEditor, writeJson } from '../../Common/Misc/Util';
+import { readJsonObj, stringifyEditor, toTsArray, writeJson } from '../../Common/Misc/Util';
+
+export function listFiles(dir: string, ext?: string, recursive?: boolean): string[] {
+    const resultArray = NewArray(BuiltinString);
+    if (ext === undefined) {
+        // eslint-disable-next-line no-param-reassign
+        ext = '';
+    }
+
+    if (recursive) {
+        MyFileHelper.FindFilesRecursively($ref(resultArray), dir, ext);
+    } else {
+        MyFileHelper.FindFiles($ref(resultArray), dir, ext);
+    }
+    return toTsArray(resultArray);
+}
 
 export function openDirOfFile(filepath: string): void {
     const command = [
@@ -212,4 +228,9 @@ export function errorbox(content: string): void {
 
 export function getSeconds(): number {
     return KismetSystemLibrary.GetGameTimeInSeconds(EditorLevelLibrary.GetEditorWorld());
+}
+
+export function getAssetPath(classObj: Class): string {
+    const pkg = EditorOperations.GetPackage(classObj);
+    return pkg.GetName();
 }

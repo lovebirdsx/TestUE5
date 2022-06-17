@@ -3,9 +3,10 @@ import { GameConfig } from '../../Common/GameConfig';
 import { IEntityData, IEntityTemplate } from '../../Common/Interface/IEntity';
 import { ILevelData } from '../../Common/Interface/ILevel';
 import { levelConfigs } from '../../Common/Interface/Level';
-import { getProjectPath, listFiles } from '../../Common/Misc/File';
+import { getProjectPath } from '../../Common/Misc/File';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
-import { flowListOp } from '../../Common/Operation/FlowList';
+import { editorFlowListOp } from '../Common/Operations/FlowList';
+import { listFiles } from '../Common/Util';
 
 function getAllEntityDataPathForPartitionLevel(contentPath: string): string[] {
     const actorsDir = getProjectPath(`Content/__ExternalActors__/${contentPath}`);
@@ -77,7 +78,7 @@ export class LevelTools {
     }
 
     public static FixAllFlowList(): void {
-        flowListOp.Files.forEach((flowListFile) => {
+        editorFlowListOp.Files.forEach((flowListFile) => {
             // 此处可以加入针对FlowList处理的代码
         });
     }

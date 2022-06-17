@@ -3,7 +3,6 @@
 import { MyFileHelper } from 'ue';
 
 import { csvRegistry, ECsvName } from '../../Common/CsvConfig/CsvRegistry';
-import { ExtendedEntityCsvLoader } from '../../Common/CsvConfig/ExtendedEntityCsv';
 import { componentConfig } from '../../Common/Interface/Component';
 import { entityConfig, genBlueprintConfig } from '../../Common/Interface/Entity';
 import { globalConfig } from '../../Common/Interface/Global';
@@ -14,6 +13,7 @@ import { log } from '../../Common/Misc/Log';
 import { writeJson } from '../../Common/Misc/Util';
 import { ENTITY_TEMPLATE_DIRTY_RECORD_FILE, entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
+import { EditorExtendedEntityCsv } from './Scheme/Csv/ExtendedEntityCsv';
 import { msgbox } from './Util';
 
 interface IExportItem {
@@ -139,14 +139,12 @@ const items: IExportItem[] = [
     {
         Name: 'ExtendedEntity',
         SourceFiles: [csvRegistry.GetPath(ECsvName.ExtendedEntity)],
-        DestFiles: getProjectPaths(globalConfig.BlueprintModelConfigPath),
+        DestFiles: getProjectPaths(globalConfig.EntityModelConfigPath),
         ExportFun: (): void => {
-            const loader = csvRegistry.GetLoaderByName(
-                ECsvName.ExtendedEntity,
-            ) as ExtendedEntityCsvLoader;
-            if (loader) {
-                loader.ExportData(csvRegistry.GetPath(ECsvName.ExtendedEntity));
-            }
+            EditorExtendedEntityCsv.Export(
+                csvRegistry.GetPath(ECsvName.ExtendedEntity),
+                getProjectPath(globalConfig.EntityModelConfigPath),
+            );
         },
     },
 ];

@@ -18,16 +18,12 @@ import {
     ITsEntityBase,
     TEntityType,
 } from '../../Common/Interface/IEntity';
-import {
-    getFileNameWithOutExt,
-    getProjectPath,
-    getSavePath,
-    listFiles,
-} from '../../Common/Misc/File';
+import { getFileNameWithOutExt, getProjectPath, getSavePath } from '../../Common/Misc/File';
 import { warn } from '../../Common/Misc/Log';
 import { readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { componentRegistry } from './Scheme/Component/ComponentRegistry';
 import { CustomSegmentIdGenerator } from './SegmentIdGenerator';
+import { listFiles } from './Util';
 
 function getEntityTemplateFiles(): string[] {
     const files = listFiles(GameConfig.EntityTemplateDir, 'json', true);

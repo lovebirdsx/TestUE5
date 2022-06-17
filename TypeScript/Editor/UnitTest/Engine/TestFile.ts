@@ -7,24 +7,26 @@ import {
     getFileName,
     getFileNameWithOutExt,
     getSavePath,
-    listFiles,
+    readFile,
     removeExtension,
+    writeFile,
 } from '../../../Common/Misc/File';
 import { assertEq, assertFalse, assertGt, assertTrue, test } from '../../../Common/Misc/Test';
 import { toTsArray } from '../../../Common/Misc/Util';
+import { listFiles } from '../../Common/Util';
 
 export default function testFile(): void {
     test('read save file', () => {
-        const file = getSavePath('Test/Foo.txt');
-        MyFileHelper.Write(file, 'Hello Test');
-        const content = MyFileHelper.Read(file);
+        const file = getSavePath('Test/Subdir/Foo.txt');
+        writeFile(file, 'Hello Test');
+        const content = readFile(file);
         assertEq(content, 'Hello Test', 'file read must equal to write');
     });
 
     test('read content file', () => {
         const file = getSavePath('Test/Foo.txt');
-        MyFileHelper.Write(file, 'Hello Test');
-        const content = MyFileHelper.Read(file);
+        writeFile(file, 'Hello Test');
+        const content = readFile(file);
         assertEq(content, 'Hello Test', 'file read must equal to write');
     });
 
@@ -37,7 +39,7 @@ export default function testFile(): void {
     test('find files', () => {
         const dir = getSavePath('Test/TestFindFiles');
         for (let i = 0; i < 3; i++) {
-            MyFileHelper.Write(`${dir}/test${i}.test`, `test ${i}`);
+            writeFile(`${dir}/test${i}.test`, `test ${i}`);
         }
 
         const resultArray = NewArray(BuiltinString);
@@ -61,10 +63,10 @@ export default function testFile(): void {
         const fileSub1 = `${dir}/subDir/test1.test`;
         const fileSub2 = `${dir}/subDir/test1.json`;
 
-        MyFileHelper.Write(file1, `file1`);
-        MyFileHelper.Write(file2, `[]`);
-        MyFileHelper.Write(fileSub1, `file2`);
-        MyFileHelper.Write(fileSub2, `[]`);
+        writeFile(file1, `file1`);
+        writeFile(file2, `[]`);
+        writeFile(fileSub1, `file2`);
+        writeFile(fileSub2, `[]`);
 
         const files = listFiles(dir, 'test', true);
         assertEq(files.length, 2, 'file count must equal');
@@ -80,7 +82,7 @@ export default function testFile(): void {
     test('get file modify tick', () => {
         const file = getSavePath('Test/TestModifyTick/file1.txt');
         const tick1 = MyFileHelper.GetFileModifyTick(file);
-        MyFileHelper.Write(file, 'hello');
+        writeFile(file, 'hello');
         const tick2 = MyFileHelper.GetFileModifyTick(file);
         assertGt(tick2, tick1, `tick2 > tick1`);
     });

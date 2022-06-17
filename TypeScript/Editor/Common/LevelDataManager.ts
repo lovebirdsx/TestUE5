@@ -6,11 +6,11 @@ import { compressEntityData, decompressEntityData } from '../../Common/Interface
 import { IEntityData, ITsEntityBase } from '../../Common/Interface/IEntity';
 import { ILevelData } from '../../Common/Interface/ILevel';
 import { getLevelDataPath } from '../../Common/Interface/Level';
-import { getDir, getProjectPath, getSavePath, listFiles } from '../../Common/Misc/File';
+import { getDir, getProjectPath, getSavePath } from '../../Common/Misc/File';
 import { log } from '../../Common/Misc/Log';
 import { deepEquals, readJsonObj, writeJson } from '../../Common/Misc/Util';
 import { entityTemplateManager } from './EntityTemplateManager';
-import { deepCopyData, getContentPackageName, openFile } from './Util';
+import { deepCopyData, getContentPackageName, listFiles, openFile } from './Util';
 
 interface IEntityRecord {
     EntityData: IEntityData;

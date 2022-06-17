@@ -1,8 +1,21 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable spellcheck/spell-checker */
-import { Class, KismetGuidLibrary } from 'ue';
+import {
+    Actor,
+    Class,
+    ContainerKVType,
+    KismetGuidLibrary,
+    KismetMathLibrary,
+    NewArray,
+    Object as UeObject,
+    Rotator,
+    SupportedContainerKVType,
+    TArray,
+    Vector,
+} from 'ue';
 import * as UE from 'ue';
 
+import { readFile, writeFile } from './File';
 import { error } from './Log';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -181,7 +194,7 @@ export function alignNumber(value: number, len = 1): number {
     return Math.floor(value / len) * len;
 }
 
-export function calUpRotatorByPoints(from: UE.Vector, to: UE.Vector): UE.Rotator {
+export function calUpRotatorByPoints(from: Vector, to: Vector): Rotator {
     const dir = to.op_Subtraction(from);
     dir.Z = 0;
     return dir.Rotation();
@@ -227,7 +240,7 @@ export class Event<T1 = unknown, T2 = unknown, T3 = unknown> {
 }
 
 export function readJsonObj<T>(path: string, defalut?: T): T | undefined {
-    const content = UE.MyFileHelper.Read(path);
+    const content = readFile(path);
     if (content) {
         return JSON.parse(content) as T;
     }
@@ -235,14 +248,10 @@ export function readJsonObj<T>(path: string, defalut?: T): T | undefined {
 }
 
 export function writeJson(obj: unknown, path: string, filterUnderScore?: boolean): void {
-    UE.MyFileHelper.Write(path, stringify(obj, filterUnderScore));
+    writeFile(path, stringify(obj, filterUnderScore));
 }
 
-export function isEditor(): boolean {
-    return UE.EditorOperations !== undefined;
-}
-
-export function getGuid(actor: UE.Actor): string {
+export function getGuid(actor: Actor): string {
     return actor.ActorGuid.ToString();
 }
 
@@ -251,30 +260,25 @@ export function genGuid(): string {
 }
 
 export function getTotalSecond(): number {
-    const now = UE.KismetMathLibrary.UtcNow();
-    const day = UE.KismetMathLibrary.GetDayOfYear(now);
-    const hour = UE.KismetMathLibrary.GetHour(now);
-    const minute = UE.KismetMathLibrary.GetMinute(now);
-    const second = UE.KismetMathLibrary.GetSecond(now);
+    const now = KismetMathLibrary.UtcNow();
+    const day = KismetMathLibrary.GetDayOfYear(now);
+    const hour = KismetMathLibrary.GetHour(now);
+    const minute = KismetMathLibrary.GetMinute(now);
+    const second = KismetMathLibrary.GetSecond(now);
     const totalSecond = second + minute * 60 + hour * 3600 + day * 86400;
     return totalSecond;
 }
 
-export function isChildOfClass(childClass: UE.Class, parentClass: UE.Class): boolean {
-    return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
+export function isChildOfClass(childClass: Class, parentClass: Class): boolean {
+    return KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }
 
-export function isObjChildOfClass(childObj: UE.Object, parentClass: UE.Class): boolean {
+export function isObjChildOfClass(childObj: UeObject, parentClass: Class): boolean {
     const childClass = childObj.GetClass();
-    return UE.KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
+    return KismetMathLibrary.ClassIsChildOf(childClass, parentClass);
 }
 
-export function getAssetPath(classObj: UE.Class): string {
-    const pkg = UE.EditorOperations.GetPackage(classObj);
-    return pkg.GetName();
-}
-
-export function isValidActor(actor: UE.Actor): boolean {
+export function isValidActor(actor: Actor): boolean {
     let hasError = false;
     try {
         actor.GetTransform();
@@ -285,7 +289,7 @@ export function isValidActor(actor: UE.Actor): boolean {
     return !hasError;
 }
 
-export function toTsArray<T>(array: UE.TArray<T>): T[] {
+export function toTsArray<T>(array: TArray<T>): T[] {
     const result = [] as T[];
     for (let i = 0; i < array.Num(); i++) {
         result.push(array.Get(i));
@@ -293,11 +297,11 @@ export function toTsArray<T>(array: UE.TArray<T>): T[] {
     return result;
 }
 
-export function toUeArray<TR extends UE.SupportedContainerKVType, T extends UE.ContainerKVType<TR>>(
+export function toUeArray<TR extends SupportedContainerKVType, T extends ContainerKVType<TR>>(
     array: T[],
     rt: TR,
-): UE.TArray<UE.ContainerKVType<TR>> {
-    const result = UE.NewArray(rt);
+): TArray<ContainerKVType<TR>> {
+    const result = NewArray(rt);
     array.forEach((e) => {
         result.Add(e);
     });

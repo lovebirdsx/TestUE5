@@ -1,6 +1,6 @@
 /* eslint-disable spellcheck/spell-checker */
 import { getProjectPath } from '../Misc/File';
-import { error, log, warn } from '../Misc/Log';
+import { error, log } from '../Misc/Log';
 import { CsvLoader, GlobalCsv, ICsv, TCsvRowBase } from './CsvLoader';
 import { CustomSeqCsv, CustomSeqCsvLoader } from './CustomSeqCsv';
 import { ExcelFormatCsv, ExcelFormatCsvLoader } from './ExcelFormatCsv';
@@ -115,22 +115,17 @@ class CsvRegistry {
         return loader.LoadCsv(this.GetSavePath(config.Path));
     }
 
-    public Save(name: ECsvName, csv: ICsv): boolean {
+    public Save(name: ECsvName, csv: ICsv): void {
         const config = this.ConfigMap.get(name);
         if (!config) {
             error(`Can not save csv for name [${name}]`);
-            return false;
+            return;
         }
 
         const loader = this.GetLoader(config);
         const path = this.GetSavePath(config.Path);
-        if (!loader.SaveCsv(csv, path)) {
-            warn(`Save csv [${csv.Name}] to ${path} failed`);
-            return false;
-        }
-
+        loader.SaveCsv(csv, path);
         log(`Save csv: [${path}]`);
-        return true;
     }
 
     public GetCsv<T extends GlobalCsv>(classObj: new () => T): T {

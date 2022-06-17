@@ -29,6 +29,7 @@ import {
 } from '../../BaseComponent/CommonComponent';
 import { editorConfig } from '../../EditorConfig';
 import LevelEditorUtil from '../../LevelEditorUtil';
+import { editorFlowListOp } from '../../Operations/FlowList';
 import { behaviorFlowActionScheme } from '../../Scheme/Action/Action';
 import { createDefaultPlayFlowFor, playFlowScheme } from '../../Scheme/Action/Flow';
 import { IProps, ObjectScheme, TModifyType } from '../../Type';
@@ -151,7 +152,7 @@ export function RenderStateId(props: IProps<number>): JSX.Element {
 }
 
 function openFlowEditor(playFlow: IPlayFlow): void {
-    editorConfig.FlowConfigPath = flowListOp.GetPath(playFlow.FlowListName);
+    editorConfig.FlowConfigPath = editorFlowListOp.GetPath(playFlow.FlowListName);
     editorConfig.LastPlayFlow = playFlow;
     editorConfig.Save();
 
@@ -160,13 +161,13 @@ function openFlowEditor(playFlow: IPlayFlow): void {
 
 export function RenderPlayFlow(props: IProps): JSX.Element {
     const playFlow = props.Value as IPlayFlow;
-    if (flowListOp.Names.length > 0) {
-        if (!flowListOp.Names.includes(playFlow.FlowListName)) {
+    if (editorFlowListOp.Names.length > 0) {
+        if (!editorFlowListOp.Names.includes(playFlow.FlowListName)) {
             return (
                 <HorizontalBox>
                     {props.PrefixElement}
                     <List
-                        Items={flowListOp.Names}
+                        Items={editorFlowListOp.Names}
                         Selected={playFlow.FlowListName}
                         OnSelectChanged={function (flowListName: string): void {
                             const newPlayFlow = createDefaultPlayFlowFor(flowListName);
@@ -187,7 +188,7 @@ export function RenderPlayFlow(props: IProps): JSX.Element {
             <HorizontalBox>
                 {props.PrefixElement}
                 <List
-                    Items={flowListOp.Names}
+                    Items={editorFlowListOp.Names}
                     Selected={playFlow.FlowListName}
                     Color={COLOR_LEVEL3}
                     OnSelectChanged={function (flowListName: string): void {

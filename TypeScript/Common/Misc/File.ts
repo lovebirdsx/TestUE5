@@ -1,7 +1,5 @@
-import { $ref } from 'puerts';
-import { BuiltinString, FileSystemOperation, MyFileHelper, NewArray } from 'ue';
-
-import { toTsArray } from './Util';
+import { $ref, $unref } from 'puerts';
+import { FileSystemOperation, KismetSystemLibrary } from 'ue';
 
 export function getFileName(path: string): string {
     // eslint-disable-next-line no-useless-escape
@@ -31,27 +29,22 @@ export function getFileNameWithOutExt(path: string): string {
     return removeExtension(getFileName(path));
 }
 
-export function listFiles(dir: string, ext?: string, recursive?: boolean): string[] {
-    const resultArray = NewArray(BuiltinString);
-    if (ext === undefined) {
-        // eslint-disable-next-line no-param-reassign
-        ext = '';
-    }
-
-    if (recursive) {
-        MyFileHelper.FindFilesRecursively($ref(resultArray), dir, ext);
-    } else {
-        MyFileHelper.FindFiles($ref(resultArray), dir, ext);
-    }
-    return toTsArray(resultArray);
-}
-
-const PROJECT_PATH = FileSystemOperation.GetCurrentDirectory();
+const PROJECT_PATH = KismetSystemLibrary.GetProjectDirectory();
 export function getProjectPath(file: string): string {
     return `${PROJECT_PATH}/${file}`;
 }
 
-const SAVE_PATH = `${PROJECT_PATH}/Saved`;
+const SAVE_PATH = KismetSystemLibrary.GetProjectSavedDirectory();
 export function getSavePath(file: string): string {
     return `${SAVE_PATH}/${file}`;
+}
+
+export function readFile(path: string): string | undefined {
+    const result = $ref<string>('');
+    FileSystemOperation.ReadFile(path, result);
+    return $unref(result);
+}
+
+export function writeFile(path: string, content: string): void {
+    FileSystemOperation.WriteFile(path, content);
 }

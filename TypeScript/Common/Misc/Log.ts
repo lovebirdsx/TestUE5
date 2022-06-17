@@ -6,14 +6,21 @@ function getTime(): string {
     return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 }
 
+// 调用MyLog前确保加入MyLog是否有效, 因为MyLog是编辑器中的模块, 在发布版本为空
 export function log(msg: string): void {
-    MyLog.Log(`${getTime()}: ${msg}`);
+    if (MyLog) {
+        MyLog.Log(`${getTime()}: ${msg}`);
+    }
 }
 
 export function warn(msg: string): void {
-    MyLog.Warn(`${getTime()}: ${msg}`);
+    if (MyLog) {
+        MyLog.Warn(`${getTime()}: ${msg}`);
+    }
 }
 
 export function error(msg: string): void {
-    MyLog.Error(`${getTime()}: ${msg}`);
+    if (MyLog) {
+        MyLog.Error(`${getTime()}: ${msg}`);
+    }
 }

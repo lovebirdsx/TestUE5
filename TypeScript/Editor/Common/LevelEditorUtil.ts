@@ -30,10 +30,11 @@ import { ITransform } from '../../Common/Interface/IAction';
 import { TComponentType } from '../../Common/Interface/IComponent';
 import { ITsEntityBase } from '../../Common/Interface/IEntity';
 import { error, log } from '../../Common/Misc/Log';
-import { getAssetPath, isValidActor, toUeArray } from '../../Common/Misc/Util';
+import { isValidActor, toUeArray } from '../../Common/Misc/Util';
 import { entityTemplateManager } from './EntityTemplateManager';
 import { levelDataManager } from './LevelDataManager';
 import { entityRegistry } from './Scheme/Entity';
+import { getAssetPath } from './Util';
 
 class LevelEditorUtil {
     public static SelectActor(actor: Actor): boolean {

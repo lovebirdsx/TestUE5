@@ -11,7 +11,7 @@ import {
 } from 'react-umg';
 import { Blueprint, Character, Class, EditorOperations, ESlateSizeRule, ReactUMGStarter } from 'ue';
 
-import { log } from '../../Common/Misc/Log';
+import { error, log, warn } from '../../Common/Misc/Log';
 import { getTestErrorRecords } from '../../Common/Misc/Test';
 import testContainer from '../../Editor/UnitTest/Engine/TestContainer';
 import testFile from '../../Editor/UnitTest/Engine/TestFile';
@@ -99,6 +99,12 @@ function exportConfig(): void {
     configExporter.Export();
 }
 
+function testLog(): void {
+    log('this is log');
+    warn('this is warn');
+    error('this is error');
+}
+
 const allTests: ITest[] = [
     { Name: 'testUtil', Fun: testUtil },
     { Name: 'testConfig', Fun: testConfig },
@@ -121,6 +127,7 @@ const allTests: ITest[] = [
     { Name: 'getAssetList', Fun: getAssetList, ManualRun: true },
     { Name: 'getDefaultObject', Fun: getDefaultObject, ManualRun: true },
     { Name: 'exportConfig', Fun: exportConfig, ManualRun: true },
+    { Name: 'testLog', Fun: testLog, ManualRun: true },
 ];
 
 export class TestEditor extends React.Component<unknown, ITestEditorState> {

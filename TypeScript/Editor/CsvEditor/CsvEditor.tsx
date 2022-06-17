@@ -202,6 +202,8 @@ export class CsvEditor extends React.Component<unknown, ICsvEditorState> {
 
     private readonly OnUserScrolled = (currentOffset: number): void => {
         this.ScrollOffset = currentOffset;
+        const csvState = this.CurrentCsvState;
+        editorConfig.CsvLoaderScrolls[csvState.Name] = this.ScrollOffset;
     };
 
     private readonly Save = (): void => {

@@ -2,6 +2,7 @@
 
 #include "KuroEditorCommon.h"
 #include "MyFileHelper.h"
+#include "Misc/ConfigCacheIni.h"
 
 DEFINE_LOG_CATEGORY(KuroEditorCommon);
 

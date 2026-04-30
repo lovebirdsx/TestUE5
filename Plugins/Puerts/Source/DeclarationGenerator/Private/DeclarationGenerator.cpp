@@ -13,10 +13,11 @@
 #include "Misc/Paths.h"
 #include "CoreUObject.h"
 #include "TypeScriptDeclarationGenerator.h"
+#include "StructUtils/UserDefinedStruct.h"
 #include "Components/PanelSlot.h"
 #include "Components/Widget.h"
 #if WITH_EDITOR
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #endif
 #include "LevelEditor.h"
 #include "GenDTSStyle.h"

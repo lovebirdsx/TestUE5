@@ -337,7 +337,7 @@ void UPEClassMetaData::SyncClassToBlueprint(UClass* InClass, UBlueprint* InBluep
 
 void UPEClassMetaData::SetAndValidateWithinClass(UClass* InClass)
 {
-    UClass* ExpectedWithinClass = InClass->GetSuperClass() ? InClass->GetSuperClass()->ClassWithin : UObject::StaticClass();
+    UClass* ExpectedWithinClass = InClass->GetSuperClass() ? static_cast<UClass*>(InClass->GetSuperClass()->ClassWithin) : UObject::StaticClass();
     if (ClassWithIn.IsEmpty() == false)
     {
         UClass* WithinClass = FindObject<UClass>(ANY_PACKAGE, *ClassWithIn);

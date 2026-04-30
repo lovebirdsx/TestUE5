@@ -6,6 +6,10 @@
  * which is part of this source code package.
  */
 
+#ifndef WITH_QUICKJS
+#define WITH_QUICKJS 0
+#endif
+
 #include "JsEnvImpl.h"
 #include "JsEnvModule.h"
 #include "DynamicDelegateProxy.h"
@@ -736,7 +740,7 @@ FJsEnvImpl::FJsEnvImpl(std::shared_ptr<IJSModuleLoader> InModuleLoader, std::sha
     ReloadJs.Reset(Isolate, PuertsObj->Get(Context, FV8Utils::ToV8String(Isolate, "__reload")).ToLocalChecked().As<v8::Function>());
 
     DelegateProxiesCheckerHandler =
-        FTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateRaw(this, &FJsEnvImpl::CheckDelegateProxies), 1);
+        FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateRaw(this, &FJsEnvImpl::CheckDelegateProxies), 1);
 
     ManualReleaseCallbackMap.Reset(Isolate, v8::Map::New(Isolate));
 
@@ -788,7 +792,7 @@ FJsEnvImpl::~FJsEnvImpl()
     ReloadJs.Reset();
     JsPromiseRejectCallback.Reset();
 
-    FTicker::GetCoreTicker().RemoveTicker(DelegateProxiesCheckerHandler);
+    FTSTicker::GetCoreTicker().RemoveTicker(DelegateProxiesCheckerHandler);
 
     {
         auto Isolate = MainIsolate;
@@ -850,7 +854,7 @@ FJsEnvImpl::~FJsEnvImpl()
 
         for (auto& Pair : TickerDelegateHandleMap)
         {
-            FTicker::GetCoreTicker().RemoveTicker(*(Pair.first));
+            FTSTicker::GetCoreTicker().RemoveTicker(*(Pair.first));
             delete Pair.first;
             delete Pair.second;
         }
@@ -861,21 +865,21 @@ FJsEnvImpl::~FJsEnvImpl()
         {
             if (auto JSGeneratedClass = Cast<UJSGeneratedClass>(GeneratedClass))
             {
-                if (JSGeneratedClass->IsValidLowLevelFast() && !JSGeneratedClass->IsPendingKill())
+                if (JSGeneratedClass->IsValidLowLevelFast() && IsValid(JSGeneratedClass))
                 {
                     JSGeneratedClass->Release();
                 }
             }
             else if (auto JSWidgetGeneratedClass = Cast<UJSWidgetGeneratedClass>(GeneratedClass))
             {
-                if (JSWidgetGeneratedClass->IsValidLowLevelFast() && !JSWidgetGeneratedClass->IsPendingKill())
+                if (JSWidgetGeneratedClass->IsValidLowLevelFast() && IsValid(JSWidgetGeneratedClass))
                 {
                     JSWidgetGeneratedClass->Release();
                 }
             }
             else if (auto JSAnimGeneratedClass = Cast<UJSAnimGeneratedClass>(GeneratedClass))
             {
-                if (JSWidgetGeneratedClass->IsValidLowLevelFast() && !JSWidgetGeneratedClass->IsPendingKill())
+                if (JSWidgetGeneratedClass->IsValidLowLevelFast() && IsValid(JSWidgetGeneratedClass))
                 {
                     JSAnimGeneratedClass->Release();
                 }
@@ -1393,7 +1397,7 @@ void FJsEnvImpl::TryBindJs(const class UObjectBase* InObject)
 
     // if (!Object->HasAnyFlags(RF_ClassDefaultObject | RF_ArchetypeObject))
     {
-        check(!Object->IsPendingKill());
+        check(IsValid(static_cast<const UObject*>(Object)));
 
         UClass* Class = InObject->GetClass();
 
@@ -1895,7 +1899,7 @@ static void SkipFunction(FFrame& Stack, RESULT_DECL, UFunction* Function)
     if (ReturnProp != NULL)
     {
         ReturnProp->DestroyValue(RESULT_PARAM);
-        FMemory::Memzero(RESULT_PARAM, ReturnProp->ArrayDim * ReturnProp->ElementSize);
+        FMemory::Memzero(RESULT_PARAM, ReturnProp->ArrayDim * ReturnProp->GetElementSize());
     }
 }
 
@@ -3275,7 +3279,7 @@ void FJsEnvImpl::SetFTickerDelegate(const v8::FunctionCallbackInfo<v8::Value>& I
     std::function<void(const JSError*)> ExceptionLogWrapper = std::bind(ExceptionLog, _1, Logger);
     std::function<void(v8::Isolate*, v8::TryCatch*)> ExecutionExceptionHandler =
         std::bind(&FJsEnvImpl::ReportExecutionException, this, _1, _2, ExceptionLogWrapper);
-    std::function<void(FDelegateHandle*)> DelegateHandleCleaner = std::bind(&FJsEnvImpl::RemoveFTickerDelegateHandle, this, _1);
+    std::function<void(FTSTicker::FDelegateHandle*)> DelegateHandleCleaner = std::bind(&FJsEnvImpl::RemoveFTickerDelegateHandle, this, _1);
 
     FTickerDelegateWrapper* DelegateWrapper = new FTickerDelegateWrapper(Continue);
     DelegateWrapper->Init(Info, ExecutionExceptionHandler, DelegateHandleCleaner);
@@ -3292,7 +3296,7 @@ void FJsEnvImpl::SetFTickerDelegate(const v8::FunctionCallbackInfo<v8::Value>& I
     float Delay = Millisecond / 1000.f;
 
     // TODO - 如果实现多线程，这里应该加锁阻止定时回调的执行，直到DelegateWrapper设置好handle
-    FDelegateHandle* DelegateHandle = new FDelegateHandle(FTicker::GetCoreTicker().AddTicker(Delegate, Delay));
+    FTSTicker::FDelegateHandle* DelegateHandle = new FTSTicker::FDelegateHandle(FTSTicker::GetCoreTicker().AddTicker(Delegate, Delay));
     DelegateWrapper->SetDelegateHandle(DelegateHandle);
     TickerDelegateHandleMap[DelegateHandle] = DelegateWrapper;
 
@@ -3309,7 +3313,7 @@ void FJsEnvImpl::ReportExecutionException(
     }
 }
 
-void FJsEnvImpl::RemoveFTickerDelegateHandle(FDelegateHandle* Handle)
+void FJsEnvImpl::RemoveFTickerDelegateHandle(FTSTicker::FDelegateHandle* Handle)
 {
     // TODO - 如果实现多线程，FTicker所在主线程和当前线程释放handle可能有竞争
     auto Iterator = std::find_if(
@@ -3322,7 +3326,7 @@ void FJsEnvImpl::RemoveFTickerDelegateHandle(FDelegateHandle* Handle)
             Iterator->second->FunctionContinue = false;
             return;
         }
-        FTicker::GetCoreTicker().RemoveTicker(*(Iterator->first));
+        FTSTicker::GetCoreTicker().RemoveTicker(*(Iterator->first));
         delete Iterator->first;
         delete Iterator->second;
         TickerDelegateHandleMap.erase(Iterator);
@@ -3351,7 +3355,7 @@ void FJsEnvImpl::ClearInterval(const v8::FunctionCallbackInfo<v8::Value>& Info)
     {
         CHECK_V8_ARGS(EArgExternal);
         v8::Local<v8::External> Arg = v8::Local<v8::External>::Cast(Info[0]);
-        FDelegateHandle* Handle = static_cast<FDelegateHandle*>(Arg->Value());
+        FTSTicker::FDelegateHandle* Handle = static_cast<FTSTicker::FDelegateHandle*>(Arg->Value());
         RemoveFTickerDelegateHandle(Handle);
     }
 }

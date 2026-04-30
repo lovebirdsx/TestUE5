@@ -23,13 +23,8 @@ struct AutoRegisterForUE
     AutoRegisterForUE()
     {
         puerts::DefineClass<UObject>()
-#if ENGINE_MAJOR_VERSION >= 4 && ENGINE_MINOR_VERSION >= 23
             .Method("CreateDefaultSubobject",
                 SelectFunction(UObject * (UObject::*) (FName, UClass*, UClass*, bool, bool), &UObject::CreateDefaultSubobject))
-#else
-            .Method("CreateDefaultSubobject", SelectFunction(UObject * (UObject::*) (FName, UClass*, UClass*, bool, bool, bool),
-                                                  &UObject::CreateDefaultSubobject))
-#endif
             .Method("GetName", SelectFunction(FString(UObjectBaseUtility::*)() const, &UObjectBaseUtility::GetName))
             .Method("GetOuter", MakeFunction(&UObject::GetOuter))
             .Method("GetClass", MakeFunction(&UObject::GetClass))

@@ -1,6 +1,7 @@
 #include "MyFileHelper.h"
 
 #include "Misc/FileHelper.h"
+#include "HAL/PlatformFileManager.h"
 
 FString UMyFileHelper::GetPath(const EFileRoot Root, FString Path)
 {

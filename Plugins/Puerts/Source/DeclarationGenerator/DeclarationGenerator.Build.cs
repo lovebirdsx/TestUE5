@@ -47,7 +47,7 @@ public class DeclarationGenerator : ModuleRules {
             );
         }
         
-        bEnableUndefinedIdentifierWarnings = false; // 避免在VS 2017编译时出现C4668错误
+        UndefinedIdentifierWarningLevel = WarningLevel.Off;
 
         //PublicDefinitions.Add(string.Format("DECL_OUTPUT_PATH={0}", Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Content", "Scripts"))));
     }

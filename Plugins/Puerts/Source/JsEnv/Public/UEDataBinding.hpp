@@ -154,7 +154,7 @@ struct Converter<T*, typename std::enable_if<std::is_convertible<T*, const UObje
     static T* toCpp(v8::Local<v8::Context> context, const v8::Local<v8::Value>& value)
     {
         T* Ret = ::puerts::DataTransfer::GetPointerFast<T>(value.As<v8::Object>());
-        return (!Ret || Ret == RELEASED_UOBJECT_MEMBER || !Ret->IsValidLowLevelFast() || Ret->IsPendingKill()) ? nullptr : Ret;
+        return (!Ret || Ret == RELEASED_UOBJECT_MEMBER || !Ret->IsValidLowLevelFast() || !IsValid(Ret)) ? nullptr : Ret;
     }
 
     static bool accept(v8::Local<v8::Context> context, const v8::Local<v8::Value>& value)

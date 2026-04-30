@@ -16,7 +16,7 @@ static TMap<FName, TMap<FName, TMap<FName, FString>>> ParamDefaultMetas;
 static TMap<FName, TMap<FName, FString>>* PC = nullptr;
 static TMap<FName, FString>* PF = nullptr;
 
-PRAGMA_DISABLE_OPTIMIZATION
+UE_DISABLE_OPTIMIZATION
 static void ParamDefaultMetasInit()
 {
     // PC = &ParamDefaultMetas.Add(TEXT("MainObject"));
@@ -27,7 +27,7 @@ static void ParamDefaultMetasInit()
 #include "InitParamDefaultMetas.inl"
     return;
 }
-PRAGMA_ENABLE_OPTIMIZATION
+UE_ENABLE_OPTIMIZATION
 
 std::once_flag ParamDefaultMetasInitFlag;
 
@@ -182,7 +182,7 @@ void FFunctionTranslator::Init(UFunction* InFunction, bool IsDelegate)
                                 }
                             }
 
-                            Property->ImportText(**DefaultValuePtr, PropValuePtr, PPF_None, nullptr);
+                            Property->ImportText_Direct(**DefaultValuePtr, PropValuePtr, nullptr, PPF_None);
                         }
                     }
                 }

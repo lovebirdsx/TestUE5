@@ -109,7 +109,7 @@ void UTypeScriptGeneratedClass::CancelRedirection()
             continue;
         }
         Function->FunctionFlags &= ~FUNC_Native;
-        Function->SetNativeFunc(ProcessInternal);
+        Function->SetNativeFunc(nullptr);
         NativeFunctionLookupTable.RemoveAll(
             [=](const FNativeFunctionLookup& NativeFunctionLookup) { return Function->GetFName() == NativeFunctionLookup.Name; });
     }

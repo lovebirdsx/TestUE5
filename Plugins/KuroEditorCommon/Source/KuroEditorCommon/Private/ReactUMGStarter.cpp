@@ -4,7 +4,7 @@
 #include "LevelEditor.h"
 #include "KuroEditorCommon.h"
 #include "Components/Widget.h"
-#include "Blutility/Classes/EditorUtilityWidgetBlueprint.h"
+#include "EditorUtilityWidgetBlueprint.h"
 
 FName UReactUMGStarter::Start(const FString& ModuleName, UEditorUtilityWidgetBlueprint *EditorUtilityWidgetBlueprint)
 {	

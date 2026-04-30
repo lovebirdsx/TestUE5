@@ -7,5 +7,6 @@
             "cmd": "${workspaceRoot}\\Proto\\protoc --plugin=protoc-gen-ts_proto=${workspaceRoot}\\node_modules\\.bin\\protoc-gen-ts_proto.cmd --proto_path=${workspaceRoot}\\Proto --ts_proto_opt=onlyTypes=true --ts_proto_opt=fileSuffix=Pb --ts_proto_out=${workspaceRoot}\\TypeScript\\Game\\Interface ${file}"
         }
     ],
-    "filewatcher.autoClearConsole": false
+    "filewatcher.autoClearConsole": false,
+    "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

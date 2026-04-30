@@ -7,6 +7,8 @@
 #include "LevelEditorActions.h"
 #include "OutputLogModule.h"
 #include "Engine/ObjectLibrary.h"
+#include "Misc/ConfigCacheIni.h"
+#include "Framework/Application/SlateApplication.h"
 
 void UEditorOperations::ClearLogWindow()
 {

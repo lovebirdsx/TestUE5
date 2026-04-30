@@ -250,7 +250,7 @@ private:
     void ReportExecutionException(
         v8::Isolate* Isolate, v8::TryCatch* TryCatch, std::function<void(const JSError*)> CompletionHandler);
 
-    void RemoveFTickerDelegateHandle(FDelegateHandle* Handle);
+    void RemoveFTickerDelegateHandle(FTSTicker::FDelegateHandle* Handle);
 
     void SetInterval(const v8::FunctionCallbackInfo<v8::Value>& Info);
 
@@ -323,7 +323,7 @@ private:
             if (auto Class = Cast<UClass>(Struct))
             {
                 UObject* Object = reinterpret_cast<UObject*>(Ptr);
-                if (!Object->IsValidLowLevel() || Object->IsPendingKill() || Object->GetClass() != Class ||
+                if (!Object->IsValidLowLevel() || !IsValid(Object) || Object->GetClass() != Class ||
                     FV8Utils::GetPointer(JsObject))
                 {
                     return;
@@ -588,9 +588,9 @@ private:
 
     bool ExtensionMethodsMapInited = false;
 
-    std::map<FDelegateHandle*, FTickerDelegateWrapper*> TickerDelegateHandleMap;
+    std::map<FTSTicker::FDelegateHandle*, FTickerDelegateWrapper*> TickerDelegateHandleMap;
 
-    FDelegateHandle DelegateProxiesCheckerHandler;
+    FTSTicker::FDelegateHandle DelegateProxiesCheckerHandler;
 
     V8Inspector* Inspector;
 

@@ -151,7 +151,7 @@ void FScriptArrayWrapper::RemoveAt(const v8::FunctionCallbackInfo<v8::Value>& In
     else
     {
         FScriptArrayEx::Destruct(Self, Inner->Property, Index, 1);
-        Self->Remove(Index, 1, Inner->Property->GetSize());
+        Self->Remove(Index, 1, Inner->Property->GetSize(), Inner->Property->GetMinAlignment());
     }
 }
 
@@ -187,7 +187,7 @@ void FScriptArrayWrapper::Empty(const v8::FunctionCallbackInfo<v8::Value>& Info)
 
 FORCEINLINE int32 FScriptArrayWrapper::AddUninitialized(FScriptArray* ScriptArray, int32 ElementSize, int32 Count)
 {
-    return ScriptArray->Add(Count, ElementSize);
+    return ScriptArray->Add(Count, ElementSize, alignof(uint8));
 }
 
 FORCEINLINE uint8* FScriptArrayWrapper::GetData(FScriptArray* ScriptArray, int32 ElementSize, int32 Index)
@@ -742,7 +742,7 @@ void FFixSizeArrayWrapper::Get(const v8::FunctionCallbackInfo<v8::Value>& Info)
         return;
     }
 
-    auto Ptr = Self + Property->ElementSize * Index;
+    auto Ptr = Self + Property->GetElementSize() * Index;
 
     Info.GetReturnValue().Set(Inner->UEToJs(Isolate, Context, Ptr, false));
 }
@@ -775,7 +775,7 @@ void FFixSizeArrayWrapper::Set(const v8::FunctionCallbackInfo<v8::Value>& Info)
         return;
     }
 
-    auto Ptr = Self + Property->ElementSize * Index;
+    auto Ptr = Self + Property->GetElementSize() * Index;
 
     Inner->JsToUE(Isolate, Context, Info[1], Ptr, true);
 }

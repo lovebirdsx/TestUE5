@@ -14,23 +14,7 @@ namespace UnrealBuildTool.Rules
     {
         public ParamDefaultValueMetas(ReadOnlyTargetRules Target) : base(Target)
         {
-            bEnforceIWYU = false;
-
             PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-
-            PublicIncludePaths.AddRange(
-                new string[] {
-                    "Programs/UnrealHeaderTool/Public",
-                }
-                );
-
-
-            PrivateIncludePaths.AddRange(
-                new string[] {
-                    "JsEnv/Public",
-                }
-                );
-
 
             PrivateDependencyModuleNames.AddRange(
                 new string[]

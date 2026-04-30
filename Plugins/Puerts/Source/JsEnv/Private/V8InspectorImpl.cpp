@@ -12,6 +12,14 @@
 #define USING_UE 0
 #endif
 
+#ifndef WITHOUT_INSPECTOR
+#define WITHOUT_INSPECTOR 0
+#endif
+
+#ifndef WITH_INSPECTOR
+#define WITH_INSPECTOR 0
+#endif
+
 #if (PLATFORM_WINDOWS || PLATFORM_MAC || WITH_INSPECTOR) && !WITHOUT_INSPECTOR
 
 #include "V8InspectorImpl.h"
@@ -134,9 +142,6 @@ void V8InspectorChannelImpl::sendNotification(std::unique_ptr<v8_inspector::Stri
 }
 
 class V8InspectorClientImpl : public V8Inspector,
-#if USING_UE
-                              public FTickerObjectBase,
-#endif
                               public v8_inspector::V8InspectorClient
 {
 public:
@@ -154,11 +159,7 @@ public:
 
     void Close() override;
 
-#if USING_UE
-    bool Tick(float DeltaTime) override;
-#else
     bool Tick(float DeltaTime);
-#endif
 
     bool Tick() override;
 
@@ -209,6 +210,10 @@ private:
     bool IsPaused;
 
     bool Connected;
+
+#if USING_UE
+    FTSTicker::FDelegateHandle TickDelegateHandle;
+#endif
 };
 
 #if USING_UE
@@ -235,9 +240,6 @@ void ReportException(const websocketpp::exception& Exception, const TCHAR* JobIn
 #endif
 
 V8InspectorClientImpl::V8InspectorClientImpl(int32_t InPort, v8::Local<v8::Context> InContext)
-#if USING_UE
-    : FTickerObjectBase(0.001f)
-#endif
 {
     Isolate = InContext->GetIsolate();
     Context.Reset(Isolate, InContext);
@@ -290,6 +292,9 @@ V8InspectorClientImpl::V8InspectorClientImpl(int32_t InPort, v8::Local<v8::Conte
         IsAlive = true;
 
 #if USING_UE
+        TickDelegateHandle = FTSTicker::GetCoreTicker().AddTicker(
+            FTickerDelegate::CreateLambda([this](float DeltaTime) { return Tick(DeltaTime); }), 0.001f);
+
         FString InspectorUrl =
             FString::Printf(TEXT("devtools://devtools/bundled/inspector.html?v8only=true&ws=127.0.0.1:%d"), Port);
         UE_LOG(LogV8Inspector, Log,
@@ -327,6 +332,9 @@ void V8InspectorClientImpl::Close()
 {
     if (IsAlive)
     {
+#if USING_UE
+        FTSTicker::GetCoreTicker().RemoveTicker(TickDelegateHandle);
+#endif
         Server.stop_listening();
         V8InspectorChannel.reset();
 

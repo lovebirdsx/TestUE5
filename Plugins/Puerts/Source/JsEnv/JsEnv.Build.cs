@@ -35,7 +35,7 @@ public class JsEnv : ModuleRules
         });
 
         bEnableExceptions = true;
-        bEnableUndefinedIdentifierWarnings = false; // 避免在VS 2017编译时出现C4668错误
+        UndefinedIdentifierWarningLevel = WarningLevel.Off;
         var ContextField = GetType().GetField("Context", BindingFlags.Instance | BindingFlags.NonPublic);
         if (ContextField != null)
         {

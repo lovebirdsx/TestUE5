@@ -76,8 +76,8 @@ declare module "react-umg" {
     }
 
     interface HorizontalBoxSlot extends PanelSlot {
-        Padding?: Margin;
         Size?: SlateChildSize;
+        Padding?: Margin;
         HorizontalAlignment?: EHorizontalAlignment;
         VerticalAlignment?: EVerticalAlignment;
     }
@@ -103,6 +103,7 @@ declare module "react-umg" {
     }
 
     interface ScrollBoxSlot extends PanelSlot {
+        Size?: SlateChildSize;
         Padding?: Margin;
         HorizontalAlignment?: EHorizontalAlignment;
         VerticalAlignment?: EVerticalAlignment;
@@ -110,6 +111,13 @@ declare module "react-umg" {
 
     interface SizeBoxSlot extends PanelSlot {
         Padding?: Margin;
+        HorizontalAlignment?: EHorizontalAlignment;
+        VerticalAlignment?: EVerticalAlignment;
+    }
+
+    interface StackBoxSlot extends PanelSlot {
+        Padding?: Margin;
+        Size?: SlateChildSize;
         HorizontalAlignment?: EHorizontalAlignment;
         VerticalAlignment?: EVerticalAlignment;
     }
@@ -142,10 +150,10 @@ declare module "react-umg" {
 
     interface WrapBoxSlot extends PanelSlot {
         Padding?: Margin;
-        bFillEmptySpace?: boolean;
         FillSpanWhenLessThan?: number;
         HorizontalAlignment?: EHorizontalAlignment;
         VerticalAlignment?: EVerticalAlignment;
+        bFillEmptySpace?: boolean;
         bForceNewLine?: boolean;
     }
 
@@ -165,18 +173,19 @@ declare module "react-umg" {
     type ESlateAccessibleBehavior = UE.ESlateAccessibleBehavior;
     type EMouseCursor = UE.EMouseCursor;
     type EWidgetClipping = UE.EWidgetClipping;
+    type EWidgetPixelSnapping = UE.EWidgetPixelSnapping;
     interface WidgetProps extends Props {
         bIsEnabledDelegate?: () => boolean;
-        ToolTipText?: string;
         ToolTipTextDelegate?: () => string;
+        ToolTipText?: string;
         VisibilityDelegate?: () => ESlateVisibility;
         RenderTransform?: WidgetTransform;
         RenderTransformPivot?: Vector2D;
+        FlowDirectionPreference?: EFlowDirectionPreference;
         bIsVariable?: boolean;
         bCreatedByConstructionScript?: boolean;
         bIsEnabled?: boolean;
         bOverride_Cursor?: boolean;
-        FlowDirectionPreference?: EFlowDirectionPreference;
         bOverrideAccessibleDefaults?: boolean;
         bCanChildrenBeAccessible?: boolean;
         AccessibleBehavior?: ESlateAccessibleBehavior;
@@ -192,6 +201,7 @@ declare module "react-umg" {
         Cursor?: EMouseCursor;
         Clipping?: EWidgetClipping;
         Visibility?: ESlateVisibility;
+        PixelSnapping?: EWidgetPixelSnapping;
         RenderOpacity?: number;
         DesignerFlags?: number;
         DisplayLabel?: string;
@@ -215,12 +225,27 @@ declare module "react-umg" {
         ColorUseRule?: ESlateColorStylingMode;
     }
 
+    interface QueuedWidgetAnimationTransition {
+    }
+
+    interface Guid {
+        A?: number;
+        B?: number;
+        C?: number;
+        D?: number;
+    }
+
     interface NamedSlotBinding {
         Name?: string;
+        Guid?: Guid;
     }
 
     type EDesignPreviewSizeMode = UE.EDesignPreviewSizeMode;
     type EWidgetTickFrequency = UE.EWidgetTickFrequency;
+    interface WidgetChild {
+        WidgetName?: string;
+    }
+
     type EWidgetAnimationEvent = UE.EWidgetAnimationEvent;
     interface AnimationEventBinding {
         AnimationEvent?: EWidgetAnimationEvent;
@@ -234,17 +259,19 @@ declare module "react-umg" {
         ForegroundColorDelegate?: () => SlateColor;
         OnVisibilityChanged?: (InVisibility: ESlateVisibility) => void;
         Padding?: Margin;
+        Priority?: number;
+        bIsFocusable?: boolean;
+        bStopAction?: boolean;
+        bAutomaticallyRegisterInputOnConstruction?: boolean;
+        QueuedWidgetAnimationTransitions?: TArray<QueuedWidgetAnimationTransition>;
         NamedSlotBindings?: TArray<NamedSlotBinding>;
         DesignTimeSize?: Vector2D;
         DesignSizeMode?: EDesignPreviewSizeMode;
         PaletteCategory?: string;
-        Priority?: number;
-        bSupportsKeyboardFocus?: boolean;
-        bIsFocusable?: boolean;
-        bStopAction?: boolean;
         bHasScriptImplementedTick?: boolean;
         bHasScriptImplementedPaint?: boolean;
         TickFrequency?: EWidgetTickFrequency;
+        DesiredFocusWidget?: WidgetChild;
         AnimationCallbacks?: TArray<AnimationEventBinding>;
     }
 
@@ -259,18 +286,56 @@ declare module "react-umg" {
         nativePtr: UE.VREditorBaseUserWidget;
     }
 
-    interface PanelWidgetProps extends WidgetProps {
+    interface KeyHandleMap {
     }
 
-    class PanelWidget extends React.Component<PanelWidgetProps> {
-        nativePtr: UE.PanelWidget;
+    interface IndexedCurve {
+        KeyHandlesToIndices?: KeyHandleMap;
     }
 
-    interface ContentWidgetProps extends PanelWidgetProps {
+    type ERichCurveExtrapolation = UE.ERichCurveExtrapolation;
+    interface RealCurve extends IndexedCurve {
+        DefaultValue?: number;
+        PreInfinityExtrap?: ERichCurveExtrapolation;
+        PostInfinityExtrap?: ERichCurveExtrapolation;
     }
 
-    class ContentWidget extends React.Component<ContentWidgetProps> {
-        nativePtr: UE.ContentWidget;
+    type ERichCurveInterpMode = UE.ERichCurveInterpMode;
+    type ERichCurveTangentMode = UE.ERichCurveTangentMode;
+    type ERichCurveTangentWeightMode = UE.ERichCurveTangentWeightMode;
+    interface RichCurveKey {
+        InterpMode?: ERichCurveInterpMode;
+        TangentMode?: ERichCurveTangentMode;
+        TangentWeightMode?: ERichCurveTangentWeightMode;
+        Time?: number;
+        Value?: number;
+        ArriveTangent?: number;
+        ArriveTangentWeight?: number;
+        LeaveTangent?: number;
+        LeaveTangentWeight?: number;
+    }
+
+    interface RichCurve extends RealCurve {
+        Keys?: TArray<RichCurveKey>;
+    }
+
+    interface RuntimeFloatCurve {
+        EditorCurveData?: RichCurve;
+    }
+
+    interface SlateWidgetStyle {
+    }
+
+    type ESlateBrushDrawType = UE.ESlateBrushDrawType;
+    type ESlateBrushTileType = UE.ESlateBrushTileType;
+    type ESlateBrushMirrorType = UE.ESlateBrushMirrorType;
+    type ESlateBrushImageType = UE.ESlateBrushImageType;
+    interface Vector2f {
+        X?: number;
+        Y?: number;
+    }
+
+    interface DeprecateSlateVector2D extends Vector2f {
     }
 
     interface Vector4 {
@@ -289,35 +354,196 @@ declare module "react-umg" {
         bUseBrushTransparency?: boolean;
     }
 
-    interface Vector2f {
-        X?: number;
-        Y?: number;
-    }
-
     interface Box2f {
         Min?: Vector2f;
         Max?: Vector2f;
-        bIsValid?: number;
+        bIsValid?: boolean;
     }
 
-    type ESlateBrushDrawType = UE.ESlateBrushDrawType;
-    type ESlateBrushTileType = UE.ESlateBrushTileType;
-    type ESlateBrushMirrorType = UE.ESlateBrushMirrorType;
-    type ESlateBrushImageType = UE.ESlateBrushImageType;
     interface SlateBrush {
-        ImageSize?: Vector2D;
-        Margin?: Margin;
-        Tint?: LinearColor;
         TintColor?: SlateColor;
-        OutlineSettings?: SlateBrushOutlineSettings;
-        ResourceName?: string;
-        UVRegion?: Box2f;
         DrawAs?: ESlateBrushDrawType;
         Tiling?: ESlateBrushTileType;
         Mirroring?: ESlateBrushMirrorType;
         ImageType?: ESlateBrushImageType;
+        ImageSize?: DeprecateSlateVector2D;
+        Margin?: Margin;
+        Tint?: LinearColor;
+        OutlineSettings?: SlateBrushOutlineSettings;
+        UVRegion?: Box2f;
         bIsDynamicallyLoaded?: boolean;
         bHasUObject?: boolean;
+        ResourceName?: string;
+    }
+
+    interface SliderStyle extends SlateWidgetStyle {
+        NormalBarImage?: SlateBrush;
+        HoveredBarImage?: SlateBrush;
+        DisabledBarImage?: SlateBrush;
+        NormalThumbImage?: SlateBrush;
+        HoveredThumbImage?: SlateBrush;
+        DisabledThumbImage?: SlateBrush;
+        BarThickness?: number;
+    }
+
+    interface RadialSliderProps extends WidgetProps {
+        Value?: number;
+        ValueDelegate?: () => number;
+        bUseCustomDefaultValue?: boolean;
+        CustomDefaultValue?: number;
+        SliderRange?: RuntimeFloatCurve;
+        ValueTags?: TArray<number>;
+        SliderHandleStartAngle?: number;
+        SliderHandleEndAngle?: number;
+        AngularOffset?: number;
+        HandStartEndRatio?: Vector2D;
+        WidgetStyle?: SliderStyle;
+        SliderBarColor?: LinearColor;
+        SliderProgressColor?: LinearColor;
+        SliderHandleColor?: LinearColor;
+        CenterBackgroundColor?: LinearColor;
+        Locked?: boolean;
+        MouseUsesStep?: boolean;
+        RequiresControllerLock?: boolean;
+        StepSize?: number;
+        IsFocusable?: boolean;
+        UseVerticalDrag?: boolean;
+        ShowSliderHandle?: boolean;
+        ShowSliderHand?: boolean;
+        OnMouseCaptureBegin?: () => void;
+        OnMouseCaptureEnd?: () => void;
+        OnControllerCaptureBegin?: () => void;
+        OnControllerCaptureEnd?: () => void;
+        OnValueChanged?: (Value: number) => void;
+    }
+
+    class RadialSlider extends React.Component<RadialSliderProps> {
+        nativePtr: UE.RadialSlider;
+    }
+
+    interface TopLevelAssetPath {
+        PackageName?: string;
+        AssetName?: string;
+    }
+
+    interface AssetData {
+        ObjectPath?: string;
+        PackageName?: string;
+        PackagePath?: string;
+        AssetName?: string;
+        AssetClass?: string;
+        AssetClassPath?: TopLevelAssetPath;
+    }
+
+    interface IntPoint {
+        X?: number;
+        Y?: number;
+    }
+
+    type EThumbnailLabelType_BlueprintType = UE.EThumbnailLabelType_BlueprintType;
+    type EThumbnailColorStripOrientation_BlueprintType = UE.EThumbnailColorStripOrientation_BlueprintType;
+    interface AssetThumbnailWidgetSettings {
+        bForceGenericThumbnail?: boolean;
+        bAllowHintText?: boolean;
+        bAllowRealTimeOnHovered?: boolean;
+        bAllowAssetSpecificThumbnailOverlay?: boolean;
+        ThumbnailLabel?: EThumbnailLabelType_BlueprintType;
+        HintColorAndOpacity?: LinearColor;
+        bOverrideAssetTypeColor?: boolean;
+        AssetTypeColorOverride?: LinearColor;
+        Padding?: Margin;
+        GenericThumbnailSize?: number;
+        ColorStripOrientation?: EThumbnailColorStripOrientation_BlueprintType;
+    }
+
+    interface AssetThumbnailWidgetProps extends WidgetProps {
+        AssetToShow?: AssetData;
+        Resolution?: IntPoint;
+        ThumbnailSettings?: AssetThumbnailWidgetSettings;
+    }
+
+    class AssetThumbnailWidget extends React.Component<AssetThumbnailWidgetProps> {
+        nativePtr: UE.AssetThumbnailWidget;
+    }
+
+    interface UserWidgetPool {
+    }
+
+    interface ListViewBaseProps extends WidgetProps {
+        WheelScrollMultiplier?: number;
+        bEnableScrollAnimation?: boolean;
+        ScrollingAnimationInterpolationSpeed?: number;
+        bInEnableTouchAnimatedScrolling?: boolean;
+        AllowOverscroll?: boolean;
+        bEnableRightClickScrolling?: boolean;
+        bEnableTouchScrolling?: boolean;
+        bIsPointerScrollingEnabled?: boolean;
+        bIsGamepadScrollingEnabled?: boolean;
+        bEnableFixedLineOffset?: boolean;
+        FixedLineScrollOffset?: number;
+        bAllowDragging?: boolean;
+        NumDesignerPreviewEntries?: number;
+        EntryWidgetPool?: UserWidgetPool;
+    }
+
+    class ListViewBase extends React.Component<ListViewBaseProps> {
+        nativePtr: UE.ListViewBase;
+    }
+
+    interface TableViewStyle extends SlateWidgetStyle {
+        BackgroundBrush?: SlateBrush;
+    }
+
+    interface ScrollBarStyle extends SlateWidgetStyle {
+        HorizontalBackgroundImage?: SlateBrush;
+        VerticalBackgroundImage?: SlateBrush;
+        VerticalTopSlotImage?: SlateBrush;
+        HorizontalTopSlotImage?: SlateBrush;
+        VerticalBottomSlotImage?: SlateBrush;
+        HorizontalBottomSlotImage?: SlateBrush;
+        NormalThumbImage?: SlateBrush;
+        HoveredThumbImage?: SlateBrush;
+        DraggedThumbImage?: SlateBrush;
+        Thickness?: number;
+    }
+
+    type EOrientation = UE.EOrientation;
+    type ESelectionMode = UE.ESelectionMode;
+    type EConsumeMouseWheel = UE.EConsumeMouseWheel;
+    type EScrollIntoViewAlignment = UE.EScrollIntoViewAlignment;
+    interface ListViewProps extends ListViewBaseProps {
+        WidgetStyle?: TableViewStyle;
+        ScrollBarStyle?: ScrollBarStyle;
+        Orientation?: EOrientation;
+        SelectionMode?: ESelectionMode;
+        ConsumeMouseWheel?: EConsumeMouseWheel;
+        bClearSelectionOnClick?: boolean;
+        bIsFocusable?: boolean;
+        bReturnFocusToSelection?: boolean;
+        ScrollIntoViewAlignment?: EScrollIntoViewAlignment;
+        EntrySpacing?: number;
+        HorizontalEntrySpacing?: number;
+        VerticalEntrySpacing?: number;
+        ScrollBarPadding?: Margin;
+        BP_OnListViewScrolled?: (ItemOffset: number, DistanceRemaining: number) => void;
+    }
+
+    class ListView extends React.Component<ListViewProps> {
+        nativePtr: UE.ListView;
+    }
+
+    interface PanelWidgetProps extends WidgetProps {
+    }
+
+    class PanelWidget extends React.Component<PanelWidgetProps> {
+        nativePtr: UE.PanelWidget;
+    }
+
+    interface ContentWidgetProps extends PanelWidgetProps {
+    }
+
+    class ContentWidget extends React.Component<ContentWidgetProps> {
+        nativePtr: UE.ContentWidget;
     }
 
     interface BackgroundBlurProps extends ContentWidgetProps {
@@ -369,9 +595,6 @@ declare module "react-umg" {
 
     class Border extends React.Component<BorderProps> {
         nativePtr: UE.Border;
-    }
-
-    interface SlateWidgetStyle {
     }
 
     interface SlateSound {
@@ -461,8 +684,6 @@ declare module "react-umg" {
         CheckedStateDelegate?: () => ECheckBoxState;
         WidgetStyle?: CheckBoxStyle;
         HorizontalAlignment?: EHorizontalAlignment;
-        Padding?: Margin;
-        BorderBackgroundColor?: SlateColor;
         ClickMethod?: EButtonClickMethod;
         TouchMethod?: EButtonTouchMethod;
         PressMethod?: EButtonPressMethod;
@@ -487,6 +708,7 @@ declare module "react-umg" {
     }
 
     interface ComboBoxProps extends WidgetProps {
+        ScrollBarStyle?: ScrollBarStyle;
         bIsFocusable?: boolean;
     }
 
@@ -497,7 +719,7 @@ declare module "react-umg" {
     interface ComboButtonStyle extends SlateWidgetStyle {
         ButtonStyle?: ButtonStyle;
         DownArrowImage?: SlateBrush;
-        ShadowOffset?: Vector2D;
+        ShadowOffset?: DeprecateSlateVector2D;
         ShadowColorAndOpacity?: LinearColor;
         MenuBorderBrush?: SlateBrush;
         MenuBorderPadding?: Margin;
@@ -544,6 +766,7 @@ declare module "react-umg" {
         SelectedOption?: string;
         WidgetStyle?: ComboBoxStyle;
         ItemStyle?: TableRowStyle;
+        ScrollBarStyle?: ScrollBarStyle;
         ForegroundColor?: SlateColor;
         ContentPadding?: Margin;
         MaxListHeight?: number;
@@ -560,6 +783,7 @@ declare module "react-umg" {
 
     interface FontOutlineSettings {
         OutlineSize?: number;
+        bMiteredCorners?: boolean;
         bSeparateFillAlpha?: boolean;
         bApplyOutlineToDropShadows?: boolean;
         OutlineColor?: LinearColor;
@@ -571,6 +795,10 @@ declare module "react-umg" {
         TypefaceFontName?: string;
         Size?: number;
         LetterSpacing?: number;
+        SkewAmount?: number;
+        bForceMonospaced?: boolean;
+        bMaterialIsStencil?: boolean;
+        MonospacedWidth?: number;
         FontName?: string;
         Hinting?: EFontHinting;
     }
@@ -580,6 +808,7 @@ declare module "react-umg" {
         SelectedOption?: string;
         WidgetStyle?: ComboBoxStyle;
         ItemStyle?: TableRowStyle;
+        ScrollBarStyle?: ScrollBarStyle;
         ContentPadding?: Margin;
         MaxListHeight?: number;
         HasDownArrow?: boolean;
@@ -603,13 +832,10 @@ declare module "react-umg" {
         SectorCentralAngle?: number;
     }
 
-    interface UserWidgetPool {
-    }
-
     interface DynamicEntryBoxBaseProps extends WidgetProps {
-        EntryBoxType?: EDynamicBoxType;
         EntrySpacing?: Vector2D;
         SpacingPattern?: TArray<Vector2D>;
+        EntryBoxType?: EDynamicBoxType;
         EntrySizeRule?: SlateChildSize;
         EntryHorizontalAlignment?: EHorizontalAlignment;
         EntryVerticalAlignment?: EVerticalAlignment;
@@ -663,8 +889,6 @@ declare module "react-umg" {
         HintText?: string;
         HintTextDelegate?: () => string;
         WidgetStyle?: EditableTextStyle;
-        Font?: SlateFontInfo;
-        ColorAndOpacity?: SlateColor;
         IsReadOnly?: boolean;
         IsPassword?: boolean;
         MinimumDesiredWidth?: number;
@@ -689,17 +913,19 @@ declare module "react-umg" {
         nativePtr: UE.EditableText;
     }
 
-    interface ScrollBarStyle extends SlateWidgetStyle {
-        HorizontalBackgroundImage?: SlateBrush;
-        VerticalBackgroundImage?: SlateBrush;
-        VerticalTopSlotImage?: SlateBrush;
-        HorizontalTopSlotImage?: SlateBrush;
-        VerticalBottomSlotImage?: SlateBrush;
-        HorizontalBottomSlotImage?: SlateBrush;
-        NormalThumbImage?: SlateBrush;
-        HoveredThumbImage?: SlateBrush;
-        DraggedThumbImage?: SlateBrush;
-        Thickness?: number;
+    type ETextTransformPolicy = UE.ETextTransformPolicy;
+    interface TextBlockStyle extends SlateWidgetStyle {
+        Font?: SlateFontInfo;
+        ColorAndOpacity?: SlateColor;
+        ShadowOffset?: DeprecateSlateVector2D;
+        ShadowColorAndOpacity?: LinearColor;
+        SelectedBackgroundColor?: SlateColor;
+        HighlightColor?: SlateColor;
+        HighlightShape?: SlateBrush;
+        StrikeBrush?: SlateBrush;
+        UnderlineBrush?: SlateBrush;
+        TransformPolicy?: ETextTransformPolicy;
+        OverflowPolicy?: ETextOverflowPolicy;
     }
 
     interface EditableTextBoxStyle extends SlateWidgetStyle {
@@ -709,6 +935,7 @@ declare module "react-umg" {
         BackgroundImageReadOnly?: SlateBrush;
         Padding?: Margin;
         Font?: SlateFontInfo;
+        TextStyle?: TextBlockStyle;
         ForegroundColor?: SlateColor;
         BackgroundColor?: SlateColor;
         ReadOnlyForegroundColor?: SlateColor;
@@ -724,14 +951,9 @@ declare module "react-umg" {
         WidgetStyle?: EditableTextBoxStyle;
         HintText?: string;
         HintTextDelegate?: () => string;
-        Font?: SlateFontInfo;
-        ForegroundColor?: LinearColor;
-        BackgroundColor?: LinearColor;
-        ReadOnlyForegroundColor?: LinearColor;
         IsReadOnly?: boolean;
         IsPassword?: boolean;
         MinimumDesiredWidth?: number;
-        Padding?: Margin;
         IsCaretMovedWhenGainFocus?: boolean;
         SelectAllTextWhenFocused?: boolean;
         RevertTextOnEscape?: boolean;
@@ -747,6 +969,7 @@ declare module "react-umg" {
         ShapedTextOptions?: ShapedTextOptions;
         OnTextChanged?: (Text: string) => void;
         OnTextCommitted?: (Text: string, CommitMethod: ETextCommit) => void;
+        bIsFontDeprecationDone?: boolean;
     }
 
     class EditableTextBox extends React.Component<EditableTextBoxProps> {
@@ -802,21 +1025,6 @@ declare module "react-umg" {
         nativePtr: UE.Image;
     }
 
-    type ETextTransformPolicy = UE.ETextTransformPolicy;
-    interface TextBlockStyle extends SlateWidgetStyle {
-        Font?: SlateFontInfo;
-        ColorAndOpacity?: SlateColor;
-        ShadowOffset?: Vector2D;
-        ShadowColorAndOpacity?: LinearColor;
-        SelectedBackgroundColor?: SlateColor;
-        HighlightColor?: SlateColor;
-        HighlightShape?: SlateBrush;
-        StrikeBrush?: SlateBrush;
-        UnderlineBrush?: SlateBrush;
-        TransformPolicy?: ETextTransformPolicy;
-        OverflowPolicy?: ETextOverflowPolicy;
-    }
-
     interface Key {
         KeyName?: string;
     }
@@ -833,9 +1041,7 @@ declare module "react-umg" {
         WidgetStyle?: ButtonStyle;
         TextStyle?: TextBlockStyle;
         SelectedKey?: InputChord;
-        Font?: SlateFontInfo;
         Margin?: Margin;
-        ColorAndOpacity?: LinearColor;
         KeySelectionText?: string;
         NoKeySpecifiedText?: string;
         bAllowModifierKeys?: boolean;
@@ -851,50 +1057,10 @@ declare module "react-umg" {
 
     interface InvalidationBoxProps extends ContentWidgetProps {
         bCanCache?: boolean;
-        CacheRelativeTransforms?: boolean;
     }
 
     class InvalidationBox extends React.Component<InvalidationBoxProps> {
         nativePtr: UE.InvalidationBox;
-    }
-
-    interface ListViewBaseProps extends WidgetProps {
-        WheelScrollMultiplier?: number;
-        bEnableScrollAnimation?: boolean;
-        AllowOverscroll?: boolean;
-        bEnableRightClickScrolling?: boolean;
-        bEnableFixedLineOffset?: boolean;
-        FixedLineScrollOffset?: number;
-        bAllowDragging?: boolean;
-        NumDesignerPreviewEntries?: number;
-        EntryWidgetPool?: UserWidgetPool;
-    }
-
-    class ListViewBase extends React.Component<ListViewBaseProps> {
-        nativePtr: UE.ListViewBase;
-    }
-
-    interface TableViewStyle extends SlateWidgetStyle {
-        BackgroundBrush?: SlateBrush;
-    }
-
-    type EOrientation = UE.EOrientation;
-    type ESelectionMode = UE.ESelectionMode;
-    type EConsumeMouseWheel = UE.EConsumeMouseWheel;
-    interface ListViewProps extends ListViewBaseProps {
-        WidgetStyle?: TableViewStyle;
-        ScrollBarStyle?: ScrollBarStyle;
-        Orientation?: EOrientation;
-        SelectionMode?: ESelectionMode;
-        ConsumeMouseWheel?: EConsumeMouseWheel;
-        bClearSelectionOnClick?: boolean;
-        bIsFocusable?: boolean;
-        EntrySpacing?: number;
-        bReturnFocusToSelection?: boolean;
-    }
-
-    class ListView extends React.Component<ListViewProps> {
-        nativePtr: UE.ListView;
     }
 
     type EMenuPlacement = UE.EMenuPlacement;
@@ -916,6 +1082,7 @@ declare module "react-umg" {
         Justification?: ETextJustify;
         WrappingPolicy?: ETextWrappingPolicy;
         AutoWrapText?: boolean;
+        ApplyLineHeightToBottomLine?: boolean;
         WrapTextAt?: number;
         Margin?: Margin;
         LineHeightPercentage?: number;
@@ -931,7 +1098,6 @@ declare module "react-umg" {
         HintTextDelegate?: () => string;
         WidgetStyle?: TextBlockStyle;
         bIsReadOnly?: boolean;
-        Font?: SlateFontInfo;
         SelectAllTextWhenFocused?: boolean;
         ClearTextSelectionOnFocusLoss?: boolean;
         RevertTextOnEscape?: boolean;
@@ -957,12 +1123,9 @@ declare module "react-umg" {
         AllowContextMenu?: boolean;
         VirtualKeyboardOptions?: VirtualKeyboardOptions;
         VirtualKeyboardDismissAction?: EVirtualKeyboardDismissAction;
-        Font?: SlateFontInfo;
-        ForegroundColor?: LinearColor;
-        BackgroundColor?: LinearColor;
-        ReadOnlyForegroundColor?: LinearColor;
         OnTextChanged?: (Text: string) => void;
         OnTextCommitted?: (Text: string, CommitMethod: ETextCommit) => void;
+        bIsFontDeprecationDone?: boolean;
     }
 
     class MultiLineEditableTextBox extends React.Component<MultiLineEditableTextBoxProps> {
@@ -970,6 +1133,8 @@ declare module "react-umg" {
     }
 
     interface NamedSlotProps extends ContentWidgetProps {
+        bExposeOnInstanceOnly?: boolean;
+        SlotGuid?: Guid;
     }
 
     class NamedSlot extends React.Component<NamedSlotProps> {
@@ -988,6 +1153,21 @@ declare module "react-umg" {
 
     class Overlay extends React.Component<OverlayProps> {
         nativePtr: UE.Overlay;
+    }
+
+    type ESlatePostRT = UE.ESlatePostRT;
+    interface SlatePostBufferUpdateInfo {
+        BufferToUpdate?: ESlatePostRT;
+    }
+
+    interface PostBufferUpdateProps extends WidgetProps {
+        bPerformDefaultPostBufferUpdate?: boolean;
+        BuffersToUpdate?: TArray<ESlatePostRT>;
+        UpdateBufferInfos?: TArray<SlatePostBufferUpdateInfo>;
+    }
+
+    class PostBufferUpdate extends React.Component<PostBufferUpdateProps> {
+        nativePtr: UE.PostBufferUpdate;
     }
 
     interface ProgressBarStyle extends SlateWidgetStyle {
@@ -1022,6 +1202,7 @@ declare module "react-umg" {
         Phase?: number;
         PhaseCount?: number;
         TextureParameter?: string;
+        bShowEffectsInDesigner?: boolean;
     }
 
     class RetainerBox extends React.Component<RetainerBoxProps> {
@@ -1030,9 +1211,9 @@ declare module "react-umg" {
 
     interface RichTextBlockProps extends TextLayoutWidgetProps {
         Text?: string;
-        bOverrideDefaultStyle?: boolean;
         DefaultTextStyleOverride?: TextBlockStyle;
         MinDesiredWidth?: number;
+        bOverrideDefaultStyle?: boolean;
         TextTransformPolicy?: ETextTransformPolicy;
         TextOverflowPolicy?: ETextOverflowPolicy;
         DefaultTextStyle?: TextBlockStyle;
@@ -1085,11 +1266,15 @@ declare module "react-umg" {
         BottomShadowBrush?: SlateBrush;
         LeftShadowBrush?: SlateBrush;
         RightShadowBrush?: SlateBrush;
+        HorizontalScrolledContentPadding?: Margin;
+        VerticalScrolledContentPadding?: Margin;
     }
 
     type EDescendantScrollDestination = UE.EDescendantScrollDestination;
     type EScrollWhenFocusChanges = UE.EScrollWhenFocusChanges;
     interface ScrollBoxProps extends PanelWidgetProps {
+        ScrollAnimationInterpolationSpeed?: number;
+        bEnableTouchScrolling?: boolean;
         WidgetStyle?: ScrollBoxStyle;
         WidgetBarStyle?: ScrollBarStyle;
         Orientation?: EOrientation;
@@ -1109,6 +1294,7 @@ declare module "react-umg" {
         bAllowRightClickDragScrolling?: boolean;
         WheelScrollMultiplier?: number;
         OnUserScrolled?: (CurrentOffset: number) => void;
+        OnScrollBarVisibilityChanged?: (NewVisibility: ESlateVisibility) => void;
     }
 
     class ScrollBox extends React.Component<ScrollBoxProps> {
@@ -1136,16 +1322,6 @@ declare module "react-umg" {
 
     class SizeBox extends React.Component<SizeBoxProps> {
         nativePtr: UE.SizeBox;
-    }
-
-    interface SliderStyle extends SlateWidgetStyle {
-        NormalBarImage?: SlateBrush;
-        HoveredBarImage?: SlateBrush;
-        DisabledBarImage?: SlateBrush;
-        NormalThumbImage?: SlateBrush;
-        HoveredThumbImage?: SlateBrush;
-        DisabledThumbImage?: SlateBrush;
-        BarThickness?: number;
     }
 
     interface SliderProps extends WidgetProps {
@@ -1202,11 +1378,13 @@ declare module "react-umg" {
         MinFractionalDigits?: number;
         MaxFractionalDigits?: number;
         bAlwaysUsesDeltaSnap?: boolean;
+        bEnableSlider?: boolean;
         Delta?: number;
         SliderExponent?: number;
         Font?: SlateFontInfo;
         Justification?: ETextJustify;
         MinDesiredWidth?: number;
+        KeyboardType?: EVirtualKeyboardType;
         ClearKeyboardFocusOnCommit?: boolean;
         SelectAllTextOnCommit?: boolean;
         ForegroundColor?: SlateColor;
@@ -1228,19 +1406,26 @@ declare module "react-umg" {
         nativePtr: UE.SpinBox;
     }
 
+    interface StackBoxProps extends PanelWidgetProps {
+        Orientation?: EOrientation;
+    }
+
+    class StackBox extends React.Component<StackBoxProps> {
+        nativePtr: UE.StackBox;
+    }
+
     interface TextBlockProps extends TextLayoutWidgetProps {
         Text?: string;
         TextDelegate?: () => string;
         ColorAndOpacity?: SlateColor;
         ColorAndOpacityDelegate?: () => SlateColor;
+        MinDesiredWidth?: number;
         Font?: SlateFontInfo;
         StrikeBrush?: SlateBrush;
         ShadowOffset?: Vector2D;
         ShadowColorAndOpacity?: LinearColor;
         ShadowColorAndOpacityDelegate?: () => LinearColor;
-        MinDesiredWidth?: number;
         bWrapWithInvalidationPanel?: boolean;
-        bAutoWrapText?: boolean;
         TextTransformPolicy?: ETextTransformPolicy;
         TextOverflowPolicy?: ETextOverflowPolicy;
         bSimpleTextMode?: boolean;
@@ -1268,6 +1453,8 @@ declare module "react-umg" {
         EntryWidth?: number;
         TileAlignment?: EListItemAlignment;
         bWrapHorizontalNavigation?: boolean;
+        ScrollbarDisabledVisibility?: ESlateVisibility;
+        bEntrySizeIncludesEntrySpacing?: boolean;
     }
 
     class TileView extends React.Component<TileViewProps> {
@@ -1325,9 +1512,7 @@ declare module "react-umg" {
 
     interface WrapBoxProps extends PanelWidgetProps {
         InnerSlotPadding?: Vector2D;
-        WrapWidth?: number;
         WrapSize?: number;
-        bExplicitWrapWidth?: boolean;
         bExplicitWrapSize?: boolean;
         HorizontalAlignment?: EHorizontalAlignment;
         Orientation?: EOrientation;
@@ -1361,8 +1546,8 @@ declare module "react-umg" {
     }
 
     interface LevelSequencePlayerSnapshot {
-        MasterName?: string;
-        MasterTime?: QualifiedFrameTime;
+        RootName?: string;
+        RootTime?: QualifiedFrameTime;
         SourceTime?: QualifiedFrameTime;
         CurrentShotName?: string;
         CurrentShotLocalTime?: QualifiedFrameTime;
@@ -1380,7 +1565,7 @@ declare module "react-umg" {
     }
 
     interface SoftObjectPath {
-        AssetPathName?: string;
+        AssetPath?: TopLevelAssetPath;
         SubPathString?: string;
     }
 
@@ -1423,6 +1608,7 @@ declare module "react-umg" {
     }
 
     interface EditorUtilityWidgetProps extends UserWidgetProps {
+        TabDisplayName?: string;
         HelpText?: string;
         bAlwaysReregisterWithWindowsMenu?: boolean;
         bAutoRunDefaultAction?: boolean;
@@ -1432,11 +1618,523 @@ declare module "react-umg" {
         nativePtr: UE.EditorUtilityWidget;
     }
 
-    interface ReactWidgetProps extends UserWidgetProps {
+    interface EditorUtilityButtonProps extends ButtonProps {
     }
 
-    class ReactWidget extends React.Component<ReactWidgetProps> {
-        nativePtr: UE.ReactWidget;
+    class EditorUtilityButton extends React.Component<EditorUtilityButtonProps> {
+        nativePtr: UE.EditorUtilityButton;
+    }
+
+    interface EditorUtilityCheckBoxProps extends CheckBoxProps {
+    }
+
+    class EditorUtilityCheckBox extends React.Component<EditorUtilityCheckBoxProps> {
+        nativePtr: UE.EditorUtilityCheckBox;
+    }
+
+    interface EditorUtilityCircularThrobberProps extends CircularThrobberProps {
+    }
+
+    class EditorUtilityCircularThrobber extends React.Component<EditorUtilityCircularThrobberProps> {
+        nativePtr: UE.EditorUtilityCircularThrobber;
+    }
+
+    interface EditorUtilityComboBoxKeyProps extends ComboBoxKeyProps {
+    }
+
+    class EditorUtilityComboBoxKey extends React.Component<EditorUtilityComboBoxKeyProps> {
+        nativePtr: UE.EditorUtilityComboBoxKey;
+    }
+
+    interface EditorUtilityComboBoxStringProps extends ComboBoxStringProps {
+    }
+
+    class EditorUtilityComboBoxString extends React.Component<EditorUtilityComboBoxStringProps> {
+        nativePtr: UE.EditorUtilityComboBoxString;
+    }
+
+    interface EditorUtilityEditableTextProps extends EditableTextProps {
+    }
+
+    class EditorUtilityEditableText extends React.Component<EditorUtilityEditableTextProps> {
+        nativePtr: UE.EditorUtilityEditableText;
+    }
+
+    interface EditorUtilityEditableTextBoxProps extends EditableTextBoxProps {
+    }
+
+    class EditorUtilityEditableTextBox extends React.Component<EditorUtilityEditableTextBoxProps> {
+        nativePtr: UE.EditorUtilityEditableTextBox;
+    }
+
+    interface EditorUtilityExpandableAreaProps extends ExpandableAreaProps {
+    }
+
+    class EditorUtilityExpandableArea extends React.Component<EditorUtilityExpandableAreaProps> {
+        nativePtr: UE.EditorUtilityExpandableArea;
+    }
+
+    interface EditorUtilityInputKeySelectorProps extends InputKeySelectorProps {
+    }
+
+    class EditorUtilityInputKeySelector extends React.Component<EditorUtilityInputKeySelectorProps> {
+        nativePtr: UE.EditorUtilityInputKeySelector;
+    }
+
+    interface EditorUtilityListViewProps extends ListViewProps {
+    }
+
+    class EditorUtilityListView extends React.Component<EditorUtilityListViewProps> {
+        nativePtr: UE.EditorUtilityListView;
+    }
+
+    interface EditorUtilityMultiLineEditableTextProps extends MultiLineEditableTextProps {
+    }
+
+    class EditorUtilityMultiLineEditableText extends React.Component<EditorUtilityMultiLineEditableTextProps> {
+        nativePtr: UE.EditorUtilityMultiLineEditableText;
+    }
+
+    interface EditorUtilityMultiLineEditableTextBoxProps extends MultiLineEditableTextBoxProps {
+    }
+
+    class EditorUtilityMultiLineEditableTextBox extends React.Component<EditorUtilityMultiLineEditableTextBoxProps> {
+        nativePtr: UE.EditorUtilityMultiLineEditableTextBox;
+    }
+
+    interface EditorUtilityProgressBarProps extends ProgressBarProps {
+    }
+
+    class EditorUtilityProgressBar extends React.Component<EditorUtilityProgressBarProps> {
+        nativePtr: UE.EditorUtilityProgressBar;
+    }
+
+    interface EditorUtilityScrollBarProps extends ScrollBarProps {
+    }
+
+    class EditorUtilityScrollBar extends React.Component<EditorUtilityScrollBarProps> {
+        nativePtr: UE.EditorUtilityScrollBar;
+    }
+
+    interface EditorUtilityScrollBoxProps extends ScrollBoxProps {
+    }
+
+    class EditorUtilityScrollBox extends React.Component<EditorUtilityScrollBoxProps> {
+        nativePtr: UE.EditorUtilityScrollBox;
+    }
+
+    interface EditorUtilitySliderProps extends SliderProps {
+    }
+
+    class EditorUtilitySlider extends React.Component<EditorUtilitySliderProps> {
+        nativePtr: UE.EditorUtilitySlider;
+    }
+
+    interface EditorUtilitySpinBoxProps extends SpinBoxProps {
+    }
+
+    class EditorUtilitySpinBox extends React.Component<EditorUtilitySpinBoxProps> {
+        nativePtr: UE.EditorUtilitySpinBox;
+    }
+
+    interface EditorUtilityThrobberProps extends ThrobberProps {
+    }
+
+    class EditorUtilityThrobber extends React.Component<EditorUtilityThrobberProps> {
+        nativePtr: UE.EditorUtilityThrobber;
+    }
+
+    interface EditorUtilityTreeViewProps extends TreeViewProps {
+    }
+
+    class EditorUtilityTreeView extends React.Component<EditorUtilityTreeViewProps> {
+        nativePtr: UE.EditorUtilityTreeView;
+    }
+
+    type EMultiBoxType = UE.EMultiBoxType;
+    interface ToolMenuWidgetProps extends WidgetProps {
+        MenuName?: string;
+        MenuType?: EMultiBoxType;
+        FullMenuName?: string;
+    }
+
+    class ToolMenuWidget extends React.Component<ToolMenuWidgetProps> {
+        nativePtr: UE.ToolMenuWidget;
+    }
+
+    interface TakeRecorderOverlayWidgetProps extends UserWidgetProps {
+    }
+
+    class TakeRecorderOverlayWidget extends React.Component<TakeRecorderOverlayWidgetProps> {
+        nativePtr: UE.TakeRecorderOverlayWidget;
+    }
+
+    interface AudioMaterialWidgetStyle extends SlateWidgetStyle {
+        DesiredSize?: Vector2f;
+    }
+
+    interface AudioMaterialButtonStyle extends AudioMaterialWidgetStyle {
+        ButtonMainColor?: LinearColor;
+        ButtonMainColorTint_1?: LinearColor;
+        ButtonMainColorTint_2?: LinearColor;
+        ButtonAccentColor?: LinearColor;
+        ButtonShadowColor?: LinearColor;
+        ButtonUnpressedOutlineColor?: LinearColor;
+        ButtonPressedOutlineColor?: LinearColor;
+    }
+
+    interface AudioMaterialButtonProps extends WidgetProps {
+        WidgetStyle?: AudioMaterialButtonStyle;
+        OnButtonPressedChangedEvent?: (bIsPressed: boolean) => void;
+        bIsPressed?: boolean;
+    }
+
+    class AudioMaterialButton extends React.Component<AudioMaterialButtonProps> {
+        nativePtr: UE.AudioMaterialButton;
+    }
+
+    interface AudioMaterialEnvelopeStyle extends AudioMaterialWidgetStyle {
+        CurveColor?: LinearColor;
+        BackgroundColor?: LinearColor;
+        OutlineColor?: LinearColor;
+    }
+
+    type EAudioMaterialEnvelopeType = UE.EAudioMaterialEnvelopeType;
+    interface AudioMaterialEnvelopeSettings {
+        EnvelopeType?: EAudioMaterialEnvelopeType;
+        AttackCurve?: number;
+        AttackValue?: number;
+        AttackTime?: number;
+        DecayCurve?: number;
+        DecayTime?: number;
+        SustainValue?: number;
+        ReleaseCurve?: number;
+        ReleaseTime?: number;
+    }
+
+    interface AudioMaterialEnvelopeProps extends WidgetProps {
+        WidgetStyle?: AudioMaterialEnvelopeStyle;
+        EnvelopeSettings?: AudioMaterialEnvelopeSettings;
+    }
+
+    class AudioMaterialEnvelope extends React.Component<AudioMaterialEnvelopeProps> {
+        nativePtr: UE.AudioMaterialEnvelope;
+    }
+
+    interface AudioTextBoxStyle extends SlateWidgetStyle {
+        BackgroundImage?: SlateBrush;
+        BackgroundColor?: SlateColor;
+    }
+
+    interface AudioMaterialKnobStyle extends AudioMaterialWidgetStyle {
+        KnobMainColor?: LinearColor;
+        KnobAccentColor?: LinearColor;
+        KnobShadowColor?: LinearColor;
+        KnobSmoothBevelColor?: LinearColor;
+        KnobIndicatorDotColor?: LinearColor;
+        KnobEdgeFillColor?: LinearColor;
+        KnobBarColor?: LinearColor;
+        KnobBarShadowColor?: LinearColor;
+        KnobBarFillMinColor?: LinearColor;
+        KnobBarFillMidColor?: LinearColor;
+        KnobBarFillMaxColor?: LinearColor;
+        KnobBarFillTintColor?: LinearColor;
+        TextBoxStyle?: AudioTextBoxStyle;
+    }
+
+    interface AudioMaterialKnobProps extends WidgetProps {
+        WidgetStyle?: AudioMaterialKnobStyle;
+        OnKnobValueChanged?: (Value: number) => void;
+        Value?: number;
+        TuneSpeed?: number;
+        FineTuneSpeed?: number;
+        bLocked?: boolean;
+        bMouseUsesStep?: boolean;
+        StepSize?: number;
+    }
+
+    class AudioMaterialKnob extends React.Component<AudioMaterialKnobProps> {
+        nativePtr: UE.AudioMaterialKnob;
+    }
+
+    interface AudioMaterialMeterStyle extends AudioMaterialWidgetStyle {
+        MeterFillMinColor?: LinearColor;
+        MeterFillMidColor?: LinearColor;
+        MeterFillMaxColor?: LinearColor;
+        MeterFillBackgroundColor?: LinearColor;
+        MeterPadding?: Vector2D;
+        ValueRangeDb?: Vector2D;
+        bShowScale?: boolean;
+        bScaleSide?: boolean;
+        ScaleHashOffset?: number;
+        ScaleHashWidth?: number;
+        ScaleHashHeight?: number;
+        DecibelsPerHash?: number;
+        Font?: SlateFontInfo;
+    }
+
+    interface MeterChannelInfo {
+        MeterValue?: number;
+        PeakValue?: number;
+        ClippingValue?: number;
+    }
+
+    interface AudioMaterialMeterProps extends WidgetProps {
+        WidgetStyle?: AudioMaterialMeterStyle;
+        Orientation?: EOrientation;
+        MeterChannelInfoDelegate?: () => TArray<MeterChannelInfo>;
+        MeterChannelInfo?: TArray<MeterChannelInfo>;
+    }
+
+    class AudioMaterialMeter extends React.Component<AudioMaterialMeterProps> {
+        nativePtr: UE.AudioMaterialMeter;
+    }
+
+    interface AudioMaterialSliderStyle extends AudioMaterialWidgetStyle {
+        SliderBackgroundColor?: LinearColor;
+        SliderBackgroundAccentColor?: LinearColor;
+        SliderValueMainColor?: LinearColor;
+        SliderHandleMainColor?: LinearColor;
+        SliderHandleOutlineColor?: LinearColor;
+        TextBoxStyle?: AudioTextBoxStyle;
+    }
+
+    interface AudioMaterialSliderProps extends WidgetProps {
+        WidgetStyle?: AudioMaterialSliderStyle;
+        OnValueChanged?: (Value: number) => void;
+        Value?: number;
+        Orientation?: EOrientation;
+        TuneSpeed?: number;
+        FineTuneSpeed?: number;
+        bLocked?: boolean;
+        bMouseUsesStep?: boolean;
+        StepSize?: number;
+    }
+
+    class AudioMaterialSlider extends React.Component<AudioMaterialSliderProps> {
+        nativePtr: UE.AudioMaterialSlider;
+    }
+
+    interface AudioMeterStyle extends SlateWidgetStyle {
+        MeterValueImage?: SlateBrush;
+        BackgroundImage?: SlateBrush;
+        MeterBackgroundImage?: SlateBrush;
+        MeterValueBackgroundImage?: SlateBrush;
+        MeterPeakImage?: SlateBrush;
+        MeterSize?: Vector2D;
+        MeterPadding?: Vector2D;
+        MeterValuePadding?: number;
+        PeakValueWidth?: number;
+        ValueRangeDb?: Vector2D;
+        bShowScale?: boolean;
+        bScaleSide?: boolean;
+        ScaleHashOffset?: number;
+        ScaleHashWidth?: number;
+        ScaleHashHeight?: number;
+        DecibelsPerHash?: number;
+        Font?: SlateFontInfo;
+    }
+
+    interface AudioMeterProps extends WidgetProps {
+        MeterChannelInfo?: TArray<MeterChannelInfo>;
+        MeterChannelInfoDelegate?: () => TArray<MeterChannelInfo>;
+        WidgetStyle?: AudioMeterStyle;
+        Orientation?: EOrientation;
+        BackgroundColor?: LinearColor;
+        MeterBackgroundColor?: LinearColor;
+        MeterValueColor?: LinearColor;
+        MeterPeakColor?: LinearColor;
+        MeterClippingColor?: LinearColor;
+        MeterScaleColor?: LinearColor;
+        MeterScaleLabelColor?: LinearColor;
+    }
+
+    class AudioMeter extends React.Component<AudioMeterProps> {
+        nativePtr: UE.AudioMeter;
+    }
+
+    interface FixedSampleSequenceRulerStyle extends SlateWidgetStyle {
+        HandleWidth?: number;
+        HandleColor?: SlateColor;
+        HandleBrush?: SlateBrush;
+        TicksColor?: SlateColor;
+        TicksTextColor?: SlateColor;
+        TicksTextFont?: SlateFontInfo;
+        TicksTextOffset?: number;
+        BackgroundColor?: SlateColor;
+        BackgroundBrush?: SlateBrush;
+        DesiredWidth?: number;
+        DesiredHeight?: number;
+    }
+
+    interface SampledSequenceValueGridOverlayStyle extends SlateWidgetStyle {
+        GridColor?: SlateColor;
+        GridThickness?: number;
+        LabelTextColor?: SlateColor;
+        LabelTextFont?: SlateFontInfo;
+        DesiredWidth?: number;
+        DesiredHeight?: number;
+    }
+
+    interface SampledSequenceViewerStyle extends SlateWidgetStyle {
+        SequenceColor?: SlateColor;
+        SequenceLineThickness?: number;
+        MajorGridLineColor?: SlateColor;
+        MinorGridLineColor?: SlateColor;
+        ZeroCrossingLineColor?: SlateColor;
+        ZeroCrossingLineThickness?: number;
+        SampleMarkersSize?: number;
+        SequenceBackgroundColor?: SlateColor;
+        BackgroundBrush?: SlateBrush;
+        DesiredWidth?: number;
+        DesiredHeight?: number;
+    }
+
+    interface TriggerThresholdLineStyle extends SlateWidgetStyle {
+        LineColor?: LinearColor;
+    }
+
+    interface AudioOscilloscopePanelStyle extends SlateWidgetStyle {
+        TimeRulerStyle?: FixedSampleSequenceRulerStyle;
+        ValueGridStyle?: SampledSequenceValueGridOverlayStyle;
+        WaveViewerStyle?: SampledSequenceViewerStyle;
+        TriggerThresholdLineStyle?: TriggerThresholdLineStyle;
+    }
+
+    type EXAxisLabelsUnit = UE.EXAxisLabelsUnit;
+    type EYAxisLabelsUnit = UE.EYAxisLabelsUnit;
+    type EAudioOscilloscopeTriggerMode = UE.EAudioOscilloscopeTriggerMode;
+    type EAudioPanelLayoutType = UE.EAudioPanelLayoutType;
+    interface AudioOscilloscopeProps extends WidgetProps {
+        OscilloscopeStyle?: AudioOscilloscopePanelStyle;
+        MaxTimeWindowMs?: number;
+        TimeWindowMs?: number;
+        AnalysisPeriodMs?: number;
+        bShowTimeGrid?: boolean;
+        TimeGridLabelsUnit?: EXAxisLabelsUnit;
+        bShowAmplitudeGrid?: boolean;
+        bShowAmplitudeLabels?: boolean;
+        AmplitudeGridLabelsUnit?: EYAxisLabelsUnit;
+        TriggerMode?: EAudioOscilloscopeTriggerMode;
+        TriggerThreshold?: number;
+        PanelLayoutType?: EAudioPanelLayoutType;
+        ChannelToAnalyze?: number;
+    }
+
+    class AudioOscilloscope extends React.Component<AudioOscilloscopeProps> {
+        nativePtr: UE.AudioOscilloscope;
+    }
+
+    type EAudioRadialSliderLayout = UE.EAudioRadialSliderLayout;
+    interface AudioRadialSliderProps extends WidgetProps {
+        Value?: number;
+        ValueDelegate?: () => number;
+        WidgetLayout?: EAudioRadialSliderLayout;
+        CenterBackgroundColor?: LinearColor;
+        SliderProgressColor?: LinearColor;
+        SliderBarColor?: LinearColor;
+        HandStartEndRatio?: Vector2D;
+        UnitsText?: string;
+        TextLabelBackgroundColor?: LinearColor;
+        ShowLabelOnlyOnHover?: boolean;
+        ShowUnitsText?: boolean;
+        IsUnitsTextReadOnly?: boolean;
+        IsValueTextReadOnly?: boolean;
+        SliderThickness?: number;
+        OutputRange?: Vector2D;
+        OnValueChanged?: (Value: number) => void;
+    }
+
+    class AudioRadialSlider extends React.Component<AudioRadialSliderProps> {
+        nativePtr: UE.AudioRadialSlider;
+    }
+
+    interface AudioVolumeRadialSliderProps extends AudioRadialSliderProps {
+    }
+
+    class AudioVolumeRadialSlider extends React.Component<AudioVolumeRadialSliderProps> {
+        nativePtr: UE.AudioVolumeRadialSlider;
+    }
+
+    interface AudioFrequencyRadialSliderProps extends AudioRadialSliderProps {
+    }
+
+    class AudioFrequencyRadialSlider extends React.Component<AudioFrequencyRadialSliderProps> {
+        nativePtr: UE.AudioFrequencyRadialSlider;
+    }
+
+    interface AudioSliderBaseProps extends WidgetProps {
+        Value?: number;
+        UnitsText?: string;
+        TextLabelBackgroundColor?: LinearColor;
+        TextLabelBackgroundColorDelegate?: () => LinearColor;
+        ShowLabelOnlyOnHover?: boolean;
+        ShowUnitsText?: boolean;
+        IsUnitsTextReadOnly?: boolean;
+        IsValueTextReadOnly?: boolean;
+        ValueDelegate?: () => number;
+        SliderBackgroundColor?: LinearColor;
+        SliderBackgroundColorDelegate?: () => LinearColor;
+        SliderBarColor?: LinearColor;
+        SliderBarColorDelegate?: () => LinearColor;
+        SliderThumbColor?: LinearColor;
+        SliderThumbColorDelegate?: () => LinearColor;
+        WidgetBackgroundColor?: LinearColor;
+        WidgetBackgroundColorDelegate?: () => LinearColor;
+        Orientation?: EOrientation;
+        OnValueChanged?: (Value: number) => void;
+    }
+
+    class AudioSliderBase extends React.Component<AudioSliderBaseProps> {
+        nativePtr: UE.AudioSliderBase;
+    }
+
+    interface AudioSliderProps extends AudioSliderBaseProps {
+    }
+
+    class AudioSlider extends React.Component<AudioSliderProps> {
+        nativePtr: UE.AudioSlider;
+    }
+
+    interface AudioVolumeSliderProps extends AudioSliderProps {
+    }
+
+    class AudioVolumeSlider extends React.Component<AudioVolumeSliderProps> {
+        nativePtr: UE.AudioVolumeSlider;
+    }
+
+    interface AudioFrequencySliderProps extends AudioSliderBaseProps {
+        OutputRange?: Vector2D;
+    }
+
+    class AudioFrequencySlider extends React.Component<AudioFrequencySliderProps> {
+        nativePtr: UE.AudioFrequencySlider;
+    }
+
+    interface SampledSequenceVectorViewerStyle extends SlateWidgetStyle {
+        BackgroundColor?: SlateColor;
+        BackgroundBrush?: SlateBrush;
+        LineColor?: LinearColor;
+        LineThickness?: number;
+    }
+
+    interface AudioVectorscopePanelStyle extends SlateWidgetStyle {
+        ValueGridStyle?: SampledSequenceValueGridOverlayStyle;
+        VectorViewerStyle?: SampledSequenceVectorViewerStyle;
+    }
+
+    interface AudioVectorscopeProps extends WidgetProps {
+        VectorscopeStyle?: AudioVectorscopePanelStyle;
+        bShowGrid?: boolean;
+        GridDivisions?: number;
+        MaxDisplayPersistenceMs?: number;
+        DisplayPersistenceMs?: number;
+        Scale?: number;
+        PanelLayoutType?: EAudioPanelLayoutType;
+    }
+
+    class AudioVectorscope extends React.Component<AudioVectorscopeProps> {
+        nativePtr: UE.AudioVectorscope;
     }
 
     interface Synth2DSliderStyle extends SlateWidgetStyle {
@@ -1505,6 +2203,24 @@ declare module "react-umg" {
         nativePtr: UE.SynthKnob;
     }
 
+    interface ReactWidgetProps extends UserWidgetProps {
+    }
+
+    class ReactWidget extends React.Component<ReactWidgetProps> {
+        nativePtr: UE.ReactWidget;
+    }
+
+    interface ObjectMixerWidgetUserConfig {
+    }
+
+    interface ObjectMixerEditorUWidgetProps extends WidgetProps {
+        ObjectMixerWidgetUserConfig?: ObjectMixerWidgetUserConfig;
+    }
+
+    class ObjectMixerEditorUWidget extends React.Component<ObjectMixerEditorUWidgetProps> {
+        nativePtr: UE.ObjectMixerEditorUWidget;
+    }
+
     interface MouseEventParams {
         Pos?: Vector2D;
     }
@@ -1539,13 +2255,6 @@ declare module "react-umg" {
         nativePtr: UE.UMGRoot;
     }
 
-    interface TalkerEditor_CProps extends EditorUtilityWidgetProps {
-    }
-
-    class TalkerEditor_C extends React.Component<TalkerEditor_CProps> {
-        nativePtr: UE.Game.Editor.TalkerEditor.TalkerEditor_C;
-    }
-
     interface CsvEditor_CProps extends EditorUtilityWidgetProps {
     }
 
@@ -1554,6 +2263,29 @@ declare module "react-umg" {
     }
 
     interface PointerToUberGraphFrame {
+    }
+
+    interface Test_CProps extends EditorUtilityWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+        IntArray?: TArray<number>;
+    }
+
+    class Test_C extends React.Component<Test_CProps> {
+        nativePtr: UE.Game.Editor.Test.Test_C;
+    }
+
+    interface EntityEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class EntityEditor_C extends React.Component<EntityEditor_CProps> {
+        nativePtr: UE.Game.Editor.EntityEditor.EntityEditor_C;
+    }
+
+    interface FlowEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class FlowEditor_C extends React.Component<FlowEditor_CProps> {
+        nativePtr: UE.Game.Editor.FlowEditor.FlowEditor_C;
     }
 
     interface EditorMap_CProps extends EditorUtilityWidgetProps {
@@ -1577,6 +2309,13 @@ declare module "react-umg" {
         nativePtr: UE.Game.Editor.EditorMap.EditorMap_C;
     }
 
+    interface TalkerEditor_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class TalkerEditor_C extends React.Component<TalkerEditor_CProps> {
+        nativePtr: UE.Game.Editor.TalkerEditor.TalkerEditor_C;
+    }
+
     interface TestEditor_CProps extends EditorUtilityWidgetProps {
     }
 
@@ -1584,11 +2323,15 @@ declare module "react-umg" {
         nativePtr: UE.Game.Editor.TestEditor.TestEditor_C;
     }
 
-    interface FlowEditor_CProps extends EditorUtilityWidgetProps {
+    interface WBP_Button_CProps extends UserWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+        Text?: string;
+        OnClick?: () => void;
+        Font?: SlateFontInfo;
     }
 
-    class FlowEditor_C extends React.Component<FlowEditor_CProps> {
-        nativePtr: UE.Game.Editor.FlowEditor.FlowEditor_C;
+    class WBP_Button_C extends React.Component<WBP_Button_CProps> {
+        nativePtr: UE.Game.Blueprints.Hud.WBP_Button.WBP_Button_C;
     }
 
     interface UMGTest_CProps extends EditorUtilityWidgetProps {
@@ -1596,29 +2339,6 @@ declare module "react-umg" {
 
     class UMGTest_C extends React.Component<UMGTest_CProps> {
         nativePtr: UE.Game.Editor.UMGTest.UMGTest_C;
-    }
-
-    interface EntityEditor_CProps extends EditorUtilityWidgetProps {
-    }
-
-    class EntityEditor_C extends React.Component<EntityEditor_CProps> {
-        nativePtr: UE.Game.Editor.EntityEditor.EntityEditor_C;
-    }
-
-    interface Test_CProps extends EditorUtilityWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-        IntArray?: TArray<number>;
-    }
-
-    class Test_C extends React.Component<Test_CProps> {
-        nativePtr: UE.Game.Editor.Test.Test_C;
-    }
-
-    interface UITest_CProps extends EditorUtilityWidgetProps {
-    }
-
-    class UITest_C extends React.Component<UITest_CProps> {
-        nativePtr: UE.Game.Editor.UITest.UITest_C;
     }
 
     interface UI_TalkOptionButton_CProps extends UserWidgetProps {
@@ -1631,6 +2351,15 @@ declare module "react-umg" {
         nativePtr: UE.Game.Demo.UI.UI_TalkOptionButton.UI_TalkOptionButton_C;
     }
 
+    interface WBP_Main_CProps extends UserWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+        OnClose?: () => void;
+    }
+
+    class WBP_Main_C extends React.Component<WBP_Main_CProps> {
+        nativePtr: UE.Game.Blueprints.Hud.WBP_Main.WBP_Main_C;
+    }
+
     interface UI_TalkDisplayer_CProps extends UserWidgetProps {
         UberGraphFrame?: PointerToUberGraphFrame;
         Who?: string;
@@ -1641,6 +2370,29 @@ declare module "react-umg" {
 
     class UI_TalkDisplayer_C extends React.Component<UI_TalkDisplayer_CProps> {
         nativePtr: UE.Game.Demo.UI.UI_TalkDisplayer.UI_TalkDisplayer_C;
+    }
+
+    interface UITest_CProps extends EditorUtilityWidgetProps {
+    }
+
+    class UITest_C extends React.Component<UITest_CProps> {
+        nativePtr: UE.Game.Editor.UITest.UITest_C;
+    }
+
+    interface UI_Rotator_CProps extends UserWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+    }
+
+    class UI_Rotator_C extends React.Component<UI_Rotator_CProps> {
+        nativePtr: UE.Game.Demo.UI.UI_Rotator.UI_Rotator_C;
+    }
+
+    interface UI_Sphere_CProps extends UserWidgetProps {
+        UberGraphFrame?: PointerToUberGraphFrame;
+    }
+
+    class UI_Sphere_C extends React.Component<UI_Sphere_CProps> {
+        nativePtr: UE.Game.Demo.UI.UI_Sphere.UI_Sphere_C;
     }
 
     interface UI_Interacttiem_CProps extends UserWidgetProps {
@@ -1659,58 +2411,6 @@ declare module "react-umg" {
 
     class UI_Interact_C extends React.Component<UI_Interact_CProps> {
         nativePtr: UE.Game.Demo.UI.UI_Interact.UI_Interact_C;
-    }
-
-    interface WBP_Button_CProps extends UserWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-        Text?: string;
-        OnClick?: () => void;
-        Font?: SlateFontInfo;
-    }
-
-    class WBP_Button_C extends React.Component<WBP_Button_CProps> {
-        nativePtr: UE.Game.Blueprints.Hud.WBP_Button.WBP_Button_C;
-    }
-
-    interface WBP_Main_CProps extends UserWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-        OnClose?: () => void;
-    }
-
-    class WBP_Main_C extends React.Component<WBP_Main_CProps> {
-        nativePtr: UE.Game.Blueprints.Hud.WBP_Main.WBP_Main_C;
-    }
-
-    interface UI_Sphere_CProps extends UserWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-    }
-
-    class UI_Sphere_C extends React.Component<UI_Sphere_CProps> {
-        nativePtr: UE.Game.Demo.UI.UI_Sphere.UI_Sphere_C;
-    }
-
-    interface UI_Rotator_CProps extends UserWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-    }
-
-    class UI_Rotator_C extends React.Component<UI_Rotator_CProps> {
-        nativePtr: UE.Game.Demo.UI.UI_Rotator.UI_Rotator_C;
-    }
-
-    interface TestKuroEditorCommon_CProps extends EditorUtilityWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-    }
-
-    class TestKuroEditorCommon_C extends React.Component<TestKuroEditorCommon_CProps> {
-        nativePtr: UE.Game.Test.KuroEditorCommon.TestKuroEditorCommon.TestKuroEditorCommon_C;
-    }
-
-    interface EUW_TestLiveCoding_CProps extends EditorUtilityWidgetProps {
-        UberGraphFrame?: PointerToUberGraphFrame;
-    }
-
-    class EUW_TestLiveCoding_C extends React.Component<EUW_TestLiveCoding_CProps> {
-        nativePtr: UE.Game.Test.LivecodingForEditor.EUW_TestLiveCoding.EUW_TestLiveCoding_C;
     }
 
 

@@ -11,7 +11,7 @@
 #include <sstream>
 #include <tuple>
 #include <type_traits>
-#if BUILDING_PES_EXTENSION
+#if defined(BUILDING_PES_EXTENSION) && BUILDING_PES_EXTENSION
 #include "pesapi.h"
 #else
 #include "JSClassRegister.h"
@@ -844,7 +844,7 @@ public:
         return *this;
     }
 
-#if !BUILDING_PES_EXTENSION
+#if !defined(BUILDING_PES_EXTENSION) || !BUILDING_PES_EXTENSION
     void Register()
     {
         const bool isUEType = puerts::is_uetype<T>::value;

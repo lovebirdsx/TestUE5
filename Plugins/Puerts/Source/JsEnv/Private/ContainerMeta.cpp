@@ -84,28 +84,32 @@ PropertyMacro* FContainerMeta::GetBuiltinProperty(BuiltinType type)
                 break;
 #else
             case puerts::TBool:
-                Ret = new FBoolProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, (EPropertyFlags) 0, 0xFF, 1, true);
+            {
+                auto* BoolProp = new FBoolProperty(PropertyMetaRoot, NAME_None, RF_Transient);
+                BoolProp->SetBoolSize(1, true);
+                Ret = BoolProp;
                 break;
+            }
             case puerts::TByte:
-                Ret = new FByteProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FByteProperty(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
             case puerts::TInt:
-                Ret = new FIntProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FIntProperty(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
             case puerts::TFloat:
-                Ret = new FFloatProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FFloatProperty(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
             case puerts::TInt64:
-                Ret = new FInt64Property(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FInt64Property(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
             case puerts::TString:
-                Ret = new FStrProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FStrProperty(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
             case puerts::TText:
-                Ret = new FTextProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FTextProperty(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
             case puerts::TName:
-                Ret = new FNameProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash);
+                Ret = new FNameProperty(PropertyMetaRoot, NAME_None, RF_Transient);
                 break;
 #endif
             case puerts::MaxBuiltinType:
@@ -141,7 +145,8 @@ PropertyMacro* FContainerMeta::GetObjectProperty(UStruct* Struct)
         Ret = new (EC_InternalUseOnlyConstructor, PropertyMetaRoot, NAME_None, RF_Transient)
             UObjectProperty(FObjectInitializer(), EC_CppProperty, 0, CPF_HasGetValueTypeHash, Class);
 #else
-        Ret = new FObjectProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash, Class);
+        Ret = new FObjectProperty(PropertyMetaRoot, NAME_None, RF_Transient);
+        CastField<FObjectProperty>(Ret)->SetPropertyClass(Class);
 #endif
     }
     else if (auto ScriptStruct = Cast<UScriptStruct>(Struct))
@@ -150,7 +155,8 @@ PropertyMacro* FContainerMeta::GetObjectProperty(UStruct* Struct)
         Ret = new (EC_InternalUseOnlyConstructor, PropertyMetaRoot, NAME_None, RF_Transient)
             UStructProperty(FObjectInitializer(), EC_CppProperty, 0, CPF_HasGetValueTypeHash, ScriptStruct);
 #else
-        Ret = new FStructProperty(PropertyMetaRoot, NAME_None, RF_Transient, 0, CPF_HasGetValueTypeHash, ScriptStruct);
+        Ret = new FStructProperty(PropertyMetaRoot, NAME_None, RF_Transient);
+        CastField<FStructProperty>(Ret)->Struct = ScriptStruct;
 #endif
     }
     else
